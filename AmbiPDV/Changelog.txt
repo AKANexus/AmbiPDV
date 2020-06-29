@@ -1,0 +1,599 @@
+﻿PRÓXIMA VERSÃO
+- Ao invés de usar propriedades na função de impressão, passar o objeto (CFe) para o método diretamente.
+- Teste automático: OutOfMemoryException em ExecTesteMassivo(), ProcessarTextoNoACBox();
+	- Ver o ciclo de vida de Infopad.LeComandas() (não deixar Infopad como classe estática);
+	- O mesmo para ImpressaoSpooler.RelNegativ;
+	- Pendente. Testar e analisar os logs de auditoria e de erro.
+
+1.4.12.0
+- TEF Homologado
+- Sistema de precificação por atacado
+
+1.4.11.12
+- Alteração no sistema de licenciamento online.
+
+1.4.11.11
+- Corrigida falha que causava os preços na reimpressão saírem com o valor atual ao invés do valor
+  correspondente do dia da venda.
+- Primeiros testes com o sistema do WhatsApp concluídos
+- Corrigida a falha que podia afetar a usabilidade do campo autocomplete se o usuário apertasse
+  a tecla ⬇ antes do preenchimento do drop down
+
+1.4.11.6
+- Produtos inativados não podem mais ser utilizados.
+- Corrigida a maldita falha que impedia a reimpressão de cupons emitidos.
+
+1.4.11.3
+- Corrigida falha na procedure NFV_CTAREC_SYNC_DEL que poderia causar conflitos com
+  NFe's previamente emitidas.
+
+1.4.11.2
+- Integração com o módulo PDV Conciliação
+
+1.4.11.0
+- Tabela SANSUP é devidamente sincronizada com o servidor.
+
+1.4.10.6
+- Corrigida uma falha que poderia impedir o funcionamento do SAT_SERVIDOR quando uma operação tentava
+  obter a resposta de uma operação diferente.
+
+1.4.10.5
+- Corrigida uma falha que impedia a impressão de vendas efetuadas no CFe (e também zuava a impressão
+  da próxima venda não fiscal) "Pode por essa na minha conta" ~Artur 11-01-2020
+
+1.4.10.4
+- Corrigida falha que travaria o caixa caso a venda não fiscal desse um erro específico, e o cliente
+  tentasse prosseguir com a venda.
+
+1.4.10.2
+- Novas auditorias verbose incluídas para diagnosticar sangria e suprimento/soma de valores em caixa.
+
+1.4.10.1
+- Alterações referentes a controle de estoque.
+
+1.4.10.0
+- Sistema de Taxa de Serviço implementada
+- Nova tabela de sangria e suprimento.
+
+1.4.9.7
+- Fechamento do caixa agora grava o horário de fechamento também.
+
+1.4.9.6
+- Correção na geração de XML para empresas RPA.
+
+1.4.9.5
+- Novos métodos de verificação de comunicação de ECF ()
+- NCM não é mais passado à ECF. Apenas SAT.
+- Sangria e suprimento não estavam sendo calculados (SFLEITE)
+- Fluxo de setup inicial da BD corrigido para levar em conta a possível instalação do ORCAMENTO.
+- Novo método de AuditoriaECF - apenas um arquivo por dia.
+- Deprecação da AmbiDLL
+- Cancelar a venda no modo de consulta tornava o sistema instável. Corrigido.
+
+1.4.9.4
+- Detectada uma falha ao gravar vendas e ao contabilizar valores para o fechamento do caixa (VITORIA)
+
+1.4.9.3
+- Novas auditorias para o SAT Servidor adicionadas.(CONSTRUCASA)
+
+1.4.9.2
+- Gravação de identificação de cliente ao fazer vendas fiscais (SAT) arrumado.
+- Vender a partir de orçamento agora corretamente finaliza orçamento.
+
+1.4.9.1
+- Reimpressão extemporânea de cupom fiscal agora é possível através do CTRL+R.
+- Reimpressão extemporânea de cupom não fiscal está meio zuado. Mas talvez funcione. Talvez não.
+
+1.4.9.0
+- Ao fazer venda a prazo, o cliente será gravado junto na tabela TB_NFVENDA
+
+1.4.8.3
+- Total de Vendas agora contabiliza sangrias e suprimentos corretamente
+- Janela de cancelamento é ordenada por mais recentes primeiro
+
+1.4.8.2
+- Shift-Click desativa corretamente o uso de SAT Fiscal (sem necessidade de alteração direta na
+  base de dados.)
+- Impressão de cancelamento estava contando cupons cancelados utilizando restrição baseada em
+  horário em relógio 12H. Alterado para utilizar relógio 24H.
+  
+1.4.8.1
+- Correções no controle de currencybox.
+- Correções na impressão de cupom virtual para exibir valores com decimais.
+
+1.4.8.0
+- Novo controle de currencytextbox.
+
+1.4.7.11
+- Cancelamento de cupons de ECF agora é verificado corretamente, sendo que apenas o último
+  cupom pode ser cancelado.
+
+1.4.7.10
+- Vendas estavam sendo salvas com o número da nota fiscal ao invés do identificador interno.
+- Importação de orçamento não estava verificando se já havia um cupom aberto, se o modo de devolução estava
+  ligado, se o sistema se encontrava em modo de consulta, ou se o turno estava fechado.
+
+1.4.7.9
+- Ao imprimir cupons não fiscais, o número do extrato retornava um identificador interno ao invés do
+  número da nota, impedindo ela de ser referenciada na retaguarda.
+
+1.4.7.8
+- Corrigida uma falha que calculava os valores de sangria pela base do servidor, e não pela base local.
+- Clicar para reimprimir um fechamento não fecha mais a janela de listagem de fechamentos.
+- Refatoração da finalização de cupom pelo SAT para prevenir alguns erros.
+- O mundo precisa de herois!
+- Processo de venda para SATServidor e SAT Local foram unificados. Faz mais sentido assim.
+- Primeira leva de novos DialogBox.Show foram resolvidos.
+- PCA/Spooler corretamente identifica se a impressora já foi configurada e não exige a configuração novamente.
+- PCA/SAT tem outro processo, diferente da "batata".
+- Inicialização verifica se os argumentos fornecidos são válidos ou não.
+
+
+1.4.7.1
+- Rateio de desconto aplicado também na não fiscal/ECF
+- Trigger da TB_NFVENDA_TOT é corretamente ativado.
+- Cancelamentos agora são corretamente relatados no fechamento.
+
+1.4.7.0
+- Rateio de desconto é aplicado na venda fiscal.
+
+1.4.6.11
+- Sistema agora corretamente identifica e busca informações referentes a empresas do tipo RPA para emissão
+  de CFe.
+
+1.4.6.7
+- Fechamento não estava vendo a tabela correta. Colocamos óculos nele, e agora ele está enxergando 20/20.
+
+1.4.6.6
+- Voltou o esquema de devolução, pq se "os clientes" estão pedindo, então é pra ter. 
+
+1.4.6.0
+- TB_CUPOM, TB_CUPOM_ITEM foram deprecados. O sistema agora é baseado em TB_NFVENDA e seus correspondentes.
+- Novas tabelas adicionadas em FDBDataSetVenda:
+		TB_NFVENDA, TB_NFVENDA_FMAPAGTO_NFCE, TB_SAT, TB_NFV_ITEM_COFINS, TB_NFV_ITEM_PIS, TB_NFV_ITEM_ST, TB_NFV_ITEM_ICMS, TB_NFVENDA_TOT
+		V_TRI_CUPONSCANCELAVEIS
+- COPIAMETODOS não é mais necessário
+- TB_NFVENDA, TB_NFV_ITEM, TB_NFV_ITEM_IPI, _ICMS, _PIS e _COFINS são preenchidos pelo sistema durante a venda. TB_NFVENDA_TOT é preenchido
+  automaticamente pelo sistema através de triggers.
+- Devolução pelo caixa foi deprecado. Sincronização de trocas foi desativada, e devoluções devem ser feitas exclusivamente pela
+  retaguarda.
+- Sistema de sincronização foi devidamente alterado para encompassar as novas tabelas utilizadas.
+- Informações de observação do fisco (normalmente "Comete crime quem sonega") agora é corretamente informado ao objeto de
+  impressão. Apenas o primeiro item, caso várias informações sejam informadas pelo XML, é informado ao objeto.
+- Um pequeno ajuste no layout de impressão extingue a necessidade de acrescentar "78COL" às impressoras com margens erradas.
+
+1.3.1.0
+- Desconto agora é aplicado e controlado diretamente pelo objeto de venda.
+
+1.3.0.0
+- Objeto de venda alterado para um objeto dedicado com métodos de acesso e edição.
+- Objeto de operação para TEF alterado para um objeto dedicado com métodos de acesso e edição.
+- Ao utilizar um PIN-PAD, o cliente poderá digitar o CPF diretamente no PIN-PAD.
+- Todas as instâncias de verbose e audit(string) foram removidas.
+
+1.2.25.3
+- Layout 0.07 do SAT alterado para aceitação no SAT da SWEDA - a tag InfAdic não é preenchida no XML de Venda, devendo ser
+  preenchida somente no XML de retorno da venda.
+
+1.2.25.2
+- Geração de Serial Offline esperava sempre uma HD ID de 8 dígitos. O programa não podia ser autenticado com ID HD de 7 ou menos dígitos
+- ACBox agora apenas carrega produtos com TB_ESTOQUE.STATUS = 'A'
+
+1.2.25.1
+- Corrigido: a sincronização da tabela terminal/usuário não deve passar a PK do PDV para o servidor. O servidor deve ter sua própria PK.
+
+1.2.25.0
+- Corrigido:
+  A redução de estoque de componentes só acontece quando há um pedido (AmbiMaitre). Permitir também quando o item do cupom for um composto.
+  Detalhes importantes:
+	- Um produto composto não deverá ter mais de uma composição (1 id_identif para N id_composicao). A Compufour não colocou constraints no banco.
+	  Se por acaso tiver, poderá ter efeitos inesperados no PDV.
+	- Ao cancelar uma venda com um item composto, o que será reposto em estoque será o próprio item composto em vez de seus componentes.
+	- Quando uma venda de item composto registrar uma quantidade maior do que a quantidade em estoque, a quantidade do item composto ficará zerado
+	  e será reduzida a quantidade equivalente dos componentes restantes (a quantidade itens componentes é um multiplicador).
+- O parâmetro MinimumPopulateDelay do ACBox é definido por uma variável acessível pelo arquivo *.CONFIG do sistema.
+- A opção "Usar SAT Servidor" foi removida de ParamsTecs e agora consta apenas no Wizard de configuração de impressora.
+
+1.2.24.9
+- Corrigido:
+  Testar nova instalação: config deve ter pelo menos 1 caixa. Tentar gravar o novo caixa com um número já existente (deve mostrar uma janela de validação).
+  Gravar um novo número de caixa, junto com os outros valores de config. Fechar o app. Ao abrir o app, está pedindo pra fazer uma config, apesar disso já ter feito.
+	Isso acontecia por causa da mudança do fluxo de configuração do caixa.
+	Foi necessário inserir uma entrada manualmente na tabela auxiliar de sync ao inserir na tabela de configurações.
+
+1.2.24.8
+- Correção de sproc: os parâmetros fixos de SP_TRI_CONFIG_UPSERT foram convertidos para dinâmicos. Pra corrigir type mismatch no sync.
+
+(que versão foi isso?)
+- Strings de erro do licenciamento online passados para strings.resx
+
+- Imrpessora USB e Impressora USB de Pedidos també é gravado na base de dados.
+- A chamada de Login.carregarconfigs (renomeado para CarregaConfigsAnteriores) foi antecipada, uma vez que o sistema procurava a base de dados antes de tentar carregar
+  as informações de uma versão anterior a fim de se utilizar um ServerCatalog já configurado.
+- Configuração do SAT agora é feita diretamente no PCA_SAT, sem a necessidade de manualmente colar dlls na pasta raiz.
+- A ordem dos modelos de cupom estava invertida. Foi arrumado
+- Impressora USB de pedidos estava sendo salva na mesma setting que a impressora USB normal. Corrigido.
+- O sistema não fazia checagem de número de caixa. Era possível criar dois caixas com o mesmo numero de caixa mas com HDID diferentes. A checagem voltou, e voltou com tudo!
+
+1.2.24.7
+- Índice único no número do caixa na tabela de configurações para evitar entradas duplicadas.
+
+1.2.24.6
+- Correção ao gravar configurações.
+
+1.2.24.5
+- Alteração da rotina de testes automáticos: emissão de cupom SAT e evitar impressão.
+
+1.2.24.1
+- Correção de gravação da Setting "ImpressoraUSB".
+
+1.2.24.0
+- Suporte programático a multiplos modelos de SAT
+- Consultar status do SAT retorna mensagem mais clara
+- Configurações agora são salvas diretamente no servidor, e são carregadas e salvas através de métodos dedicados e bem-tipados.
+  As configurações que antes eram salvas no user.config foram removidas.
+- Otimização de carregamento de produtos (ACBox);
+- Correção da sync de TB_ESTOQUE: verifica dependências em TB_EST_DESC_HISTORICO, TB_EST_INDEXADOR, TB_EST_FORNECEDOR, TB_EST_ADICIONAL;
+
+1.2.22.4
+- Corrigido o preenchimento da tag CSOSN no SAT (faltam alíquotas para CST 00, 40 e CSOSN 900).
+  O padrão é alíquota 0.00 para 900. CST 00 e 40 não são preenchidos.
+  Qualquer outro CSOSN, será considerado como 102;
+- Sincronização de vendas após a abertura do caixa;
+- Sincronizador: ao apagar TB_EST_IDENTIFICADOR, verifica a dependência em TB_EST_SALDO_ALTERADO;
+- Sincroniza TRI_PDV_TERMINAL_USUARIO. //TODO: criar uma TRI_PDV_AUX_SYNC_LOCAL para melhorar essa sincronização. Se o caixa ficar em contingência enquanto o 
+  usuário fecha e abre outro turno, vai ter mais de um registro em aberto, deixando o caixa num estado inválido;
+- Correção: as triggers de auxílio ao sync não estão sendo desativadas no banco local. 
+  Acontecia quando o banco local era apagado. 
+  Agora a rotina de desativação dessas triggers é chamada também na rotina de cópia do banco do servidor para o local.
+- Novo procedimento para cancelamento de SAT-CFe. Quando o último cupom for um
+  CFe, ou quando o usuário aperta Ctrl+F6, uma janela com os últimos CFe nos
+  ultimos 30 minutos é exibida. Duplo clique ou selecionar com setas cima/baixo
+  e pressionar ENTER procede ao cancelamento. Funciona tanto com SAT local e
+  SAT servidor.
+  NOVA TABELA: TRI_PDV_SAT_XML, com trigger e sequencia correspondentes.
+
+1.2.22.3
+- Verificações do salvamento do XML, para, em caso de uso de backups de XML
+  o sistema possa avisar ao usuário para que tome uma ação independente.
+- Substituição de strings constantes por biblioteca de strings.
+
+1.2.22.2
+- Ajustes no fluxo da comunicação com o SAT Servidor.
+- Correção no ImprimirNoSATServidor() (desconto no item vindo nulo deve ser zerado);
+- Alteração no teste automático (consulta do último produto, fechamento de cupom).
+
+1.2.22.1
+- Corrigido oversight de configuração.
+
+1.2.22.0
+- Alterada a rotina de carregamento de configurações.
+- Corrigido o deployment inicial (TRI_PDV_CONFIG, TRI_PDV_USERS e TB_IFS);
+
+1.2.21.0
+- Adicionado índices na TRI_PDV_AUX_SYNC;
+- Apaga registro de TB_CLI_PF e TB_CLI_PJ se necessário;
+- Substitui algumas consultas de sincronização ad-hoc para stored procedure
+  ("FillById" para as seguintes tabelas: TB_ESTOQUE, TB_EST_IDENTIFICADOR, 
+   TB_EST_PRODUTO, TB_CLIENTE e TRI_PDV_AUX_SYNC).
+
+1.2.20.2
+- TRI_PDV_CONFIG anexada ao procedimento do sync 3.0;
+- TRI_PDV_OPER tem um procedimento próprio, não deve ser alterado;
+- Correção de trigger de TB_FUNCIONARIO;
+- Correção de sync de TRI_PDV_OPER.
+
+1.2.20.0
+- Sync 3.0 (tabela auxiliar) para todas as tabelas de cadastros (SERV -> PDV);
+- Falta TRI_PDV_CONFIG e TRI_PDV_OPER (PDV -> SERV).
+
+1.2.19.17
+- Correção do deployment da atualização do banco de dados (aux sync);
+
+1.2.19.16
+- Mais tabelas estão sincronizando com ajuda da tabela auxiliar:
+	- TB_EST_GRUPO;
+	- TB_FORNECEDOR;
+	- TB_CLIENTE;
+	- TB_FUNCIONARIO;
+	- TB_UNI_MEDIDA;
+	- TB_FUNC_PAPEL;
+
+1.2.19.14
+- Melhorias na captura do evento Firebird e seu processamento no caso do uso
+  do SAT Servidor.
+- Alteração no método de preenchimento do Combobox de clientes para vendas
+  no vale/à prazo.
+
+1.2.19.13
+- Correção de sync do TRI_PDV_OPER (|| para &&)
+
+1.2.19.11
+- Resolução de 1024x768 é corretamente exibida pelo caixa.
+- Sistema de vendas no SATServidor está mais robusto.
+- Fluxo do fechamento de caixa está mais robusto.
+
+1.2.19.10
+- Venda no vale não exibe nome do cliente e vencimento no cupom. Corrigido.
+
+1.2.19.9
+- Correção do retorno da tela de aviso prévio de expiração licença de uso offline.
+
+1.2.19.6
+- Adicionada setting SyncTimeout para a transação de sync de cupons (em segundos).
+  O padrão é 2 segundos.
+
+1.2.19.5
+- Adicionado WaitTimeOut para a transação de sync de cupons (1 segundo).
+
+1.2.19.4
+- Checagem de registro-pai para TB_EST_IDENTIFICADOR e TB_EST_PRODUTO 
+  na sync de cadastro.
+
+1.2.19.3
+- Checagem de sync em TB_EST_IDENTIFICADOR e TB_EST_PRODUTO.
+
+1.2.19.0
+- Tabela auxiliar de sincronização contemplando "TB_FORNECEDOR" e "TB_EST_GRUPO".
+- Checagem de upsert para as tabelas de produto.
+
+1.2.18.0
+- Novo procedimento de testes automáticos de vendas: Ctrl + Alt + Shift + T
+
+1.2.17.1
+- Alterada a tela de configuração de impressoras, ECF e SAT.
+
+1.2.17.0
+- Versão SAT e ECF são unidas novamente, depois de meses em aventuras e quests.
+  O reino prepara um desfile para a população.
+- Adicionada uma checagem periódia de comunicação com o SAT, caso esteja
+  configurado. Método não usado com SAT Servidor.
+- Adicionada uma sincronização de cadastros periódica a fim de se evitar uma sincronização
+  muito demorada caso o caixa não tenha sido utilizado por um longo período
+
+1.2.16.2
+- Tabela IBPT é baixada automaticamente caso ela esteja corrompida ou inexistente.
+- (ECF)Há uma verificação de estado de venda da impressora fiscal no início e final de cada venda.
+- (ECF)Correção de um objeto de venda eliminado antes do término da venda em caso de erro de
+  impressora 
+
+1.2.16.0
+- Arredondamento agora segue a norma ABNT NBR 5891:2014
+
+1.2.14.7
+- Valores no relatório de vendas no ECF
+
+1.2.11.7
+- Correção de uma falha que travava o caixa ao se utilizar o SAT em servidor.
+- Correção de falha que adicionava exceção ao firewall infinitamente.
+
+1.2.11.6
+- Correção de oversights no procedimento de auxílio de sincronização
+  ("old.value != new.value" substituído por 
+   "old.value IS DISTINCT FROM new.value" para evitar problemas com valores nulos) 
+  e novo procedimento de atualização de triggers em SP_TRI_CRIATABELAS_SERV.
+
+1.2.11.5
+- Correção de erros na configuração de impressora
+
+1.2.11.4
+- Novo assistente de configuração de impressora implementado.
+- Novo painel de manutenção técnica implementado.
+  Inicialmente um console SQL e substituição da base de dados estão disponíveis,
+  porém mais serão adicionados futuramente.
+
+1.2.11.3
+- Correção de bugs no novo procedimento de sincronização de cadastro de produtos.
+
+1.2.11.2
+- Essa versão nunca existiu. Não tem nada aqui.
+- Essa não é a versão que você está procurando.
+
+1.2.11.1
+- Retirada de comentários na criação dos objetos auxiliares de sincronização 
+  (DataSet + SQL + comentários = não é legal)
+
+1.2.11.0
+- Novo procedimento de sincronização de cadastro de produtos (TRI_PDV_AUX_SYNC, 
+  TB_ESTOQUE, TB_EST_IDENTIFICADOR E TB_EST_PRODUTO).
+  Para as demais tabelas, o procedimento antigo ainda atende.
+  IMPORTANTE: não deixar registro de caixa inexistente em TRI_PDV_CONFIG.
+  Vai sobrecarregar a tabela TRI_PDV_AUX_SYNC.
+
+1.2.10.1
+- Corrigida falha que impedia a contagem de cupons por forma de pagamento
+
+1.2.10.0
+- SAT Servidor melhorado. Permite o cancelamento e checagem do status do SAT
+  servidor.
+
+1.2.9.5
+- Recriação automática do XML agora é apenas a reconfiguração. Não é tão robusto
+  como começar do zero, mas já ajuda.
+- Finalização da venda no ECF agora preencher corretamente o cupom virtual com
+  formas de pagamento e troco.
+
+1.2.9.4
+- Recriação automatica do XML desfeita. Bugs foram encontrados e estamos sem
+  RAID nem SBP no momento.
+
+1.2.9.3
+- Permite o parcelamento no cartão de crédito pelo TEF
+- Vendas no ECF podem gerar auditoria
+
+1.2.9.2
+- Verificação de Firewall adicionada
+- Recriação automática do XML da Daruma, caso uma ECF esteja configurada.
+
+1.2.9.1
+- Tamanho da interface de fechamento aumentada.
+
+1.2.9.0
+- Ativado o sistema que permite a utilização de apenas um SAT por servidor.
+  É necessária uma conexão de rede permanente para que esse sistema funcione
+  corretamente.
+
+1.2.8.4
+- Corrigida uma falha que impedia a venda no vale durante o Natal, impedindo
+  presentear funcionários e clientes fidedignos.
+
+1.2.8.3
+- Compatibilidade com Clipp 2019
+
+1.2.8.2
+- Corrigida uma falha séria que causava overflow em nomes de funcionários com
+  mais de 25 caracteres.
+
+1.2.8.1
+- Corrigida falha que travava a impressão ao tentar fazer uma venda sem comissão
+  com a comissão configurada.
+
+1.2.8.0
+- Sistema de identificação de vendedor.
+- Correção de falhas.
+
+1.2.5.6
+- Novo parâmetro de configuração em "Settings": SegToleranciaUltSync
+  Fix para o problema de "ghosting" de cadastro de produtos. 
+  Uma das possíveis causas acontece quando a sync roda quase ao mesmo 
+  tempo com uma gravação de registro na retaguarda e há um "gap" de relógio 
+  do terminal e do servidor (timestamp do registro acaba ficando menor que o 
+  timestamp da última sync, por isso o registro não é atualizado no terminal).
+
+1.2.5.5
+- Dropdown do Autocomplete é ordenado alfabeticamente
+- Reimpressão de cupons melhorada
+
+1.2.5.4
+- Corrigida uma falha que impedia cupons SAT serem cancelados
+- Corrigida uma falha séria que afetava os valores de fechamento por turno
+
+1.2.5.3
+- Alterado o sincronizador: transação com fbTransaction;
+- Alterada a consulta de itens do AutoCompleteBox dos produtos: agora 
+  os serviços podem ser comercializados.
+
+1.2.5.2
+- Pesquisa diretamente na tela do caixa foi desativada devido a problemas com bases
+  com mais de 10 mil itens.
+
+1.2.5.1
+- Alteração no layout do XML de cancelamento para o SAT.
+
+1.2.5.0
+- AmbiMAITRE pré-pedido concluído.
+
+1.2.4.3
+- Alterado processo de debug durante a abertura de cupom. Mais informações
+  são gravadas durante a auditoria, permitindo uma avaliação da emissão de
+  CFe.
+
+1.2.4.2
+- Corrigida uma falha que afetava os valores gravados no sistema dependendo da cultura do sistema.
+
+1.2.4.1
+- Conexões com as bases de dados refatoradas. Maior estabilidade esperada.
+- Validação de liçencas online aprimorada.
+- Corrigida falha que impedia o lançamento de desconto em mais de um produto pelo SAT.
+- Alterações na interface.
+
+1.2.2.1
+- Corrigida uma falha que prejudicava vendas no SAT devido ao arredondamento de valores com mais
+  de duas casas decimais.
+
+1.2.2.0
+- Corrigida falha que impedia a venda no SAT quando um NCM cancelado era utilizado
+
+1.2.0.8
+- Corrigido o procedimento de atualização de sequences;
+- Corrigido um possível problema de sincronização de itens de estoque.
+
+1.2.0.4
+- TableAdapter de configurações foi realocado para um DataSet próprio.
+
+1.2.0.3
+- Corrigida uma causa de lentidão do sistema, quando os arquivos de log (auditoria e erro) excedem 5MB.
+  Agora os arquivos ficam separados por data (ex.: \\2018\7\3\LogErro.txt).
+
+1.2.0.2
+- Tabela IBPT agora é atualizada automaticamente se o computador estiver conectado à internet.
+
+1.2.0.1
+- Corrigido um bug que impedia o cálculo das taxas através do NCM quando o NCM não constava na tabela IBPT.
+
+1.2.0.0
+- Lançamento e integração total do AmbiOrçamento com o AmbiPDV
+
+1.1.6.0
+FEATURES
+- Distractors foram desativados.
+
+1.1.5.2
+BUGFIXES
+- Aviso de redução Z está mais explícito.
+- Aviso de cancelamento de cupom está com título correto.
+- Correção no sistema de contingência.
+- Correção no sistema de login.
+- Correção no sistema de códigos pré-pesados.
+- Corrigida falha que impedia os valores da venda no ECF de serem lançados no CLIPP.
+- Correção do arredondamento da versão 1.1.1.0.
+
+1.1.5.0
+FEATURES
+- Sistema pode ser usado apenas com ECF (Daruma FS700 e FS800 apenas)
+
+BUGFIXES
+- Entrar e sair do modo de consulta com o turno fechado não volta pra tela inicial com "Caixa Livre" no campo "Avisos".
+
+1.1.4.4
+FEATURES
+- Nova detecção de queda de conexão. O sistema irá identificar a queda de conexão muito mais rapidamente.
+
+1.1.4.3
+BUGFIXES
+- Corrigida falha que impedia a listagem de produtos adquiridos para cada cliente.
+
+1.1.4.1
+BUGFIXES
+- Alteração na pesquisa de informações/dados do item. Nada mais de várias consultas seguidas ao banco.
+- Permite a reimpressão de fechamentos de caixa com CTRL+R.
+
+1.1.1.3
+BUGFIXES
+- Corrigida falha que impedia o cancelamento de um cupom gerencial.
+- Melhoria no sistema de atualização do software.
+- Correções diversas.
+
+1.1.1.0
+BUGFIXES
+- Processos de arredondamento de valores e pesos alterados.
+- Manutenção dos valores de configuração são mantidos entre as atualizações.
+
+1.1.0.1
+
+BUGFIXES
+- Corrigida uma falha que impedia a leitura de códigos de barras EAN-13.
+- Corrigida uma falha que forçava a autenticação offline de licenças online.
+- Corrigida uma falha que impedia o fechamento do caixa.
+- Corrigida uma falha que impedia a reimpressão correta de fechamentos.
+
+1.1.0.0
+
+FEATURES
+- Nova confirmação de abertura.
+	- Permite um suprimento inicial.
+	- Precisa da confirmação da senha do operador que irá abrir o turno/caixa.
+
+BUGFIXES
+- Diferencia entre descrição duplicada e produto não encontrado.
+- Otimizações diversas.
+- Correções diversas.
+
+1.0.4.0
+
+BUGFIXES:
+- Não ter nenhuma balança instalada agora pede a entrada de peso manual.
+	- O sistema indica se nenhuma balança foi instalada ou se houve falha de comunicação.
+- Peso digitado manualmente aceita tanto "," quanto "." como marcador decimal.
+- Movimento diário agora aceita valores decimais corretamente.
+- Bugs diversos corrigidos.

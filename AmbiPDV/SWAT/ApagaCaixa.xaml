@@ -1,0 +1,41 @@
+﻿<Page
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_WPF.SWAT"
+      xmlns:DataSets="clr-namespace:PDV_WPF.DataSets" x:Class="PDV_WPF.SWAT.ApagaCaixa"
+      mc:Ignorable="d" 
+      d:DesignHeight="504" d:DesignWidth="604"
+      Title="ApagaCaixa" HorizontalAlignment="Left" VerticalAlignment="Top" Loaded="Page_Loaded">
+    <Page.Resources>
+        <DataSets:FDBDataSetConfig x:Key="fDBDataSetConfig"/>
+        <CollectionViewSource x:Key="tRI_PDV_CONFIGViewSource" Source="{Binding TRI_PDV_CONFIG, Source={StaticResource fDBDataSetConfig}}"/>
+        <Storyboard x:Key="blink">
+            <DoubleAnimation Storyboard.TargetName="txbl_Blink" Storyboard.TargetProperty="Opacity" From="1" To="0" AutoReverse="True" Duration="0:0:0.5" RepeatBehavior="Forever"/>
+        </Storyboard>
+
+    </Page.Resources>
+
+    <DockPanel Grid.Row="1" x:Name="stp_ApagarCaixas" Margin="10" LastChildFill="False" DataContext="{StaticResource tRI_PDV_CONFIGViewSource}">
+        <d:DesignerProperties.DesignStyle>
+            <Style TargetType="DockPanel">
+                <Setter Property="Background" Value="Red"/>
+            </Style>
+        </d:DesignerProperties.DesignStyle>
+        <TextBlock Margin="10" DockPanel.Dock="Top" Text="Excluir Caixa" HorizontalAlignment="Center" Foreground="White" FontSize="20" FontWeight="Light" FontFamily="Arial" FontStyle="Italic"/>
+        <ComboBox DockPanel.Dock="Top" x:Name="tRI_PDV_CONFIGComboBox" DisplayMemberPath="NO_CAIXA" ItemsSource="{Binding}" SelectedValuePath="ID_MAC" Width="75" FontSize="18" FontWeight="Bold">
+            <ComboBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ComboBox.ItemsPanel>
+        </ComboBox>
+        <TextBox Name="txb_Confirmacao" DockPanel.Dock="Top" Width="150" FontSize="16" Margin="0, 10" Height="30" HorizontalContentAlignment="Center"/>
+        <Button DockPanel.Dock="Top" Width="150" Content="Excluir Caixa" Margin="0, 10" FontSize="16" FontWeight="Bold" Click="Button_Click"/>
+        <TextBlock DockPanel.Dock="Top" Foreground="White" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" TextWrapping="Wrap"><Run Text="Selecione o caixa, e digite o número do caixa novamente para removê-lo da tabela de configuração"/><LineBreak/><Run Text="Este procedimento é utilizado para a desativação de um ou mais caixas. Deve ser usado caso seja removido um ou mais caixas."/><LineBreak/><LineBreak/></TextBlock>
+        <TextBlock x:Name="txbl_Blink" DockPanel.Dock="Top" Foreground="White" FontWeight="Bold" FontSize="20" HorizontalAlignment="Center" TextWrapping="Wrap">
+            <Run Text="Não remova um caixa em uso!"/>
+        </TextBlock>
+    </DockPanel>
+</Page>

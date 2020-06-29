@@ -1,0 +1,1075 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BAC6421E-0147-47AB-93D4-1C8D0EAC8CDC}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PDV_WPF</RootNamespace>
+    <AssemblyName>AmbiPDV</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkProfile />
+    <PublishUrl>C:\Users\Usuário\Desktop\VM\AmbiPDV\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <UpdateUrl>\\Artur\VM\AmbiPDV\</UpdateUrl>
+    <ApplicationRevision>21</ApplicationRevision>
+    <ApplicationVersion>0.2.2.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <CreateDesktopShortcut>true</CreateDesktopShortcut>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\AnyCPU\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;ANYCPU HOMOLOGATEF</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\AnyCPU\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>C9B2F6F39FAADBB51738EE301AC5E69F00616413</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>PDV_PRINCIPAL_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>false</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Ambicon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject>PDV_WPF.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <TargetZone>Custom</TargetZone>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>C:\AmbiPDV\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;X64</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>C:\AmbiPDV\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;ANYCPU</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Remote Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Remote Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>8.0</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\BouncyCastle.1.8.5\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="CurrencyTextBoxControl, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CurrencyTextBox.1.4.3\lib\CurrencyTextBoxControl.dll</HintPath>
+    </Reference>
+    <Reference Include="FileHelpers, Version=3.4.0.0, Culture=neutral, PublicKeyToken=3e0c08d59cc3d657, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FileHelpers.3.4.0\lib\net45\FileHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="FirebirdSql.Data.FirebirdClient, Version=6.4.0.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FirebirdSql.Data.FirebirdClient.6.4.0\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.Protobuf">
+      <HintPath>..\..\packages\Google.Protobuf.3.7.0\lib\net45\Google.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="LINQtoCSV, Version=1.5.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\LINQtoCSV.1.5.0.0\lib\net35\LINQtoCSV.dll</HintPath>
+    </Reference>
+    <Reference Include="MessagingToolkit.QRCode, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MessagingToolkit.QRCode.1.3.0\lib\MessagingToolkit.QRCode.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data, Version=8.0.16.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\MySql.Data.8.0.16\lib\net452\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationFramework.Aero" />
+    <Reference Include="ReachFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Printing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Input.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=3.5.40128.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WPFToolkit.3.5.50211.1\lib\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+    <Reference Include="WPFToolkit">
+      <HintPath>..\..\packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Zen.Barcode.Core, Version=3.1.0.0, Culture=neutral, PublicKeyToken=b5ae55aa76d2d9de, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Zen.Barcode.Core.2.0.0\lib\net45\Zen.Barcode.Core.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+    <Compile Include="ComandasDS.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ComandasDS.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\CBBText.xaml.cs">
+      <DependentUpon>CBBText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\FocusableAutoCompleteBox.cs" />
+    <Compile Include="Controls\MarqueeTextBox.xaml.cs">
+      <DependentUpon>MarqueeTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\NexusCurrencyBox.cs" />
+    <Compile Include="Controls\WaterMarkTXB.cs" />
+    <Compile Include="DataSets\FDBDataSetConfig.cs">
+      <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetConfig.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetOperSeed.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetOperSeed.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetSistemaSeed.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetSistemaSeed.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetVenda.cs">
+      <DependentUpon>FDBDataSetVenda.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetVenda.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetVenda.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Exceptions\DataNotLoadedException.cs" />
+    <Compile Include="Exceptions\ErroDeValidacaoDeConteudo.cs" />
+    <Compile Include="Exceptions\ErroValidacaoTEF.cs" />
+    <Compile Include="Exceptions\SATNaoConfigurado.cs" />
+    <Compile Include="Exceptions\TicacaException.cs" />
+    <Compile Include="FDBDataSet.cs">
+      <DependentUpon>FDBDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="FDBDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetOperSeed.cs">
+      <DependentUpon>FDBDataSetOperSeed.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetSistemaSeed.cs">
+      <DependentUpon>FDBDataSetSistemaSeed.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetOrcam.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetOrcam.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetMaitre.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetMaitre.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSets\FDBDataSetDevolucao.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetDevolucao.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Funcoes\Declaracoes_DllSat.cs" />
+    <Compile Include="Funcoes\Extensions.cs" />
+    <Compile Include="Funcoes\FuncoesComunsDaruma.cs" />
+    <Compile Include="Funcoes\FuncoesDaBalanca.cs" />
+    <Compile Include="Funcoes\ImpressaoSpooler.cs" />
+    <Compile Include="Funcoes\Infopad.cs" />
+    <Compile Include="Funcoes\LicencaDeUso.cs" />
+    <Compile Include="Funcoes\Logging.cs" />
+    <Compile Include="Funcoes\Orcamentos.cs" />
+    <Compile Include="Funcoes\PayGo.cs" />
+    <Compile Include="Funcoes\Pedidos.cs" />
+    <Compile Include="Funcoes\SincronizadorDB.cs" />
+    <Compile Include="Funcoes\SiTEFDLL.cs" />
+    <Compile Include="Funcoes\Statics.cs" />
+    <Content Include="DLL\bemaSAT32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\dllsat_x32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\libsatid32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\SATDLL32.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IBPT.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Compile Include="Objetos\Cancelamento.cs" />
+    <Compile Include="Objetos\ConfiguracoesPDV.cs" />
+    <Compile Include="Objetos\CupomSAT.cs" />
+    <Compile Include="Objetos\Devolucao.cs" />
+    <Compile Include="Objetos\Emitente.cs" />
+    <Compile Include="Objetos\Enums\Enums.cs" />
+    <Compile Include="Objetos\OperacaoSanSup.cs" />
+    <Compile Include="Objetos\OperTEF.cs" />
+    <Compile Include="Objetos\ParamsDeConfigTEF.cs" />
+    <Compile Include="Objetos\PendenciasTEF.cs" />
+    <Compile Include="Objetos\Produto.cs" />
+    <Compile Include="Objetos\ReimpressaoVenda.cs" />
+    <Compile Include="Objetos\SiTEF.cs" />
+    <Compile Include="Objetos\TimeoutSocket.cs" />
+    <Compile Include="Objetos\TimerClass.cs" />
+    <Compile Include="Objetos\Venda.cs" />
+    <Compile Include="PCA_Telas\PCA_ECF.xaml.cs">
+      <DependentUpon>PCA_ECF.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCA_Telas\PCA_SAT.xaml.cs">
+      <DependentUpon>PCA_SAT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCA_Telas\PCA_Spooler.xaml.cs">
+      <DependentUpon>PCA_Spooler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PCA_Telas\PCA_Start.xaml.cs">
+      <DependentUpon>PCA_Start.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>strings.resx</DependentUpon>
+    </Compile>
+    <Compile Include="SWAT\DBReset.xaml.cs">
+      <DependentUpon>DBReset.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SWAT\ApagaCaixa.xaml.cs">
+      <DependentUpon>ApagaCaixa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SWAT\ResetLicenca.xaml.cs">
+      <DependentUpon>ResetLicenca.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SWAT\RunSQL.xaml.cs">
+      <DependentUpon>RunSQL.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\AberturaCaixa.xaml.cs">
+      <DependentUpon>AberturaCaixa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\AcrTaxaServico.xaml.cs">
+      <DependentUpon>AcrTaxaServico.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\CadastraSenha.xaml.cs">
+      <DependentUpon>CadastraSenha.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\Caixa.xaml.cs">
+      <DependentUpon>Caixa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ConsultaAvancada.xaml.cs">
+      <DependentUpon>ConsultaAvancada.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\Desconto.xaml.cs">
+      <DependentUpon>Desconto.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\BalancaBox.xaml.cs">
+      <DependentUpon>BalancaBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ListaSanSup.xaml.cs">
+      <DependentUpon>ListaSanSup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\OpcoesDeImpressao.xaml.cs">
+      <DependentUpon>OpcoesDeImpressao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ParamsTecs.xaml.cs">
+      <DependentUpon>ParamsTecs.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaNumWhats.xaml.cs">
+      <DependentUpon>PerguntaNumWhats.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ListaDevolucao.xaml.cs">
+      <DependentUpon>ListaDevolucao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ReimprimeFecha.xaml.cs">
+      <DependentUpon>ReimprimeFecha.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Telas\ListaCupons.xaml.cs">
+      <DependentUpon>ListaCupons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\LoadingScreen.xaml.cs">
+      <DependentUpon>LoadingScreen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PCA.xaml.cs">
+      <DependentUpon>PCA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaVendedor.xaml.cs">
+      <DependentUpon>PerguntaVendedor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaOrcamento.xaml.cs">
+      <DependentUpon>PerguntaOrcamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaSerial.xaml.cs">
+      <DependentUpon>PerguntaSerial.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaUserServ.xaml.cs">
+      <DependentUpon>PerguntaUserServ.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\FechamentoOrcamento.xaml.cs">
+      <DependentUpon>FechamentoOrcamento.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaCliente.xaml.cs">
+      <DependentUpon>PerguntaCliente.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ReimprimeCupons.xaml.cs">
+      <DependentUpon>ReimprimeCupons.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SerialOffline.xaml.cs">
+      <DependentUpon>SerialOffline.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SerialOfflineAviso.xaml.cs">
+      <DependentUpon>SerialOfflineAviso.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SATBox.xaml.cs">
+      <DependentUpon>SATBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SiTEFBox.xaml.cs">
+      <DependentUpon>SiTEFBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SWAT.xaml.cs">
+      <DependentUpon>SWAT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\TEFBox.xaml.cs">
+      <DependentUpon>TEFBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\TimedBox.xaml.cs">
+      <DependentUpon>TimedBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\DialogBox.xaml.cs">
+      <DependentUpon>DialogBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\EULA.xaml.cs">
+      <DependentUpon>EULA.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\FechamentoCaixa.xaml.cs">
+      <DependentUpon>FechamentoCaixa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\FechamentoCupom.xaml.cs">
+      <DependentUpon>FechamentoCupom.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\IdentificaConsumidor.xaml.cs">
+      <DependentUpon>IdentificaConsumidor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\Login.xaml.cs">
+      <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\MetodosPGT.xaml.cs">
+      <DependentUpon>MetodosPGT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\Parametros.xaml.cs">
+      <DependentUpon>Parametros.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PerguntaCupom.xaml.cs">
+      <DependentUpon>PerguntaCupom.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\perguntaSenha.xaml.cs">
+      <DependentUpon>perguntaSenha.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\RemoverItem.xaml.cs">
+      <DependentUpon>RemoverItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SangSupr.xaml.cs">
+      <DependentUpon>SangSupr.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\SenhaTecnico.xaml.cs">
+      <DependentUpon>SenhaTecnico.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\WindowTemplate.xaml.cs">
+      <DependentUpon>WindowTemplate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UIHandlers\DialogBoxHandler.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Resource Include="SiTEF\Cheque.txt" />
+    <Content Include="SiTEF\CliSiTef32I.dll" />
+    <Content Include="SiTEF\CliSiTef64I.dll" />
+    <Resource Include="SiTEF\LEIAME.TXT" />
+    <Resource Include="SiTEF\Homologa\Cheque.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SiTEF\Homologa\CliSiTef32I.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SiTEF\Homologa\LEIAME.TXT">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="SiTEF\Homologa\lgpl-2.1.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SiTEF\Homologa\libemv.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SiTEF\Homologa\libpng_LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="SiTEF\Homologa\libqrencode_LICENSE.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SiTEF\Homologa\QREncode32.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SiTEF\Homologa\RechargeRPC.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="SiTEF\Homologa\RELEASE.TXT">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="SiTEF\libemv.dll" />
+    <Content Include="SiTEF\libemv64.dll" />
+    <Content Include="SiTEF\RechargeRPC.dll" />
+    <Resource Include="SiTEF\RELEASE.TXT" />
+    <None Include="DataSets\FDBDataSetDevolucao.xsc">
+      <DependentUpon>FDBDataSetDevolucao.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetDevolucao.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetDevolucao.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSets\FDBDataSetDevolucao.xss">
+      <DependentUpon>FDBDataSetDevolucao.xsd</DependentUpon>
+    </None>
+    <None Include="SiTEF\CliSiTef.ini" />
+    <None Include="SiTEF\SiTef - Interface Simplificada com a aplicação%28VRS-228%29.pdf" />
+    <None Include="TEFCONFIG.ini" />
+    <Page Include="Controls\CBBText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MarqueeTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PCA_Telas\PCA_ECF.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PCA_Telas\PCA_SAT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PCA_Telas\PCA_Spooler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PCA_Telas\PCA_Start.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SWAT\DBReset.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SWAT\ApagaCaixa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SWAT\ResetLicenca.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SWAT\RunSQL.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\AberturaCaixa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\AcrTaxaServico.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\CadastraSenha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Telas\Caixa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\ConsultaAvancada.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\Desconto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\BalancaBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\ListaSanSup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\OpcoesDeImpressao.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\ParamsTecs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PerguntaNumWhats.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\ListaDevolucao.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\ReimprimeFecha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Telas\ListaCupons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\LoadingScreen.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PCA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PerguntaVendedor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\PerguntaOrcamento.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\PerguntaSerial.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PerguntaUserServ.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\FechamentoOrcamento.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PerguntaCliente.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\ReimprimeCupons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\SerialOffline.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\SerialOfflineAviso.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\SATBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\SiTEFBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\SWAT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\TEFBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Telas\TimedBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\DialogBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\EULA.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\FechamentoCaixa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\FechamentoCupom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\IdentificaConsumidor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\MetodosPGT.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\Parametros.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PerguntaCupom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\perguntaSenha.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\RemoverItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\SangSupr.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\SenhaTecnico.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\WindowTemplate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Funcoes\DarumaFrameWork.cs" />
+    <Compile Include="Funcoes\PublicFunc.cs" />
+    <Compile Include="Funcoes\CFeAuxiliar.cs" />
+    <Compile Include="SEFAZ\CfeAtivacao_0007.cs" />
+    <Compile Include="SEFAZ\CfeAtualizacao_0007.cs" />
+    <Compile Include="SEFAZ\CfeCancelamento_0007.cs" />
+    <Compile Include="SEFAZ\CfeCertificacao_0007.cs" />
+    <Compile Include="SEFAZ\CfeComandos_0007.cs" />
+    <Compile Include="SEFAZ\CfeLogs_0007.cs" />
+    <Compile Include="SEFAZ\CfeParametrizacao_0007.cs" />
+    <Compile Include="SEFAZ\CfeRecepcao_0007.cs" />
+    <Compile Include="SEFAZ\CfeRetRecepcao_0007.cs" />
+    <Compile Include="SEFAZ\CfeServicoNacional_0007.cs" />
+    <Compile Include="SEFAZ\CfeSignAC_0007.cs" />
+    <Compile Include="SEFAZ\CfeStatus_0007.cs" />
+    <Compile Include="SEFAZ\CfeTeste_0007.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Resource Include="Resources\whatslogo.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\whatslogo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="DLL\bemasat.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\BemaSAT64.dll" />
+    <Content Include="DLL\dllsat_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\iconv.dll" />
+    <Content Include="DLL\libsatid64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL\libxml2.dll" />
+    <Content Include="DLL\msvcp120.dll" />
+    <Content Include="DLL\msvcr120.dll" />
+    <Content Include="DLL\SATDLL64.dll" />
+    <Content Include="DLL\SAT_x64.dll" />
+    <Content Include="DLL\zlib1.dll" />
+    <Resource Include="Resources\sitef.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="P05.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <EmbeddedResource Include="Properties\strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Resource Include="Resources\warning.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\loading_anim.gif" />
+    <Resource Include="Resources\loading.gif" />
+    <Resource Include="Resources\Capturar.PNG" />
+    <Resource Include="Resources\suprimento.jpg" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
+    <None Include="ComandasDS.xsc">
+      <DependentUpon>ComandasDS.xsd</DependentUpon>
+    </None>
+    <None Include="ComandasDS.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>ComandasDS.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="ComandasDS.xss">
+      <DependentUpon>ComandasDS.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetConfig.xsc">
+      <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetConfig.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetConfig.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSets\FDBDataSetConfig.xss">
+      <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetOperSeed.xsc">
+      <DependentUpon>FDBDataSetOperSeed.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetOperSeed.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetOperSeed.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSets\FDBDataSetOperSeed.xss">
+      <DependentUpon>FDBDataSetOperSeed.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetSistemaSeed.xsc">
+      <DependentUpon>FDBDataSetSistemaSeed.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetSistemaSeed.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetSistemaSeed.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSets\FDBDataSetSistemaSeed.xss">
+      <DependentUpon>FDBDataSetSistemaSeed.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetOrcam.xsc">
+      <DependentUpon>FDBDataSetOrcam.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetOrcam.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetOrcam.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSets\FDBDataSetOrcam.xss">
+      <DependentUpon>FDBDataSetOrcam.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetVenda.xsc">
+      <DependentUpon>FDBDataSetVenda.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetVenda.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetVenda.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSets\FDBDataSetVenda.xss">
+      <DependentUpon>FDBDataSetVenda.xsd</DependentUpon>
+    </None>
+    <None Include="FDBDataSet.xss">
+      <DependentUpon>FDBDataSet.xsd</DependentUpon>
+    </None>
+    <Resource Include="Fonts\CodabarLarge.ttf" />
+    <None Include="DataSets\FDBDataSetMaitre.xsc">
+      <DependentUpon>FDBDataSetMaitre.xsd</DependentUpon>
+    </None>
+    <None Include="DataSets\FDBDataSetMaitre.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetMaitre.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="DataSets\FDBDataSetMaitre.xss">
+      <DependentUpon>FDBDataSetMaitre.xsd</DependentUpon>
+    </None>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\app.manifest" />
+    <None Include="Design\projectGuides.guides" />
+    <None Include="FDBDataSet.xsc">
+      <DependentUpon>FDBDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="FDBDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <SubType>Designer</SubType>
+      <LastGenOutput>FDBDataSet.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Fonts\OpenSans-Bold.ttf" />
+    <Resource Include="Fonts\OpenSans-BoldItalic.ttf" />
+    <Resource Include="Fonts\OpenSans-ExtraBold.ttf" />
+    <Resource Include="Fonts\OpenSans-ExtraBoldItalic.ttf" />
+    <Resource Include="Fonts\OpenSans-Italic.ttf" />
+    <Resource Include="Fonts\OpenSans-Light.ttf" />
+    <Resource Include="Fonts\OpenSans-LightItalic.ttf" />
+    <Resource Include="Fonts\OpenSans-Regular.ttf" />
+    <Resource Include="Fonts\OpenSans-SemiBold.ttf" />
+    <Resource Include="Fonts\OpenSans-SemiBoldItalic.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>PublicSettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings1.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <Resource Include="Ambicon.ico" />
+    <Resource Include="Docs\DB\diff_schema_clipp_2016_2018.txt" />
+    <Content Include="Changelog.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DarumaFrameWork.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="config.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\fundo_certo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\fundo_login.jpg" />
+    <Resource Include="Resources\logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\background.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Ativo_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\gooby.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\sangria.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 e x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="NetFwTypeLib">
+      <Guid>{58FBCF7C-E7A9-467C-80B3-FC65E8FCCA08}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="LocalDB\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>

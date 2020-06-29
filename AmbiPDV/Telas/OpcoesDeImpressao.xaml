@@ -1,0 +1,53 @@
+﻿<Window x:Class="PDV_WPF.Telas.OpcoesDeImpressao"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="OpcoesDeImpressao" Height="300" Width="420" WindowStyle="None" KeyDown="Window_KeyDown" WindowStartupLocation="CenterScreen" BorderThickness="1" ResizeMode="NoResize">
+    <Window.BorderBrush>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF136666" Offset="0"/>
+            <GradientStop Color="#FF228D8D" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.BorderBrush>
+    <Grid Margin="0" Width="420" Height="300">
+        <Label Content="F2 - Impressão Normal" Margin="83,100,82,0" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="20" VerticalAlignment="Top" d:LayoutOverrides="Width">
+
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF228D8D" Offset="0"/>
+                    <GradientStop Color="#FF14BBBB" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Label x:Name="lbl_whats" Content="F3 - Whats App" Margin="83,0,150,100" VerticalAlignment="Bottom" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="20" d:LayoutOverrides="HorizontalAlignment, VerticalAlignment">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF228D8D" Offset="0"/>
+                    <GradientStop Color="#FF14BBBB" Offset="1"/>
+                    <GradientStop Color="#FF1C9D9D" Offset="0.362"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Label Content="OPÇÕES DE IMPRESSÃO" Margin="65,25,65,226" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="22">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF020202" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="#FF218A8A" Offset="0.976"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+        <Label Content="ESC - Não Imprimir" Margin="83,0,115,40" VerticalAlignment="Bottom" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="20" Name="lbl_Escape">
+            <Label.Foreground>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FF228D8D" Offset="0"/>
+                    <GradientStop Color="#FF14BBBB" Offset="1"/>
+                </LinearGradientBrush>
+            </Label.Foreground>
+        </Label>
+
+    </Grid>
+</Window>

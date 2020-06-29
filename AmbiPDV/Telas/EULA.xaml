@@ -1,0 +1,49 @@
+﻿<Window x:Class="PDV_WPF.Telas.EULA"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="EULA" Height="459" Width="656" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" KeyDown="Window_KeyDown" Deactivated="Window_Deactivated">
+
+    <Border Margin="10" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
+        </Border.Effect>
+        <Border BorderBrush="Black" CornerRadius="10" Grid.ColumnSpan="2" Background="#FF0BC9AD">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="113"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Vertical" Grid.Column="1">
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="/Resources/background.png"/>
+                    </StackPanel.Background>
+                    <Border Margin="25,25,25,0" Height="387" BorderBrush="Black" Padding="5" BorderThickness="1">
+                        <RichTextBox IsReadOnly="True" Margin="0" FontFamily="/Fonts/#Open Sans" Padding="10" Focusable="False" Cursor="Arrow" VerticalScrollBarVisibility="Auto" Block.TextAlignment="Justify">
+                            <FlowDocument>
+                                <Paragraph>
+                                    <Run Text="Disposições Legais"/>
+                                    <LineBreak/>
+                                    <Run/>
+                                    <LineBreak/>
+                                    <Run Text="Aqui serão escritas os deveres e direitos, tanto da Trilha Informática quanto do cliente final, em relação ao uso, manutenção, atualização e direitos de cópia referente ao AmbiPDV. Essa informação também será exibida durante a instalação."/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                    </Border>
+                </StackPanel>
+                <TextBlock Margin="18,15,17,300" FontFamily="Open Sans" FontSize="16" Foreground="White"><Run Text="Ambi "/><Run FontWeight="Bold" Text="PDV"/></TextBlock>
+                <Viewbox HorizontalAlignment="Center" Width="49.46" Stretch="Fill" Height="57.118" VerticalAlignment="Bottom" Margin="30.356,0,30.357,31.721">
+                    <Canvas Height="91.906" Width="79.583">
+                        <Path Fill="#ffffffff" Data="F1 M 69.875,66.932 L 53.101,66.932 L 39.779,43.877 L 26.479,66.935 L 9.709,66.935 L 39.779,14.835 L 69.875,66.932 Z" Height="51.935" Canvas.Left="9" Stretch="Fill" Canvas.Top="15" Width="60.875"/>
+                        <Path Fill="#ffffffff" Data="F1 M 1.078,68.281 L 39.778,90.611 L 78.478,68.281 L 78.478,23.624 L 39.778,1.294 L 1.078,23.624 L 1.078,68.281 Z M 39.778,91.881 L 0.000,68.900 L 0.000,22.977 L 0.270,22.815 L 39.778,0.000 L 53.865,8.137 L 79.556,22.977 L 79.556,68.900 L 79.286,69.062 L 39.778,91.881 Z" />
+                    </Canvas>
+                </Viewbox>
+                <Label Content="Ambisoft" Margin="0,0,0,9" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Open Sans" Foreground="#FFEEEEEE" Width="75.0875"/>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

@@ -1,0 +1,45 @@
+﻿<Window x:Class="PDV_WPF.Telas.SWATMain"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="SWAT" Height="574" Width="700" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" WindowStyle="None">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FF363636" Offset="0"/>
+            <GradientStop Color="#FF191919" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="48"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="48"/>
+        </Grid.ColumnDefinitions>
+        <Border Grid.Column="0" Background="Gold">
+            <Image Source="/AmbiPDV;component/Resources/warning.jpg"/>
+        </Border>
+        <Border Grid.Column="2" Background="Gold">
+            <Image Source="/AmbiPDV;component/Resources/warning.jpg"/>
+        </Border>
+        <Grid Grid.Column="1" Name="grd_Corpo">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <TextBlock Text="Painel de Manutenção" HorizontalAlignment="Center" Foreground="White" FontSize="24" FontWeight="Bold" FontFamily="Arial" FontStyle="Italic"/>
+                <ComboBox Width="300" Margin="0, 5" FontWeight="Bold" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" Name="cbx_Panel">
+                    <ComboBoxItem Content="** Selecione um item **" FontWeight="Bold" IsEnabled="False"/>
+                    <ComboBoxItem Content="Reset da Base de Dados" FontWeight="Regular" IsEnabled="True"/>
+                    <ComboBoxItem Content="Executar Script SQL" FontWeight="Regular" IsEnabled="True"/>
+                    <ComboBoxItem Content="Apagar Registro de Caixa" FontWeight="Regular" IsEnabled="True"/>
+                    <ComboBoxItem Content="Apagar Registro de Licenca" FontWeight="Regular" IsEnabled="True"/>
+                </ComboBox>
+            </StackPanel>
+            <Frame Grid.Row="1" x:Name="frm_Frame" NavigationUIVisibility="Hidden" Content="" HorizontalContentAlignment="Center"/>
+        </Grid>
+    </Grid>
+</Window>

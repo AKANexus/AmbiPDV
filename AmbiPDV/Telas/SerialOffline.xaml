@@ -1,0 +1,63 @@
+﻿<Window x:Class="PDV_WPF.Telas.SerialOffline"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="SerialOffline" Height="355.297" Width="418.22" WindowStyle="None" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label Name="lblInfo1" Content="Info1" HorizontalAlignment="Left" Height="50" Margin="10,10,0,0" VerticalAlignment="Top" Width="390" FontSize="10"/>
+        <Label Name="lblInfo2" Content="Info2" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="390" FontSize="10"/>
+        <!--<Label Name="lblSerialHd" Content="SERIAL HD VAI AQUI" HorizontalAlignment="Left" Height="24" Margin="62,152,0,0" VerticalAlignment="Top" Width="167"/>-->
+
+        <TextBox Text="SERIAL HD VAI AQUI" Name="txtLblSerialHd" HorizontalAlignment="Left" Height="24" Margin="126,219,0,0" VerticalAlignment="Top" Width="167">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+
+        <Label Name="lblInfo3" Content="Info3" HorizontalAlignment="Left" Margin="10,261,0,0" VerticalAlignment="Top" Width="390" Height="22" FontSize="10"/>
+        <TextBox Name="txtSerial" HorizontalAlignment="Left" Height="19" Margin="10,288,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="390"/>
+        <Button Name="btnValidar" Content="Validar" HorizontalAlignment="Left" Height="25" Margin="261,312,0,0" VerticalAlignment="Top" Width="64" Click="btnValidar_Click"/>
+        <Button Name="btnSair" Content="Sair" HorizontalAlignment="Left" Height="25" Margin="330,312,0,0" VerticalAlignment="Top" Width="70" Click="btnSair_Click"/>
+        <Label x:Name="lblComercial" Content="Comercial: " HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="64" FontSize="10"/>
+        <Label x:Name="lblWhatsApp" Content="WhatsApp: " HorizontalAlignment="Left" Margin="10,133,0,0" VerticalAlignment="Top" Width="64" FontSize="10"/>
+        <Label x:Name="lbl24Horas" Content="24 Horas: " HorizontalAlignment="Left" Margin="10,161,0,0" VerticalAlignment="Top" Width="64" FontSize="10"/>
+
+
+
+
+        <TextBox Text="(XX) XXXX-XXXX" Name="txtLblComercial" HorizontalAlignment="Left" Height="24" Margin="90,105,0,0" VerticalAlignment="Top" Width="167" FontSize="11">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Text="(XX) XXXXX-XXXX" Name="txtLblWhatsApp" HorizontalAlignment="Left" Height="24" Margin="90,133,0,0" VerticalAlignment="Top" Width="167" FontSize="11">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+        <TextBox Text="(XX) XXXXX-XXXX" Name="txtLbl24Horas" HorizontalAlignment="Left" Height="24" Margin="90,161,0,0" VerticalAlignment="Top" Width="167" FontSize="11">
+            <TextBox.Style>
+                <Style TargetType="TextBox">
+                    <Setter Property="IsReadOnly" Value="True" />
+                    <Setter Property="BorderThickness" Value="0" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                </Style>
+            </TextBox.Style>
+        </TextBox>
+    </Grid>
+</Window>

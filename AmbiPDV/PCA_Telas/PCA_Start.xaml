@@ -1,0 +1,37 @@
+﻿<Page x:Class="PDV_WPF.PCA_Telas.PCA_Start"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_WPF.PCA_Telas"
+      Title="PCA_Start">
+
+    <DockPanel Height="435" Width="493" LastChildFill="False">
+        <TextBlock             TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Margin="10"
+                   DockPanel.Dock="Top" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="14"><Run FontWeight="Bold" Text="BEM VINDO AO"/><LineBreak/><Run FontWeight="Bold" Text="ASSISTENTE DE CONFIGURAÇÃO  DE IMPRESSORA"/><LineBreak/><Run/><LineBreak/><Run Text="Nesta versão do AmbiPDV podem ser utilizados impressoras não fiscais e dispositivos SAT homologados"/><Run Text=", ou ainda a ECF "/><Run FontStyle="Italic" Text="FS700 "/><Run Text="da Daruma"/><Run Text="."/></TextBlock>
+        <ComboBox DockPanel.Dock="Top" Margin="215, 0" SelectedIndex="1" FontSize="18" FontWeight="Bold" Name="cbb_Impressora">
+            <ComboBoxItem Content="ECF"/>
+            <ComboBoxItem Content="SAT"/>
+        </ComboBox>
+        <TextBlock             TextWrapping="Wrap" 
+                   VerticalAlignment="Top" 
+                   Margin="10"
+                   DockPanel.Dock="Top"><Span Foreground="Black" FontSize="14" FontFamily="Open Sans"><Run Text="Através deste assistente iremos configurar o sistema e a sua impressora, garantindo o bom funcionamento do sistema."/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span Foreground="Black" FontSize="14" FontFamily="Open Sans"><Run Text="Antes de começarmos, garanta que sua impressora esteja ligada na tomada e conectada no seu computador."/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span Foreground="Black" FontWeight="Bold" FontSize="14" FontFamily="Open Sans"><Run Text="Se acha que está pronto... Clique em começar!!"/></Span></TextBlock>
+        <Grid DockPanel.Dock="Bottom" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Cancelar" x:Name="lbl_Prev"/></TextBlock>
+            </Border>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="but_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Começar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            </Border>
+
+        </Grid>
+    </DockPanel>
+</Page>

@@ -1,0 +1,27 @@
+<!-- Created with Ai->XAML Export Plug-In Version 0.2 (PC/64) -->
+<!-- By Mike Swanson (http://blog.mikeswanson.com/)           -->
+
+<Viewbox Width="79.556" Height="91.881"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Canvas Width="79.556" Height="91.881">
+
+  <Canvas>
+
+  <Canvas>
+
+  <Canvas>
+
+  <!-- Camada 1/Group 129/Group 128-2/Path 21-2 -->
+  <Path Fill="#ffffffff" Data="F1 M 1.078,68.281 L 39.778,90.611 L 78.478,68.281 L 78.478,23.624 L 39.778,1.294 L 1.078,23.624 L 1.078,68.281 Z M 39.778,91.881 L 0.000,68.900 L 0.000,22.977 L 0.270,22.815 L 39.778,0.000 L 53.865,8.137 L 79.556,22.977 L 79.556,68.900 L 79.286,69.062 L 39.778,91.881 Z"/>
+
+  </Canvas>
+
+  <!-- Camada 1/Group 129/Path 81-2 -->
+  <Path Fill="#ffffffff" Data="F1 M 69.875,66.932 L 53.101,66.932 L 39.779,43.877 L 26.479,66.935 L 9.709,66.935 L 39.779,14.835 L 69.875,66.932 Z" Height="51.935" Canvas.Left="9" Stretch="Fill" Canvas.Top="15" Width="60.875"/>
+
+  </Canvas>
+
+  </Canvas>
+</Canvas>
+</Viewbox>

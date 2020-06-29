@@ -1,0 +1,96 @@
+﻿<Window x:Class="PDV_WPF.Telas.FechamentoCupom"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        xmlns:nexusControls="clr-namespace:PDV_WPF.Controls"
+        mc:Ignorable="d"
+        Title="FechamentoCupom" FontFamily="Open Sans" Closing="Window_Closing" Loaded="Window_Loaded" KeyDown="NovoFechamento_KeyDown" WindowStartupLocation="Manual" Top="300" Left="135" ResizeMode="NoResize" ShowInTaskbar="True" WindowStyle="None" AllowsTransparency="True" Height="440.733" Width="576" Background="Transparent" PreviewKeyDown="Window_PreviewKeyDown">
+    <Border Margin="10" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
+        </Border.Effect>
+        <Border BorderBrush="Black" CornerRadius="10" Grid.ColumnSpan="2" Background="#FFFEFEFE">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="389*"/>
+                    <ColumnDefinition Width="107*"/>
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0" Margin="15">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="58"/>
+                    </Grid.RowDefinitions>
+                    <DataGrid Grid.Row="0"  x:Name="dgv_Metodos" AutoGenerateColumns="False" IsReadOnly="True"  Margin="0 ,10" HeadersVisibility="None" Language="pt-BR">
+                        <DataGrid.ColumnHeaderStyle>
+                            <Style TargetType="{x:Type DataGridColumnHeader}">
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="FontSize" Value="22"/>
+                            </Style>
+                        </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Cód" Binding="{Binding ID_FMANFCE}" Width="*" FontSize="20"/>
+                            <DataGridTextColumn Header="Método" Binding="{Binding DESCRICAO}" Width="3*" FontSize="20"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                    <TextBlock Grid.Row="1" TextAlignment="Center" FontSize="14"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="F8 - Aplicar desconto na venda"/><LineBreak/><Run Text="ATENÇÃO - À vista deve ser a última forma de pgto." Foreground="Red" FontStyle="Italic" /></TextBlock>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                        <RowDefinition Height="100*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="0" Grid.Row="0">
+                        <Label Content="MÉTODO" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <TextBox x:Name="txb_Metodo" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" KeyDown="txb_Metodo_KeyDown" HorizontalContentAlignment="Right" TextChanged="Txb_Metodo_TextChanged"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0" Grid.Row="1">
+                        <Label Content="VALOR" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <nexusControls:NexusCurrencyBox Language="pt-BR" x:Name="txb_Valor" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" TextChanged="Txb_Valor_TextChanged" KeyDown="txb_Valor_KeyDown" EnterToMoveNext="False" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0" Grid.Row="2" Name="stp_Parcelas" Visibility="Hidden">
+                        <Label Content="PARCELAS" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <TextBox x:Name="txb_parcelas" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" KeyDown="txb_Parcelas_KeyDown" HorizontalContentAlignment="Right" Text="1"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0" Grid.Row="3">
+                        <Label Content="PAGO" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <nexusControls:NexusCurrencyBox IsReadOnly="True" x:Name="txb_Pago" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" Language="pt-BR"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0" Grid.Row="4" Name="stp_Desconto" Visibility="Hidden">
+                        <Label Name="lbl_Desc" Content="DESCONTO" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <nexusControls:NexusCurrencyBox x:Name="txb_Desconto" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3"  Language="pt-BR" IsReadOnly="True"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0" Grid.Row="5">
+                        <Label Content="SALDO RESTANTE" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <nexusControls:NexusCurrencyBox IsReadOnly="True" x:Name="txb_SaldoRest" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" Language="pt-BR"/>
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Margin="0" Grid.Row="6" Name="stp_Troco" Visibility="Hidden">
+                        <Label x:Name="label7" Content="TROCO" FontFamily="/AmbiPDV;component/Fonts/#Open Sans ExtraBold" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
+                            <nexusControls:NexusCurrencyBox x:Name="txb_Troco" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" Language="pt-BR" Foreground="Red"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+</Window>

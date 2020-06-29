@@ -1,0 +1,53 @@
+﻿<Window x:Class="PDV_WPF.Telas.FechamentoOrcamento"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="FechamentoOrcamento" FontFamily="Open Sans" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" ShowInTaskbar="True" WindowStyle="None" AllowsTransparency="True" 
+        Height="381" Width="469" Background="Transparent" Loaded="Window_Loaded">
+    <Border Margin="10" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
+        </Border.Effect>
+        <Border BorderBrush="Black" CornerRadius="10" Grid.ColumnSpan="2" Background="#FFFEFEFE" Padding="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GroupBox Header="Forma de Pagamento" Grid.Row="0" VerticalAlignment="Top" BorderBrush="#FF09CAAA" BorderThickness="1">
+                    <ComboBox DockPanel.Dock="Right" x:Name="txb_FormaPagto" BorderBrush="Transparent" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="20" Padding="3,5" Background="White" SelectedValuePath="Content"/>
+                </GroupBox>
+                <GroupBox Header="Parcelamento" Grid.Row="1" VerticalAlignment="Top" BorderBrush="#FF09CAAA" BorderThickness="1">
+                    <ComboBox DockPanel.Dock="Right" x:Name="txb_Parcelamento" BorderBrush="Transparent" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="20" Padding="3,5" Background="White" SelectedValuePath="Content" ItemsSource="{Binding Parcelamentos}" SelectionChanged="txb_Parcelamento_SelectionChanged"/>
+                </GroupBox>
+                <GroupBox Header="Parcelas" Grid.Row="2" BorderBrush="#FF09CAAA" BorderThickness="1">
+                    <DataGrid Language="pt-BR" AutoGenerateColumns="False" Name="dgv_Parcelas" ItemsSource="{Binding}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Binding="{Binding Vencimento, StringFormat=dd/MM/yyyy}" ClipboardContentBinding="{x:Null}" Header="Vencimento" Width="*"/>
+                            <DataGridTextColumn Binding="{Binding Valor, StringFormat=C}" ClipboardContentBinding="{x:Null}" Header="Valor" Width="*"/>
+                        </DataGrid.Columns>
+
+                    </DataGrid>
+                </GroupBox>
+                <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="0,5" DockPanel.Dock="Bottom">
+                    <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" Margin="10,0" MouseDown="but_Confirmar_MouseDown">
+                        <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                               VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+                    </Border>
+                    <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" Margin="10,0" MouseDown="but_Cancelar_MouseDown">
+                        <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" 
+                               VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+                    </Border>
+
+                </StackPanel>
+
+            </Grid>
+        </Border>
+    </Border>
+</Window>

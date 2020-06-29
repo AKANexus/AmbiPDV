@@ -1,0 +1,115 @@
+﻿<Window x:Class="PDV_WPF.Telas.ListaSanSup"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="ListaSanSup" Height="469" Width="737.864" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+    <Border Margin="10" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
+        </Border.Effect>
+        <Border BorderBrush="Black" CornerRadius="10" Grid.ColumnSpan="2" Background="#FF0BC9AD">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="111*"/>
+                    <ColumnDefinition Width="607*"/>
+                </Grid.ColumnDefinitions>
+                <Canvas Grid.Column="1" Background="#FFFEFEFE">
+                    <Viewbox HorizontalAlignment="Center" Width="234.127" Stretch="Fill" Height="270.377" VerticalAlignment="Bottom" Canvas.Left="180" Canvas.Top="20">
+                        <Canvas Height="91.906" Width="79.583">
+                            <Path Data="F1 M 69.875,66.932 L 53.101,66.932 L 39.779,43.877 L 26.479,66.935 L 9.709,66.935 L 39.779,14.835 L 69.875,66.932 Z" Height="51.935" Canvas.Left="9" Stretch="Fill" Canvas.Top="15" Width="60.875">
+                                <Path.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                <RotateTransform Angle="-113.199" CenterY="0.5" CenterX="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="0.00" Color="#1908C9A9"/>
+                                        <GradientStop Offset="0.08" Color="#1907B9A1"/>
+                                        <GradientStop Offset="1.00" Color="#19004C6D"/>
+                                    </LinearGradientBrush>
+                                </Path.Fill>
+                            </Path>
+                            <Path Data="F1 M 1.078,68.281 L 39.778,90.611 L 78.478,68.281 L 78.478,23.624 L 39.778,1.294 L 1.078,23.624 L 1.078,68.281 Z M 39.778,91.881 L 0.000,68.900 L 0.000,22.977 L 0.270,22.815 L 39.778,0.000 L 53.865,8.137 L 79.556,22.977 L 79.556,68.900 L 79.286,69.062 L 39.778,91.881 Z">
+                                <Path.Fill>
+                                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                        <LinearGradientBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                                <RotateTransform Angle="-113.199" CenterY="0.5" CenterX="0.5"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </LinearGradientBrush.RelativeTransform>
+                                        <GradientStop Offset="0.00" Color="#1908C9A9"/>
+                                        <GradientStop Offset="0.08" Color="#1907B9A1"/>
+                                        <GradientStop Offset="1.00" Color="#19004C6D"/>
+                                    </LinearGradientBrush>
+                                </Path.Fill>
+                            </Path>
+                        </Canvas>
+                    </Viewbox>
+                    <ContentPresenter/>
+                </Canvas>
+                <Label Content="PDV" FontFamily="Open Sasn" FontSize="15" HorizontalContentAlignment="Right" VerticalContentAlignment="Center" Foreground="#FFEEEEEE" Margin="0,15,17,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" FontWeight="Bold" Height="28"/>
+                <Label Content="Ambi" FontFamily="Open Sasn" FontSize="15" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Foreground="#FFEEEEEE" Margin="18,15,358,0" RenderTransformOrigin="0.5,0.5" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="28"/>
+                <Viewbox HorizontalAlignment="Center" Width="50" Stretch="Fill" Height="57" VerticalAlignment="Bottom" Margin="0,0,0,32">
+                    <Canvas Height="91.906" Width="79.583">
+                        <Path Fill="#ffffffff" Data="F1 M 69.875,66.932 L 53.101,66.932 L 39.779,43.877 L 26.479,66.935 L 9.709,66.935 L 39.779,14.835 L 69.875,66.932 Z" Height="51.935" Canvas.Left="9" Stretch="Fill" Canvas.Top="15" Width="60.875"/>
+                        <Path Fill="#ffffffff" Data="F1 M 1.078,68.281 L 39.778,90.611 L 78.478,68.281 L 78.478,23.624 L 39.778,1.294 L 1.078,23.624 L 1.078,68.281 Z M 39.778,91.881 L 0.000,68.900 L 0.000,22.977 L 0.270,22.815 L 39.778,0.000 L 53.865,8.137 L 79.556,22.977 L 79.556,68.900 L 79.286,69.062 L 39.778,91.881 Z" />
+                    </Canvas>
+                </Viewbox>
+                <Label Content="Ambisoft" Margin="0,0,0,9" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontFamily="Open Sans" Foreground="#FFEEEEEE" Height="26"/>
+                <Grid Grid.Column="1" Margin="0,1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45*"/>
+                        <RowDefinition Height="45*"/>
+                        <RowDefinition Height="363*"/>
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0" x:Name="lbl_Titulo" Content="Listagem de Sangrias/Suprimentos" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FF08C9A9" FontSize="24" FontFamily="Open Sans"/>
+                    <Grid Margin="0" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Width="180" Name="dtp_DataInicial"/>
+                        <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="180" Name="dtp_DataFinal"/>
+                        <Button Grid.Column="2" Margin="10" Content="Pesquisar" Click="Button_Click"/>
+                    </Grid>
+                    <DataGrid x:Name="dgv_Operacoes" Language="pt-BR" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="10" Grid.Row="2" HeadersVisibility="Column" 
+                              IsReadOnly="True">
+                        <!--<DataGrid.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Background" Value="White"/>
+                            </Style>
+                        </DataGrid.CellStyle>-->
+                        <DataGrid.Resources>
+                            <Style TargetType="DataGridRow">
+                                <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                            </Style>
+                        </DataGrid.Resources>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn x:Name="fECHADOColumn" Binding="{Binding TS_OPERACAO, StringFormat=dd/MM/yyyy HH:mm:ss}" Header="Data/Hora Venda" Width="0.6*"/>
+                            <DataGridTextColumn x:Name="iD_CAIXAColumn" Binding="{Binding OPERACAOVIEW}" Header="Operação" Width="0.3*"/>
+                            <!--<DataGridTextColumn x:Name="oPERADORColumn" Binding="{Binding Cliente}" Header="Cliente" Width="*"/>-->
+                            <DataGridTextColumn x:Name="tOTALVENDAColumn" Binding="{Binding VALOR, StringFormat=C}" Header="Valor" Width="0.35*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+
+
+
+
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+
+</Window>

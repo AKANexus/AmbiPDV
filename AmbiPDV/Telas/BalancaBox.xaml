@@ -1,0 +1,41 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="PDV_WPF.Telas.BalancaBox"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="True" AllowsTransparency="True" KeyDown="window_KeyDown"
+        Title="DialogBox" Height="450" Width="470" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+
+    <Border Margin="10,0" Background="#FFF9F9F9" CornerRadius="10" VerticalAlignment="Center" Padding="13">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="8" Opacity="0.8" Direction="300" ShadowDepth="1.5"/>
+        </Border.Effect>
+        <Grid Margin="0">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="57"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="1" x:Name="lbl_Title" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Open Sans SemiBold" FontSize="24" Foreground="#FF757575" Text="Erro ao ler peso da Balança"/>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="tbl_Body" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontFamily="Open Sans SemiBold" FontSize="14" Foreground="#FF757575" MaxWidth="430" TextAlignment="Center"><Run x:Name="run_Linha1" Text="Não foi possível obter o peso da balanca. "/><LineBreak/><Run x:Name="run_Linha2" Text="Desja digitar o peso manualmente?"/><LineBreak/><Run x:Name="run_Linha3" Text="[ENTER] para tentar novamente, [ESC] para cancelar, "/><LineBreak/><Run x:Name="run_Linha4" Text="ou digite o peso"/><Run x:Name="run_Linha5" Text=", e pressione [ENTER]"/></TextBlock>
+            <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="7,0,7,4">
+                <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
+                    <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+                </Border>
+                <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
+                    <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+                </Border>
+
+            </StackPanel>
+            <TextBox x:Name="txb_Peso" Margin="25,0" Grid.Row="3" TextWrapping="Wrap" VerticalAlignment="Center" FontSize="24" Height="36"/>
+        </Grid>
+    </Border>
+</Window>

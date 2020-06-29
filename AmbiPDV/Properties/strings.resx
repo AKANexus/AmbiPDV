@@ -1,0 +1,504 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ABERTURA_DE_CUPOM" xml:space="preserve">
+    <value>Abertura de Cupom</value>
+  </data>
+  <data name="ABERTURA_DE_DEVOLUCAO" xml:space="preserve">
+    <value>Abertura de Devolução</value>
+  </data>
+  <data name="ABERTURA_DE_TURNO" xml:space="preserve">
+    <value>Abertura de Turno</value>
+  </data>
+  <data name="ACESSO_REMOTO" xml:space="preserve">
+    <value>Acesso Remoto</value>
+  </data>
+  <data name="AMBIPDV" xml:space="preserve">
+    <value>AmbiPDV</value>
+  </data>
+  <data name="APLICAR_DESCONTO" xml:space="preserve">
+    <value>Aplicar Desconto</value>
+  </data>
+  <data name="ARQUIVO_PODE_ESTAR_CORROMPIDO" xml:space="preserve">
+    <value>Arquivo pode estar corrompido.</value>
+  </data>
+  <data name="ARQUIVO_XML_MOVIDO" xml:space="preserve">
+    <value>O arquivo do XML foi movido após a sua gravação. Seu contador pode estar utilizando um software de backup de XML.</value>
+  </data>
+  <data name="AUTOTESTE" xml:space="preserve">
+    <value>Autoteste</value>
+  </data>
+  <data name="AUTOTESTE_CONCLUIDO_COM_SUCESSO" xml:space="preserve">
+    <value>Autoteste concluído com sucesso.</value>
+  </data>
+  <data name="A_QUANT_DO_ITEM_ERA_ZERO_OU_NEGATIVA" xml:space="preserve">
+    <value>A quantidade de um ou mais itens era negativa ou zero.</value>
+  </data>
+  <data name="A_VISTA_DEVE_SER_O_ULTIMO_METODO" xml:space="preserve">
+    <value>O valor à vista deve ser o último método utilizado.</value>
+  </data>
+  <data name="CAIXA_ESTA_ACIMA_DO_LIMITE" xml:space="preserve">
+    <value>O caixa encontra-se acima do limite permitido.</value>
+  </data>
+  <data name="CAIXA_LIVRE" xml:space="preserve">
+    <value>CAIXA LIVRE</value>
+  </data>
+  <data name="CANCELAMENTO_DE_VENDA" xml:space="preserve">
+    <value>Cancelamento de Venda</value>
+  </data>
+  <data name="CASO_DEIXE_DE_ATUALIZA_LA_SUAS_VENDAS_PODEM_SER_MAL_TRIBUTADAS" xml:space="preserve">
+    <value>Caso deixe de atualizá-la, suas vendas podem ser incorretamente tributadas.</value>
+  </data>
+  <data name="CASO_ESTEJA_USANDO_BACKUP_DE_XML" xml:space="preserve">
+    <value>Caso esteja utilizando um serviço de backup de XML (SIEG, GestorXML, etc.), peça a seu contador para configurá-lo a fim de não remover os XMLs da pasta de origem.</value>
+  </data>
+  <data name="CLIQUE_PARA_INTERROMPER_AUTOTESTE" xml:space="preserve">
+    <value>Clique no botão para interromper o teste.</value>
+  </data>
+  <data name="COMANDA" xml:space="preserve">
+    <value>Comanda</value>
+  </data>
+  <data name="CPF_CNPJ_INVALIDO" xml:space="preserve">
+    <value>CPF/CNPJ inválido</value>
+  </data>
+  <data name="CUPOM_ABERTO" xml:space="preserve">
+    <value>CUPOM ABERTO</value>
+  </data>
+  <data name="DESCONTO_APLICADO_E_MAIOR_QUE_O_VALOR" xml:space="preserve">
+    <value>Desconto aplicado é maior que o valor do produto. Desconto removido.</value>
+  </data>
+  <data name="DESCONTO_CANCELADO_PARA_PROXIMO_ITEM" xml:space="preserve">
+    <value>Desconto CANCELADO para o próximo item.</value>
+  </data>
+  <data name="DESEJA_CANCELAR_CUPOM_FISCAL" xml:space="preserve">
+    <value>Deseja realmente cancelar o último cupom fiscal lançado?</value>
+  </data>
+  <data name="DESEJA_CANCELAR_CUPOM_NAO_FISCAL" xml:space="preserve">
+    <value>Deseja realmente cancelar o último cupom não fiscal lançado?</value>
+  </data>
+  <data name="DESEJA_EXECUTAR_AUTOTESTE" xml:space="preserve">
+    <value>Deseja executar o autoteste?</value>
+  </data>
+  <data name="DESEJA_FECHAR_O_TURNO_DO_OUTRO_FUNCIONARIO" xml:space="preserve">
+    <value>Deseja executar o fechamento do turno do funcionário?</value>
+  </data>
+  <data name="DEVOLUCAO_DEVE_SER_POR_F7" xml:space="preserve">
+    <value>Para finalizar a devolução da(s) mercadoria(s), pressione F7.</value>
+  </data>
+  <data name="DEVOLUCAO_DE_MERCADORIA" xml:space="preserve">
+    <value>Devolução de Mercadoria</value>
+  </data>
+  <data name="ECF_COM_CUPOM_ABERTO" xml:space="preserve">
+    <value>Havia um cupom aberto, que foi cancelado. (78)</value>
+  </data>
+  <data name="ECF_DESCONECTADA" xml:space="preserve">
+    <value>ECF desconectada. (144)</value>
+  </data>
+  <data name="ECF_NAO_ENCONTRADA" xml:space="preserve">
+    <value>ECF desconectada. (-6)</value>
+  </data>
+  <data name="ECF_NAO_PROCESSA_DEVOLUCOES" xml:space="preserve">
+    <value>ECF não processa devoluções.</value>
+  </data>
+  <data name="ECF_SEM_PAPEL" xml:space="preserve">
+    <value>ECF está sem papel. (72)</value>
+  </data>
+  <data name="EFETUE_REDUCAO_Z_COM_CTRL_O" xml:space="preserve">
+    <value>Efetue a redução Z com Ctrl+O.</value>
+  </data>
+  <data name="ENTRE_EM_CONTATO_COM_CONTADOR" xml:space="preserve">
+    <value>Entre em contato com seu contador e peça para que configurem o software de forma a não remover o XML da pasta de origem.</value>
+  </data>
+  <data name="ERRO_100" xml:space="preserve">
+    <value>Sua liçenca está próxima de expirar. Faltam {0} dias para renovar sua licença.
+Renove com antecedência para evitar atrasos.</value>
+  </data>
+  <data name="ERRO_110" xml:space="preserve">
+    <value>Sua licença expirou. Favor entrar em contato com a Trilha Informática para continuar.</value>
+  </data>
+  <data name="ERRO_205" xml:space="preserve">
+    <value>Seu sistema foi bloqueado.</value>
+  </data>
+  <data name="ERRO_305" xml:space="preserve">
+    <value>Foi encontrada uma pendência em seu cadastro. Regularize com a Trilha Informática.</value>
+  </data>
+  <data name="ERRO_400" xml:space="preserve">
+    <value>Seu serial ainda não está ativo. Peça a sua ativação com a Trilha Informática.</value>
+  </data>
+  <data name="ERRO_500" xml:space="preserve">
+    <value>Batatinha quando nasce, espalha rama pelo chão
+Menininha quando dorme, põe a mão no coração.</value>
+  </data>
+  <data name="ERRO_510" xml:space="preserve">
+    <value>Não foi possível validar seu serial. Verifique a conexão com a Internet e tente novamente.</value>
+  </data>
+  <data name="ERRO_520" xml:space="preserve">
+    <value>Sua licença não pôde ser verificada. O programa rodará por mais {0} dias antes de precisar conectar à Internet.</value>
+  </data>
+  <data name="ERRO_600" xml:space="preserve">
+    <value>Existem inconsistências em seu cadastro. Favor entrar em contato com a Trilha Informática.</value>
+  </data>
+  <data name="ERRO_700" xml:space="preserve">
+    <value>Serial Inválido.</value>
+  </data>
+  <data name="ERRO_999" xml:space="preserve">
+    <value>Licenciamento não pode ser confirmado.</value>
+  </data>
+  <data name="ERRO_AO_ABRIR_CUPOM" xml:space="preserve">
+    <value>Erro ao abrir novo cupom.</value>
+  </data>
+  <data name="ERRO_AO_ABRIR_DEVOLUCAO" xml:space="preserve">
+    <value>Erro ao abrir nova devolução.</value>
+  </data>
+  <data name="ERRO_AO_CANCELAR_CUPOM_FISCAL" xml:space="preserve">
+    <value>Erro ao cancelar cupom fiscal.</value>
+  </data>
+  <data name="ERRO_AO_CANCELAR_CUPOM_NAO_FISCAL" xml:space="preserve">
+    <value>Erro ao cancelar cupom não fiscal.</value>
+  </data>
+  <data name="ERRO_AO_ENVIAR_IMPRESSAO_DO_TEF_PARA_SPOOLER" xml:space="preserve">
+    <value>Erro ao enviar a impressão do TEF para o spooler. A venda foi concluída.</value>
+  </data>
+  <data name="ERRO_AO_OBTER_XML_DE_RETORNO" xml:space="preserve">
+    <value>Erro ao obter xml_de_retorno.</value>
+  </data>
+  <data name="ERRO_DURANTE_VENDA" xml:space="preserve">
+    <value>Erro durante a venda.</value>
+  </data>
+  <data name="ERRO_INESPERADO" xml:space="preserve">
+    <value>Erro inesperado {0}</value>
+  </data>
+  <data name="ESTOQUE_VAZIO" xml:space="preserve">
+    <value>Estoque Vazio</value>
+  </data>
+  <data name="ESTORNO_DE_ITEM" xml:space="preserve">
+    <value>Estorno de Item</value>
+  </data>
+  <data name="EXECUTE_A_CONFIGURACAO_INICIAL" xml:space="preserve">
+    <value>Execute a configuração inicial antes de se usar o caixa.</value>
+  </data>
+  <data name="EXPLICACAO_MODO_DE_CONTINGENCIA" xml:space="preserve">
+    <value>Se clicar em confirmar, será possível fazer vendas normalmente. 
+Mas se a falta de conexão persistir, por favor entre em contato com a equipe de suporte.</value>
+  </data>
+  <data name="E_NECESSARIO_CONFIGURAR_O_CAIXA" xml:space="preserve">
+    <value>É necessário fazer a configuração inicial antes de se usar o caixa.</value>
+  </data>
+  <data name="FALHA_AO_ABRIR_O_PROGRAMA" xml:space="preserve">
+    <value>Não foi possível abrir o programa.</value>
+  </data>
+  <data name="FALHA_AO_ACESSAR_TABELA_IBPT" xml:space="preserve">
+    <value>Falha ao acessar o arquivo da tabela IBPT. O aplicativo será fechado.</value>
+  </data>
+  <data name="FALHA_AO_CARREGAR_CONFIGS" xml:space="preserve">
+    <value>Falha ao carregar as configurações.</value>
+  </data>
+  <data name="FALHA_AO_ESTORNAR" xml:space="preserve">
+    <value>Falha ao estornar item.</value>
+  </data>
+  <data name="FAZER_SANGRIA" xml:space="preserve">
+    <value>FAZER SANGRIA</value>
+  </data>
+  <data name="FECHAMENTO_DE_TURNO" xml:space="preserve">
+    <value>Fechamento de Turno</value>
+  </data>
+  <data name="FECHE_O_TURNO_ANTES" xml:space="preserve">
+    <value>Feche o turno do usuário atual antes.</value>
+  </data>
+  <data name="FOI_ENCONTRADA_VENDA_PENDENTE" xml:space="preserve">
+    <value>Foi encontrada uma venda pendente. Deseja continuá-la?</value>
+  </data>
+  <data name="GRAVACAO_DE_XML" xml:space="preserve">
+    <value>Gravação de XML</value>
+  </data>
+  <data name="IDENTIFICACAO_DO_CONSUMIDOR" xml:space="preserve">
+    <value>Identificação do Consumidor</value>
+  </data>
+  <data name="IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA" xml:space="preserve">
+    <value>Impossível prosseguir com a venda.</value>
+  </data>
+  <data name="IMPRESSAO" xml:space="preserve">
+    <value>Impressão</value>
+  </data>
+  <data name="IMPRESSORA_NAO_CONFIGURADA" xml:space="preserve">
+    <value>Impressora não configurada.</value>
+  </data>
+  <data name="INFORME_SUA_ID" xml:space="preserve">
+    <value>Informe sua ID para o técnico:</value>
+  </data>
+  <data name="ITEM_INVALIDO_VERIFIQUE" xml:space="preserve">
+    <value>Item inválido. Verifique se o item já não foi estornado.</value>
+  </data>
+  <data name="LANCAMENTO_DE_PRODUTO" xml:space="preserve">
+    <value>Lançamento de Produto</value>
+  </data>
+  <data name="LISTANDO_REIMPRESSAO_DE_FECHAMENTOS" xml:space="preserve">
+    <value>Listando Reimpressão de Fechamento</value>
+  </data>
+  <data name="LOGERRO_GERADO" xml:space="preserve">
+    <value>LogErro.txt gerado.</value>
+  </data>
+  <data name="MODO_DE_DEVOLUCAO" xml:space="preserve">
+    <value>MODO DE DEVOLUÇÃO</value>
+  </data>
+  <data name="NAO_ENTRE_EM_CONTATO_SEM_VERIFICAR_COM_CONTADOR" xml:space="preserve">
+    <value>NÃO entre em contato com o Suporte Técnico antes de verificar com seu contador.</value>
+  </data>
+  <data name="NAO_E_POSSIVEL_VENDER_ATE_AMANHA" xml:space="preserve">
+    <value>Não será possível fazer vendas na ECF até às 23:59:59 de hoje.</value>
+  </data>
+  <data name="NAO_FOI_POSSIVEL_CANCELAR_CUPOM" xml:space="preserve">
+    <value>Não foi possível cancelar o cupom.</value>
+  </data>
+  <data name="NAO_FOI_POSSIVEL_IMPRIMIR_CANCELAMENTO" xml:space="preserve">
+    <value>Não foi possível imprimir o comprovante de cancelamento.</value>
+  </data>
+  <data name="NAO_HA_ESTOQUE_DISPONIVEL" xml:space="preserve">
+    <value>Não há estoque disponível do produto selecionado.</value>
+  </data>
+  <data name="NAO_HA_ITEMS_LANCADOS_NA_COMANDA" xml:space="preserve">
+    <value>Não há serviços/produtos lançados nessa comanda.</value>
+  </data>
+  <data name="NAO_HA_SUPORTE_DISPONIVEL" xml:space="preserve">
+    <value>Não há suporte disponível para essa situação.</value>
+  </data>
+  <data name="NAO_HA_TURNO_ABERTO" xml:space="preserve">
+    <value>Não há turno aberto.</value>
+  </data>
+  <data name="NECESSARIA_RESOLUCAO_MINIMA" xml:space="preserve">
+    <value>É necessário resolução de no mínimo 1024x768. Resoluções menores não são suportadas.</value>
+  </data>
+  <data name="NECESSARIO_FAZER_REDUCAO_Z" xml:space="preserve">
+    <value>É necessário fazer a redução Z antes de proceder às vendas. (88)</value>
+  </data>
+  <data name="NENHUM_XML_ENCONTRADO_NA_PASTA_VENDAS" xml:space="preserve">
+    <value>Nenhum XML encontrado na pasta SAT/Vendas.</value>
+  </data>
+  <data name="OBTER_PESO" xml:space="preserve">
+    <value>Obter Peso</value>
+  </data>
+  <data name="OPERACAO_CANCELADA_OU_NAO_CONCLUIDA" xml:space="preserve">
+    <value>Operação cancelada ou não concluída.</value>
+  </data>
+  <data name="ORCAMENTO" xml:space="preserve">
+    <value>Orçamento</value>
+  </data>
+  <data name="PARA_ABRIR_EM_CONTINGENCIA_REINICIE" xml:space="preserve">
+    <value>Para iniciar o programa em modo de contingência, abra-o novamente e selecione \"CONFIRMAR\"</value>
+  </data>
+  <data name="PAYGO_NAO_ESTA_INSTALADO" xml:space="preserve">
+    <value>Pay&amp;Go não está instalado nesse computador.</value>
+  </data>
+  <data name="PDV_INICIARA_ATUALIZACAO_DE_REGISTROS" xml:space="preserve">
+    <value>O PDV iniciará a atualização de registros (cadastros, vendas e fechamento de caixa).\n\nEsse procedimento pode demorar.\nContinuar?</value>
+  </data>
+  <data name="PEDIDO" xml:space="preserve">
+    <value>Pedido</value>
+  </data>
+  <data name="PEDIDO_NAO_FOI_ENVIADO_PARA_IMPRESSORA" xml:space="preserve">
+    <value>O pedido NÃO será enviado para a impressora de pedidos.</value>
+  </data>
+  <data name="PRESSIONE_ENTER_PARA_CONTINUAR" xml:space="preserve">
+    <value>Pressione \"ENTER\" para continuar.</value>
+  </data>
+  <data name="PRESSIONE_F12_PARA_ABRIR_TURNO" xml:space="preserve">
+    <value>Pressione F12 para abrir o turno.</value>
+  </data>
+  <data name="REDUCAO_Z" xml:space="preserve">
+    <value>Redução Z</value>
+  </data>
+  <data name="REDUCAO_Z_JA_FOI_FEITA" xml:space="preserve">
+    <value>Redução Z já foi feita. (89)</value>
+  </data>
+  <data name="REIMPRESSAO" xml:space="preserve">
+    <value>Reimpressão</value>
+  </data>
+  <data name="SANGRIA" xml:space="preserve">
+    <value>Sangria</value>
+  </data>
+  <data name="SANGRIA_SUPRIMENTO" xml:space="preserve">
+    <value>Sangria/Suprimento</value>
+  </data>
+  <data name="SAT_RETORNOU_VALOR_INESPERADO" xml:space="preserve">
+    <value>O SAT retornou um valor inesperado.</value>
+  </data>
+  <data name="SENHA_DIGITADA_NAO_E_VALIDA" xml:space="preserve">
+    <value>A senha digitada não é válida.</value>
+  </data>
+  <data name="SERA_GERADO_UM_RELATORIO" xml:space="preserve">
+    <value>Será gerado um relatório ao final da venda.</value>
+  </data>
+  <data name="SERVIDOR_INDISPONIVEL" xml:space="preserve">
+    <value>Servidor indisponível. Entrar em modo local?</value>
+  </data>
+  <data name="SIGA_AS_INSTRUCOES_NO_TEF" xml:space="preserve">
+    <value>Siga as instruções no TEF.</value>
+  </data>
+  <data name="SINCRONIZACAO" xml:space="preserve">
+    <value>Sincronização</value>
+  </data>
+  <data name="SISTEMA_ESTA_EM_CONTINGENCIA" xml:space="preserve">
+    <value>O sistema está em contingência.</value>
+  </data>
+  <data name="SUA_TABELA_IBPT_ESTA_DESATUALIZADA" xml:space="preserve">
+    <value>Sua tabela IBPT está desatualizada. Conecte-se à internet e reinicie o programa para atualizar, ou entre em contato com o suporte.</value>
+  </data>
+  <data name="TABELA_IBPT" xml:space="preserve">
+    <value>Tabela IBPT</value>
+  </data>
+  <data name="TENTE_NOVAMENTE" xml:space="preserve">
+    <value>Tente novamente.</value>
+  </data>
+  <data name="TENTE_NOVAMENTE_OU_OUTRO_METODO" xml:space="preserve">
+    <value>Tente novamente, ou use outro método de pagamento.</value>
+  </data>
+  <data name="TURNO_ABERTO_COM_SUCESSO" xml:space="preserve">
+    <value>Turno aberto com sucesso!</value>
+  </data>
+  <data name="TURNO_FECHADO_COM_SUCESSO" xml:space="preserve">
+    <value>Turno fechado com sucesso!</value>
+  </data>
+  <data name="ULTIMO_CUPOM_FISCAL_CANCELADO" xml:space="preserve">
+    <value>Último cupom foi cancelado com sucesso.</value>
+  </data>
+  <data name="ULTIMO_CUPOM_JA_FOI_CANCELADO" xml:space="preserve">
+    <value>Último cupom já foi cancelado.</value>
+  </data>
+  <data name="USUARIO_NAO_POSSUI_PERMISSAO" xml:space="preserve">
+    <value>Este usuário não possui permissão para executar essa ação.</value>
+  </data>
+  <data name="VALOR_A_VISTA_NAO_PODE_SER_MENOR" xml:space="preserve">
+    <value>O valor à vista não pode ser menor que o valor de venda.</value>
+  </data>
+  <data name="VENDA" xml:space="preserve">
+    <value>Venda</value>
+  </data>
+  <data name="VENDA_NO_TEF" xml:space="preserve">
+    <value>Operação no TEF</value>
+  </data>
+  <data name="VERIFIQUE_AS_LUZES_DO_SAT" xml:space="preserve">
+    <value>Verifique se as luzes "SAT LIGADO" ou "PWR" e "SAT EM OPERAÇÃO" ou "OP" estão ambas ligadas.</value>
+  </data>
+  <data name="VERSAO_ADENDO" xml:space="preserve">
+    <value />
+  </data>
+  <data name="VOCE_ESTA_SENDO_ATENDIDO_POR" xml:space="preserve">
+    <value>VOCÊ ESTÁ SENDO ATENDIDO POR: {0}</value>
+  </data>
+</root>

@@ -1,0 +1,24 @@
+﻿<Window x:Class="PDV_WPF.SenhaTecnico"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF"
+        mc:Ignorable="d"
+        Height="283" Width="500" KeyDown="PerguntaSenha_KeyDown" WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="True" AllowsTransparency="True">
+    <Border Background="#FFF9F9F9" CornerRadius="10" Margin="10">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
+        </Border.Effect>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Label Content="DIGITE A SENHA DO TÉCNICO" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15" FontFamily="Open Sans SemiBold" FontSize="24" FontStyle="Italic" Foreground="#FF757575"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border Background="#FF09CAAA" Margin="0,0,-1,0" Panel.ZIndex="1" >
+                    <Label Content="Ï" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Webdings" FontSize="37"/>
+                </Border>
+                <PasswordBox x:Name="txb_Senha" Width="305" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="28" Padding="3"/>
+            </StackPanel>
+            <Label Visibility="Collapsed" FontFamily="Open Sans" x:Name="lbl_Hora" Grid.Column="2" Margin="0,5" Grid.Row="3" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" Content="" VerticalContentAlignment="Center" FontSize="15" Foreground="#FF4D4D4D"/>
+        </StackPanel>
+    </Border>
+</Window>

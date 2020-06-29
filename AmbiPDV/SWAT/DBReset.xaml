@@ -1,0 +1,23 @@
+﻿<Page x:Class="PDV_WPF.SWAT.DBReset"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_WPF.SWAT"
+      mc:Ignorable="d" 
+      d:DesignHeight="504" d:DesignWidth="604"
+      Title="DBReset" HorizontalAlignment="Left" VerticalAlignment="Top">
+    <DockPanel Grid.Row="1" Name="stp_LimpaDB" Margin="10" LastChildFill="False">
+        <d:DesignerProperties.DesignStyle>
+            <Style TargetType="DockPanel">
+                <Setter Property="Background" Value="Red"/>
+            </Style>
+        </d:DesignerProperties.DesignStyle>
+        <TextBlock Margin="10" DockPanel.Dock="Top" Text="Limpeza/Reset da Base de Dados" HorizontalAlignment="Center" Foreground="White" FontSize="20" FontWeight="Light" FontFamily="Arial" FontStyle="Italic"/>
+        <TextBlock FontSize="16" Foreground="White" DockPanel.Dock="Top" Height="Auto" TextWrapping="Wrap"><Run Text="Esse procedimento é recomendado quando há a corrupção da base de contingência, ou quando o sincronizador sai dos trilhos. "/><LineBreak/><Run/><LineBreak/><Run Text="1. "/><Run Text="Clique no botão abaixo para apagar a base local. Será feito um backup automático com o nome CLIPP.FDB.backup."/></TextBlock>
+        <Button Name="but_RemoveContFDB" FontSize="16" FontWeight="DemiBold" DockPanel.Dock="Top" Content="Remover Base de Dados" Width="190" Margin="0,10" Click="Button_Click"/>
+        <TextBlock FontSize="16" Foreground="White"  DockPanel.Dock="Top" Height="Auto" TextWrapping="Wrap"><Run Text="2. Certifique-se que a base de dados do servidor está visível. Senão, faça uma cópia manualmente da base para um local nesta máquina (Área de Trabalho, ou Documentos)."/><LineBreak/><Run/><LineBreak/><Run Text="3. Com a base de dados do servidor disponível, clique no botão abaixo para copiar a base novamente."/></TextBlock>
+        <Button Name="but_CopiaFDB" IsEnabled="False" FontSize="16" FontWeight="DemiBold" DockPanel.Dock="Top" Content="Copiar Base de Dados" Width="190" Margin="0,10" Click="But_CopiaFDB_Click"/>
+        <TextBlock FontSize="16" Foreground="White"  DockPanel.Dock="Top" Height="Auto" TextWrapping="Wrap" Text="4. Caso tenha sido bem sucedido, o programa deverá ser fechado, e reaberto novamente a fim de que a base nova seja reconhecida."/>
+    </DockPanel>
+</Page>

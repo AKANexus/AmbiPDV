@@ -1,0 +1,34 @@
+﻿<Window xmlns:syncfusion="http://schemas.syncfusion.com/wpf"  x:Class="PDV_WPF.Telas.RemoverItem"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="RemoverItem" Height="175" Width="380" Background="{x:Null}" WindowStyle="None" WindowStartupLocation="Manual" Top="300" Left="135" ResizeMode="NoResize" AllowsTransparency="True">
+    <Border Background="#FFF0F0F0" Margin="10" CornerRadius="10">
+        <Border.Effect>
+            <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
+        </Border.Effect>
+        <StackPanel Orientation="Vertical">
+            <Label Content="Estornar Item do Cupom" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Foreground="#FF4D4D4D" FontSize="26" FontFamily="Open Sans" Margin="0,15,0,0"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25">
+                <Border Width="36" Height="36" Background="#FF09CAAA">
+                    <Viewbox Width="29.897" Height="21.925"
+  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Canvas Width="29.897" Height="21.925">
+                            <Path Fill="#ffffffff" Data="F1 M 11.259,17.561 C 11.312,17.715 11.456,17.819 11.618,17.820 C 16.182,17.820 20.885,17.820 25.548,17.840 L 25.548,17.840 C 25.757,17.851 25.936,17.691 25.947,17.482 C 25.958,17.273 25.797,17.094 25.588,17.083 C 25.575,17.083 25.561,17.083 25.548,17.083 C 20.965,17.063 16.361,17.063 11.877,17.063 C 11.339,15.449 10.877,13.894 10.382,12.240 C 10.123,11.363 9.844,10.467 9.565,9.570 C 9.346,8.753 9.107,8.016 8.788,7.059 C 8.170,5.006 6.935,1.001 6.915,0.959 C 6.867,0.802 6.720,0.696 6.556,0.700 L 5.819,0.700 C 5.747,0.286 5.382,-0.012 4.962,0.000 L 0.857,0.000 C 0.399,-0.015 0.015,0.345 0.000,0.803 C 0.000,0.808 0.000,0.813 0.000,0.817 L 0.000,1.335 C 0.007,1.794 0.384,2.160 0.842,2.153 C 0.847,2.153 0.852,2.153 0.857,2.152 L 4.962,2.152 C 5.380,2.158 5.741,1.863 5.819,1.452 L 6.277,1.452 C 6.577,2.389 7.532,5.537 8.070,7.271 L 8.070,7.291 C 8.389,8.228 8.608,8.965 8.827,9.762 L 8.827,9.782 C 9.106,10.682 9.385,11.575 9.644,12.452 C 10.163,14.133 10.681,15.847 11.259,17.561 Z"/>
+                            <Path Fill="#ffffffff" Data="F1 M 29.015,4.249 L 9.784,4.249 C 9.326,4.234 8.943,4.594 8.927,5.052 C 8.927,5.057 8.927,5.061 8.927,5.066 L 8.927,5.584 C 8.934,6.043 9.311,6.409 9.770,6.402 C 9.774,6.402 9.779,6.401 9.784,6.401 L 10.063,6.401 L 12.953,16.226 C 12.999,16.388 13.144,16.501 13.312,16.505 L 25.512,16.505 C 25.680,16.501 25.826,16.388 25.871,16.226 L 28.761,6.401 L 29.040,6.401 C 29.498,6.416 29.882,6.057 29.897,5.599 C 29.897,5.594 29.897,5.589 29.897,5.584 L 29.897,5.066 C 29.874,4.600 29.482,4.237 29.015,4.249 Z"/>
+                            <Path Fill="#ffffffff" Data="F1 M 11.617,17.979 C 10.527,17.979 9.644,18.863 9.644,19.952 C 9.644,21.042 10.527,21.925 11.617,21.925 C 12.707,21.925 13.590,21.042 13.590,19.952 C 13.580,18.867 12.703,17.989 11.617,17.979 Z"/>
+                            <Path Fill="#ffffffff" Data="F1 M 25.766,17.979 C 24.677,17.979 23.793,18.863 23.793,19.952 C 23.793,21.042 24.677,21.925 25.766,21.925 C 26.856,21.925 27.739,21.042 27.739,19.952 C 27.744,18.867 26.867,17.984 25.782,17.979 C 25.777,17.979 25.771,17.979 25.766,17.979 Z"/>
+                            <Path Fill="#ff08c9a9" Data="F1 M 18.913,14.436 C 16.965,14.436 15.386,12.857 15.386,10.909 C 15.386,8.962 16.965,7.382 18.913,7.382 C 20.861,7.382 22.440,8.961 22.440,10.909 L 22.440,10.909 C 22.436,12.856 20.859,14.432 18.913,14.436 Z M 18.913,6.604 C 16.547,6.604 14.628,8.523 14.628,10.889 C 14.628,13.256 16.547,15.174 18.913,15.174 C 21.280,15.174 23.198,13.256 23.198,10.889 C 23.195,8.524 21.278,6.608 18.913,6.604 Z"/>
+                            <Path StrokeThickness="1.0" Stroke="#ff08c9a9" StrokeMiterLimit="1.0" Data="F1 M 16.128,11.004 L 21.728,11.004"/>
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+                <TextBox x:Name="textBox1" Width="192" FontSize="16" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="Open Sans" Margin="-1,0,0,0" Panel.ZIndex="-1" Height="36" Padding="6,0,0,0" KeyDown="RemoveItem_KeyDown" AcceptsReturn="False"/>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>

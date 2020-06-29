@@ -1,0 +1,30 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        xmlns:PDV_WPF="clr-namespace:PDV_WPF" x:Class="PDV_WPF.Telas.ListaCupons"
+        mc:Ignorable="d"
+        Title="Parametros" Height="725" Width="700" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" PreviewKeyDown="Window_PreviewKeyDown">
+    <DockPanel Width="543" Height="704">
+        <Label DockPanel.Dock="Top" x:Name="lbl_Titulo" Content="Cancelamento de Cupom" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,10,0,10" Foreground="#FF08C9A9" FontSize="24" FontFamily="Open Sans" Padding="0"/>
+        <Label DockPanel.Dock="Top" x:Name="lbl_Subtitulo" Content="Cupons Fiscais Emitidos" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" Foreground="#FF4D4D4D" FontSize="18" FontFamily="Open Sans" Padding="0"/>
+        <Label DockPanel.Dock="Top" x:Name="lbl_Instrucoes" Content="Apenas cupons emitidos nos últimos 30 minutos podem ser cancelados pelo SAT." HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,0" FontSize="12" FontFamily="Open Sans" Padding="0" Foreground="Red"/>
+        <DataGrid SelectionUnit="FullRow" Language="pt-BR" FontSize="14" x:Name="tRI_PDV_SAT_XMLDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected" Margin="10" IsReadOnly="True" HeadersVisibility="Column" ItemsSource="{Binding}" AutoGenerateColumns="False" LayoutUpdated="TRI_PDV_SAT_XMLDataGrid_LayoutUpdated" KeyDown="TRI_PDV_SAT_XMLDataGrid_KeyDown" SelectionMode="Single">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn x:Name="vALOR_TOTALColumn" Binding="{Binding VALOR_TOTAL, StringFormat=C}" Header="VALOR" Width="*"/>
+                <DataGridTextColumn x:Name="tSVENDAColumn" Binding="{Binding TS_VENDA}" Header="HORA VENDA" Width="*"/>
+                <DataGridTextColumn x:Name="cOUNTDOWNColumn" Binding="{Binding Countdown, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Header="TEMPO REST." Width="*"/>
+                <!--<DataGridTextColumn x:Name="cHAVE_CFEColumn" Binding="{Binding CHAVE_CFE}" Header="CHAVE" Width="*" Visibility="Collapsed"/>
+                <DataGridTextColumn x:Name="iD_CUPOMColumn" Binding="{Binding ID_CUPOM}" Header="CHAVE" Width="*" Visibility="Collapsed"/>
+                <DataGridTextColumn x:Name="nUM_CAIXAColumn" Binding="{Binding NUM_CAIXA}" Header="CHAVE" Width="*" Visibility="Collapsed"/>-->
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

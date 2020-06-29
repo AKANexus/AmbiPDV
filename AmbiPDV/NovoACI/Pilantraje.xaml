@@ -1,0 +1,25 @@
+﻿<Page x:Class="PDV_WPF.NovoACI.Pilantraje"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_WPF.NovoACI"
+      mc:Ignorable="d" 
+      Title="Pilantraje" >
+
+    <DockPanel Height="406" Width="493">
+        <TextBlock DockPanel.Dock="Top" TextWrapping="Wrap" Margin="15,15,15,10" FontSize="17" FontFamily="Open Sans" TextAlignment="Justify" Height="342"><Run Text="IMPORTANTE"/><LineBreak/><Run FontWeight="Bold" Text="Aviso de Responsabilidade Legal"/><LineBreak/><Run FontWeight="Bold"/><LineBreak/><Run FontSize="14" Text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."/><LineBreak/><Run FontSize="14"/><LineBreak/><Run FontWeight="Bold" FontSize="14" Text="Se concorda com o que está acima, c"/><Run FontWeight="Bold" FontSize="14" Text="lique em "/><Run FontWeight="Bold" FontSize="14" Text="continuar"/><Run FontWeight="Bold" FontSize="14" Text="!!"/></TextBlock>
+        <UniformGrid DockPanel.Dock="Bottom" Columns="3" VerticalAlignment="Center" Margin="10,0">
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="but_Prev_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Cancelar" x:Name="lbl_Prev"/></TextBlock>
+            </Border>
+            <Border Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" Visibility="Hidden" HorizontalAlignment="Center">
+                <TextBlock Foreground="White"><Run FontSize="20" FontFamily="Open Sans" Text="Pula corda" x:Name="lbl_Action"/></TextBlock>
+            </Border>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" MouseDown="but_Next_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Continuar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            </Border>
+        </UniformGrid>
+
+    </DockPanel>
+</Page>
