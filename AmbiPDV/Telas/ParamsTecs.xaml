@@ -46,8 +46,8 @@
                         <ComboBox Margin="7, 0" Name="cbb_Marca" SelectionChanged="cbb_Marca_SelectionChanged">
                             <ComboBoxItem>Nenhuma</ComboBoxItem>
                             <ComboBoxItem>Genérica</ComboBoxItem>
-                            <ComboBoxItem IsEnabled="False">Toledo</ComboBoxItem>
-                            <ComboBoxItem>Filizola</ComboBoxItem>
+                            <ComboBoxItem>Toledo</ComboBoxItem>
+                            <ComboBoxItem IsEnabled="False">Filizola</ComboBoxItem>
                         </ComboBox>
                     </StackPanel>
 
