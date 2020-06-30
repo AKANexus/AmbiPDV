@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         mc:Ignorable="d"
-        Title="ListaSanSup" Height="469" Width="737.864" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+        Title="ListaSanSup" Height="469" KeyDown="Window_KeyDown"  Width="737.864" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
     <Border Margin="10" CornerRadius="10">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>

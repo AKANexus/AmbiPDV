@@ -1,5 +1,6 @@
 ﻿using Clearcove.Logging;
 using FirebirdSql.Data.FirebirdClient;
+using MySql.Data.MySqlClient;
 using NetFwTypeLib;
 using PDV_WPF.Configuracoes;
 using PDV_WPF.Funcoes;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -746,6 +748,7 @@ namespace PDV_WPF
                         Application.Current.Shutdown();
                     }
                     VerificarLicencaOnline(serial);
+                    VerificarSQLRemoto(serial);
                 }
                 else
                 {
@@ -759,6 +762,23 @@ namespace PDV_WPF
                 MessageBox.Show("Erro ao aplicar controle de clicenca. O programa será fechado.");
                 Application.Current.Shutdown();
             }
+        }
+
+        private void VerificarSQLRemoto(string serial)
+        {
+            //using var md5Hash = new HMACMD5(Encoding.UTF8.GetBytes("Mah"));
+            //string hash =             
+
+            using var CerealConn = new MySqlConnection("server=turkeyshit.mysql.dbaas.com.br;user id=turkeyshit;password=Pfes2018;persistsecurityinfo=True;database=turkeyshit;ConvertZeroDateTime=True");
+            using var CerealComm = new MySqlCommand();
+            CerealComm.Connection = CerealConn;
+            CerealComm.CommandType = CommandType.Text;
+            CerealComm.Parameters.AddWithValue("@SERIAL", serial);
+            CerealComm.CommandText = "SELECT * FROM REMOTESQL WHERE PK_SERIAL = @SERIAL";
+            CerealConn.Open();
+            var SQL_DT = new DataTable();
+            SQL_DT.Load(CerealComm.ExecuteReader());
+
         }
 
         ///// <summary>

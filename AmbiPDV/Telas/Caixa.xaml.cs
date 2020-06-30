@@ -415,6 +415,10 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
+                    if (!PedeSenhaGerencial("LISTANDO REIMPRESSÃO DE SANGRIAS"))
+                    {
+                        return;
+                    }
                     new ListaSanSup().ShowDialog();
 
                 });

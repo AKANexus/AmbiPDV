@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Input;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 
@@ -49,6 +50,16 @@ namespace PDV_WPF.Telas
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             CarregaSangrias(dtp_DataInicial.SelectedDate.GetValueOrDefault(), dtp_DataFinal.SelectedDate.GetValueOrDefault().AddDays(1));
+        }
+
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                //e.Handled = true;
+
+                this.Close();
+            }
         }
     }
 
