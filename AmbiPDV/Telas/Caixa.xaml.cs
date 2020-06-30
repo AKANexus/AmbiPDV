@@ -3091,7 +3091,15 @@ namespace PDV_WPF.Telas
                     resultado = DecisaoWhats.NaoImprime;
                     break;
                 case 1:
-                    resultado = DecisaoComprovante(false);
+                    switch (SYSUSAWHATS.ToBool())
+                    {
+                        case false:
+                            resultado = DecisaoWhats.ImpressaoNormal;
+                            break;
+                        default:
+                            resultado = DecisaoComprovante(false);
+                            break;
+                    }
                     break;
                 default:
                     resultado = DecisaoComprovante(true);
