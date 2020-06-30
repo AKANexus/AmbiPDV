@@ -12,6 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.Configuracoes;
 
 namespace PDV_WPF
 {
@@ -91,8 +92,6 @@ namespace PDV_WPF
                 if (conf.Length != 2) { DialogBox.Show("Configuração", DialogBoxButtons.No, DialogBoxIcons.None, false, "Caminho da Base de dados incorretamente preenchido.", "Verifique e tente novamente"); return; }
                 SERVERCATALOG = conf[1];
                 SERVERNAME = conf[0];
-                Settings.Default.Save();
-                Settings.Default.Reload();
                 var _funcoes = new funcoesClass();
                 _funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
                 switch (_funcoes.TestaConexaoComServidor(SERVERNAME, SERVERCATALOG, FBTIMEOUT))
@@ -115,8 +114,8 @@ namespace PDV_WPF
                 if (conf.Length != 2) { DialogBox.Show("Configuração", DialogBoxButtons.No, DialogBoxIcons.None, false, "Caminho da Base de dados incorretamente preenchido.", "Verifique e tente novamente"); return; }
                 SERVERCATALOG = conf[1];
                 SERVERNAME = conf[0];
-                Settings.Default.Save();
-                Settings.Default.Reload();
+                ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
+                configuracoesXML.Serializa();
                 DialogBox.Show("Configurações salvas", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Para a alteração do banco de dados, o programa deverá ser reiniciado");
                 DialogResult = null;
                 this.Close();
@@ -324,8 +323,11 @@ namespace PDV_WPF
                 #endregion AmbiMAITRE
                 BALMODELO = cbb_Marca.SelectedIndex.Safeshort();
                 ACREFERENCIA = tgl_Referencia.IsChecked.ToShort();
-                Settings.Default.Save();
-                Settings.Default.Reload();
+                string[] dbinfo = txb_DB.Text.Split('|');
+                SERVERCATALOG = dbinfo[1];
+                SERVERNAME = dbinfo[0];
+                ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
+                configuracoesXML.Serializa();
                 MessageBox.Show("Configurações Salvas.");
                 Close();
             }
@@ -345,6 +347,7 @@ namespace PDV_WPF
         {
 
         }
+
     }
 
 }

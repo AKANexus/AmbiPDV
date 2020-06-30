@@ -545,6 +545,9 @@ namespace PDV_WPF.Configuracoes
         public static int ACFILLDELAY { get; set; }
         public static short SYSUSAWHATS { get; set; }
         public static short SYSPARCELA { get; set; }
+        /// <summary>
+        /// 0 = Não emite, 1 = sempre emite, 2 = pergunta se emite
+        /// </summary>
         public static short SYSEMITECOMPROVANTE { get; set; }
         public static bool CONFIGURADO { get; set; }
 
@@ -832,19 +835,20 @@ namespace PDV_WPF.Configuracoes
     {
         private XmlSerializer serializer = new XmlSerializer(typeof(CONFIGURACOESXML));
 
-        //public void Serializa(CONFIGURACOESXML cONFIGURACOESXML)
-        //{
-        //    var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = true, Indent = true };
-        //    var XMLPendFinal = new StringBuilder();
+        public void Serializa()
+        {
+            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML() { FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT, LOGO = ConfiguracoesPDV.LOGO, NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE, SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG, SERVERNAME = ConfiguracoesPDV.SERVERNAME };
+            var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = true, Indent = true };
+            var XMLPendFinal = new StringBuilder();
 
-        //    using (XmlWriter writer = XmlWriter.Create(XMLPendFinal, settings))
-        //    {
-        //        var xns = new XmlSerializerNamespaces();
-        //        xns.Add(string.Empty, string.Empty);
-        //        serializer.Serialize(writer, cONFIGURACOESXML, xns);
-        //    }
-        //    File.WriteAllText($@"{AppDomain.CurrentDomain.BaseDirectory}teste.txt", XMLPendFinal.ToString());
-        //}
+            using (XmlWriter writer = XmlWriter.Create(XMLPendFinal, settings))
+            {
+                var xns = new XmlSerializerNamespaces();
+                xns.Add(string.Empty, string.Empty);
+                serializer.Serialize(writer, cONFIGURACOESXML, xns);
+            }
+            File.WriteAllText($@"{AppDomain.CurrentDomain.BaseDirectory}config.xml", XMLPendFinal.ToString());
+        }
 
         public CONFIGURACOESXML Deserializa()
         {
@@ -861,6 +865,7 @@ namespace PDV_WPF.Configuracoes
         public int FBTIMEOUT { get; set; }
         public string SERVERNAME { get; set; }
         public string SERVERCATALOG { get; set; }
+
 
     }
 
