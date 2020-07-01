@@ -5906,8 +5906,7 @@ namespace PDV_WPF.Telas
             bool _permissao;
             if (PEDESENHACANCEL)
             {
-                var senha = new perguntaSenha("Removendo Item da Venda");
-                _permissao = senha.ShowDialog() ?? false;
+                _permissao = PedeSenhaGerencial("Removendo item da venda");
             }
             else
             {
