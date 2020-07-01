@@ -92,6 +92,7 @@ namespace PDV_WPF
                 if (conf.Length != 2) { DialogBox.Show("Configuração", DialogBoxButtons.No, DialogBoxIcons.None, false, "Caminho da Base de dados incorretamente preenchido.", "Verifique e tente novamente"); return; }
                 SERVERCATALOG = conf[1];
                 SERVERNAME = conf[0];
+                SalvaConfigsNaBase();
                 var _funcoes = new funcoesClass();
                 _funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
                 switch (_funcoes.TestaConexaoComServidor(SERVERNAME, SERVERCATALOG, FBTIMEOUT))
@@ -114,6 +115,7 @@ namespace PDV_WPF
                 if (conf.Length != 2) { DialogBox.Show("Configuração", DialogBoxButtons.No, DialogBoxIcons.None, false, "Caminho da Base de dados incorretamente preenchido.", "Verifique e tente novamente"); return; }
                 SERVERCATALOG = conf[1];
                 SERVERNAME = conf[0];
+                SalvaConfigsNaBase();
                 ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
                 configuracoesXML.Serializa();
                 DialogBox.Show("Configurações salvas", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Para a alteração do banco de dados, o programa deverá ser reiniciado");
