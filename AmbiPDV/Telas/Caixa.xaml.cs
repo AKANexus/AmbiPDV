@@ -214,7 +214,14 @@ namespace PDV_WPF.Telas
             {
                 allowkeys = true;
             }
-            InicializarCaixa(_contingencia);
+            try
+            {
+                InicializarCaixa(_contingencia);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         #endregion (De)Constructor
@@ -4291,10 +4298,18 @@ namespace PDV_WPF.Telas
             switch (SYSEMITECOMPROVANTE)
             {
                 case 0:
-                    resultado = DecisaoWhats.NaoImprime;
+                    resultado = DecisaoWhats.ImpressaoNormal;
                     break;
                 case 1:
-                    resultado = DecisaoComprovante(false);
+                    switch (SYSUSAWHATS.ToBool())
+                    {
+                        case false:
+                            resultado = DecisaoWhats.ImpressaoNormal;
+                            break;
+                        default:
+                            resultado = DecisaoComprovante(false);
+                            break;
+                    }
                     break;
                 default:
                     resultado = DecisaoComprovante(true);
@@ -4302,6 +4317,7 @@ namespace PDV_WPF.Telas
             }
 
             switch (resultado)
+
             {
                 case DecisaoWhats.Whats:
                     PerguntaNumWhats whats = new PerguntaNumWhats(ChaveCFEWhats, vendaAtual);
@@ -4446,10 +4462,12 @@ namespace PDV_WPF.Telas
             switch (ACFILLMODE)
             {
                 case 0:
+                    log.Debug($"ACFILLMODE: StartsWith");
                     ACBox.FilterMode = AutoCompleteFilterMode.StartsWith;
                     break;
                 case 1:
                 default:
+                    log.Debug($"ACFILLMODE: Contains");
                     ACBox.FilterMode = AutoCompleteFilterMode.Contains;
                     break;
             }

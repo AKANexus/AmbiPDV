@@ -34205,13 +34205,13 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, DESC_MAX_OP = @pDES
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE OR INSERT INTO TRI_PDV_VALID_ONLINE (PK_SERIAL) VALUES (@Serial) MATCHING " +
-                "(PK_SERIAL)";
+            this._commandCollection[4].CommandText = "UPDATE TRI_PDV_VALID_ONLINE SET PK_SERIAL = @Serial";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Serial";
+            param.Size = 18;
             param.IsNullable = true;
-            param.SourceColumn = null;
+            param.SourceColumn = "PK_SERIAL";
             this._commandCollection[4].Parameters.Add(param);
         }
         
@@ -34398,10 +34398,10 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, DESC_MAX_OP = @pDES
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
-        public virtual int UpdinstSerial(string Serial) {
+        public virtual int UpdateSerial(string Serial) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
             if ((Serial == null)) {
-                throw new global::System.ArgumentNullException("Serial");
+                command.Parameters[0].Value = global::System.DBNull.Value;
             }
             else {
                 command.Parameters[0].Value = ((string)(Serial));

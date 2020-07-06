@@ -383,33 +383,7 @@ namespace PDV_WPF.Configuracoes
             }
         }
 
-        private static string _dETALHADESCONTO;
-        public static bool DETALHADESCONTO
-        {
-            get
-            {
-                switch (_dETALHADESCONTO)
-                {
-                    case "S":
-                        return true;
-                    case "N":
-                    default:
-                        return false;
-                }
-            }
-            set
-            {
-                switch (value)
-                {
-                    case true:
-                        _dETALHADESCONTO = "S";
-                        break;
-                    case false:
-                        _dETALHADESCONTO = "N";
-                        break;
-                }
-            }
-        }
+        public static bool DETALHADESCONTO { get; set; }
 
         public static int COD10PORCENTO;
 
@@ -669,7 +643,7 @@ namespace PDV_WPF.Configuracoes
                         }
                         else
                         {
-                            SETUP_TA.UpdateSetup(1, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DESCONTO_MAXIMO, _uSARECARGAS, _dETALHADESCONTO, COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
+                            SETUP_TA.UpdateSetup(1, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DESCONTO_MAXIMO, _uSARECARGAS, DETALHADESCONTO.ToInt().ToString(), COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
                         }
                     }
                     using (var fbCommGetNoCaixaAuxConfigLocal = new FbCommand())
@@ -739,13 +713,13 @@ namespace PDV_WPF.Configuracoes
             using var CONFIG_DT = new DataSets.FDBDataSetConfig.TRI_PDV_CONFIGDataTable();
             using var SETUP_TA = new FDBDataSetTableAdapters.TRI_PDV_SETUPTableAdapter();
             using var fbConnectionServ = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }; //"localhost", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\LocalDB\CLIPP.FDB") })
-            using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+            //using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             using var fbCommand = new FbCommand
             {
-                Connection = LOCAL_FB_CONN,
+                Connection = fbConnectionServ,
                 CommandType = System.Data.CommandType.Text
             };
-            SETUP_TA.Connection = LOCAL_FB_CONN;
+            SETUP_TA.Connection = fbConnectionServ;
             fbCommand.Parameters.AddWithValue("@pID_MAC", funcoes.GetSerialHexNumberFromExecDisk());
             fbCommand.CommandText = "SELECT * " +
                                         "FROM TRI_PDV_CONFIG WHERE ID_MAC = @pID_MAC";

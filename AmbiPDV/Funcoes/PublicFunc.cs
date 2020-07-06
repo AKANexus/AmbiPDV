@@ -936,7 +936,7 @@ namespace PDV_WPF
                 {
                     versao_IBPT_server = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/VER_IBPT");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     versao_IBPT_server = versao_IBPT_local;
                 }

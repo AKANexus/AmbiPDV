@@ -5876,116 +5876,99 @@ END;";
                 "DV_CONFIG_AUX_UPD_SYNC_UPD;\';\r\nerro = \'create TRI_PDV_CONFIG_AUX_UPD_SYNC_UPD\';\r" +
                 "\nEXECUTE STATEMENT \'CREATE TRIGGER TRI_PDV_CONFIG_AUX_UPD_SYNC_UPD FOR TRI_PDV_C" +
                 "ONFIG ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO" +
-                "_CAIXA; BEGIN IF (old.ID_MAC IS DISTINCT FROM new.ID_MAC OR old.NO_CAIXA IS DIST" +
-                "INCT FROM new.NO_CAIXA OR old.EXIGE_SANGRIA IS DISTINCT FROM new.EXIGE_SANGRIA O" +
-                "R old.VALOR_MAX_CAIXA IS DISTINCT FROM new.VALOR_MAX_CAIXA OR old.BLOQUEIA_NO_LI" +
-                "MITE IS DISTINCT FROM new.BLOQUEIA_NO_LIMITE OR old.VALOR_DE_FOLGA IS DISTINCT F" +
-                "ROM new.VALOR_DE_FOLGA OR old.PERMITE_FOLGA_SANGRIA IS DISTINCT FROM new.PERMITE" +
-                "_FOLGA_SANGRIA OR old.INTERROMPE_NAO_ENCONTRADO IS DISTINCT FROM new.INTERROMPE_" +
-                "NAO_ENCONTRADO OR old.MENSAGEM_CORTESIA IS DISTINCT FROM new.MENSAGEM_CORTESIA O" +
-                "R old.ICMS_CONT IS DISTINCT FROM new.ICMS_CONT OR old.CSOSN_CONT IS DISTINCT FRO" +
-                "M new.CSOSN_CONT OR old.PEDE_CPF IS DISTINCT FROM new.PEDE_CPF OR old.PERMITE_ES" +
-                "TOQUE_NEGATIVO IS DISTINCT FROM new.PERMITE_ESTOQUE_NEGATIVO OR old.MODELO_CUPOM" +
-                " IS DISTINCT FROM new.MODELO_CUPOM OR old.MENSAGEM_RODAPE IS DISTINCT FROM new.M" +
-                "ENSAGEM_RODAPE OR old.MODELO_SAT IS DISTINCT FROM new.MODELO_SAT OR old.SATSERVI" +
-                "DOR IS DISTINCT FROM new.SATSERVIDOR OR old.SAT_CODATIV IS DISTINCT FROM new.SAT" +
-                "_CODATIV OR old.SIGN_AC IS DISTINCT FROM new.SIGN_AC OR old.SAT_USADO IS DISTINC" +
-                "T FROM new.SAT_USADO OR old.ECF_ATIVA IS DISTINCT FROM new.ECF_ATIVA OR old.ECF_" +
-                "PORTA IS DISTINCT FROM new.ECF_PORTA OR old.IMPRESSORA_USB IS DISTINCT FROM new." +
-                "IMPRESSORA_USB OR old.IMPRESSORA_USB_PED IS DISTINCT FROM new.IMPRESSORA_USB_PED" +
-                " ) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VN" +
-                "UMCAIXA DO BEGIN IF ( ( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE UN_REG = old" +
-                ".ID_MAC AND TABELA = \'\'TRI_PDV_CONFIG\'\' AND ( OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U" +
-                "\'\' ) AND NO_CAIXA = :VNUMCAIXA ) = 0 ) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (" +
+                "_CAIXA; BEGIN  FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :V" +
+                "NUMCAIXA DO BEGIN IF ( ( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE UN_REG = ol" +
+                "d.ID_MAC AND TABELA = \'\'TRI_PDV_CONFIG\'\' AND ( OPERACAO = \'\'I\'\' OR OPERACAO = \'\'" +
+                "U\'\' ) AND NO_CAIXA = :VNUMCAIXA ) = 0 ) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC " +
+                "( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_R" +
+                "EG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , -1 , \'\'TRI_PDV_CONFIG\'\' , \'\'U\'\' " +
+                ", :VNUMCAIXA , CURRENT_TIMESTAMP , old.ID_MAC , NULL , NULL ); END END END;\';\r\n\r" +
+                "\nerro = \'drop TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL\';\r\nif (exists(select 1 from RDB$TR" +
+                "IGGERS where RDB$TRIGGER_NAME = \'TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL\'))\r\nthen\r\nEXECU" +
+                "TE STATEMENT \'DROP TRIGGER TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL;\';\r\nerro = \'create TR" +
+                "I_PDV_CONFIG_AUX_UPD_SYNC_DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TRI_PDV_CONFI" +
+                "G_AUX_UPD_SYNC_DEL FOR TRI_PDV_CONFIG ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA " +
+                "TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_" +
+                "CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (" +
                 " SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_RE" +
-                "G ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , -1 , \'\'TRI_PDV_CONFIG\'\' , \'\'U\'\' ," +
-                " :VNUMCAIXA , CURRENT_TIMESTAMP , old.ID_MAC , NULL , NULL ); END END END END;\';" +
-                "\r\n\r\nerro = \'drop TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL\';\r\nif (exists(select 1 from RDB" +
-                "$TRIGGERS where RDB$TRIGGER_NAME = \'TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL\'))\r\nthen\r\nEX" +
-                "ECUTE STATEMENT \'DROP TRIGGER TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL;\';\r\nerro = \'create" +
-                " TRI_PDV_CONFIG_AUX_UPD_SYNC_DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TRI_PDV_CO" +
-                "NFIG_AUX_UPD_SYNC_DEL FOR TRI_PDV_CONFIG ACTIVE BEFORE DELETE AS DECLARE VNUMCAI" +
-                "XA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_P" +
-                "DV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYN" +
-                "C ( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH" +
-                "_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , -1 , \'\'TRI_PDV_CONFIG\'\' , \'\'D\'\'" +
-                " , :VNUMCAIXA , CURRENT_TIMESTAMP , old.ID_MAC , NULL , null ) ; END END;\';\r\n\r\ne" +
-                "rro = \'drop TB_NATOPER_AUX_UPD_SYNC_INS\';\r\nif (exists(select 1 from RDB$TRIGGERS" +
-                " where RDB$TRIGGER_NAME = \'TB_NATOPER_AUX_UPD_SYNC_INS\'))\r\nthen\r\nEXECUTE STATEME" +
-                "NT \'DROP TRIGGER TB_NATOPER_AUX_UPD_SYNC_INS;\';\r\nerro = \'create TB_NATOPER_AUX_U" +
-                "PD_SYNC_INS\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_NATOPER_AUX_UPD_SYNC_INS FOR" +
-                " TB_NAT_OPERACAO ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PD" +
+                "G ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , -1 , \'\'TRI_PDV_CONFIG\'\' , \'\'D\'\' , " +
+                ":VNUMCAIXA , CURRENT_TIMESTAMP , old.ID_MAC , NULL , null ) ; END END;\';\r\n\r\nerro" +
+                " = \'drop TB_NATOPER_AUX_UPD_SYNC_INS\';\r\nif (exists(select 1 from RDB$TRIGGERS wh" +
+                "ere RDB$TRIGGER_NAME = \'TB_NATOPER_AUX_UPD_SYNC_INS\'))\r\nthen\r\nEXECUTE STATEMENT " +
+                "\'DROP TRIGGER TB_NATOPER_AUX_UPD_SYNC_INS;\';\r\nerro = \'create TB_NATOPER_AUX_UPD_" +
+                "SYNC_INS\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_NATOPER_AUX_UPD_SYNC_INS FOR TB" +
+                "_NAT_OPERACAO ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_C" +
+                "ONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA" +
+                " INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABELA ," +
+                " OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(GEN_" +
+                "PDV_AUX_SYNC_SEQ, 1) , new.ID_NATOPE , \'\'TB_NAT_OPERACAO\'\' , \'\'I\'\' , :VNUMCAIXA " +
+                ", CURRENT_TIMESTAMP , null , null , null ) ; END END;\';\r\n\r\nerro = \'drop TB_NATOP" +
+                "ER_AUX_UPD_SYNC_UPD\';\r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_N" +
+                "AME = \'TB_NATOPER_AUX_UPD_SYNC_UPD\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGGER TB_" +
+                "NATOPER_AUX_UPD_SYNC_UPD;\';\r\nerro = \'create TB_NATOPER_AUX_UPD_SYNC_UPD\';\r\nEXECU" +
+                "TE STATEMENT \'CREATE TRIGGER TB_NATOPER_AUX_UPD_SYNC_UPD FOR TB_NAT_OPERACAO ACT" +
+                "IVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; " +
+                "BEGIN IF ( old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.RET_PIS_COF_CSLL " +
+                "IS DISTINCT FROM new.RET_PIS_COF_CSLL OR old.RET_INSS IS DISTINCT FROM new.RET_I" +
+                "NSS OR old.RET_IRRF IS DISTINCT FROM new.RET_IRRF OR old.PIS_COFINS IS DISTINCT " +
+                "FROM new.PIS_COFINS OR old.STATUS IS DISTINCT FROM new.STATUS OR old.CFOP IS DIS" +
+                "TINCT FROM new.CFOP OR old.ID_CTI IS DISTINCT FROM new.ID_CTI OR old.GFR IS DIST" +
+                "INCT FROM new.GFR OR old.OBSERVACAO IS DISTINCT FROM new.OBSERVACAO OR old.BASE_" +
+                "COMISSAO IS DISTINCT FROM new.BASE_COMISSAO OR old.CALCULA_IPI IS DISTINCT FROM " +
+                "new.CALCULA_IPI OR old.GRAVA_TOT_TRIBUTOS IS DISTINCT FROM new.GRAVA_TOT_TRIBUTO" +
+                "S) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VN" +
+                "UMCAIXA DO BEGIN IF ( ( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old" +
+                ".ID_NATOPE AND TABELA = \'\'TB_NAT_OPERACAO\'\' AND ( OPERACAO = \'\'I\'\' OR OPERACAO =" +
+                " \'\'U\'\' ) AND NO_CAIXA = :VNUMCAIXA ) = 0 ) THEN BEGIN INSERT INTO TRI_PDV_AUX_SY" +
+                "NC ( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , C" +
+                "H_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_NATOPE , \'\'TB_NAT_OPER" +
+                "ACAO\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , null , null ) ; END END" +
+                " END END;\';\r\n\r\nerro = \'drop TB_NATOPER_AUX_UPD_SYNC_DEL\';\r\nif (exists(select 1 f" +
+                "rom RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_NATOPER_AUX_UPD_SYNC_DEL\'))\r\nthen\r" +
+                "\nEXECUTE STATEMENT \'DROP TRIGGER TB_NATOPER_AUX_UPD_SYNC_DEL;\';\r\nerro = \'create " +
+                "TB_NATOPER_AUX_UPD_SYNC_DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_NATOPER_AUX_" +
+                "UPD_SYNC_DEL FOR TB_NAT_OPERACAO ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE " +
+                "OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFI" +
+                "G ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ " +
+                ", ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) V" +
+                "ALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_NATOPE , \'\'TB_NAT_OPERACAO\'\' , \'" +
+                "\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , null , null ) ; END END;\';\r\n\r\nerr" +
+                "o = \'drop TB_FMAPGTONFCE_AUX_UPD_SYNC_INS\';\r\nif (exists(select 1 from RDB$TRIGGE" +
+                "RS where RDB$TRIGGER_NAME = \'TB_FMAPGTONFCE_AUX_UPD_SYNC_INS\'))\r\nthen\r\nEXECUTE S" +
+                "TATEMENT \'DROP TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_INS;\';\r\nerro = \'create TB_FMA" +
+                "PGTONFCE_AUX_UPD_SYNC_INS\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_FMAPGTONFCE_AU" +
+                "X_UPD_SYNC_INS FOR TB_FORMA_PAGTO_NFCE ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA" +
+                " TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV" +
+                "_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC " +
+                "( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_R" +
+                "EG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' , \'" +
+                "\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , new.ID_FMANFCE , null ) ; END END" +
+                ";\';\r\n\r\nerro = \'drop TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD\';\r\nif (exists(select 1 from " +
+                "RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD\'))\r\nthen\r" +
+                "\nEXECUTE STATEMENT \'DROP TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD;\';\r\nerro = \'cre" +
+                "ate TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_FMAP" +
+                "GTONFCE_AUX_UPD_SYNC_UPD FOR TB_FORMA_PAGTO_NFCE ACTIVE BEFORE UPDATE AS DECLARE" +
+                " VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF ( old.STATUS IS DIS" +
+                "TINCT FROM new.STATUS OR old.ID_NFCE IS DISTINCT FROM new.ID_NFCE OR old.DESCRIC" +
+                "AO IS DISTINCT FROM new.DESCRICAO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_C" +
+                "ONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ( ( SELECT COUNT(1) FROM TRI" +
+                "_PDV_AUX_SYNC WHERE SM_REG = old.ID_FMANFCE AND TABELA = \'\'TB_FORMA_PAGTO_NFCE\'\'" +
+                " AND ( OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\' ) AND NO_CAIXA = :VNUMCAIXA ) = 0 ) " +
+                "THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABELA , OPERACAO , NO_" +
+                "CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SE" +
+                "Q, 1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , " +
+                "null , old.ID_FMANFCE , null ) ; END END END END;\';\r\n\r\nerro = \'drop TB_FMAPGTONF" +
+                "CE_AUX_UPD_SYNC_DEL\';\r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_N" +
+                "AME = \'TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGGER" +
+                " TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL;\';\r\nerro = \'create TB_FMAPGTONFCE_AUX_UPD_SYNC_" +
+                "DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL FOR TB_" +
+                "FORMA_PAGTO_NFCE ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PD" +
                 "V_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CA" +
                 "IXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABEL" +
                 "A , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(G" +
-                "EN_PDV_AUX_SYNC_SEQ, 1) , new.ID_NATOPE , \'\'TB_NAT_OPERACAO\'\' , \'\'I\'\' , :VNUMCAI" +
-                "XA , CURRENT_TIMESTAMP , null , null , null ) ; END END;\';\r\n\r\nerro = \'drop TB_NA" +
-                "TOPER_AUX_UPD_SYNC_UPD\';\r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGE" +
-                "R_NAME = \'TB_NATOPER_AUX_UPD_SYNC_UPD\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGGER " +
-                "TB_NATOPER_AUX_UPD_SYNC_UPD;\';\r\nerro = \'create TB_NATOPER_AUX_UPD_SYNC_UPD\';\r\nEX" +
-                "ECUTE STATEMENT \'CREATE TRIGGER TB_NATOPER_AUX_UPD_SYNC_UPD FOR TB_NAT_OPERACAO " +
-                "ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA" +
-                " ; BEGIN IF ( old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.RET_PIS_COF_CS" +
-                "LL IS DISTINCT FROM new.RET_PIS_COF_CSLL OR old.RET_INSS IS DISTINCT FROM new.RE" +
-                "T_INSS OR old.RET_IRRF IS DISTINCT FROM new.RET_IRRF OR old.PIS_COFINS IS DISTIN" +
-                "CT FROM new.PIS_COFINS OR old.STATUS IS DISTINCT FROM new.STATUS OR old.CFOP IS " +
-                "DISTINCT FROM new.CFOP OR old.ID_CTI IS DISTINCT FROM new.ID_CTI OR old.GFR IS D" +
-                "ISTINCT FROM new.GFR OR old.OBSERVACAO IS DISTINCT FROM new.OBSERVACAO OR old.BA" +
-                "SE_COMISSAO IS DISTINCT FROM new.BASE_COMISSAO OR old.CALCULA_IPI IS DISTINCT FR" +
-                "OM new.CALCULA_IPI OR old.GRAVA_TOT_TRIBUTOS IS DISTINCT FROM new.GRAVA_TOT_TRIB" +
-                "UTOS) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO " +
-                ":VNUMCAIXA DO BEGIN IF ( ( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = " +
-                "old.ID_NATOPE AND TABELA = \'\'TB_NAT_OPERACAO\'\' AND ( OPERACAO = \'\'I\'\' OR OPERACA" +
-                "O = \'\'U\'\' ) AND NO_CAIXA = :VNUMCAIXA ) = 0 ) THEN BEGIN INSERT INTO TRI_PDV_AUX" +
-                "_SYNC ( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG " +
-                ", CH_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_NATOPE , \'\'TB_NAT_O" +
-                "PERACAO\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , null , null ) ; END " +
-                "END END END;\';\r\n\r\nerro = \'drop TB_NATOPER_AUX_UPD_SYNC_DEL\';\r\nif (exists(select " +
-                "1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_NATOPER_AUX_UPD_SYNC_DEL\'))\r\nth" +
-                "en\r\nEXECUTE STATEMENT \'DROP TRIGGER TB_NATOPER_AUX_UPD_SYNC_DEL;\';\r\nerro = \'crea" +
-                "te TB_NATOPER_AUX_UPD_SYNC_DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_NATOPER_A" +
-                "UX_UPD_SYNC_DEL FOR TB_NAT_OPERACAO ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TY" +
-                "PE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CO" +
-                "NFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( S" +
-                "EQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG " +
-                ") VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_NATOPE , \'\'TB_NAT_OPERACAO\'\' " +
-                ", \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , null , null ) ; END END;\';\r\n\r\n" +
-                "erro = \'drop TB_FMAPGTONFCE_AUX_UPD_SYNC_INS\';\r\nif (exists(select 1 from RDB$TRI" +
-                "GGERS where RDB$TRIGGER_NAME = \'TB_FMAPGTONFCE_AUX_UPD_SYNC_INS\'))\r\nthen\r\nEXECUT" +
-                "E STATEMENT \'DROP TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_INS;\';\r\nerro = \'create TB_" +
-                "FMAPGTONFCE_AUX_UPD_SYNC_INS\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_FMAPGTONFCE" +
-                "_AUX_UPD_SYNC_INS FOR TB_FORMA_PAGTO_NFCE ACTIVE BEFORE INSERT AS DECLARE VNUMCA" +
-                "IXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_" +
-                "PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SY" +
-                "NC ( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , C" +
-                "H_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' " +
-                ", \'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , new.ID_FMANFCE , null ) ; END " +
-                "END;\';\r\n\r\nerro = \'drop TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD\';\r\nif (exists(select 1 fr" +
-                "om RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD\'))\r\nth" +
-                "en\r\nEXECUTE STATEMENT \'DROP TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD;\';\r\nerro = \'" +
-                "create TB_FMAPGTONFCE_AUX_UPD_SYNC_UPD\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_F" +
-                "MAPGTONFCE_AUX_UPD_SYNC_UPD FOR TB_FORMA_PAGTO_NFCE ACTIVE BEFORE UPDATE AS DECL" +
-                "ARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF ( old.STATUS IS " +
-                "DISTINCT FROM new.STATUS OR old.ID_NFCE IS DISTINCT FROM new.ID_NFCE OR old.DESC" +
-                "RICAO IS DISTINCT FROM new.DESCRICAO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PD" +
-                "V_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ( ( SELECT COUNT(1) FROM " +
-                "TRI_PDV_AUX_SYNC WHERE SM_REG = old.ID_FMANFCE AND TABELA = \'\'TB_FORMA_PAGTO_NFC" +
-                "E\'\' AND ( OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\' ) AND NO_CAIXA = :VNUMCAIXA ) = 0" +
-                " ) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABELA , OPERACAO , " +
-                "NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC" +
-                "_SEQ, 1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP" +
-                " , null , old.ID_FMANFCE , null ) ; END END END END;\';\r\n\r\nerro = \'drop TB_FMAPGT" +
-                "ONFCE_AUX_UPD_SYNC_DEL\';\r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGE" +
-                "R_NAME = \'TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIG" +
-                "GER TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL;\';\r\nerro = \'create TB_FMAPGTONFCE_AUX_UPD_SY" +
-                "NC_DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL FOR " +
-                "TB_FORMA_PAGTO_NFCE ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI" +
-                "_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO" +
-                "_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TA" +
-                "BELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_I" +
-                "D(GEN_PDV_AUX_SYNC_SEQ,1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' , \'\'D\'\' , :VNUMCAIXA , " +
-                "CURRENT_TIMESTAMP , null , old.ID_FMANFCE , null ) ; END END;\';\r\n\r\nerro = \'deu c" +
-                "erto\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "EN_PDV_AUX_SYNC_SEQ,1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' , \'\'D\'\' , :VNUMCAIXA , CUR" +
+                "RENT_TIMESTAMP , null , old.ID_FMANFCE , null ) ; END END;\';\r\n\r\nerro = \'deu cert" +
+                "o\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[11].Connection = this.Connection;

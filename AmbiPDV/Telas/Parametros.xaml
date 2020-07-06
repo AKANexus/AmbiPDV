@@ -70,10 +70,10 @@
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="203" Visibility="Collapsed">
-                    <CheckBox Content="Recargas no Fechamento" Margin="5" x:Name="chk_Recargas" Visibility="Hidden"/>
-                    <Label Visibility="Collapsed" Content="Comissão" Margin="10,0,0,0"/>
-                    <ComboBox Visibility="Collapsed" x:Name="cbb_Pede_Vend" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" FontFamily="Open Sans">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="203" Visibility="Visible" Margin="0, 5, 0, 0">
+                    <CheckBox Content="Recargas no Fechamento" Margin="5" x:Name="chk_Recargas" Visibility="Collapsed"/>
+                    <Label Visibility="Visible" Content="Comissão" Margin="0,0,0,0"/>
+                    <ComboBox Visibility="Visible" x:Name="cbb_Pede_Vend" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" FontFamily="Open Sans">
                         <ComboBoxItem>Nunca</ComboBoxItem>
                         <ComboBoxItem>No ínicio da venda</ComboBoxItem>
                         <ComboBoxItem>Ao final da venda</ComboBoxItem>

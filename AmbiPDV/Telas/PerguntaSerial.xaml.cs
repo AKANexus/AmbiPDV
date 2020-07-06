@@ -53,7 +53,11 @@ namespace PDV_WPF.Telas
                             TIPO_LICENCA = 0;
                             //}
                         }
-                        SERIAL_TA.UpdinstSerial(txb_Serial.Text.ToUpper());
+                        if (SERIAL_TA.GetData().Rows.Count < 1)
+                        {
+                            SERIAL_TA.Insert(txb_Serial.Text.ToUpper(), DateTime.Now, DateTime.Now);
+                        }
+                        SERIAL_TA.UpdateSerial(txb_Serial.Text.ToUpper());
                         DialogResult = true;
                         Close();
                     }
