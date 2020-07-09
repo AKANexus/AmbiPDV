@@ -775,7 +775,14 @@ namespace PDV_WPF
             CerealComm.CommandType = CommandType.Text;
             CerealComm.Parameters.AddWithValue("@SERIAL", serial);
             CerealComm.CommandText = "SELECT * FROM REMOTESQL WHERE PK_SERIAL = @SERIAL";
-            CerealConn.Open();
+            try
+            {
+                CerealConn.Open();
+            }
+            catch (Exception)
+            {
+                return;
+            }
             var SQL_DT = new DataTable();
             SQL_DT.Load(CerealComm.ExecuteReader());
 

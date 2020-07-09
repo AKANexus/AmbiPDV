@@ -51,16 +51,16 @@ namespace PDV_WPF.Telas
                     textBox1.Focus();
                     return;
                 }
-                if (_int <= 0 || _int > _numProxItem)
-                {
-                    DialogBox.Show("Estornar Item",
-                        DialogBoxButtons.No,
-                        DialogBoxIcons.None, false,
-                        $"Por favor digitar um número entre 1 e {_numProxItem}.");
-                    textBox1.Clear();
-                    textBox1.Focus();
-                    return;
-                }
+                //if (_int <= 0 || _int > _numProxItem)
+                //{
+                //    DialogBox.Show("Estornar Item",
+                //        DialogBoxButtons.No,
+                //        DialogBoxIcons.None, false,
+                //        $"Por favor digitar um número entre 1 e {_numProxItem}.");
+                //    textBox1.Clear();
+                //    textBox1.Focus();
+                //    return;
+                //}
                 DialogResult = true;
                 return;
             }

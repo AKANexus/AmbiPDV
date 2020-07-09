@@ -185,10 +185,10 @@ namespace PDV_WPF.Configuracoes
                 switch (_mODELO_CUPOM)
                 {
                     case 0:
-                        return ModeloCupom.Completo;
+                        return ModeloCupom.Simples;
                     case 1:
                     default:
-                        return ModeloCupom.Simples;
+                        return ModeloCupom.Completo;
                 }
             }
             set

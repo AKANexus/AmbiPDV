@@ -318,6 +318,7 @@ namespace PDV_WPF
                 BALBAUD = Convert.ToInt32(cbb_Baud.Text);
                 BALPORTA = cbb_Ports.Text.Substring(3).Safeshort();
                 BALPARITY = cbb_Parity.SelectedIndex.Safeshort();
+                BALBITS = 8;
                 #region AmbiMAITRE
                 IMPRESSORA_USB_PED = cbb_printers.SelectedItem.ToString();
                 #endregion AmbiMAITRE
