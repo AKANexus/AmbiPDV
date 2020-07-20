@@ -3,6 +3,7 @@ using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.DataSets;
 using PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters;
 using PDV_WPF.DataSets.FDBDataSetSistemaSeedTableAdapters;
+using PDV_WPF.Exceptions;
 using PDV_WPF.FDBDataSetTableAdapters;
 using PDV_WPF.Telas;
 using System;
@@ -337,6 +338,7 @@ namespace PDV_WPF.Funcoes
         }
 
         #region Metodos de cadastro Serv-PDV
+
         public void Sync_Emitente(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes)
         {
             DateTime? dtUltimaSyncPdv;
@@ -1240,7 +1242,7 @@ namespace PDV_WPF.Funcoes
                                                                                           DateTime.Now);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
-                                                    if (intRetornoUpsert > 0)//.Equals(1))
+                                                    if (intRetornoUpsert != 0)//.Equals(1))
                                                     {
                                                         ConfirmarAuxSync(idEstGrupo,
                                                                      "TB_EST_GRUPO",
@@ -1418,7 +1420,7 @@ namespace PDV_WPF.Funcoes
                                                                                      DateTime.Now);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
-                                                    if (intRetornoUpsert > 0)//.Equals(1))
+                                                    if (intRetornoUpsert != 0)//.Equals(1))
                                                     {
                                                         ConfirmarAuxSync(idFornec,
                                                                      "TB_FORNECEDOR",
@@ -7030,12 +7032,13 @@ namespace PDV_WPF.Funcoes
                 using var taAuxSyncServ = new TRI_PDV_AUX_SYNCTableAdapter();
                 using var fbConnServ = new FbConnection(_strConnNetwork);
                 using var fbConnPdv = new FbConnection(_strConnContingency);
-
+                log.Debug("Iniciando sincronização tipo cadastros/tudo");
                 taAuxSyncServ.Connection = fbConnServ;// taAuxSyncServ.Connection.ConnectionString = _strConnNetwork;
-
+                log.Debug($"Conexão: {taAuxSyncServ.Connection.ConnectionString}");
                 try
                 {
                     taAuxSyncServ.FillByNoCaixa(dtAuxSyncPendentes, (short)_intNoCaixa); // passou a usar sproc
+                    log.Debug($"taAuxSyncServ.FillByNoCaixa({_intNoCaixa}) retornou {dtAuxSyncPendentes.Rows.Count} linhas");
                 }
                 catch (Exception ex)
                 {
@@ -7274,25 +7277,166 @@ namespace PDV_WPF.Funcoes
                 // Inicia a sincronização de cadastros apenas se houver registro indicado na tabela auxiliar (a TB_IFS é exceção):
                 if (dtAuxSyncPendentes != null && dtAuxSyncPendentes.Rows.Count > 0)
                 {
-                    Sync_Emitente(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
-
-
-                    Sync_TB_TAXA_UF(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes);
-                    Sync_TB_CFOP_SIS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_NAT_OPERACAO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_EST_GRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_FORNECEDOR(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_UNI_MEDIDA(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_ESTOQUE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa, retornoProdutosAlterados);
-                    Sync_TB_EST_IDENTIFICADOR(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_EST_PRODUTO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa, retornoProdutosAlterados);
-                    Sync_TB_FUNCIONARIO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_FUNC_PAPEL(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_FORMA_PAGTO_SIS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_PARCELAMENTO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                    Sync_TB_FORMA_PAGTO_NFCE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-
+                    try
+                    {
+                        Sync_Emitente(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
+                        log.Debug("Emitentes sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar emitentes", ex);
+                        throw new SynchException("Erro ao sincronizar Emitentes", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_TAXA_UF(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes);
+                        log.Debug("Taxa UF sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Taxa UF", ex);
+                        throw new SynchException("Erro ao sincronizar Taxa UF", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_CFOP_SIS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("CFOP sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar CFOP", ex);
+                        throw new SynchException("Erro ao sincronizar CFOP", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_NAT_OPERACAO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("NatOper sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar NatOper", ex);
+                        throw new SynchException("Erro ao sincronizar NatOper", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_GRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("EST_GRUPO sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar EST_GRUPO", ex);
+                        throw new SynchException("Erro ao sincronizar EST_GRUPO", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_FORNECEDOR(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("Fornecedores sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar fornecedores", ex);
+                        throw new SynchException("Erro ao sincronizar Fornecedores", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_UNI_MEDIDA(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("UniMedida sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Unimedida", ex);
+                        throw new SynchException("Erro ao sincronizar UniMedida", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_ESTOQUE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa, retornoProdutosAlterados);
+                        log.Debug("Estoque sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar estoque", ex);
+                        throw new SynchException("Erro ao sincronizar Estoque", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_IDENTIFICADOR(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("EstIdent sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar EstIdent", ex);
+                        throw new SynchException("Erro ao sincronizar EstIdent", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_PRODUTO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa, retornoProdutosAlterados);
+                        log.Debug("Produtos sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Produtos", ex);
+                        throw new SynchException("Erro ao sincronizar Produtos", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_FUNCIONARIO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("Funcionarios sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Funcionarios", ex);
+                        throw new SynchException("Erro ao sincronizar Funcionarios", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_FUNC_PAPEL(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("FuncionarioPapel sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar FuncionarioPapel", ex);
+                        throw new SynchException("Erro ao sincronizar FuncionarioPapel", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("Clientes sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Clientes", ex);
+                        throw new SynchException("Erro ao sincronizar Clientes", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_FORMA_PAGTO_SIS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("FormaPagtoSis sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar FormaPagtoSis", ex);
+                        throw new SynchException("Erro ao sincronizar FormaPagtoSis", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_PARCELAMENTO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("Parcelamentos sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Parcelamentos", ex);
+                        throw new SynchException("Erro ao sincronizar Parcelamentos", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_FORMA_PAGTO_NFCE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("FormaPagtoNFCE sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar FormaPagtoNFCE", ex);
+                        throw new SynchException("Erro ao sincronizar FormaPagtoNFCE", ex);
+                    }
                     #region Função Desativada
 
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 

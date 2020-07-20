@@ -4298,13 +4298,13 @@ namespace PDV_WPF.Telas
             switch (SYSEMITECOMPROVANTE)
             {
                 case 0:
-                    resultado = DecisaoWhats.ImpressaoNormal;
+                    resultado = DecisaoWhats.NaoImprime;
                     break;
                 case 1:
                     switch (SYSUSAWHATS.ToBool())
                     {
                         case false:
-                            resultado = DecisaoWhats.ImpressaoNormal;
+                            resultado = DecisaoWhats.NaoImprime;
                             break;
                         default:
                             resultado = DecisaoComprovante(false);

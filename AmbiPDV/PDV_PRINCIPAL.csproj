@@ -299,6 +299,7 @@
     <Compile Include="Exceptions\ErroDeValidacaoDeConteudo.cs" />
     <Compile Include="Exceptions\ErroValidacaoTEF.cs" />
     <Compile Include="Exceptions\SATNaoConfigurado.cs" />
+    <Compile Include="Exceptions\SynchException.cs" />
     <Compile Include="Exceptions\TicacaException.cs" />
     <Compile Include="FDBDataSet.cs">
       <DependentUpon>FDBDataSet.xsd</DependentUpon>

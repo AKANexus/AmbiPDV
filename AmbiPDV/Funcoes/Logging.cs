@@ -189,7 +189,7 @@ namespace Clearcove.Logging
 
         public LogMessageInfo(string level, string logger, string message)
         {
-            Timestamp = DateTime.UtcNow;
+            Timestamp = DateTime.Now;
             var thread = Thread.CurrentThread;
             ThreadId = string.IsNullOrEmpty(thread.Name) ? thread.ManagedThreadId.ToString() : thread.Name;
             Level = level;
