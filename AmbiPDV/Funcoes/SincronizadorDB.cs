@@ -6755,12 +6755,7 @@ namespace PDV_WPF.Funcoes
                             // Busca todas as nfvendas que foram synced e posteriormente canceladas (TIP_QUERY = 1)
                             // Lembrando que a sproc executada abaixo retorna até 200 registros por vez (lote).
                             tblNfvendaSyncedCancelPdv.Clear();
-                            log.Error("taNfvendaSyncedCancelPdv.FillByNfvendaSync(1): " + taNfvendaSyncedCancelPdv.FillByNfvendaSync(tblNfvendaSyncedCancelPdv, 1).ToString()); // já usa sproc
-
-                            #region NOPE - Não haverá fix Clipp rules
-                            //taEstProdutoServ.SP_TRI_FIX_CLIPP_RULES();
-                            //taEstProdutoPdv.SP_TRI_FIX_CLIPP_RULES();
-                            #endregion NOPE - Não haverá fix Clipp rules
+                            log.Debug("taNfvendaSyncedCancelPdv.FillByNfvendaSync(1): " + taNfvendaSyncedCancelPdv.FillByNfvendaSync(tblNfvendaSyncedCancelPdv, 1).ToString()); // já usa sproc
                         }
                     }
                     #region Manipular Exception

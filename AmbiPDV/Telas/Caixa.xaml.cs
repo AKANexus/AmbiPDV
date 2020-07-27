@@ -1919,7 +1919,7 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-                        object objItemEncontrado = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
+                        object objItemEncontrado = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
                         if (objItemEncontrado != null)
                         {
                             ACBox.SelectedItem = objItemEncontrado;
@@ -2950,7 +2950,7 @@ namespace PDV_WPF.Telas
                 }
             }
 
-            var (nFNumero, ID_NFVENDA) = vendaAtual.GravaNaoFiscalBase(0, NO_CAIXA, (short?)vendedorId ?? 0, false);
+            var (nFNumero, ID_NFVENDA) = vendaAtual.GravaNaoFiscalBase(pFechamento.troco, NO_CAIXA, (short?)vendedorId ?? 0, false);
             VendaDEMO.numerodocupom = nFNumero;
 
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
@@ -3949,10 +3949,11 @@ namespace PDV_WPF.Telas
                                          id_dest + "|" +
                                          cFeDeRetorno.infCFe.ide.assinaturaQRCODE;
                 VendaImpressa.desconto = pFechamento.desconto;
-                log.Debug("Desconto: {pFechamento.desconto}");
+                log.Debug($"Desconto: {pFechamento.desconto}");
                 if (pFechamento.troco > 0.01m)
                 {
-                    VendaImpressa.troco = pFechamento.troco.ToString("0.00");
+                    cFeDeRetorno.infCFe.pgto.vTroco = pFechamento.troco.ToString("0.00");
+                    VendaImpressa.troco = cFeDeRetorno.infCFe.pgto.vTroco;
                 }
                 else
                 {

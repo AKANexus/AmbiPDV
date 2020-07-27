@@ -25,19 +25,19 @@
     <Setting Name="SWATInfo" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="FDBConnString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;data source=192.168.10.250;initial catalog=D:\PROGRAMAS\CompuFour\Clipp_ASSISTENCIA\Base\CLIPP_TESTE.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">data source=192.168.10.250;initial catalog=D:\PROGRAMAS\CompuFour\Clipp_ASSISTENCIA\Base\CLIPP_TESTE.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252</Value>
-    </Setting>
     <Setting Name="SyncTimeout" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="SYSVersao" Type="System.String" Scope="User">
       <Value Profile="(Default)">0.0.0.0</Value>
+    </Setting>
+    <Setting Name="FDBConnString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;data source=192.168.10.250;initial catalog=D:\PROGRAMAS\CompuFour\Clipp_ASSISTENCIA\Base\CLIPP.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">data source=192.168.10.250;initial catalog=D:\PROGRAMAS\CompuFour\Clipp_ASSISTENCIA\Base\CLIPP.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252</Value>
     </Setting>
   </Settings>
 </SettingsFile>
