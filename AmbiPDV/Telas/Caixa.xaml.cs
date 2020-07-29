@@ -4483,7 +4483,7 @@ namespace PDV_WPF.Telas
                 default:
                     break;
             }
-
+            
             var timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 1000), DispatcherPriority.Normal, (p, s) =>
             {
                 lbl_Hora.Content = DateTime.Now.ToString();
@@ -4514,7 +4514,7 @@ namespace PDV_WPF.Telas
                 }
                 return;
             }, Dispatcher);
-
+            
             lbl_Operador.Content = "VOCÊ ESTÁ SENDO ATENDIDO POR: " + operador.Split(' ')[0];
             if (DateTime.Today.Month == 4 && (DateTime.Today.Day == 1 || DateTime.Today.Day == 2))
             {

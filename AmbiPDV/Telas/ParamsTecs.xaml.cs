@@ -43,7 +43,7 @@ namespace PDV_WPF
 
             if (!initialsetup)
             {
-                DataContext = new MainViewModel(clientes:false);
+                DataContext = new MainViewModel(clientes: false);
 
             }
             else
@@ -210,7 +210,7 @@ namespace PDV_WPF
 
         private bool PorcentagemAdicional()
         {
-            
+
             if (!Porcentagemtxb.Text.IsNumbersOnly() || Porcentagemtxb.Text.Safeint() < 1)
             {
                 log.Debug("PorcentagemAdicional não encontrou valor válido.");
@@ -315,14 +315,24 @@ namespace PDV_WPF
             if (DialogBox.Show("Configurações do sistema", DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, "Deseja salvar e aplicar as alterações feitas?") == true)
             {
                 if (!PorcentagemAdicional()) return;
-                BALBAUD = Convert.ToInt32(cbb_Baud.Text);
-                BALPORTA = cbb_Ports.Text.Substring(3).Safeshort();
-                BALPARITY = cbb_Parity.SelectedIndex.Safeshort();
-                BALBITS = 8;
+                BALMODELO = cbb_Marca.SelectedIndex.Safeshort();
+                if (BALMODELO != 0)
+                {
+                    BALBAUD = Convert.ToInt32(cbb_Baud.Text);
+                    BALPORTA = cbb_Ports.Text.Substring(3).Safeshort();
+                    BALPARITY = cbb_Parity.SelectedIndex.Safeshort();
+                    BALBITS = 8;
+                }
+                else
+                {
+                    BALBAUD = 0;
+                    BALPORTA = 0;
+                    BALPARITY = 0;
+                    BALBITS = 8;
+                }
                 #region AmbiMAITRE
                 IMPRESSORA_USB_PED = cbb_printers.SelectedItem.ToString();
                 #endregion AmbiMAITRE
-                BALMODELO = cbb_Marca.SelectedIndex.Safeshort();
                 ACREFERENCIA = tgl_Referencia.IsChecked.ToShort();
                 string[] dbinfo = txb_DB.Text.Split('|');
                 SERVERCATALOG = dbinfo[1];

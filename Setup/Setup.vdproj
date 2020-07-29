@@ -428,6 +428,38 @@
                 }
             }
         }
+        "ReleaseFull"
+        {
+        "DisplayName" = "8:ReleaseFull"
+        "IsDebugOnly" = "11:FALSE"
+        "IsReleaseOnly" = "11:FALSE"
+        "OutputFilename" = "8:ReleaseFull\\Setup.msi"
+        "PackageFilesAs" = "3:2"
+        "PackageFileSize" = "3:-2147483648"
+        "CabType" = "3:1"
+        "Compression" = "3:2"
+        "SignOutput" = "11:FALSE"
+        "CertificateFile" = "8:"
+        "PrivateKeyFile" = "8:"
+        "TimeStampServer" = "8:"
+        "InstallerBootstrapper" = "3:2"
+            "BootstrapperCfg:{63ACBE69-63AA-4F98-B2B6-99F9E24495F2}"
+            {
+            "Enabled" = "11:TRUE"
+            "PromptEnabled" = "11:TRUE"
+            "PrerequisitesLocation" = "2:1"
+            "Url" = "8:"
+            "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
+            }
+        }
     }
     "Deployable"
     {
@@ -1442,7 +1474,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:AmbiPDV"
         "ProductCode" = "8:{0E176EDD-9B2C-4A93-9241-39F9C7BB8CF1}"
-        "PackageCode" = "8:{9535C3D1-2AAF-480A-A9CE-5E2C23A3D326}"
+        "PackageCode" = "8:{551A826A-76E5-4A06-AFED-2970AF44A04E}"
         "UpgradeCode" = "8:{040F20BC-7414-40F9-9C29-BFA4E767A66B}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -1963,7 +1995,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_98BB10FA22F347309A23E4DCA5F62164"
             {
-            "SourcePath" = "8:..\\AmbiPDV\\obj\\Debug\\AmbiPDV.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2853AC8EE6A14DB2B14A45F00E183760"

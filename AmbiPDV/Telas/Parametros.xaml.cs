@@ -154,7 +154,7 @@ namespace PDV_WPF
                 chk_Permite_Folga.IsChecked = PERMITE_FOLGA_SANGRIA;
                 txb_No_Caixa.Text = NO_CAIXA.ToString("D3");
                 cbb_Pede_CPF.SelectedIndex = PEDE_CPF;
-                cbb_Pede_Vend.SelectedIndex = 0;
+                cbb_Pede_Vend.SelectedIndex = SYSCOMISSAO;
                 chk_Interrompe_Nao_Encontrado.IsChecked = INTERROMPE_NAO_ENCONTRADO;
                 chk_Permite_Venda_Negativa.IsChecked = PERMITE_ESTOQUE_NEGATIVO;
                 cbb_Mod_CUP.SelectedIndex = (int)MODELO_CUPOM;
@@ -288,6 +288,8 @@ namespace PDV_WPF
             PEDESENHACANCEL = chk_pedesenha.IsChecked ?? false;
             SYSEMITECOMPROVANTE = cbb_PerguntaImpressao.SelectedIndex.Safeshort();
             SYSUSAWHATS = cbb_Pede_WHATS.SelectedIndex.Safeshort();
+            SYSCOMISSAO = cbb_Pede_Vend.SelectedIndex.Safeshort();
+            PERGUNTA_WHATS = (PerguntaWhatsEnum)cbb_Pede_WHATS.SelectedIndex;
 
             CONFIGURADO = true;
 
