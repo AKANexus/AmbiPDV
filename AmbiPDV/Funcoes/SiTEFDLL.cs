@@ -2,7 +2,7 @@
 
 namespace PDV_WPF.Funcoes
 {
-    public static class SiTEFDLL
+    public class SiTEFDLL
     {
 #if HOMOLOGATEF
         [DllImport(@"SiTEF\Homologa\CliSiTef32I.dll", CallingConvention = CallingConvention.StdCall)]

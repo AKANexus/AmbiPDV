@@ -162,9 +162,11 @@ namespace PDV_WPF.Telas
             FinalizaFuncaoSiTefInterativo(estorno ? (short)0 : (short)1, numCupom.ToString(), tsFiscal.ToString("yyyyMMdd"), tsFiscal.ToString("HHmmss"), $"NumeroPagamentoCupom={numPag}");
             //ComunicaComTEF(progressIndicator);
         }
-
+        int chamada = 0;
         private async Task<int> ComunicaComTEFAsync(IProgress<(string body, string title)> progress)
         {
+            chamada++;
+            Console.WriteLine($"Chamada {chamada} << Novo ciclo de comunicação");
             //log.Debug("Iniciando ciclo de comunicação com o TEF");
             int retorno = 10000;
             return await Task.Run<int>(() =>
@@ -178,17 +180,20 @@ namespace PDV_WPF.Telas
                         if (estadoTEF != StateTEF.OperacaoPadrao && estadoTEF != StateTEF.RetornaMenuAnterior)
                         {
                             //log.Debug("estadoTEF != OperacaoPadrao. Awaiting response");
+                            Console.WriteLine($"Chamada {chamada} >> Aguardando Interação de Usuário");
                             return 0;
                         }
                         else
                         {
                             //log.Debug("estadoTEF == OperacaoPadrao");
+                            Console.WriteLine($"Chamada {chamada} == Continuando Operação");
                             retorno = ContinuaVendaTEF();
                         }
                     }
                     else
                     {
                         //log.Debug("CancelaOperacao triggered");
+                        Console.WriteLine($"Chamada {chamada} == Cancelando Operação");
                         statusAtual = StatusTEF.Cancelado;
                         retorno = CancelaOperacaoAtual();
                     }
@@ -230,6 +235,8 @@ namespace PDV_WPF.Telas
                 }
                 this.Dispatcher.Invoke(() => this.Close());
                 StatusChanged?.Invoke(this, new TEFEventArgs() { TipoDoTEF = _tipoTEF, Valor = valor, idMetodo = _idMetodo, status = statusAtual, viaCliente = _viaCliente, viaLoja = _viaLoja, NoCupom = numCupom });
+                Console.WriteLine($"Chamada {chamada} >> Fim do ciclo de comunicação ");
+
                 return 0;
             });
         }
@@ -691,15 +698,8 @@ namespace PDV_WPF.Telas
             if (e.Key == Key.Escape)
             {
                 estadoTEF = StateTEF.CancelamentoRequisitado;
-                if (estadoTEF == StateTEF.AguardaMenu || estadoTEF == StateTEF.AguardaValor)
-                {
-                    ComunicaComTEFAsync(progressIndicator);
-                }
-                if (estadoTEF != StateTEF.OperacaoPadrao)
-                {
-                    ComunicaComTEFAsync(progressIndicator);
-                    return;
-                }
+                return;
+
             }
             if ((new[] { StateTEF.AguardaEnter }.Contains(estadoTEF)) && e.Key == Key.Enter)
             {

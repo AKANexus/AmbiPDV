@@ -280,14 +280,15 @@ namespace PDV_WPF.Configuracoes
         {
             get
             {
-                switch (_sAT_USADO)
-                {
-                    case "S":
-                        return true;
-                    case "N":
-                    default:
-                        return false;
-                }
+                return false;
+                //switch (_sAT_USADO)
+                //{
+                //    case "S":
+                //        return true;
+                //    case "N":
+                //    default:
+                //        return false;
+                //}
 
             }
             set
