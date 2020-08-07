@@ -154,7 +154,7 @@ namespace PDV_WPF
                 }
             }
         }
-        
+
         public static void GeraReTransmissao(object sender, PrintPageEventArgs ev)
         {
             int largura_pagina = 280; //de 290
@@ -219,30 +219,24 @@ namespace PDV_WPF
                 }
             }
         }
-        public static void LimpaSpooler()
-        {
-            retransmitir.AddRange(transmitir);
-            transmitir.Clear();
-        }
-        public static void LimpaRePrint()
-        {
-            retransmitir.Clear();
-        }
+        //public static void LimpaSpooler()
+        //{
+        //    retransmitir.AddRange(transmitir);
+        //    transmitir.Clear();
+        //}
+        //public static void LimpaRePrint()
+        //{
+        //    retransmitir.Clear();
+        //}
 
-        public static PrintDocument PrintaSpooler(bool cozinha = false)
+        public static PrintDocument PrintaSpooler(bool cozinha = false, bool duasVias = false)
         {
             using PrintDocument printDoc = new PrintDocument
             {
                 PrintController = new StandardPrintController()
             };
-            //PaperSource paperSrc = new PaperSource
-            //{
-            //    SourceName = "Bobina"
-            //};
-            //printDoc.PrinterSettings.PrinterName = "DR800";
             if (IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
             { return null; }
-            //MessageBox.Show("PDV_WPF.Properties.Settings.Default.ImpressoraUSB: " + PDV_WPF.Properties.Settings.Default.ImpressoraUSB);
             #region AmbiMAITRE
             if (cozinha)
             {
@@ -262,9 +256,6 @@ namespace PDV_WPF
                 if (queue.IsOffline) throw new Exception("A impressora está desligada.");
                 if (queue.IsBusy) throw new Exception("A impressora está de boca cheia.");
             }
-            //printDoc.PrinterSettings.PrinterName = "Foxit Reader PDF Printer"; 
-            //printDoc.DefaultPageSettings.PaperSource = paperSrc;
-            //printDoc.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
             printDoc.DocumentName = "Cupom";
             if (!printDoc.PrinterSettings.IsValid && !IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
                 throw new Exception("Não foi possível localizar a impressora");
@@ -276,7 +267,10 @@ namespace PDV_WPF
                     try
                     {
                         printDoc.Print();
-                        LimpaSpooler();
+                        if (duasVias)
+                            printDoc.Print();
+                        transmitir.Clear();
+                        //LimpaSpooler();
                         return printDoc;
                     }
                     catch (System.ComponentModel.Win32Exception ex)
@@ -289,48 +283,48 @@ namespace PDV_WPF
             }
             return null;
         }
-        public static void RePrinta()
-        {
-            if (retransmitir.Count == 0) return;
-            using PrintDocument printDoc = new PrintDocument
-            {
-                PrintController = new StandardPrintController()
-            };
-            //PaperSource paperSrc = new PaperSource
-            //{
-            //    SourceName = "Bobina"
-            //};
-            //printDoc.PrinterSettings.PrinterName = "DR800";
-            if (IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
-            { return; }
-            //MessageBox.Show("PDV_WPF.Properties.Settings.Default.ImpressoraUSB: " + PDV_WPF.Properties.Settings.Default.ImpressoraUSB);
-            printDoc.PrinterSettings.PrinterName = IMPRESSORA_USB;
-            //printDoc.PrinterSettings.PrinterName = "Foxit Reader PDF Printer"; 
-            //printDoc.DefaultPageSettings.PaperSource = paperSrc;
-            //printDoc.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
-            printDoc.DocumentName = "Cupom";
-            if (!printDoc.PrinterSettings.IsValid && !IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
-                throw new Exception("Não foi possível localizar a impressora");
-            printDoc.PrintPage += new PrintPageEventHandler(GeraReTransmissao);
-            if (!IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
-            {
-                //else
-                {
-                    try
-                    {
-                        printDoc.Print();
-                        return;
-                    }
-                    catch (System.ComponentModel.Win32Exception ex)
-                    {
-                        logErroAntigo(RetornarMensagemErro(ex, true));
-                        MessageBox.Show("Erro ao imprimir. Certifique-se de não ter selecionado um \"Impressor de PDF\", pois o sistema não oferece suporte a tais programas");
-                        return;
-                    }
-                }
-            }
-            return;
-        }
+        //public static void RePrinta()
+        //{
+        //    if (retransmitir.Count == 0) return;
+        //    using PrintDocument printDoc = new PrintDocument
+        //    {
+        //        PrintController = new StandardPrintController()
+        //    };
+        //    //PaperSource paperSrc = new PaperSource
+        //    //{
+        //    //    SourceName = "Bobina"
+        //    //};
+        //    //printDoc.PrinterSettings.PrinterName = "DR800";
+        //    if (IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
+        //    { return; }
+        //    //MessageBox.Show("PDV_WPF.Properties.Settings.Default.ImpressoraUSB: " + PDV_WPF.Properties.Settings.Default.ImpressoraUSB);
+        //    printDoc.PrinterSettings.PrinterName = IMPRESSORA_USB;
+        //    //printDoc.PrinterSettings.PrinterName = "Foxit Reader PDF Printer"; 
+        //    //printDoc.DefaultPageSettings.PaperSource = paperSrc;
+        //    //printDoc.DefaultPageSettings.Margins = new Margins(0, 0, 0, 0);
+        //    printDoc.DocumentName = "Cupom";
+        //    if (!printDoc.PrinterSettings.IsValid && !IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
+        //        throw new Exception("Não foi possível localizar a impressora");
+        //    printDoc.PrintPage += new PrintPageEventHandler(GeraReTransmissao);
+        //    if (!IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
+        //    {
+        //        //else
+        //        {
+        //            try
+        //            {
+        //                printDoc.Print();
+        //                return;
+        //            }
+        //            catch (System.ComponentModel.Win32Exception ex)
+        //            {
+        //                logErroAntigo(RetornarMensagemErro(ex, true));
+        //                MessageBox.Show("Erro ao imprimir. Certifique-se de não ter selecionado um \"Impressor de PDF\", pois o sistema não oferece suporte a tais programas");
+        //                return;
+        //            }
+        //        }
+        //    }
+        //    return;
+        //}
     }
     public class MetodoPagamento
     {
@@ -1370,9 +1364,6 @@ namespace PDV_WPF
     }
     public class VendaImpressa
     {
-        public bool FISCAL { get; set; }
-        public bool PRAZO { get; set; }
-        public bool TEF { get; set; }
 
         public static int numerodocupom;
         public static string chavenfe;
@@ -1755,10 +1746,6 @@ namespace PDV_WPF
     }
     public class PrintMaitrePEDIDO
     {
-        public bool FISCAL { get; set; }
-        public bool PRAZO { get; set; }
-        public bool TEF { get; set; }
-
         public static string nomedaempresa;
         public static string cnpjempresa;
         public static string nomefantasia;
@@ -1823,7 +1810,6 @@ namespace PDV_WPF
             {
                 pagamentos.Clear();
                 produtos.Clear();
-                linha = 1;
             }
             /*
              De alguma forma, o compilador agora não reclama mais disso... Vai entender 🤔
@@ -1835,10 +1821,6 @@ namespace PDV_WPF
     }
     public class VendaDEMO
     {
-        public bool FISCAL { get; set; }
-        public bool PRAZO { get; set; }
-        public bool TEF { get; set; }
-
         public static string operadorStr;
         public static int num_caixa;
         public static int numerodocupom;
@@ -1855,7 +1837,6 @@ namespace PDV_WPF
         public static bool prazo;
         public static List<Produto> produtos = new List<Produto>();
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
-        public static Dictionary<string, string> ReciboTEF { get; set; }
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun)
         {
@@ -2034,6 +2015,151 @@ namespace PDV_WPF
             prazo = false;
         }
     }
+
+    public class Remessa
+    {
+        public static string operadorStr;
+        public static int num_caixa;
+        public static int numerodocupom;
+        public static string chavenfe;
+        public static int no_pedido;
+        public static string vendedor;
+        public static string assinaturaQRCODE;
+        public static string troco;
+        public static decimal valor_prazo;
+        public static decimal desconto;
+        public static string cliente;
+        public static (string, string) observacaoFisco;
+        public static DateTime vencimento;
+        public static bool prazo;
+        public static List<Produto> produtos = new List<Produto>();
+        public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
+
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde)
+        {
+            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde };
+            produtos.Add(prod);
+        }
+
+        private static void LinhaHorizontal()
+        {
+            RecebePrint(new string('-', 87), negrito, centro, 1);
+        }
+
+
+        public static PrintDocument IMPRIME()
+        {
+            float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
+            esquerda.align.SetTabStops(10f, tabstops);
+            direita.align.SetTabStops(10f, tabstops);
+            int linha = 1;
+            {
+                #region Cumpom de Venda
+                RecebePrint("Documento Auxiliar de Remessa (DAR)", titulo, centro, 1);
+                RecebePrint("Centro de Distriuição Trilha Informática", negrito, centro, 1);
+                RecebePrint("Via do remetente", negrito, centro, 1);
+                LinhaHorizontal();
+                RecebePrint("Saída: ", negrito, esquerda, 0);
+                RecebePrint(Emitente.NomeFantasia + "\t\t", corpo, direita, 1);
+                RecebePrint(" ", corpo, esquerda, 1);
+                RecebePrint("Destino: ", negrito, esquerda, 0);
+                RecebePrint("CLIENTE" + "\t\t", corpo, direita, 1);
+                LinhaHorizontal();
+                RecebePrint("#  COD  DESC  QTD  UN  VL UN R$  (VLTR R$)*  VL ITEM R$", corpo, centro, 1);
+                LinhaHorizontal();
+                //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
+                foreach (Produto prod in produtos)
+                {
+                    prod.numero = linha;
+                    RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
+                    RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorunit).ToString("n2"), corpo, esquerda, 1);
+                    linha += 1;
+                }
+                //----------------------------------------------vvvvvvvvvvvvvvvvvvvvvv
+                RecebePrint(" ", corpo, esquerda, 1);
+                LinhaHorizontal();
+                RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1);
+                RecebePrint("Requisitante: ", titulo, esquerda, 2);
+                LinhaHorizontal();
+                LinhaHorizontal();
+                RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
+                RecebePrint("(11) 4304-7778", corpo, centro, 1);
+                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+                #endregion
+            }
+
+            try
+            {
+                PrintaSpooler();
+            }
+            catch (Exception ex)
+            {
+                logErroAntigo(RetornarMensagemErro(ex, true));
+                System.Windows.MessageBox.Show(ex.Message);
+                return null;
+            }
+
+
+            linha = 1;
+
+            #region Cumpom de Venda
+            RecebePrint("Documento Auxiliar de Remessa (DAR)", titulo, centro, 1);
+            RecebePrint("Centro de Distriuição Trilha Informática", negrito, centro, 1);
+            RecebePrint("Via do destinatário", negrito, centro, 1);
+            LinhaHorizontal();
+            RecebePrint("Saída: ", negrito, esquerda, 0);
+            RecebePrint(Emitente.NomeFantasia+"\t\t", corpo, direita, 1);
+            RecebePrint(" ", corpo, esquerda, 1);
+            RecebePrint("Destino: ", negrito, esquerda, 0);
+            RecebePrint("CLIENTE" + "\t\t", corpo, direita, 1);
+            LinhaHorizontal();
+            RecebePrint("#  COD  DESC  QTD  UN  VL UN R$  (VLTR R$)*  VL ITEM R$", corpo, centro, 1);
+            LinhaHorizontal();
+            //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
+            foreach (Produto prod in produtos)
+            {
+                prod.numero = linha;
+                RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
+                RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorunit).ToString("n2"), corpo, esquerda, 1);
+                linha += 1;
+            }
+            //----------------------------------------------vvvvvvvvvvvvvvvvvvvvvv
+            RecebePrint(" ", corpo, esquerda, 1);
+            LinhaHorizontal();
+            RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1);
+            RecebePrint("Requisitante: ", titulo, esquerda, 2);
+            LinhaHorizontal();
+            LinhaHorizontal();
+            RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
+            RecebePrint("(11) 4304-7778", corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            #endregion
+            PrintDocument retorno = new PrintDocument();
+            try
+            {
+                retorno = PrintaSpooler();
+            }
+            catch (Exception ex)
+            {
+                logErroAntigo(RetornarMensagemErro(ex, true));
+                System.Windows.MessageBox.Show(ex.Message);
+                retorno = null;
+            }
+
+            finally
+            {
+                Clear();
+            }
+            return retorno;
+        }
+        public static void Clear()
+        {
+            pagamentos.Clear();
+            produtos.Clear();
+            prazo = false;
+        }
+    }
+
     public class PrintDEMOCANCL
     {
         private static readonly Fonte Titulo = new Fonte { tipo = new Font("Arial Narrow", 10f, FontStyle.Bold) };

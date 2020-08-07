@@ -8,7 +8,7 @@ using static PDV_WPF.Funcoes.Statics;
 
 namespace DeclaracoesDllSat
 {
-    internal enum ModeloSAT { NENHUM = -1, DARUMA, DIMEP, BEMATECH, ELGIN, SWEDA, CONTROLID, TANCA, EMULADOR }
+    public enum ModeloSAT { NENHUM = -1, DARUMA, DIMEP, BEMATECH, ELGIN, SWEDA, CONTROLID, TANCA, EMULADOR }
 
     internal class Declaracoes_DllSat
     {

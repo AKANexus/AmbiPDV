@@ -71,7 +71,7 @@ namespace PDV_WPF.Telas
         private decimal valor;
         private TipoTEF _tipoTEF;
 
-        private Logger log = new Logger("Caixa");
+        //private Logger log = new Logger("SITEF");
 
 
         private void Window_Activated(object sender, EventArgs e)
@@ -101,7 +101,7 @@ namespace PDV_WPF.Telas
             while (retorno == 10000)
             {
 
-                log.Debug("estadoTEF == OperacaoPadrao");
+                //log.Debug("estadoTEF == OperacaoPadrao");
                 retorno = ContinuaVendaTEF();
 
             }
@@ -147,7 +147,7 @@ namespace PDV_WPF.Telas
             InitializeComponent();
             if (!silent) Show();
             //audit("SITEFBOX", $"Iniciando uma transação do tipo {(int)tipoTEF} - {tipoTEF}");
-            log.Debug($"Iniciando nova transação do tipo {(int)tipoTEF} - {tipoTEF}");
+            //log.Debug($"Iniciando nova transação do tipo {(int)tipoTEF} - {tipoTEF}");
             IniciaFuncaoSiTefInterativo((int)tipoTEF, $"{vlrTEF:F2}", numCupom, tsFiscal.ToString("yyyyMMdd"), tsFiscal.ToString("HHmmss"), operador, "");
             statusAtual = StatusTEF.EmAndamento;
             progressIndicator = new Progress<(string body, string title)>(AtualizaUI);
@@ -165,7 +165,7 @@ namespace PDV_WPF.Telas
 
         private async Task<int> ComunicaComTEFAsync(IProgress<(string body, string title)> progress)
         {
-            log.Debug("Iniciando ciclo de comunicação com o TEF");
+            //log.Debug("Iniciando ciclo de comunicação com o TEF");
             int retorno = 10000;
             return await Task.Run<int>(() =>
             {
@@ -177,18 +177,18 @@ namespace PDV_WPF.Telas
                     {
                         if (estadoTEF != StateTEF.OperacaoPadrao && estadoTEF != StateTEF.RetornaMenuAnterior)
                         {
-                            log.Debug("estadoTEF != OperacaoPadrao. Awaiting response");
+                            //log.Debug("estadoTEF != OperacaoPadrao. Awaiting response");
                             return 0;
                         }
                         else
                         {
-                            log.Debug("estadoTEF == OperacaoPadrao");
+                            //log.Debug("estadoTEF == OperacaoPadrao");
                             retorno = ContinuaVendaTEF();
                         }
                     }
                     else
                     {
-                        log.Debug("CancelaOperacao triggered");
+                        //log.Debug("CancelaOperacao triggered");
                         statusAtual = StatusTEF.Cancelado;
                         retorno = CancelaOperacaoAtual();
                     }
@@ -364,11 +364,11 @@ namespace PDV_WPF.Telas
 
         private void ProcessaComando(int comando, byte[] buffer)
         {
-            log.Debug($"Processing command: {comando}");
+            //log.Debug($"Processing command: {comando}");
             switch (comando)
             {
                 case 0:
-                    log.Debug($"\r\n\tTipoCampo:  {TipoCampo}\tValor: {Encoding.ASCII.GetString(buffer)}\r\n");
+                    //log.Debug($"\r\n\tTipoCampo:  {TipoCampo}\tValor: {Encoding.ASCII.GetString(buffer)}\r\n");
                     ArmazenaValor(buffer);
                     break;
                 case 1:
@@ -398,11 +398,11 @@ namespace PDV_WPF.Telas
                     LimpaTituloMenu();
                     break;
                 case 15:
-                    log.Debug("Lê número de cheque");
+                    //log.Debug("Lê número de cheque");
                     //SalvaCabecalho(buffer);
                     break;
                 case 16:
-                    log.Debug("Lê número de cheque");
+                    //log.Debug("Lê número de cheque");
                     //RemoveCabecalho();
                     break;
                 case 20:
@@ -412,19 +412,19 @@ namespace PDV_WPF.Telas
                     ExibeMenuDeOpcoes(buffer);
                     break;
                 case 22:
-                    log.Debug("Exibe mensagem de alerta");
+                    //log.Debug("Exibe mensagem de alerta");
                     ExibeMensagemDeAlerta(buffer);
                     break;
                 case 23:
-                    log.Debug("Aguarda interrupção");
+                    //log.Debug("Aguarda interrupção");
                     //AguardaInterrupcao();
                     break;
                 case 29:
-                    log.Debug("Coleta Campo Interno");
+                    //log.Debug("Coleta Campo Interno");
                     //ColetaCampoInterno();
                     break;
                 case 30:
-                    log.Debug("Coleta Campo Usuário");
+                    //log.Debug("Coleta Campo Usuário");
                     if (TipoCampo == 500)
                     {
                         ColetaCampoUsuarioMasked(buffer);
@@ -432,23 +432,23 @@ namespace PDV_WPF.Telas
                     else ColetaCampoUsuario(buffer);
                     break;
                 case 31:
-                    log.Debug("Lê número de cheque");
+                    //log.Debug("Lê número de cheque");
                     //LeNumeroCheque();
                     break;
                 case 34:
-                    log.Debug("Lê dinheiro");
+                    //log.Debug("Lê dinheiro");
                     LeDinheiro(buffer);
                     break;
                 case 35:
-                    log.Debug("Lê código de barras");
+                    //log.Debug("Lê código de barras");
                     //LeCodigoDeBarras();
                     break;
                 case 41:
-                    log.Debug("Coleta Campo de Usuário Mascarado");
+                    //log.Debug("Coleta Campo de Usuário Mascarado");
                     ColetaCampoUsuarioMasked(buffer);
                     break;
                 case 42:
-                    log.Debug("Exibe Menu");
+                    //log.Debug("Exibe Menu");
                     //ExibeMenu(buffer);
                     break;
             }
@@ -681,7 +681,7 @@ namespace PDV_WPF.Telas
 
         private void AtualizaUI((string body, string titulo) item)
         {
-            log.Debug("AtualizaUI called");
+            //log.Debug("AtualizaUI called");
             tbl_Body.Text = item.body;
             lbl_Title.Text = item.titulo;
         }

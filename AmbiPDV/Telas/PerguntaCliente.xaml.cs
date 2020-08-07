@@ -108,11 +108,6 @@ namespace PDV_WPF.Telas
 
         #endregion (De)Constructor
 
-
-
-
-
-
         #region Events
 
         private void confirmar_Click(object sender, MouseButtonEventArgs e)

@@ -868,7 +868,7 @@ namespace PDV_WPF.Objetos
             {
                 _infCfe.total = _Total;
             }
-            if (_infCfe.pgto is null)
+            if (_infCfe.pgto is null && !(_listaPagamentos is null))
                 _infCfe.pgto = new envCFeCFeInfCFePgto() { MP = _listaPagamentos.ToArray(), dTroco = _valTroco };
             return true;
         }
@@ -1194,7 +1194,7 @@ namespace PDV_WPF.Objetos
         /// <param name="idVendedor">ID do Vendedor que efetuou a venda</param>
         /// <param name="ECF">Determina se foi usado ECF para fazer a venda</param>
         /// <returns></returns>
-        public (int NF_NUMERO, int ID_NFVENDA) GravaNaoFiscalBase(decimal vTroco, int noCaixa, short idVendedor, bool ECF = false)
+        public virtual (int NF_NUMERO, int ID_NFVENDA) GravaNaoFiscalBase(decimal vTroco, int noCaixa, short idVendedor, bool ECF = false)
         {
             CFe cfeDeRetorno = RetornaCFe();
             int NF_NUMERO, nItemCup, ID_NFVENDA, ID_CLIENTE = 0;
@@ -1286,183 +1286,186 @@ namespace PDV_WPF.Objetos
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());
                     }
                 }
-                foreach (var pagamento in cfeDeRetorno.infCFe.pgto.MP)
+                if (!(cfeDeRetorno.infCFe.pgto is null))
                 {
-                    int ID_NUMPAG;
-                    try
+                    foreach (var pagamento in cfeDeRetorno.infCFe.pgto.MP)
                     {
-                        using var CONTAREC_TA = new FDBDataSetTableAdapters.TB_CONTA_RECEBERTableAdapter();
-                        using var TB_NFV_FMAPAGTO_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
-                        using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
-                        TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
-                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
-
-                        ID_NUMPAG = idNfce switch
+                        int ID_NUMPAG;
+                        try
                         {
-                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2),
-                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3),
-                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2)
-                        };
+                            using var CONTAREC_TA = new FDBDataSetTableAdapters.TB_CONTA_RECEBERTableAdapter();
+                            using var TB_NFV_FMAPAGTO_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
+                            using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
+                            TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
+                            int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
 
-
-                        //ID_NUMPAG = (idNfce == 3) ?
-                        //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3) :
-                        //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
-
-
-                        if (pagamento.cMP == "03" || pagamento.cMP == "04")
-                        {
-                            //Pára de gerar contas a receber para cartões
-                            #region Desativado
-                            //    if (item.cMP == "03")
-                            //    {
-                            //        descricao = "TEF/POS - Crédito ";
-                            //    }
-                            //    else if (item.cMP == "04")
-                            //    {
-                            //        descricao = "TEF/POS - Débito ";
-                            //    }
-                            //    audit("NFISCAL", "" + descricao);
-
-                            //    try
-                            //    {
-                            //        strMensagemLogLancaContaRec = String.Format("NFISCAL", "SP_TRI_LANCACONTAREC(Cupom: {0}, Cupom: {1}, Vencimento: {2}, vMP: {3}, {4}, Descrição: {5}",
-                            //                                                    no_cupom,
-                            //                                                    no_cupom.ToString(),
-                            //                                                    fechamento.vencimento,
-                            //                                                    Convert.ToDecimal(item.vMP, ptBR),
-                            //                                                    0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
-                            //        audit(strMensagemLogLancaContaRec);
-                            //        result_contarec = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(no_cupom,
-                            //                                                                no_cupom.ToString(),
-                            //                                                                fechamento.vencimento,
-                            //                                                                item.dec_vMP,
-                            //                                                                0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                            //        MessageBox.Show("Erro ao gravar conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim();
-                            //    }
-
-                            //    if (result_contarec != 1)
-                            //    {
-                            //        //TODO: erro grave que detona com o fluxo da venda.
-                            //        // Pelo menos deixar algumas dicas...
-                            //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaContaRec, result_contarec));
-                            //        MessageBox.Show("Erro ao gravar conta a receber (FinalizaNoSATLocal - Erro ao gerar ContaRec). \n\nPor favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim();
-                            //    }
-
-                            //    try
-                            //    {
-                            //        strMensagemLogLancaMovDiario = String.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}",
-                            //                                                     "x",
-                            //                                                     Convert.ToDecimal(item.vMP, ptBR),
-                            //                                                     (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                            //                                                     147, 5);
-                            //        audit(strMensagemLogLancaMovDiario);
-                            //        result_movdiario = (short)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
-                            //                                                                      Convert.ToDecimal(item.vMP, ptBR),
-                            //                                                                      (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                            //                                                                      147, 5);
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                            //        MessageBox.Show("Erro ao gravar movimentação referente à conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim(); ColocarTransacao();
-                            //    }
-
-                            //    if (result_movdiario != 1)
-                            //    {
-                            //        //TODO: erro grave que detona com o fluxo da venda.
-                            //        // Pelo menos deixar algumas dicas...
-                            //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaMovDiario, result_movdiario));
-                            //        MessageBox.Show("Erro ao gravar movimentação financeira (FinalizaNaoFiscal - Erro ao gerar MovDiario). \n\nPor favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim();
-                            //    }
-
-                            //    try
-                            //    {
-                            //        audit(String.Format("NFISCAL", "SP_TRI_CTAREC_MOVTO (coo: {0}", (short)NO_CAIXA, coo));
-                            //        OPER_TA.SP_TRI_CTAREC_MOVTO((short)NO_CAIXA, coo);
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                            //        MessageBox.Show("Erro ao gravar movimentação/conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim(); ColocarTransacao();
-                            //    }
-                            #endregion
-                        }
-
-
-                        if (pagamento.cMP == "05" && !pagamento.desconto)
-                        {
-                            string strMensagemErro = "";
-                            log.Debug("Venda à prazo AmbiPDV");
-                            int ID_CTAREC = 0;
-                            int ID_MOVTO = 0;
-                            try
+                            ID_NUMPAG = idNfce switch
                             {
-                                ID_CTAREC = (int)CONTAREC_TA.SP_TRI_NFVCTAREC(ID_NFVENDA,
-                                                                                    pagamento.vencimento,
-                                                                                    ("Venda à prazo AmbiPDV " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                                    pagamento.idCliente,
-                                                                                    ID_NUMPAG
-                                                                                    );
-                                ID_CLIENTE = pagamento.idCliente;
+                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2),
+                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3),
+                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2)
+                            };
+
+
+                            //ID_NUMPAG = (idNfce == 3) ?
+                            //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3) :
+                            //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
+
+
+                            if (pagamento.cMP == "03" || pagamento.cMP == "04")
+                            {
+                                //Pára de gerar contas a receber para cartões
+                                #region Desativado
+                                //    if (item.cMP == "03")
+                                //    {
+                                //        descricao = "TEF/POS - Crédito ";
+                                //    }
+                                //    else if (item.cMP == "04")
+                                //    {
+                                //        descricao = "TEF/POS - Débito ";
+                                //    }
+                                //    audit("NFISCAL", "" + descricao);
+
+                                //    try
+                                //    {
+                                //        strMensagemLogLancaContaRec = String.Format("NFISCAL", "SP_TRI_LANCACONTAREC(Cupom: {0}, Cupom: {1}, Vencimento: {2}, vMP: {3}, {4}, Descrição: {5}",
+                                //                                                    no_cupom,
+                                //                                                    no_cupom.ToString(),
+                                //                                                    fechamento.vencimento,
+                                //                                                    Convert.ToDecimal(item.vMP, ptBR),
+                                //                                                    0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
+                                //        audit(strMensagemLogLancaContaRec);
+                                //        result_contarec = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(no_cupom,
+                                //                                                                no_cupom.ToString(),
+                                //                                                                fechamento.vencimento,
+                                //                                                                item.dec_vMP,
+                                //                                                                0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
+                                //    }
+                                //    catch (Exception ex)
+                                //    {
+                                //        gravarMensagemErro(RetornarMensagemErro(ex, true));
+                                //        MessageBox.Show("Erro ao gravar conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                                //        return; //deuruim();
+                                //    }
+
+                                //    if (result_contarec != 1)
+                                //    {
+                                //        //TODO: erro grave que detona com o fluxo da venda.
+                                //        // Pelo menos deixar algumas dicas...
+                                //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaContaRec, result_contarec));
+                                //        MessageBox.Show("Erro ao gravar conta a receber (FinalizaNoSATLocal - Erro ao gerar ContaRec). \n\nPor favor entre em contato com a equipe de suporte.");
+                                //        return; //deuruim();
+                                //    }
+
+                                //    try
+                                //    {
+                                //        strMensagemLogLancaMovDiario = String.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}",
+                                //                                                     "x",
+                                //                                                     Convert.ToDecimal(item.vMP, ptBR),
+                                //                                                     (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                //                                                     147, 5);
+                                //        audit(strMensagemLogLancaMovDiario);
+                                //        result_movdiario = (short)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
+                                //                                                                      Convert.ToDecimal(item.vMP, ptBR),
+                                //                                                                      (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                //                                                                      147, 5);
+                                //    }
+                                //    catch (Exception ex)
+                                //    {
+                                //        gravarMensagemErro(RetornarMensagemErro(ex, true));
+                                //        MessageBox.Show("Erro ao gravar movimentação referente à conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                                //        return; //deuruim(); ColocarTransacao();
+                                //    }
+
+                                //    if (result_movdiario != 1)
+                                //    {
+                                //        //TODO: erro grave que detona com o fluxo da venda.
+                                //        // Pelo menos deixar algumas dicas...
+                                //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaMovDiario, result_movdiario));
+                                //        MessageBox.Show("Erro ao gravar movimentação financeira (FinalizaNaoFiscal - Erro ao gerar MovDiario). \n\nPor favor entre em contato com a equipe de suporte.");
+                                //        return; //deuruim();
+                                //    }
+
+                                //    try
+                                //    {
+                                //        audit(String.Format("NFISCAL", "SP_TRI_CTAREC_MOVTO (coo: {0}", (short)NO_CAIXA, coo));
+                                //        OPER_TA.SP_TRI_CTAREC_MOVTO((short)NO_CAIXA, coo);
+                                //    }
+                                //    catch (Exception ex)
+                                //    {
+                                //        gravarMensagemErro(RetornarMensagemErro(ex, true));
+                                //        MessageBox.Show("Erro ao gravar movimentação/conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                                //        return; //deuruim(); ColocarTransacao();
+                                //    }
+                                #endregion
                             }
-                            catch (Exception ex)
+
+
+                            if (pagamento.cMP == "05" && !pagamento.desconto)
                             {
-                                log.Error("Falha ao gravar venda não fiscal", ex);
-                                MessageBox.Show("Erro ao gravar conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                return (-1, -1);
-                            }
-                            try
-                            {
-                                strMensagemErro = string.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}", "x",
-                                                                             Convert.ToDecimal(pagamento.vMP, ptBR),
-                                                                             ("Venda à prazo AmbiPDV - Cupom " + NF_NUMERO.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                             147, 5);
-                                log.Debug(strMensagemErro);
-                                ID_MOVTO = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
-                                                                                        Convert.ToDecimal(pagamento.vMP, ptBR),
-                                                                                        ("Venda à prazo AmbiPDV - Cupom " + NF_NUMERO.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                                        147, 5);
-                            }
-                            catch (Exception ex)
-                            {
-                                log.Error("Falha ao gravar venda não fiscal", ex);
-                                MessageBox.Show("Erro ao gravar movimentação referente à conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                return (-1, -1);
-                            }
-                            try
-                            {
-                                log.Debug($"SP_TRI_CTAREC_MOVTO (coo: {NF_NUMERO})");
-                                //OPER_TA.SP_TRI_CTAREC_MOVTO((short)NO_CAIXA, coo);
-                                using var TB_CTAREC_MOVTO = new DataSets.FDBDataSetVendaTableAdapters.TB_CTAREC_MOVTOTableAdapter
+                                string strMensagemErro = "";
+                                log.Debug("Venda à prazo AmbiPDV");
+                                int ID_CTAREC = 0;
+                                int ID_MOVTO = 0;
+                                try
                                 {
-                                    Connection = LOCAL_FB_CONN
-                                };
-                                TB_CTAREC_MOVTO.Insert(ID_MOVTO, ID_CTAREC);
+                                    ID_CTAREC = (int)CONTAREC_TA.SP_TRI_NFVCTAREC(ID_NFVENDA,
+                                                                                        pagamento.vencimento,
+                                                                                        ("Venda à prazo AmbiPDV " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                                                                        pagamento.idCliente,
+                                                                                        ID_NUMPAG
+                                                                                        );
+                                    ID_CLIENTE = pagamento.idCliente;
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error("Falha ao gravar venda não fiscal", ex);
+                                    MessageBox.Show("Erro ao gravar conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                                    return (-1, -1);
+                                }
+                                try
+                                {
+                                    strMensagemErro = string.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}", "x",
+                                                                                 Convert.ToDecimal(pagamento.vMP, ptBR),
+                                                                                 ("Venda à prazo AmbiPDV - Cupom " + NF_NUMERO.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                                                                 147, 5);
+                                    log.Debug(strMensagemErro);
+                                    ID_MOVTO = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
+                                                                                            Convert.ToDecimal(pagamento.vMP, ptBR),
+                                                                                            ("Venda à prazo AmbiPDV - Cupom " + NF_NUMERO.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                                                                            147, 5);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error("Falha ao gravar venda não fiscal", ex);
+                                    MessageBox.Show("Erro ao gravar movimentação referente à conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                                    return (-1, -1);
+                                }
+                                try
+                                {
+                                    log.Debug($"SP_TRI_CTAREC_MOVTO (coo: {NF_NUMERO})");
+                                    //OPER_TA.SP_TRI_CTAREC_MOVTO((short)NO_CAIXA, coo);
+                                    using var TB_CTAREC_MOVTO = new DataSets.FDBDataSetVendaTableAdapters.TB_CTAREC_MOVTOTableAdapter
+                                    {
+                                        Connection = LOCAL_FB_CONN
+                                    };
+                                    TB_CTAREC_MOVTO.Insert(ID_MOVTO, ID_CTAREC);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error("", ex);
+                                    MessageBox.Show("Erro ao gravar movimentação/conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                                    return (-1, -1);
+                                }
                             }
-                            catch (Exception ex)
-                            {
-                                log.Error("", ex);
-                                MessageBox.Show("Erro ao gravar movimentação/conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                return (-1, -1);
-                            }
-                        }
 
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error("", ex);
-                        MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
-                        return (-1, -1);
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error("", ex);
+                            MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
+                            return (-1, -1);
+                        }
                     }
                 }
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);

@@ -4,6 +4,7 @@ using Clearcove.Logging;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using LocalDarumaFrameworkDLL;
+using MessagingToolkit.QRCode.Codec.Ecc;
 using PayGo;
 using PDV_WPF.Controls;
 using PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters;
@@ -182,7 +183,7 @@ namespace PDV_WPF.Telas
 
 
 
-        private static Venda vendaAtual;
+        public static Venda vendaAtual;
         private Devolucao devolAtual;
         //private OperTEF tefAtual;
 
@@ -285,11 +286,27 @@ namespace PDV_WPF.Telas
              * Por, fim, caso o sistema funcione em ambos os modos, F2 finaliza o
              * cupom não fiscal e F3 finaliza no fiscal.              
              */
-            if (e.Key == Key.F1)
+            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
             {
                 e.Handled = true;
                 AlternarPainelDeAjuda();
             } // Abre um painel de ajuda (Tecla F1)
+            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                if (_tipo == ItemChoiceType.ABERTO)
+                {
+                    vendaAtual.TotalizaCupom();
+                    vendaAtual.GravaNaoFiscalBase(0, NO_CAIXA, 0);
+                    foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
+                    {
+                        Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal());
+
+                    }
+                    Remessa.IMPRIME();
+                    CancelarVendaAtual();
+                }
+            }
             /* ---------------*/
             else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma")
             {
@@ -2181,7 +2198,7 @@ namespace PDV_WPF.Telas
                     return false;//***************Não pode retornar falso, pois impede o fechamento e/ou sangria************
                 }
             }
-            PrintFunc.LimpaRePrint();
+            //PrintFunc.LimpaRePrint();
             return true;
         }
 
@@ -2204,7 +2221,7 @@ namespace PDV_WPF.Telas
 
             _modo_consulta = false;
 
-            PrintFunc.LimpaRePrint();
+            //PrintFunc.LimpaRePrint();
             return true;
         }
 
@@ -2732,10 +2749,6 @@ namespace PDV_WPF.Telas
                         else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && (USATEF))
                         {
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto);
-                            //foreach (SiTEFBox tef in fechamento.tefUsados)
-                            //{
-                            //    tef.FinalizaOperacaoTEF(tef.numPagamentoTEF);
-                            //}
                         }
                         else
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto);
@@ -2812,11 +2825,6 @@ namespace PDV_WPF.Telas
                         }
                         catch (Exception)
                         {
-                            //foreach (SiTEFBox tef1 in fechamento.tefUsados)
-                            //{
-                            //    tef1.FinalizaOperacaoTEF(tef1.numPagamentoTEF, true);
-                            //}
-                            //break;
                             throw;
                         }
                 }
@@ -2829,11 +2837,6 @@ namespace PDV_WPF.Telas
                         }
                         catch (Exception)
                         {
-                            //foreach (SiTEFBox tef1 in fechamento.tefUsados)
-                            //{
-                            //    tef1.FinalizaOperacaoTEF(tef1.numPagamentoTEF, true);
-                            //}
-                            //break;
                             throw;
                         }
                     tef.FinalizaOperacaoTEF(tef.numPagamentoTEF);
@@ -3130,7 +3133,6 @@ namespace PDV_WPF.Telas
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
-
                         ultimaImpressao = VendaDEMO.IMPRIME(venda_prazo, cFeDeRetorno);
                         if (vendaAtual.imprimeViaAssinar)
                         {

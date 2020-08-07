@@ -12,7 +12,7 @@ using static PDV_WPF.Funcoes.Statics;
 
 namespace PDV_WPF.Configuracoes
 {
-    internal static class ConfiguracoesPDV
+    public static class ConfiguracoesPDV
     {
         #region Declaracoes
         public enum PerguntaWhatsEnum { Nunca, Sempre, TeclaAtalho, Escolha }
