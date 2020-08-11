@@ -2060,10 +2060,10 @@ namespace PDV_WPF
                 RecebePrint("Via do remetente", negrito, centro, 1);
                 LinhaHorizontal();
                 RecebePrint("Saída: ", negrito, esquerda, 0);
-                RecebePrint(Emitente.NomeFantasia + "\t\t", corpo, direita, 1);
+                RecebePrint("\t\t\t" + Emitente.NomeFantasia, corpo, esquerda, 1);
                 RecebePrint(" ", corpo, esquerda, 1);
                 RecebePrint("Destino: ", negrito, esquerda, 0);
-                RecebePrint("CLIENTE" + "\t\t", corpo, direita, 1);
+                RecebePrint("\t\t\t" + "CLIENTE", corpo, esquerda, 1);
                 LinhaHorizontal();
                 RecebePrint("#  COD  DESC  QTD  UN  VL UN R$  (VLTR R$)*  VL ITEM R$", corpo, centro, 1);
                 LinhaHorizontal();
@@ -2108,10 +2108,10 @@ namespace PDV_WPF
             RecebePrint("Via do destinatário", negrito, centro, 1);
             LinhaHorizontal();
             RecebePrint("Saída: ", negrito, esquerda, 0);
-            RecebePrint(Emitente.NomeFantasia+"\t\t", corpo, direita, 1);
+            RecebePrint("\t\t\t" + Emitente.NomeFantasia, corpo, esquerda, 1);
             RecebePrint(" ", corpo, esquerda, 1);
             RecebePrint("Destino: ", negrito, esquerda, 0);
-            RecebePrint("CLIENTE" + "\t\t", corpo, direita, 1);
+            RecebePrint("\t\t\t" + "CLIENTE", corpo, esquerda, 1);
             LinhaHorizontal();
             RecebePrint("#  COD  DESC  QTD  UN  VL UN R$  (VLTR R$)*  VL ITEM R$", corpo, centro, 1);
             LinhaHorizontal();
