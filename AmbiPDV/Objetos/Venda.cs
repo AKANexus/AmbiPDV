@@ -61,7 +61,7 @@ namespace PDV_WPF.Objetos
         private static readonly CultureInfo ptBR = CultureInfo.GetCultureInfo("pt-BR");
         public bool imprimeViaAssinar = false;
         private decimal _valTroco;
-
+        public bool imprimeViaCliente = true;
 
         public void RecebeCFeDoSAT(CFe cfeDeRetorno)
         {
@@ -1468,8 +1468,6 @@ namespace PDV_WPF.Objetos
                         }
                     }
                 }
-                OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
-
             }
             return (NF_NUMERO, ID_NFVENDA);
         }

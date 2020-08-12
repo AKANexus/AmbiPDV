@@ -296,13 +296,28 @@ namespace PDV_WPF.Telas
                 e.Handled = true;
                 if (_tipo == ItemChoiceType.ABERTO)
                 {
+                    string cliente;
+                    var PC = new PerguntaCliente(1);
+                    PC.ShowDialog();
+                    switch (PC.DialogResult)
+                    {
+                        case true:
+                            cliente = PC.nome_cliente;
+                            break;
+                        default:
+                            MessageBox.Show("É necessário informar um cliente.");
+                            return;
+                    }
                     vendaAtual.TotalizaCupom();
-                    vendaAtual.GravaNaoFiscalBase(0, NO_CAIXA, 0);
+                    (int id, int nf) info = vendaAtual.GravaNaoFiscalBase(0, 99, 0);
+
                     foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
                     {
                         Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal());
 
                     }
+                    Remessa.numerodocupom = info.nf;
+                    Remessa.cliente = cliente;
                     Remessa.IMPRIME();
                     CancelarVendaAtual();
                 }
@@ -2818,7 +2833,7 @@ namespace PDV_WPF.Telas
                 var printTEF = new ComprovanteSiTEF();
                 foreach (SiTEFBox tef in fechamento.tefUsados)
                 {
-                    if (tef.Status == StatusTEF.Confirmado)
+                    if (tef.Status == StatusTEF.Confirmado && vendaAtual.imprimeViaCliente)
                         try
                         {
                             printTEF.IMPRIME(tef._viaCliente);
@@ -3128,6 +3143,7 @@ namespace PDV_WPF.Telas
                     whats.ShowDialog();
                     break;
                 case DecisaoWhats.NaoImprime:
+                    vendaAtual.imprimeViaCliente = false;
                     break;
                 default:
                 case DecisaoWhats.ImpressaoNormal:
