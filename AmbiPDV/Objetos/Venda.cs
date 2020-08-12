@@ -1468,6 +1468,8 @@ namespace PDV_WPF.Objetos
                         }
                     }
                 }
+                OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
+
             }
             return (NF_NUMERO, ID_NFVENDA);
         }

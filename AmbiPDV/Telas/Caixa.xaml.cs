@@ -397,8 +397,12 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    if (homologaDEVOL) NovoModoDeDevolucao();
-                    else AlternarModoDevolucao();
+                    #if HOMOLOGADEVOL
+                    NovoModoDeDevolucao();
+                    #else
+                    
+                    AlternarModoDevolucao();
+                    #endif
                 });
             } // Ativa o modo de devolução (Tecla F7)
             /* ---------------*/
@@ -529,12 +533,12 @@ namespace PDV_WPF.Telas
                 {
                     if (DialogBox.Show(strings.ORCAMENTO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Pausar esse orçamento agora?", "Você poderá usá-lo mais tarde.") == true)
                     {
-                        #region Zerar o cupom para iniciar um novo
+#region Zerar o cupom para iniciar um novo
                         LimparObjetoDeVendaNovo();
                         LimparTela();
                         LimparUltimaVenda();
                         _usouOrcamento = false;
-                        #endregion Zerar o cupom para iniciar um novo
+#endregion Zerar o cupom para iniciar um novo
                     }
                 });
             }//Limpa o cupom virtual e deixa o caixa livre.
@@ -546,10 +550,10 @@ namespace PDV_WPF.Telas
                 {
                     if (DialogBox.Show(strings.PEDIDO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Não usar esse pedido agora?", "Você poderá usá-lo mais tarde.") == true)
                     {
-                        #region Zerar o cupom para iniciar um novo
+#region Zerar o cupom para iniciar um novo
                         LimparObjetoDeVendaNovo();
                         LimparTela();
-                        #endregion Zerar o cupom para iniciar um novo
+#endregion Zerar o cupom para iniciar um novo
                     }
                 });
             }//Limpa o cupom virtual e deixa o caixa livre.
@@ -775,9 +779,9 @@ namespace PDV_WPF.Telas
             _interromperModoTeste = true;
         }
 
-        #endregion
+#endregion
 
-        #region Botões Desativados
+#region Botões Desativados
 
         private void but_F3_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -835,7 +839,7 @@ namespace PDV_WPF.Telas
             return;
         }
 
-        #endregion
+#endregion
 
         private void ACBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -865,12 +869,12 @@ namespace PDV_WPF.Telas
             ACBox.Focus();
         }
 
-        #region Função Desativada
+#region Função Desativada
         [Obsolete("Esse metodo será removido na próxima Major", true)]
         private void métodosDePagamentoToolStripMenuItem_Click(object sender, EventArgs e)
         {
         }
-        #endregion
+#endregion
         /// <summary>
         /// Fecha o programa com gentileza
         /// </summary>
@@ -906,11 +910,11 @@ namespace PDV_WPF.Telas
             _emTransacao = false;
         }
 
-        #endregion Events
+#endregion Events
 
-        #region Methods
+#region Methods
 
-        #region TESTES
+#region TESTES
 
         //private void IniciarTestes()
         //{
@@ -1078,7 +1082,7 @@ namespace PDV_WPF.Telas
 
         //}//Lança o item no objeto de venda.
 
-        #endregion TESTES
+#endregion TESTES
 
         /// <summary>
         /// Abre a janela de consulta avançada.
@@ -1918,7 +1922,7 @@ namespace PDV_WPF.Telas
         /// <returns></returns>
         private ComboBoxBindingDTO_Produto ConverterInformacaoEmProduto(string pInput)
         {
-            #region Valida seleção de produto
+#region Valida seleção de produto
 
             if (ACBox.SelectedItem == null)
             {
@@ -1977,7 +1981,7 @@ namespace PDV_WPF.Telas
                 }
             }
 
-            #endregion Valida seleção de produto
+#endregion Valida seleção de produto
 
             return (ComboBoxBindingDTO_Produto)ACBox.SelectedItem;//.ID_IDENTIFICADOR;
         }
@@ -2161,7 +2165,7 @@ namespace PDV_WPF.Telas
                 return true;
             }
 
-            #region Redução Z (ECF)
+#region Redução Z (ECF)
 
             if (ECF_ATIVA)
             {
@@ -2179,7 +2183,7 @@ namespace PDV_WPF.Telas
                     return false;
                 }
             }
-            #endregion Redução Z (ECF)
+#endregion Redução Z (ECF)
 
 
             Settings.Default.Reload();
@@ -2338,7 +2342,7 @@ namespace PDV_WPF.Telas
                         return;
                     }
                     VendaImpressa.ReciboTEF = respCRT;
-                    #region printdecision
+#region printdecision
                     if (respCRT.ContainsKey("737-000") && (respCRT["737-000"] == "1" || respCRT["737-000"] == "3") || !respCRT.ContainsKey("737-000"))
                     {
                         if (respCRT.ContainsKey("710-000") && respCRT["710-000"] != "0")
@@ -2374,7 +2378,7 @@ namespace PDV_WPF.Telas
                     {
                         ultimaImpressao = VendaImpressa.IMPRIME(0);
                     }
-                    #endregion
+#endregion
                     var Confirma = new CNF()
                     {
                         _010 = respCRT["010-000"],
@@ -2406,7 +2410,7 @@ namespace PDV_WPF.Telas
             int contagemDeVendas = 0, contagemDeCancelamentos = 0, randomCancelamento = rand.Next(5, 6), roundDevendas = 0;
 
 
-            #region Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
+#region Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
             int iDIdentificadorMax;
             using (var fbCommRemoveRegistroAuxSync = new FbCommand())
             using (var fbConnPdv = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
@@ -2419,7 +2423,7 @@ namespace PDV_WPF.Telas
                 iDIdentificadorMax = fbCommRemoveRegistroAuxSync.ExecuteScalar().Safeint();
                 fbConnPdv.Close();
             }
-            #endregion Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
+#endregion Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
 
 
             while (_modoTeste)
@@ -2427,7 +2431,7 @@ namespace PDV_WPF.Telas
                 if (!turno_aberto || _interromperModoTeste) { _modoTeste = false; return; }
                 _modoTeste = true;
 
-                #region Função Desativada
+#region Função Desativada
                 //#region Pegar o ID do último produto cadastrado - SEMPRE PEGA O ÚLTIMO
                 //int iDIdentificadorMax;
                 //using (var fbCommRemoveRegistroAuxSync = new FbCommand())
@@ -2442,7 +2446,7 @@ namespace PDV_WPF.Telas
                 //    fbConnPdv.Close();
                 //}
                 //#endregion Pegar o ID do último produto cadastrado - SEMPRE PEGA O ÚLTIMO
-                #endregion
+#endregion
 
                 //Começar nova venda
                 //int numDeProdutosAPassarNaVenda = rand.Next(1, 25);
@@ -2699,7 +2703,7 @@ namespace PDV_WPF.Telas
             if (subtotal > 0)
             {
 
-                #region AmbiMAITRE
+#region AmbiMAITRE
 
                 if (IMPRESSORA_USB_PED != "Nenhuma")
                 {
@@ -2725,7 +2729,7 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                #endregion AmbiMAITRE
+#endregion AmbiMAITRE
 
                 var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, ref vendaAtual, _modoTeste)
                 {
@@ -2819,7 +2823,7 @@ namespace PDV_WPF.Telas
 
                 //if (usou_pedido) { FecharPedido(intNumeroCupomParaFechamentoDePedido); }
 
-                #region AmbiMAITRE
+#region AmbiMAITRE
 
                 if (IMPRESSORA_USB_PED != "Nenhuma")
                 {
@@ -2828,7 +2832,7 @@ namespace PDV_WPF.Telas
                     //TODO: Escreve informação na tabela de pedidos de fabricação.
                 }
 
-                #endregion AmbiMAITRE
+#endregion AmbiMAITRE
 
                 var printTEF = new ComprovanteSiTEF();
                 foreach (SiTEFBox tef in fechamento.tefUsados)
@@ -3035,7 +3039,7 @@ namespace PDV_WPF.Telas
                 }
 
                 if (_usouOrcamento) FecharOrcamento(ID_NFVENDA);
-                #region IMPRESSÃO DE CUPOM VIRTUAL
+#region IMPRESSÃO DE CUPOM VIRTUAL
 
                 ImprimirCupomVirtual($"TOTAL: (R$ {subtotal,39:N2}");
                 if (pFechamento.desconto != 0)
@@ -3053,7 +3057,7 @@ namespace PDV_WPF.Telas
                     ImprimirCupomVirtual(@"TROCO" + pFechamento.troco.ToString().PadLeft(45 - "Troco".Length) + @"  ");
                 }
 
-                #endregion IMPRESSÃO DE CUPOM VIRTUAL
+#endregion IMPRESSÃO DE CUPOM VIRTUAL
 
                 txb_Avisos.Text = string.Format("TROCO: {0}", pFechamento.troco.ToString("C2"));
                 _emTransacao = false;
@@ -3171,7 +3175,7 @@ namespace PDV_WPF.Telas
                     }
                     break;
             }
-            #region PERGUNTAWHATS
+#region PERGUNTAWHATS
             //if (PERGUNTA_WHATS == PerguntaWhatsEnum.Sempre)
             //{
             //    var vendaPrazo = vendaAtual.RetornaCFe().infCFe.pgto;
@@ -3291,7 +3295,7 @@ namespace PDV_WPF.Telas
             //        return false;
             //    }
             //}
-            #endregion PERGUNTAWHATS
+#endregion PERGUNTAWHATS
             VendaDEMO.Clear();
             vendedorId = null;
             return true;
@@ -3325,7 +3329,7 @@ namespace PDV_WPF.Telas
             log.Debug("Venda no ECF");
             if (!_modoTeste)
             {
-                #region ImprimirNoECF
+#region ImprimirNoECF
                 ECF.AbreGaveta();
                 int resposta;
                 switch (_tipo)
@@ -3410,7 +3414,7 @@ namespace PDV_WPF.Telas
                     //  Declaracoes.confCFNCM_ECF_Daruma(_NCM, "0");
                     // Declaracoes.iCFVender_ECF_Daruma("T1800", item.prod.qCom.Substring(0, item.prod.qCom.Length - 1), item.prod.vUnCom.Substring(0, item.prod.vUnCom.Length - 1), "D$", item.prod.vDesc, item.prod.cProd, item.prod.uCom, item.prod.xProd);
                     ECF.VendeProdutoECF(item);
-                    #region AmbiMAITRE
+#region AmbiMAITRE
 
                     //if (Settings.Default.PRTUSBPedido != "Nenhuma")
                     //{
@@ -3421,7 +3425,7 @@ namespace PDV_WPF.Telas
                     //    PrintMaitrePEDIDO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0);
                     //}
 
-                    #endregion AmbiMAITRE
+#endregion AmbiMAITRE
                 }
 
                 if (!(vendaAtual.RetornaCFe().infCFe.total?.DescAcrEntr is null))
@@ -3530,9 +3534,9 @@ namespace PDV_WPF.Telas
                 log.Debug("iCFEncerrarPadrao_ECF_Daruma");
                 UnsafeNativeMethods.iCFEncerrarPadrao_ECF_Daruma();//Método leva aprox. 3 segundos pra ser executado. Fora de nosso controle...
                 log.Debug("CFe Encerrado");
-                #endregion ImprimirNoECF
+#endregion ImprimirNoECF
             }
-            #region IMPRESSÃO DE CUPOM VIRTUAL
+#region IMPRESSÃO DE CUPOM VIRTUAL
 
             try
             {
@@ -3560,7 +3564,7 @@ namespace PDV_WPF.Telas
                 //throw; deuruim();
             }
 
-            #endregion IMPRESSÃO DE CUPOM VIRTUAL
+#endregion IMPRESSÃO DE CUPOM VIRTUAL
 
 
             if (Settings.Default.ECFAuditoria)
@@ -3576,7 +3580,7 @@ namespace PDV_WPF.Telas
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
 
             {
-                #region Imprime ECF
+#region Imprime ECF
 
                 try
                 {
@@ -3617,7 +3621,7 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                #endregion Imprime ECF
+#endregion Imprime ECF
                 catch (Exception ex)
                 {
                     log.Error("Erro ao processar venda no ECF", ex);
@@ -3661,7 +3665,7 @@ namespace PDV_WPF.Telas
                 MAITRE_LANCA_ITEM_PED_TA.Connection = LOCAL_FB_CONN;
                 taEstCompProd.Connection = LOCAL_FB_CONN;
                 taMaitPedItemCupomItem.Connection = LOCAL_FB_CONN;
-                #region AmbiMAITRE
+#region AmbiMAITRE
 
                 //int intIdMaitrePedido = 0;
                 //try
@@ -3688,7 +3692,7 @@ namespace PDV_WPF.Telas
                 //    return false; //deuruim();
                 //}
 
-                #endregion AmbiMAITRE
+#endregion AmbiMAITRE
 
                 string strMensagemLogLancaContaRec = string.Empty;
                 string strMensagemLogLancaMovDiario = string.Empty;
@@ -3701,7 +3705,7 @@ namespace PDV_WPF.Telas
                     if (item.cMP == "03" || item.cMP == "04")
                     {
                         break; //Pára de gerar contas a receber ao lançar vendas nos cartões
-                        #region DESATIVADO
+#region DESATIVADO
                         /*
                         string descricao = "TEF/POS ";
                         int result_contarec = 0;
@@ -3801,7 +3805,7 @@ namespace PDV_WPF.Telas
                             return; //deuruim();
                         }
                         */
-                        #endregion
+#endregion
                     }
                 }
                 //tsTransacaoFinalVenda.Complete();
@@ -3921,12 +3925,12 @@ namespace PDV_WPF.Telas
 
                 //}
 
-                #region AmbiMAITRE
+#region AmbiMAITRE
                 //if (Settings.Default.PRTUSBPedido != "Nenhuma")
                 //{
                 //    PrintMaitrePEDIDO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0);
                 //}
-                #endregion AmbiMAITRE
+#endregion AmbiMAITRE
             }
 
             int ID_NFVENDA = vendaAtual.GravaVendaNaBase(NO_CAIXA, (short?)vendedorId ?? 0, nCFe);
@@ -4003,7 +4007,7 @@ namespace PDV_WPF.Telas
                 }
 
                 if (_usouOrcamento) FecharOrcamento(ID_NFVENDA);
-                #region IMPRESSÃO DE CUPOM VIRTUAL
+#region IMPRESSÃO DE CUPOM VIRTUAL
 
                 ImprimirCupomVirtual(@"TOTAL:" + ("R$ " + subtotal.ToString("N2")).PadLeft(39, ' ') + @" ");
                 if (pFechamento.desconto != 0)
@@ -4021,7 +4025,7 @@ namespace PDV_WPF.Telas
                     ImprimirCupomVirtual(@"TROCO" + pFechamento.troco.ToString().PadLeft(45 - "Troco".Length) + @"  ");
                 }
 
-                #endregion IMPRESSÃO DE CUPOM VIRTUAL
+#endregion IMPRESSÃO DE CUPOM VIRTUAL
 
                 txb_Avisos.Text = string.Format("TROCO: {0}", pFechamento.troco.ToString("C2"));
                 _emTransacao = false;
@@ -4049,7 +4053,7 @@ namespace PDV_WPF.Telas
 
                 if (_usouOrcamento) FecharOrcamento(ID_NFVENDA);
 
-                #region AmbiMAITRE
+#region AmbiMAITRE
 
                 //int intIdMaitrePedido = 0;
                 //try
@@ -4179,7 +4183,7 @@ namespace PDV_WPF.Telas
                 //    }
 
                 //}
-                #endregion AmbiMAITRE
+#endregion AmbiMAITRE
 
                 try
                 {
@@ -4222,7 +4226,7 @@ namespace PDV_WPF.Telas
                     {
                         VendaImpressa.IMPRIME(1);
                     }
-                    #region Cod antigo
+#region Cod antigo
                     //using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
                     //{
                     //    if (usouTEF)
@@ -4295,7 +4299,7 @@ namespace PDV_WPF.Telas
                     //        }
                     //    }
                     //}
-                    #endregion
+#endregion
 
                     if (PERMITE_ESTOQUE_NEGATIVO == null && RelNegativ.produtos.Count > 0)
                     {
@@ -4373,7 +4377,7 @@ namespace PDV_WPF.Telas
                     break;
             }
 
-            #region PERGUNTAWHATS
+#region PERGUNTAWHATS
             //if ((int)PERGUNTA_WHATS == 1)
             //{
             //    PerguntaNumWhats whats = new PerguntaNumWhats(ChaveCFEWhats, vendaAtual);
@@ -4447,7 +4451,7 @@ namespace PDV_WPF.Telas
 
             //    }
             //}
-            #endregion PERGUNTAWHATS
+#endregion PERGUNTAWHATS
 
 
             vendedorId = null;
@@ -4490,7 +4494,7 @@ namespace PDV_WPF.Telas
                     ACBox.FilterMode = AutoCompleteFilterMode.Contains;
                     break;
             }
-            #region Inicializar Interface Extra                                        
+#region Inicializar Interface Extra                                        
             lbl_Marquee.MarqueeContent = MENSAGEM_CORTESIA;
             switch (pContingencia)
             {
@@ -4501,7 +4505,7 @@ namespace PDV_WPF.Telas
                 default:
                     break;
             }
-            
+
             var timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 1000), DispatcherPriority.Normal, (p, s) =>
             {
                 lbl_Hora.Content = DateTime.Now.ToString();
@@ -4532,7 +4536,7 @@ namespace PDV_WPF.Telas
                 }
                 return;
             }, Dispatcher);
-            
+
             lbl_Operador.Content = "VOCÊ ESTÁ SENDO ATENDIDO POR: " + operador.Split(' ')[0];
             if (DateTime.Today.Month == 4 && (DateTime.Today.Day == 1 || DateTime.Today.Day == 2))
             {
@@ -4552,7 +4556,7 @@ namespace PDV_WPF.Telas
 
             lbl_no_Caixa.Content = "CAIXA: " + NO_CAIXA.ToString("D3");
             //_i = 0;
-            #endregion
+#endregion
             _emTransacao = false;
 
             // Inicia a sync de cadastros para evitar aquele problema de senha cadastrada no servidor mas ainda não no PDV:
@@ -5033,10 +5037,10 @@ namespace PDV_WPF.Telas
             {
                 case true:
 
-                    #region Zerar o cupom para iniciar um novo
+#region Zerar o cupom para iniciar um novo
                     LimparObjetoDeVendaNovo();
                     LimparTela();
-                    #endregion Zerar o cupom para iniciar um novo
+#endregion Zerar o cupom para iniciar um novo
 
                     ACBox.Text = "+" + po.numeroInformado.ToString();
 
@@ -5394,7 +5398,7 @@ namespace PDV_WPF.Telas
             DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow itemRow = (DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow)dadosDoItem.Rows[0];
             log.Debug("itemRow isolado");
 
-            #region Pegar peso
+#region Pegar peso
             if (_prepesado == false && (itemRow.UNI_MEDIDA == "KG" || itemRow.UNI_MEDIDA == "KU") && (BALMODELO != 0))
             {
                 try
@@ -5417,7 +5421,7 @@ namespace PDV_WPF.Telas
                     return;
                 }
             }
-            #endregion Pegar peso
+#endregion Pegar peso
 
             log.Debug($" Código: {pCodigoItem}, Preço: {pPrecoUnitario}, Quant {pQuant}");
             log.Debug("obtendo csosnCfe");
@@ -5726,7 +5730,7 @@ namespace PDV_WPF.Telas
                 AtualizarProdutosNoACBox();
             }
 
-            #region Define a quantidade do item (user input)
+#region Define a quantidade do item (user input)
 
             log.Debug("Buscando a quantidade informada...");
 
@@ -5737,11 +5741,11 @@ namespace PDV_WPF.Telas
 
             log.Debug($"Quantidade obtida: {quant}");
 
-            #endregion Define a quantidade do item (user input)
+#endregion Define a quantidade do item (user input)
 
             ComboBoxBindingDTO_Produto produtoEncontrado/* = null*/;
 
-            #region Determina o estado do programa
+#region Determina o estado do programa
             if (_tipo == ItemChoiceType.FECHADO && _modo_consulta == false && !_modoDevolucao)
             {
 
@@ -5779,10 +5783,10 @@ namespace PDV_WPF.Telas
                     return;
                 }
             }
-            #endregion
+#endregion
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
-            #region Detecta se foi escaneado um código pré-pesado
+#region Detecta se foi escaneado um código pré-pesado
             if (input.StartsWith("2") && input.Length == 13)
             {
                 log.Debug("Código pré-pesado foi escaneado");
@@ -5806,7 +5810,7 @@ namespace PDV_WPF.Telas
                 _prepesado = true;
 
             }
-            #endregion
+#endregion
 
             if (input == "") { return; }
 
@@ -5815,7 +5819,7 @@ namespace PDV_WPF.Telas
 
             if (produtoEncontrado == null) { return; }
 
-            #region Lançamento de produto no cupom
+#region Lançamento de produto no cupom
 
             decimal vUnCom;
             //decimal comdesc;
@@ -5888,7 +5892,7 @@ namespace PDV_WPF.Telas
                                 {
                                     case true:
 
-                                        #region Buscar a descrição do produto informado
+#region Buscar a descrição do produto informado
 
                                         // Detalhe importante: se o produto encontrado estiver apenas no servidor 
                                         // (novo cadastro, nem deu tempo de sincronizar), o retorno do objeto "produtoEncontrado"
@@ -5903,7 +5907,7 @@ namespace PDV_WPF.Telas
                                             descricaoProduto = ESTOQUE_TA.DescricaoPorID(/*(int)cod_produto*/produtoEncontrado.ID_IDENTIFICADOR).ToString();
                                         }
 
-                                        #endregion Buscar a descrição do produto informado
+#endregion Buscar a descrição do produto informado
 
                                         RelNegativ.RecebeProduto(produtoEncontrado.ID_IDENTIFICADOR.ToString(),
                                                              descricaoProduto, //TODO: não precisa buscar a descrição por id. Basta pegar a descrição direto no ACBox. OOuuuuu, se o objeto "produtoEncontrado" não tiver valor na property "DESCRICAO", o valor deve ser recuperado no banco na etapa anterior.
@@ -5925,7 +5929,7 @@ namespace PDV_WPF.Telas
 
                 numProximoItem += 1;
             }
-            #endregion
+#endregion
 
             //Faz a consulta do produto, apenas.
             else if (_modo_consulta == true)
@@ -6154,10 +6158,10 @@ namespace PDV_WPF.Telas
         //    }
         //}
 
-        #endregion Methods
+#endregion Methods
     }
 
-    #region Classes Auxiliares
+#region Classes Auxiliares
 
     public class ComboBoxBindingDTO_Produto
     {
@@ -6193,11 +6197,11 @@ namespace PDV_WPF.Telas
 
     internal class InterceptKeys
     {
-        #region Delegates
+#region Delegates
 
         public delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
-        #endregion
+#endregion
 
         private const int WH_KEYBOARD_LL = 13;
         //private const int WM_KEYDOWN = 0x0100;
@@ -6223,6 +6227,6 @@ namespace PDV_WPF.Telas
         private static extern IntPtr GetModuleHandle(string lpModuleName);
     }
 
-    #endregion Classes Auxiliares
+#endregion Classes Auxiliares
 
 }
