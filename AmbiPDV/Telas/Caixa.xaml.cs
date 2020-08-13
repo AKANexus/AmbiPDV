@@ -3098,7 +3098,7 @@ namespace PDV_WPF.Telas
                     {
                         using var DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter()
                         {
-                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }
+                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao("localhost", localpath) }
                         };
                         foreach ((int, decimal) item in pFechamento.devolucoes_usadas)
                         {
@@ -4196,7 +4196,7 @@ namespace PDV_WPF.Telas
                     {
                         using var DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter()
                         {
-                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }
+                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao("localhost", localpath) }
                         };
                         foreach ((int, decimal) item in pFechamento.devolucoes_usadas)
                         {
