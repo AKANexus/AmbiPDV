@@ -62,7 +62,7 @@ namespace PDV_WPF.Telas
             using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
             foreach (var item in Itens_DT)
             {
-                int devolvidos = 0;
+                int devolvidos;
                 devolvidos = int.Parse((Devol_TA.GetQtdDevolByIDNfvitem(item.ID_NFVITEM) ?? "0").ToString());
                 ProdutoDevol produtodevol = new ProdutoDevol()
                 {
@@ -126,7 +126,9 @@ namespace PDV_WPF.Telas
                         return;
                     }
                     using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
-                    Devol_TA.Insert(0, produtoEscolhido.ID_NFVITEM, produtoEscolhido.PRECO_VENDA * quantidadeADevolver, "N", DateTime.Now, null, quantidadeADevolver);
+                    Devol_TA.Insert(-1, produtoEscolhido.ID_NFVITEM, produtoEscolhido.PRECO_VENDA * quantidadeADevolver, "N", DateTime.Now, null, quantidadeADevolver);
+                    int idDevol = (int)Devol_TA.PegaUltimaDevolucaoPorIDNFVItem(produtoEscolhido.ID_NFVITEM);
+                    PrintDEVOL.IMPRIME(idDevol, produtoEscolhido.PRECO_VENDA * quantidadeADevolver);
 
                     if (!(dgv_Cupons.SelectedItem is null))
                     {
@@ -138,9 +140,14 @@ namespace PDV_WPF.Telas
 
         private void Row_DoubleClick(object sender, RoutedEventArgs e)
         {
+
+        }
+
+        private void listaVendasSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
             if (!(dgv_Cupons.SelectedItem is null))
             {
-                ListaProdutos((ReimpressaoVenda)dgv_Cupons.SelectedItem);
+                ListaProdutos((ReimpressaoVenda)e.AddedItems[0]);
             }
 
         }

@@ -1261,7 +1261,8 @@ namespace PDV_WPF
         #endregion Methods
 
     }
-    internal class PrintDEVOL
+    [Obsolete("Substituido pelo novo método de devolução")]
+    internal class PrintDEVOLOld
     {
         public static int numerodocupom;
         public static List<Produto> produtos = new List<Produto>();
@@ -1316,6 +1317,42 @@ namespace PDV_WPF
             PrintaSpooler();
             produtos.Clear();
             linha = 1;
+            return true;
+        }
+    }
+
+    internal class PrintDEVOL
+    {
+        private static void LinhaHorizontal()
+        {
+            RecebePrint(new string('-', 87), negrito, centro, 1);
+        }
+
+        public static bool IMPRIME(int numeroVale, decimal valorDevolucao)
+        {
+            float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
+            esquerda.align.SetTabStops(10f, tabstops);
+            direita.align.SetTabStops(10f, tabstops);
+            #region Region1
+            RecebePrint(Emitente.NomeFantasia, negrito, centro, 1);
+            RecebePrint(Emitente.EnderecoCompleto, corpo, centro, 1);
+            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IE}  IM: {Emitente.IM}", corpo, centro, 1);
+            LinhaHorizontal();
+            RecebePrint("VALE DE DEVOLUÇÃO", titulo, centro, 1);
+            RecebePrint(String.Format("VALE Nº {0}", numeroVale), titulo, centro, 1);
+            LinhaHorizontal();
+            RecebePrint("VALOR DA DEVOLUÇÃO R$", titulo, esquerda, 0);
+            RecebePrint(valorDevolucao.ToString("n2"), titulo, direita, 1);
+            LinhaHorizontal();
+            RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1);
+            RecebePrint("OBRIGADO VOLTE SEMPRE!!", corpo, esquerda, 1);
+            RecebePrint("Operador: " + operador, corpo, esquerda, 1);
+            LinhaHorizontal();
+            RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
+            RecebePrint("(11) 4304-7778", corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            #endregion
+            PrintaSpooler();
             return true;
         }
     }

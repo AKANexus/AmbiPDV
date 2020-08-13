@@ -478,6 +478,9 @@
     <Compile Include="Telas\ListaDevolucao.xaml.cs">
       <DependentUpon>ListaDevolucao.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\PerguntaVale.xaml.cs">
+      <DependentUpon>PerguntaVale.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\ReimprimeFecha.xaml.cs">
       <DependentUpon>ReimprimeFecha.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -557,8 +560,8 @@
     <Compile Include="Telas\Parametros.xaml.cs">
       <DependentUpon>Parametros.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Telas\PerguntaCupom.xaml.cs">
-      <DependentUpon>PerguntaCupom.xaml</DependentUpon>
+    <Compile Include="Telas\PerguntaQuantidade.xaml.cs">
+      <DependentUpon>PerguntaQuantidade.xaml</DependentUpon>
     </Compile>
     <Compile Include="Telas\perguntaSenha.xaml.cs">
       <DependentUpon>perguntaSenha.xaml</DependentUpon>
@@ -726,6 +729,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Telas\PerguntaVale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Telas\ReimprimeFecha.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
@@ -830,7 +837,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Telas\PerguntaCupom.xaml">
+    <Page Include="Telas\PerguntaQuantidade.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
