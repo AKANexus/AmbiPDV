@@ -5435,14 +5435,7 @@ namespace PDV_WPF.Telas
             string barcode = null;
             if (_prepesado == false)
             {
-                try
-                {
-                    barcode = itemRow.COD_BARRA.ToString();
-                }
-                catch (Exception)
-                {
-                    barcode = pCodigoItem.ToString();
-                }
+                barcode = itemRow.IsCOD_BARRANull() ? pCodigoItem.ToString() : itemRow.COD_BARRA.ToString();
             }
             else { barcode = pCodigoItem.ToString(); }
 

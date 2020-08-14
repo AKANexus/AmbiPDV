@@ -179,26 +179,21 @@ namespace PDV_WPF.Telas
                     {
                         if (estadoTEF != StateTEF.OperacaoPadrao && estadoTEF != StateTEF.RetornaMenuAnterior)
                         {
-                            //log.Debug("estadoTEF != OperacaoPadrao. Awaiting response");
                             Console.WriteLine($"Chamada {chamada} >> Aguardando Interação de Usuário");
                             return 0;
                         }
                         else
                         {
-                            //log.Debug("estadoTEF == OperacaoPadrao");
                             Console.WriteLine($"Chamada {chamada} == Continuando Operação");
                             retorno = ContinuaVendaTEF();
                         }
                     }
                     else
                     {
-                        //log.Debug("CancelaOperacao triggered");
                         Console.WriteLine($"Chamada {chamada} == Cancelando Operação");
                         statusAtual = StatusTEF.Cancelado;
                         retorno = CancelaOperacaoAtual();
                     }
-                    //if (progress != null)
-                    //    progress.Report((mensagemJanela, tituloJanela));
                 }
                 string msgErro = retorno switch
                 {
@@ -697,9 +692,13 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Escape)
             {
-                estadoTEF = StateTEF.CancelamentoRequisitado;
+                if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))
+                {
+                    estadoTEF = StateTEF.CancelamentoRequisitado;
+                    ComunicaComTEFAsync(progressIndicator);
+                }
+                else estadoTEF = StateTEF.CancelamentoRequisitado;
                 return;
-
             }
             if ((new[] { StateTEF.AguardaEnter }.Contains(estadoTEF)) && e.Key == Key.Enter)
             {
