@@ -864,6 +864,7 @@ namespace PDV_WPF
 
             Logger log = new Logger("Imprime Spooler");
             int numcupons = 0;
+            decimal SomatoriaMensal = 0;
 
             totaissistema = 0;
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
@@ -927,6 +928,11 @@ namespace PDV_WPF
             List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionais = new List<(string, decimal, int, string)>();
             using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
             {
+                DateTime DataAtual = DateTime.Now;
+
+                TimeSpan DiaAtual = new TimeSpan(DataAtual.Day, DataAtual.Hour, DataAtual.Minute, DataAtual.Second);
+                DiaAtual = DiaAtual.Subtract((TimeSpan)DiaAtual);
+               // DateTime PrimeiroDiaMes = DiaAtual.;
                 foreach (var metodo in statuses)
                 {
                     SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
@@ -954,7 +960,8 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-
+                         //SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,metodo.ID_FMANFCE,intIdCaixa.ToString(),DateTime.Now);
+                    
                     }
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
                     valoresOperacionais.Add((metodo.COD_CFE, valorSomado, metodo.ID_FMANFCE, metodo.DESCRICAO));
