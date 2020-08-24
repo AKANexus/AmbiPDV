@@ -928,10 +928,16 @@ namespace PDV_WPF
             List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionais = new List<(string, decimal, int, string)>();
             using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
             {
-                DateTime DataAtual = DateTime.Now;
+                DateTime a = DateTime.Now;
+                DateTime PrimeiroDiaMes = DateTime.Now;
 
-                TimeSpan DiaAtual = new TimeSpan(DataAtual.Day, DataAtual.Hour, DataAtual.Minute, DataAtual.Second);
-                DiaAtual = DiaAtual.Subtract((TimeSpan)DiaAtual);
+                //TimeSpan PrimeiroDiaMes = new TimeSpan(DataAtual.Day, DataAtual.Hour, DataAtual.Minute, DataAtual.Second);
+                a = a.AddDays(-1);
+
+                PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-a.Day);
+
+
+
                // DateTime PrimeiroDiaMes = DiaAtual.;
                 foreach (var metodo in statuses)
                 {
@@ -960,7 +966,7 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-                         //SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,metodo.ID_FMANFCE,intIdCaixa.ToString(),DateTime.Now);
+                         SomatoriaMensal =  (decimal)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,(int)metodo.ID_FMANFCE,intIdCaixa.ToString(),fechamento);
                     
                     }
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
