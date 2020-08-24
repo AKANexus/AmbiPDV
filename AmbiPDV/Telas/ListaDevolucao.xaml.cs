@@ -39,6 +39,7 @@ namespace PDV_WPF.Telas
             Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
             {
+                if (cupomRow.NF_SERIE.Contains("99")) continue;
                 var cupom = new ReimpressaoVenda()
                 {
                     Cliente = cupomRow.NOME,
