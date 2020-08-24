@@ -928,10 +928,16 @@ namespace PDV_WPF
             List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionais = new List<(string, decimal, int, string)>();
             using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
             {
-                DateTime DataAtual = DateTime.Now;
+                DateTime a = DateTime.Now;
+                DateTime PrimeiroDiaMes = DateTime.Now;
 
-                TimeSpan DiaAtual = new TimeSpan(DataAtual.Day, DataAtual.Hour, DataAtual.Minute, DataAtual.Second);
-                DiaAtual = DiaAtual.Subtract((TimeSpan)DiaAtual);
+                //TimeSpan PrimeiroDiaMes = new TimeSpan(DataAtual.Day, DataAtual.Hour, DataAtual.Minute, DataAtual.Second);
+                a = a.AddDays(-1);
+
+                PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-a.Day);
+
+
+
                // DateTime PrimeiroDiaMes = DiaAtual.;
                 foreach (var metodo in statuses)
                 {
@@ -960,7 +966,7 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-                         //SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,metodo.ID_FMANFCE,intIdCaixa.ToString(),DateTime.Now);
+                         SomatoriaMensal =  (decimal)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,(int)metodo.ID_FMANFCE,intIdCaixa.ToString(),fechamento);
                     
                     }
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
@@ -1119,7 +1125,6 @@ namespace PDV_WPF
             RecebePrint("REGISTRADORES", negrito, centro, 1);
             #region Busca quantidade e valor total (com descontos) de cancelamentos
             #region Quantidade
-            int remessas = 0;
             using (var FbComm = new FbCommand())
             {
                 FbComm.Connection = LOCAL_FB_CONN;
@@ -1139,12 +1144,10 @@ namespace PDV_WPF
                     val_cancelado = (decimal)(FbComm.ExecuteScalar() ?? 0m);
                 }
                 else val_cancelado = 0;
-                FbComm.CommandText = "SELECT COUNT(1) FROM TB_NFVENDA " +
-                    $"WHERE CAST ((DT_SAIDA || ' ' || HR_SAIDA) AS TIMESTAMP) BETWEEN '{abertura:yyyy-MM-dd HH:mm:ss}' AND '{fechamento:yyyy-MM-dd HH:mm:ss}' " +
-                    $"AND (NF_SERIE = 'N{99}')";
-                remessas = (int)FbComm.ExecuteScalar();
             }
             #endregion Quantidade
+            #region Valor Total
+            #endregion Valor Total
             #endregion Busca quantidade e valor total (com descontos) de cancelamentos
             RecebePrint("CANC. DE CUP.", corpo, esquerda, 0);
             RecebePrint("\t\t" + cups_cancelados.ToString("00") + "   -\tR$", corpo, esquerda, 0);
@@ -1172,12 +1175,7 @@ namespace PDV_WPF
             }
             RecebePrint("VAL. MÉD. CUPOM\t\tR$", corpo, esquerda, 0);
             RecebePrint("\t" + med_vendas.ToString("0.00"), corpo, rtl, 1);
-            if (remessas > 0)
-            {
-                RecebePrint("REMESSAS", corpo, esquerda, 0);
-                RecebePrint("\t\t" + cups_cancelados.ToString("00"), corpo, esquerda, 1);
 
-            }
             RecebePrint(" ", negrito, esquerda, 0);
             RecebePrint("OPERADOR(A) " + operador.Split(' ')[0], negrito, esquerda, 1);
             LinhaHorizontal();
@@ -1268,8 +1266,7 @@ namespace PDV_WPF
         #endregion Methods
 
     }
-    [Obsolete("Substituido pelo novo método de devolução")]
-    internal class PrintDEVOLOld
+    internal class PrintDEVOL
     {
         public static int numerodocupom;
         public static List<Produto> produtos = new List<Produto>();
@@ -1324,42 +1321,6 @@ namespace PDV_WPF
             PrintaSpooler();
             produtos.Clear();
             linha = 1;
-            return true;
-        }
-    }
-
-    internal class PrintDEVOL
-    {
-        private static void LinhaHorizontal()
-        {
-            RecebePrint(new string('-', 87), negrito, centro, 1);
-        }
-
-        public static bool IMPRIME(int numeroVale, decimal valorDevolucao)
-        {
-            float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
-            esquerda.align.SetTabStops(10f, tabstops);
-            direita.align.SetTabStops(10f, tabstops);
-            #region Region1
-            RecebePrint(Emitente.NomeFantasia, negrito, centro, 1);
-            RecebePrint(Emitente.EnderecoCompleto, corpo, centro, 1);
-            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IE}  IM: {Emitente.IM}", corpo, centro, 1);
-            LinhaHorizontal();
-            RecebePrint("VALE DE DEVOLUÇÃO", titulo, centro, 1);
-            RecebePrint(String.Format("VALE Nº {0}", numeroVale), titulo, centro, 1);
-            LinhaHorizontal();
-            RecebePrint("VALOR DA DEVOLUÇÃO R$", titulo, esquerda, 0);
-            RecebePrint(valorDevolucao.ToString("n2"), titulo, direita, 1);
-            LinhaHorizontal();
-            RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1);
-            RecebePrint("OBRIGADO VOLTE SEMPRE!!", corpo, esquerda, 1);
-            RecebePrint("Operador: " + operador, corpo, esquerda, 1);
-            LinhaHorizontal();
-            RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
-            #endregion
-            PrintaSpooler();
             return true;
         }
     }
@@ -2109,13 +2070,15 @@ namespace PDV_WPF
                 #region Cumpom de Venda
                 RecebePrint("Documento Auxiliar de Remessa (DAR)", titulo, centro, 1);
                 RecebePrint("Centro de Distriuição Trilha Informática", negrito, centro, 1);
-                RecebePrint($"Via do remetente - DAR nº {numerodocupom}", negrito, centro, 1);
+                RecebePrint("Via do remetente", negrito, centro, 1);
                 LinhaHorizontal();
                 RecebePrint("Saída: ", negrito, esquerda, 0);
-                RecebePrint("\t\t\t" + Emitente.RazaoSocial, corpo, esquerda, 1);
+                RecebePrint("\t\t\t" + Emitente.NomeFantasia, corpo, esquerda, 1);
                 RecebePrint(" ", corpo, esquerda, 1);
                 RecebePrint("Destino: ", negrito, esquerda, 0);
-                RecebePrint($"\t\t\t {cliente}", corpo, esquerda, 1);
+                RecebePrint("\t\t\t" + "CLIENTE", corpo, esquerda, 1);
+                LinhaHorizontal();
+                RecebePrint("#  COD  DESC  QTD  UN  VL UN R$  (VLTR R$)*  VL ITEM R$", corpo, centro, 1);
                 LinhaHorizontal();
                 //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
                 foreach (Produto prod in produtos)
@@ -2155,13 +2118,15 @@ namespace PDV_WPF
             #region Cumpom de Venda
             RecebePrint("Documento Auxiliar de Remessa (DAR)", titulo, centro, 1);
             RecebePrint("Centro de Distriuição Trilha Informática", negrito, centro, 1);
-            RecebePrint($"Via do destinatário - DAR nº {numerodocupom}", negrito, centro, 1);
+            RecebePrint("Via do destinatário", negrito, centro, 1);
             LinhaHorizontal();
             RecebePrint("Saída: ", negrito, esquerda, 0);
-            RecebePrint("\t\t\t" + Emitente.RazaoSocial, corpo, esquerda, 1);
+            RecebePrint("\t\t\t" + Emitente.NomeFantasia, corpo, esquerda, 1);
             RecebePrint(" ", corpo, esquerda, 1);
             RecebePrint("Destino: ", negrito, esquerda, 0);
-            RecebePrint($"\t\t\t {cliente}", corpo, esquerda, 1);
+            RecebePrint("\t\t\t" + "CLIENTE", corpo, esquerda, 1);
+            LinhaHorizontal();
+            RecebePrint("#  COD  DESC  QTD  UN  VL UN R$  (VLTR R$)*  VL ITEM R$", corpo, centro, 1);
             LinhaHorizontal();
             //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
             foreach (Produto prod in produtos)
