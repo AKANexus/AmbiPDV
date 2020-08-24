@@ -966,7 +966,7 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-                         SomatoriaMensal =  (decimal)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,(int)metodo.ID_FMANFCE,intIdCaixa.ToString(),fechamento);
+                        SomatoriaMensal = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,(int)metodo.ID_FMANFCE,intIdCaixa.ToString(),fechamento) ?? 0M;
                     
                     }
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
