@@ -296,13 +296,28 @@ namespace PDV_WPF.Telas
                 e.Handled = true;
                 if (_tipo == ItemChoiceType.ABERTO)
                 {
+                    string cliente;
+                    var PC = new PerguntaCliente(1);
+                    PC.ShowDialog();
+                    switch (PC.DialogResult)
+                    {
+                        case true:
+                            cliente = PC.nome_cliente;
+                            break;
+                        default:
+                            MessageBox.Show("É necessário informar um cliente.");
+                            return;
+                    }
                     vendaAtual.TotalizaCupom();
-                    vendaAtual.GravaNaoFiscalBase(0, NO_CAIXA, 0);
+                    (int id, int nf) info = vendaAtual.GravaNaoFiscalBase(0, 99, 0);
+
                     foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
                     {
                         Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal());
 
                     }
+                    Remessa.numerodocupom = info.nf;
+                    Remessa.cliente = cliente;
                     Remessa.IMPRIME();
                     CancelarVendaAtual();
                 }
@@ -382,8 +397,12 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    if (homologaDEVOL) NovoModoDeDevolucao();
-                    else AlternarModoDevolucao();
+//#if HOMOLOGADEVOL
+                    NovoModoDeDevolucao();
+//#else
+                    
+                    //AlternarModoDevolucao();
+//#endif
                 });
             } // Ativa o modo de devolução (Tecla F7)
             /* ---------------*/
@@ -1269,8 +1288,11 @@ namespace PDV_WPF.Telas
 
         private void NovoModoDeDevolucao()
         {
-            ListaDevolucao ld = new ListaDevolucao();
-            ld.ShowDialog();
+            if (PedeSenhaGerencial("Iniciando devolução"))
+            {
+                ListaDevolucao ld = new ListaDevolucao();
+                ld.ShowDialog();
+            }
         }
 
         /// <summary>
@@ -2546,7 +2568,7 @@ namespace PDV_WPF.Telas
         /// <param name="pFechamento"></param>
         private void FecharDevolucaoNovo()
         {
-            PrintDEVOL.numerodocupom = 0;
+            PrintDEVOLOld.numerodocupom = 0;
 
             decimal _qCom;
             decimal _vUnCom;
@@ -2571,7 +2593,7 @@ namespace PDV_WPF.Telas
                 _qCom = decimal.Parse(item.prod.qCom, ptBR);
                 _vUnCom = decimal.Parse(item.prod.vUnCom, ptBR);
                 _vDesc = decimal.Parse(item.prod.vDesc, ptBR);
-                PrintDEVOL.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0);
+                PrintDEVOLOld.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0);
 
                 try
                 {
@@ -2609,7 +2631,7 @@ namespace PDV_WPF.Telas
             }
             try
             {
-                PrintDEVOL.IMPRIME();
+                PrintDEVOLOld.IMPRIME();
             }
             catch (Exception ex)
             {
@@ -2818,7 +2840,7 @@ namespace PDV_WPF.Telas
                 var printTEF = new ComprovanteSiTEF();
                 foreach (SiTEFBox tef in fechamento.tefUsados)
                 {
-                    if (tef.Status == StatusTEF.Confirmado)
+                    if (tef.Status == StatusTEF.Confirmado && vendaAtual.imprimeViaCliente)
                         try
                         {
                             printTEF.IMPRIME(tef._viaCliente);
@@ -3074,15 +3096,13 @@ namespace PDV_WPF.Telas
 
                     if (pFechamento.devolucoes_usadas.Count > 0)
                     {
-                        using var TROCAS_TA = new TRI_PDV_TROCASTableAdapter
+                        using var DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter()
                         {
-                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }
+                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao("localhost", localpath) }
                         };
-                        foreach (string item in pFechamento.devolucoes_usadas)
+                        foreach ((int, decimal) item in pFechamento.devolucoes_usadas)
                         {
-                            log.Debug($"Cupom de devolução encerrado: {item}");
-                            string[] _item = item.Split('-');
-                            TROCAS_TA.RedeemaCupom(Convert.ToInt32(_item[1]), Convert.ToInt32(_item[0]));
+                            DEVOL_TA.RedeemaDevolucao(item.Item1);
                         }
                     }
                 }
@@ -3128,6 +3148,7 @@ namespace PDV_WPF.Telas
                     whats.ShowDialog();
                     break;
                 case DecisaoWhats.NaoImprime:
+                    vendaAtual.imprimeViaCliente = false;
                     break;
                 default:
                 case DecisaoWhats.ImpressaoNormal:
@@ -4173,15 +4194,13 @@ namespace PDV_WPF.Telas
 
                     if (pFechamento.devolucoes_usadas.Count > 0)
                     {
-                        using var TROCAS_TA = new TRI_PDV_TROCASTableAdapter
+                        using var DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter()
                         {
-                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }
+                            Connection = new FbConnection() { ConnectionString = MontaStringDeConexao("localhost", localpath) }
                         };
-                        foreach (string item in pFechamento.devolucoes_usadas)
+                        foreach ((int, decimal) item in pFechamento.devolucoes_usadas)
                         {
-                            log.Debug($"Cupom de devolução encerrado: {item}");
-                            string[] _item = item.Split('-');
-                            TROCAS_TA.RedeemaCupom(Convert.ToInt32(_item[1]), Convert.ToInt32(_item[0]));
+                            DEVOL_TA.RedeemaDevolucao(item.Item1);
                         }
                     }
                 }
@@ -4485,7 +4504,7 @@ namespace PDV_WPF.Telas
                 default:
                     break;
             }
-            
+
             var timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 1000), DispatcherPriority.Normal, (p, s) =>
             {
                 lbl_Hora.Content = DateTime.Now.ToString();
@@ -4516,7 +4535,7 @@ namespace PDV_WPF.Telas
                 }
                 return;
             }, Dispatcher);
-            
+
             lbl_Operador.Content = "VOCÊ ESTÁ SENDO ATENDIDO POR: " + operador.Split(' ')[0];
             if (DateTime.Today.Month == 4 && (DateTime.Today.Day == 1 || DateTime.Today.Day == 2))
             {
@@ -5416,14 +5435,7 @@ namespace PDV_WPF.Telas
             string barcode = null;
             if (_prepesado == false)
             {
-                try
-                {
-                    barcode = itemRow.COD_BARRA.ToString();
-                }
-                catch (Exception)
-                {
-                    barcode = pCodigoItem.ToString();
-                }
+                barcode = itemRow.IsCOD_BARRANull() ? pCodigoItem.ToString() : itemRow.COD_BARRA.ToString();
             }
             else { barcode = pCodigoItem.ToString(); }
 

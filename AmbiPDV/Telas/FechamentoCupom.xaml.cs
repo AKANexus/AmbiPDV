@@ -26,7 +26,7 @@ namespace PDV_WPF.Telas
         public decimal desconto { get; set; }
         public List<string> nomes_pgtos = new List<string>();
         public List<decimal> valores_pgtos = new List<decimal>();
-        public List<string> devolucoes_usadas = new List<string>();
+        public List<(int, decimal)> devolucoes_usadas = new List<(int, decimal)>();
         public ItemChoiceType _tipo_int = ItemChoiceType.NENHUM;
         public string _info_int;
         private int metodo;
@@ -421,77 +421,84 @@ namespace PDV_WPF.Telas
         private void NovoFechamento_KeyDown(object sender, KeyEventArgs e)
         {
             #region Troca desativada
-            //if (e.Key == Key.F7)
-            //{
-            //    debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-            //    {
-            //        var pc = new PerguntaCupom();
-            //        pc.ShowDialog();
-            //        if (pc.DialogResult == true)
-            //        {
-            //            devolucoes_usadas.Add(pc.cupomusado);
-            //            decimal _valor = (decimal)pc.credito;
-            //            if (valor_a_ser_pago == 0)
-            //            {
-            //                troco = 0;
-            //                DialogResult = true;
-            //                Close();
-            //            }//Finalizando a venda, caso não haja troco
-            //            else if (valor_pago > valor_a_ser_pago)
-            //            {
-            //                troco = valor_pago - valor_a_ser_pago;
-            //                DialogResult = true;
-            //                Close();
-            //            }//Finalizando a venda, caso haja troco
-            //            else
-            //            {
-            //                if (_valor > valor_a_ser_pago)
-            //                {
-            //                    //_valor = valor_a_ser_pago;
-            //                }
-            //                var pgto = new envCFeCFeInfCFePgtoMP()
-            //                {
-            //                    cMP = "99",
-            //                    dec_vMP = _valor,
-            //                    vMP = _valor.ToString("0.00"),
-            //                    desconto = true
+            if (e.Key == Key.F7)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    var pc = new PerguntaVale();
+                    pc.ShowDialog();
+                    if (pc.DialogResult == true)
+                    {
+                        using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+                        using DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
+                        var devolucoesDisponiveis = DEVOL_TA.GetDataByID_DEVOLUCAO(pc.valeDigitado);
+                        if (devolucoesDisponiveis.Count == 0)
+                        {
+                            DialogBox.Show("Finalização de Cupom", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Devolução informada não encontrada", "Ela pode já ter sido usada ou não existe");
+                        }
+                        devolucoes_usadas.Add((pc.valeDigitado, devolucoesDisponiveis[0].VALOR));
+                        decimal _valor = devolucoesDisponiveis[0].VALOR;
+                        if (valor_a_ser_pago == 0)
+                        {
+                            troco = 0;
+                            DialogResult = true;
+                            Close();
+                        }//Finalizando a venda, caso não haja troco
+                        else if (valor_pago > valor_a_ser_pago)
+                        {
+                            troco = valor_pago - valor_a_ser_pago;
+                            DialogResult = true;
+                            Close();
+                        }//Finalizando a venda, caso haja troco
+                        else
+                        {
+                            if (_valor > valor_a_ser_pago)
+                            {
+                                //_valor = valor_a_ser_pago;
+                            }
+                            var pgto = new envCFeCFeInfCFePgtoMP()
+                            {
+                                cMP = "99",
+                                dec_vMP = _valor,
+                                vMP = _valor.ToString("0.00"),
+                                desconto = true
 
-            //                };
-            //                nomes_pgtos.Add("DEVOLUÇÃO");
-            //                valores_pgtos.Add(_valor);
-            //                pagamentos[100] += _valor;
-            //                metodos.Add(pgto);
-            //                metodosnew.Add(("99", _valor));
-            //                if (_valor >= valor_a_ser_pago)
-            //                {
-            //                    if (_valor == valor_a_ser_pago)
-            //                    {
-            //                        troco = 0;
-            //                        DialogResult = true;
-            //                        Close();
-            //                    }
-            //                    else if (_valor > valor_a_ser_pago)
-            //                    {
-            //                        troco = valor_pago + _valor - valor_a_ser_pago;
-            //                        DialogResult = true;
-            //                        Close();
-            //                    }
-            //                }
-            //                else //Caso seja efetuado um pagamento parcial
-            //                {
-            //                    valor_a_ser_pago -= _valor;
-            //                    valor_pago += _valor;
-            //                    txb_SaldoRest.Value = valor_a_ser_pago;
-            //                    txb_Pago.Value = valor_pago;
-            //                    txb_Metodo.Clear();
-            //                    txb_Valor.Clear();
-            //                    txb_Metodo.Focus();
-            //                    txb_Valor.Value = valor_a_ser_pago;
-            //                }
-            //            }//Recebe o pagamento
-            //        }
-            //    });
-            //}
+                            };
+                            nomes_pgtos.Add("DEVOLUÇÃO");
+                            valores_pgtos.Add(_valor);
+                            pagamentos[100] += _valor;
+                            metodos.Add(pgto);
+                            metodosnew.Add(("99", _valor));
+                            if (_valor >= valor_a_ser_pago)
+                            {
+                                if (_valor == valor_a_ser_pago)
+                                {
+                                    troco = 0;
+                                    DialogResult = true;
+                                    Close();
+                                }
+                                else if (_valor > valor_a_ser_pago)
+                                {
+                                    troco = valor_pago + _valor - valor_a_ser_pago;
+                                    DialogResult = true;
+                                    Close();
+                                }
+                            }
+                            else //Caso seja efetuado um pagamento parcial
+                            {
+                                valor_a_ser_pago -= _valor;
+                                valor_pago += _valor;
+                                txb_SaldoRest.Value = valor_a_ser_pago;
+                                txb_Pago.Value = valor_pago;
+                                txb_Metodo.Clear();
+                                txb_Valor.Clear();
+                                txb_Metodo.Focus();
+                                txb_Valor.Value = valor_a_ser_pago;
+                            }
+                        }//Recebe o pagamento
+                    }
+                });
+            }
             #endregion
             if (e.Key == Key.F8)
             {

@@ -61,7 +61,7 @@ namespace PDV_WPF.Objetos
         private static readonly CultureInfo ptBR = CultureInfo.GetCultureInfo("pt-BR");
         public bool imprimeViaAssinar = false;
         private decimal _valTroco;
-
+        public bool imprimeViaCliente = true;
 
         public void RecebeCFeDoSAT(CFe cfeDeRetorno)
         {

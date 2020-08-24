@@ -119,7 +119,7 @@ namespace PDV_WPF.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("data source=192.168.10.250;initial catalog=D:\\PROGRAMAS\\CompuFour\\Clipp_ASSISTENC" +
-            "IA\\Base\\CLIPP.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252")]
+            "IA\\Base\\CLIPP_TESTE.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252")]
         public string FDBConnString {
             get {
                 return ((string)(this["FDBConnString"]));

@@ -44409,22 +44409,55 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[5];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TRI_PDV_DEVOL";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT SUM(QTD_DEVOL) FROM TRI_PDV_DEVOL WHERE ID_NFVITEM = @pID_NFVITEM";
+            this._commandCollection[1].CommandText = "SELECT * FROM TRI_PDV_DEVOL WHERE ID_DEVOLUCAO = @pID_DEVOLUCAO AND USADO = \'N\'";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@pID_DEVOLUCAO";
+            param.DbType = global::System.Data.DbType.Object;
+            param.Size = 1024;
+            param.IsNullable = true;
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT SUM(QTD_DEVOL) FROM TRI_PDV_DEVOL WHERE ID_NFVITEM = @pID_NFVITEM";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@pID_NFVITEM";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "ID_NFVITEM";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "SELECT FIRST 1 ID_DEVOLUCAO FROM TRI_PDV_DEVOL WHERE ID_NFVITEM = @pID_NFVITEM OR" +
+                "DER BY ID_DEVOLUCAO DESC";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@pID_NFVITEM";
+            param.DbType = global::System.Data.DbType.Object;
+            param.Size = 1024;
+            param.IsNullable = true;
+            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "UPDATE TRI_PDV_DEVOL SET DATA_USADO = CURRENT_TIMESTAMP, USADO = \'S\' WHERE ID_DEV" +
+                "OLUCAO = @pID_DEVOLUCAO";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@pID_DEVOLUCAO";
+            param.DbType = global::System.Data.DbType.Object;
+            param.Size = 1024;
+            param.IsNullable = true;
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[4].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -44446,6 +44479,23 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual FDBDataSetVenda.TRI_PDV_DEVOLDataTable GetData() {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            FDBDataSetVenda.TRI_PDV_DEVOLDataTable dataTable = new FDBDataSetVenda.TRI_PDV_DEVOLDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual FDBDataSetVenda.TRI_PDV_DEVOLDataTable GetDataByID_DEVOLUCAO(object pID_DEVOLUCAO) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((pID_DEVOLUCAO == null)) {
+                throw new global::System.ArgumentNullException("pID_DEVOLUCAO");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((object)(pID_DEVOLUCAO));
+            }
             FDBDataSetVenda.TRI_PDV_DEVOLDataTable dataTable = new FDBDataSetVenda.TRI_PDV_DEVOLDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -44651,7 +44701,7 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object GetQtdDevolByIDNfvitem(int pID_NFVITEM) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
             command.Parameters[0].Value = ((int)(pID_NFVITEM));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -44674,6 +44724,69 @@ WHERE A.ID_NFVENDA = @Param1";
             else {
                 return ((object)(returnValue));
             }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual object PegaUltimaDevolucaoPorIDNFVItem(object pID_NFVITEM) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[3];
+            if ((pID_NFVITEM == null)) {
+                throw new global::System.ArgumentNullException("pID_NFVITEM");
+            }
+            else {
+                command.Parameters[0].Value = ((object)(pID_NFVITEM));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int RedeemaDevolucao(object pID_DEVOLUCAO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
+            if ((pID_DEVOLUCAO == null)) {
+                throw new global::System.ArgumentNullException("pID_DEVOLUCAO");
+            }
+            else {
+                command.Parameters[0].Value = ((object)(pID_DEVOLUCAO));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     

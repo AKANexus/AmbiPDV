@@ -71,7 +71,7 @@ namespace PDV_WPF.Telas
         private decimal valor;
         private TipoTEF _tipoTEF;
 
-        //private Logger log = new Logger("SITEF");
+        private Logger log = new Logger("SITEF");
 
 
         private void Window_Activated(object sender, EventArgs e)
@@ -167,6 +167,7 @@ namespace PDV_WPF.Telas
         {
             chamada++;
             Console.WriteLine($"Chamada {chamada} << Novo ciclo de comunicação");
+            log.Debug($"Chamada {chamada} << Novo ciclo de comunicação");
             //log.Debug("Iniciando ciclo de comunicação com o TEF");
             int retorno = 10000;
             return await Task.Run<int>(() =>
@@ -179,26 +180,24 @@ namespace PDV_WPF.Telas
                     {
                         if (estadoTEF != StateTEF.OperacaoPadrao && estadoTEF != StateTEF.RetornaMenuAnterior)
                         {
-                            //log.Debug("estadoTEF != OperacaoPadrao. Awaiting response");
                             Console.WriteLine($"Chamada {chamada} >> Aguardando Interação de Usuário");
+                            log.Debug($"Chamada {chamada} >> Aguardando Interação de Usuário");
                             return 0;
                         }
                         else
                         {
-                            //log.Debug("estadoTEF == OperacaoPadrao");
                             Console.WriteLine($"Chamada {chamada} == Continuando Operação");
+                            log.Debug($"Chamada {chamada} == Continuando Operação");
                             retorno = ContinuaVendaTEF();
                         }
                     }
                     else
                     {
-                        //log.Debug("CancelaOperacao triggered");
                         Console.WriteLine($"Chamada {chamada} == Cancelando Operação");
+                        log.Debug($"Chamada {chamada} == Cancelando Operação");
                         statusAtual = StatusTEF.Cancelado;
                         retorno = CancelaOperacaoAtual();
                     }
-                    //if (progress != null)
-                    //    progress.Report((mensagemJanela, tituloJanela));
                 }
                 string msgErro = retorno switch
                 {
@@ -236,7 +235,7 @@ namespace PDV_WPF.Telas
                 this.Dispatcher.Invoke(() => this.Close());
                 StatusChanged?.Invoke(this, new TEFEventArgs() { TipoDoTEF = _tipoTEF, Valor = valor, idMetodo = _idMetodo, status = statusAtual, viaCliente = _viaCliente, viaLoja = _viaLoja, NoCupom = numCupom });
                 Console.WriteLine($"Chamada {chamada} >> Fim do ciclo de comunicação ");
-
+                log.Debug($"Chamada {chamada} >> Fim do ciclo de comunicação ");
                 return 0;
             });
         }
@@ -697,9 +696,18 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Escape)
             {
-                estadoTEF = StateTEF.CancelamentoRequisitado;
+                if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))
+                {
+                    log.Debug("Cancelamento e prosseguimento solicitados");
+                    estadoTEF = StateTEF.CancelamentoRequisitado;
+                    ComunicaComTEFAsync(progressIndicator);
+                }
+                else
+                {
+                    log.Debug("Cancelamento solicitado");
+                    estadoTEF = StateTEF.CancelamentoRequisitado;
+                }
                 return;
-
             }
             if ((new[] { StateTEF.AguardaEnter }.Contains(estadoTEF)) && e.Key == Key.Enter)
             {
