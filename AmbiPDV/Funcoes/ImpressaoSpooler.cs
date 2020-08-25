@@ -980,12 +980,12 @@ namespace PDV_WPF
                 }
             }
             #region Rendimento Produto/Servico
-            DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable model;
+            DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma;
             try
             {
                 using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
                 {
-                    model = modelos.SP_TRI_RENDIMENTO_SOMA(fechamento, abertura);
+                    RendimentoSoma = modelos.SP_TRI_RENDIMENTO_SOMA(fechamento, abertura);
 
                     int a;
                 }
@@ -1065,31 +1065,31 @@ namespace PDV_WPF
                         {
                             SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
                             log.Debug("Processando método de pagamento====================");
-                            decimal valorSomadoAlternativo, valorSAT, valorNAOFISCAL, valorECF;
+                            decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
                             //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                            valorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                            valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                            valorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                            log.Debug($"SAT: {valorSAT} - NAOFISCAL: {valorNAOFISCAL} - ECF: {valorECF}");
+                            valorSATAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                            valorNAOFISCALAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                            valorECFAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                            log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
                             #region Total Venda editado por vinícius  
                             //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
                             //pvalorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
                             //pvalorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
                             //valorTotalVendas = valorTotalVendas + pvalorSAT + pvalorNAOFISCAL + pvalorECF; //pora
                             #endregion
-                            valorSomadoAlternativo = valorSAT + valorNAOFISCAL + valorECF;
+                            valorSomadoAlternativo = valorSATAlternativo + valorNAOFISCALAlternativo + valorECFAlternativo;
                             log.Debug($"valorSomado: {valorSomadoAlternativo}");
                             // totalMovdiario += valorSomado;
                             TotalVendasAlternativo += valorSomadoAlternativo;
                             if (metodo.COD_CFE == "01")
                             {
-                                sangrias = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA) ?? 0M;
-                                suprimentos = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA) ?? 0M;
-                                log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
-                                valorSomadoAlternativo -= sangrias;
-                                valorSomadoAlternativo += suprimentos;
+                                sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
+                                suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
+                                log.Debug($"Sangrias: {sangriasAlternativa} - Suprimentos: {suprimentosAlternativo}");
+                                valorSomadoAlternativo -= sangriasAlternativa;
+                                valorSomadoAlternativo += suprimentosAlternativo;
                                 //Soma das vendas no começo do mês até o presente.
-                                SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
+                                SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
 
                             }
                             log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomadoAlternativo}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
