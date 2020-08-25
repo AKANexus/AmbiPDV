@@ -682,7 +682,7 @@ namespace PDV_WPF
                     valorSomado = valorSAT + valorNAOFISCAL + valorECF;
                     log.Debug($"valorSomado: {valorSomado}");
                     totalMovdiario += valorSomado;
-                    tot_vendas += valorSomado;
+                     tot_vendas += valorSomado;
                     if (metodo.COD_CFE == "01")
                     {
                         sangrias = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA) ?? 0M;
@@ -928,17 +928,14 @@ namespace PDV_WPF
             List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionais = new List<(string, decimal, int, string)>();
             using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
             {
-                DateTime a = DateTime.Now;
-                DateTime PrimeiroDiaMes = DateTime.Now;
+                // Atributos para definir as datas corretas 
+                DateTime DataAtual = DateTime.Now;
+                DateTime PrimeiroDiaMes = DateTime.Today;
+                
+                DataAtual = DataAtual.AddDays(-1);
+               
+                PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-DataAtual.Day);
 
-                //TimeSpan PrimeiroDiaMes = new TimeSpan(DataAtual.Day, DataAtual.Hour, DataAtual.Minute, DataAtual.Second);
-                a = a.AddDays(-1);
-
-                PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-a.Day);
-
-
-
-               // DateTime PrimeiroDiaMes = DiaAtual.;
                 foreach (var metodo in statuses)
                 {
                     SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
@@ -966,7 +963,8 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-                        SomatoriaMensal = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,(int)metodo.ID_FMANFCE,intIdCaixa.ToString(),fechamento) ?? 0M;
+                        //Soma das vendas no começo do mês até o presente.
+                        SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes,(int)metodo.ID_FMANFCE,intIdCaixa.ToString(),fechamento) ?? 0M;
                     
                     }
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
