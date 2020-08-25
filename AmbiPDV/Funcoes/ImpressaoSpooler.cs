@@ -980,17 +980,19 @@ namespace PDV_WPF
                 }
             }
             #region Rendimento Produto/Servico
-
+            DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable model;
             try
             {
-                using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter())
+                using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
                 {
-                    var model = modelos.SP_TRI_RENDIMENTO_SOMA(abertura, fechamento);
+                    model = modelos.SP_TRI_RENDIMENTO_SOMA(fechamento, abertura);
 
+                    int a;
                 }
-            catch(Exception ex) 
+            }
+            catch (Exception ex)
             {
-            
+                MessageBox.Show(ex.Message);
             }
                 #endregion
 
