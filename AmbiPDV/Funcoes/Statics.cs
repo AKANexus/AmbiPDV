@@ -151,6 +151,11 @@ namespace PDV_WPF.Funcoes
             FBTIMEOUT = xmlLido.FBTIMEOUT;
             SERVERNAME = xmlLido.SERVERNAME;
             SERVERCATALOG = xmlLido.SERVERCATALOG;
+            PERMITE_CANCELAR_VENDA_EM_CURSO = xmlLido.AUTORIZADO switch
+            {
+                0 => false,
+                _ => true
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {
@@ -184,7 +189,7 @@ namespace PDV_WPF.Funcoes
             cLIENTETableAdapter.FillOrderByName(dt_cli);
             foreach (DataSets.FDBDataSetOperSeed.TB_CLIENTERow row in dt_cli)
             {
-                //if (row.STATUS == "A")
+                if (row.STATUS == "A")
                 clientesOC.Add(row.NOME);
             }
         }

@@ -58,6 +58,7 @@ namespace PDV_WPF.Telas
         public byte[] bufferTEF;
         private DateTime tsFiscal;
         private bool IsSilent;
+        private bool PermiteCancelar = false;
         public SiTEFBox()
         {
             InitializeComponent();
@@ -371,6 +372,11 @@ namespace PDV_WPF.Telas
         private void ProcessaComando(int comando, byte[] buffer)
         {
             //log.Debug($"Processing command: {comando}");
+            PermiteCancelar = comando switch
+            {
+                23 => true,
+                _ => false
+            };
             switch (comando)
             {
                 case 0:
@@ -422,8 +428,7 @@ namespace PDV_WPF.Telas
                     ExibeMensagemDeAlerta(buffer);
                     break;
                 case 23:
-                    //log.Debug("Aguarda interrupção");
-                    //AguardaInterrupcao();
+                    //Estado = Permitido Cancelar
                     break;
                 case 29:
                     //log.Debug("Coleta Campo Interno");
@@ -702,7 +707,7 @@ namespace PDV_WPF.Telas
                     estadoTEF = StateTEF.CancelamentoRequisitado;
                     ComunicaComTEFAsync(progressIndicator);
                 }
-                else
+                else if (PermiteCancelar)
                 {
                     log.Debug("Cancelamento solicitado");
                     estadoTEF = StateTEF.CancelamentoRequisitado;

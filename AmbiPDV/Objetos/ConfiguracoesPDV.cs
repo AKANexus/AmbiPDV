@@ -532,6 +532,7 @@ namespace PDV_WPF.Configuracoes
         public static int FBTIMEOUT { get; set; }
         public static string SERVERNAME { get; set; }
         public static string SERVERCATALOG { get; set; }
+        public static bool PERMITE_CANCELAR_VENDA_EM_CURSO { get; set; }
 
 
         #endregion Propriedades
@@ -839,7 +840,7 @@ namespace PDV_WPF.Configuracoes
         public int FBTIMEOUT { get; set; }
         public string SERVERNAME { get; set; }
         public string SERVERCATALOG { get; set; }
-
+        public int AUTORIZADO { get; set; }
 
     }
 

@@ -749,6 +749,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void CancelarVendaAtual()
         {
+            if (!PERMITE_CANCELAR_VENDA_EM_CURSO) return;
             if (_modo_consulta) AlternarModoDeConsulta();
             log.Debug($"Cancelando a venda atual, sem informar pagamentos.");
             //LIMPAR OBJETO DE VENDA
@@ -3129,7 +3130,7 @@ namespace PDV_WPF.Telas
                             resultado = DecisaoWhats.ImpressaoNormal;
                             break;
                         default:
-                            resultado = DecisaoComprovante(false);
+                            resultado = DecisaoComprovante(true);
                             break;
                     }
                     break;
@@ -3303,7 +3304,7 @@ namespace PDV_WPF.Telas
         private DecisaoWhats DecisaoComprovante(bool permiteNenhuma)
         {
             var vendaPrazo = vendaAtual.RetornaCFe().infCFe.pgto;
-            OpcoesDeImpressao nova = new OpcoesDeImpressao(vendaPrazo.MP[0].cMP) { permiteNenhuma = permiteNenhuma };
+            OpcoesDeImpressao nova = new OpcoesDeImpressao(vendaPrazo.MP[0].cMP, permiteNenhuma);
             while (nova.ShowDialog() != true) { };
             return nova.veredito;
         }
@@ -4327,7 +4328,7 @@ namespace PDV_WPF.Telas
                             resultado = DecisaoWhats.NaoImprime;
                             break;
                         default:
-                            resultado = DecisaoComprovante(false);
+                            resultado = DecisaoComprovante(true);
                             break;
                     }
                     break;
@@ -4915,7 +4916,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void PedirIdentificacao()
         {
-            //if (USATEF && Settings.Default.TEFPedeCPFPeloPAD)
+            //if (USATEF && TEFPEDECPFPELOPINPAD)
             //{
             //    CDP Captura = new CDP()
             //    {

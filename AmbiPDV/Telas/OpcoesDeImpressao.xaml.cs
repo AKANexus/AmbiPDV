@@ -13,12 +13,13 @@ namespace PDV_WPF.Telas
     {
 
         public DecisaoWhats veredito { get; set; }
-        public bool permiteNenhuma;
+        private bool _permiteNenhuma;
         string VendaPrazo;
-        public OpcoesDeImpressao(string metodoPgto)
+        public OpcoesDeImpressao(string metodoPgto, bool permiteNenhuma = true)
         {
             VendaPrazo = metodoPgto;
             InitializeComponent();
+            _permiteNenhuma = permiteNenhuma;
             switch (permiteNenhuma)
             {
                 case true:
@@ -59,7 +60,7 @@ namespace PDV_WPF.Telas
 
                 }
             }
-            if (e.Key == Key.Escape && permiteNenhuma)
+            if (e.Key == Key.F1 && _permiteNenhuma)
             {
                 veredito = DecisaoWhats.NaoImprime;
                 DialogResult = true;

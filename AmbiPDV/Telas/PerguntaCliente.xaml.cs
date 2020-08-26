@@ -127,16 +127,20 @@ namespace PDV_WPF.Telas
                 {
                     Cliente_TA.Connection = LOCAL_FB_CONN;
                     id_cliente = (int)Cliente_TA.PegaIDPorCliente(cbb_Cliente.SelectedItem.ToString());
-                    var ativo = (from cliente in Cliente_TA.GetData()
-                                where cliente.ID_CLIENTE == id_cliente
-                                select cliente.STATUS).FirstOrDefault();
-                    if (ativo != "A")
+                    //var ativo = (from cliente in Cliente_TA.GetData()
+                    //            where cliente.ID_CLIENTE == id_cliente
+                    //            select cliente.STATUS).FirstOrDefault();5
+
+                    DataSets.FDBDataSetOperSeed.TB_CLIENTERow clienteRow = (from cliente in Cliente_TA.GetData()
+                                    where cliente.ID_CLIENTE == id_cliente
+                                    select cliente).FirstOrDefault();
+
+                    if (!clienteRow.IsMENSAGEMNull() && !String.IsNullOrWhiteSpace(clienteRow.MENSAGEM))
                     {
-                        var mensagem = (from cliente in Cliente_TA.GetData()
-                                        where cliente.ID_CLIENTE == id_cliente
-                                        select cliente.OBSERVACAO).FirstOrDefault();
-                        DialogBox.Show("Venda a prazo", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Impossível fazer venda a prazo para esse cliente.", mensagem);
-                        return;
+                        if (DialogBox.Show("ALERTA", DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, "Atenção, cliente possui aviso:", clienteRow.MENSAGEM, "Deseja prosseguir com a venda?") == false)
+                        {
+                            return;
+                        }
                     }
                 }
                 nome_cliente = cbb_Cliente.SelectedItem.ToString();

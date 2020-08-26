@@ -40,7 +40,7 @@
                 </LinearGradientBrush>
             </Label.Foreground>
         </Label>
-        <Label Content="ESC - Não Imprimir" Margin="83,0,115,40" VerticalAlignment="Bottom" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="20" Name="lbl_Escape">
+        <Label Content="F1 - Não Imprimir" Margin="83,0,115,40" VerticalAlignment="Bottom" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="20" Name="lbl_Escape">
             <Label.Foreground>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF228D8D" Offset="0"/>
