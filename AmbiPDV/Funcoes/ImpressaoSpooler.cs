@@ -1325,6 +1325,13 @@ namespace PDV_WPF
             RecebePrint("VAL. MÉD. CUPOM\t\tR$", corpo, esquerda, 0);
             RecebePrint("\t" + med_vendas.ToString("0.00"), corpo, rtl, 1);
 
+            #region Registradores Vini
+            RecebePrint("SOMA DO DIA\t\t\tR$", corpo, esquerda, 0);
+            RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, direita, 1);
+
+
+            #endregion Registradores Vini
+
             RecebePrint(" ", negrito, esquerda, 0);
             RecebePrint("OPERADOR(A) " + operador.Split(' ')[0], negrito, esquerda, 1);
             LinhaHorizontal();
