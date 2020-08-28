@@ -983,9 +983,11 @@ namespace PDV_WPF
 
             try
             {
-                
+                using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter())
+                {
+                    var model = modelos.SP_TRI_RENDIMENTO_SOMA(abertura, fechamento);
 
-            }
+                }
             catch(Exception ex) 
             {
             
