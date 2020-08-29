@@ -2591,7 +2591,6 @@ namespace PDV_WPF.Telas
                 _qCom = decimal.Parse(item.prod.qCom, ptBR);
                 _vUnCom = decimal.Parse(item.prod.vUnCom, ptBR);
                 _vDesc = decimal.Parse(item.prod.vDesc, ptBR);
-                //PrintDEVOL.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0);
 
                 try
                 {
@@ -2629,7 +2628,7 @@ namespace PDV_WPF.Telas
             }
             try
             {
-                PrintDEVOLOld.IMPRIME();
+                //PrintDEVOLOld.IMPRIME();
             }
             catch (Exception ex)
             {
