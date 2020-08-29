@@ -2568,8 +2568,6 @@ namespace PDV_WPF.Telas
         /// <param name="pFechamento"></param>
         private void FecharDevolucaoNovo()
         {
-            //PrintDEVOLOld.numerodocupom = 0;
-
             decimal _qCom;
             decimal _vUnCom;
             decimal _vDesc;
@@ -2593,7 +2591,6 @@ namespace PDV_WPF.Telas
                 _qCom = decimal.Parse(item.prod.qCom, ptBR);
                 _vUnCom = decimal.Parse(item.prod.vUnCom, ptBR);
                 _vDesc = decimal.Parse(item.prod.vDesc, ptBR);
-                //PrintDEVOLOld.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0);
 
                 try
                 {
