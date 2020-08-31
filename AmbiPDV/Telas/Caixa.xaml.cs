@@ -3147,6 +3147,7 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
+                    AbreGaveta();
                     break;
                 default:
                 case DecisaoWhats.ImpressaoNormal:
