@@ -686,8 +686,8 @@ namespace PDV_WPF
                     tot_vendas += valorSomado;
                     if (metodo.COD_CFE == "01")
                     {
-                        sangrias = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA) ?? 0M;
-                        suprimentos = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA) ?? 0M;
+                        sangrias = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                        suprimentos = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
@@ -967,8 +967,8 @@ namespace PDV_WPF
                     tot_vendas += valorSomado;
                     if (metodo.COD_CFE == "01")
                     {
-                        sangrias = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA) ?? 0M;
-                        suprimentos = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA) ?? 0M;
+                        sangrias = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                        suprimentos = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
@@ -1022,24 +1022,46 @@ namespace PDV_WPF
             DateTime FechamentoAlternativo;
             try
             {
-                FBCOMMAND.Connection = fbConnect;
-
-                if (fbConnect.State == ConnectionState.Closed)
+                if (blnFazerFechamento)
                 {
-                    fbConnect.Open();
+                    FBCOMMAND.Connection = fbConnect;
+
+                    if (fbConnect.State == ConnectionState.Closed)
+                    {
+                        fbConnect.Open();
+                    }
+
+
+
+                    FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                    FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                    FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                    FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
+                    //FBCOMMAND.ExecuteNonQuery();
+                    FBCOMMAND.CommandType = CommandType.Text;
+                    //var DataReader = FBCOMMAND.ExecuteReader();
+
                 }
+                else //Não, Anna
+                
+                {
+                    FBCOMMAND.Connection = fbConnect;
+
+                    if (fbConnect.State == ConnectionState.Closed)
+                    {
+                        fbConnect.Open();
+                    }
 
 
 
-                FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
-                FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
-                //FBCOMMAND.ExecuteNonQuery();
-                FBCOMMAND.CommandType = CommandType.Text;
-                //var DataReader = FBCOMMAND.ExecuteReader();
-
-
+                    FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                    FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                    FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", abertura.Date);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                    FBCOMMAND.Parameters.AddWithValue("@datahoraatual", fechamento);
+                    //FBCOMMAND.ExecuteNonQuery();
+                    FBCOMMAND.CommandType = CommandType.Text;
+                    //var DataReader = FBCOMMAND.ExecuteReader();
+                }
 
                 ResultadoTurnosAnteriores.Load(FBCOMMAND.ExecuteReader());
 
@@ -1052,12 +1074,12 @@ namespace PDV_WPF
                 {
 
 
-                    foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
-                    //for(int i = 0; i <= b; i++)
+                    //foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
+                    for(int i = 0; i <= ResultadoTurnosAnteriores.Rows.Count-1; i++)
                     {
 
 
-                        ID_operInt = ResultadoTurnosAnteriores[0].ID_OPER;
+                        ID_operInt = ResultadoTurnosAnteriores[i].ID_OPER;
 
 
 
@@ -1101,8 +1123,8 @@ namespace PDV_WPF
 
                                 if (metodo.COD_CFE == "01")
                                 {
-                                    sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
-                                    suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
+                                    sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA, FechamentoAlternativo) ?? 0M;
+                                    suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA, FechamentoAlternativo) ?? 0M;
                                     log.Debug($"Sangrias: {sangriasAlternativa} - Suprimentos: {suprimentosAlternativo}");
                                     valorSomadoAlternativo -= sangriasAlternativa;
                                     valorSomadoAlternativo += suprimentosAlternativo;

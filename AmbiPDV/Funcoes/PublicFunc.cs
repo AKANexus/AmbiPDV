@@ -78,8 +78,8 @@ namespace PDV_WPF
                 //SVF_TA.SomaDeTrocos(abertura, 1, "N" + NO_CAIXA.ToString(), fechamento) ?? 0M +
                 //SVF_TA.SomaDeTrocos(abertura, 1, "E" + NO_CAIXA.ToString(), fechamento) ?? 0M);
 
-                decimal suprimentos = (decimal?)SVF_TA.GetSuprimentosByCaixa(abertura, NO_CAIXA) ?? 0M;
-                decimal sangrias = (decimal?)SVF_TA.GetSangriasByCaixa(abertura, NO_CAIXA) ?? 0M;
+                decimal suprimentos = (decimal?)SVF_TA.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                decimal sangrias = (decimal?)SVF_TA.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
 
                 log.Debug($"suprimentos: {suprimentos}");
                 log.Debug($"sangrias: {sangrias}");
