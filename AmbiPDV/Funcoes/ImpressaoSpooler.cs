@@ -859,7 +859,6 @@ namespace PDV_WPF
         {
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
-        DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma;
         private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
         {
 
@@ -987,20 +986,24 @@ namespace PDV_WPF
                     SomatoriaMensal += somaABC;
                 }
             }
+            DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
+
             #region Rendimento Produto/Servico
-
-            try
+            if (FECHAMENTO_EXTENDIDO)
             {
-                using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
+                try
                 {
-                    RendimentoSoma = modelos.SP_TRI_RENDIMENTO_SOMA(abertura, fechamento);
+                    using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
+                    {
+                        RendimentoSoma = modelos.SP_TRI_RENDIMENTO_SOMA(abertura, fechamento);
 
-                    int a;
+                        int a;
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
             #endregion
 
@@ -1013,7 +1016,7 @@ namespace PDV_WPF
             //FbDataReader Reader;
             DateTime Inicio_dia = DateTime.Today;
             DateTime DataHoraAtual = DateTime.Now;
-            string ID_operAlternativo;
+            //string ID_operAlternativo;
             int ID_operInt;
             DateTime AberturaAlternativa;
             DateTime FechamentoAlternativo;
@@ -1041,7 +1044,7 @@ namespace PDV_WPF
                 ResultadoTurnosAnteriores.Load(FBCOMMAND.ExecuteReader());
 
 
-                if (ResultadoTurnosAnteriores.Rows.Count == 0 || ResultadoTurnosAnteriores.Rows.Count == null)
+                if (ResultadoTurnosAnteriores is null || ResultadoTurnosAnteriores.Rows.Count == 0)
                 {
                     TotalVendasAlternativo = totaissistema;
                 }
@@ -1347,9 +1350,10 @@ namespace PDV_WPF
             }
             RecebePrint("VAL. MÉD. CUPOM\t\tR$", corpo, esquerda, 0);
             RecebePrint("\t" + med_vendas.ToString("0.00"), corpo, rtl, 1);
-
-            #region Registradores Vini
-            RecebePrint("SOMA DO DIA\t\t\tR$", corpo, esquerda, 0);
+            if (FECHAMENTO_EXTENDIDO)
+            {
+                #region Registradores Vini
+                RecebePrint("SOMA DO DIA\t\t\tR$", corpo, esquerda, 0);
             RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, rtl, 1);
 
 
@@ -1358,15 +1362,17 @@ namespace PDV_WPF
             #region Rendimentos Por Item 
             RecebePrint(new string('>', 15), negrito, esquerda, 0);
             RecebePrint(new string('<', 15), negrito, direita, 0);
-            RecebePrint("RENDIMENTO", negrito, centro, 1);
-            int count = 0;
-            foreach (DataRow a in RendimentoSoma.Rows)
-            {
 
-                RecebePrint($"{RendimentoSoma[count].RDESCRICAO}\t\tR$", corpo, esquerda, 0);
-                RecebePrint($"\t{RendimentoSoma[count].RSOMA:N2}", corpo, rtl, 1);
-                count++;
+                RecebePrint("RENDIMENTOS", negrito, centro, 1);
+                int count = 0;
+                foreach (DataRow a in RendimentoSoma.Rows)
+                {
 
+                    RecebePrint($"{RendimentoSoma[count].RDESCRICAO}\t\tR$", corpo, esquerda, 0);
+                    RecebePrint($"\t{RendimentoSoma[count].RSOMA:N2}", corpo, rtl, 1);
+                    count++;
+
+                }
             }
             #endregion
             #endregion Registradores Vini

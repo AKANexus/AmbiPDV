@@ -156,6 +156,11 @@ namespace PDV_WPF.Funcoes
                 0 => false,
                 _ => true
             };
+            FECHAMENTO_EXTENDIDO = xmlLido.FECHAMENTO_EXTENDIDO switch
+            {
+                0 => false,
+                _ => true
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {
