@@ -58,7 +58,7 @@ namespace PDV_WPF
         private static List<Linha> transmitir = new List<Linha>();
         private static List<Linha> retransmitir = new List<Linha>();
         public float lastusedheight = 0f;
-
+        
         public static void RecebePrint(string texto, Fonte font, Alinhamento alignment, int breakline, bool retransmissao = false)
         {
             //audit("PRINTFUNC>> Recebe print: " + texto + " Breakline: " + breakline);
@@ -859,7 +859,7 @@ namespace PDV_WPF
         {
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
-
+        DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma;
         private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
         {
 
@@ -940,8 +940,8 @@ namespace PDV_WPF
                 DateTime PrimeiroDiaMes = DateTime.Today;
 
                 DataAtual = DataAtual.AddDays(-1);
-
-                PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-DataAtual.Day);
+                
+                PrimeiroDiaMes = new DateTime(PrimeiroDiaMes.Year, PrimeiroDiaMes.Month, 1);
 
                 foreach (var metodo in statuses)
                 {
@@ -970,22 +970,27 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-                        //Soma das vendas no começo do mês até o presente.
-                        SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
-
+                       
                     }
+                    decimal somaABC,a, b ,c;
+                    //Soma das vendas no começo do mês até o presente.
+                    a = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
+                    b =  (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    c =  (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    somaABC = a + b + c;
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
                     valoresOperacionais.Add((metodo.COD_CFE, valorSomado, metodo.ID_FMANFCE, metodo.DESCRICAO));
                     totaissistema += valorSomado;
+                    SomatoriaMensal += somaABC;
                 }
             }
             #region Rendimento Produto/Servico
-            DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma;
+            
             try
             {
                 using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
                 {
-                    RendimentoSoma = modelos.SP_TRI_RENDIMENTO_SOMA(fechamento, abertura);
+                    RendimentoSoma = modelos.SP_TRI_RENDIMENTO_SOMA(abertura, fechamento);
 
                     int a;
                 }
@@ -1004,6 +1009,7 @@ namespace PDV_WPF
             FbConnection fbConnect = new FbConnection(MontaStringDeConexao("localhost", localpath));
             //FbDataReader Reader;
             DateTime Inicio_dia = DateTime.Today;
+            DateTime DataHoraAtual = DateTime.Now;
             string ID_operAlternativo;
             int ID_operInt;
             DateTime AberturaAlternativa;
@@ -1020,17 +1026,17 @@ namespace PDV_WPF
 
 
 
-                FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME,ABERTO,HASH,FECHADO,ID_OPER,ID_USER,DIN,CHEQUE,CREDITO,DEBITO,LOJA,	ALIMENTACAO,REFEICAO,	PRESENTE,COMBUSTIVEL,OUTROS,SANGRIAS,SUPRIMENTOS,TROCAS TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@abertura AS TIMESTAMP)";
+                FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME,ABERTO,HASH,FECHADO,ID_OPER,ID_USER,DIN,CHEQUE,CREDITO,DEBITO,LOJA,	ALIMENTACAO,REFEICAO,	PRESENTE,COMBUSTIVEL,OUTROS,SANGRIAS,SUPRIMENTOS,TROCAS TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
                 FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                 FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                FBCOMMAND.Parameters.AddWithValue("@abertura", abertura);
+                FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
                 //FBCOMMAND.ExecuteNonQuery();
                 FBCOMMAND.CommandType = CommandType.Text;
-                var DataReader = FBCOMMAND.ExecuteReader();
+                //var DataReader = FBCOMMAND.ExecuteReader();
 
 
 
-                ResultadoTurnosAnteriores.Load(DataReader);
+                ResultadoTurnosAnteriores.Load(FBCOMMAND.ExecuteReader());
 
                
                 var b = ResultadoTurnosAnteriores.Rows.Count;
@@ -1080,7 +1086,7 @@ namespace PDV_WPF
                             valorSomadoAlternativo = valorSATAlternativo + valorNAOFISCALAlternativo + valorECFAlternativo;
                             log.Debug($"valorSomado: {valorSomadoAlternativo}");
                             // totalMovdiario += valorSomado;
-                            TotalVendasAlternativo += valorSomadoAlternativo;
+                            
                             if (metodo.COD_CFE == "01")
                             {
                                 sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
@@ -1089,12 +1095,13 @@ namespace PDV_WPF
                                 valorSomadoAlternativo -= sangriasAlternativa;
                                 valorSomadoAlternativo += suprimentosAlternativo;
                                 //Soma das vendas no começo do mês até o presente.
-                                SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                              //  SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
 
                             }
                             log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomadoAlternativo}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
                             valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
                             //totaissistema += valorSomadoAlternativo;
+                            TotalVendasAlternativo += valorSomadoAlternativo;
                         }
                     }
 
@@ -1326,10 +1333,26 @@ namespace PDV_WPF
             RecebePrint("\t" + med_vendas.ToString("0.00"), corpo, rtl, 1);
 
             #region Registradores Vini
-            RecebePrint("SOMA DO DIA\t\t\tR$", corpo, esquerda, 0);
-            RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, direita, 1);
+            RecebePrint("SOMA DO DIA\t\tR$", corpo, esquerda, 0);
+            RecebePrint("\t"+TotalVendasAlternativo.ToString("0.00"), corpo, rtl, 1);
 
 
+            RecebePrint("SOMA DO MÊS\t\tR$", corpo, esquerda, 0);
+            RecebePrint($"\t{SomatoriaMensal:N2}"+""+"", corpo, rtl, 1);
+            #region Rendimentos Por Item 
+            RecebePrint(new string('>', 15), negrito, esquerda, 0);
+            RecebePrint(new string('<', 15), negrito, direita, 0);
+            RecebePrint("RENDIMENTO", negrito, centro, 1);
+            int count = 0;
+            foreach (DataRow a in RendimentoSoma.Rows)
+            {
+
+                RecebePrint($"{RendimentoSoma[count].RDESCRICAO}\t\tR$", corpo, esquerda, 0);
+                RecebePrint($"\t{RendimentoSoma[count].RSOMA:N2}", corpo, rtl, 1);
+                count++;
+
+            }
+            #endregion
             #endregion Registradores Vini
 
             RecebePrint(" ", negrito, esquerda, 0);
