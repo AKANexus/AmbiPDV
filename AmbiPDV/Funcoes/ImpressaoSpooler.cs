@@ -886,6 +886,9 @@ namespace PDV_WPF
             FDBDataSet.SP_TRI_CONTANFVPAGTODataTable contagemNaoFiscal = new FDBDataSet.SP_TRI_CONTANFVPAGTODataTable();
             FDBDataSet.SP_TRI_CONTANFVPAGTODataTable contagemFiscal = new FDBDataSet.SP_TRI_CONTANFVPAGTODataTable();
             FDBDataSetVenda.TRI_PDV_OPERDataTable TabelaTurnoAnterior = new FDBDataSetVenda.TRI_PDV_OPERDataTable();
+            FDBDataSetVenda.TRI_PDV_OPERDataTable ResultadoTurnosAnteriores = new FDBDataSetVenda.TRI_PDV_OPERDataTable();
+
+
             DateTime abertura = new DateTime();
             DateTime aberturaAnterior = new DateTime();
             DateTime fechamento = new DateTime();
@@ -940,7 +943,7 @@ namespace PDV_WPF
                 DateTime PrimeiroDiaMes = DateTime.Today;
 
                 DataAtual = DataAtual.AddDays(-1);
-                
+
                 PrimeiroDiaMes = new DateTime(PrimeiroDiaMes.Year, PrimeiroDiaMes.Month, 1);
 
                 foreach (var metodo in statuses)
@@ -970,13 +973,13 @@ namespace PDV_WPF
                         log.Debug($"Sangrias: {sangrias} - Suprimentos: {suprimentos}");
                         valorSomado -= sangrias;
                         valorSomado += suprimentos;
-                       
+
                     }
-                    decimal somaABC,a, b ,c;
+                    decimal somaABC, a, b, c;
                     //Soma das vendas no começo do mês até o presente.
                     a = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
-                    b =  (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                    c =  (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    b = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    c = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
                     somaABC = a + b + c;
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
                     valoresOperacionais.Add((metodo.COD_CFE, valorSomado, metodo.ID_FMANFCE, metodo.DESCRICAO));
@@ -985,7 +988,7 @@ namespace PDV_WPF
                 }
             }
             #region Rendimento Produto/Servico
-            
+
             try
             {
                 using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
@@ -999,13 +1002,13 @@ namespace PDV_WPF
             {
                 MessageBox.Show(ex.Message);
             }
-                #endregion
+            #endregion
 
 
 
 
-                #region Fluxo Turno Anterior
-                FbCommand FBCOMMAND = new FbCommand();
+            #region Fluxo Turno Anterior
+            FbCommand FBCOMMAND = new FbCommand();
             FbConnection fbConnect = new FbConnection(MontaStringDeConexao("localhost", localpath));
             //FbDataReader Reader;
             DateTime Inicio_dia = DateTime.Today;
@@ -1014,7 +1017,6 @@ namespace PDV_WPF
             int ID_operInt;
             DateTime AberturaAlternativa;
             DateTime FechamentoAlternativo;
-            DataTable ResultadoTurnosAnteriores = new DataTable();
             try
             {
                 FBCOMMAND.Connection = fbConnect;
@@ -1026,7 +1028,7 @@ namespace PDV_WPF
 
 
 
-                FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME,ABERTO,HASH,FECHADO,ID_OPER,ID_USER,DIN,CHEQUE,CREDITO,DEBITO,LOJA,	ALIMENTACAO,REFEICAO,	PRESENTE,COMBUSTIVEL,OUTROS,SANGRIAS,SUPRIMENTOS,TROCAS TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
                 FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                 FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                 FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
@@ -1038,87 +1040,101 @@ namespace PDV_WPF
 
                 ResultadoTurnosAnteriores.Load(FBCOMMAND.ExecuteReader());
 
-               
-                var b = ResultadoTurnosAnteriores.Rows.Count;
-                 foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
-                //for(int i = 0; i <= b; i++)
-                 {
-                 
 
-                    ID_operInt = (int)a["ID_OPER"];
+                if (ResultadoTurnosAnteriores.Rows.Count == 0 || ResultadoTurnosAnteriores.Rows.Count == null)
+                {
+                    TotalVendasAlternativo = totaissistema;
+                }
+                else
+                {
 
-                  
 
-                    TabelaTurnoAnterior = Oper.GetByCaixa(ID_operInt);
-
-                    AberturaAlternativa = TabelaTurnoAnterior[0].CURRENTTIME;
-                    FechamentoAlternativo = TabelaTurnoAnterior[0].FECHADO;
-
-                    decimal sangriasAlternativa = 0, suprimentosAlternativo = 0;
-                    var statusesAlternativo = METODOS_DT.Select(x => new { COD_CFE = x.ID_NFCE, x.STATUS, x.DESCRICAO, x.ID_FMANFCE });
-                    List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionaisAlternativos = new List<(string, decimal, int, string)>();
-                    using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
+                    foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
+                    //for(int i = 0; i <= b; i++)
                     {
-                        // Atributos para definir as datas corretas 
-                        DateTime DataAtual = DateTime.Now;
-                        DateTime PrimeiroDiaMes = DateTime.Today;
-                        //DateTime DiaAnterior;
-                        DataAtual = DataAtual.AddDays(-1);
-                        // DiaAnterior = DataAtual;
-                        PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-DataAtual.Day);
 
-                        foreach (var metodo in statusesAlternativo)
+
+                        ID_operInt = ResultadoTurnosAnteriores[0].ID_OPER;
+
+
+
+                        TabelaTurnoAnterior = Oper.GetByCaixa(ID_operInt);
+
+                        AberturaAlternativa = TabelaTurnoAnterior[0].CURRENTTIME;
+                        FechamentoAlternativo = TabelaTurnoAnterior[0].FECHADO;
+
+                        decimal sangriasAlternativa = 0, suprimentosAlternativo = 0;
+                        var statusesAlternativo = METODOS_DT.Select(x => new { COD_CFE = x.ID_NFCE, x.STATUS, x.DESCRICAO, x.ID_FMANFCE });
+                        List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionaisAlternativos = new List<(string, decimal, int, string)>();
+                        using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
                         {
-                            SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
-                            log.Debug("Processando método de pagamento====================");
-                            decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
-                            //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                            valorSATAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                            valorNAOFISCALAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                            valorECFAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                            log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
-                            #region Total Venda editado por vinícius  
-                            //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
-                            //pvalorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                            //pvalorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                            //valorTotalVendas = valorTotalVendas + pvalorSAT + pvalorNAOFISCAL + pvalorECF; //pora
-                            #endregion
-                            valorSomadoAlternativo = valorSATAlternativo + valorNAOFISCALAlternativo + valorECFAlternativo;
-                            log.Debug($"valorSomado: {valorSomadoAlternativo}");
-                            // totalMovdiario += valorSomado;
-                            
-                            if (metodo.COD_CFE == "01")
+                            // Atributos para definir as datas corretas 
+                            DateTime DataAtual = DateTime.Now;
+                            DateTime PrimeiroDiaMes = DateTime.Today;
+                            //DateTime DiaAnterior;
+                            DataAtual = DataAtual.AddDays(-1);
+                            // DiaAnterior = DataAtual;
+                            PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-DataAtual.Day);
+
+                            foreach (var metodo in statusesAlternativo)
                             {
-                                sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
-                                suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
-                                log.Debug($"Sangrias: {sangriasAlternativa} - Suprimentos: {suprimentosAlternativo}");
-                                valorSomadoAlternativo -= sangriasAlternativa;
-                                valorSomadoAlternativo += suprimentosAlternativo;
-                                //Soma das vendas no começo do mês até o presente.
-                              //  SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                                SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
+                                log.Debug("Processando método de pagamento====================");
+                                decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
+                                //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
+                                valorSATAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                                valorNAOFISCALAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                                valorECFAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                                log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
+                                #region Total Venda editado por vinícius  
+                                //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
+                                //pvalorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                                //pvalorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                                //valorTotalVendas = valorTotalVendas + pvalorSAT + pvalorNAOFISCAL + pvalorECF; //pora
+                                #endregion
+                                valorSomadoAlternativo = valorSATAlternativo + valorNAOFISCALAlternativo + valorECFAlternativo;
+                                log.Debug($"valorSomado: {valorSomadoAlternativo}");
+                                // totalMovdiario += valorSomado;
 
+                                if (metodo.COD_CFE == "01")
+                                {
+                                    sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
+                                    suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA) ?? 0M;
+                                    log.Debug($"Sangrias: {sangriasAlternativa} - Suprimentos: {suprimentosAlternativo}");
+                                    valorSomadoAlternativo -= sangriasAlternativa;
+                                    valorSomadoAlternativo += suprimentosAlternativo;
+                                    //Soma das vendas no começo do mês até o presente.
+                                    //  SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+
+                                }
+                                log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomadoAlternativo}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
+                                // valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
+                                //totaissistema += valorSomadoAlternativo;
+                                TotalVendasAlternativo += valorSomadoAlternativo;
                             }
-                            log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomadoAlternativo}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
-                            valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
-                            //totaissistema += valorSomadoAlternativo;
-                            TotalVendasAlternativo += valorSomadoAlternativo;
                         }
+
+
+
                     }
-
-                    
-
-                 }
-
-                FBCOMMAND.Connection.Close();
-
-            }
+                }
+                    FBCOMMAND.Connection.Close();
+                if (blnFazerFechamento == true)
+                {
+                    TotalVendasAlternativo += totaissistema;
+                }
+                else 
+                {
+                
+                }
+                }
             catch (Exception ex)
             {
                 FBCOMMAND.Connection.Close();
                 MessageBox.Show("", ex.Message);
 
             }
-
+        
 
 
 
@@ -1334,7 +1350,7 @@ namespace PDV_WPF
 
             #region Registradores Vini
             RecebePrint("SOMA DO DIA\t\tR$", corpo, esquerda, 0);
-            RecebePrint("\t"+TotalVendasAlternativo.ToString("0.00"), corpo, rtl, 1);
+            RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, rtl, 1);
 
 
             RecebePrint("SOMA DO MÊS\t\tR$", corpo, esquerda, 0);
