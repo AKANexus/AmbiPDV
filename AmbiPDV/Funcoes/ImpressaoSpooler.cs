@@ -1349,7 +1349,7 @@ namespace PDV_WPF
             RecebePrint("\t" + med_vendas.ToString("0.00"), corpo, rtl, 1);
 
             #region Registradores Vini
-            RecebePrint("SOMA DO DIA\t\tR$", corpo, esquerda, 0);
+            RecebePrint("SOMA DO DIA\t\t\tR$", corpo, esquerda, 0);
             RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, rtl, 1);
 
 
