@@ -45488,7 +45488,7 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "\"SP_TRI_RENDIMENTO_SOMA\"";
@@ -45507,31 +45507,19 @@ WHERE A.ID_NFVENDA = @Param1";
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[0].Parameters.Add(param);
-            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "\"SP_TRI_RENDIMENTO_SOMA\"";
-            this._commandCollection[1].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PDATA_INICIAL";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.Size = 8;
+            param.ParameterName = "CAIXA";
+            param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[1].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PDATA_FINAL";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = null;
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[0].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable dataTable, global::System.Nullable<global::System.DateTime> PDATA_INICIAL, global::System.Nullable<global::System.DateTime> PDATA_FINAL) {
+        public virtual int Fill(FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable dataTable, global::System.Nullable<global::System.DateTime> PDATA_INICIAL, global::System.Nullable<global::System.DateTime> PDATA_FINAL, string CAIXA) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((PDATA_INICIAL.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(PDATA_INICIAL.Value));
@@ -45544,6 +45532,12 @@ WHERE A.ID_NFVENDA = @Param1";
             }
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((CAIXA == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(CAIXA));
             }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
@@ -45556,7 +45550,7 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable GetData(global::System.Nullable<global::System.DateTime> PDATA_INICIAL, global::System.Nullable<global::System.DateTime> PDATA_FINAL) {
+        public virtual FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable GetData(global::System.Nullable<global::System.DateTime> PDATA_INICIAL, global::System.Nullable<global::System.DateTime> PDATA_FINAL, string CAIXA) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((PDATA_INICIAL.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(PDATA_INICIAL.Value));
@@ -45570,28 +45564,11 @@ WHERE A.ID_NFVENDA = @Param1";
             else {
                 this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
             }
-            FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable dataTable = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
-        public virtual FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable SP_TRI_RENDIMENTO_SOMA(global::System.Nullable<global::System.DateTime> PDATA_INICIAL, global::System.Nullable<global::System.DateTime> PDATA_FINAL) {
-            this.Adapter.SelectCommand = this.CommandCollection[1];
-            if ((PDATA_INICIAL.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(PDATA_INICIAL.Value));
+            if ((CAIXA == null)) {
+                this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
-            }
-            if ((PDATA_FINAL.HasValue == true)) {
-                this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(PDATA_FINAL.Value));
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(CAIXA));
             }
             FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable dataTable = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
             this.Adapter.Fill(dataTable);

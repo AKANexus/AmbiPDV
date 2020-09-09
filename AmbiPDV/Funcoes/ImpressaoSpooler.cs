@@ -986,16 +986,16 @@ namespace PDV_WPF
                     SomatoriaMensal += somaABC;
                 }
             }
-            DataSets.FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
+            FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
 
             #region Rendimento Produto/Servico
             if (FECHAMENTO_EXTENDIDO)
             {
                 try
                 {
-                    using (var modelos = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_RENDIMENTO_SOMATableAdapter())
+                    using (var modelos = new SP_TRI_RENDIMENTO_SOMATableAdapter())
                     {
-                        RendimentoSoma = modelos.SP_TRI_RENDIMENTO_SOMA(abertura, fechamento);
+                        modelos.Fill(RendimentoSoma, abertura, fechamento, NO_CAIXA.ToString());
 
                         int a;
                     }
