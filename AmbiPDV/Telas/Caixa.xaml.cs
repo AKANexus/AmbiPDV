@@ -383,7 +383,7 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-                        if (!PedeSenhaGerencial("Cancelamento da Venda Atual", false))
+                        if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false))
                         {
                             return;
                         }
@@ -749,7 +749,6 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void CancelarVendaAtual()
         {
-            if (!PERMITE_CANCELAR_VENDA_EM_CURSO) return;
             if (_modo_consulta) AlternarModoDeConsulta();
             log.Debug($"Cancelando a venda atual, sem informar pagamentos.");
             //LIMPAR OBJETO DE VENDA
@@ -1412,7 +1411,7 @@ namespace PDV_WPF.Telas
         private void CancelarUltimoCupom()
         {
             if (_emTransacao || !PedeSenhaGerencial("Cancelando Último Cupom", _modoTeste)) { return; }
-            new ListaCupons().ShowDialog();
+            new List().ShowDialog();
             IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.vendas*/);
             return;
 
@@ -3147,7 +3146,7 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
-                    AbreGaveta();
+                    if (FORÇA_GAVETA) AbreGaveta();
                     break;
                 default:
                 case DecisaoWhats.ImpressaoNormal:

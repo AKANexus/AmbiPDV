@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDV_WPF.Telas"
-        xmlns:PDV_WPF="clr-namespace:PDV_WPF" x:Class="PDV_WPF.Telas.ListaCupons"
+        xmlns:PDV_WPF="clr-namespace:PDV_WPF" x:Class="PDV_WPF.Telas.List"
         mc:Ignorable="d"
         Title="Parametros" Height="725" Width="700" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" PreviewKeyDown="Window_PreviewKeyDown">
     <DockPanel Width="543" Height="704">

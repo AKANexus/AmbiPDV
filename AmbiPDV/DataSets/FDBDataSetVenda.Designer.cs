@@ -11692,13 +11692,6 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TRI_PDV_DEVOLRow FindByID_DEVOLUCAO(int ID_DEVOLUCAO) {
-                return ((TRI_PDV_DEVOLRow)(this.Rows.Find(new object[] {
-                            ID_DEVOLUCAO})));
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public override global::System.Data.DataTable Clone() {
                 TRI_PDV_DEVOLDataTable cln = ((TRI_PDV_DEVOLDataTable)(base.Clone()));
                 cln.InitVars();
@@ -11740,10 +11733,7 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnDATA_USADO);
                 this.columnQTD_DEVOL = new global::System.Data.DataColumn("QTD_DEVOL", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQTD_DEVOL);
-                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnID_DEVOLUCAO}, true));
                 this.columnID_DEVOLUCAO.AllowDBNull = false;
-                this.columnID_DEVOLUCAO.Unique = true;
                 this.columnID_NFVITEM.AllowDBNull = false;
                 this.columnVALOR.AllowDBNull = false;
                 this.columnUSADO.AllowDBNull = false;
@@ -44834,13 +44824,15 @@ WHERE A.ID_NFVENDA = @Param1";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT * FROM TRI_PDV_DEVOL WHERE ID_DEVOLUCAO = @pID_DEVOLUCAO AND USADO = \'N\'";
+            this._commandCollection[1].CommandText = "SELECT DATA_DEVOL, DATA_USADO, ID_DEVOLUCAO, ID_NFVITEM, QTD_DEVOL, USADO, VALOR " +
+                "FROM TRI_PDV_DEVOL WHERE (ID_DEVOLUCAO = @pID_DEVOLUCAO) AND (USADO = \'N\')";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@pID_DEVOLUCAO";
-            param.DbType = global::System.Data.DbType.Object;
-            param.Size = 1024;
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
             param.IsNullable = true;
+            param.SourceColumn = "ID_DEVOLUCAO";
             this._commandCollection[1].Parameters.Add(param);
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
@@ -44906,14 +44898,9 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
-        public virtual FDBDataSetVenda.TRI_PDV_DEVOLDataTable GetDataByID_DEVOLUCAO(object pID_DEVOLUCAO) {
+        public virtual FDBDataSetVenda.TRI_PDV_DEVOLDataTable GetDataByID_DEVOLUCAO(int pID_DEVOLUCAO) {
             this.Adapter.SelectCommand = this.CommandCollection[1];
-            if ((pID_DEVOLUCAO == null)) {
-                throw new global::System.ArgumentNullException("pID_DEVOLUCAO");
-            }
-            else {
-                this.Adapter.SelectCommand.Parameters[0].Value = ((object)(pID_DEVOLUCAO));
-            }
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(pID_DEVOLUCAO));
             FDBDataSetVenda.TRI_PDV_DEVOLDataTable dataTable = new FDBDataSetVenda.TRI_PDV_DEVOLDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
@@ -45105,14 +45092,6 @@ WHERE A.ID_NFVENDA = @Param1";
                     this.Adapter.UpdateCommand.Connection.Close();
                 }
             }
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_NFVITEM, decimal VALOR, string USADO, System.DateTime DATA_DEVOL, global::System.Nullable<global::System.DateTime> DATA_USADO, global::System.Nullable<int> QTD_DEVOL, int Original_ID_DEVOLUCAO, int Original_ID_NFVITEM, decimal Original_VALOR, string Original_USADO, System.DateTime Original_DATA_DEVOL, global::System.Nullable<global::System.DateTime> Original_DATA_USADO, global::System.Nullable<int> Original_QTD_DEVOL) {
-            return this.Update(Original_ID_DEVOLUCAO, ID_NFVITEM, VALOR, USADO, DATA_DEVOL, DATA_USADO, QTD_DEVOL, Original_ID_DEVOLUCAO, Original_ID_NFVITEM, Original_VALOR, Original_USADO, Original_DATA_DEVOL, Original_DATA_USADO, Original_QTD_DEVOL);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

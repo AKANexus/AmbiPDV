@@ -161,6 +161,11 @@ namespace PDV_WPF.Funcoes
                 0 => false,
                 _ => true
             };
+            FORÇA_GAVETA = xmlLido.FORCA_GAVETA switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {

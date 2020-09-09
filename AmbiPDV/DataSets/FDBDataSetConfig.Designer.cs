@@ -8629,16 +8629,16 @@ END;";
                 "EGIN INSERT INTO TRI_PDV_WHATS (NUMERO, MENSAGEM, DATAENVIO, ENVIADA,CNPJ) VALUE" +
                 "S (:PNUMERO, :PMENSAGEM,:PDATA,:PENVIADA,:PCNPJ); END\';\r\n\r\nerro = \'sproc SP_TRI_" +
                 "RENDIMENTO_SOMA\';\r\nexecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_RENDIMENT" +
-                "O_SOMA (PDATA_INICIAL TIMESTAMP, PDATA_FINAL TIMESTAMP) RETURNS (RSOMA DECIMAL, " +
-                "RDESCRICAO VARCHAR(30)) AS BEGIN FOR SELECT SUM(tni.VLR_TOTAL),tetis.DESCRICAO F" +
-                "ROM TB_NFV_ITEM tni JOIN TB_NFVENDA tn ON tni.ID_NFVENDA = tn.ID_NFVENDA JOIN TB" +
-                "_EST_IDENTIFICADOR tei ON tni.ID_IDENTIFICADOR = tei.ID_IDENTIFICADOR JOIN TB_ES" +
-                "TOQUE te ON tei.ID_ESTOQUE = te.ID_ESTOQUE JOIN TB_EST_TIPO_ITEM_SIS tetis ON te" +
-                ".ID_TIPOITEM = tetis.ID_TIPOITEM WHERE (tn.NF_SERIE = \'\'N1\'\' OR tn.NF_SERIE = \'\'" +
-                "1\'\') AND tn.NF_MODELO = \'\'59\'\' AND CAST ((tn.DT_SAIDA || \'\' \'\' || tn.HR_SAIDA) A" +
-                "S TIMESTAMP) BETWEEN :PDATA_INICIAL AND :PDATA_FINAL GROUP BY tetis.DESCRICAO IN" +
-                "TO :RSOMA, :RDESCRICAO DO BEGIN SUSPEND; END END\';\r\n\r\nerro = \'deu certo\';\r\n\r\nSUS" +
-                "PEND;\r\nWHEN ANY DO\r\nBEGIN\r\nEND\r\nEND;";
+                "O_SOMA (PDATA_INICIAL TIMESTAMP, PDATA_FINAL TIMESTAMP) RETURNS (RSOMA DECIMAL(1" +
+                "8,4), RDESCRICAO VARCHAR(30)) AS BEGIN FOR SELECT SUM(tni.VLR_TOTAL - tni.VLR_DE" +
+                "SC),tetis.DESCRICAO FROM TB_NFV_ITEM tni JOIN TB_NFVENDA tn ON tni.ID_NFVENDA = " +
+                "tn.ID_NFVENDA JOIN TB_EST_IDENTIFICADOR tei ON tni.ID_IDENTIFICADOR = tei.ID_IDE" +
+                "NTIFICADOR JOIN TB_ESTOQUE te ON tei.ID_ESTOQUE = te.ID_ESTOQUE JOIN TB_EST_TIPO" +
+                "_ITEM_SIS tetis ON te.ID_TIPOITEM = tetis.ID_TIPOITEM WHERE (tn.NF_SERIE = \'\'N1\'" +
+                "\' OR tn.NF_SERIE = \'\'1\'\') AND tn.NF_MODELO = \'\'59\'\' AND tn.STATUS = \'\'I\'\' AND CA" +
+                "ST ((tn.DT_SAIDA || \'\' \'\' || tn.HR_SAIDA) AS TIMESTAMP) BETWEEN :PDATA_INICIAL A" +
+                "ND :PDATA_FINAL GROUP BY tetis.DESCRICAO INTO :RSOMA, :RDESCRICAO DO BEGIN SUSPE" +
+                "ND; END END\';\r\n\r\nerro = \'deu certo\';\r\n\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\nEND\r\nEND;";
             this._commandCollection[21].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[22] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[22].Connection = this.Connection;

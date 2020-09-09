@@ -79,10 +79,12 @@
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="3*"/>
                             <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
                         <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Width="180" Name="dtp_DataInicial"/>
                         <DatePicker HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Column="1" Width="180" Name="dtp_DataFinal"/>
                         <Button Grid.Column="2" Margin="10" Content="Pesquisar" Click="Button_Click"/>
+                        <Button Grid.Column="3" Margin="10" Content="$$$" Click="Devolver_Click"/>
                     </Grid>
                     <DataGrid x:Name="dgv_Cupons" Language="pt-BR" AutoGenerateColumns="False" ItemsSource="{Binding}" Margin="10" Grid.Row="2" HeadersVisibility="Column" 
                               IsReadOnly="True" SelectionChanged="listaVendasSelectionChanged" SelectionUnit="FullRow" SelectionMode="Single">

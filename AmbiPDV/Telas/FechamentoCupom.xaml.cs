@@ -436,8 +436,12 @@ namespace PDV_WPF.Telas
                         {
                             DialogBox.Show("Finalização de Cupom", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Devolução informada não encontrada", "Ela pode já ter sido usada ou não existe");
                         }
-                        devolucoes_usadas.Add((pc.valeDigitado, devolucoesDisponiveis[0].VALOR));
-                        decimal _valor = devolucoesDisponiveis[0].VALOR;
+                        decimal _valor = 0;
+                        foreach (DataSets.FDBDataSetVenda.TRI_PDV_DEVOLRow item in devolucoesDisponiveis.Rows)
+                        {
+                            devolucoes_usadas.Add((pc.valeDigitado, item.VALOR));
+                            _valor += item.VALOR;
+                        }
                         if (valor_a_ser_pago == 0)
                         {
                             troco = 0;

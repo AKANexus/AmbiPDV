@@ -534,6 +534,7 @@ namespace PDV_WPF.Configuracoes
         public static string SERVERCATALOG { get; set; }
         public static bool PERMITE_CANCELAR_VENDA_EM_CURSO { get; set; }
         public static bool FECHAMENTO_EXTENDIDO { get; set; }
+        public static bool FORÇA_GAVETA { get; set; }
 
 
         #endregion Propriedades
@@ -843,6 +844,7 @@ namespace PDV_WPF.Configuracoes
         public string SERVERCATALOG { get; set; }
         public int AUTORIZADO { get; set; }
         public int FECHAMENTO_EXTENDIDO { get; set; }
+        public int FORCA_GAVETA { get; set; }
     }
 
 }

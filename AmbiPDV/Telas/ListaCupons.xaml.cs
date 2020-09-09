@@ -26,13 +26,13 @@ namespace PDV_WPF.Telas
     /// <summary>
     /// Interaction logic for ListaCupons.xaml
     /// </summary>
-    public partial class ListaCupons : Window
+    public partial class List : Window
     {
         //private int _numCaixa;
         private string _infoStr;
         private NumSessao _ns = new NumSessao();
         Logger log = new Logger("Lista Cupons");
-        public ListaCupons()
+        public List()
         {
             InitializeComponent();
             PreencheDataGrid();

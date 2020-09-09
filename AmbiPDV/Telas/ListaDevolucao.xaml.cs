@@ -1,6 +1,7 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.Objetos;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
@@ -14,8 +15,11 @@ namespace PDV_WPF.Telas
     /// </summary>
     public partial class ListaDevolucao : Window
     {
+        Devolucoes devolucoes = new Devolucoes();
+
         public ListaDevolucao()
         {
+            devolucoes.ProdutosDevolvidos = new List<(ProdutoDevol, int)>();
             InitializeComponent();
             dgv_Cupons.ItemsSource = listaVendas;
             dgv_ItensCupom.ItemsSource = listaProdutos;
@@ -126,22 +130,10 @@ namespace PDV_WPF.Telas
                         DialogBox.Show("Deolução de Itens", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Foi digitado um valor inválido.");
                         return;
                     }
-                    using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
-                    Devol_TA.Insert(-1, produtoEscolhido.ID_NFVITEM, produtoEscolhido.PRECO_VENDA * quantidadeADevolver, "N", DateTime.Now, null, quantidadeADevolver);
-                    int idDevol = (int)Devol_TA.PegaUltimaDevolucaoPorIDNFVItem(produtoEscolhido.ID_NFVITEM);
-                    PrintDEVOL.IMPRIME(idDevol, produtoEscolhido.PRECO_VENDA * quantidadeADevolver);
-
-                    if (!(dgv_Cupons.SelectedItem is null))
-                    {
-                        ListaProdutos((ReimpressaoVenda)dgv_Cupons.SelectedItem);
-                    }
+                    devolucoes.ProdutosDevolvidos.Add((produtoEscolhido, quantidadeADevolver));
+                    DialogBox.Show("Deolução de Itens", DialogBoxButtons.Yes, DialogBoxIcons.None, false, "Produto adicionado à devolução");
                 }
             }
-        }
-
-        private void Row_DoubleClick(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void listaVendasSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
@@ -150,6 +142,37 @@ namespace PDV_WPF.Telas
             {
                 ListaProdutos((ReimpressaoVenda)e.AddedItems[0]);
             }
+
+        }
+
+        private void Devolver_Click(object sender, RoutedEventArgs e)
+        {
+            devolucoes.DoDevolucao();
+
+            if (!(dgv_Cupons.SelectedItem is null))
+            {
+                ListaProdutos((ReimpressaoVenda)dgv_Cupons.SelectedItem);
+            }
+        }
+    }
+    class Devolucoes
+    {
+        FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+
+        public List<(ProdutoDevol, int)> ProdutosDevolvidos { get; set; }
+
+        public void DoDevolucao()
+        {
+            using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
+            int idDevol = -1;
+            decimal vlrDev = 0;
+            foreach ((ProdutoDevol, int) produto in ProdutosDevolvidos)
+            {
+                Devol_TA.Insert(idDevol, produto.Item1.ID_NFVITEM, produto.Item1.PRECO_VENDA * produto.Item2, "N", DateTime.Now, null, produto.Item2);
+                idDevol = (int)Devol_TA.PegaUltimaDevolucaoPorIDNFVItem(produto.Item1.ID_NFVITEM);
+                vlrDev += produto.Item1.PRECO_VENDA * produto.Item2;
+            }
+            PrintDEVOL.IMPRIME(idDevol, vlrDev);
 
         }
     }

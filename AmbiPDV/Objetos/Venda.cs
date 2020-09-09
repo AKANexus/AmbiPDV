@@ -67,7 +67,6 @@ namespace PDV_WPF.Objetos
         {
             _cFeRetornado = cfeDeRetorno;
         }
-
         public CFe RetornaCFe()
         {
             return _cFe;
