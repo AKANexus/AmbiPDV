@@ -4765,8 +4765,17 @@ END;";
                 " NOT NULL;\';\r\n\texecute statement \'ALTER TABLE TRI_PDV_CONFIG ADD SYSEMITECOMPROV" +
                 "ANTE SMALLINT DEFAULT 0 NOT NULL;\';\r\n\texecute statement \'ALTER TABLE TRI_PDV_CON" +
                 "FIG ADD SYSPERGUNTAWHATS SMALLINT DEFAULT 0 NOT NULL;\';\r\n\texecute statement \'ALT" +
-                "ER TABLE TRI_PDV_CONFIG ADD SYSPARCELA SMALLINT DEFAULT 0 NOT NULL;\';\r\nend\r\n\r\n\r\n" +
-                "erro = \'deu certo\';\r\n\r\nSUSPEND;\r\nWHEN ANY DO BEGIN\r\nEND\r\nEND;";
+                "ER TABLE TRI_PDV_CONFIG ADD SYSPARCELA SMALLINT DEFAULT 0 NOT NULL;\';\r\nend\r\n\r\ner" +
+                "ro = \'delete UK TRI_PDV_DEVOL_PK\';\r\nif (exists (select 1 from RDB$INDICES where " +
+                "rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\nthen\r\nexecute statement \'ALTER TABLE TRI_" +
+                "PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\nerro = \'create gen TRI_PDV_DEVOL" +
+                "_ID\';\r\nif (NOT exists(SELECT 1 FROM RDB$GENERATORS WHERE RDB$Generator_name= \'TR" +
+                "I_PDV_DEVOL_ID\'))\r\nthen\r\nEXECUTE STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';" +
+                "\r\n\r\nerro = \'create trigger DEVOL_ID_NEW\';\r\nif (not exists(select 1 from RDB$TRIG" +
+                "GERS where RDB$TRIGGER_NAME = \'DEVOL_ID_NEW\'))\r\nthen\r\nEXECUTE STATEMENT \'CREATE " +
+                "TRIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUC" +
+                "AO = -1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\r\nerro = \'" +
+                "deu certo\';\r\n\r\nSUSPEND;\r\nWHEN ANY DO BEGIN\r\nEND\r\nEND;";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;

@@ -1402,6 +1402,21 @@ then begin
 	execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD SYSPARCELA SMALLINT DEFAULT 0 NOT NULL;';
 end
 
+erro = 'delete UK TRI_PDV_DEVOL_PK';
+if (exists (select 1 from RDB$INDICES where rdb$index_name = 'TRI_PDV_DEVOL_PK'))
+then
+execute statement 'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK';
+
+erro = 'create gen TRI_PDV_DEVOL_ID';
+if (NOT exists(SELECT 1 FROM RDB$GENERATORS WHERE RDB$Generator_name= 'TRI_PDV_DEVOL_ID'))
+then
+EXECUTE STATEMENT 'CREATE GENERATOR TRI_PDV_DEVOL_ID;';
+
+erro = 'create trigger DEVOL_ID_NEW';
+if (not exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = 'DEVOL_ID_NEW'))
+then
+EXECUTE STATEMENT 'CREATE TRIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END';
+
 
 erro = 'deu certo';
 
@@ -3595,7 +3610,7 @@ END;</CommandText>
   <xs:element name="FDBDataSetConfig" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="FDBDataSetConfig" msprop:Generator_UserDSName="FDBDataSetConfig">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TRI_PDV_CONFIG" msprop:Generator_TableClassName="TRI_PDV_CONFIGDataTable" msprop:Generator_TableVarName="tableTRI_PDV_CONFIG" msprop:Generator_RowChangedName="TRI_PDV_CONFIGRowChanged" msprop:Generator_TablePropName="TRI_PDV_CONFIG" msprop:Generator_RowDeletingName="TRI_PDV_CONFIGRowDeleting" msprop:Generator_RowChangingName="TRI_PDV_CONFIGRowChanging" msprop:Generator_RowEvHandlerName="TRI_PDV_CONFIGRowChangeEventHandler" msprop:Generator_RowDeletedName="TRI_PDV_CONFIGRowDeleted" msprop:Generator_RowClassName="TRI_PDV_CONFIGRow" msprop:Generator_UserTableName="TRI_PDV_CONFIG" msprop:Generator_RowEvArgName="TRI_PDV_CONFIGRowChangeEvent">
+        <xs:element name="TRI_PDV_CONFIG" msprop:Generator_TableClassName="TRI_PDV_CONFIGDataTable" msprop:Generator_TableVarName="tableTRI_PDV_CONFIG" msprop:Generator_TablePropName="TRI_PDV_CONFIG" msprop:Generator_RowDeletingName="TRI_PDV_CONFIGRowDeleting" msprop:Generator_RowChangingName="TRI_PDV_CONFIGRowChanging" msprop:Generator_RowEvHandlerName="TRI_PDV_CONFIGRowChangeEventHandler" msprop:Generator_RowDeletedName="TRI_PDV_CONFIGRowDeleted" msprop:Generator_UserTableName="TRI_PDV_CONFIG" msprop:Generator_RowChangedName="TRI_PDV_CONFIGRowChanged" msprop:Generator_RowEvArgName="TRI_PDV_CONFIGRowChangeEvent" msprop:Generator_RowClassName="TRI_PDV_CONFIGRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_MAC" msprop:Generator_ColumnVarNameInTable="columnID_MAC" msprop:Generator_ColumnPropNameInRow="ID_MAC" msprop:Generator_ColumnPropNameInTable="ID_MACColumn" msprop:Generator_UserColumnName="ID_MAC">
