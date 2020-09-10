@@ -1136,7 +1136,10 @@ namespace PDV_WPF
                                 // valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
                                 //totaissistema += valorSomadoAlternativo;
                                 TotalVendasAlternativo += valorSomadoAlternativo;
+                                
                             }
+                            TotalVendasAlternativo += sangriasAlternativa;
+                            TotalVendasAlternativo -= suprimentosAlternativo;
                         }
 
 
