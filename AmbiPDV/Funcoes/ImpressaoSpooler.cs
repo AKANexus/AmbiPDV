@@ -1139,10 +1139,10 @@ namespace PDV_WPF
                                 
                             }
                             TotalVendasAlternativo += sangriasAlternativa;
-                            TotalVendasAlternativo -= suprimentosAlternativo;
+                           
                         }
 
-
+                        TotalVendasAlternativo -= suprimentosAlternativo;
 
                     }
                 }
