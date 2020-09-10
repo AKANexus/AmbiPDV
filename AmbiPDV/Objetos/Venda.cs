@@ -69,6 +69,15 @@ namespace PDV_WPF.Objetos
         }
         public CFe RetornaCFe()
         {
+            foreach (envCFeCFeInfCFeDet det in _cFe.infCFe.det)
+            {
+                if (det.descAtacado > 0)
+                {
+                    decimal disgraça = det.prod.vDesc.Safedecimal();
+                    disgraça += (det.descAtacado/*/det.prod.qCom.Safedecimal()*/);
+                    det.prod.vDesc = disgraça.ToString("0.00");
+                }
+            }
             return _cFe;
         }
 

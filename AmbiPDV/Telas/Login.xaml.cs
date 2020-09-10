@@ -469,7 +469,9 @@ namespace PDV_WPF
                 }
             }
             //homologaTEF = homologacoes.Contains("tef");
-            homologaSAT = homologacoes.Contains("sat");
+            #if HOMOLOGASET
+            homologaSAT = true;
+            #endif
             homologaDEVOL = homologacoes.Contains("devol");
             if (args.Contains("/auditoria") == true)// se os argumentos contiverem /auditoria
             {
