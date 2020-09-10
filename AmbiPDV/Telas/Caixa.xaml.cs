@@ -5459,7 +5459,6 @@ namespace PDV_WPF.Telas
                                         itemRow.IsCFOPNull() ? "5102" : itemRow.CFOP,
                                         pPrecoUnitario,
                                         itemRow.IsRSTR_CESTNull() ? "" : itemRow.RSTR_CEST,
-
                                         0,
                                         pDesconto,
                                         itemRow.UNI_MEDIDA,
@@ -5543,7 +5542,7 @@ namespace PDV_WPF.Telas
 
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = false, Indent = false };
             var XmlFinal = new StringBuilder();
-            var serializer = new XmlSerializer(vendaAtual.RetornaCFe().GetType());
+            var serializer = new XmlSerializer(typeof(CFe));
             using (var xwriter2 = XmlWriter.Create(XmlFinal, settings))
             {
                 var xns = new XmlSerializerNamespaces();
