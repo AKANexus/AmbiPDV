@@ -1043,7 +1043,7 @@ namespace PDV_WPF
 
                 }
                 else //Não, Anna
-                
+
                 {
                     FBCOMMAND.Connection = fbConnect;
 
@@ -1068,14 +1068,14 @@ namespace PDV_WPF
 
                 if (ResultadoTurnosAnteriores is null || ResultadoTurnosAnteriores.Rows.Count == 0)
                 {
-                    TotalVendasAlternativo = totaissistema;
+                    TotalVendasAlternativo = tot_vendas;
                 }
                 else
                 {
 
 
                     //foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
-                    for(int i = 0; i <= ResultadoTurnosAnteriores.Rows.Count-1; i++)
+                    for (int i = 0; i <= ResultadoTurnosAnteriores.Rows.Count - 1; i++)
                     {
 
 
@@ -1136,26 +1136,29 @@ namespace PDV_WPF
                                 // valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
                                 //totaissistema += valorSomadoAlternativo;
                                 TotalVendasAlternativo += valorSomadoAlternativo;
-                                
+
                             }
                             TotalVendasAlternativo += sangriasAlternativa;
-                           
+
                         }
 
                         TotalVendasAlternativo -= suprimentosAlternativo;
 
                     }
+                    if (blnFazerFechamento == true)
+                    {
+                        TotalVendasAlternativo += tot_vendas;
+                    }
+                    else
+                    {
+
+                    }
                 }
-                    FBCOMMAND.Connection.Close();
-                if (blnFazerFechamento == true)
-                {
-                    TotalVendasAlternativo += totaissistema;
-                }
-                else 
-                {
+                FBCOMMAND.Connection.Close();
+
+
                 
-                }
-                }
+            }
             catch (Exception ex)
             {
                 FBCOMMAND.Connection.Close();
