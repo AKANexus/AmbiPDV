@@ -3148,6 +3148,8 @@ namespace PDV_WPF.Telas
                     PerguntaNumWhats whats = new PerguntaNumWhats("NF", vendaAtual, CupomTef);
                     //Pergunta o número do Uatizápi
                     whats.ShowDialog();
+                    log.Debug("PASSOU PELO PERGUNTA WHATS NFISCAL");
+
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
@@ -4345,9 +4347,10 @@ namespace PDV_WPF.Telas
 
             {
                 case DecisaoWhats.Whats:
-                    PerguntaNumWhats whats = new PerguntaNumWhats(ChaveCFEWhats, vendaAtual);
+                    PerguntaNumWhats whats = new PerguntaNumWhats(ChaveCFEWhats, vendaAtual,CupomTef);
                     //Pergunta o número do Uatizápi
                     whats.ShowDialog();
+                    log.Debug("PASSOU PELO PERGUNTA WHATS FISCAL");
                     break;
                 case DecisaoWhats.NaoImprime:
                     break;

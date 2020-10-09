@@ -133,6 +133,7 @@ namespace PDV_WPF.Telas
                                     {
                                         sub.Append(a);
                                     }
+                                    
                                 }
                             }
                             else
