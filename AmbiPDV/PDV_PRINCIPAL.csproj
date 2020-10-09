@@ -47,7 +47,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\AnyCPU\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;ANYCPU HOMOLOGATEF HOMOLOGADEVOL HOMOLOGASET</DefineConstants>
+    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>

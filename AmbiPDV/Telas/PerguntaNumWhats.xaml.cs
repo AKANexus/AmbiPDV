@@ -11,7 +11,7 @@ using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-
+using System.Collections.Generic;
 
 namespace PDV_WPF.Telas
 {
@@ -25,9 +25,10 @@ namespace PDV_WPF.Telas
         decimal total = 0;
         string MetodoPagto;
         StringBuilder number = new StringBuilder();
-        public PerguntaNumWhats(string ChaveCFEWhats, Venda a)
+        List<string> CupomTefImprime;
+        public PerguntaNumWhats(string ChaveCFEWhats, Venda a,List<string>CupomTef)
         {
-
+            CupomTefImprime = CupomTef;
             InitializeComponent();
             chavecfe = ChaveCFEWhats;
 
@@ -92,39 +93,47 @@ namespace PDV_WPF.Telas
                             if (chavecfe.Equals("NF"))
                             {
 
+                               
+                                
+                                    #region Em caso de  venda fiscal
+                                    sub.Append("*" + Emitente.NomeFantasia.Trim() + "*" + "\n");
+                                    sub.Append(Emitente.EnderecoCompleto + "\n");
+                                    sub.Append("CNPJ : " + Emitente.CNPJ + "" + "\n");
+                                    sub.Append("---------------------------------------\n");
+                                    sub.Append("```      Extrato No." + VendaDEMO.numerodocupom + "\n");
+                                    sub.Append("      CUPOM PROVISÓRIO```\n");
+                                    sub.Append("---------------------------------------\n");
+                                    sub.Append("```#COD    DESC\n  UN QTD VL UN R$ (VLTR R$)* VL ITEM R$```\n\n");
+                                    sub.Append("```");
+                                    foreach (envCFeCFeInfCFeDet item in _atual.RetornaCFe().infCFe.det)
+                                    {
 
-                                #region Em caso de  venda fiscal
-                                sub.Append("*" + Emitente.NomeFantasia.Trim() + "*" + "\n");
-                                sub.Append(Emitente.EnderecoCompleto + "\n");
-                                sub.Append("CNPJ : " + Emitente.CNPJ + "" + "\n");
-                                sub.Append("---------------------------------------\n");
-                                sub.Append("```      Extrato No." + VendaDEMO.numerodocupom + "\n");
-                                sub.Append("      CUPOM PROVISÓRIO```\n");
-                                sub.Append("---------------------------------------\n");
-                                sub.Append("```#COD    DESC\n  UN QTD VL UN R$ (VLTR R$)* VL ITEM R$```\n\n");
-                                sub.Append("```");
-                                foreach (envCFeCFeInfCFeDet item in _atual.RetornaCFe().infCFe.det)
-                                {
-
-                                    sub = sub.Append($"{item.prod.cProd + "   "}  " + $" {item.prod.xProd + "   "}\n" + $"{item.prod.uCom + "   "}" + $"{item.prod.qCom.Substring(0, VendaDEMO.troco.Length - 0) + "   "}" + $"{item.prod.vUnCom.Substring(0, VendaDEMO.troco.Length + 1) + "   "}" + /*+ $"{item.prod.vDesc.Substring(0, VendaDEMO.troco.Length - 0) + ""}*/"\n");
-                                    //string.Concat(a,"Prod" + $"{item.prod.vDesc}" + $"{item.prod.vItem}"+$"{item.prod.xProd}");
-                                    // sub.Append("```");
-                                    total += Convert.ToDecimal(item.prod.vUnCom);
-                                }
+                                        sub = sub.Append($"{item.prod.cProd + "   "}  " + $" {item.prod.xProd + "   "}\n" + $"{item.prod.uCom + "   "}" + $"{item.prod.qCom.Substring(0, VendaDEMO.troco.Length - 0) + "   "}" + $"{item.prod.vUnCom.Substring(0, VendaDEMO.troco.Length + 1) + "   "}" + /*+ $"{item.prod.vDesc.Substring(0, VendaDEMO.troco.Length - 0) + ""}*/"\n");
+                                        //string.Concat(a,"Prod" + $"{item.prod.vDesc}" + $"{item.prod.vItem}"+$"{item.prod.xProd}");
+                                        // sub.Append("```");
+                                        total += Convert.ToDecimal(item.prod.vUnCom);
+                                    }
 
 
-                                sub.Append("\nDescontos R$ :      " + VendaDEMO.desconto.ToString("F") + "\n");
-                                sub.Append("Troco R$ :          " + VendaDEMO.troco + "\n");
-                                total = total - VendaDEMO.desconto;
-                                sub.Append("Total R$ :          " + total.ToString("F") + "\n\n");
-                                sub.Append("Pagamento : " + MetodoPagto + "```\n\n");
-                                sub.Append("    " + DateTime.Now.ToString() + "\n");
-                                sub.Append("Operador(a) : " + operador + "     \n" + "Caixa:" + VendaDEMO.num_caixa + "\n");
-                                sub.Append("\n*Em caso de dúvidas, entre em contato com o estabelecimento da compra.*");
-                                sub.Append("\nTel : " + Emitente.DDD_Comer + Emitente.Tel_Comer + "\n\n");
+                                    sub.Append("\nDescontos R$ :      " + VendaDEMO.desconto.ToString("F") + "\n");
+                                    sub.Append("Troco R$ :          " + VendaDEMO.troco + "\n");
+                                    total = total - VendaDEMO.desconto;
+                                    sub.Append("Total R$ :          " + total.ToString("F") + "\n\n");
+                                    sub.Append("Pagamento : " + MetodoPagto + "```\n\n");
+                                    sub.Append("    " + DateTime.Now.ToString() + "\n");
+                                    sub.Append("Operador(a) : " + operador + "     \n" + "Caixa:" + VendaDEMO.num_caixa + "\n");
+                                    sub.Append("\n*Em caso de dúvidas, entre em contato com o estabelecimento da compra.*");
+                                    sub.Append("\nTel : " + Emitente.DDD_Comer + Emitente.Tel_Comer + "\n\n");
 
-                                sub.Append("_" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO + "_");
+                                    sub.Append("_" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO + "_\n\n\n");
                                 #endregion
+                                if (abc.MP[0].cMP.Equals("03") || abc.MP[0].cMP.Equals("04"))
+                                {
+                                    foreach (var a in CupomTefImprime)
+                                    {
+                                        sub.Append(a);
+                                    }
+                                }
                             }
                             else
                             {
@@ -158,7 +167,13 @@ namespace PDV_WPF.Telas
                                 sub.Append("\n*Em caso de dúvidas, entre em contato com o estabelecimento da compra.*");
                                 sub.Append("\nTel : " + Emitente.DDD_Comer + Emitente.Tel_Comer + "\n\n");
                                 sub.Append("_" + Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO + "_");
-
+                                if (abc.MP[0].cMP.Equals("03") || abc.MP[0].cMP.Equals("04"))
+                                {
+                                    foreach (var a in CupomTefImprime)
+                                    {
+                                        sub.Append(a);
+                                    }
+                                }
                             }
 
                             DateTime dt = DateTime.Now;
