@@ -1484,7 +1484,7 @@ namespace PDV_WPF.Objetos
 
         [Obsolete("Essa informação deve vir diretamente de OBTEMINFODOITEM, e não ser puxada apenas no final. 15-04-2020 ~Artur")]
         public void AplicaPrecoAtacado()
-        {
+            {
             using FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             using var TA_Atacado = new DataSets.FDBDataSetVendaTableAdapters.PrecoAtacadoTableAdapter() { Connection = LOCAL_FB_CONN };
             var quantsCupom =

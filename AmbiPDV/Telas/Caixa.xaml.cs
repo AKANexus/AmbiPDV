@@ -894,7 +894,6 @@ namespace PDV_WPF.Telas
             var rnd = new Random();
             lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
         }
-
         private void Tef_StatusChanged(object sender, TEFEventArgs e)
         {
             var printTEFAdmin = new ComprovanteSiTEF();
@@ -2501,7 +2500,7 @@ namespace PDV_WPF.Telas
         /// <summary>
         /// Determina o como fechar o cupom fiscal
         /// </summary>
-        private void FecharCupomFiscalNovo(FechamentoCupom pFechamento)
+        private bool FecharCupomFiscalNovo(FechamentoCupom pFechamento)
         {
             //if (ECF_ATIVA || _modoTeste)
             if (ECF_ATIVA)
@@ -2510,8 +2509,10 @@ namespace PDV_WPF.Telas
                 {
                     LimparUltimaVenda();
                     ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                    return true;
                 }
-                return;
+                else 
+                return false;
             }
             if (SAT_USADO)
             {
@@ -2523,10 +2524,12 @@ namespace PDV_WPF.Telas
                 else
                 {
                     erroVenda = true;
-                    MessageBox.Show("Erro ao enviar a venda para o SAT Servidor");
+                    //MessageBox.Show("Erro ao enviar a venda para o SAT Servidor");
+                    return false;
                 }
-                return;
+                return true;
             }
+            return false;
         }
 
         /// <summary>
@@ -2837,7 +2840,7 @@ namespace PDV_WPF.Telas
                 var printTEF = new ComprovanteSiTEF();
                 foreach (SiTEFBox tef in fechamento.tefUsados)
                 {
-                    if (tef.Status == StatusTEF.Confirmado && vendaAtual.imprimeViaCliente)
+                    if (tef.Status == StatusTEF.Confirmado && vendaAtual.imprimeViaCliente && !erroVenda)
                         try
                         {
                             printTEF.IMPRIME(tef._viaCliente);
@@ -2849,7 +2852,7 @@ namespace PDV_WPF.Telas
                 }
                 foreach (SiTEFBox tef in fechamento.tefUsados)
                 {
-                    if (tef.Status == StatusTEF.Confirmado)
+                    if (tef.Status == StatusTEF.Confirmado && !erroVenda)
                         try
                         {
                             printTEF.IMPRIME(tef._viaLoja);
@@ -2858,7 +2861,7 @@ namespace PDV_WPF.Telas
                         {
                             throw;
                         }
-                    tef.FinalizaOperacaoTEF(tef.numPagamentoTEF);
+                    tef.FinalizaOperacaoTEF(tef.numPagamentoTEF, erroVenda);
                 }
             }
 
@@ -2956,7 +2959,7 @@ namespace PDV_WPF.Telas
             {
                 _qCom = decimal.Parse(item.prod.qCom, ptBR);
                 _vUnCom = decimal.Parse(item.prod.vUnCom, ptBR);
-                _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, ptBR) + item.descAtacado;
+                _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, ptBR)/* + item.descAtacado*/;
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
@@ -5697,7 +5700,7 @@ namespace PDV_WPF.Telas
         private void ProcessarTextoNoACBox()
         {
             string input = ACBox.Text;
-
+            log.Debug("ProcessarTextoNoACBox chamado");
             if (!_modoDevolucao && !_modo_consulta)
             {
                 if (CarregarVendaPendenteNovo())
@@ -5706,8 +5709,8 @@ namespace PDV_WPF.Telas
                     input = "";
                 }
 
-                if (CarregarProdutosDaComandaNovo()) { log.Debug("Carregou produtos da comanda"); return; }
-                if (CarregarProdutosDoOrcamentoNovo()) { log.Debug("Carregou produtos do orçamento (ou não, ou seja, tentou carregar orçamento)"); return; }
+                if (USA_COMANDA && CarregarProdutosDaComandaNovo()) { log.Debug("Carregou produtos da comanda"); return; }
+                if (USA_ORÇAMENTO && CarregarProdutosDoOrcamentoNovo()) { log.Debug("Carregou produtos do orçamento (ou não, ou seja, tentou carregar orçamento)"); return; }
                 //if (CarregaProdutosDoPedido()) { verbose("Carregou produtos do pedido (ou não, ou seja, tentou carregar pedido)"); return; }
                 //TODO: a atualização de preços só fará efeito se o turno estiver aberto!
             }

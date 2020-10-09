@@ -509,7 +509,7 @@ namespace PDV_WPF.Telas
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             using (var TB_SAT_CANC = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter())
             {
-                TB_NFVENDA.Connection = LOCAL_FB_CONN;
+                TB_NFVENDA.Connection = TB_SAT_CANC.Connection = LOCAL_FB_CONN;
                 TB_NFVENDA.SetaCanceladoPorIDNFVenda(cupomSAT.ID_NFVENDA);
                 TB_SAT_CANC.Insert(0,
                     cupomSAT.ID_REGISTRO,

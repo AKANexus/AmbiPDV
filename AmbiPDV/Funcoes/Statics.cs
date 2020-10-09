@@ -166,6 +166,12 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            USA_ORÇAMENTO = xmlLido.USAORCAMENTO switch
+            {
+                1 => true,
+                _ => false
+            };
+            SATTIMEOUT = xmlLido.SATTIMEOUT;
         }
         public static bool ContemSoNumeros(string texto)
         {
