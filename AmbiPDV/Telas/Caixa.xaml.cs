@@ -133,6 +133,7 @@ namespace PDV_WPF.Telas
         private readonly List<Key> konami = new List<Key>();
         private readonly List<Key> nghtmd = new List<Key>() { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.B, Key.A, Key.A };
         private readonly Regex rgx = new Regex(@"(\d+\*)");
+        public string numeroWhats;//HACK
         private enum tipoDesconto { Nenhum, Absoluto, Percentual }
         private enum statusSangria { Normal, Folga, Excesso }
 
@@ -894,13 +895,12 @@ namespace PDV_WPF.Telas
             var rnd = new Random();
             lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
         }
-        List<string> CupomTef;
         private void Tef_StatusChanged(object sender, TEFEventArgs e)
         {
             var printTEFAdmin = new ComprovanteSiTEF();
             if (!(e.viaCliente is null) && e.viaCliente.Count > 0)
             {
-                CupomTef = e.viaCliente;
+                //CupomTef = e.viaCliente;
                 printTEFAdmin.IMPRIME(e.viaCliente);
             }
             if (!(e.viaLoja is null) && e.viaLoja.Count > 0)
@@ -2845,7 +2845,10 @@ namespace PDV_WPF.Telas
                     if (tef.Status == StatusTEF.Confirmado && vendaAtual.imprimeViaCliente && !erroVenda)
                         try
                         {
-                            printTEF.IMPRIME(tef._viaCliente);
+                            if (PERGUNTA_WHATS == PerguntaWhatsEnum.Sempre)
+                                new PerguntaNumWhats(tef._viaCliente, numeroWhats);
+                            else
+                                printTEF.IMPRIME(tef._viaCliente);
                         }
                         catch (Exception)
                         {
@@ -3145,9 +3148,10 @@ namespace PDV_WPF.Telas
             switch (resultado)
             {
                 case DecisaoWhats.Whats:
-                    PerguntaNumWhats whats = new PerguntaNumWhats("NF", vendaAtual, CupomTef);
+                    PerguntaNumWhats whats = new PerguntaNumWhats("NF", vendaAtual);
                     //Pergunta o número do Uatizápi
                     whats.ShowDialog();
+                    numeroWhats = whats.number.ToString();
                     log.Debug("PASSOU PELO PERGUNTA WHATS NFISCAL");
 
                     break;
@@ -4347,8 +4351,9 @@ namespace PDV_WPF.Telas
 
             {
                 case DecisaoWhats.Whats:
-                    PerguntaNumWhats whats = new PerguntaNumWhats(ChaveCFEWhats, vendaAtual,CupomTef);
+                    PerguntaNumWhats whats = new PerguntaNumWhats(ChaveCFEWhats, vendaAtual);
                     //Pergunta o número do Uatizápi
+                    numeroWhats = whats.number.ToString();
                     whats.ShowDialog();
                     log.Debug("PASSOU PELO PERGUNTA WHATS FISCAL");
                     break;
