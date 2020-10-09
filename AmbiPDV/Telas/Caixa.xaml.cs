@@ -894,11 +894,13 @@ namespace PDV_WPF.Telas
             var rnd = new Random();
             lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
         }
+        List<string> CupomTef;
         private void Tef_StatusChanged(object sender, TEFEventArgs e)
         {
             var printTEFAdmin = new ComprovanteSiTEF();
             if (!(e.viaCliente is null) && e.viaCliente.Count > 0)
             {
+                CupomTef = e.viaCliente;
                 printTEFAdmin.IMPRIME(e.viaCliente);
             }
             if (!(e.viaLoja is null) && e.viaLoja.Count > 0)
@@ -3143,7 +3145,7 @@ namespace PDV_WPF.Telas
             switch (resultado)
             {
                 case DecisaoWhats.Whats:
-                    PerguntaNumWhats whats = new PerguntaNumWhats("NF", vendaAtual);
+                    PerguntaNumWhats whats = new PerguntaNumWhats("NF", vendaAtual, CupomTef);
                     //Pergunta o número do Uatizápi
                     whats.ShowDialog();
                     break;
