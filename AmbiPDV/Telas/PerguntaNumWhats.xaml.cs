@@ -4,14 +4,15 @@ using PDV_WPF.DataSets.FDBDataSetVendaTableAdapters;
 using PDV_WPF.Objetos;
 using PDV_WPF.Properties;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-using System.Collections.Generic;
+using static PDV_WPF.Funcoes.Statics;
+using static PDV_WPF.Funcoes.Extensions;
 
 namespace PDV_WPF.Telas
 {
@@ -31,7 +32,7 @@ namespace PDV_WPF.Telas
             InitializeComponent();
             chavecfe = ChaveCFEWhats;
             _atual = a;
-            WaterMark_lbl.Content = "Digite dessa forma, exemplo: 1199999-9999";
+            WaterMark_lbl.Content = "Digite dessa forma, exemplo: 1199999 9999";
 
         }
         public PerguntaNumWhats(List<string> CupomTef, string numero = null)
@@ -43,14 +44,47 @@ namespace PDV_WPF.Telas
 
             this.Close();
         }
+        protected override void OnPreviewTextInput(TextCompositionEventArgs e)
+        {
+            if (!e.Text.IsNumbersOnly()) 
+            {
+                
+                e.Handled = true;
+            }
+            base.OnPreviewTextInput(e); 
+        }
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.Space)
+            {
 
-
+                e.Handled = true;
+            }
+            base.OnPreviewKeyDown(e);
+        }
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            // string caracteresPermitidos = "0123456789";
+
+
+           
             if (e.Key == Key.Enter)
             {
-                MontaEEnviaCupom();
+                   
+
+                            if (Whats_txb.Text.Length == 11)
+                            {
+                                MontaEEnviaCupom();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Atenção, o número digitado está menor", "Aviso");
+                            }
+                   
+
             }
+            
+            
             if (e.Key == Key.Escape)
             {
                 DialogResult = false;
