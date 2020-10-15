@@ -33,7 +33,7 @@
             </Label.Foreground>
         </Label>
         <TextBox x:Name="Whats_txb" Height="43" Margin="75,0,75,61" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="20" BorderThickness="1
-                 " Foreground="#FF228D8D" >
+                 " Foreground="#FF228D8D" MaxLength="11" >
             <TextBox.BorderBrush>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                     <GradientStop Color="#FF228D8D" Offset="0"/>
