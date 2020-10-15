@@ -2845,8 +2845,11 @@ namespace PDV_WPF.Telas
                     if (tef.Status == StatusTEF.Confirmado && vendaAtual.imprimeViaCliente && !erroVenda)
                         try
                         {
-                            if (PERGUNTA_WHATS == PerguntaWhatsEnum.Sempre)
+                            if (!(numeroWhats is null))
+                            {
                                 new PerguntaNumWhats(tef._viaCliente, numeroWhats);
+                                numeroWhats = null;
+                            }//HACK
                             else
                                 printTEF.IMPRIME(tef._viaCliente);
                         }
