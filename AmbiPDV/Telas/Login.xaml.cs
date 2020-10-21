@@ -469,7 +469,7 @@ namespace PDV_WPF
                 }
             }
             //homologaTEF = homologacoes.Contains("tef");
-            #if HOMOLOGASET
+            #if HOMOLOGASAT
             homologaSAT = true;
             #endif
             homologaDEVOL = homologacoes.Contains("devol");
