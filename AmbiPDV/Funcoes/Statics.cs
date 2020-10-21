@@ -172,6 +172,11 @@ namespace PDV_WPF.Funcoes
                 _ => false
             };
             SATTIMEOUT = xmlLido.SATTIMEOUT;
+            EXIBEFOTO = xmlLido.EXIBEFOTO switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {

@@ -537,6 +537,7 @@ namespace PDV_WPF.Configuracoes
         public static bool FORÇA_GAVETA { get; set; }
         public static bool USA_ORÇAMENTO { get; set; }
         public static int SATTIMEOUT { get; set; }
+        public static bool EXIBEFOTO { get; set; }
 
         #endregion Propriedades
 
@@ -848,6 +849,7 @@ namespace PDV_WPF.Configuracoes
         public int FORCA_GAVETA { get; set; }
         public int USAORCAMENTO { get; set; }
         public int SATTIMEOUT { get; set; }
+        public int EXIBEFOTO { get; set; }
     }
 
 }

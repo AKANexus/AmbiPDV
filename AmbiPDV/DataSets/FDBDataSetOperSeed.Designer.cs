@@ -38218,7 +38218,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[13];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[14];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_EST_PRODUTO";
@@ -38270,8 +38270,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "SELECT        COD_NCM\r\nFROM            TB_EST_PRODUTO\r\nWHERE        (ID_IDENTIFIC" +
-                "ADOR = @Param1)";
+            this._commandCollection[5].CommandText = "SELECT FOTO FROM TB_EST_PRODUTO WHERE ID_IDENTIFICADOR = @Param1";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Param1";
@@ -38282,16 +38281,28 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             this._commandCollection[5].Parameters.Add(param);
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = "UPDATE       TB_EST_PRODUTO\r\nSET                QTD_ATUAL = QTD_ATUAL - @Param1\r\n" +
-                "WHERE        (ID_IDENTIFICADOR = @Param2)";
+            this._commandCollection[6].CommandText = "SELECT        COD_NCM\r\nFROM            TB_EST_PRODUTO\r\nWHERE        (ID_IDENTIFIC" +
+                "ADOR = @Param1)";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Param1";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            this._commandCollection[6].Parameters.Add(param);
+            this._commandCollection[7] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[7].Connection = this.Connection;
+            this._commandCollection[7].CommandText = "UPDATE       TB_EST_PRODUTO\r\nSET                QTD_ATUAL = QTD_ATUAL - @Param1\r\n" +
+                "WHERE        (ID_IDENTIFICADOR = @Param2)";
+            this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Param1";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "QTD_ATUAL";
-            this._commandCollection[6].Parameters.Add(param);
+            this._commandCollection[7].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Param2";
             param.DbType = global::System.Data.DbType.Int32;
@@ -38299,30 +38310,19 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.IsNullable = true;
             param.SourceColumn = "ID_IDENTIFICADOR";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[6].Parameters.Add(param);
-            this._commandCollection[7] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[7].Connection = this.Connection;
-            this._commandCollection[7].CommandText = "UPDATE TB_EST_PRODUTO SET CONTROLA_LOTE_VENDA = \'N\' WHERE CONTROLA_LOTE_VENDA IS " +
-                "NULL";
-            this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[7].Parameters.Add(param);
             this._commandCollection[8] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[8].Connection = this.Connection;
-            this._commandCollection[8].CommandText = "\"SP_TRI_BREAK_CLIPP_RULES\"";
-            this._commandCollection[8].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[8].CommandText = "UPDATE TB_EST_PRODUTO SET CONTROLA_LOTE_VENDA = \'N\' WHERE CONTROLA_LOTE_VENDA IS " +
+                "NULL";
+            this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[9] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[9].Connection = this.Connection;
-            this._commandCollection[9].CommandText = "\"SP_TRI_ESTPROD_GETCEST_IDENTIF\"";
+            this._commandCollection[9].CommandText = "\"SP_TRI_BREAK_CLIPP_RULES\"";
             this._commandCollection[9].CommandType = global::System.Data.CommandType.StoredProcedure;
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PID_IDENTIFICADOR";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = null;
-            this._commandCollection[9].Parameters.Add(param);
             this._commandCollection[10] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[10].Connection = this.Connection;
-            this._commandCollection[10].CommandText = "\"SP_TRI_ESTPROD_UPSERT\"";
+            this._commandCollection[10].CommandText = "\"SP_TRI_ESTPROD_GETCEST_IDENTIF\"";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PID_IDENTIFICADOR";
@@ -38331,262 +38331,273 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[11].Connection = this.Connection;
+            this._commandCollection[11].CommandText = "\"SP_TRI_ESTPROD_UPSERT\"";
+            this._commandCollection[11].CommandType = global::System.Data.CommandType.StoredProcedure;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PID_IDENTIFICADOR";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PDESC_CMPL";
             param.Size = 30;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCOD_BARRA";
             param.Size = 18;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PREFERENCIA";
             param.Size = 18;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PPRC_MEDIO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_COMPRA";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_ATUAL";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_MINIM";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_INICIO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_RESERV";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_POSVEN";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PULT_COMPRA";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PPESO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PIPI";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCF";
             param.Size = 13;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PIAT";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PIPPT";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCOD_NCM";
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PID_NIVEL1";
             param.DbType = global::System.Data.DbType.Int16;
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PID_NIVEL2";
             param.DbType = global::System.Data.DbType.Int16;
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PMVA";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCST_IPI";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PFOTO";
             param.DbType = global::System.Data.DbType.Binary;
             param.Size = 2147483647;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCSOSN";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PANP";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PEXTIPI";
             param.DbType = global::System.Data.DbType.Int16;
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCST";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PFCI";
             param.Size = 36;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCOD_CEST";
             param.Size = 7;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCENQ";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PVLR_IPI";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCST_CFE";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCSOSN_CFE";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PCONTROLA_LOTE_VENDA";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PBAIXA_LOTE_NFV";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PBAIXA_LOTE_PDV";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PTRI_PDV_DT_UPD";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[10].Parameters.Add(param);
-            this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[11].Connection = this.Connection;
-            this._commandCollection[11].CommandText = "\"SP_TRI_FIX_CLIPP_RULES\"";
-            this._commandCollection[11].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[11].Parameters.Add(param);
             this._commandCollection[12] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[12].Connection = this.Connection;
-            this._commandCollection[12].CommandText = "\"SP_TRI_PRODUTO_RETIRAESTOQUE\"";
+            this._commandCollection[12].CommandText = "\"SP_TRI_FIX_CLIPP_RULES\"";
             this._commandCollection[12].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[13] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[13].Connection = this.Connection;
+            this._commandCollection[13].CommandText = "\"SP_TRI_PRODUTO_RETIRAESTOQUE\"";
+            this._commandCollection[13].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PQTD_ITEM";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[12].Parameters.Add(param);
+            this._commandCollection[13].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PID_IDENTIF";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[12].Parameters.Add(param);
+            this._commandCollection[13].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -39350,8 +39361,37 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual string NCMPorCOD(int Param1) {
+        public virtual byte[] GetFotoColumn(int Param1) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
+            command.Parameters[0].Value = ((int)(Param1));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((byte[])(returnValue));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual string NCMPorCOD(int Param1) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[6];
             command.Parameters[0].Value = ((int)(Param1));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -39381,7 +39421,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int RetiraEstoque(decimal Param1, int Param2) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[6];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
             command.Parameters[0].Value = ((decimal)(Param1));
             command.Parameters[1].Value = ((int)(Param2));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
@@ -39406,28 +39446,6 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int SetControlaLoteVenda() {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
-            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
-            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                command.Connection.Open();
-            }
-            int returnValue;
-            try {
-                returnValue = command.ExecuteNonQuery();
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    command.Connection.Close();
-                }
-            }
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int SP_TRI_BREAK_CLIPP_RULES() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[8];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -39449,8 +39467,30 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object SP_TRI_ESTPROD_GETCEST_IDENTIF(global::System.Nullable<int> PID_IDENTIFICADOR) {
+        public virtual int SP_TRI_BREAK_CLIPP_RULES() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[9];
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual object SP_TRI_ESTPROD_GETCEST_IDENTIF(global::System.Nullable<int> PID_IDENTIFICADOR) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[10];
             if ((PID_IDENTIFICADOR.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(PID_IDENTIFICADOR.Value));
             }
@@ -39521,7 +39561,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
                     string PBAIXA_LOTE_NFV, 
                     string PBAIXA_LOTE_PDV, 
                     global::System.Nullable<global::System.DateTime> PTRI_PDV_DT_UPD) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[10];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[11];
             if ((PID_IDENTIFICADOR.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(PID_IDENTIFICADOR.Value));
             }
@@ -39771,7 +39811,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int SP_TRI_FIX_CLIPP_RULES() {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[11];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[12];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -39793,7 +39833,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int SP_TRI_PRODUTO_RETIRAESTOQUE(global::System.Nullable<decimal> PQTD_ITEM, global::System.Nullable<int> PID_IDENTIF) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[12];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[13];
             if ((PQTD_ITEM.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(PQTD_ITEM.Value));
             }

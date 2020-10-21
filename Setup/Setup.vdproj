@@ -27,7 +27,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_1A651A65EB26F19F6EB5AF692CBBE210"
+        "MsmKey" = "8:_165BB033E59A47C48AF464C32BCBD2D5"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -39,19 +39,31 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_22BF2FCF21E044C8BDCE643A9B8309C9"
+        "MsmKey" = "8:_1FCA7143385049C8A1ABF6F959F01D7D"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_245C482426194DBAAC26E452FFC60374"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_27DF41C94B6D403B9968376D39D819A3"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_280743F6CACC4069A743338B91F535EA"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_41C5DF83F72C4C23967F6B125575F527"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_491942BA90C24405A95E75E12104C6D6"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -69,31 +81,13 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_5BD86CFFEF154E91F3F4DB91435AFBED"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_5F36F1B8ED35438CAD06B448EE9B98F2"
+        "MsmKey" = "8:_4C184C542AF54DC1A609201B891BF71F"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_6242710D3C7747DAB2577DF8861D7EF1"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_689889789175405C8074E30A0F0551F6"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_6ECD3AEC435B4AA5A5EB4D003F519887"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -117,18 +111,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_780DD78AFE124241988AD3BE2BB24D3D"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_852F4F844F5C4C5892FB222C17FF773B"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_868185BAB5A84CB4BAE0BCC4AC20833B"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -137,18 +119,6 @@
         {
         "MsmKey" = "8:_9394D9CEE0749F9E14CFA17AE507981F"
         "OwnerKey" = "8:_98BB10FA22F347309A23E4DCA5F62164"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_957F6FED3C214286ABB4B3959D17BB6A"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_9588AB335D25458BA2260BBEF215441C"
-        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -207,7 +177,7 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_D60CE990354F412D98D7191F01A641DF"
+        "MsmKey" = "8:_CB732B6BBAD64A8C90F58887B2FE99F1"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -215,6 +185,18 @@
         {
         "MsmKey" = "8:_D692FF1092905E625BD2ED5593DA5B6E"
         "OwnerKey" = "8:_98BB10FA22F347309A23E4DCA5F62164"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_DCAD8D5EC48E449096FC5A07ECC74328"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_E386ACBE34B94BE792066D41ED329508"
+        "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -237,12 +219,6 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_F08F6E84B7B64CDBBDC10571193E6CF0"
-        "OwnerKey" = "8:_UNDEFINED"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
         "MsmKey" = "8:_F529834F51E232C3E4B44197ED3E3F34"
         "OwnerKey" = "8:_98BB10FA22F347309A23E4DCA5F62164"
         "MsmSig" = "8:_UNDEFINED"
@@ -251,12 +227,6 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_98BB10FA22F347309A23E4DCA5F62164"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_ED925668A2AA04E3A21CF4D40187AF73"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -340,19 +310,13 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_1A651A65EB26F19F6EB5AF692CBBE210"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_98BB10FA22F347309A23E4DCA5F62164"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_5BD86CFFEF154E91F3F4DB91435AFBED"
+        "OwnerKey" = "8:_ED925668A2AA04E3A21CF4D40187AF73"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -550,23 +514,12 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_1A651A65EB26F19F6EB5AF692CBBE210"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_165BB033E59A47C48AF464C32BCBD2D5"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:Google.Protobuf, Version=3.6.1.0, Culture=neutral, PublicKeyToken=a7d26565bac4d604, processorArchitecture=MSIL"
-                "ScatterAssemblies"
-                {
-                    "_1A651A65EB26F19F6EB5AF692CBBE210"
-                    {
-                    "Name" = "8:Google.Protobuf.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:Google.Protobuf.dll"
-            "TargetName" = "8:"
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\RELEASE.TXT"
+            "TargetName" = "8:RELEASE.TXT"
             "Tag" = "8:"
-            "Folder" = "8:_2853AC8EE6A14DB2B14A45F00E183760"
+            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -578,7 +531,7 @@
             "PackageAs" = "3:1"
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1FBF4C3CD7284031BFA9E0032510FC3C"
@@ -601,10 +554,70 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_22BF2FCF21E044C8BDCE643A9B8309C9"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_1FCA7143385049C8A1ABF6F959F01D7D"
             {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\Cheque.txt"
-            "TargetName" = "8:Cheque.txt"
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\CliSiTef64I.dll"
+            "TargetName" = "8:CliSiTef64I.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_245C482426194DBAAC26E452FFC60374"
+            {
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\libemv.dll"
+            "TargetName" = "8:libemv.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_27DF41C94B6D403B9968376D39D819A3"
+            {
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\LEIAME.TXT"
+            "TargetName" = "8:LEIAME.TXT"
+            "Tag" = "8:"
+            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_280743F6CACC4069A743338B91F535EA"
+            {
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\CliSiTef.ini"
+            "TargetName" = "8:CliSiTef.ini"
             "Tag" = "8:"
             "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
             "Condition" = "8:"
@@ -627,26 +640,6 @@
             "TargetName" = "8:IBPT.csv"
             "Tag" = "8:"
             "Folder" = "8:_2853AC8EE6A14DB2B14A45F00E183760"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_491942BA90C24405A95E75E12104C6D6"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\RechargeRPC.dll"
-            "TargetName" = "8:RechargeRPC.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -701,40 +694,9 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_5BD86CFFEF154E91F3F4DB91435AFBED"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_4C184C542AF54DC1A609201B891BF71F"
             {
-            "AssemblyRegister" = "3:1"
-            "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:BouncyCastle.Crypto, Version=1.8.3.0, Culture=neutral, PublicKeyToken=0e99375e54769942"
-                "ScatterAssemblies"
-                {
-                    "_5BD86CFFEF154E91F3F4DB91435AFBED"
-                    {
-                    "Name" = "8:BouncyCastle.Crypto.dll"
-                    "Attributes" = "3:512"
-                    }
-                }
-            "SourcePath" = "8:BouncyCastle.Crypto.dll"
-            "TargetName" = "8:"
-            "Tag" = "8:"
-            "Folder" = "8:_2853AC8EE6A14DB2B14A45F00E183760"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5F36F1B8ED35438CAD06B448EE9B98F2"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\CliSiTef32I.dll"
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\CliSiTef32I.dll"
             "TargetName" = "8:CliSiTef32I.dll"
             "Tag" = "8:"
             "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
@@ -758,46 +720,6 @@
             "TargetName" = "8:P05.dll"
             "Tag" = "8:"
             "Folder" = "8:_2853AC8EE6A14DB2B14A45F00E183760"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_689889789175405C8074E30A0F0551F6"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\libqrencode_LICENSE.txt"
-            "TargetName" = "8:libqrencode_LICENSE.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_6ECD3AEC435B4AA5A5EB4D003F519887"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\lgpl-2.1.txt"
-            "TargetName" = "8:lgpl-2.1.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -894,46 +816,6 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_780DD78AFE124241988AD3BE2BB24D3D"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\CliSiTef.ini"
-            "TargetName" = "8:CliSiTef.ini"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_852F4F844F5C4C5892FB222C17FF773B"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\libpng_LICENSE.txt"
-            "TargetName" = "8:libpng_LICENSE.txt"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_868185BAB5A84CB4BAE0BCC4AC20833B"
             {
             "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\DLL\\bemaSAT32.dll"
@@ -983,46 +865,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_957F6FED3C214286ABB4B3959D17BB6A"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\libemv.dll"
-            "TargetName" = "8:libemv.dll"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_9588AB335D25458BA2260BBEF215441C"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\LEIAME.TXT"
-            "TargetName" = "8:LEIAME.TXT"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_974A6DBDF9AD2B43E228540C958F5EA9"
@@ -1189,10 +1031,10 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_D60CE990354F412D98D7191F01A641DF"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_CB732B6BBAD64A8C90F58887B2FE99F1"
             {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\QREncode32.dll"
-            "TargetName" = "8:QREncode32.dll"
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\RechargeRPC.dll"
+            "TargetName" = "8:RechargeRPC.dll"
             "Tag" = "8:"
             "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
             "Condition" = "8:"
@@ -1238,6 +1080,46 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_DCAD8D5EC48E449096FC5A07ECC74328"
+            {
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\libemv64.dll"
+            "TargetName" = "8:libemv64.dll"
+            "Tag" = "8:"
+            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E386ACBE34B94BE792066D41ED329508"
+            {
+            "SourcePath" = "8:..\\AmbiPDV\\SiTEF\\Cheque.txt"
+            "TargetName" = "8:Cheque.txt"
+            "Tag" = "8:"
+            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_E39BEAAEA7F44F62BFAC0B3CD801562B"
@@ -1309,26 +1191,6 @@
             "Register" = "3:1"
             "Exclude" = "11:FALSE"
             "IsDependency" = "11:TRUE"
-            "IsolateTo" = "8:"
-            }
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_F08F6E84B7B64CDBBDC10571193E6CF0"
-            {
-            "SourcePath" = "8:..\\AmbiPDV\\bin\\AnyCPU\\Debug\\SiTEF\\RELEASE.TXT"
-            "TargetName" = "8:RELEASE.TXT"
-            "Tag" = "8:"
-            "Folder" = "8:_AB1638576CC548F1A34CA09E38517007"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Vital" = "11:TRUE"
-            "ReadOnly" = "11:FALSE"
-            "Hidden" = "11:FALSE"
-            "System" = "11:FALSE"
-            "Permanent" = "11:FALSE"
-            "SharedLegacy" = "11:FALSE"
-            "PackageAs" = "3:1"
-            "Register" = "3:1"
-            "Exclude" = "11:FALSE"
-            "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_F529834F51E232C3E4B44197ED3E3F34"
@@ -1995,7 +1857,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_98BB10FA22F347309A23E4DCA5F62164"
             {
-            "SourcePath" = "8:..\\AmbiPDV\\obj\\Release\\AmbiPDV.exe"
+            "SourcePath" = "8:"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2853AC8EE6A14DB2B14A45F00E183760"

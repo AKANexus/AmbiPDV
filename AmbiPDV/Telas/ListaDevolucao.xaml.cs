@@ -118,7 +118,7 @@ namespace PDV_WPF.Telas
                 ProdutoDevol produtoEscolhido = (ProdutoDevol)dgv_ItensCupom.SelectedItem;
                 if (produtoEscolhido.QUANT_DEVOL == produtoEscolhido.QUANT_VENDIDA)
                 {
-                    DialogBox.Show("Deolução de Itens", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Não há item a ser devolvido.");
+                    DialogBox.Show("Devolução de Itens", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Não há item a ser devolvido.");
                     return;
                 }
                 PerguntaQuantidade pq = new PerguntaQuantidade();
@@ -127,11 +127,11 @@ namespace PDV_WPF.Telas
                     int quantidadeADevolver = int.Parse(pq.quantidadeDigitada);
                     if (quantidadeADevolver > (produtoEscolhido.QUANT_VENDIDA - produtoEscolhido.QUANT_DEVOL))
                     {
-                        DialogBox.Show("Deolução de Itens", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Foi digitado um valor inválido.");
+                        DialogBox.Show("Devolução de Itens", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Foi digitado um valor inválido.");
                         return;
                     }
                     devolucoes.ProdutosDevolvidos.Add((produtoEscolhido, quantidadeADevolver));
-                    DialogBox.Show("Deolução de Itens", DialogBoxButtons.Yes, DialogBoxIcons.None, false, "Produto adicionado à devolução");
+                    DialogBox.Show("Devolução de Itens", DialogBoxButtons.Yes, DialogBoxIcons.None, false, "Produto adicionado à devolução");
                 }
             }
         }

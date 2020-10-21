@@ -47,7 +47,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\AnyCPU\Debug\</OutputPath>
-    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF</DefineConstants>
+    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF HOMOLOGASAT ANYCPU</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>8.0</LangVersion>
@@ -898,7 +898,7 @@
     </Content>
     <Content Include="DLL\BemaSAT64.dll" />
     <Content Include="DLL\dllsat_x64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="DLL\iconv.dll" />
     <Content Include="DLL\libsatid64.dll">

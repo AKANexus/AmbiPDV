@@ -11,7 +11,7 @@
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
         </Border.Effect>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Label Content="DIGITE A QUANT. A SER DEVOLVIDA" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15" FontFamily="Open Sans SemiBold" FontSize="24" FontStyle="Italic" Foreground="#FF757575"/>
+            <Label Content="DIGITE O NÚMERO DA DEVOLUÇÃO" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15" FontFamily="Open Sans SemiBold" FontSize="24" FontStyle="Italic" Foreground="#FF757575"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Border Background="#FF09CAAA" Margin="0,0,-1,0" Panel.ZIndex="1" >
                     <Label Content="Ï" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Webdings" FontSize="37"/>

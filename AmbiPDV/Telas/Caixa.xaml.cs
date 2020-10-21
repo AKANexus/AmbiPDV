@@ -4834,6 +4834,10 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void LimparTela()
         {
+            logoplaceholder.Visibility = Visibility.Visible;
+
+            fotoProd.Source = null;
+            fotoProd.UpdateLayout();
             _emTransacao = false;
             _tipo = ItemChoiceType.FECHADO;
             LimparCupomVirtual(0);
@@ -5104,7 +5108,7 @@ namespace PDV_WPF.Telas
             }
             if (pQuant == 0) { pQuant = 1; }
             txb_TotProd.Text = (pPrecoUnitario * pQuant).RoundABNT(2).ToString("C2");
-            ACBox.Text = "";
+             ACBox.Text = "";
 
         }
 
@@ -5527,6 +5531,34 @@ namespace PDV_WPF.Telas
                     sw.WriteLine(pQuant.ToString() + "|" + pCodigoItem);
                 }
             }
+            if (EXIBEFOTO)
+            {
+                logoplaceholder.Visibility = Visibility.Collapsed;
+                using TB_EST_PRODUTOTableAdapter EST_PRODUTO_TA = new TB_EST_PRODUTOTableAdapter();
+                byte[] fotoByte = EST_PRODUTO_TA.GetFotoColumn(pCodigoItem);
+                if (!(fotoByte is null))
+                {
+                    System.Drawing.ImageConverter _imageConverter = new System.Drawing.ImageConverter();
+
+                    System.Drawing.Bitmap bm = (System.Drawing.Bitmap)_imageConverter.ConvertFrom(fotoByte);
+
+                    if (bm != null && (bm.HorizontalResolution != (int)bm.HorizontalResolution ||
+                                       bm.VerticalResolution != (int)bm.VerticalResolution))
+                    {
+                        // Correct a strange glitch that has been observed in the test program when converting 
+                        //  from a PNG file image created by CopyImageToByteArray() - the dpi value "drifts" 
+                        //  slightly away from the nominal integer value
+                        bm.SetResolution((int)(bm.HorizontalResolution + 0.5f),
+                                         (int)(bm.VerticalResolution + 0.5f));
+                    }
+
+                    fotoProd.Source = bm.ToImageSource();
+                    fotoProd.UpdateLayout();
+                }
+
+
+            }
+
             txb_ValorUnit.Text = (pPrecoUnitario != 0) ? pPrecoUnitario.RoundABNT().ToString("C2") : "R$ -,--";
             txb_TotProd.Text = (pPrecoUnitario != 0) ? (pPrecoUnitario * pQuant).RoundABNT().ToString("C2") : "R$ -,--";
             subtotal += ((pPrecoUnitario * pQuant) - pDesconto).RoundABNT();

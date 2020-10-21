@@ -346,6 +346,7 @@
                 </Grid.ColumnDefinitions>
                 <Rectangle Name="rec_Logo" Grid.Column="1" Margin="35" RadiusY="34" RadiusX="34" Fill="#7FFFFFFF"/>
                 <Image x:Name="logoplaceholder" Grid.Column="1" Margin="50" />
+                <Image x:Name="fotoProd" Grid.Column="1" Margin="50"/>
                 <Grid Grid.Column="2" Margin="0,0,20,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="220*"/>
