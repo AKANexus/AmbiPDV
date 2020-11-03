@@ -3163,7 +3163,7 @@ namespace PDV_WPF.Telas
                     vendaAtual.imprimeViaCliente = false;
                     if (FORÇA_GAVETA) AbreGaveta();
                     break;
-                default:
+               
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
@@ -3188,6 +3188,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                     break;
+
             }
             #region PERGUNTAWHATS
             //if (PERGUNTA_WHATS == PerguntaWhatsEnum.Sempre)
@@ -4364,15 +4365,15 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     break;
-                default:
+               
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
 
-                        ultimaImpressao = VendaDEMO.IMPRIME(venda_prazo, cFeDeRetorno);
+                        ultimaImpressao = VendaImpressa.IMPRIME(venda_prazo, cFeDeRetorno);
                         if (vendaAtual.imprimeViaAssinar)
                         {
-                            VendaDEMO.IMPRIME(1);
+                            VendaImpressa.IMPRIME(1);
                         }
 
                         if (PERMITE_ESTOQUE_NEGATIVO == null && RelNegativ.produtos.Count > 0)
@@ -4390,6 +4391,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                     break;
+               
             }
 
             #region PERGUNTAWHATS
