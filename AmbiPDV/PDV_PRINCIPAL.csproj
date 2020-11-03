@@ -590,34 +590,34 @@
     <Content Include="SiTEF\CliSiTef64I.dll" />
     <Resource Include="SiTEF\LEIAME.TXT" />
     <Resource Include="SiTEF\Homologa\Cheque.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="SiTEF\Homologa\CliSiTef32I.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="SiTEF\Homologa\LEIAME.TXT">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="SiTEF\Homologa\lgpl-2.1.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="SiTEF\Homologa\libemv.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="SiTEF\Homologa\libpng_LICENSE.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="SiTEF\Homologa\libqrencode_LICENSE.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="SiTEF\Homologa\QREncode32.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="SiTEF\Homologa\RechargeRPC.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="SiTEF\Homologa\RELEASE.TXT">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Content Include="SiTEF\libemv.dll" />
     <Content Include="SiTEF\libemv64.dll" />
@@ -635,6 +635,9 @@
       <DependentUpon>FDBDataSetDevolucao.xsd</DependentUpon>
     </None>
     <None Include="SiTEF\CliSiTef.ini" />
+    <None Include="SiTEF\Homologa\CliSiTef.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SiTEF\SiTef - Interface Simplificada com a aplicação%28VRS-228%29.pdf" />
     <None Include="TEFCONFIG.ini" />
     <Page Include="Controls\CBBText.xaml">

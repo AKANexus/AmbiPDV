@@ -258,7 +258,7 @@ namespace PDV_WPF.Funcoes
         public static string localpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\LocalDB\CLIPP.FDB";
         public enum DiffVer { desatualizado, atualizado, compativel, incompativel };
         public enum TipoLicenca { offline, online };
-        public enum TipoTEF { Undefined = 0, Credito = 3, Debito = 2, Administrativo = 110, PendenciasTerminal = 130 };
+        public enum TipoTEF { Undefined = 0, Credito = 3, Debito = 2, Administrativo = 110, PendenciasTerminal = 130, Pix = 122 };
         public enum Impressora { SAT, ECF }
         public enum DecisaoWhats { Whats, ImpressaoNormal, NaoImprime }
         public static TipoDeEmpresa tipoDeEmpresa = TipoDeEmpresa.SN;
@@ -289,7 +289,9 @@ namespace PDV_WPF.Funcoes
                     return TipoDoTEF switch
                     {
                         TipoTEF.Credito => "03",
-                        _ => "04",
+                        TipoTEF.Debito => "04",
+                        TipoTEF.Pix => "20",
+                        _ => "99"
                     };
                 }
                 set

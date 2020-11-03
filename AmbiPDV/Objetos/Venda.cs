@@ -57,7 +57,7 @@ namespace PDV_WPF.Objetos
         private envCFeCFeInfCFeDetProdObsFiscoDet _obsFiscoDet;
         private List<envCFeCFeInfCFeDetProdObsFiscoDet> _listaObsFiscoDet;
         public int nItemCupom = 1;
-        private readonly List<string> _listademetodos = new List<string>() { "01", "02", "03", "04", "05", "10", "11", "12", "13", "99" };
+        private readonly List<string> _listademetodos = new List<string>() { "01", "02", "03", "04", "05", "10", "11", "12", "13", "20", "99" };
         private static readonly CultureInfo ptBR = CultureInfo.GetCultureInfo("pt-BR");
         public bool imprimeViaAssinar = false;
         private decimal _valTroco;

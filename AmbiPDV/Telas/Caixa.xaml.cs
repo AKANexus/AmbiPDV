@@ -398,12 +398,12 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-//#if HOMOLOGADEVOL
+                    //#if HOMOLOGADEVOL
                     NovoModoDeDevolucao();
-//#else
-                    
+                    //#else
+
                     //AlternarModoDevolucao();
-//#endif
+                    //#endif
                 });
             } // Ativa o modo de devolução (Tecla F7)
             /* ---------------*/
@@ -2513,8 +2513,8 @@ namespace PDV_WPF.Telas
                     ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
                     return true;
                 }
-                else 
-                return false;
+                else
+                    return false;
             }
             if (SAT_USADO)
             {
@@ -2930,6 +2930,7 @@ namespace PDV_WPF.Telas
                             { "11", "Vale Refeição" },
                             { "12", "Vale Presente" },
                             { "13", "Vale Combustível" },
+                            { "20", "PIX" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             var cFeDeRetorno = vendaAtual.RetornaCFe();
@@ -3841,6 +3842,7 @@ namespace PDV_WPF.Telas
                             { "11", "Vale Refeição" },
                             { "12", "Vale Presente" },
                             { "13", "Vale Combustível" },
+                            { "20", "PIX" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             int venda_prazo = 0;
@@ -5108,7 +5110,7 @@ namespace PDV_WPF.Telas
             }
             if (pQuant == 0) { pQuant = 1; }
             txb_TotProd.Text = (pPrecoUnitario * pQuant).RoundABNT(2).ToString("C2");
-             ACBox.Text = "";
+            ACBox.Text = "";
 
         }
 
