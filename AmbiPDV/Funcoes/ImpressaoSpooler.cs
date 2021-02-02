@@ -58,7 +58,7 @@ namespace PDV_WPF
         private static List<Linha> transmitir = new List<Linha>();
         private static List<Linha> retransmitir = new List<Linha>();
         public float lastusedheight = 0f;
-        
+
         public static void RecebePrint(string texto, Fonte font, Alinhamento alignment, int breakline, bool retransmissao = false)
         {
             //audit("PRINTFUNC>> Recebe print: " + texto + " Breakline: " + breakline);
@@ -263,7 +263,6 @@ namespace PDV_WPF
             printDoc.PrintPage += new PrintPageEventHandler(GeraTransmissao);
             if (!IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
             {
-                //else
                 {
                     try
                     {
@@ -346,7 +345,7 @@ namespace PDV_WPF
         public decimal trib_fed;
         public decimal trib_mun;
         public decimal valortotal;
-
+        public decimal valorOriginal;
     }
     internal class PrintCANCL
     {
@@ -362,9 +361,7 @@ namespace PDV_WPF
 
         private void LinhaHorizontal()
         {
-            /*if (IMPRESSORA_USB.Contains("78COL")) */
             RecebePrint(new string('-', 87), negrito, centro, 1);
-            //else RecebePrint(new string('-', 91), negrito, centro, 1);
         }
 
         public void IMPRIME()
@@ -1157,7 +1154,7 @@ namespace PDV_WPF
                 FBCOMMAND.Connection.Close();
 
 
-                
+
             }
             catch (Exception ex)
             {
@@ -1165,7 +1162,7 @@ namespace PDV_WPF
                 MessageBox.Show("", ex.Message);
 
             }
-        
+
 
 
 
@@ -1382,14 +1379,14 @@ namespace PDV_WPF
             {
                 #region Registradores Vini
                 RecebePrint("SOMA DO DIA\t\t\tR$", corpo, esquerda, 0);
-            RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, rtl, 1);
+                RecebePrint($"\t{TotalVendasAlternativo:N2}", corpo, rtl, 1);
 
 
-            RecebePrint("SOMA DO MÊS\t\tR$", corpo, esquerda, 0);
-            RecebePrint($"\t{SomatoriaMensal:N2}"+""+"", corpo, rtl, 1);
-            #region Rendimentos Por Item 
-            RecebePrint(new string('>', 15), negrito, esquerda, 0);
-            RecebePrint(new string('<', 15), negrito, direita, 0);
+                RecebePrint("SOMA DO MÊS\t\tR$", corpo, esquerda, 0);
+                RecebePrint($"\t{SomatoriaMensal:N2}" + "" + "", corpo, rtl, 1);
+                #region Rendimentos Por Item 
+                RecebePrint(new string('>', 15), negrito, esquerda, 0);
+                RecebePrint(new string('<', 15), negrito, direita, 0);
 
                 RecebePrint("RENDIMENTOS", negrito, centro, 1);
                 int count = 0;
@@ -1660,9 +1657,9 @@ namespace PDV_WPF
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
         public static Dictionary<string, string> ReciboTEF { get; set; }
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun };
+            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri };
             produtos.Add(prod);
         }
 
@@ -1763,6 +1760,12 @@ namespace PDV_WPF
                     {
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
+                    }
+                    if (prod.valorOriginal != 0)
+                    {
+                        RecebePrint("ATACADO - Valor reduzido de", italico, esquerda, 0);
+                        RecebePrint("-" + prod.valorOriginal.ToString("n2"), italico, direita, 1);
+
                     }
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
                     total_trib_est += prod.trib_est * prod.valorunit * prod.qtde;
@@ -2117,9 +2120,9 @@ namespace PDV_WPF
         public static List<Produto> produtos = new List<Produto>();
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun };
+            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri };
             produtos.Add(prod);
         }
 
@@ -2179,6 +2182,12 @@ namespace PDV_WPF
                     {
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
+                    }
+                    if (prod.valorOriginal != 0)
+                    {
+                        RecebePrint("ATACADO - Valor reduzido de", italico, esquerda, 0);
+                        RecebePrint("-" + prod.valorOriginal.ToString("n2"), italico, direita, 1);
+
                     }
                     subtotal += prod.valortotal - prod.desconto;
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
@@ -2314,7 +2323,7 @@ namespace PDV_WPF
         public static List<Produto> produtos = new List<Produto>();
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal valorOriginal = 0)
         {
             Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde };
             produtos.Add(prod);

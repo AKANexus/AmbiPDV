@@ -69,15 +69,22 @@ namespace PDV_WPF.Objetos
         }
         public CFe RetornaCFe()
         {
-            foreach (envCFeCFeInfCFeDet det in _cFe.infCFe.det)
-            {
-                if (det.descAtacado > 0)
-                {
-                    decimal disgraça = det.prod.vDesc.Safedecimal();
-                    disgraça += (det.descAtacado/*/det.prod.qCom.Safedecimal()*/);
-                    det.prod.vDesc = disgraça.ToString("0.00");
-                }
-            }
+            //foreach (envCFeCFeInfCFeDet det in _cFe.infCFe.det)
+            //{
+            //    if (det.descAtacado > 0)
+            //    {
+            //        decimal disgraça = det.prod.vDesc.Safedecimal();
+            //        if (det.prod.qCom.Safedecimal() == 1)
+            //        {
+            //            disgraça += (det.descAtacado);
+            //        }
+            //        else
+            //        {
+            //            disgraça += (det.descAtacado / det.prod.qCom.Safedecimal());
+
+            //        } det.prod.vDesc = disgraça.ToString("0.00");
+            //    }
+            //}
             return _cFe;
         }
 
@@ -1289,6 +1296,17 @@ namespace PDV_WPF.Objetos
                                        RetornarMensagemErro(ex, false));
                         return (-1, -1);
                     }
+                    try
+                    {
+                        using var remendo1 = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter();
+                        using var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };
+                        remendo1.Connection = SERVER_FB_CONN;
+                        remendo1.SP_REM_CONTROLALOTE(Convert.ToInt32(detalhamento.prod.cProd), Convert.ToDecimal(detalhamento.prod.qCom, ptBR));
+                    }
+                    catch (Exception)
+                    {
+
+                    }
                     if (nItemCup <= 0)
                     {
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());
@@ -1502,7 +1520,13 @@ namespace PDV_WPF.Objetos
                 {
                     foreach (var det in _listaDets)
                     {
-                        if (det.prod.cProd == item.cod) det.descAtacado = ((decimal.Parse(det.prod.vUnCom) - info.PRC_ATACADO) * decimal.Parse(det.prod.qCom));
+                        if (det.prod.cProd == item.cod)
+                        {
+                            //det.descAtacado = ((decimal.Parse(det.prod.vUnCom) - info.PRC_ATACADO) * decimal.Parse(det.prod.qCom));
+                            det.prod.vUnComOri = det.prod.vUnCom;
+                            det.prod.vUnCom = info.PRC_ATACADO.ToString("0.00");
+                            det.atacado = true;
+                        }
                     }
                 }
             }
@@ -1513,7 +1537,7 @@ namespace PDV_WPF.Objetos
             decimal valVenda = 0;
             foreach (envCFeCFeInfCFeDet det in _listaDets)
             {
-                valVenda += ((det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal()) - det.prod.vDesc.Safedecimal()).RoundABNT() - det.descAtacado.Safedecimal().RoundABNT();
+                valVenda += ((det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal()) - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
             }
             return valVenda;
         }

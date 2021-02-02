@@ -3,6 +3,7 @@ using PDV_WPF.Objetos;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
@@ -19,7 +20,7 @@ namespace PDV_WPF.Telas
 
         public ListaDevolucao()
         {
-            devolucoes.ProdutosDevolvidos = new List<(ProdutoDevol, int)>();
+            devolucoes.ProdutosDevolvidos = new List<(ProdutoDevol, decimal)>();
             InitializeComponent();
             dgv_Cupons.ItemsSource = listaVendas;
             dgv_ItensCupom.ItemsSource = listaProdutos;
@@ -67,7 +68,7 @@ namespace PDV_WPF.Telas
             using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
             foreach (var item in Itens_DT)
             {
-                int devolvidos;
+                decimal devolvidos;
                 devolvidos = int.Parse((Devol_TA.GetQtdDevolByIDNfvitem(item.ID_NFVITEM) ?? "0").ToString());
                 ProdutoDevol produtodevol = new ProdutoDevol()
                 {
@@ -124,7 +125,7 @@ namespace PDV_WPF.Telas
                 PerguntaQuantidade pq = new PerguntaQuantidade();
                 if (pq.ShowDialog() == true)
                 {
-                    int quantidadeADevolver = int.Parse(pq.quantidadeDigitada);
+                    decimal quantidadeADevolver = decimal.Parse(pq.quantidadeDigitada, CultureInfo.InvariantCulture);
                     if (quantidadeADevolver > (produtoEscolhido.QUANT_VENDIDA - produtoEscolhido.QUANT_DEVOL))
                     {
                         DialogBox.Show("Devolução de Itens", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Foi digitado um valor inválido.");
@@ -159,14 +160,14 @@ namespace PDV_WPF.Telas
     {
         FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
-        public List<(ProdutoDevol, int)> ProdutosDevolvidos { get; set; }
+        public List<(ProdutoDevol, decimal)> ProdutosDevolvidos { get; set; }
 
         public void DoDevolucao()
         {
             using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
             int idDevol = -1;
             decimal vlrDev = 0;
-            foreach ((ProdutoDevol, int) produto in ProdutosDevolvidos)
+            foreach ((ProdutoDevol, decimal) produto in ProdutosDevolvidos)
             {
                 Devol_TA.Insert(idDevol, produto.Item1.ID_NFVITEM, produto.Item1.PRECO_VENDA * produto.Item2, "N", DateTime.Now, null, produto.Item2);
                 idDevol = (int)Devol_TA.PegaUltimaDevolucaoPorIDNFVItem(produto.Item1.ID_NFVITEM);

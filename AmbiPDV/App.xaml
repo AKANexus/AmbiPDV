@@ -7,11 +7,7 @@
              xmlns:local1="clr-namespace:PDV_WPF.Controls"
              StartupUri="Telas/Login.xaml">
     <Application.Resources>
-
-
         <local1:WaterMarkTXB x:Key="InputToVisibility"></local1:WaterMarkTXB>
-
-
         <LinearGradientBrush x:Key="TextBoxBorder" EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
             <GradientStop Color="#ABADB3" Offset="0.05"/>
             <GradientStop Color="#E2E3EA" Offset="0.07"/>
@@ -257,8 +253,6 @@
                 </MultiTrigger>
             </Style.Triggers>
         </Style>
-
-
         <Style x:Key="WaterMarkTextBox" TargetType="{x:Type TextBox}">
             <Setter Property="BorderBrush" Value="Black"/>
             <Setter Property="BorderThickness" Value="1"/>
@@ -290,7 +284,5 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-
     </Application.Resources>
 </Application>

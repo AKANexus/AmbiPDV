@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Data;
 using static PDV_WPF.Funcoes.Statics;
+using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
+using Clearcove.Logging;
+using FirebirdSql.Data.FirebirdClient;
 
 namespace PDV_WPF.Funcoes
 {
     public class Infopad
     {
-        public static List<decimal> Quantidades = new List<decimal>();
-        public static List<int> Codigos = new List<int>();
-        public static bool LeComandas(int comanda)
+        private Logger log = new Logger("Infopad");
+
+        public List<decimal> Quantidades = new List<decimal>();
+        public List<int> Codigos = new List<int>();
+        public bool LeComandas(int comanda)
         {
 
             //var ComDS = new ComandasDS();
@@ -21,10 +26,17 @@ namespace PDV_WPF.Funcoes
 
             try
             {
-                using var Vendas_TA = new ComandasDSTableAdapters.VENDASTableAdapter();
-                using ComandasDS.VENDASDataTable dt = Vendas_TA.LeComanda(comanda);
-                Vendas_TA.Connection.ConnectionString = Properties.Settings.Default.ComandasCS;
-
+                log.Debug("LeComandas inicializado");
+                log.Debug($"ConnString: {MontaStringDeConexao(SERVERNAME, COMANDASCATALOG)}");
+                FbConnection fbConn = new FbConnection(MontaStringDeConexao(SERVERNAME, COMANDASCATALOG));
+                log.Debug($"ConnString: {MontaStringDeConexao(SERVERNAME, COMANDASCATALOG)}");
+                FbCommand fbComm = new FbCommand() { Connection = fbConn, CommandType = CommandType.StoredProcedure };
+                fbConn.Open();
+                fbComm.CommandText = "LECOMANDA";
+                fbComm.Parameters.Add("COMM", comanda);
+                using ComandasDS.VENDASDataTable dt = new ComandasDS.VENDASDataTable();
+                dt.Load(fbComm.ExecuteReader());
+                fbConn.Close();
                 if (dt.Rows.Count > 0)
                 {
                     foreach (DataRow row in dt)
@@ -41,14 +53,18 @@ namespace PDV_WPF.Funcoes
             }
             return true;
         }
-        public static void FechaComanda(int comanda)
+        public void FechaComanda(int comanda)
         {
             //using (ComandasDS ComandasDS = new ComandasDS())
 
             //using (var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) })
-            using ComandasDSTableAdapters.VENDASTableAdapter Vendas_TA = new ComandasDSTableAdapters.VENDASTableAdapter();
-            Vendas_TA.Connection.ConnectionString = Properties.Settings.Default.ComandasCS;
-            Vendas_TA.FechaComanda(comanda);
+            //using ComandasDSTableAdapters.VENDASTableAdapter Vendas_TA = new ComandasDSTableAdapters.VENDASTableAdapter();
+            FbConnection fbConn = new FbConnection(MontaStringDeConexao(SERVERNAME, COMANDASCATALOG));
+            FbCommand fbComm = new FbCommand() { Connection = fbConn, CommandType = CommandType.Text };
+            fbConn.Open();
+            fbComm.CommandText = $"UPDATE  VENDAS SET FECHADA = 1 WHERE(COMANDA = {comanda})";
+            fbComm.ExecuteNonQuery();
+            fbConn.Close();
         }
     }
 }

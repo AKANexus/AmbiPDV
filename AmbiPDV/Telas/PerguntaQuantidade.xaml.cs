@@ -33,7 +33,7 @@ namespace PDV_WPF.Telas
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
-                    quantidadeDigitada = txb_Cupom.Text.TiraPont();
+                    quantidadeDigitada = txb_Cupom.Text.Replace(',','.');
                     DialogResult = true;
                     Close();
                 });

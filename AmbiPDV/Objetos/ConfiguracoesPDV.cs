@@ -532,6 +532,7 @@ namespace PDV_WPF.Configuracoes
         public static int FBTIMEOUT { get; set; }
         public static string SERVERNAME { get; set; }
         public static string SERVERCATALOG { get; set; }
+        public static string COMANDASCATALOG { get; set; }
         public static bool PERMITE_CANCELAR_VENDA_EM_CURSO { get; set; }
         public static bool FECHAMENTO_EXTENDIDO { get; set; }
         public static bool FORÇA_GAVETA { get; set; }
@@ -712,19 +713,19 @@ namespace PDV_WPF.Configuracoes
         /// Carrega as configurações da base de dados, e copia na memoria não volátil. Retorna falso se a base não foi encontrada.
         /// </summary>
         /// <returns></returns>
-        public static bool CarregaConfigs()
+        public static bool CarregaConfigs(bool contingencia = false)
         {
             funcoesClass funcoes = new funcoesClass();
             using var CONFIG_DT = new DataSets.FDBDataSetConfig.TRI_PDV_CONFIGDataTable();
             using var SETUP_TA = new FDBDataSetTableAdapters.TRI_PDV_SETUPTableAdapter();
             using var fbConnectionServ = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }; //"localhost", Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\LocalDB\CLIPP.FDB") })
-            //using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+            using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             using var fbCommand = new FbCommand
             {
-                Connection = fbConnectionServ,
+                Connection = contingencia ? LOCAL_FB_CONN : fbConnectionServ,
                 CommandType = System.Data.CommandType.Text
             };
-            SETUP_TA.Connection = fbConnectionServ;
+            SETUP_TA.Connection = contingencia ? LOCAL_FB_CONN : fbConnectionServ;
             fbCommand.Parameters.AddWithValue("@pID_MAC", funcoes.GetSerialHexNumberFromExecDisk());
             fbCommand.CommandText = "SELECT * " +
                                         "FROM TRI_PDV_CONFIG WHERE ID_MAC = @pID_MAC";
@@ -844,6 +845,7 @@ namespace PDV_WPF.Configuracoes
         public int FBTIMEOUT { get; set; }
         public string SERVERNAME { get; set; }
         public string SERVERCATALOG { get; set; }
+        public string COMANDASCATALOG { get; set; }
         public int AUTORIZADO { get; set; }
         public int FECHAMENTO_EXTENDIDO { get; set; }
         public int FORCA_GAVETA { get; set; }

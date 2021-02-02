@@ -150,6 +150,7 @@ namespace PDV_WPF.Funcoes
             NOMESOFTWARE = xmlLido.NOMESOFTWARE;
             FBTIMEOUT = xmlLido.FBTIMEOUT;
             SERVERNAME = xmlLido.SERVERNAME;
+            COMANDASCATALOG = xmlLido.COMANDASCATALOG;
             SERVERCATALOG = xmlLido.SERVERCATALOG;
             PERMITE_CANCELAR_VENDA_EM_CURSO = xmlLido.AUTORIZADO switch
             {

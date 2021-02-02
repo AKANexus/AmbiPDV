@@ -73,7 +73,7 @@ namespace PDV_WPF
                 ConfigurarBancosDeDados();
                 log.Debug("ConfigurarBancosDeDados successful.");
                 //progress.Report("Carregando configs");
-                bool configsCarregadas = CarregaConfigs();
+                bool configsCarregadas = CarregaConfigs(_contingencia);
                 log.Debug($"CarregaConfigs successful. Result: {configsCarregadas}");
                 switch (configsCarregadas)
                 {

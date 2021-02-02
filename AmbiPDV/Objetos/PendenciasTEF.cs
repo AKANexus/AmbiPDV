@@ -36,6 +36,13 @@ namespace PDV_WPF.Objetos
             PendTEFOrig.Pendencias.RemoveAll(p => p.NoCupom == noCupom);
             Serializa();
         }
+
+        public void LimpaTodasPendencias()
+        {
+            PendTEFOrig = Deserializa();
+            PendTEFOrig.Pendencias.Clear();
+            Serializa();
+        }
         private PendTEFXml Deserializa()
         {
             if (!File.Exists($@"{AppDomain.CurrentDomain.BaseDirectory}Logs\TEFPendentes.txt"))

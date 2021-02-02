@@ -314,7 +314,7 @@ namespace PDV_WPF.Telas
 
                     foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
                     {
-                        Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal());
+                        Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal(), item.prod.vUnComOri.Safedecimal());
 
                     }
                     Remessa.numerodocupom = info.nf;
@@ -765,6 +765,7 @@ namespace PDV_WPF.Telas
             orcamentoAtual.Clear();
             pedidoAtual?.Clear();
             LimparObjetoDeVendaNovo();
+
 
             //CANCELAR TEFs EFETUADOS
             //if (tefAtual.emVenda)
@@ -1567,7 +1568,7 @@ namespace PDV_WPF.Telas
         private bool CarregarProdutosDaComandaNovo()
         {
             if (!ACBox.Text.StartsWith("$") || !USA_COMANDA) { return false; }
-
+            Infopad pad = new Infopad();
             int.TryParse(ACBox.Text.TrimStart('$'), out int comanda);
 
             if (comanda <= 0) { return false; }
@@ -1576,14 +1577,14 @@ namespace PDV_WPF.Telas
             {
                 log.Debug($"Comanda detectada: {comanda}");
 
-                if (!Infopad.LeComandas(comanda))
+                if (!pad.LeComandas(comanda))
                 {
                     log.Warn("Erro ao ler comanda");
                     return true;
                 }
 
-                List<int> cods = Infopad.Codigos;
-                List<decimal> qtds = Infopad.Quantidades;
+                List<int> cods = pad.Codigos;
+                List<decimal> qtds = pad.Quantidades;
                 if (cods.Count == 0)
                 {
                     ACBox.Text = "";
@@ -1649,7 +1650,7 @@ namespace PDV_WPF.Telas
 
                         }
                     }
-                    Infopad.FechaComanda(comanda);
+                    pad.FechaComanda(comanda);
                     cods.Clear();
                     qtds.Clear();
                     return true;
@@ -1934,6 +1935,7 @@ namespace PDV_WPF.Telas
                 {
                     if (int.TryParse(ACBox.Text, out int tentativa_conversao_cod))
                     {
+                        log.Debug($"ACREFERENCIA é {ACREFERENCIA.ToBool()}");
                         switch (ACREFERENCIA.ToBool())
                         {
                             case true:
@@ -1942,6 +1944,7 @@ namespace PDV_WPF.Telas
                                                                                                       item.REFERENCIA.Equals(pInput)) && item.STATUS == "A");
                                 if (objItemEncontrado_with_ref != null)
                                 {
+                                    log.Debug("Encontrou um item pela referência");
                                     ACBox.SelectedItem = objItemEncontrado_with_ref;
                                 }
                                 break;
@@ -2972,13 +2975,13 @@ namespace PDV_WPF.Telas
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0);
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal());
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
 
                 }
                 else
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun);
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal());
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                     // item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun));
                 }
@@ -3163,7 +3166,7 @@ namespace PDV_WPF.Telas
                     vendaAtual.imprimeViaCliente = false;
                     if (FORÇA_GAVETA) AbreGaveta();
                     break;
-               
+
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
@@ -3911,12 +3914,12 @@ namespace PDV_WPF.Telas
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal());
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
                 }
                 else
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal());
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                 }
 
@@ -4365,7 +4368,7 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     break;
-               
+
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
@@ -4391,7 +4394,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                     break;
-               
+
             }
 
             #region PERGUNTAWHATS
@@ -4496,7 +4499,7 @@ namespace PDV_WPF.Telas
                 sw.WriteLine("Arquivo gerado automaticamente pelo AmbiPDV. Não remova.\n\r");
             }
 
-            CarregaConfigs();
+            CarregaConfigs(pContingencia);
             ACBox.MinimumPrefixLength = ACFILLPREFIX;
             ACBox.MinimumPopulateDelay = ACFILLDELAY;
             switch (ACFILLMODE)
@@ -4831,6 +4834,9 @@ namespace PDV_WPF.Telas
                 tipoDeDesconto = tipoDesconto.Nenhum;
                 desconto = 0;
             }
+            PendenciasDoTEF pendTef = new PendenciasDoTEF();
+            pendTef.LimpaTodasPendencias();
+
         }
 
         /// <summary>
@@ -5757,7 +5763,7 @@ namespace PDV_WPF.Telas
                     log.Debug("Carregou venda pendente");
                     input = "";
                 }
-
+                USA_COMANDA = true;
                 if (USA_COMANDA && CarregarProdutosDaComandaNovo()) { log.Debug("Carregou produtos da comanda"); return; }
                 if (USA_ORÇAMENTO && CarregarProdutosDoOrcamentoNovo()) { log.Debug("Carregou produtos do orçamento (ou não, ou seja, tentou carregar orçamento)"); return; }
                 //if (CarregaProdutosDoPedido()) { verbose("Carregou produtos do pedido (ou não, ou seja, tentou carregar pedido)"); return; }

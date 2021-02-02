@@ -582,7 +582,6 @@ namespace PDV_WPF.Telas
                             obtemdadosdoitem.Fill(dadosDoItem, COD10PORCENTO);
                             DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow itemRow = (DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow)dadosDoItem.Rows[0];
 
-
                             _vendaAtual.RecebeNovoProduto(
                                 COD10PORCENTO,
                                 itemRow.DESCRICAO,

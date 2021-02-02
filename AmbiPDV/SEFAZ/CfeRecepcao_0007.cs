@@ -1144,6 +1144,8 @@ namespace CfeRecepcao_0007
         }
         [System.Xml.Serialization.XmlIgnoreAttribute()]
         public decimal descAtacado;
+        [XmlIgnoreAttribute()]
+        public bool atacado = false;
     }
 
     /// <remarks/>
@@ -1170,6 +1172,9 @@ namespace CfeRecepcao_0007
         private string qComField;
 
         private string vUnComField;
+
+        [XmlIgnoreAttribute()]
+        public string vUnComOri;
 
         private string vProdField;
 
