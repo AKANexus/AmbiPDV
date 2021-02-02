@@ -941,6 +941,9 @@ namespace PDV_WPF
                 DataAtual = DataAtual.AddDays(-1);
 
                 PrimeiroDiaMes = new DateTime(PrimeiroDiaMes.Year, PrimeiroDiaMes.Month, 1);
+                // while (PrimeiroDiaMes.Month == fechamento.Month)
+                if (PrimeiroDiaMes.Month > fechamento.Month) { PrimeiroDiaMes = PrimeiroDiaMes.AddMonths(-1); }
+
 
                 foreach (var metodo in statuses)
                 {
