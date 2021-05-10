@@ -39,7 +39,7 @@ namespace PDV_WPF.Telas
         {
             listaVendas.Clear();
             using var Cupons_DT = new DataSets.FDBDataSetVenda.CuponsDataTableDataTable();
-            using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter() { Connection = LOCAL_FB_CONN };
+            using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter();// { Connection = LOCAL_FB_CONN };
             //Cupons_TA.Connection = LOCAL_FB_CONN;
             Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
@@ -63,9 +63,9 @@ namespace PDV_WPF.Telas
         {
             listaProdutos.Clear();
             using var Itens_DT = new DataSets.FDBDataSetVenda.CupomItensTableDataTable();
-            using var Itens_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomItensTableAdapter() { Connection = LOCAL_FB_CONN };
+            using var Itens_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomItensTableAdapter();// { Connection = LOCAL_FB_CONN };
             Itens_TA.FillByNFVenda(Itens_DT, cupom.ID_NFVENDA);
-            using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
+            using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter();// { Connection = LOCAL_FB_CONN };
             foreach (var item in Itens_DT)
             {
                 decimal devolvidos;
@@ -73,6 +73,7 @@ namespace PDV_WPF.Telas
                 ProdutoDevol produtodevol = new ProdutoDevol()
                 {
                     ID_NFVITEM = item.ID_NFVITEM,
+                    ID_IDENTIFICADOR = item.ID_IDENTIFICADOR,
                     DESCRICAO = item.DESCRICAO,
                     QUANT_VENDIDA = item.QTD_ITEM,
                     PRECO_VENDA = item.PRC_VENDA,
@@ -158,21 +159,57 @@ namespace PDV_WPF.Telas
     }
     class Devolucoes
     {
-        FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+        //FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
         public List<(ProdutoDevol, decimal)> ProdutosDevolvidos { get; set; }
 
         public void DoDevolucao()
         {
-            using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
+            using var Devol_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter();// { Connection = LOCAL_FB_CONN };
+            using var NfCompra_TA = new DataSets.FDBDataSetDevolucaoTableAdapters.TB_NFCOMPRATableAdapter();// { Connection = LOCAL_FB_CONN };
+            using var NfCompraItem_TA = new DataSets.FDBDataSetDevolucaoTableAdapters.TB_NFC_ITEMTableAdapter();// { Connection = LOCAL_FB_CONN };
+            using var TbEstoque_TA = new DataSets.FDBDataSetDevolucaoTableAdapters.TB_EST_PRODUTOTableAdapter();
             int idDevol = -1;
             decimal vlrDev = 0;
+            int nf_num = NfCompra_TA.PegaProxNFNum(0) ?? 1;
+            long nf_id = NfCompra_TA.NextIdNFCompra() ?? 0;
+            int seq = 1;
+
+            NfCompra_TA.Insert(
+                (int)nf_id,
+                0,
+                0,
+                nf_num,
+                "1", 
+                "55", 
+                DateTime.Now,
+                DateTime.Now, 
+                DateTime.Now, 
+                0, 
+                0,
+                0,
+                "0",
+                "0", 0, 0, "I", 0, "0", ProdutosDevolvidos.Count, 1, 1, "N", "0", "0", "N", 0, 0, "0", "0");
             foreach ((ProdutoDevol, decimal) produto in ProdutosDevolvidos)
             {
                 Devol_TA.Insert(idDevol, produto.Item1.ID_NFVITEM, produto.Item1.PRECO_VENDA * produto.Item2, "N", DateTime.Now, null, produto.Item2);
                 idDevol = (int)Devol_TA.PegaUltimaDevolucaoPorIDNFVItem(produto.Item1.ID_NFVITEM);
                 vlrDev += produto.Item1.PRECO_VENDA * produto.Item2;
+                NfCompraItem_TA.Insert((int)NfCompraItem_TA.NextNFCItemID(), 
+
+
+
+
+
+                    produto.Item1.ID_IDENTIFICADOR, (int)nf_id,
+                    (short)seq, produto.Item2, "UN", 
+                    produto.Item1.PRECO_VENDA * produto.Item2,
+                    0, 0, "0", 0, 0, 0, 0, "0",
+                    "0", "1949", "102", 0, 9, "S", produto.Item2);
+                seq++;
+                
             }
+
             PrintDEVOL.IMPRIME(idDevol, vlrDev);
 
         }

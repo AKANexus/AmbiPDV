@@ -73,7 +73,7 @@
                         <RowDefinition Height="363*"/>
                         <RowDefinition Height="363*"/>
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" x:Name="lbl_Titulo" Content="Reimpressão de Cupons" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FF08C9A9" FontSize="24" FontFamily="Open Sans"/>
+                    <Label Grid.Row="0" x:Name="lbl_Titulo" Content="Lista Devolução" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FF08C9A9" FontSize="24" FontFamily="Open Sans"/>
                     <Grid Margin="0" Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*"/>

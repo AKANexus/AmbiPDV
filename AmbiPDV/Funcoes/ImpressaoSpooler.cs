@@ -1391,13 +1391,38 @@ namespace PDV_WPF
                 RecebePrint(new string('>', 15), negrito, esquerda, 0);
                 RecebePrint(new string('<', 15), negrito, direita, 0);
 
-                RecebePrint("RENDIMENTOS", negrito, centro, 1);
+                RecebePrint("RENDIMENTOS DO DIA", negrito, centro, 1);
                 int count = 0;
                 foreach (DataRow a in RendimentoSoma.Rows)
                 {
 
                     RecebePrint($"{RendimentoSoma[count].RDESCRICAO}\t\tR$", corpo, esquerda, 0);
                     RecebePrint($"\t{RendimentoSoma[count].RSOMA:N2}", corpo, rtl, 1);
+                    count++;
+                }
+                RecebePrint(" ", negrito, esquerda, 0);
+                RecebePrint(new string('>', 15), negrito, esquerda, 0);
+                RecebePrint(new string('<', 15), negrito, direita, 0);
+                RecebePrint("RENDIMENTOS DO MÊS", negrito, centro, 1);
+                count = 0;
+                using (var modelos = new SP_TRI_RENDIMENTO_SOMATableAdapter())
+                {
+                    if (blnFazerFechamento)
+                    {
+                        modelos.Fill(RendimentoSoma, new DateTime(fechamento.Year, fechamento.Month, 1), fechamento, NO_CAIXA.ToString());
+                    }
+                    else
+                    {
+                        modelos.Fill(RendimentoSoma, new DateTime(fechamento.Year, fechamento.Month, 1), dtmFechado, NO_CAIXA.ToString());
+                    }
+
+                    int a;
+                }
+                foreach (DataRow a in RendimentoSoma.Rows)
+                {
+
+                    RecebePrint($"{RendimentoSoma[count].RDESCRICAO}\t\t", corpo, esquerda, 0);
+                    RecebePrint($"\t{RendimentoSoma[count].RSOMA:C2}", corpo, rtl, 1);
                     count++;
 
                 }

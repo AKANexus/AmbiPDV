@@ -1524,7 +1524,7 @@ namespace PDV_WPF.Objetos
                         {
                             //det.descAtacado = ((decimal.Parse(det.prod.vUnCom) - info.PRC_ATACADO) * decimal.Parse(det.prod.qCom));
                             det.prod.vUnComOri = det.prod.vUnCom;
-                            det.prod.vUnCom = info.PRC_ATACADO.ToString("0.00");
+                            det.prod.vUnCom = info.PRC_ATACADO.ToString("0.000");
                             det.atacado = true;
                         }
                     }

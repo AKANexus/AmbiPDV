@@ -12,6 +12,12 @@ using System.Text;
 using System.Windows;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
+using RestSharp;
+using System.Net.Http;
+using System.Threading.Tasks;
+using RestSharp.Serialization.Json;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace PDV_WPF.Funcoes
 {
@@ -289,7 +295,6 @@ namespace PDV_WPF.Funcoes
             //    //MessageBox.Show("serial not defined or whitespace");
             //    return;
             //}
-
             string[] resultado = VerificarSerialOnline(serial);
             if (resultado[0] == "100")
             {
@@ -385,9 +390,7 @@ namespace PDV_WPF.Funcoes
         /// <returns></returns>
         private string[] VerificarSerialOnline(string _serial)
         {
-            if (_serial == "DRANGELAZIEGLER")
-
-
+            if (_serial == "DRANGELAZIEGLERr")
             {
                 var result = new string[3];
                 result[0] = "200";
@@ -395,54 +398,11 @@ namespace PDV_WPF.Funcoes
                 result[2] = "";
                 return result;
             }
-            //using (var DataSet_TA = new FDBDataSetTableAdapters.TRI_PDV_SETUPTableAdapter())
-            using (var EMITENTE_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EMITENTETableAdapter())
-            using (var EMITENTE_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable())
-            using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
-            using (var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) })
-            using (var CerealConn = new MySqlConnection("server=turkeyshit.mysql.dbaas.com.br;user id=turkeyshit;password=Pfes2018;persistsecurityinfo=True;database=turkeyshit;ConvertZeroDateTime=True"))
-            using (var CerealComm = new MySqlCommand())
+            using var EMITENTE_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EMITENTETableAdapter();
+            using var EMITENTE_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable();
+            using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+            using var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };
             {
-                var result = new string[3];
-                CerealComm.Connection = CerealConn;
-                CerealComm.CommandType = CommandType.Text;
-                CerealComm.Parameters.AddWithValue("@SERIAL", _serial);
-                CerealComm.CommandText = "SELECT * FROM LICENCAS_CLIENTE WHERE PK_SERIAL = @SERIAL";
-                int? validacaoOnlineContingencia = null;
-                try
-                {
-                    CerealConn.Open();
-                }
-                catch (MySqlException)
-                {
-                    validacaoOnlineContingencia = ValidacaoOnlineContingencia();
-
-                }
-                switch (validacaoOnlineContingencia)
-                {
-                    case -100:
-                        result[0] = "-510";
-                        result[1] = strings.ERRO_510;
-                        result[2] = "";
-                        return result;
-                    case null:
-                        break;
-                    case 100:
-                        result[0] = "-500";
-                        result[1] = strings.ERRO_500;
-                        result[2] = "";
-                        return result;
-                    default:
-                        result[0] = "-520";
-                        result[1] = String.Format(strings.ERRO_520, validacaoOnlineContingencia);
-                        result[2] = "";
-                        return result;
-                }
-
-                var informacao = CerealComm.ExecuteReader();
-                var table = new DataTable();
-                table.Load(informacao);
-
                 EMITENTE_TA.Connection = LOCAL_FB_CONN;
                 try
                 {
@@ -456,98 +416,61 @@ namespace PDV_WPF.Funcoes
                     return null;
                 }
 
-                CerealComm.Parameters.Clear();
-                CerealComm.CommandText = "SELECT NOW()";
-                DateTime _now = (DateTime)CerealComm.ExecuteScalar();
-                if (table.Rows.Count == 0)
-                {
-                    result[0] = "-700";
-                    result[1] = "Serial inválido";
-                    result[2] = "";
-                    return result;
-                }
-                CerealConn.Close();
-                DateTime _validade = (DateTime)table.Rows[0]["VALIDADE"];
-                int _tolerancia = (int)table.Rows[0]["TOLERANCIA"];
-                string _cnpj = (string)table.Rows[0]["CNPJ_CPF"];
+                var result = new string[3];
 
+                var client = new RestClient("http://ambisoft.com.br/api/ambiserials_old/ambiserials/");
+                client.Timeout = -1;
+                var request = new RestRequest(Method.POST);
+                JSONRequestBody requestBody = new JSONRequestBody()
+                {
+                    serial = "PDV0146AAHI0688",
+                    documento = "14.839.018/0001-96".TiraPont()
+                };
+                request.AddHeader("Content-Type", "application/json");
+                request.AddJsonBody(requestBody);
+                IRestResponse response = client.Execute(request);
 
-                if (_cnpj.ToString() != ((EMITENTE_DT[0].CNPJ).Replace(".", "").Replace("-", "").Replace(@"/", "")).ToString())
+                if (response.IsSuccessful)
                 {
-                    result[0] = "-600";
-                    result[1] = strings.ERRO_600;
-                    result[2] = "";
-                    return result;
-                }
-                if (_validade.AddDays(_tolerancia) > _now) //Se não está bloqueado automaticamente - Antes da tolerância
-                {
-                    string _status = (string)table.Rows[0]["STATUS"];
-                    switch (_status)
+                    SerialValidoJSON resposta = ((JArray)JsonConvert.DeserializeObject(response.Content)).First.ToObject<SerialValidoJSON>();
+                    if (DateTime.Parse(resposta.VALIDADE).AddDays(resposta.TOLERANCIA.Safeint()) < DateTime.Today)
+                    {
+                        result[0] = "-100";
+                        result[1] = "";
+                        result[2] = "";
+                        return result;
+                    }
+                    switch (resposta.STATUS)
                     {
                         case "P":
                             result[0] = "-305";
-                            result[1] = strings.ERRO_305;
-                            result[2] = table.Rows[0].IsNull("MOTIV_BLOQUEIO") ? "" : (string)table.Rows[0]["MOTIV_BLOQUEIO"];
-                            return result;
+                            result[1] = "";
+                            result[2] = $"{resposta.MOTIV_BLOQUEIO}";
+                            break;
                         case "I":
                             result[0] = "-400";
-                            result[1] = strings.ERRO_400;
-                            result[2] = "";
-                            return result;
+                            result[1] = "";
+                            result[2] = $"";
+                            break;
                         case "B":
-                            result[0] = "-205";
-                            result[1] = strings.ERRO_205;
-                            result[2] = (string)table.Rows[0]["MOTIV_BLOQUEIO"];
-                            return result;
+                            result[0] = "-200";
+                            result[1] = "";
+                            result[2] = $"{resposta.MOTIV_BLOQUEIO}";
+                            break;
                         case "A":
-                            if (_now > _validade)//Se venceu, mas ainda está na tolerância - Depois da validade, mas antes da tolerância
-                            {
-                                result[0] = "-100";
-                                result[1] = String.Format(strings.ERRO_100, Convert.ToInt16((_validade.AddDays(_tolerancia) - _now).TotalDays));
-                                result[2] = "";
-                                return result;
-                            }
-                            else
-                            {
-                                string versaoDB = "N/D";
-                                using (var SETUP_TA = new FDBDataSetTableAdapters.TRI_PDV_SETUPTableAdapter())
-                                {
-                                    try
-                                    {
-                                        versaoDB = (string)SETUP_TA.PegaVersaoDoBanco();
-                                    }
-                                    catch (Exception)
-                                    {
-                                        //TODO: Cara, e se não era pra ter exception?
-                                    }
-                                }
-                                CerealConn.Open();
-                                CerealComm.Parameters.Clear();
-                                CerealComm.Parameters.AddWithValue("@DATA", DateTime.Today.ToString("yyyy-MM-dd"));
-                                CerealComm.Parameters.AddWithValue("@VERSAO", versaoDB);
-                                CerealComm.Parameters.AddWithValue("@SERIAL", _serial);
-                                CerealComm.Parameters.AddWithValue("@RAZAO", EMITENTE_DT[0].NOME);
-                                CerealComm.CommandText = "UPDATE LICENCAS_CLIENTE SET ULTIMA_VALID = @DATA, VERSAO_PDV = @VERSAO, RAZAO_SOCIAL = @RAZAO WHERE PK_SERIAL = @SERIAL";
-                                CerealComm.ExecuteReader();
-                                CerealConn.Close();
-                                CerealComm.Dispose();
-                                CerealConn.Dispose();
-                                result[0] = "100";
-                                result[1] = "";
-                                result[2] = "";
-                                return result;
-                            }
-                        default:
-                            result[0] = "-999";
-                            result[1] = strings.ERRO_999;
+                            result[0] = "100";
+                            result[1] = "";
                             result[2] = "";
-                            return result;
+                            break;
+                        default:
+                            break;
                     }
+                    return result;
                 }
-                else //Se estourou a tolerância - Depois da tolerância
+                else
                 {
-                    result[0] = "-110";
-                    result[1] = strings.ERRO_110;
+                    result[0] = "-500";
+                    result[1] = "";
                     result[2] = "";
                     return result;
                 }
@@ -603,5 +526,31 @@ namespace PDV_WPF.Funcoes
             return serial;
         }
 
+    }
+
+    public class JSONRequestBody
+    {
+        public string serial { get; set; }
+        public string documento { get; set; }
+    }
+    public class SerialValidoJSON
+    {
+        public string PK_SERIAL { get; set; }
+        public string CNPJ_CPF { get; set; }
+        public string RAZAO_SOCIAL { get; set; }
+        public string STATUS { get; set; }
+        public string VALIDADE { get; set; }
+        public string TOLERANCIA { get; set; }
+        public string MOTIV_BLOQUEIO { get; set; }
+        public string NUM_TERMINAIS { get; set; }
+        public string OBSERVACOES { get; set; }
+        public string ULTIMA_VALID { get; set; }
+        public string VERSAO_PDV { get; set; }
+        public string createdAt { get; set; }
+    }
+
+    public class SerialInvalidoJSON
+    {
+        public string error { get; set; }
     }
 }

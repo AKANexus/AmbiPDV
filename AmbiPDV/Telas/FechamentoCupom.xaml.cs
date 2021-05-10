@@ -433,7 +433,7 @@ namespace PDV_WPF.Telas
                     if (pc.DialogResult == true)
                     {
                         using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
-                        using DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter() { Connection = LOCAL_FB_CONN };
+                        using DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter DEVOL_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_DEVOLTableAdapter();// { Connection = LOCAL_FB_CONN };
                         var devolucoesDisponiveis = DEVOL_TA.GetDataByID_DEVOLUCAO(pc.valeDigitado);
                         if (devolucoesDisponiveis.Count == 0)
                         {

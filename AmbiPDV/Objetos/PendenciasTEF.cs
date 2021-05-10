@@ -17,7 +17,7 @@ namespace PDV_WPF.Objetos
 
         public bool AdicionaPendenciaNoXML(string noCupom, string idPag, string data, string hora, string codFuncao, string vlrOrig, string nsu, TipoTEF tipo)
         {
-           
+
             // Deserialization
             PendTEFOrig = Deserializa();
 
@@ -52,10 +52,21 @@ namespace PDV_WPF.Objetos
             }
             //DeSerialization
             string xmlReadStream = File.ReadAllText($@"{AppDomain.CurrentDomain.BaseDirectory}Logs\TEFPendentes.txt");
-            using (var XmlRetorno = new StringReader(xmlReadStream))
-            using (var xreader = XmlReader.Create(XmlRetorno))
-
-                return (PendTEFXml)serializer.Deserialize(xreader);
+            using var XmlRetorno = new StringReader(xmlReadStream);
+            using var xreader = XmlReader.Create(XmlRetorno);
+            PendTEFXml retorno;
+            try
+            {
+                retorno = (PendTEFXml)serializer.Deserialize(xreader);
+            }
+            catch (Exception)
+            {
+                File.Delete($@"{AppDomain.CurrentDomain.BaseDirectory}Logs\TEFPendentes.txt");
+                using StreamWriter sw = new StreamWriter($@"{AppDomain.CurrentDomain.BaseDirectory}Logs\TEFPendentes.txt");
+                sw.WriteLine("<pendTEFs></pendTEFs>");
+                retorno = new PendTEFXml();
+            }
+            return retorno;
         }
         private void Serializa()
         {

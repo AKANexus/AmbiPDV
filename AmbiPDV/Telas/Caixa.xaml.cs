@@ -888,13 +888,13 @@ namespace PDV_WPF.Telas
 
         private void Lbl_Operador_MouseEnter(object sender, MouseEventArgs e)
         {
-            lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, operador.Split(' ')[0]);
+            //lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, operador.Split(' ')[0]);
         }
 
         private void Lbl_Operador_MouseLeave(object sender, MouseEventArgs e)
         {
-            var rnd = new Random();
-            lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
+            //var rnd = new Random();
+            //lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
         }
         private void Tef_StatusChanged(object sender, TEFEventArgs e)
         {
@@ -1400,11 +1400,11 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AtualizarRetroTabelas()
         {
-            if ((DateTime.Today.Month == 4) && ((DateTime.Today.Day == 1) || (DateTime.Today.Day == 2)))
-            {
-                var rnd = new Random();
-                lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
-            }
+            //if ((DateTime.Today.Month == 4) && ((DateTime.Today.Day == 1) || (DateTime.Today.Day == 2)))
+            //{
+            //    var rnd = new Random();
+            //    lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
+            //}
         }
 
         /// <summary>
@@ -4560,10 +4560,10 @@ namespace PDV_WPF.Telas
             lbl_Operador.Content = "VOCÊ ESTÁ SENDO ATENDIDO POR: " + operador.Split(' ')[0];
             if (DateTime.Today.Month == 4 && (DateTime.Today.Day == 1 || DateTime.Today.Day == 2))
             {
-                var rnd = new Random();
-                lbl_Operador.Content = "VOCÊ ESTÁ SENDO ATENDIDO POR: " + funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)];
-                lbl_Operador.MouseEnter += Lbl_Operador_MouseEnter;
-                lbl_Operador.MouseLeave += Lbl_Operador_MouseLeave;
+                //var rnd = new Random();
+                //lbl_Operador.Content = "VOCÊ ESTÁ SENDO ATENDIDO POR: " + funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)];
+                //lbl_Operador.MouseEnter += Lbl_Operador_MouseEnter;
+                //lbl_Operador.MouseLeave += Lbl_Operador_MouseLeave;
             }
             cupomVirtual.Append(@"{\rtf1\pc ");
             Title = NOMESOFTWARE;

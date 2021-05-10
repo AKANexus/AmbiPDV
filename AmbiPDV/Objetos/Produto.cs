@@ -7,5 +7,6 @@
         public decimal QUANT_DEVOL { get; set; }
         public decimal PRECO_VENDA { get; set; }
         public int ID_NFVITEM { get; set; }
+        public int ID_IDENTIFICADOR { get; set; }
     }
 }

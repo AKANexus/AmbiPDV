@@ -331,7 +331,7 @@ namespace PDV_WPF
                     BALBITS = 8;
                 }
                 #region AmbiMAITRE
-                IMPRESSORA_USB_PED = cbb_printers.SelectedItem.ToString();
+                //IMPRESSORA_USB_PED = cbb_printers.SelectedItem.ToString();
                 #endregion AmbiMAITRE
                 ACREFERENCIA = tgl_Referencia.IsChecked.ToShort();
                 string[] dbinfo = txb_DB.Text.Split('|');

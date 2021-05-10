@@ -8,6 +8,7 @@
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow" 
         mc:Ignorable="d"
+        Focusable="False"
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="NoResize" Loaded="Window_Loaded" KeyDown="MainWindow_KeyDown" WindowStyle="None" Closing="MainWindow_Closing" Foreground="#FF4D4D4D" Background="#FFF4F4F4">
 
     <Window.Resources>
