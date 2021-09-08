@@ -7040,8 +7040,8 @@ namespace PDV_WPF.Funcoes
                     GravarErroSync("Fill dtAuxSyncPendentes by NO_CAIXA", dtAuxSyncPendentes, ex);
                     throw ex;
                 }
-
-                //TODO -- DONE --: aplicar tabela auxiliar ?
+                
+                /*
                 #region Impressoras fiscais
 
                 /// TB_IFS
@@ -7074,7 +7074,7 @@ namespace PDV_WPF.Funcoes
 
                             #region Sync padrão
 
-                            if (dtUltimaSyncPdv is null/* || blnForcarSyncCompleta*/)
+                            if (dtUltimaSyncPdv is null)
                             {
                                 #region Única sync
 
@@ -7268,6 +7268,7 @@ namespace PDV_WPF.Funcoes
                     }
                 }
                 #endregion Impressoras fiscais
+                */
 
                 // Inicia a sincronização de cadastros apenas se houver registro indicado na tabela auxiliar (a TB_IFS é exceção):
                 if (dtAuxSyncPendentes != null && dtAuxSyncPendentes.Rows.Count > 0)
