@@ -6,7 +6,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:PDV_WPF.Controls"
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib" x:Name="MainWindow" 
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:telas="clr-namespace:PDV_WPF.Telas"
+        x:Name="MainWindow" 
         mc:Ignorable="d"
         Focusable="False"
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="NoResize" Loaded="Window_Loaded" KeyDown="MainWindow_KeyDown" WindowStyle="None" Closing="MainWindow_Closing" Foreground="#FF4D4D4D" Background="#FFF4F4F4">
@@ -309,26 +311,17 @@
                     </TransformGroup>
                 </controls:MarqueeText.RenderTransform>
             </controls:MarqueeText>
-            <controls:FocusableAutoCompleteBox x:Name="ACBox" Margin="9,23,11,6" Grid.Row="2" FontSize="27" Grid.ColumnSpan="4" Foreground="#FF4D4D4D" Background="#E5FFFFFF" 
-                                                 BorderThickness="2" TextChanged="_ACBox_TextChanged" KeyDown="ACBox_KeyDown" Focusable="True" MinimumPopulateDelay="1000" 
-                                                 MinimumPrefixLength="99" ItemContainerStyle="{DynamicResource ResourceKey=myLBStyle}" FilterMode="Contains" 
-                                                 SelectionChanged="ACBox_SelectionChanged" Height="55" RenderTransformOrigin="0.5,0.5"
-                                                 ValueMemberPath="DESCRICAO" Style="{StaticResource AutoCompleteBoxStyle}">
-                <controls:FocusableAutoCompleteBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding DESCRICAO}" />
-                    </DataTemplate>
-                </controls:FocusableAutoCompleteBox.ItemTemplate>
 
-                <controls:FocusableAutoCompleteBox.BorderBrush>
-                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                        <GradientStop Color="#FF33CCCC" Offset="0"/>
-                        <GradientStop Color="#FF30B8B8" Offset="0.375"/>
-                        <GradientStop Color="#FF41EAEA" Offset="0.426"/>
-                        <GradientStop Color="#FF228D8D" Offset="1"/>
-                    </LinearGradientBrush>
-                </controls:FocusableAutoCompleteBox.BorderBrush>
-            </controls:FocusableAutoCompleteBox>
+            <controls:FastEditComboBox x:Name="combobox" Margin="9,23,11,6" Grid.Row="2" FontSize="27" Grid.ColumnSpan="4" Grid.Column="0" Foreground="#FF4D4D4D" Background="#E5FFFFFF" 
+                                 BorderThickness="2" IsEditable="True" IsTextSearchEnabled="True" Focusable="True" RenderTransformOrigin="0.5,0.5" Padding="0"
+                                 KeyDown="Combobox_OnKeyDown" ItemsSource="{Binding LstProdutos}" DisplayMemberPath="DESCRICAO" SelectedValuePath="ID_IDENTIFICADOR"
+                                 >
+                <controls:FastEditComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </controls:FastEditComboBox.ItemsPanel>
+            </controls:FastEditComboBox>
             <TextBlock Margin="10,0,0,59" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" Grid.ColumnSpan="2" Width="137" RenderTransformOrigin="0.5,0.5">
                 <TextBlock.RenderTransform>
                     <TransformGroup>

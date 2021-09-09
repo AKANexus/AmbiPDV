@@ -14,6 +14,7 @@ using PDV_WPF.Objetos;
 using PDV_WPF.Properties;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Printing;
@@ -207,6 +208,7 @@ namespace PDV_WPF.Telas
 
         public Caixa(bool _contingencia)
         {
+            DataContext = this;
             var args = new List<string>();
             foreach (string arg in Environment.GetCommandLineArgs())
             {
@@ -237,19 +239,19 @@ namespace PDV_WPF.Telas
         /// <param name="e"></param>
         private void ACBox_KeyDown(object sender, KeyEventArgs e)
         {
-            konami.Add(e.Key);
-            if (konami.Count > 12)
-            {
-                konami.RemoveAt(0);
-            }
+            //konami.Add(e.Key);
+            //if (konami.Count > 12)
+            //{
+            //    konami.RemoveAt(0);
+            //}
 
-            if (konami.SequenceEqual(nghtmd))
-            {
-                AlternarModoEscuro();
-            }
+            //if (konami.SequenceEqual(nghtmd))
+            //{
+            //    AlternarModoEscuro();
+            //}
             try
             {
-                if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(ACBox.Text))
+                if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))
                 {
                     ProcessarTextoNoACBox();
                 }
@@ -260,11 +262,11 @@ namespace PDV_WPF.Telas
                 log.Error("Lançamento de Produto", ex);
                 return;
             }
-            if (e.Key == Key.Down && !ACBox.IsDropDownOpen)
-            {
-                e.Handled = true;
-                return;
-            }
+            //if (e.Key == Key.Down && !ACBox.IsDropDownOpen)
+            //{
+            //    e.Handled = true;
+            //    return;
+            //}
         }
 
         private void _ACBox_TextChanged(object sender, RoutedEventArgs e)
@@ -515,16 +517,16 @@ namespace PDV_WPF.Telas
                 }
                 else
                 {
-                    ACBox.Text = null;
+                    combobox.Text = null;
                 }
             }//Pergunta senha para fechar o sistema.
             /* ---------------*/
-            else if (e.Key == Key.Escape && ACBox.Text != "")
+            else if (e.Key == Key.Escape && combobox.Text != "")
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    ACBox.Text = "";
+                    combobox.Text = "";
                 });
             }//Limpa o campo de pesquisa.
             /* ---------------*/
@@ -607,7 +609,7 @@ namespace PDV_WPF.Telas
                 }
                 else
                 {
-                    ACBox.Text = null;
+                    combobox.Text = null;
                 }
             }//Minimiza o programa
             /* ---------------*/
@@ -666,7 +668,7 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-                        ACBox.Text = null;
+                        combobox.Text = null;
                     }
                 });
             }//Pergunta senha para abrir a tela de parâmetros.
@@ -732,7 +734,7 @@ namespace PDV_WPF.Telas
 
             else
             {
-                ACBox.Focus();
+                if (!(FocusManager.GetFocusedElement(MainWindow).GetType() == typeof(TextBox))) combobox.Focus();
             }//Volta o foco para a caixa de pesquisa.
 
         }
@@ -868,7 +870,7 @@ namespace PDV_WPF.Telas
 
 
 
-            ACBox.Focus();
+            combobox.Focus();
         }
 
         #region Função Desativada
@@ -1095,7 +1097,7 @@ namespace PDV_WPF.Telas
             ca.ShowDialog();
             if (ca.DialogResult == true)
             {
-                ACBox.Text = ca.codigo.ToString();
+                combobox.Text = ca.codigo.ToString();
             }
             if (_emTransacao == false) { lbl_Marquee.Visibility = Visibility.Visible; }
             lbl_Cortesia.Content = null;
@@ -1127,7 +1129,7 @@ namespace PDV_WPF.Telas
                     txb_Avisos.Text = "CAIXA LIVRE";
                 }
             }
-            txb_Qtde.Foreground = txb_ValorUnit.Foreground = ACBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF333333"));
+            txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF333333"));
         }
 
         /// <summary>
@@ -1224,7 +1226,7 @@ namespace PDV_WPF.Telas
                 lbl_Marquee.Visibility = Visibility.Hidden;
                 lbl_Cortesia.Content = "";
                 txb_Avisos.Text = "MODO DE CONSULTA";
-                txb_Qtde.Foreground = txb_ValorUnit.Foreground = ACBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF09CAAA"));
+                txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF09CAAA"));
             }
             else if (_modo_consulta)
             {
@@ -1245,16 +1247,7 @@ namespace PDV_WPF.Telas
                 txb_TotGer.Text = total1;
                 txb_TotProd.Text = total2;
                 _modo_consulta = false;
-                switch (_nightmode)
-                {
-                    case true:
-                        txb_Qtde.Foreground = txb_ValorUnit.Foreground = ACBox.Foreground = new SolidColorBrush(Colors.White);
-                        break;
-                    case false:
-                    default:
-                        txb_Qtde.Foreground = txb_ValorUnit.Foreground = ACBox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF333333"));
-                        break;
-                }
+                txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF333333"));
                 ChecarPorSangria();
             }
         }
@@ -1302,27 +1295,27 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AlternarModoEscuro()
         {
-            var bc = new BrushConverter();
-            if (!_nightmode)
-            {
-                MainWindow.Background = new SolidColorBrush(Colors.Black);
-                richTextBox1.Background = ACBox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#FF454545");
-                MainWindow.Foreground = ACBox.Foreground = richTextBox1.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = new SolidColorBrush(Colors.White);
-                rec_Logo.Fill = (Brush)bc.ConvertFrom("#7F292929");
-                ACBox.Text = string.Empty;
-                _nightmode = true;
-            }
-            else
-            {
-                MainWindow.Background = Brushes.White;
+            //var bc = new BrushConverter();
+            //if (!_nightmode)
+            //{
+            //    MainWindow.Background = new SolidColorBrush(Colors.Black);
+            //    richTextBox1.Background = ACBox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#FF454545");
+            //    MainWindow.Foreground = ACBox.Foreground = richTextBox1.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = new SolidColorBrush(Colors.White);
+            //    rec_Logo.Fill = (Brush)bc.ConvertFrom("#7F292929");
+            //    ACBox.Text = string.Empty;
+            //    _nightmode = true;
+            //}
+            //else
+            //{
+            //    MainWindow.Background = Brushes.White;
 
-                richTextBox1.Background = ACBox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#E4FFFFFF");
-                MainWindow.Foreground = (Brush)bc.ConvertFrom("#FF4D4D4D");
-                richTextBox1.Foreground = ACBox.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = (Brush)bc.ConvertFrom("#FF333333");
-                rec_Logo.Fill = (Brush)bc.ConvertFrom("#7FFFFFFF");
-                ACBox.Text = string.Empty;
-                _nightmode = false;
-            }
+            //    richTextBox1.Background = ACBox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#E4FFFFFF");
+            //    MainWindow.Foreground = (Brush)bc.ConvertFrom("#FF4D4D4D");
+            //    richTextBox1.Foreground = ACBox.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = (Brush)bc.ConvertFrom("#FF333333");
+            //    rec_Logo.Fill = (Brush)bc.ConvertFrom("#7FFFFFFF");
+            //    ACBox.Text = string.Empty;
+            //    _nightmode = false;
+            //}
         }
 
         /// <summary>
@@ -1382,10 +1375,10 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AplicarSelecaoDeQuantidade()
         {
-            if (!string.IsNullOrWhiteSpace(ACBox.Text) && rgx.IsMatch(ACBox.Text) && decimal.TryParse(ACBox.Text.TrimEnd('*'), out decimal quantidade))
+            if (!string.IsNullOrWhiteSpace(combobox.Text) && rgx.IsMatch(combobox.Text) && decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade))
             {
                 txb_Qtde.Text = quantidade.ToString();
-                ACBox.Text = "";
+                combobox.Text = "";
                 // Atualizar o valor total:
                 if (!string.IsNullOrWhiteSpace(txb_ValorUnit.Text))
                 {
@@ -1435,7 +1428,7 @@ namespace PDV_WPF.Telas
             //      - Se tiver, continuar com a rotina antiga.
             //      - Não tem, percorrer por cada item da lista e atualizar seu correspondente no ItemsSource.
 
-            if (ACBox.ItemsSource == null || ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).Count() == 0)
+            if (LstProdutos.Count == 0)
             {
                 CarregarProdutosNoAcbox();
             }
@@ -1443,10 +1436,6 @@ namespace PDV_WPF.Telas
             {
                 if (_lstProdutosAlteradosSync == null || _lstProdutosAlteradosSync.Count == 0) { return; }
 
-                if (_lstProdutosAlteradosSync.Exists(t => t.OPERACAO == "D"))
-                {
-                    CarregarProdutosNoAcbox();
-                }
                 else
                 {
                     try
@@ -1454,7 +1443,7 @@ namespace PDV_WPF.Telas
                         foreach (var itemAlterado in _lstProdutosAlteradosSync)
                         {
                             // Encontrar o item equivalente no ItemsSource
-                            var itemEncontradoAcbox = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).FirstOrDefault(item => item.ID_IDENTIFICADOR.Equals(itemAlterado.ID_IDENTIFICADOR));
+                            var itemEncontradoAcbox = LstProdutos.FirstOrDefault(item => item.ID_IDENTIFICADOR.Equals(itemAlterado.ID_IDENTIFICADOR));
 
                             // Tá, e se o itemEncontrado não for encontrado?
                             // Será nulo?
@@ -1463,8 +1452,8 @@ namespace PDV_WPF.Telas
 
                             if (itemEncontradoAcbox == null || itemEncontradoAcbox.ID_IDENTIFICADOR.Equals(0))
                             {
-                                ((List<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).Add(
-                                    new ComboBoxBindingDTO_Produto()
+                                LstProdutos.Add(
+                                    new ComboBoxBindingDTO_Produto
                                     {
                                         COD_BARRA = string.IsNullOrWhiteSpace(itemAlterado.COD_BARRA) ? string.Empty : itemAlterado.COD_BARRA,
                                         DESCRICAO = string.IsNullOrWhiteSpace(itemAlterado.DESCRICAO) ? string.Empty : itemAlterado.DESCRICAO,
@@ -1538,11 +1527,9 @@ namespace PDV_WPF.Telas
                 return;
             }
 
-            var lstKeyPairProdutos = new List<ComboBoxBindingDTO_Produto>();
-
             foreach (DataSets.FDBDataSetOperSeed.TB_EST_ESTOQUE_KEYVALUERow row in dt)
             {
-                lstKeyPairProdutos.Add(new ComboBoxBindingDTO_Produto()
+                LstProdutos.Add(new ComboBoxBindingDTO_Produto()
                 {
                     ID_IDENTIFICADOR = row.ID_IDENTIFICADOR,
                     COD_BARRA = row.IsCOD_BARRANull() ? "" : row.COD_BARRA,
@@ -1559,17 +1546,15 @@ namespace PDV_WPF.Telas
                     //PRC_VENDA = (decimal)row["PRC_VENDA"]
                 });
             }
-
-            ACBox.ItemsSource = lstKeyPairProdutos;
         }
         /// <summary>
         /// Detecta se uma comanda foi inserida, e carrega os produtos nela lançados.
         /// </summary>
         private bool CarregarProdutosDaComandaNovo()
         {
-            if (!ACBox.Text.StartsWith("$") || !USA_COMANDA) { return false; }
+            if (!combobox.Text.StartsWith("$") || !USA_COMANDA) { return false; }
             Infopad pad = new Infopad();
-            int.TryParse(ACBox.Text.TrimStart('$'), out int comanda);
+            int.TryParse(combobox.Text.TrimStart('$'), out int comanda);
 
             if (comanda <= 0) { return false; }
 
@@ -1587,7 +1572,7 @@ namespace PDV_WPF.Telas
                 List<decimal> qtds = pad.Quantidades;
                 if (cods.Count == 0)
                 {
-                    ACBox.Text = "";
+                    combobox.Text = "";
                     MessageBox.Show("Comanda vazia.");
                 }
                 else
@@ -1609,7 +1594,7 @@ namespace PDV_WPF.Telas
                     }
                     if (cods.Count == 0)
                     {
-                        ACBox.Text = "";
+                        combobox.Text = "";
                         DialogBox.Show(strings.COMANDA, DialogBoxButtons.No, DialogBoxIcons.None, false, strings.NAO_HA_ITEMS_LANCADOS_NA_COMANDA);
                         return true;
                     }
@@ -1646,7 +1631,7 @@ namespace PDV_WPF.Telas
                                          0);
 
                             numProximoItem += 1;
-                            ACBox.Text = "";
+                            combobox.Text = "";
 
                         }
                     }
@@ -1672,13 +1657,13 @@ namespace PDV_WPF.Telas
         /// </summary>
         private bool CarregarProdutosDoOrcamentoNovo()
         {
-            if (!ACBox.Text.StartsWith("+")) { return false; }
+            if (!combobox.Text.StartsWith("+")) { return false; }
 
             try
             {
                 //Contingencia();
                 orcamentoAtual.Clear();
-                int.TryParse(ACBox.Text.TrimStart('+'), out int orcamento);
+                int.TryParse(combobox.Text.TrimStart('+'), out int orcamento);
                 log.Debug($"Orçamento detectado: {orcamento}");
                 //if (orcamento_atual.LeOrcaProdutos(orcamento) && orcamento_atual.LeOrcamento(orcamento))
 
@@ -1686,7 +1671,7 @@ namespace PDV_WPF.Telas
                 {
                     log.Debug("Erro ao ler orçamento, ou orçamento está FECHADO");
                     MessageBox.Show("Orçamento indisponível.");
-                    ACBox.Text = "";
+                    combobox.Text = "";
                     return true;
                 }
 
@@ -1698,7 +1683,7 @@ namespace PDV_WPF.Telas
 
                 if (orcamentoAtual.produtos.Count == 0)
                 {
-                    ACBox.Text = "";
+                    combobox.Text = "";
                     MessageBox.Show("Orçamento vazio.");
                     return true;
                 }
@@ -1738,7 +1723,7 @@ namespace PDV_WPF.Telas
 
                     numProximoItem += 1;
 
-                    ACBox.Text = "";
+                    combobox.Text = "";
                 }
                 _usouOrcamento = true;
                 return true;
@@ -1929,32 +1914,32 @@ namespace PDV_WPF.Telas
         {
             #region Valida seleção de produto
 
-            if (ACBox.SelectedItem == null)
+            if (combobox.SelectedItem == null)
             {
                 try
                 {
-                    if (int.TryParse(ACBox.Text, out int tentativa_conversao_cod))
+                    if (int.TryParse(combobox.Text, out int tentativa_conversao_cod))
                     {
                         log.Debug($"ACREFERENCIA é {ACREFERENCIA.ToBool()}");
                         switch (ACREFERENCIA.ToBool())
                         {
                             case true:
-                                object objItemEncontrado_with_ref = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(item => (item.COD_BARRA.Equals(pInput) ||
+                                object objItemEncontrado_with_ref = LstProdutos.First(item => (item.COD_BARRA.Equals(pInput) ||
                                                                                                       item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod) ||
                                                                                                       item.REFERENCIA.Equals(pInput)) && item.STATUS == "A");
                                 if (objItemEncontrado_with_ref != null)
                                 {
                                     log.Debug("Encontrou um item pela referência");
-                                    ACBox.SelectedItem = objItemEncontrado_with_ref;
+                                    combobox.SelectedItem = objItemEncontrado_with_ref;
                                 }
                                 break;
                             case false:
                             default:
-                                object objItemEncontrado = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(item => item.COD_BARRA.Equals(pInput) ||
+                                object objItemEncontrado = LstProdutos.First(item => item.COD_BARRA.Equals(pInput) ||
                                                                                                       item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
                                 if (objItemEncontrado != null)
                                 {
-                                    ACBox.SelectedItem = objItemEncontrado;
+                                    combobox.SelectedItem = objItemEncontrado;
                                 }
                                 break;
                         }
@@ -1962,10 +1947,10 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-                        object objItemEncontrado = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
+                        object objItemEncontrado = LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
                         if (objItemEncontrado != null)
                         {
-                            ACBox.SelectedItem = objItemEncontrado;
+                            combobox.SelectedItem = objItemEncontrado;
                         }
                     }
                 }
@@ -1979,7 +1964,7 @@ namespace PDV_WPF.Telas
                     //return -1;
                 }
 
-                if (ACBox.SelectedItem == null)
+                if (combobox.SelectedItem == null)
                 {
                     //return MostrarProdutoNaoEncontrado(pInput);
                     ////return -1;
@@ -1990,7 +1975,7 @@ namespace PDV_WPF.Telas
 
             #endregion Valida seleção de produto
 
-            return (ComboBoxBindingDTO_Produto)ACBox.SelectedItem;//.ID_IDENTIFICADOR;
+            return (ComboBoxBindingDTO_Produto)combobox.SelectedItem;//.ID_IDENTIFICADOR;
         }
 
         /// <summary>
@@ -2040,7 +2025,7 @@ namespace PDV_WPF.Telas
                     }
                     log.Debug("Venda negada por limite de caixa excedido.");
                     _tipo = ItemChoiceType.FECHADO;
-                    ACBox.Text = "";
+                    combobox.Text = "";
                     txb_Avisos.Text = "FAZER SANGRIA";
                     return statusSangria.Excesso;
                 }
@@ -2413,93 +2398,93 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void ExecTesteMassivo()
         {
-            var rand = new Random();
-            int contagemDeVendas = 0, contagemDeCancelamentos = 0, randomCancelamento = rand.Next(5, 6), roundDevendas = 0;
+            //    var rand = new Random();
+            //    int contagemDeVendas = 0, contagemDeCancelamentos = 0, randomCancelamento = rand.Next(5, 6), roundDevendas = 0;
 
 
-            #region Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
-            int iDIdentificadorMax;
-            using (var fbCommRemoveRegistroAuxSync = new FbCommand())
-            using (var fbConnPdv = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
-            {
-                fbConnPdv.Open();
-                fbCommRemoveRegistroAuxSync.CommandText = $"SELECT MAX(ID_IDENTIFICADOR) FROM TB_EST_PRODUTO";
-                fbCommRemoveRegistroAuxSync.CommandType = CommandType.Text;
-                fbCommRemoveRegistroAuxSync.Connection = fbConnPdv;
+            //    #region Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
+            //    int iDIdentificadorMax;
+            //    using (var fbCommRemoveRegistroAuxSync = new FbCommand())
+            //    using (var fbConnPdv = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+            //    {
+            //        fbConnPdv.Open();
+            //        fbCommRemoveRegistroAuxSync.CommandText = $"SELECT MAX(ID_IDENTIFICADOR) FROM TB_EST_PRODUTO";
+            //        fbCommRemoveRegistroAuxSync.CommandType = CommandType.Text;
+            //        fbCommRemoveRegistroAuxSync.Connection = fbConnPdv;
 
-                iDIdentificadorMax = fbCommRemoveRegistroAuxSync.ExecuteScalar().Safeint();
-                fbConnPdv.Close();
-            }
-            #endregion Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
+            //        iDIdentificadorMax = fbCommRemoveRegistroAuxSync.ExecuteScalar().Safeint();
+            //        fbConnPdv.Close();
+            //    }
+            //    #endregion Pegar o ID do último produto cadastrado - PEGA O ÚLTIMO NO MOMENTO
 
 
-            while (_modoTeste)
-            {
-                if (!turno_aberto || _interromperModoTeste) { _modoTeste = false; return; }
-                _modoTeste = true;
+            //    while (_modoTeste)
+            //    {
+            //        if (!turno_aberto || _interromperModoTeste) { _modoTeste = false; return; }
+            //        _modoTeste = true;
 
-                #region Função Desativada
-                //#region Pegar o ID do último produto cadastrado - SEMPRE PEGA O ÚLTIMO
-                //int iDIdentificadorMax;
-                //using (var fbCommRemoveRegistroAuxSync = new FbCommand())
-                //using (var fbConnPdv = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
-                //{
-                //    fbConnPdv.Open();
-                //    fbCommRemoveRegistroAuxSync.CommandText = $"SELECT MAX(ID_IDENTIFICADOR) FROM TB_EST_PRODUTO";
-                //    fbCommRemoveRegistroAuxSync.CommandType = CommandType.Text;
-                //    fbCommRemoveRegistroAuxSync.Connection = fbConnPdv;
+            //        #region Função Desativada
+            //        //#region Pegar o ID do último produto cadastrado - SEMPRE PEGA O ÚLTIMO
+            //        //int iDIdentificadorMax;
+            //        //using (var fbCommRemoveRegistroAuxSync = new FbCommand())
+            //        //using (var fbConnPdv = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+            //        //{
+            //        //    fbConnPdv.Open();
+            //        //    fbCommRemoveRegistroAuxSync.CommandText = $"SELECT MAX(ID_IDENTIFICADOR) FROM TB_EST_PRODUTO";
+            //        //    fbCommRemoveRegistroAuxSync.CommandType = CommandType.Text;
+            //        //    fbCommRemoveRegistroAuxSync.Connection = fbConnPdv;
 
-                //    iDIdentificadorMax = fbCommRemoveRegistroAuxSync.ExecuteScalar().Safeint();
-                //    fbConnPdv.Close();
-                //}
-                //#endregion Pegar o ID do último produto cadastrado - SEMPRE PEGA O ÚLTIMO
-                #endregion
+            //        //    iDIdentificadorMax = fbCommRemoveRegistroAuxSync.ExecuteScalar().Safeint();
+            //        //    fbConnPdv.Close();
+            //        //}
+            //        //#endregion Pegar o ID do último produto cadastrado - SEMPRE PEGA O ÚLTIMO
+            //        #endregion
 
-                //Começar nova venda
-                //int numDeProdutosAPassarNaVenda = rand.Next(1, 25);
+            //        //Começar nova venda
+            //        //int numDeProdutosAPassarNaVenda = rand.Next(1, 25);
 
-                ACBox.Text = $"{rand.NextDouble() + rand.Next(10)}*";
-                ACBox.Text = iDIdentificadorMax.ToString();
-                try
-                {
-                    ProcessarTextoNoACBox();
-                    INTERROMPE_NAO_ENCONTRADO = false;
-                    //if (lbl_Cortesia.Content.ToString().Equals("Produto não encontrado", StringComparison.InvariantCultureIgnoreCase)) { }
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Erro durante o teste massivo", ex);
-                    throw ex;
-                }
+            //        combobox.Text = $"{rand.NextDouble() + rand.Next(10)}*";
+            //        combobox.Text = iDIdentificadorMax.ToString();
+            //        try
+            //        {
+            //            ProcessarTextoNoACBox();
+            //            INTERROMPE_NAO_ENCONTRADO = false;
+            //            //if (lbl_Cortesia.Content.ToString().Equals("Produto não encontrado", StringComparison.InvariantCultureIgnoreCase)) { }
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            log.Error("Erro durante o teste massivo", ex);
+            //            throw ex;
+            //        }
 
-                //TODO: se o caixa for não-fiscal, a venda não finaliza. Ver se a condição abaixo se repete ao longo da rotina de testes.
-                if ((!SAT_USADO && !ECF_ATIVA) || _tipo == ItemChoiceType.FECHADO)
-                {
-                    PrepararFinalizacaoDeCupomDemo();
-                }
-                else
-                {
-                    PrepararFinalizacaoDeCupomFiscal();
-                }
+            //        //TODO: se o caixa for não-fiscal, a venda não finaliza. Ver se a condição abaixo se repete ao longo da rotina de testes.
+            //        if ((!SAT_USADO && !ECF_ATIVA) || _tipo == ItemChoiceType.FECHADO)
+            //        {
+            //            PrepararFinalizacaoDeCupomDemo();
+            //        }
+            //        else
+            //        {
+            //            PrepararFinalizacaoDeCupomFiscal();
+            //        }
 
-                LimparCupomVirtual(0);
-                contagemDeVendas++;
-                roundDevendas++;
+            //        LimparCupomVirtual(0);
+            //        contagemDeVendas++;
+            //        roundDevendas++;
 
-                if (roundDevendas == randomCancelamento)
-                {
-                    CancelarUltimoCupom();
-                    contagemDeCancelamentos++;
-                    roundDevendas = 0;
-                    randomCancelamento = rand.Next(20, 50);
-                }
-                Thread.Sleep(5000);
-                log.Debug($"Venda número {contagemDeVendas}");
-                log.Debug($"Cancelamento número {contagemDeCancelamentos}");
-                log.Debug($"Round de Vendas {roundDevendas}");
-                log.Debug($"Random Cancelamento {randomCancelamento}");
-            }
-            return;
+            //        if (roundDevendas == randomCancelamento)
+            //        {
+            //            CancelarUltimoCupom();
+            //            contagemDeCancelamentos++;
+            //            roundDevendas = 0;
+            //            randomCancelamento = rand.Next(20, 50);
+            //        }
+            //        Thread.Sleep(5000);
+            //        log.Debug($"Venda número {contagemDeVendas}");
+            //        log.Debug($"Cancelamento número {contagemDeCancelamentos}");
+            //        log.Debug($"Round de Vendas {roundDevendas}");
+            //        log.Debug($"Random Cancelamento {randomCancelamento}");
+            //    }
+            //    return;
         }
 
         /// <summary>
@@ -2913,7 +2898,7 @@ namespace PDV_WPF.Telas
             richTextBox1.Document.Blocks.Add(pg);
             richTextBox1.Focus();
             richTextBox1.ScrollToEnd();
-            ACBox.Focus();
+            combobox.Focus();
         }
 
         /// <summary>
@@ -4500,18 +4485,18 @@ namespace PDV_WPF.Telas
             }
 
             CarregaConfigs(pContingencia);
-            ACBox.MinimumPrefixLength = ACFILLPREFIX;
-            ACBox.MinimumPopulateDelay = ACFILLDELAY;
+            //ACBox.MinimumPrefixLength = ACFILLPREFIX;
+            //ACBox.MinimumPopulateDelay = ACFILLDELAY;
             switch (ACFILLMODE)
             {
                 case 0:
                     log.Debug($"ACFILLMODE: StartsWith");
-                    ACBox.FilterMode = AutoCompleteFilterMode.StartsWith;
+                    //ACBox.FilterMode = AutoCompleteFilterMode.StartsWith;
                     break;
                 case 1:
                 default:
                     log.Debug($"ACFILLMODE: Contains");
-                    ACBox.FilterMode = AutoCompleteFilterMode.Contains;
+                    //ACBox.FilterMode = AutoCompleteFilterMode.Contains;
                     break;
             }
             #region Inicializar Interface Extra                                        
@@ -4568,7 +4553,7 @@ namespace PDV_WPF.Telas
             cupomVirtual.Append(@"{\rtf1\pc ");
             Title = NOMESOFTWARE;
 
-            ACBox.PreviewKeyDown += new KeyEventHandler(ACBox_KeyDown);
+            //combobox.PreviewKeyDown += new KeyEventHandler(ACBox_KeyDown);
 
 
             AtualizarProdutosNoACBox();
@@ -4895,7 +4880,7 @@ namespace PDV_WPF.Telas
             {
                 lbl_Marquee.Visibility = Visibility.Hidden;
                 lbl_Cortesia.Content = "Descrição duplicada! Pesquisar pelo identificador";
-                ACBox.Text = "";
+                combobox.Text = "";
                 log.Debug($"Produto com desc. duplicada. - ConverteInformacaoEmProduto({pInput})");
                 return -1;
             }
@@ -4914,7 +4899,7 @@ namespace PDV_WPF.Telas
             {
                 lbl_Marquee.Visibility = Visibility.Hidden;
                 lbl_Cortesia.Content = "Produto/Código não encontrado!";
-                ACBox.Text = "";
+                combobox.Text = "";
                 log.Debug($"Produto não foi encontrado. - ConverteInformacaoEmProduto({pInput})");
                 if (INTERROMPE_NAO_ENCONTRADO == true)
                 {
@@ -4929,7 +4914,7 @@ namespace PDV_WPF.Telas
 
             lbl_Marquee.Visibility = Visibility.Hidden;
             lbl_Cortesia.Content = "Produto/Código não encontrado!";
-            ACBox.Text = string.Empty;
+            combobox.Text = string.Empty;
             log.Debug($"Produto não foi encontrado. - ConverteInformacaoEmProduto({pInput})");
             if (INTERROMPE_NAO_ENCONTRADO == true)
             {
@@ -5069,10 +5054,10 @@ namespace PDV_WPF.Telas
                     LimparTela();
                     #endregion Zerar o cupom para iniciar um novo
 
-                    ACBox.Text = "+" + po.numeroInformado.ToString();
+                    combobox.Text = "+" + po.numeroInformado.ToString();
 
                     CarregarProdutosDoOrcamentoNovo();
-                    ACBox.Text = "";
+                    combobox.Text = "";
                     break;
                 default:
                     break;
@@ -5118,7 +5103,7 @@ namespace PDV_WPF.Telas
             }
             if (pQuant == 0) { pQuant = 1; }
             txb_TotProd.Text = (pPrecoUnitario * pQuant).RoundABNT(2).ToString("C2");
-            ACBox.Text = "";
+            combobox.Text = "";
 
         }
 
@@ -5200,7 +5185,7 @@ namespace PDV_WPF.Telas
             richTextBox1.Document.Blocks.Add(pg);
             richTextBox1.Focus();
             richTextBox1.ScrollToEnd();
-            ACBox.Focus();
+            combobox.Focus();
             ImprimirCupomVirtual(@"ITEM  CÓDIGO        DESCRIÇÃO ");
             ImprimirCupomVirtual(@"    QTD. UN.  VL. UNIT R$         VL. ITEM R$");
             ImprimirCupomVirtual(new string('=', 45) + @" ");
@@ -5271,7 +5256,7 @@ namespace PDV_WPF.Telas
             richTextBox1.Document.Blocks.Add(pg);
             richTextBox1.Focus();
             richTextBox1.ScrollToEnd();
-            ACBox.Focus();
+            combobox.Focus();
             ImprimirCupomVirtual(@"ITEM  CÓDIGO        DESCRIÇÃO ");
             ImprimirCupomVirtual(@"    QTD. UN.  VL. UNIT R$         VL. ITEM R$");
             ImprimirCupomVirtual(new string('=', 45) + @" ");
@@ -5430,10 +5415,10 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
-                    ACBox.IsEnabled = false;
+                    combobox.IsEnabled = false;
                     txb_Qtde.Text = "Pesando...";
                     PegarPesoDaBalanca();
-                    ACBox.IsEnabled = true;
+                    combobox.IsEnabled = true;
                     if (txb_Qtde.Text == "")
                     {
                         return;
@@ -5458,7 +5443,7 @@ namespace PDV_WPF.Telas
             log.Debug("obtendo descrição");
             lbl_Cortesia.Content = itemRow.DESCRICAO.ToString();
             log.Debug("descrição obtida");
-            ACBox.Text = "";
+            combobox.Text = "";
             txb_Qtde.Clear();
             string barcode = null;
             if (_prepesado == false)
@@ -5752,9 +5737,12 @@ namespace PDV_WPF.Telas
             return ImprimeESalvaCupomFiscal(pFechamento, xmlret, cFeDeRetorno);
         }
 
+        public ObservableCollection<ComboBoxBindingDTO_Produto> LstProdutos { get; } =
+            new ObservableCollection<ComboBoxBindingDTO_Produto>();
+
         private void ProcessarTextoNoACBox()
         {
-            string input = ACBox.Text;
+            string input = combobox.Text;
             log.Debug("ProcessarTextoNoACBox chamado");
             if (!_modoDevolucao && !_modo_consulta)
             {
@@ -5898,12 +5886,6 @@ namespace PDV_WPF.Telas
             }
             //else { comdesc = vUnCom; }
 
-            //if (comdesc <= 0)
-            //{
-            //    DialogBox.Show(strings.APLICAR_DESCONTO, strings.DESCONTO_APLICADO_E_MAIOR_QUE_O_VALOR, DialogBoxButtons.No, DialogBoxIcons.Warn);
-            //    return;
-            //}
-
             //Checa se é possível fazer a venda do produto se o estoque for negativo, e lança o produto.
             if (_modo_consulta == false && _emTransacao == true)
             {
@@ -5927,7 +5909,7 @@ namespace PDV_WPF.Telas
                                                DialogBoxButtons.No, DialogBoxIcons.Info, false,
                                                strings.NAO_HA_ESTOQUE_DISPONIVEL,
                                                strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
-                                ACBox.Text = "";
+                                combobox.Text = "";
                                 return;
                             }
                             else if (PERMITE_ESTOQUE_NEGATIVO == null)
@@ -6206,6 +6188,27 @@ namespace PDV_WPF.Telas
         //}
 
         #endregion Methods
+
+        private void Combobox_OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                ProcessarTextoNoACBox();
+            }
+            else MainWindow_KeyDown(sender, e);
+        }
+
+        private void Combobox_OnTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (combobox.Text.Length > 4)
+            {
+                combobox.IsDropDownOpen = true;
+            }
+            else
+            {
+                //combobox.IsTextSearchEnabled = false;
+            }
+        }
     }
 
     #region Classes Auxiliares
