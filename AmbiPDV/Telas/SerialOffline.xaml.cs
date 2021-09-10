@@ -45,7 +45,7 @@ namespace PDV_WPF.Telas
 
         private void ValidarSerial()
         {
-            if ((txtSerial.Text.ToUpper() == (new Funcoes.LicencaDeUsoOffline(90, 15)).GerarSerial(_strSerialHexNumberFromDisk) || txtSerial.Text.ToUpper() == Heroes[DateTime.Today.Day - 1].ToUpper()))
+            if (txtSerial.Text.ToUpper() == new Funcoes.LicencaDeUsoOffline(90, 15).GerarSerial(_strSerialHexNumberFromDisk))
             {
                 // Serial válido;
                 FecharJanela(true);
@@ -78,7 +78,7 @@ namespace PDV_WPF.Telas
 
         private void InicializarFieldsAndProperties()
         {
-            _strSerialHexNumberFromDisk = (new Funcoes.LicencaDeUsoOffline(90, 15)).GetSerialHexNumberFromExecDisk();
+            _strSerialHexNumberFromDisk = new Funcoes.LicencaDeUsoOffline(90, 15).GetSerialHexNumberFromExecDisk();
         }
 
         #endregion Methods

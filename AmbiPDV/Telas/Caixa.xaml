@@ -1,17 +1,19 @@
 ﻿<Window x:Class="PDV_WPF.Telas.Caixa"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:Properties="clr-namespace:PDV_WPF.Properties"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:controls="clr-namespace:PDV_WPF.Controls"
         xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
         xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib"
         xmlns:telas="clr-namespace:PDV_WPF.Telas"
+        xmlns:viewModels="clr-namespace:PDV_WPF.ViewModels"
         x:Name="MainWindow" 
         mc:Ignorable="d"
         Focusable="False"
-        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized" ResizeMode="NoResize" Loaded="Window_Loaded" KeyDown="MainWindow_KeyDown" WindowStyle="None" Closing="MainWindow_Closing" Foreground="#FF4D4D4D" Background="#FFF4F4F4">
+        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        ResizeMode="NoResize" Loaded="Window_Loaded" PreviewKeyDown="Caixa_OnPreviewKeyDown" WindowStyle="None"
+        Closing="MainWindow_Closing" Foreground="#FF4D4D4D" Background="#FFF4F4F4" d:DataContext="{d:DesignInstance viewModels:CaixaViewModel }">
 
     <Window.Resources>
         <Style x:Key="{x:Type TextBoxBase}" BasedOn="{x:Null}" TargetType="{x:Type TextBoxBase}">
@@ -301,20 +303,11 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label x:Name="lbl_Cortesia" Content="" Margin="10,8,10,10" FontFamily="Open Sans SemiBold" Background="{x:Null}" Foreground="#FF09CAAA" HorizontalContentAlignment="Center" FontSize="37" VerticalContentAlignment="Center" Grid.ColumnSpan="4" Grid.Row="1"/>
-            <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="10,8,10,10" MarqueeContent="I was gonna write this text, but then I got high. I was typing this, and then I got high. Now I have written nothing, and I know why. Because I got high, because I got high, because I got high." MarqueeType="RightToLeft"  Grid.ColumnSpan="4" Grid.Row="1" RenderTransformOrigin="0.5,0.5">
-                <controls:MarqueeText.RenderTransform>
-                    <TransformGroup>
-                        <ScaleTransform/>
-                        <SkewTransform/>
-                        <RotateTransform Angle="-0.5"/>
-                        <TranslateTransform/>
-                    </TransformGroup>
-                </controls:MarqueeText.RenderTransform>
-            </controls:MarqueeText>
+            <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="10,8,10,10" MarqueeContent="I was gonna write this text, but then I got high. I was typing this, and then I got high. Now I have written nothing, and I know why. Because I got high, because I got high, because I got high." MarqueeType="RightToLeft"  Grid.ColumnSpan="4" Grid.Row="1" RenderTransformOrigin="0.5,0.5"/>
 
-            <controls:FastEditComboBox x:Name="combobox" Margin="9,23,11,6" Grid.Row="2" FontSize="27" Grid.ColumnSpan="4" Grid.Column="0" Foreground="#FF4D4D4D" Background="#E5FFFFFF" 
+            <controls:FastEditComboBox x:Name="combobox" controls:ComboBoxHelper.DisableF4HotKey="True"  Margin="9,23,11,6" Grid.Row="2" FontSize="27" Grid.ColumnSpan="4" Grid.Column="0" Foreground="#FF4D4D4D" Background="#E5FFFFFF" 
                                  BorderThickness="2" IsEditable="True" IsTextSearchEnabled="True" Focusable="True" RenderTransformOrigin="0.5,0.5" Padding="0"
-                                 KeyDown="Combobox_OnKeyDown" ItemsSource="{Binding LstProdutos}" DisplayMemberPath="DESCRICAO" SelectedValuePath="ID_IDENTIFICADOR"
+                                 KeyDown="Combobox_OnKeyDown" DisplayMemberPath="DESCRICAO" SelectedValuePath="ID_IDENTIFICADOR"
                                  >
                 <controls:FastEditComboBox.ItemsPanel>
                     <ItemsPanelTemplate>

@@ -4,7 +4,6 @@ using Clearcove.Logging;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using LocalDarumaFrameworkDLL;
-using MessagingToolkit.QRCode.Codec.Ecc;
 using PayGo;
 using PDV_WPF.Controls;
 using PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters;
@@ -22,7 +21,6 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -38,7 +36,6 @@ using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.SiTEFDLL;
 using static PDV_WPF.Funcoes.Statics;
 using ECF = PDV_WPF.FuncoesECF;
@@ -104,19 +101,19 @@ namespace PDV_WPF.Telas
             // Disallow ranges of special keys.
             // Currently leaves volume controls enabled; consider if this makes sense.
             // Disables non-existing Keys up to 65534, to err on the side of caution for future keyboard expansion.
-            if ((key >= WinForms.Keys.LWin && key <= WinForms.Keys.Sleep) ||
-                (key >= WinForms.Keys.KanaMode && key <= WinForms.Keys.HanjaMode) ||
-                (key >= WinForms.Keys.IMEConvert && key <= WinForms.Keys.IMEModeChange) ||
-                (key >= WinForms.Keys.BrowserBack && key <= WinForms.Keys.BrowserHome) ||
-                (key >= WinForms.Keys.MediaNextTrack && key <= WinForms.Keys.LaunchApplication2) ||
-                (key >= WinForms.Keys.ProcessKey && key <= (WinForms.Keys)65534))
+            if (key >= WinForms.Keys.LWin && key <= WinForms.Keys.Sleep ||
+                key >= WinForms.Keys.KanaMode && key <= WinForms.Keys.HanjaMode ||
+                key >= WinForms.Keys.IMEConvert && key <= WinForms.Keys.IMEModeChange ||
+                key >= WinForms.Keys.BrowserBack && key <= WinForms.Keys.BrowserHome ||
+                key >= WinForms.Keys.MediaNextTrack && key <= WinForms.Keys.LaunchApplication2 ||
+                key >= WinForms.Keys.ProcessKey && key <= (WinForms.Keys)65534)
             {
                 return false;
             }
 
             // Disallow specific key combinations. (These component keys would be OK on their own.)
-            if ((alt && key == WinForms.Keys.Space) ||
-                (control && key == WinForms.Keys.Escape))
+            if (alt && key == WinForms.Keys.Space ||
+                control && key == WinForms.Keys.Escape)
             {
                 return false;
             }
@@ -208,7 +205,7 @@ namespace PDV_WPF.Telas
 
         public Caixa(bool _contingencia)
         {
-            DataContext = this;
+            DataContext = mvm;
             var args = new List<string>();
             foreach (string arg in Environment.GetCommandLineArgs())
             {
@@ -221,11 +218,17 @@ namespace PDV_WPF.Telas
             try
             {
                 InicializarCaixa(_contingencia);
+                combobox.MultiplyAdded += Combobox_MultiplyAdded;
             }
             catch (Exception)
             {
                 throw;
             }
+        }
+
+        private void Combobox_MultiplyAdded(object sender, EventArgs e)
+        {
+            AplicarSelecaoDeQuantidade();
         }
 
         #endregion (De)Constructor
@@ -269,475 +272,7 @@ namespace PDV_WPF.Telas
             //}
         }
 
-        private void _ACBox_TextChanged(object sender, RoutedEventArgs e)
-        {
-            AplicarSelecaoDeQuantidade();
-        }//Reconhece "*"(asterisco) como multiplicador de quantidade.
-
         #region Teclas de Atalho
-
-        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
-        {
-            /*Os métodos a seguir dependem da configuração do sistema:
-             * Caso o sistema esteja configurado para funcionar apenas em modo não fiscal,
-             * Apertar F2 ou F3 finaliza o cupom não fiscal, sem perguntar o CPF ao
-             * cliente.
-             * 
-             * Caso o sistema esteja configurado para funcionar apenas em modo fiscal,
-             * Apertar F2 não faz nada, enquanto F3 fecha o cupom normalmente.
-             * 
-             * Por, fim, caso o sistema funcione em ambos os modos, F2 finaliza o
-             * cupom não fiscal e F3 finaliza no fiscal.              
-             */
-            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
-            {
-                e.Handled = true;
-                AlternarPainelDeAjuda();
-            } // Abre um painel de ajuda (Tecla F1)
-            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                e.Handled = true;
-                if (_tipo == ItemChoiceType.ABERTO)
-                {
-                    string cliente;
-                    var PC = new PerguntaCliente(1);
-                    PC.ShowDialog();
-                    switch (PC.DialogResult)
-                    {
-                        case true:
-                            cliente = PC.nome_cliente;
-                            break;
-                        default:
-                            MessageBox.Show("É necessário informar um cliente.");
-                            return;
-                    }
-                    vendaAtual.TotalizaCupom();
-                    (int id, int nf) info = vendaAtual.GravaNaoFiscalBase(0, 99, 0);
-
-                    foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
-                    {
-                        Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal(), item.prod.vUnComOri.Safedecimal());
-
-                    }
-                    Remessa.numerodocupom = info.nf;
-                    Remessa.cliente = cliente;
-                    Remessa.IMPRIME();
-                    CancelarVendaAtual();
-                }
-            }
-            /* ---------------*/
-            else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma")
-            {
-                debounceTimer.Debounce(125, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    PrepararFinalizacaoDeCupomDemo();
-                });
-
-                return;
-            }//Inicia o fechamento de de uma venda sem CPF (Tecla F2)
-            /* ---------------*/
-            else if (e.Key == Key.F3 && _emTransacao == true)
-            {
-                debounceTimer.Debounce(125, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    PrepararFinalizacaoDeCupomFiscal();
-                });
-            } //Inicia o fechamento de de uma venda com CPF(Tecla F3)
-            /* ---------------*/
-            else if (e.Key == Key.F4 && _modo_consulta)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    AbrirConsultaAvancada();
-                });
-            } // Ativa o modo de consulta (Tecla F4)
-            /* ---------------*/
-            else if (e.Key == Key.F4 && _emTransacao && !(vendaAtual is null) && !_modo_consulta)//Remove um item do cupom com a venda aberta. (Chama método)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    RemoverItemDaVendaNovo();
-                });
-            } //Ativa modo de cancelamento de item (Tecla F4 com venda ativa)
-            /* ---------------*/
-            else if (e.Key == Key.F5)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    AlternarModoDeConsulta();
-                });
-            } // Ativa modo de consulta avançado (Tecla F5)
-            /* ---------------*/
-            else if (e.Key == Key.F6 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
-            {
-                //cancelamentoAtual.CancelaCupomFiscal(new CupomSAT());
-                //return;
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    if (!_emTransacao)
-                    {
-                        CancelarUltimoCupom();
-                    }
-                    else
-                    {
-                        if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false))
-                        {
-                            return;
-                        }
-                        CancelarVendaAtual();
-                    }
-                });
-            } //Ativa o cancelamento de compras (Tecla F6)
-            /* ---------------*/
-            else if (e.Key == Key.F7)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    //#if HOMOLOGADEVOL
-                    NovoModoDeDevolucao();
-                    //#else
-
-                    //AlternarModoDevolucao();
-                    //#endif
-                });
-            } // Ativa o modo de devolução (Tecla F7)
-            /* ---------------*/
-            else if (e.Key == Key.F8)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    AlternarDescontoNoItem();
-                });
-            }// Ativa modo de desconto (Tecla F8)
-            /* ---------------*/
-            else if (e.Key == Key.F9 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    PerguntarNumeroDoOrcamento();
-                });
-            } // Ativa modo de orçamento
-            /* ---------------*/
-            else if (e.Key == Key.F9 && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                e.Handled = true;
-                TrazerJanOrcamentoPraFrente();
-            } //Ativa modo de orçamento por período
-            /* ---------------*/
-            else if ((e.SystemKey == Key.F10) && (USATEF))
-            {
-                e.Handled = true;
-                SiTEFBox tefAdmin = new SiTEFBox();
-                DateTime timestampFiscal = DateTime.Now;
-                infoAdminTEF = (timestampFiscal.ToString("ddhhmmss"), timestampFiscal.ToString("yyyyMMdd"), timestampFiscal.ToString("hhmmss"));
-                tefAdmin.StatusChanged += Tef_StatusChanged;
-                tefAdmin.ShowTEF(TipoTEF.Administrativo, 0, infoAdminTEF.sequencial, timestampFiscal, -1);
-                _emTransacao = true;
-                //debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                //{
-
-                //});
-            }
-            /* ---------------*/
-            else if (e.Key == Key.F11 && e.KeyboardDevice.Modifiers == ModifierKeys.None && !_emTransacao && !_modo_consulta)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    AbrirJanelaSangriaSupr();
-                });
-            } // Ativa modo sangria/suprimento
-            else if (e.Key == Key.F11 && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_modo_consulta)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    if (!PedeSenhaGerencial("LISTANDO REIMPRESSÃO DE SANGRIAS"))
-                    {
-                        return;
-                    }
-                    new ListaSanSup().ShowDialog();
-
-                });
-            } // Ativa modo sangria/suprimento
-            /* ---------------*/
-            else if (e.Key == Key.F12 && e.KeyboardDevice.Modifiers == ModifierKeys.None && !_emTransacao) // condicional pra saber se o botão f12 foi pressionado e se algum cupom de venda não estiver aberto
-            {
-                e.Handled = true;//Encerra um processo de Keypress, ou seja, caso eu digite a tecla acima, ela não será preenchida em nenhum text box e nem terá efeitos em nenhum campo.  
-                log.Debug($"turno_aberto = {turno_aberto}");
-                switch (turno_aberto)// condicional para descobrir o status do turno
-                {
-                    case true://Caso o turno esteja true, quer dizer que está aberto e você deseja fechar, então o método abaixo irá fechar o caixa 
-                        if (ExecFechamentoCaixa()) // já faz sync (tudo)
-                        {
-                            DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_FECHADO_COM_SUCESSO);
-                        }
-                        break;
-                    case false:// Caso seja false, quer dizer que está fechado e você deseja abrir, o método abaixo irá abrir o caixa
-                        if (ExecAberturaCaixa())
-                        {
-                            DialogBox.Show(strings.ABERTURA_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_ABERTO_COM_SUCESSO);
-                            //TODO: fazer sync (vendas)
-                            IniciarSincronizacaoDB(EnmTipoSync.vendas, Settings.Default.SegToleranciaUltSync);
-                        }
-                        break;
-                }
-            }//Faz o fechamento do caixa.
-            /* ---------------*/
-            else if (e.Key == Key.F12 && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)// Ao apertar F12 + CRTL essa condição será aceita
-            {
-                if (!PedeSenhaGerencial(@strings.LISTANDO_REIMPRESSAO_DE_FECHAMENTOS))
-                {
-                    return;
-                }
-
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    new Fechamentos().ShowDialog();
-                });
-            }//Reimpressão de caixa fechado
-            /* ---------------*/
-            else if (e.Key == Key.Escape && e.KeyboardDevice.Modifiers == ModifierKeys.Shift && !_emTransacao)
-            {
-                e.Handled = true;
-                bool _senha = PedeSenhaGerencial("Fechando o programa");
-                if (_senha == true)
-                {
-                    Application.Current.Shutdown();
-                }
-                else
-                {
-                    combobox.Text = null;
-                }
-            }//Pergunta senha para fechar o sistema.
-            /* ---------------*/
-            else if (e.Key == Key.Escape && combobox.Text != "")
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    combobox.Text = "";
-                });
-            }//Limpa o campo de pesquisa.
-            /* ---------------*/
-            else if (e.Key == Key.Escape && _usouOrcamento)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    if (DialogBox.Show(strings.ORCAMENTO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Pausar esse orçamento agora?", "Você poderá usá-lo mais tarde.") == true)
-                    {
-                        #region Zerar o cupom para iniciar um novo
-                        LimparObjetoDeVendaNovo();
-                        LimparTela();
-                        LimparUltimaVenda();
-                        _usouOrcamento = false;
-                        #endregion Zerar o cupom para iniciar um novo
-                    }
-                });
-            }//Limpa o cupom virtual e deixa o caixa livre.
-            /* ---------------*/
-            //TODO: terminar e testar snippet
-            else if (e.Key == Key.Escape && _usouPedido)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    if (DialogBox.Show(strings.PEDIDO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Não usar esse pedido agora?", "Você poderá usá-lo mais tarde.") == true)
-                    {
-                        #region Zerar o cupom para iniciar um novo
-                        LimparObjetoDeVendaNovo();
-                        LimparTela();
-                        #endregion Zerar o cupom para iniciar um novo
-                    }
-                });
-            }//Limpa o cupom virtual e deixa o caixa livre.
-            /* ---------------*/
-            else if (e.Key == Key.B && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    try
-                    {
-                        log.Debug("Pega peso da balança - TESTE");
-                        PegarPesoDaBalanca();
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error("Testar balança", ex);
-                        DialogBox.Show(strings.OBTER_PESO, DialogBoxButtons.No, DialogBoxIcons.Error, true, RetornarMensagemErro(ex, false));
-                        return;
-                    }
-                });
-            }//Tenta pegar o peso da balança.
-            /* ---------------*/
-            else if (e.Key == Key.G && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    if (PedeSenhaGerencial("Abrindo Gaveta"))
-                    {
-                        if (IMPRESSORA_USB != "Nenhuma")
-                        {
-                            AbreGaveta();
-                        }
-                        else if (ECF_ATIVA)
-                        {
-                            ECF.AbreGaveta();
-                        }
-                    }
-                });
-            }//Pergunta senha para abrir a gaveta.
-            /* ---------------*/
-            else if (e.Key == Key.M && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                e.Handled = true;
-                bool _senha = PedeSenhaGerencial("Minimizando o Programa");
-                if (_senha == true)
-                {
-                    WindowState = WindowState.Minimized;
-                }
-                else
-                {
-                    combobox.Text = null;
-                }
-            }//Minimiza o programa
-            /* ---------------*/
-            else if (e.Key == Key.O && e.KeyboardDevice.Modifiers == ModifierKeys.Control && ECF_ATIVA)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    if (!ECF.EfetuaReducaoZ()) { return; }
-                });
-            } //Extração de relatório de impressora fiscal
-            /* ---------------*/
-            else if (e.Key == Key.W && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                if (File.Exists(@".\logo.png"))
-                {
-                    log.Debug("Logo encontrado. Carregando novo logo...");
-
-                    logoplaceholder.Visibility = Visibility.Collapsed;
-
-                    // Create Image and set its width and height  
-                    Image dynamicImage = new Image();
-                    //dynamicImage.Width = 500;
-                    //dynamicImage.Height = 500;
-
-                    // Create a BitmapSource  
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(@"logo.png", UriKind.RelativeOrAbsolute);
-                    bitmap.EndInit();
-
-                    // Set Image.Source  
-                    dynamicImage.Source = bitmap;
-
-                    grd_Grid1.Children.Add(dynamicImage);
-                    dynamicImage.SetValue(Grid.ColumnProperty, 1);
-                    dynamicImage.UpdateLayout();
-                }
-            } //Dá um refresh no logo da aplicação
-            /* ---------------*/
-            else if (e.Key == Key.P && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_contingencia)
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    bool _senha = PedeSenhaGerencial("Abrindo Configurações");
-                    if (_senha == true)
-                    {
-                        Parametros par = new Parametros(turno_aberto, _contingencia) { conf_inicial = false };
-                        par.ShowDialog();
-
-                        IniciarSincronizacaoDB(EnmTipoSync.cadastros, 0);
-
-                        CarregaConfigs();
-                        return;
-                    }
-                    else
-                    {
-                        combobox.Text = null;
-                    }
-                });
-            }//Pergunta senha para abrir a tela de parâmetros.
-            /* ---------------*/
-            else if (e.Key == Key.R && e.KeyboardDevice.Modifiers == ModifierKeys.Control && IMPRESSORA_USB != "Nenhuma")
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    e.Handled = true;
-                    (new ReimprimeCupons()).ShowDialog();
-                });
-            }//Tenta pegar o peso da balança.
-            /* ---------------*/
-            else if (e.Key == Key.S && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_modo_consulta)// Sincronização manual
-
-            {
-                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
-                    // Ctrl+S para sync
-                    e.Handled = true;
-
-                    /// ToDo:
-                    /// Perguntar pro usuário se ele tem certeza se quer continuar;
-                    /// Exibir uma tela de aguardar.
-                    if (DialogBox.Show(strings.SINCRONIZACAO, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, strings.PDV_INICIARA_ATUALIZACAO_DE_REGISTROS) == true)
-                    {
-                        IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.CtrlS*/);
-                    }
-
-                    //IniciarTestes();
-                });
-            } // Sincronização manual
-            /* ---------------*/
-            else if (e.Key == Key.T && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
-            {
-                e.Handled = true;
-                funcoesClass Func = new funcoesClass();
-                string IDAnyDesk = Func.ObtemIDAnyDesk();
-                DialogBox.Show(strings.ACESSO_REMOTO, DialogBoxButtons.Yes, DialogBoxIcons.None, true, strings.INFORME_SUA_ID, IDAnyDesk);
-            } // Informa o ID para acesso remoto pelo AnyDesk
-            /* ---------------*/
-            else if (e.Key == Key.T && e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Alt | ModifierKeys.Shift))
-            {
-                e.Handled = true;
-                if (new SenhaTecnico().ShowDialog() != true)
-                {
-                    return;
-                }
-
-                if (DialogBox.Show(strings.AUTOTESTE, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, true, strings.DESEJA_EXECUTAR_AUTOTESTE) == false)
-                {
-                    return;
-                }
-
-                _interromperModoTeste = false;
-                Thread meuThread = new Thread(ExecutaTeste);
-                meuThread.SetApartmentState(ApartmentState.STA);
-                meuThread.Start();
-                _modoTeste = true;
-                ExecTesteMassivo();
-                return;
-            } //Executa uma bateria de teste na base de dados, injetando dados validos para verificar possíveis erros ou conflitos.
-
-            else
-            {
-                if (!(FocusManager.GetFocusedElement(MainWindow).GetType() == typeof(TextBox))) combobox.Focus();
-            }//Volta o foco para a caixa de pesquisa.
-
-        }
 
         void ExecutaTeste()
         {
@@ -1427,10 +962,11 @@ namespace PDV_WPF.Telas
             // Se tiver item, ver se tem pelo menos 1 item para deletar.
             //      - Se tiver, continuar com a rotina antiga.
             //      - Não tem, percorrer por cada item da lista e atualizar seu correspondente no ItemsSource.
-
-            if (LstProdutos.Count == 0)
+            if (mvm.LstProdutos is null) mvm.LstProdutos = new();
+            if (mvm.LstProdutos.Count == 0)
             {
                 CarregarProdutosNoAcbox();
+                combobox.ItemsSource = mvm.LstProdutos;
             }
             else
             {
@@ -1443,7 +979,7 @@ namespace PDV_WPF.Telas
                         foreach (var itemAlterado in _lstProdutosAlteradosSync)
                         {
                             // Encontrar o item equivalente no ItemsSource
-                            var itemEncontradoAcbox = LstProdutos.FirstOrDefault(item => item.ID_IDENTIFICADOR.Equals(itemAlterado.ID_IDENTIFICADOR));
+                            var itemEncontradoAcbox = mvm.LstProdutos.FirstOrDefault(item => item.ID_IDENTIFICADOR.Equals(itemAlterado.ID_IDENTIFICADOR));
 
                             // Tá, e se o itemEncontrado não for encontrado?
                             // Será nulo?
@@ -1452,7 +988,7 @@ namespace PDV_WPF.Telas
 
                             if (itemEncontradoAcbox == null || itemEncontradoAcbox.ID_IDENTIFICADOR.Equals(0))
                             {
-                                LstProdutos.Add(
+                                mvm.LstProdutos.Add(
                                     new ComboBoxBindingDTO_Produto
                                     {
                                         COD_BARRA = string.IsNullOrWhiteSpace(itemAlterado.COD_BARRA) ? string.Empty : itemAlterado.COD_BARRA,
@@ -1475,7 +1011,7 @@ namespace PDV_WPF.Telas
                                 itemEncontradoAcbox.REFERENCIA = itemAlterado.ORIGEM_TB.Equals("TB_EST_PRODUTO") ? itemAlterado.REFERENCIA.Safestring() : itemEncontradoAcbox.REFERENCIA;
                             }
                         }
-
+                        
 
                     }
                     catch (Exception ex)
@@ -1484,7 +1020,6 @@ namespace PDV_WPF.Telas
                         throw ex;
                     }
                 }
-
                 _lstProdutosAlteradosSync = null;
             }
         }
@@ -1529,7 +1064,7 @@ namespace PDV_WPF.Telas
 
             foreach (DataSets.FDBDataSetOperSeed.TB_EST_ESTOQUE_KEYVALUERow row in dt)
             {
-                LstProdutos.Add(new ComboBoxBindingDTO_Produto()
+                mvm.LstProdutos.Add(new ComboBoxBindingDTO_Produto()
                 {
                     ID_IDENTIFICADOR = row.ID_IDENTIFICADOR,
                     COD_BARRA = row.IsCOD_BARRANull() ? "" : row.COD_BARRA,
@@ -1914,7 +1449,7 @@ namespace PDV_WPF.Telas
         {
             #region Valida seleção de produto
 
-            if (combobox.SelectedItem == null)
+            if (true)
             {
                 try
                 {
@@ -1924,7 +1459,7 @@ namespace PDV_WPF.Telas
                         switch (ACREFERENCIA.ToBool())
                         {
                             case true:
-                                object objItemEncontrado_with_ref = LstProdutos.First(item => (item.COD_BARRA.Equals(pInput) ||
+                                object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => (item.COD_BARRA.Equals(pInput) ||
                                                                                                       item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod) ||
                                                                                                       item.REFERENCIA.Equals(pInput)) && item.STATUS == "A");
                                 if (objItemEncontrado_with_ref != null)
@@ -1935,7 +1470,7 @@ namespace PDV_WPF.Telas
                                 break;
                             case false:
                             default:
-                                object objItemEncontrado = LstProdutos.First(item => item.COD_BARRA.Equals(pInput) ||
+                                object objItemEncontrado = mvm.LstProdutos.First(item => item.COD_BARRA.Equals(pInput) ||
                                                                                                       item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
                                 if (objItemEncontrado != null)
                                 {
@@ -1947,7 +1482,7 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-                        object objItemEncontrado = LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
+                        object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
                         if (objItemEncontrado != null)
                         {
                             combobox.SelectedItem = objItemEncontrado;
@@ -2001,7 +1536,7 @@ namespace PDV_WPF.Telas
 
             if (BLOQUEIA_NO_LIMITE)
             {
-                if (PERMITE_FOLGA_SANGRIA && valoremgaveta < (VALOR_DE_FOLGA + VALOR_MAX_CAIXA) && valoremgaveta > VALOR_MAX_CAIXA) //Valor em gaveta está entre caixamaximo e (caixamaximo e valordefolga)
+                if (PERMITE_FOLGA_SANGRIA && valoremgaveta < VALOR_DE_FOLGA + VALOR_MAX_CAIXA && valoremgaveta > VALOR_MAX_CAIXA) //Valor em gaveta está entre caixamaximo e (caixamaximo e valordefolga)
                 {
                     if (aviso)
                     {
@@ -2758,7 +2293,7 @@ namespace PDV_WPF.Telas
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, fechamento.vencimento, fechamento.id_cliente);
                         else if (metodo.strCfePgto == "01")
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, fechamento.troco);
-                        else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && (USATEF))
+                        else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && USATEF)
                         {
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto);
                         }
@@ -2992,7 +2527,7 @@ namespace PDV_WPF.Telas
                     {
                         VendaDEMO.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], item.dec_vMP);
                         log.Debug($"FISCAL>> Pagamento efetuado: {_metodos_de_pagamento[item.cMP.ToString()]}, Valor {item.dec_vMP}");
-                        if ((USATEF == true) && (item.cMP == "03" || item.cMP == "04"))
+                        if (USATEF == true && (item.cMP == "03" || item.cMP == "04"))
                         {
                             //usouTEF = true;
                             log.Debug("TEF UTILIZADO!!!!!");
@@ -3059,7 +2594,7 @@ namespace PDV_WPF.Telas
 
                 #endregion IMPRESSÃO DE CUPOM VIRTUAL
 
-                txb_Avisos.Text = string.Format("TROCO: {0}", pFechamento.troco.ToString("C2"));
+                txb_Avisos.Text = $"TROCO: {pFechamento.troco.ToString("C2")}";
                 _emTransacao = false;
                 numProximoItem = 1;
                 subtotal = 0;
@@ -3525,9 +3060,9 @@ namespace PDV_WPF.Telas
                         UnsafeNativeMethods.iCFEfetuarPagamentoFormatado_ECF_Daruma(DESCRICAO_PGTO, pFechamento.valores_pgtos[i].ToString("0.00"));
                         log.Debug("Pagamento Processado pela ECF");
 
-                        if ((USATEF == true) &&
-                            ((strRetornoPegaPgCfeDesc == "03") ||
-                             (strRetornoPegaPgCfeDesc == "04")))
+                        if (USATEF == true &&
+                            (strRetornoPegaPgCfeDesc == "03" ||
+                             strRetornoPegaPgCfeDesc == "04"))
                         {
                             //usouTEF = true;
                             log.Debug("TEF UTILIZADO!!!!!");
@@ -3956,7 +3491,7 @@ namespace PDV_WPF.Telas
                     {
                         VendaImpressa.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], item.dec_vMP);
                         log.Debug($"FISCAL>> Pagamento efetuado: {_metodos_de_pagamento[item.cMP.ToString()]}, Valor {item.dec_vMP}");
-                        if ((USATEF == true) && (item.cMP == "03" || item.cMP == "04"))
+                        if (USATEF == true && (item.cMP == "03" || item.cMP == "04"))
                         {
                             //usouTEF = true;
                             log.Debug("TEF UTILIZADO!!!!!");
@@ -4524,7 +4059,7 @@ namespace PDV_WPF.Telas
                     timeKeepAliveSAT++;
                 }
 
-                if ((!_emTransacao) && (timeKeepAliveSAT >= SATLIFESIGNINTERVAL * 60))
+                if (!_emTransacao && timeKeepAliveSAT >= SATLIFESIGNINTERVAL * 60)
                 {
                     IniciarSincronizacaoDB(EnmTipoSync.cadastros, Settings.Default.SegToleranciaUltSync);
                     try
@@ -5363,7 +4898,7 @@ namespace PDV_WPF.Telas
                 DialogBox.Show(strings.DEVOLUCAO_DE_MERCADORIA, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.DEVOLUCAO_DEVE_SER_POR_F7);
                 return;
             }
-            if ((!SAT_USADO && !ECF_ATIVA) || _tipo == ItemChoiceType.FECHADO)
+            if (!SAT_USADO && !ECF_ATIVA || _tipo == ItemChoiceType.FECHADO)
             {
                 return;
             }
@@ -5411,7 +4946,7 @@ namespace PDV_WPF.Telas
             log.Debug("itemRow isolado");
 
             #region Pegar peso
-            if (_prepesado == false && (itemRow.UNI_MEDIDA == "KG" || itemRow.UNI_MEDIDA == "KU") && (BALMODELO != 0))
+            if (_prepesado == false && (itemRow.UNI_MEDIDA == "KG" || itemRow.UNI_MEDIDA == "KU") && BALMODELO != 0)
             {
                 try
                 {
@@ -5508,14 +5043,14 @@ namespace PDV_WPF.Telas
                 vendaAtual.RecebePIS(
                     itemRow.IsRCST_PISNull() ? "" : itemRow.RCST_PIS,
                     pPrecoUnitario,
-                    (itemRow.IsRPISNull()) ? 0M : itemRow.RPIS,
+                    itemRow.IsRPISNull() ? 0M : itemRow.RPIS,
                     pQuant
                     );
                 log.Debug("PIS Recebido. Recebendo COFINS");
                 vendaAtual.RecebeCOFINS(
                     itemRow.IsRCST_COFINSNull() ? "" : itemRow.RCST_COFINS,
                     pPrecoUnitario,
-                    (itemRow.IsRCOFINSNull()) ? 0M : itemRow.RCOFINS,
+                    itemRow.IsRCOFINSNull() ? 0M : itemRow.RCOFINS,
                     pQuant
                     );
                 log.Debug("COFINS Recebido. Adicionando produto");
@@ -5554,9 +5089,9 @@ namespace PDV_WPF.Telas
 
             }
 
-            txb_ValorUnit.Text = (pPrecoUnitario != 0) ? pPrecoUnitario.RoundABNT().ToString("C2") : "R$ -,--";
-            txb_TotProd.Text = (pPrecoUnitario != 0) ? (pPrecoUnitario * pQuant).RoundABNT().ToString("C2") : "R$ -,--";
-            subtotal += ((pPrecoUnitario * pQuant) - pDesconto).RoundABNT();
+            txb_ValorUnit.Text = pPrecoUnitario != 0 ? pPrecoUnitario.RoundABNT().ToString("C2") : "R$ -,--";
+            txb_TotProd.Text = pPrecoUnitario != 0 ? (pPrecoUnitario * pQuant).RoundABNT().ToString("C2") : "R$ -,--";
+            subtotal += (pPrecoUnitario * pQuant - pDesconto).RoundABNT();
             txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");
             string numAtual = String.Empty;
             switch (_modoDevolucao)
@@ -5736,10 +5271,7 @@ namespace PDV_WPF.Telas
             vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);
             return ImprimeESalvaCupomFiscal(pFechamento, xmlret, cFeDeRetorno);
         }
-
-        public ObservableCollection<ComboBoxBindingDTO_Produto> LstProdutos { get; } =
-            new ObservableCollection<ComboBoxBindingDTO_Produto>();
-
+        
         private void ProcessarTextoNoACBox()
         {
             string input = combobox.Text;
@@ -5872,7 +5404,7 @@ namespace PDV_WPF.Telas
             {
                 log.Debug($"Aplicado desconto: {desconto}%");
                 //comdesc = vUnCom - (vUnCom * desconto);
-                vDescAplic = (vUnCom * desconto) * quant;
+                vDescAplic = vUnCom * desconto * quant;
                 tipoDeDesconto = tipoDesconto.Nenhum;
                 txb_Avisos.Text = "CUPOM ABERTO";
             }
@@ -5896,7 +5428,7 @@ namespace PDV_WPF.Telas
                     //TODO: se o caixa estiver configurado para permitir venda de produto com estoque negativo 
                     // e para não notificar, nem precisa pesquisar a quantidade em estoque.
 
-                    if ((PERMITE_ESTOQUE_NEGATIVO == false) || (PERMITE_ESTOQUE_NEGATIVO == null))
+                    if (PERMITE_ESTOQUE_NEGATIVO == false || PERMITE_ESTOQUE_NEGATIVO == null)
                     {
                         decimal? qtdeEstoque = EST_PRODUTO_TA.ConsultaQtde(produtoEncontrado.ID_IDENTIFICADOR);
                         log.Debug($"EST_PRODUTO_TA.ConsultaQtde({produtoEncontrado.ID_IDENTIFICADOR}): {qtdeEstoque}");
@@ -6192,22 +5724,471 @@ namespace PDV_WPF.Telas
         private void Combobox_OnKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
-            {
                 ProcessarTextoNoACBox();
-            }
-            else MainWindow_KeyDown(sender, e);
+            //else MainWindow_KeyDown(sender, e);
         }
 
-        private void Combobox_OnTextChanged(object sender, TextChangedEventArgs e)
+        private void Caixa_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (combobox.Text.Length > 4)
+            /*Os métodos a seguir dependem da configuração do sistema:
+             * Caso o sistema esteja configurado para funcionar apenas em modo não fiscal,
+             * Apertar F2 ou F3 finaliza o cupom não fiscal, sem perguntar o CPF ao
+             * cliente.
+             * 
+             * Caso o sistema esteja configurado para funcionar apenas em modo fiscal,
+             * Apertar F2 não faz nada, enquanto F3 fecha o cupom normalmente.
+             * 
+             * Por, fim, caso o sistema funcione em ambos os modos, F2 finaliza o
+             * cupom não fiscal e F3 finaliza no fiscal.              
+             */
+            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
             {
-                combobox.IsDropDownOpen = true;
+                combobox.SelectedIndex = 13732;
+                e.Handled = true;
+                //AlternarPainelDeAjuda();
+            } // Abre um painel de ajuda (Tecla F1)
+            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                if (_tipo == ItemChoiceType.ABERTO)
+                {
+                    string cliente;
+                    var PC = new PerguntaCliente(1);
+                    PC.ShowDialog();
+                    switch (PC.DialogResult)
+                    {
+                        case true:
+                            cliente = PC.nome_cliente;
+                            break;
+                        default:
+                            MessageBox.Show("É necessário informar um cliente.");
+                            return;
+                    }
+                    vendaAtual.TotalizaCupom();
+                    (int id, int nf) info = vendaAtual.GravaNaoFiscalBase(0, 99, 0);
+
+                    foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
+                    {
+                        Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal(), item.prod.vUnComOri.Safedecimal());
+
+                    }
+                    Remessa.numerodocupom = info.nf;
+                    Remessa.cliente = cliente;
+                    Remessa.IMPRIME();
+                    CancelarVendaAtual();
+                }
             }
+            /* ---------------*/
+            else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma")
+            {
+                debounceTimer.Debounce(125, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    PrepararFinalizacaoDeCupomDemo();
+                });
+
+                return;
+            }//Inicia o fechamento de de uma venda sem CPF (Tecla F2)
+            /* ---------------*/
+            else if (e.Key == Key.F3 && _emTransacao == true)
+            {
+                debounceTimer.Debounce(125, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    PrepararFinalizacaoDeCupomFiscal();
+                });
+            } //Inicia o fechamento de de uma venda com CPF(Tecla F3)
+            /* ---------------*/
+            else if (e.Key == Key.F4 && _modo_consulta)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    AbrirConsultaAvancada();
+                });
+            } // Ativa o modo de consulta (Tecla F4)
+            /* ---------------*/
+            else if (e.Key == Key.F4 && _emTransacao && !(vendaAtual is null) && !_modo_consulta)//Remove um item do cupom com a venda aberta. (Chama método)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    RemoverItemDaVendaNovo();
+                });
+            } //Ativa modo de cancelamento de item (Tecla F4 com venda ativa)
+            /* ---------------*/
+            else if (e.Key == Key.F5)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    AlternarModoDeConsulta();
+                });
+            } // Ativa modo de consulta avançado (Tecla F5)
+            /* ---------------*/
+            else if (e.Key == Key.F6 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
+            {
+                //cancelamentoAtual.CancelaCupomFiscal(new CupomSAT());
+                //return;
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    if (!_emTransacao)
+                    {
+                        CancelarUltimoCupom();
+                    }
+                    else
+                    {
+                        if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false))
+                        {
+                            return;
+                        }
+                        CancelarVendaAtual();
+                    }
+                });
+            } //Ativa o cancelamento de compras (Tecla F6)
+            /* ---------------*/
+            else if (e.Key == Key.F7)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    //#if HOMOLOGADEVOL
+                    NovoModoDeDevolucao();
+                    //#else
+
+                    //AlternarModoDevolucao();
+                    //#endif
+                });
+            } // Ativa o modo de devolução (Tecla F7)
+            /* ---------------*/
+            else if (e.Key == Key.F8)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    AlternarDescontoNoItem();
+                });
+            }// Ativa modo de desconto (Tecla F8)
+            /* ---------------*/
+            else if (e.Key == Key.F9 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    PerguntarNumeroDoOrcamento();
+                });
+            } // Ativa modo de orçamento
+            /* ---------------*/
+            else if (e.Key == Key.F9 && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                TrazerJanOrcamentoPraFrente();
+            } //Ativa modo de orçamento por período
+            /* ---------------*/
+            else if (e.SystemKey == Key.F10 && USATEF)
+            {
+                e.Handled = true;
+                SiTEFBox tefAdmin = new SiTEFBox();
+                DateTime timestampFiscal = DateTime.Now;
+                infoAdminTEF = (timestampFiscal.ToString("ddhhmmss"), timestampFiscal.ToString("yyyyMMdd"), timestampFiscal.ToString("hhmmss"));
+                tefAdmin.StatusChanged += Tef_StatusChanged;
+                tefAdmin.ShowTEF(TipoTEF.Administrativo, 0, infoAdminTEF.sequencial, timestampFiscal, -1);
+                _emTransacao = true;
+                //debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                //{
+
+                //});
+            }
+            /* ---------------*/
+            else if (e.Key == Key.F11 && e.KeyboardDevice.Modifiers == ModifierKeys.None && !_emTransacao && !_modo_consulta)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    AbrirJanelaSangriaSupr();
+                });
+            } // Ativa modo sangria/suprimento
+            else if (e.Key == Key.F11 && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_modo_consulta)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    if (!PedeSenhaGerencial("LISTANDO REIMPRESSÃO DE SANGRIAS"))
+                    {
+                        return;
+                    }
+                    new ListaSanSup().ShowDialog();
+
+                });
+            } // Ativa modo sangria/suprimento
+            /* ---------------*/
+            else if (e.Key == Key.F12 && e.KeyboardDevice.Modifiers == ModifierKeys.None && !_emTransacao) // condicional pra saber se o botão f12 foi pressionado e se algum cupom de venda não estiver aberto
+            {
+                e.Handled = true;//Encerra um processo de Keypress, ou seja, caso eu digite a tecla acima, ela não será preenchida em nenhum text box e nem terá efeitos em nenhum campo.  
+                log.Debug($"turno_aberto = {turno_aberto}");
+                switch (turno_aberto)// condicional para descobrir o status do turno
+                {
+                    case true://Caso o turno esteja true, quer dizer que está aberto e você deseja fechar, então o método abaixo irá fechar o caixa 
+                        if (ExecFechamentoCaixa()) // já faz sync (tudo)
+                        {
+                            DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_FECHADO_COM_SUCESSO);
+                        }
+                        break;
+                    case false:// Caso seja false, quer dizer que está fechado e você deseja abrir, o método abaixo irá abrir o caixa
+                        if (ExecAberturaCaixa())
+                        {
+                            DialogBox.Show(strings.ABERTURA_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_ABERTO_COM_SUCESSO);
+                            //TODO: fazer sync (vendas)
+                            IniciarSincronizacaoDB(EnmTipoSync.vendas, Settings.Default.SegToleranciaUltSync);
+                        }
+                        break;
+                }
+            }//Faz o fechamento do caixa.
+            /* ---------------*/
+            else if (e.Key == Key.F12 && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)// Ao apertar F12 + CRTL essa condição será aceita
+            {
+                if (!PedeSenhaGerencial(@strings.LISTANDO_REIMPRESSAO_DE_FECHAMENTOS))
+                {
+                    return;
+                }
+
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    new Fechamentos().ShowDialog();
+                });
+            }//Reimpressão de caixa fechado
+            /* ---------------*/
+            else if (e.Key == Key.Escape && e.KeyboardDevice.Modifiers == ModifierKeys.Shift && !_emTransacao)
+            {
+                e.Handled = true;
+                bool _senha = PedeSenhaGerencial("Fechando o programa");
+                if (_senha == true)
+                {
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    combobox.Text = null;
+                }
+            }//Pergunta senha para fechar o sistema.
+            /* ---------------*/
+            else if (e.Key == Key.Escape && combobox.Text != "")
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    combobox.Text = "";
+                });
+            }//Limpa o campo de pesquisa.
+            /* ---------------*/
+            else if (e.Key == Key.Escape && _usouOrcamento)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    if (DialogBox.Show(strings.ORCAMENTO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Pausar esse orçamento agora?", "Você poderá usá-lo mais tarde.") == true)
+                    {
+                        #region Zerar o cupom para iniciar um novo
+                        LimparObjetoDeVendaNovo();
+                        LimparTela();
+                        LimparUltimaVenda();
+                        _usouOrcamento = false;
+                        #endregion Zerar o cupom para iniciar um novo
+                    }
+                });
+            }//Limpa o cupom virtual e deixa o caixa livre.
+            /* ---------------*/
+            //TODO: terminar e testar snippet
+            else if (e.Key == Key.Escape && _usouPedido)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    if (DialogBox.Show(strings.PEDIDO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Não usar esse pedido agora?", "Você poderá usá-lo mais tarde.") == true)
+                    {
+                        #region Zerar o cupom para iniciar um novo
+                        LimparObjetoDeVendaNovo();
+                        LimparTela();
+                        #endregion Zerar o cupom para iniciar um novo
+                    }
+                });
+            }//Limpa o cupom virtual e deixa o caixa livre.
+            /* ---------------*/
+            else if (e.Key == Key.B && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    try
+                    {
+                        log.Debug("Pega peso da balança - TESTE");
+                        PegarPesoDaBalanca();
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Testar balança", ex);
+                        DialogBox.Show(strings.OBTER_PESO, DialogBoxButtons.No, DialogBoxIcons.Error, true, RetornarMensagemErro(ex, false));
+                        return;
+                    }
+                });
+            }//Tenta pegar o peso da balança.
+            /* ---------------*/
+            else if (e.Key == Key.G && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    if (PedeSenhaGerencial("Abrindo Gaveta"))
+                    {
+                        if (IMPRESSORA_USB != "Nenhuma")
+                        {
+                            AbreGaveta();
+                        }
+                        else if (ECF_ATIVA)
+                        {
+                            ECF.AbreGaveta();
+                        }
+                    }
+                });
+            }//Pergunta senha para abrir a gaveta.
+            /* ---------------*/
+            else if (e.Key == Key.M && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                bool _senha = PedeSenhaGerencial("Minimizando o Programa");
+                if (_senha == true)
+                {
+                    WindowState = WindowState.Minimized;
+                }
+                else
+                {
+                    combobox.Text = null;
+                }
+            }//Minimiza o programa
+            /* ---------------*/
+            else if (e.Key == Key.O && e.KeyboardDevice.Modifiers == ModifierKeys.Control && ECF_ATIVA)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    if (!ECF.EfetuaReducaoZ()) { return; }
+                });
+            } //Extração de relatório de impressora fiscal
+            /* ---------------*/
+            else if (e.Key == Key.W && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                if (File.Exists(@".\logo.png"))
+                {
+                    log.Debug("Logo encontrado. Carregando novo logo...");
+
+                    logoplaceholder.Visibility = Visibility.Collapsed;
+
+                    // Create Image and set its width and height  
+                    Image dynamicImage = new Image();
+                    //dynamicImage.Width = 500;
+                    //dynamicImage.Height = 500;
+
+                    // Create a BitmapSource  
+                    BitmapImage bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(@"logo.png", UriKind.RelativeOrAbsolute);
+                    bitmap.EndInit();
+
+                    // Set Image.Source  
+                    dynamicImage.Source = bitmap;
+
+                    grd_Grid1.Children.Add(dynamicImage);
+                    dynamicImage.SetValue(Grid.ColumnProperty, 1);
+                    dynamicImage.UpdateLayout();
+                }
+            } //Dá um refresh no logo da aplicação
+            /* ---------------*/
+            else if (e.Key == Key.P && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_contingencia)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    bool _senha = PedeSenhaGerencial("Abrindo Configurações");
+                    if (_senha == true)
+                    {
+                        Parametros par = new Parametros(turno_aberto, _contingencia) { conf_inicial = false };
+                        par.ShowDialog();
+
+                        IniciarSincronizacaoDB(EnmTipoSync.cadastros, 0);
+
+                        CarregaConfigs();
+                        return;
+                    }
+                    else
+                    {
+                        combobox.Text = null;
+                    }
+                });
+            }//Pergunta senha para abrir a tela de parâmetros.
+            /* ---------------*/
+            else if (e.Key == Key.R && e.KeyboardDevice.Modifiers == ModifierKeys.Control && IMPRESSORA_USB != "Nenhuma")
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    new ReimprimeCupons().ShowDialog();
+                });
+            }//Tenta pegar o peso da balança.
+            /* ---------------*/
+            else if (e.Key == Key.S && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_modo_consulta)// Sincronização manual
+
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    // Ctrl+S para sync
+                    e.Handled = true;
+
+                    /// ToDo:
+                    /// Perguntar pro usuário se ele tem certeza se quer continuar;
+                    /// Exibir uma tela de aguardar.
+                    if (DialogBox.Show(strings.SINCRONIZACAO, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, strings.PDV_INICIARA_ATUALIZACAO_DE_REGISTROS) == true)
+                    {
+                        IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.CtrlS*/);
+                    }
+
+                    //IniciarTestes();
+                });
+            } // Sincronização manual
+            /* ---------------*/
+            else if (e.Key == Key.T && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                funcoesClass Func = new funcoesClass();
+                string IDAnyDesk = Func.ObtemIDAnyDesk();
+                DialogBox.Show(strings.ACESSO_REMOTO, DialogBoxButtons.Yes, DialogBoxIcons.None, true, strings.INFORME_SUA_ID, IDAnyDesk);
+            } // Informa o ID para acesso remoto pelo AnyDesk
+            /* ---------------*/
+            else if (e.Key == Key.T && e.KeyboardDevice.Modifiers == (ModifierKeys.Control | ModifierKeys.Alt | ModifierKeys.Shift))
+            {
+                e.Handled = true;
+                if (new SenhaTecnico().ShowDialog() != true)
+                {
+                    return;
+                }
+
+                if (DialogBox.Show(strings.AUTOTESTE, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, true, strings.DESEJA_EXECUTAR_AUTOTESTE) == false)
+                {
+                    return;
+                }
+
+                _interromperModoTeste = false;
+                Thread meuThread = new Thread(ExecutaTeste);
+                meuThread.SetApartmentState(ApartmentState.STA);
+                meuThread.Start();
+                _modoTeste = true;
+                ExecTesteMassivo();
+                return;
+            } //Executa uma bateria de teste na base de dados, injetando dados validos para verificar possíveis erros ou conflitos.
+
             else
             {
-                //combobox.IsTextSearchEnabled = false;
-            }
+                if (!(FocusManager.GetFocusedElement(MainWindow).GetType() == typeof(TextBox))) combobox.Focus();
+            }//Volta o foco para a caixa de pesquisa.
         }
     }
 

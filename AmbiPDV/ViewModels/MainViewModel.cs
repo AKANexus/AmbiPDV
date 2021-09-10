@@ -2,6 +2,7 @@
 using PDV_WPF.Properties;
 using PDV_WPF.Telas;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data;
@@ -45,6 +46,7 @@ namespace PDV_WPF.ViewModels
             }
         }
         private ObservableCollection<string> _vendedores;
+
         public ObservableCollection<string> Vendedores
         {
             get { return _vendedores; }
@@ -55,6 +57,7 @@ namespace PDV_WPF.ViewModels
             }
         }
 
+  
 
         public event PropertyChangedEventHandler PropertyChanged;
 

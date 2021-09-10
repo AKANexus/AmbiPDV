@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using PDV_WPF.ViewModels;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 
 
@@ -198,7 +199,6 @@ namespace PDV_WPF.Funcoes
             {
                 DialogBox.Show(strings.AMBIPDV, DialogBoxButtons.No, DialogBoxIcons.Dolan, false, strings.NECESSARIA_RESOLUCAO_MINIMA);
                 Application.Current.Shutdown();
-                return;
             }
         }
 
@@ -218,44 +218,7 @@ namespace PDV_WPF.Funcoes
 
         #region declarações
 
-        public static List<string> Heroes = new List<string>
-            {
-                "D.Va",
-                "Orisa",
-                "Reinhardt",
-                "Roadhog",
-                "Sigma",
-                "Winston",
-                "Wrecking Ball",
-                "Zarya",
-                "Ashe",
-                "Bastion",
-                "Doomfist",
-                "Genji",
-                "Hanzo",
-                "Junkrat",
-                "McCree",
-                "Mei",
-                "Pharah",
-                "Reaper",
-                "Soldier: 76",
-                "Sombra",
-                "Symmetra",
-                "Torbjorn",
-                "Tracer",
-                "Widowmaker",
-                "Ana",
-                "Baptiste",
-                "Brigitte",
-                "Lucio",
-                "Mercy",
-                "Moira",
-                "Zenyatta"
-            };
-
-        //public enum setupstatus { NoSetup, ToSetup, SetupDone }
-        //public enum PagAssist { erro = -1, bemvindo, legal, selecao, confignada, configserial, configecf, configspooler, configsat, confirmacao, fim }
-        //public enum ErrorLevel : int { information, warning, error, critical }
+        public static CaixaViewModel mvm = new();
         public static string localpath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\LocalDB\CLIPP.FDB";
         public enum DiffVer { desatualizado, atualizado, compativel, incompativel };
         public enum TipoLicenca { offline, online };
@@ -263,15 +226,12 @@ namespace PDV_WPF.Funcoes
         public enum Impressora { SAT, ECF }
         public enum DecisaoWhats { Whats, ImpressaoNormal, NaoImprime }
         public static TipoDeEmpresa tipoDeEmpresa = TipoDeEmpresa.SN;
-        public enum StatusTEF { Aberto, EmAndamento, Confirmado, Cancelado, Erro, NaoAutorizado };
-        //public enum StateTEF { OperacaoPadrao, EmCancelamento, AguardaMenu, AguardaEnter, AguardaCampo, AguardaSenha, AguardaValor, AguardaSimNao };
+        public enum StatusTEF { Aberto, EmAndamento, Confirmado, Cancelado, Erro, NaoAutorizado }
         public enum TipoDeEmpresa { RPA, SN }
-        public enum ComandoSAT { SAT06, SAT07, SAT08 }
         public enum DialogBoxButtons { Yes, No, YesNo, None }
         public enum DialogBoxIcons { None, Info, Warn, Error, Dolan, Sangria, Suprimento }
 
         public static List<string> args = new List<string>();
-        //public static List<string> tiposDeTransacao = new List<string>() { "10", "11", "12", "20", "21", "22", "24", "40", "60", "30" };
         public static bool homologaSAT = false, homologaDEVOL = false, eLGINStdCall;
 
         public static bool Conectividade = true;

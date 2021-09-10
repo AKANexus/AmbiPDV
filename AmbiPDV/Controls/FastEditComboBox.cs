@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace PDV_WPF.Controls
 
@@ -25,8 +27,8 @@ namespace PDV_WPF.Controls
 
         static FastEditComboBox()
         {
-            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.TextChangedEvent, new TextChangedEventHandler(FastEditComboBox.OnTextChanged));
-            EventManager.RegisterClassHandler(typeof(TextBox), TextBox.SelectionChangedEvent, new RoutedEventHandler(FastEditComboBox.OnSelectionChanged));
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBoxBase.TextChangedEvent, new TextChangedEventHandler(FastEditComboBox.OnTextChanged));
+            EventManager.RegisterClassHandler(typeof(TextBox), TextBoxBase.SelectionChangedEvent, new RoutedEventHandler(FastEditComboBox.OnSelectionChanged));
         }
 
         public string Text
@@ -40,6 +42,17 @@ namespace PDV_WPF.Controls
                 base.SetValue(TextProperty, value);
             }
         }
+
+        protected override void OnPreviewKeyDown(KeyEventArgs e)
+        {
+            if (e.Key == Key.F4)
+            {
+                base.OnKeyDown(e);
+            }
+            base.OnPreviewKeyDown(e);
+        }
+
+        public event EventHandler MultiplyAdded;
 
         public override void OnApplyTemplate()
         {
@@ -59,6 +72,7 @@ namespace PDV_WPF.Controls
             {
                 TextUpdated(_TextBoxPart.Text, true);
             }
+            MultiplyAdded?.Invoke(this, e);
         }
 
         private void TextUpdated(string newText, bool textBoxUpdated)
