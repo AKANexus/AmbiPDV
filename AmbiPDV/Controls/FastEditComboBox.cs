@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Input;
+using static PDV_WPF.Funcoes.Statics;
 
 namespace PDV_WPF.Controls
 
@@ -201,7 +202,7 @@ namespace PDV_WPF.Controls
 
         int FindMatchingPrefix(string s)
         {
-            int index = _CompletionStrings.BinarySearch(s, StringComparer.OrdinalIgnoreCase);
+            int index = _CompletionStrings.BinarySearch(s, StringComparer.CurrentCultureIgnoreCase);
             if (index >= 0) return index;
             index = ~index;
             string p = _CompletionStrings[index];
@@ -260,7 +261,7 @@ namespace PDV_WPF.Controls
             tb.DataContext = item;
             tb.SetBinding(TextBlock.TextProperty, binding);
             string s = tb.Text;
-            int index = _CompletionStrings.BinarySearch(s, StringComparer.OrdinalIgnoreCase);
+            int index = _CompletionStrings.BinarySearch(s, StringComparer.CurrentCultureIgnoreCase);
             if (index < 0)
             {
                 _CompletionStrings.Insert(~index, s);
@@ -288,7 +289,7 @@ namespace PDV_WPF.Controls
             tb.DataContext = item;
             tb.SetBinding(TextBlock.TextProperty, binding);
             string s = tb.Text;
-            int index = _CompletionStrings.BinarySearch(s, StringComparer.OrdinalIgnoreCase);
+            int index = _CompletionStrings.BinarySearch(s, StringComparer.CurrentCultureIgnoreCase);
             if (index >= 0) _CompletionStrings.RemoveAt(index);
         }
 

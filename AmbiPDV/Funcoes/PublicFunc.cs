@@ -1249,6 +1249,7 @@ namespace PDV_WPF
                             Comm.ExecuteNonQuery();
                             Conn.Close();
                         }
+
                         return VerificaPDVOper(operador_atual);
                     }
                 }
