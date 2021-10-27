@@ -397,6 +397,9 @@
     <Content Include="DLL\dllsat_x32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="DLL\ElginSAT.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="DLL\libsatid32.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

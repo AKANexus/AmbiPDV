@@ -3,6 +3,7 @@ using System;
 using System.IO.Ports;
 using System.Runtime.InteropServices;
 using System.Text;
+using Clearcove.Logging;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 
@@ -14,6 +15,8 @@ namespace Balancas
     {
         private class Toledo : IDisposable
         {
+            private Logger _log = new Logger(typeof(Balanca));
+
             [DllImport(@"P05.dll", CallingConvention = CallingConvention.Winapi)]
             public static extern int AbrePorta(int porta, int velocidade, int dataBits, int paridade);
 
@@ -25,8 +28,12 @@ namespace Balancas
 
             public decimal ProcessaPeso()
             {
-                FechaPorta();
+                _log.Info(">> ProcessaPeso chamado!");
+
+                _log.Info("Fechando porta (só pra garantir)");
+                _log.Info($"FechaPorta retornou {FechaPorta()}");
                 Int32.TryParse(BALPORTA.ToString(), out int porta);
+                _log.Info($"A porta da balança é {porta}");
                 var baud = BALBAUD switch
                 {
                     2400 => 0,
@@ -34,7 +41,10 @@ namespace Balancas
                     9600 => 2,
                     _ => 1,
                 };
+                _log.Info($"A velocidade é {BALBAUD}, que converte para {baud}");
                 int parid = BALPARITY;
+                _log.Info($"A paridade é {BALPARITY}, que converte para {parid}");
+                _log.Info($"Abrindo a porta.");
                 long retorno = AbrePorta(porta, baud, 1, parid);
                 //long retorno = AbrePorta(1, 1, 1, 0);
                 /*Paridade:
@@ -43,23 +53,36 @@ namespace Balancas
                  * 2 = Par
                  * 3 = Espaço
                  */
-
+                _log.Info($"AbrePorta retornou {retorno}");
                 if (retorno == 1)
                 {
                     StringBuilder pesoStr = new StringBuilder();
-                    retorno = PegaPeso(0, pesoStr, "");
-                    Decimal.TryParse(pesoStr.ToString(), out decimal peso);
-                    retorno = FechaPorta();
+                    _log.Info("A porta abriu, bora pegar o preço");
+                    try
+                    {
+                        PegaPeso(0, pesoStr, "");
+                        _log.Info($"PegaPeso retornou e preencheu pesoStr com {pesoStr}");
+                        Decimal.TryParse(pesoStr.ToString(), out decimal peso);
+                        _log.Info($"O peso obtido foi {peso} (que corresponde ao peso {peso/1000}. Só fechar a porta agora.");
+                        retorno = FechaPorta();
+                        _log.Info($"FechaPorta retornou {retorno}");
+                        if (retorno == 1)
+                        {
+                            return peso / 1000;
+                        }
+                        else
+                        {
+                            return -100;
+                            //Erro ao fechar porta
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        _log.Error("Deu rui ao chamar PegaPeso", e);
+                        FechaPorta();
+                        return 0;
+                    }
 
-                    if (retorno == 1)
-                    {
-                        return peso / 1000;
-                    }
-                    else
-                    {
-                        return -100;
-                        //Erro ao fechar porta
-                    }
                 }
                 else
                 {
@@ -69,18 +92,34 @@ namespace Balancas
             }
             public decimal RetornaPeso()
             {
-                decimal peso;
-                for (int i = 0; i < 6; i++)
+                _log.Info(">> RetornaPeso chamado!");
+                try
                 {
-                    peso = ProcessaPeso();
-                    if (peso != 0)
+                    decimal peso;
+                    for (int i = 0; i < 6; i++)
                     {
-                        //MessageBox.Show(peso.ToString());
-                        return peso;
+                        peso = ProcessaPeso();
+                        if (peso != 0)
+                        {
+                            //MessageBox.Show(peso.ToString());
+                            return peso;
+                        }
+
+                        System.Threading.Thread.Sleep(500);
                     }
-                    System.Threading.Thread.Sleep(500);
+
+                    return -100;
                 }
-                return -100;
+                catch (Exception e)
+                {
+
+                    throw;
+                }
+                finally
+                {
+                    FechaPorta();
+                }
+
             }
             private const string LOCAL_ESCRITA = ""; //Diretorio onde será gravado o arquivo. Se vazio significa o diretorio local do programa
             private const int OPCAO_ESCRITA = 1; //Disponibilizar em     => 0 = Arq Texto, 1 = Área de Transferência

@@ -32,7 +32,7 @@ namespace PDV_WPF.Telas
         public SATBox(string title, string line1)
         {
             InitializeComponent();
-            timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, SATTIMEOUT), DispatcherPriority.Normal, ChecaManualmentePorNovaEntrada, Dispatcher);
+            timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, SATTIMEOUT >= 1500 ? SATTIMEOUT : 1500), DispatcherPriority.Normal, ChecaManualmentePorNovaEntrada, Dispatcher);
             try
             {
                 revent.RemoteEventCounts += new EventHandler<FbRemoteEventCountsEventArgs>(OnEvent);

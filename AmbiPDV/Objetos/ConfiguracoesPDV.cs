@@ -539,6 +539,7 @@ namespace PDV_WPF.Configuracoes
         public static bool USA_ORÇAMENTO { get; set; }
         public static int SATTIMEOUT { get; set; }
         public static bool EXIBEFOTO { get; set; }
+        public static bool SENHA_PRAZO { get; set; }
 
         #endregion Propriedades
 
@@ -852,6 +853,7 @@ namespace PDV_WPF.Configuracoes
         public int USAORCAMENTO { get; set; }
         public int SATTIMEOUT { get; set; }
         public int EXIBEFOTO { get; set; }
+        public int SENHA_PRAZO { get; set; } = 0;
     }
 
 }

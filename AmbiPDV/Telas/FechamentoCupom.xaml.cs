@@ -272,7 +272,7 @@ namespace PDV_WPF.Telas
                 return;
             }
 
-            if ((strPgCfe == "03" || strPgCfe == "04" || strPgCfe == "20"))
+            if (strPgCfe is "03" or "04" or "20")
             {
                 int intPagamentoDias = 10;
                 if (DateTime.Today.Day < intPagamentoDias)
@@ -317,9 +317,10 @@ namespace PDV_WPF.Telas
 
             if (strPgCfe == "05")
             {
+                if (SENHA_PRAZO && !PedeSenhaGerencial("Necessária autorização de gerente")) return;
                 if (/*intPagamentoDiasByIdPag > 0*/ true)
                 {
-                    var PC = new PerguntaCliente(idMetodo);
+                    var PC = new PerguntaCliente(idMetodo, false, _valor);
                     PC.ShowDialog();
                     switch (PC.DialogResult)
                     {

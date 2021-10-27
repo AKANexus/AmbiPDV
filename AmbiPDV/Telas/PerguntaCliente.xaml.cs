@@ -19,6 +19,7 @@ namespace PDV_WPF.Telas
         public string nome_cliente { get; set; }
         public DateTime? vencimento { get; set; }
         private bool _modoteste;
+        private readonly decimal _vlrPagto;
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
@@ -26,10 +27,11 @@ namespace PDV_WPF.Telas
 
         #region (De)Constructor
 
-        public PerguntaCliente(int id_pgto, bool modoTeste = false)
+        public PerguntaCliente(int id_pgto, bool modoTeste = false, decimal vlrPagto = decimal.Zero)
         {
             //DataContext = new ViewModels.MainViewModel();
             _modoteste = modoTeste;
+            _vlrPagto = vlrPagto;
             InitializeComponent();
             PreencherCombobox();
             cbb_Cliente.Focus();
@@ -124,6 +126,7 @@ namespace PDV_WPF.Telas
             {
                 using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
                 using (var Cliente_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter())
+                using (var ContaReceber_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter())
                 {
                     Cliente_TA.Connection = LOCAL_FB_CONN;
                     id_cliente = (int)Cliente_TA.PegaIDPorCliente(cbb_Cliente.SelectedItem.ToString());
@@ -132,8 +135,8 @@ namespace PDV_WPF.Telas
                     //            select cliente.STATUS).FirstOrDefault();5
 
                     DataSets.FDBDataSetOperSeed.TB_CLIENTERow clienteRow = (from cliente in Cliente_TA.GetData()
-                                    where cliente.ID_CLIENTE == id_cliente
-                                    select cliente).FirstOrDefault();
+                                                                            where cliente.ID_CLIENTE == id_cliente
+                                                                            select cliente).FirstOrDefault();
 
                     if (!clienteRow.IsMENSAGEMNull() && !String.IsNullOrWhiteSpace(clienteRow.MENSAGEM))
                     {
@@ -141,6 +144,14 @@ namespace PDV_WPF.Telas
                         {
                             return;
                         }
+                    }
+
+                    if (!clienteRow.IsLIMITENull() && clienteRow.LIMITE > 0 &&
+                        clienteRow.LIMITE - ContaReceber_TA.SomaCtasEmAberto(id_cliente) < _vlrPagto)
+                    {
+                        DialogBox.Show("Limite insuficiente", DialogBoxButtons.No, DialogBoxIcons.Info, false,
+                            "Cliente não possui limite de crédito disponível para a venda");
+                        return;
                     }
                 }
                 nome_cliente = cbb_Cliente.SelectedItem.ToString();

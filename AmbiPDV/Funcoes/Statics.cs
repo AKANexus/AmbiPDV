@@ -179,6 +179,11 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            SENHA_PRAZO = xmlLido.SENHA_PRAZO switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {

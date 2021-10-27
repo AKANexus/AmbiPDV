@@ -7664,7 +7664,7 @@ namespace PDV_WPF.Funcoes
                     }*/
                     #endregion
                     #endregion Relação FMAPAGTO SIS / MetodoPagto PDV
-                    Sync_TRI_PDV_USERS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                    //Sync_TRI_PDV_USERS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                     #region TRI_PDV_USERS
                     /*
                         {

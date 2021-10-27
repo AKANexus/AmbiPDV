@@ -416,7 +416,6 @@ namespace PDV_WPF
             if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             PrintaSpooler();
         }
@@ -475,8 +474,7 @@ namespace PDV_WPF
                     rELATORIOECF.TextoECF("<b>Operador: " + operador + "</b>");
                     rELATORIOECF.TextoECF("<e>Recebido por: ________________________</e>");
                     rELATORIOECF.DivisorECF();
-                    rELATORIOECF.CentraECF("<c>" + "Trilha Informática - Soluções e Tecnologia".ToUpper());
-                    rELATORIOECF.CentraECF("(11) 4304-7778</c>");
+                    rELATORIOECF.CentraECF("<c>" + "Trilha Informática - Soluções e Tecnologia</c>".ToUpper());
                     rELATORIOECF.CentraECF(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO);
                     rELATORIOECF.ImprimeTextoGuardado();
                     DarumaDLL.eAbrirGaveta_ECF_Daruma();
@@ -514,7 +512,6 @@ namespace PDV_WPF
             if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
             RecebePrint(new string('-', 81), corpo, esquerda, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
 
@@ -830,7 +827,6 @@ namespace PDV_WPF
 
             rELATORIOECF.DivisorECF();
             rELATORIOECF.CentraECF("Trilha Informática - Soluções e Tecnologia".ToUpper());
-            rELATORIOECF.CentraECF("(11) 4304 - 7778");
             rELATORIOECF.CentraECF(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO);
             #endregion
             try
@@ -1450,7 +1446,6 @@ namespace PDV_WPF
 
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia".ToUpper(), corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             try
@@ -1569,7 +1564,6 @@ namespace PDV_WPF
             RecebePrint("Operador: " + operador, corpo, esquerda, 1);
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintaSpooler();
@@ -1607,7 +1601,6 @@ namespace PDV_WPF
             RecebePrint("Operador: " + operador, corpo, esquerda, 1);
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintaSpooler();
@@ -1657,7 +1650,6 @@ namespace PDV_WPF
             RecebePrint(produtos.Count.ToString(), titulo, direita, 1);
             RecebePrint(new string('-', 91), corpo, centro, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintaSpooler();
@@ -1884,7 +1876,6 @@ namespace PDV_WPF
                 if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
                 LinhaHorizontal();
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint("(11) 4304-7778", corpo, centro, 1);
                 RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
                 #endregion
             }
@@ -2101,7 +2092,6 @@ namespace PDV_WPF
             RecebePrint(DateTime.Now.ToString(), titulo, centro, 1);
             RecebePrint(new string('-', 91), corpo, centro, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
 
@@ -2276,7 +2266,6 @@ namespace PDV_WPF
                 RecebePrint("Caixa: " + num_caixa.ToString("000"), corpo, direita, 1);
                 LinhaHorizontal();
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint("(11) 4304-7778", corpo, centro, 1);
                 RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
                 #endregion
             }
@@ -2399,7 +2388,6 @@ namespace PDV_WPF
                 LinhaHorizontal();
                 LinhaHorizontal();
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint("(11) 4304-7778", corpo, centro, 1);
                 RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
                 #endregion
             }
@@ -2447,7 +2435,6 @@ namespace PDV_WPF
             LinhaHorizontal();
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint("(11) 4304-7778", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintDocument retorno = new PrintDocument();
@@ -2531,7 +2518,6 @@ namespace PDV_WPF
                 RecebePrint("Consulte nossas ofertas disponível em nosso site", corpo, centro, 1);
                 RecebePrint(new string('-', 89), corpo, centro, 1);
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint("(11) 4304-7778", corpo, centro, 1);
             }
             PrintaSpooler();
         }

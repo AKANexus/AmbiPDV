@@ -34485,11 +34485,24 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_CONTA_RECEBER";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT SUM(tcr.VLR_CTAREC) FROM\r\nTB_CONTA_RECEBER tcr\r\nLEFT JOIN TB_CTAREC_BAIXA " +
+                "tcb\r\nON tcr.ID_CTAREC = tcb.ID_CTAREC\r\nWHERE tcb.TIP_RECBTO IS NULL AND tcr.ID_C" +
+                "LIENTE = @pIdCliente";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@pIdCliente";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CLIENTE";
+            this._commandCollection[1].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -34834,6 +34847,35 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
                     global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, 
                     string Original_NSU_CARTAO) {
             return this.Update(Original_ID_CTAREC, DOCUMENTO, HISTORICO, DT_EMISSAO, DT_VENCTO, VLR_CTAREC, TIP_CTAREC, ID_PORTADOR, ID_CLIENTE, INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO, Original_ID_CTAREC, Original_DOCUMENTO, Original_HISTORICO, Original_DT_EMISSAO, Original_DT_VENCTO, Original_VLR_CTAREC, Original_TIP_CTAREC, Original_ID_PORTADOR, Original_ID_CLIENTE, Original_INV_REFERENCIA, Original_DT_VENCTO_ORIG, Original_NSU_CARTAO);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual global::System.Nullable<decimal> SomaCtasEmAberto(int pIdCliente) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            command.Parameters[0].Value = ((int)(pIdCliente));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return new global::System.Nullable<decimal>();
+            }
+            else {
+                return new global::System.Nullable<decimal>(((decimal)(returnValue)));
+            }
         }
     }
     
