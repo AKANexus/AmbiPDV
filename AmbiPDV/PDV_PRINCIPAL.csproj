@@ -391,7 +391,7 @@
     <Compile Include="Funcoes\SincronizadorDB.cs" />
     <Compile Include="Funcoes\SiTEFDLL.cs" />
     <Compile Include="Funcoes\Statics.cs" />
-    <Content Include="DLL\bemaSAT32.dll">
+    <Content Include="DLL\BemaSAT.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="DLL\dllsat_x32.dll">
@@ -912,7 +912,6 @@
     <Content Include="DLL\bemasat.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="DLL\BemaSAT64.dll" />
     <Content Include="DLL\dllsat_x64.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

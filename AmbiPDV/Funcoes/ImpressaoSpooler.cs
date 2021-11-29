@@ -1675,6 +1675,7 @@ namespace PDV_WPF
         public static bool prazo;
         public static List<Produto> produtos = new List<Produto>();
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
+        public static DateTime? TsOperacao;
         public static Dictionary<string, string> ReciboTEF { get; set; }
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0)
@@ -1841,7 +1842,7 @@ namespace PDV_WPF
                 {
                     RecebePrint($"{observacaoFisco.Item1} - {observacaoFisco.Item2}", corpo, esquerda, 1);
                 }
-                RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1);
+                RecebePrint((TsOperacao ?? DateTime.Now).ToShortDateString(), corpo, esquerda, 1);
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {
@@ -2137,6 +2138,7 @@ namespace PDV_WPF
         public static bool prazo;
         public static List<Produto> produtos = new List<Produto>();
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
+        public static DateTime? TsOperacao;
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0)
         {
@@ -2256,7 +2258,7 @@ namespace PDV_WPF
                     }
                     if (existeDetalhamento) LinhaHorizontal();
                 }
-                RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1);
+                RecebePrint((TsOperacao ?? DateTime.Now).ToShortDateString(), corpo, esquerda, 1);
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {

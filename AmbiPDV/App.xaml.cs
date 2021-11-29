@@ -23,7 +23,7 @@ namespace PDV_WPF
             }
             System.IO.Directory.CreateDirectory($@"{AppDomain.CurrentDomain.BaseDirectory}\Logs");
             //Checa se o Firebird se encontra em execução
-            if (Process.GetProcessesByName("fbserver").Length < 1)
+            if (Process.GetProcessesByName("fbserver").Length < 1 && Process.GetProcessesByName("firebird").Length < 1)
             {
                 MessageBox.Show("O Firebird não está instalado, ou não se encontra em execução. Instale e/ou configure o Firebird para rodar como um processo.", "AmbiPDV", MessageBoxButton.OK, MessageBoxImage.Error);
                 Environment.Exit(0);

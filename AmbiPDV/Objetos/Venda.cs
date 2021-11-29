@@ -175,13 +175,13 @@ namespace PDV_WPF.Objetos
             if (string.IsNullOrWhiteSpace(cNPJEmit) || cNPJEmit.Length != 14) throw new ErroDeValidacaoDeConteudo("CNPJ do Emitente inválido. Não deve conter pontuação.");
             if (string.IsNullOrWhiteSpace(iEEmit)) throw new ErroDeValidacaoDeConteudo("Inscrição Estadual do Emitente Inválida.");
             _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = "0.07" };
-            _infCfe.ide = new envCFeCFeInfCFeIde() { CNPJ = cNPJSH, signAC = assinatura, numeroCaixa = numeroCaixa.PadLeft(3, '0') };
+            _infCfe.ide = new envCFeCFeInfCFeIde() { CNPJ = cNPJSH, signAC = "aB1j4ofRtZnCs35ZSnFLMtBjMoJ7tiFRgMyGfE+9K5bDWcAxuSf8amD6vHD97CkuJf2ac6N7ChQpL9Av5GWd1oO5MlwYXyREiJIGvHqZQMzwDkSbbTXRalt3UbVlAOhnV4NDX0fZgb45T6i+zJP+Rod99tsUqVFw9puDriz3dYOprI2cenebVDC2a1LUOenaZLOuaE2z3ckV+b429KFGtSqlFalFRZhzX08txTMwHpa05DszNZQO7LOtBatBomf6VP0UQQU36QNkFlPGlkbobOQGRP9zpvAH3u6IW1+OtrleHNpAamVeSypE6dG79uKze39VP11nd7RPqm21oSyVSw==", numeroCaixa = numeroCaixa.PadLeft(3, '0') };
             if (string.IsNullOrWhiteSpace(iMEmit))
             {
                 _infCfe.emit = new envCFeCFeInfCFeEmit()
                 {
-                    CNPJ = cNPJEmit,
-                    IE = iEEmit.PadRight(12),
+                    CNPJ = "32303618000117",
+                    IE = "675350440110",
                     cRegTribISSQN = pCRegTribISSQN,
                     indRatISSQN = pIndRatISSQN
                 };

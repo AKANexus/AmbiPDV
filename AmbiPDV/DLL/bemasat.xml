@@ -2,7 +2,7 @@
 <bematech>
     <Sistema>
         <LocalizarPorta>1</LocalizarPorta>
-        <Porta>COM3</Porta>
+        <Porta>COM8</Porta>
         <Path>.\</Path>
         <NivelLog>1</NivelLog>
         <ValidarParametros>1</ValidarParametros>

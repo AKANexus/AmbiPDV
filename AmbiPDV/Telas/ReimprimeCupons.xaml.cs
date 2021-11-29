@@ -185,6 +185,7 @@ namespace PDV_WPF.Telas
                         VendaDEMO.cliente = item.NOME;
                         VendaDEMO.vencimento = item.DT_VENCTO;
                         VendaDEMO.valor_prazo = item.VLR_PAGTO;
+                        VendaDEMO.TsOperacao = cupom.TS_Venda;
                         prazo = true;
                     }
                 }
@@ -300,8 +301,11 @@ namespace PDV_WPF.Telas
                     }
                 }
                 VendaImpressa.chavenfe = chavecfe;
+                VendaImpressa.TsOperacao =
+                    DateTime.ParseExact(cFeDeRetorno.infCFe.ide.dEmi + cFeDeRetorno.infCFe.ide.hEmi, "yyyyMMddhhmmss",
+                        ptBR);
                 VendaImpressa.assinaturaQRCODE = chavecfe + "|" +
-                                         DateTime.Now.ToString("yyyyMMddhhmmss") + "|" +
+                                         cFeDeRetorno.infCFe.ide.dEmi + cFeDeRetorno.infCFe.ide.hEmi + "|" +
                                          valorcfe + "|" +
                                          id_dest + "|" +
                                          cFeDeRetorno.infCFe.ide.assinaturaQRCODE;

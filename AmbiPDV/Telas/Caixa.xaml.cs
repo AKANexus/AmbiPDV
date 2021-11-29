@@ -4692,6 +4692,24 @@ namespace PDV_WPF.Telas
                         break;
                 }
             }
+
+            if (File.Exists("emitente.ini"))
+            {
+                var emitente = File.ReadAllLines("emitente.ini");
+                foreach (string s in emitente)
+                {
+                    var linha = s.Split('=');
+                    if (linha[0].ToUpper() == "CNPJ")
+                    {
+                        CNPJdaVenda = linha[1].TiraPont();
+                    }
+
+                    if (linha[0].ToUpper() == "IE")
+                    {
+                        IEdaVenda = linha[1].TiraPont();
+                    }
+                }
+            }
             if (CNPJdaVenda is null || IEdaVenda is null)
             {
 
@@ -5743,9 +5761,9 @@ namespace PDV_WPF.Telas
              */
             if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
             {
-                combobox.SelectedIndex = 13732;
+                //combobox.SelectedIndex = 13732;
                 e.Handled = true;
-                //AlternarPainelDeAjuda();
+                AlternarPainelDeAjuda();
             } // Abre um painel de ajuda (Tecla F1)
             if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
