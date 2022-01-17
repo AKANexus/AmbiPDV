@@ -16,6 +16,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.ViewModels;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 
@@ -211,7 +212,9 @@ namespace PDV_WPF.Funcoes
 
         public static void CarregarClientesOC()
         {
-            using var cLIENTETableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter();
+            FbConnection fbConnection = new() { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+            using var cLIENTETableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter()
+                { Connection = fbConnection };
             using var dt_cli = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable();
             cLIENTETableAdapter.FillOrderByName(dt_cli);
             foreach (DataSets.FDBDataSetOperSeed.TB_CLIENTERow row in dt_cli)

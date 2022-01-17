@@ -99,7 +99,7 @@ namespace PDV_WPF.ViewModels
                     cLIENTETableAdapter.Connection.ConnectionString = strConn;
                     pARCELAMENTOTableAdapter.Connection.ConnectionString = strConn;
                     log.Debug("FDBConnString definido para DB na rede:");
-                    log.Debug(Settings.Default.FDBConnString);
+                    log.Debug(strConn);
                     break;
                 case false:
                     strConn = MontaStringDeConexao("localhost", localpath);
@@ -108,7 +108,7 @@ namespace PDV_WPF.ViewModels
                     cLIENTETableAdapter.Connection.ConnectionString = strConn;
                     pARCELAMENTOTableAdapter.Connection.ConnectionString = strConn;
                     log.Debug("FDBConnString definido para DB de contingência:");
-                    log.Debug(Settings.Default.FDBConnString);
+                    log.Debug(strConn);
                     break;
                 case null:
                     break;

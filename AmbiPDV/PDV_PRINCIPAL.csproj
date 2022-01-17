@@ -448,6 +448,9 @@
     <Compile Include="SWAT\ApagaCaixa.xaml.cs">
       <DependentUpon>ApagaCaixa.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SWAT\LimparTabelas.xaml.cs">
+      <DependentUpon>LimparTabelas.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SWAT\ResetLicenca.xaml.cs">
       <DependentUpon>ResetLicenca.xaml</DependentUpon>
     </Compile>
@@ -636,6 +639,9 @@
     <Content Include="SiTEF\libemv64.dll" />
     <Content Include="SiTEF\RechargeRPC.dll" />
     <Resource Include="SiTEF\RELEASE.TXT" />
+    <None Include="Caixa.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="DataSets\FDBDataSetDevolucao.xsc">
       <DependentUpon>FDBDataSetDevolucao.xsd</DependentUpon>
     </None>
@@ -684,6 +690,10 @@
     <Page Include="SWAT\ApagaCaixa.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SWAT\LimparTabelas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="SWAT\ResetLicenca.xaml">
       <SubType>Designer</SubType>

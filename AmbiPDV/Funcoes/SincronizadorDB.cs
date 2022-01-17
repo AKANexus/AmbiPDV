@@ -7433,6 +7433,17 @@ namespace PDV_WPF.Funcoes
                         log.Error("Falha ao sincronizar FormaPagtoNFCE", ex);
                         throw new SynchException("Erro ao sincronizar FormaPagtoNFCE", ex);
                     }
+
+                    try
+                    {
+                        Sync_TRI_PDV_USERS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("Sync_TRI_PDV_USERS sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TRI_PDV_USERS", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TRI_PDV_USERS", ex);
+                    }
                     #region Função Desativada
 
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 

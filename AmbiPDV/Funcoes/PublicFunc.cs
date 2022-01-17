@@ -876,10 +876,10 @@ namespace PDV_WPF
             //Setup_TA.Connection.ConnectionString = strConn; // ?
             Setup_TA.FinalizaConfiguracao(Assembly.GetExecutingAssembly().GetName().Version.ToString());
 
-            if (Settings.Default.FDBConnString.Equals(MontaStringDeConexao("localhost", localpath)))
-            {
-                Setup_TA.SP_TRI_SETUP_SET_ORIGEM("SERVIDOR");
-            }
+            //if (Settings.Default.FDBConnString.Equals(MontaStringDeConexao("localhost", localpath)))
+            //{
+            //    Setup_TA.SP_TRI_SETUP_SET_ORIGEM("SERVIDOR");
+            //}
             return true;
         }
 

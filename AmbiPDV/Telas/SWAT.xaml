@@ -34,9 +34,9 @@
                 <ComboBox Width="300" Margin="0, 5" FontWeight="Bold" SelectedIndex="0" SelectionChanged="ComboBox_SelectionChanged" Name="cbx_Panel">
                     <ComboBoxItem Content="** Selecione um item **" FontWeight="Bold" IsEnabled="False"/>
                     <ComboBoxItem Content="Reset da Base de Dados" FontWeight="Regular" IsEnabled="True"/>
-                    <ComboBoxItem Content="Executar Script SQL" FontWeight="Regular" IsEnabled="True"/>
                     <ComboBoxItem Content="Apagar Registro de Caixa" FontWeight="Regular" IsEnabled="True"/>
                     <ComboBoxItem Content="Apagar Registro de Licenca" FontWeight="Regular" IsEnabled="True"/>
+                    <ComboBoxItem Content="Limpar Tabelas" FontWeight="Regular" IsEnabled="True"/>
                 </ComboBox>
             </StackPanel>
             <Frame Grid.Row="1" x:Name="frm_Frame" NavigationUIVisibility="Hidden" Content="" HorizontalContentAlignment="Center"/>

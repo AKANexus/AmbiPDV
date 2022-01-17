@@ -1,0 +1,29 @@
+﻿<Page x:Class="PDV_WPF.SWAT.LimparTabelas"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_WPF.SWAT"
+      mc:Ignorable="d" 
+      d:DesignHeight="504" d:DesignWidth="604"
+      Title="LimparTabelas">
+
+    <DockPanel Grid.Row="1" x:Name="stp_ApagarCaixas" Margin="10" LastChildFill="False" DataContext="{StaticResource tRI_PDV_CONFIGViewSource}">
+        <d:DesignerProperties.DesignStyle>
+            <Style TargetType="DockPanel">
+                <Setter Property="Background" Value="Red"/>
+            </Style>
+        </d:DesignerProperties.DesignStyle>
+        <TextBlock Margin="10" DockPanel.Dock="Top" Text="Limpar Tabelas" HorizontalAlignment="Center" Foreground="White" FontSize="20" FontWeight="Light" FontFamily="Arial" FontStyle="Italic"/>
+        <ComboBox DockPanel.Dock="Top" Margin="150,0" Name="cbb_Tabelas">
+            <ComboBoxItem Content="**  Escolha uma Tabela  **"/>
+            <ComboBoxItem Content="TRI_PDV_AUX_SYNC"/>
+            <ComboBoxItem Content="TRI_PDV_SAT_REC"/>
+            <ComboBoxItem Content="TRI_PDV_SAT_ENV"/>
+
+        </ComboBox>
+        <Button DockPanel.Dock="Top" Width="150" Content="Excluir" Margin="0, 10" FontSize="16" FontWeight="Bold" Click="Button_Click"/>
+        <TextBlock DockPanel.Dock="Top" Foreground="White" FontWeight="Bold" FontSize="17" HorizontalAlignment="Center" TextWrapping="Wrap" Text="Selecione a tabela a ser limpa, e clique no botão acima para limpar a tabela selecionada tanto na base local quanto no servidor"/>
+    </DockPanel>
+
+</Page>

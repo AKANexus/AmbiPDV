@@ -1,0 +1,32 @@
+﻿<Window x:Class="YandehCarga.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:YandehCarga"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBox Name="TxbDBPath" Grid.ColumnSpan="3" Grid.Row="3" FontSize="18" Margin="15, 5"/>
+        <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="10" AcceptsReturn="True" IsReadOnly="True"/>
+        <Button Grid.Column="0" Margin="15" Grid.Row="4" Click="ButIniciar_OnClick" Name="ButIniciar">
+            <TextBlock Text="Iniciar" FontSize="20" FontWeight="Bold" ></TextBlock>
+        </Button>
+        <TextBlock Name="TxbStatus" Grid.Column="1" Grid.Row="4" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+        <Button Grid.Row="4" Grid.Column="2" Margin="15" Name="ButParar" Click="ButParar_OnClick">
+            <TextBlock Text="Parar" FontSize="20" FontWeight="Bold" ></TextBlock>
+            </Button>
+    </Grid>
+</Window>

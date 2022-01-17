@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PDV_PRINCIPAL", "AmbiPDV\PDV_PRINCIPAL.csproj", "{BAC6421E-0147-47AB-93D4-1C8D0EAC8CDC}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{0C8D7C4A-D6A5-48D7-A545-4FAEB9B30298}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaidaDeRemessa", "SaidaDeRemessa\SaidaDeRemessa.csproj", "{D4A65774-1E0D-4D20-81B9-C4199A66EFC4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaidaDeRemessa", "SaidaDeRemessa\SaidaDeRemessa.csproj", "{D4A65774-1E0D-4D20-81B9-C4199A66EFC4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandehCarga", "YandehCarga\YandehCarga.csproj", "{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -70,6 +72,24 @@ Global
 		{D4A65774-1E0D-4D20-81B9-C4199A66EFC4}.Remote Debug|x64.Build.0 = Debug|Any CPU
 		{D4A65774-1E0D-4D20-81B9-C4199A66EFC4}.Remote Debug|x86.ActiveCfg = Debug|Any CPU
 		{D4A65774-1E0D-4D20-81B9-C4199A66EFC4}.Remote Debug|x86.Build.0 = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Debug|x64.Build.0 = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Debug|x86.Build.0 = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Release|x64.ActiveCfg = Release|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Release|x64.Build.0 = Release|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Release|x86.ActiveCfg = Release|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Release|x86.Build.0 = Release|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x64.ActiveCfg = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x64.Build.0 = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x86.ActiveCfg = Debug|Any CPU
+		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

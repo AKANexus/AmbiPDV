@@ -220,7 +220,7 @@ namespace PDV_WPF.Telas
                 InicializarCaixa(_contingencia);
                 combobox.MultiplyAdded += Combobox_MultiplyAdded;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 throw;
             }
@@ -1252,7 +1252,7 @@ namespace PDV_WPF.Telas
 
                     //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
                     ProcessarItemNovo(item.ID_ESTOQUE,
-                                 item.VALOR - item.DESCONTO,
+                                 item.VALOR,
                                  item.QUANT,
                                  item.DESCONTO);
 
