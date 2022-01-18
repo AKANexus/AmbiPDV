@@ -169,7 +169,7 @@ namespace YandehCarga
                             if (compraTable.Rows.Count == 0) continue;
 
                             var itensTable = new DataTable();
-                            _fbCommand.CommandText = $"SELECT * FROM TB_NFV_ITEM WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
+                            _fbCommand.CommandText = $"SELECT * FROM V_NFV_ITEM WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
                             itensTable.Load(await _fbCommand.ExecuteReaderAsync());
 
                             var pagamentosTable = new DataTable();
@@ -192,21 +192,22 @@ namespace YandehCarga
                             body.id =
                                 $"{compraTable.Rows[0]["NF_MODELO"]}-{compraTable.Rows[0]["NF_SERIE"]}-{compraTable.Rows[0]["NF_NUMERO"]}";
                             body.sellout_timestamp =
-                                $"{compraTable.Rows[0]["DT_SAIDA"]}T{compraTable.Rows[0]["HR_SAIDA"]}";
+                                $"{compraTable.Rows[0]["DT_SAIDA"]:yyyy-MM-dd}T{(TimeSpan)compraTable.Rows[0]["HR_SAIDA"]:hh\\:mm\\:ss}";
                             body.store_taxpayer_id = _cnpj;
                             body.checkout_id = $"{compraTable.Rows[0]["NF_SERIE"]}";
-                            body.receipt_number = (string)compraTable.Rows[0]["NF_NUMERO"];
+                            body.receipt_number = ((int)compraTable.Rows[0]["NF_NUMERO"]).ToString();
                             body.receipt_series_number = Regex.Match((string)compraTable.Rows[0]["NF_SERIE"], @"\d+").Value;
-                            body.total = float.Parse((string)compraTable.Rows[0]["TOT_PRODUTO"]) +
-                                            float.Parse((string)compraTable.Rows[0]["TOT_SERVICO"]);
+                            body.total = (decimal)compraTable.Rows[0]["TOT_PRODUTO"] +
+                                            (decimal)compraTable.Rows[0]["TOT_SERVICO"];
                             body.cancellation_flag = "N";
                             body.operation = "S";
                             body.transaction_type = "V";
-                            body.ipi = 0f;
-                            body.sales_discount = 0f;
-                            body.sales_addition = 0f;
-                            body.icms = 0f;
-                            body.frete = 0f;
+                            body.ipi = 0m;
+                            body.sales_discount = 0m;
+                            body.sales_addition = 0m;
+                            body.icms = 0m;
+                            body.frete = 0m;
+                            body.items = new();
                             if (nfeTable.Rows.Count > 0 && !string.IsNullOrWhiteSpace((string)nfeTable.Rows[0]["ID_NFE"]))
                             {
                                 body.nfe_access_key = (string)nfeTable.Rows[0]["ID_NFE"];
@@ -218,25 +219,25 @@ namespace YandehCarga
                             foreach (DataRow dataRow in itensTable.Rows)
                             {
                                 SelloutItem selloutItem = new SelloutItem();
-                                selloutItem.code = (string)dataRow["ID_IDENTIFICADOR"];
+                                selloutItem.code = ((int)dataRow["ID_IDENTIFICADOR"]).ToString();
                                 selloutItem.sku = string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
-                                    ? (string)dataRow["ID_IDENTIFICADOR"]
+                                    ? ((int)dataRow["ID_IDENTIFICADOR"]).ToString()
                                     : (string)dataRow["COD_BARRA"];
                                 selloutItem.description = (string)dataRow["PRODUTO"];
-                                selloutItem.quantity = float.Parse((string)dataRow["QTD_ITEM"]);
+                                selloutItem.quantity = (decimal)dataRow["QTD_ITEM"];
                                 selloutItem.measurement_unit = (string)dataRow["UNI_MEDIDA"];
                                 selloutItem.cancellation_flag = "N";
                                 selloutItem.cfop = 5102;
-                                selloutItem.item_addition = 0f;
-                                selloutItem.item_discount = float.Parse((string)dataRow["VLR_DESC"]);
-                                selloutItem.icms = float.Parse((string)dataRow["VLR_ICMS"]);
-                                selloutItem.pis = float.Parse((string)dataRow["VLR_PIS"]);
-                                selloutItem.cofins = float.Parse((string)dataRow["VLR_COFINS"]);
-                                selloutItem.ipi = float.Parse((string)dataRow["VLR_IPI"]);
-                                selloutItem.other_expenses = float.Parse((string)dataRow["VLR_DESPESA"]);
-                                selloutItem.icms_st = float.Parse((string)dataRow["VLR_ST"]);
-                                selloutItem.fcp_st = 0f;
-                                selloutItem.frete = float.Parse((string)dataRow["VLR_FRETE"]);
+                                selloutItem.item_addition = 0m;
+                                selloutItem.item_discount = (decimal)dataRow["VLR_DESC"];
+                                selloutItem.icms = (decimal)dataRow["VLR_ICMS"];
+                                selloutItem.pis = dataRow["VLR_PIS"] is DBNull ? 0m : (decimal)dataRow["VLR_PIS"];
+                                selloutItem.cofins = dataRow["VLR_COFINS"] is DBNull ? 0m : (decimal)dataRow["VLR_COFINS"];
+                                selloutItem.ipi = dataRow["VLR_IPI"] is DBNull ? 0m : (decimal)dataRow["VLR_IPI"];
+                                selloutItem.other_expenses = (decimal)dataRow["VLR_DESPESA"];
+                                selloutItem.icms_st = dataRow["VLR_ST"] is DBNull ? 0m : (decimal)dataRow["VL_ST"];
+                                selloutItem.fcp_st = 0m;
+                                selloutItem.frete = (decimal)dataRow["VLR_FRETE"];
                                 body.items.Add(selloutItem);
                             }
 
@@ -245,14 +246,16 @@ namespace YandehCarga
                                 "55" => "nfe",
                                 _ => "sat"
                             };
+                            body.payment = new();
                             foreach (DataRow pagamentosTableRow in pagamentosTable.Rows)
                             {
                                 Payment payment = new();
                                 payment.method = (string)pagamentosTableRow["DESC_FORMAPAGAMENTO"];
                                 payment.condition = "Á vista";
+                                payment.installments = new();
                                 Installment installment = new();
                                 installment.installment_number = 1;
-                                installment.amount = float.Parse((string)pagamentosTableRow["VLR_PAGTO"]);
+                                installment.amount = (decimal)pagamentosTableRow["VLR_PAGTO"];
                                 installment.payment_term = 1;
                                 payment.installments.Add(installment);
                                 body.payment.Add(payment);
@@ -267,13 +270,11 @@ namespace YandehCarga
                                 MessageBox.Show($"Falha ao enviar o Sellout.\n{e.Message}");
                                 return false;
                             }
-
-                            return true;
                             break;
                         case "COMPRA":
-                            return true;
+                            break;
                         default:
-                            return true;
+                            break;
                     }
 
                     _fbCommand.CommandText = $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -89,6 +90,7 @@ namespace YandehCarga
             
             request.AddJsonBody(bodyObject);
 
+            var json = JsonSerializer.Serialize(bodyObject);
 
             var response = await client.ExecutePostAsync<DefaultResponse>(request);
             if (response.IsSuccessful && response.Data is not null)
