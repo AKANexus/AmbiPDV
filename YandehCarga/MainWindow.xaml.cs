@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -32,11 +34,16 @@ namespace YandehCarga
         private bool _tablesChecked = false;
         private bool _firstRun = false;
         private string _cnpj;
+        private string _authKey;
         public MainWindow()
         {
             InitializeComponent();
             ButParar.IsEnabled = false;
             _progress = new(AtualizaTextBox);
+            if (File.Exists("path.txt"))
+            {
+                TxbDBPath.Text = File.ReadAllText("path.txt");
+            }
         }
 
         private void AtualizaTextBox(string message)
@@ -84,7 +91,8 @@ namespace YandehCarga
             var catalog = TxbDBPath.Text.Split('|')[1];
             _fbConnection =
                 new($@"initial catalog={catalog};data source={dataSource};user id=SYSDBA;password=masterke;encoding=WIN1252;charset=utf8");
-
+            _fbCommand = new();
+            _fbData = new();
             try
             {
                 await _fbConnection.OpenAsync();
@@ -94,6 +102,13 @@ namespace YandehCarga
                 MessageBox.Show($"Falha ao abrir a conexão com o Clipp.\n{e.Message}");
                 return false;
             }
+
+            if (!await GravaPathNoTxt())
+            {
+                return false;
+            }
+
+
             if (!_tablesChecked)
                 await CheckTablesAndTriggers();
 
@@ -107,6 +122,13 @@ namespace YandehCarga
                 MessageBox.Show($"Falha ao obter os dados de YAN_SYNC.\n{e.Message}");
                 return false;
             }
+
+            if (!await ObtemAuthKey())
+            {
+                MessageBox.Show("Falha ao obter a authkey");
+                return false;
+            }
+
 
             if (_fbData.Rows.Count == 0)
             {
@@ -124,10 +146,14 @@ namespace YandehCarga
                             var estoqueTable = new DataTable();
                             estoqueTable.Load(await _fbCommand.ExecuteReaderAsync());
                             if (estoqueTable.Rows.Count == 0) continue;
-                            if (string.IsNullOrWhiteSpace((string) estoqueTable.Rows[0]["COD_BARRA"])) continue;
+                            if (string.IsNullOrWhiteSpace((string)estoqueTable.Rows[0]["COD_BARRA"])) continue;
                             try
                             {
-                                await YandehAPI.EnviaEstoque((string)estoqueTable.Rows[0]["COD_BARRAS"], (string)estoqueTable.Rows[0]["DESCRICAO"], decimal.Parse((string)estoqueTable.Rows[0]["PRC_VENDA"]));
+                                var estoqueResponse = await YandehAPI.EnviaEstoque((string)estoqueTable.Rows[0]["COD_BARRA"], (string)estoqueTable.Rows[0]["DESCRICAO"], (decimal)estoqueTable.Rows[0]["PRC_VENDA"]);
+                                if (!estoqueResponse.Item1)
+                                {
+                                    MessageBox.Show(estoqueResponse.Item2);
+                                }
                             }
                             catch (Exception e)
                             {
@@ -150,36 +176,71 @@ namespace YandehCarga
                             _fbCommand.CommandText = $"SELECT * FROM V_NFVENDA_PAGAMENTOS WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
                             pagamentosTable.Load(await _fbCommand.ExecuteReaderAsync());
 
+                            var satTable = new DataTable();
+                            _fbCommand.CommandText =
+                                $"SELECT * FROM V_SAT WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                            satTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                            var nfeTable = new DataTable();
+                            _fbCommand.CommandText =
+                                $"SELECT * FROM V_NFE WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                            nfeTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+
                             SelloutBody body = new();
+                            body.origem_coleta = "API|Ambisoft";
                             body.id =
                                 $"{compraTable.Rows[0]["NF_MODELO"]}-{compraTable.Rows[0]["NF_SERIE"]}-{compraTable.Rows[0]["NF_NUMERO"]}";
                             body.sellout_timestamp =
-                                $"{compraTable.Rows[0]["DT_SAIDA"]} {compraTable.Rows[0]["HR_SAIDA"]}";
+                                $"{compraTable.Rows[0]["DT_SAIDA"]}T{compraTable.Rows[0]["HR_SAIDA"]}";
                             body.store_taxpayer_id = _cnpj;
-                            body.receipt_number = int.Parse((string)compraTable.Rows[0]["NF_NUMERO"]);
-                            body.receipt_series_number = (string)compraTable.Rows[0]["NF_NUMERO"];
-                            body.subtotal = float.Parse((string) compraTable.Rows[0]["TOT_PRODUTO"]) +
-                                            float.Parse((string) compraTable.Rows[0]["TOT_SERVICO"]);
+                            body.checkout_id = $"{compraTable.Rows[0]["NF_SERIE"]}";
+                            body.receipt_number = (string)compraTable.Rows[0]["NF_NUMERO"];
+                            body.receipt_series_number = Regex.Match((string)compraTable.Rows[0]["NF_SERIE"], @"\d+").Value;
+                            body.total = float.Parse((string)compraTable.Rows[0]["TOT_PRODUTO"]) +
+                                            float.Parse((string)compraTable.Rows[0]["TOT_SERVICO"]);
                             body.cancellation_flag = "N";
                             body.operation = "S";
                             body.transaction_type = "V";
+                            body.ipi = 0f;
+                            body.sales_discount = 0f;
+                            body.sales_addition = 0f;
+                            body.icms = 0f;
+                            body.frete = 0f;
+                            if (nfeTable.Rows.Count > 0 && !string.IsNullOrWhiteSpace((string)nfeTable.Rows[0]["ID_NFE"]))
+                            {
+                                body.nfe_access_key = (string)nfeTable.Rows[0]["ID_NFE"];
+                            }
+                            if (satTable.Rows.Count > 0 && !string.IsNullOrWhiteSpace((string)satTable.Rows[0]["CHAVE"]))
+                            {
+                                body.nfe_access_key = (string)satTable.Rows[0]["CHAVE"];
+                            }
                             foreach (DataRow dataRow in itensTable.Rows)
                             {
-                                Item item = new Item();
-                                item.code = (string) dataRow["ID_IDENTIFICADOR"];
-                                item.sku = string.IsNullOrWhiteSpace((string) dataRow["7898223580217"])
-                                    ? (string) dataRow["ID_IDENTIFICADOR"]
-                                    : (string) dataRow["7898223580217"];
-                                item.description = (string) dataRow["PRODUTO"];
-                                item.quantity = float.Parse((string) dataRow["QTD_ITEM"]);
-                                item.measurement_unit = (string) dataRow["UNI_MEDIDA"];
-                                item.cancellation_flag = "N";
-                                item.cfop = 5102;
-                                item.cst = "00";
-                                body.items.Add(item);
+                                SelloutItem selloutItem = new SelloutItem();
+                                selloutItem.code = (string)dataRow["ID_IDENTIFICADOR"];
+                                selloutItem.sku = string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
+                                    ? (string)dataRow["ID_IDENTIFICADOR"]
+                                    : (string)dataRow["COD_BARRA"];
+                                selloutItem.description = (string)dataRow["PRODUTO"];
+                                selloutItem.quantity = float.Parse((string)dataRow["QTD_ITEM"]);
+                                selloutItem.measurement_unit = (string)dataRow["UNI_MEDIDA"];
+                                selloutItem.cancellation_flag = "N";
+                                selloutItem.cfop = 5102;
+                                selloutItem.item_addition = 0f;
+                                selloutItem.item_discount = float.Parse((string)dataRow["VLR_DESC"]);
+                                selloutItem.icms = float.Parse((string)dataRow["VLR_ICMS"]);
+                                selloutItem.pis = float.Parse((string)dataRow["VLR_PIS"]);
+                                selloutItem.cofins = float.Parse((string)dataRow["VLR_COFINS"]);
+                                selloutItem.ipi = float.Parse((string)dataRow["VLR_IPI"]);
+                                selloutItem.other_expenses = float.Parse((string)dataRow["VLR_DESPESA"]);
+                                selloutItem.icms_st = float.Parse((string)dataRow["VLR_ST"]);
+                                selloutItem.fcp_st = 0f;
+                                selloutItem.frete = float.Parse((string)dataRow["VLR_FRETE"]);
+                                body.items.Add(selloutItem);
                             }
 
-                            body.tipo = (string) compraTable.Rows[0]["NF_MODELO"] switch
+                            body.tipo = (string)compraTable.Rows[0]["NF_MODELO"] switch
                             {
                                 "55" => "nfe",
                                 _ => "sat"
@@ -187,11 +248,11 @@ namespace YandehCarga
                             foreach (DataRow pagamentosTableRow in pagamentosTable.Rows)
                             {
                                 Payment payment = new();
-                                payment.method = (string) pagamentosTableRow["DESC_FORMAPAGAMENTO"];
+                                payment.method = (string)pagamentosTableRow["DESC_FORMAPAGAMENTO"];
                                 payment.condition = "Á vista";
                                 Installment installment = new();
                                 installment.installment_number = 1;
-                                installment.amount = float.Parse((string) pagamentosTableRow["VLR_PAGTO"]);
+                                installment.amount = float.Parse((string)pagamentosTableRow["VLR_PAGTO"]);
                                 installment.payment_term = 1;
                                 payment.installments.Add(installment);
                                 body.payment.Add(payment);
@@ -206,15 +267,62 @@ namespace YandehCarga
                                 MessageBox.Show($"Falha ao enviar o Sellout.\n{e.Message}");
                                 return false;
                             }
+
+                            return true;
                             break;
                         case "COMPRA":
-
-                            break;
+                            return true;
                         default:
-                            break;
+                            return true;
                     }
+
+                    _fbCommand.CommandText = $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                    await _fbCommand.ExecuteNonQueryAsync();
                 }
+
+                return true;
             }
+        }
+
+        private async Task<bool> GravaPathNoTxt()
+        {
+            try
+            {
+                if (!File.Exists("path.txt"))
+                {
+                    File.Create("path.txt");
+                }
+
+                await File.WriteAllTextAsync("path.txt", TxbDBPath.Text);
+                return true;
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Falha ao gravar o caminho.\n{e.Message}");
+                return false;
+
+            }
+        }
+
+        private async Task<bool> ObtemAuthKey()
+        {
+            DataTable emitenteTable = new();
+            _fbCommand.CommandText = "SELECT * FROM TB_EMITENTE";
+            emitenteTable.Load(await _fbCommand.ExecuteReaderAsync());
+            if (emitenteTable.Rows.Count < 1 || string.IsNullOrWhiteSpace((string)emitenteTable.Rows[0]["CNPJ"]))
+            {
+                MessageBox.Show("Falha ao obter o CNPJ");
+                return false;
+            }
+
+            _cnpj = ((string)emitenteTable.Rows[0]["CNPJ"]).TiraPont();
+            var response = await YandehAPI.CadastraAPIKey(_cnpj);
+            if (response.Item1)
+            {
+                _authKey = response.Item2;
+                return true;
+            }
+            return false;
         }
 
         private async Task CheckTablesAndTriggers()
