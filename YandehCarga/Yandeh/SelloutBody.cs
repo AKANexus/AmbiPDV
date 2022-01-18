@@ -9,10 +9,10 @@ namespace YandehCarga.Yandeh
 
     public class SelloutBody
     {
+        public string id { get; set; }
         public decimal sales_discount { get; set; }
         public decimal sales_addition { get; set; }
         public string origem_coleta { get; set; }
-        public string id { get; set; }
         public string sellout_timestamp { get; set; }
         public string store_taxpayer_id { get; set; }
         public string checkout_id { get; set; }
