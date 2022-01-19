@@ -185,113 +185,130 @@ namespace YandehCarga
                         #endregion ESTOQUE
                         #region VENDA
                         case "VENDA":
-                            _fbCommand.CommandText =
-                                $"SELECT * FROM V_NFV WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
-                            var vendaTable = new DataTable();
-                            vendaTable.Load(await _fbCommand.ExecuteReaderAsync());
-                            if (vendaTable.Rows.Count == 0) continue;
-
-                            var itensVendaTable = new DataTable();
-                            _fbCommand.CommandText = $"SELECT * FROM V_NFV_ITEM WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
-                            itensVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                            //var pagamentosVendaTable = new DataTable();
-                            //_fbCommand.CommandText = $"SELECT * FROM V_NFVENDA_PAGAMENTOS WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
-                            //pagamentosVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                            var satTable = new DataTable();
-                            _fbCommand.CommandText =
-                                $"SELECT * FROM V_SAT WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
-                            satTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                            var nfeTable = new DataTable();
-                            _fbCommand.CommandText =
-                                $"SELECT * FROM V_NFE WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
-                            nfeTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-
-                            SelloutBody selloutBody = new();
-                            selloutBody.origem_coleta = "API|Ambisoft";
-                            selloutBody.id =
-                                $"{vendaTable.Rows[0]["NF_MODELO"]}-{vendaTable.Rows[0]["NF_SERIE"]}-{vendaTable.Rows[0]["NF_NUMERO"]}";
-                            selloutBody.sellout_timestamp =
-                                $"{vendaTable.Rows[0]["DT_SAIDA"]:yyyy-MM-dd}T{(TimeSpan)vendaTable.Rows[0]["HR_SAIDA"]:hh\\:mm\\:ss}";
-                            selloutBody.store_taxpayer_id = _cnpj;
-                            selloutBody.checkout_id = $"{vendaTable.Rows[0]["NF_SERIE"]}";
-                            selloutBody.receipt_number = ((int)vendaTable.Rows[0]["NF_NUMERO"]).ToString();
-                            selloutBody.receipt_series_number = Regex.Match((string)vendaTable.Rows[0]["NF_SERIE"], @"\d+").Value;
-                            selloutBody.total = (decimal)vendaTable.Rows[0]["TOT_PRODUTO"] +
-                                            (decimal)vendaTable.Rows[0]["TOT_SERVICO"];
-                            selloutBody.cancellation_flag = "N";
-                            selloutBody.operation = "S";
-                            selloutBody.transaction_type = "V";
-                            selloutBody.ipi = 0m;
-                            selloutBody.sales_discount = 0m;
-                            selloutBody.sales_addition = 0m;
-                            selloutBody.icms = 0m;
-                            selloutBody.frete = 0m;
-                            selloutBody.items = new();
-                            if (nfeTable.Rows.Count > 0 && !string.IsNullOrWhiteSpace((string)nfeTable.Rows[0]["ID_NFE"]))
-                            {
-                                selloutBody.nfe_access_key = "NFe"+(string)nfeTable.Rows[0]["ID_NFE"];
-                            }
-                            if (satTable.Rows.Count > 0 && !string.IsNullOrWhiteSpace((string)satTable.Rows[0]["CHAVE"]))
-                            {
-                                selloutBody.nfe_access_key = "CFe"+(string)satTable.Rows[0]["CHAVE"];
-                            }
-                            foreach (DataRow dataRow in itensVendaTable.Rows)
-                            {
-                                SelloutItem selloutItem = new SelloutItem();
-                                selloutItem.code = ((int)dataRow["ID_IDENTIFICADOR"]).ToString();
-                                selloutItem.sku = string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
-                                    ? ((int)dataRow["ID_IDENTIFICADOR"]).ToString()
-                                    : (string)dataRow["COD_BARRA"];
-                                selloutItem.description = (string)dataRow["PRODUTO"];
-                                selloutItem.quantity = (decimal)dataRow["QTD_ITEM"];
-                                selloutItem.unit_value = (decimal)dataRow["VLR_UNIT"];
-                                selloutItem.measurement_unit = (string)dataRow["UNI_MEDIDA"];
-                                selloutItem.cancellation_flag = "N";
-                                selloutItem.cfop = 5102;
-                                selloutItem.item_addition = 0m;
-                                selloutItem.item_discount = (decimal)dataRow["VLR_DESC"];
-                                selloutItem.icms = dataRow["VLR_ICMS"] is DBNull ? 0m : (decimal)dataRow["VLR_ICMS"];
-                                selloutItem.pis = dataRow["VLR_PIS"] is DBNull ? 0m : (decimal)dataRow["VLR_PIS"];
-                                selloutItem.cofins = dataRow["VLR_COFINS"] is DBNull ? 0m : (decimal)dataRow["VLR_COFINS"];
-                                selloutItem.ipi = dataRow["VLR_IPI"] is DBNull ? 0m : (decimal)dataRow["VLR_IPI"];
-                                selloutItem.other_expenses = (decimal)dataRow["VLR_DESPESA"];
-                                selloutItem.icms_st = dataRow["VLR_ST"] is DBNull ? 0m : (decimal)dataRow["VL_ST"];
-                                selloutItem.fcp_st = 0m;
-                                selloutItem.frete = (decimal)dataRow["VLR_FRETE"];
-                                selloutBody.items.Add(selloutItem);
-                            }
-
-                            selloutBody.tipo = (string)vendaTable.Rows[0]["NF_MODELO"] switch
-                            {
-                                "55" => "nfe",
-                                _ => "sat"
-                            };
-                            //selloutBody.payment = new();
-                            //foreach (DataRow pagamentosTableRow in pagamentosVendaTable.Rows)
-                            //{
-                            //    Payment payment = new();
-                            //    payment.method = (string)pagamentosTableRow["DESC_FORMAPAGAMENTO"];
-                            //    payment.condition = "Á vista";
-                            //    payment.installments = new();
-                            //    Installment installment = new();
-                            //    installment.installment_number = 1;
-                            //    installment.amount = (decimal)pagamentosTableRow["VLR_PAGTO"];
-                            //    installment.payment_term = 1;
-                            //    payment.installments.Add(installment);
-                            //    selloutBody.payment.Add(payment);
-                            //}
-
                             try
                             {
-                                await YandehAPI.EnviaSellout(selloutBody);
+                                _fbCommand.CommandText =
+                                    $"SELECT * FROM V_NFV WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
+                                var vendaTable = new DataTable();
+                                vendaTable.Load(await _fbCommand.ExecuteReaderAsync());
+                                if (vendaTable.Rows.Count == 0) continue;
+
+                                var itensVendaTable = new DataTable();
+                                _fbCommand.CommandText =
+                                    $"SELECT * FROM V_NFV_ITEM WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
+                                itensVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                //var pagamentosVendaTable = new DataTable();
+                                //_fbCommand.CommandText = $"SELECT * FROM V_NFVENDA_PAGAMENTOS WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                                //pagamentosVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                var satTable = new DataTable();
+                                _fbCommand.CommandText =
+                                    $"SELECT * FROM V_SAT WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                                satTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                var nfeTable = new DataTable();
+                                _fbCommand.CommandText =
+                                    $"SELECT * FROM V_NFE WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                                nfeTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+
+                                SelloutBody selloutBody = new();
+                                selloutBody.origem_coleta = "API|Ambisoft";
+                                selloutBody.id =
+                                    $"{vendaTable.Rows[0]["NF_MODELO"]}-{vendaTable.Rows[0]["NF_SERIE"]}-{vendaTable.Rows[0]["NF_NUMERO"]}";
+                                selloutBody.sellout_timestamp =
+                                    $"{vendaTable.Rows[0]["DT_SAIDA"]:yyyy-MM-dd}T{(TimeSpan) vendaTable.Rows[0]["HR_SAIDA"]:hh\\:mm\\:ss}";
+                                selloutBody.store_taxpayer_id = _cnpj;
+                                selloutBody.checkout_id = $"{vendaTable.Rows[0]["NF_SERIE"]}";
+                                selloutBody.receipt_number = ((int) vendaTable.Rows[0]["NF_NUMERO"]).ToString();
+                                selloutBody.receipt_series_number =
+                                    Regex.Match((string) vendaTable.Rows[0]["NF_SERIE"], @"\d+").Value;
+                                selloutBody.total = (decimal) vendaTable.Rows[0]["TOT_NF"];
+                                selloutBody.cancellation_flag = "N";
+                                selloutBody.operation = "S";
+                                selloutBody.transaction_type = "V";
+                                selloutBody.ipi = 0m;
+                                selloutBody.sales_discount = 0m;
+                                selloutBody.sales_addition = 0m;
+                                selloutBody.icms = 0m;
+                                selloutBody.frete = 0m;
+                                selloutBody.items = new();
+                                if (nfeTable.Rows.Count > 0 &&
+                                    !string.IsNullOrWhiteSpace((string) nfeTable.Rows[0]["ID_NFE"]))
+                                {
+                                    selloutBody.nfe_access_key = "NFe" + (string) nfeTable.Rows[0]["ID_NFE"];
+                                }
+
+                                if (satTable.Rows.Count > 0 &&
+                                    !string.IsNullOrWhiteSpace((string) satTable.Rows[0]["CHAVE"]))
+                                {
+                                    selloutBody.nfe_access_key = "CFe" + (string) satTable.Rows[0]["CHAVE"];
+                                }
+
+                                foreach (DataRow dataRow in itensVendaTable.Rows)
+                                {
+                                    SelloutItem selloutItem = new SelloutItem();
+                                    selloutItem.code = ((int) dataRow["ID_IDENTIFICADOR"]).ToString();
+                                    selloutItem.sku = dataRow["COD_BARRA"] is DBNull || string.IsNullOrWhiteSpace((string) dataRow["COD_BARRA"])
+                                        ? ((int) dataRow["ID_IDENTIFICADOR"]).ToString()
+                                        : (string) dataRow["COD_BARRA"];
+                                    selloutItem.description = (string) dataRow["PRODUTO"];
+                                    selloutItem.quantity = (decimal) dataRow["QTD_ITEM"];
+                                    selloutItem.unit_value = (decimal) dataRow["VLR_UNIT"];
+                                    selloutItem.measurement_unit = (string) dataRow["UNI_MEDIDA"];
+                                    selloutItem.cancellation_flag = "N";
+                                    selloutItem.cfop = 5102;
+                                    selloutItem.item_addition = 0m;
+                                    selloutItem.item_discount = (decimal) dataRow["VLR_DESC"];
+                                    selloutItem.icms = dataRow["VLR_ICMS"] is DBNull
+                                        ? 0m
+                                        : (decimal) dataRow["VLR_ICMS"];
+                                    selloutItem.pis = dataRow["VLR_PIS"] is DBNull ? 0m : (decimal) dataRow["VLR_PIS"];
+                                    selloutItem.cofins = dataRow["VLR_COFINS"] is DBNull
+                                        ? 0m
+                                        : (decimal) dataRow["VLR_COFINS"];
+                                    selloutItem.ipi = dataRow["VLR_IPI"] is DBNull ? 0m : (decimal) dataRow["VLR_IPI"];
+                                    selloutItem.other_expenses = (decimal) dataRow["VLR_DESPESA"];
+                                    selloutItem.icms_st = dataRow["VLR_ST"] is DBNull ? 0m : (decimal) dataRow["VLR_ST"];
+                                    selloutItem.fcp_st = 0m;
+                                    selloutItem.frete = (decimal) dataRow["VLR_FRETE"];
+                                    selloutBody.items.Add(selloutItem);
+                                }
+
+                                selloutBody.tipo = (string) vendaTable.Rows[0]["NF_MODELO"] switch
+                                {
+                                    "55" => "nfe",
+                                    _ => "sat"
+                                };
+                                //selloutBody.payment = new();
+                                //foreach (DataRow pagamentosTableRow in pagamentosVendaTable.Rows)
+                                //{
+                                //    Payment payment = new();
+                                //    payment.method = (string)pagamentosTableRow["DESC_FORMAPAGAMENTO"];
+                                //    payment.condition = "Á vista";
+                                //    payment.installments = new();
+                                //    Installment installment = new();
+                                //    installment.installment_number = 1;
+                                //    installment.amount = (decimal)pagamentosTableRow["VLR_PAGTO"];
+                                //    installment.payment_term = 1;
+                                //    payment.installments.Add(installment);
+                                //    selloutBody.payment.Add(payment);
+                                //}
+
+                                try
+                                {
+                                    await YandehAPI.EnviaSellout(selloutBody);
+                                }
+                                catch (Exception e)
+                                {
+                                    MessageBox.Show($"Falha ao enviar o Sellout.\n{e.Message}");
+                                    return false;
+                                }
                             }
                             catch (Exception e)
                             {
-                                MessageBox.Show($"Falha ao enviar o Sellout.\n{e.Message}");
+                                MessageBox.Show(e.Message);
                                 return false;
                             }
                             break;
@@ -322,6 +339,11 @@ namespace YandehCarga
                             sellinBody.freight_price = (decimal)compraTable.Rows[0]["TOT_FRETE"];
                             sellinBody.insurance_price = (decimal)compraTable.Rows[0]["TOT_SEGURO"];
                             sellinBody.other_expenses = (decimal)compraTable.Rows[0]["TOT_DESPESA"];
+                            sellinBody.origem_coleta = "API|Ambisoft";
+                            sellinBody.ipi = 0m;
+                            sellinBody.sales_discount = 0m;
+                            sellinBody.sales_addition = 0m;
+
                             sellinBody.items = new();
                             foreach (DataRow dataRow in itensCompraTable.Rows)
                             {
@@ -340,6 +362,13 @@ namespace YandehCarga
                                 sellInItem.pis = dataRow["VLR_PIS"] is DBNull ? 0m : (decimal)dataRow["VLR_PIS"];
                                 sellInItem.cofins = dataRow["VLR_COFINS"] is DBNull ? 0m : (decimal)dataRow["VLR_COFINS"];
                                 sellInItem.cfop = int.Parse((string) dataRow["CFOP"]);
+                                sellInItem.addition = 0m;
+                                sellInItem.discount = (decimal)dataRow["VLR_DESC"];
+                                sellInItem.ipi = dataRow["VLR_IPI"] is DBNull ? 0m : (decimal)dataRow["VLR_IPI"];
+                                sellInItem.other_expenses = dataRow["VLR_DESPESA"] is DBNull ? 0m : (decimal)dataRow["VLR_DESPESA"];
+                                sellInItem.icms_st = dataRow["VLR_ST"] is DBNull ? 0m : (decimal)dataRow["VLR_ST"];
+                                sellInItem.fcp_st = 0m;
+                                sellInItem.freight_price = dataRow["VLR_FRETE"] is DBNull ? 0m : (decimal)dataRow["VLR_FRETE"];
                             }
 
                             break;

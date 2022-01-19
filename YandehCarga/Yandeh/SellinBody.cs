@@ -26,6 +26,10 @@ namespace YandehCarga.Yandeh
         public decimal insurance_price { get; set; }
         public decimal other_expenses { get; set; }
         public List<Payment> payment { get; set; }
+        public string origem_coleta { get; set; }
+        public decimal ipi { get; set; }
+        public decimal sales_discount { get; set; }
+        public decimal sales_addition { get; set; }
     }
 
     public class SellInItem
@@ -42,6 +46,12 @@ namespace YandehCarga.Yandeh
         public decimal pis { get; set; }
         public decimal cofins { get; set; }
         public int cfop { get; set; }
-        public string cst { get; set; }
+        public decimal addition { get; set; }
+        public decimal discount { get; set; }
+        public decimal ipi { get; set; }
+        public decimal other_expenses { get; set; }
+        public decimal icms_st { get; set; }
+        public decimal fcp_st { get; set; }
+        public decimal freight_price { get; set; }
     }
 }

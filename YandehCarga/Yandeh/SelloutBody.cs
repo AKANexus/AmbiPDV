@@ -25,7 +25,7 @@ namespace YandehCarga.Yandeh
         public string transaction_type { get; set; }
         public List<SelloutItem> items { get; set; }
         public string tipo { get; set; }
-        public List<Payment> payment { get; set; }
+        //public List<Payment> payment { get; set; }
         public decimal ipi { get; set; }
         public decimal icms { get; set; }
         public decimal frete { get; set; }
