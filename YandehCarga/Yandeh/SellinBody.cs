@@ -13,8 +13,8 @@ namespace YandehCarga.Yandeh
         public string id { get; set; }
         public string sellin_timestamp { get; set; }
         public string store_taxpayer_id { get; set; }
-        public string nfe_number { get; set; }
-        public string nfe_series_number { get; set; }
+        public int nfe_number { get; set; }
+        public int nfe_series_number { get; set; }
         public string nfe_access_key { get; set; }
         public string supplier_taxpayer_id { get; set; }
         public decimal gross_total { get; set; }
@@ -25,7 +25,7 @@ namespace YandehCarga.Yandeh
         public decimal freight_price { get; set; }
         public decimal insurance_price { get; set; }
         public decimal other_expenses { get; set; }
-        public List<Payment> payment { get; set; }
+        //public List<Payment> payment { get; set; }
         public string origem_coleta { get; set; }
         public decimal ipi { get; set; }
         public decimal sales_discount { get; set; }

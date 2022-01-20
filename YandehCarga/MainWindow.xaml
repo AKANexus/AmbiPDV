@@ -20,7 +20,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBox Name="TxbDBPath" Grid.ColumnSpan="3" Grid.Row="3" FontSize="18" Margin="15, 5"/>
-        <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="10" AcceptsReturn="True" IsReadOnly="True"/>
+        <TextBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Grid.RowSpan="3" Margin="10" AcceptsReturn="True" IsReadOnly="True" Name="TxbLogs"/>
         <Button Grid.Column="0" Margin="15" Grid.Row="4" Click="ButIniciar_OnClick" Name="ButIniciar">
             <TextBlock Text="Iniciar" FontSize="20" FontWeight="Bold" ></TextBlock>
         </Button>
