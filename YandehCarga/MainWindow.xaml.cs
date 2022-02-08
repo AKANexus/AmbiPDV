@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FirebirdSql.Data.FirebirdClient;
+using System;
+using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using FirebirdSql.Data.FirebirdClient;
 using YandehCarga.Yandeh;
 
 namespace YandehCarga
@@ -38,24 +28,45 @@ namespace YandehCarga
         private string _authKey;
         private SemaphoreSlim _farol = new(0, 1);
         private readonly System.Timers.Timer _intervalTimer = new();
+        private Logger _logger = new Logger("Yandeh");
+        private bool _isDebugEnabled = false;
         public MainWindow()
         {
             InitializeComponent();
-            _intervalTimer.Interval = 60000 * 5;
+            if (Environment.GetCommandLineArgs().Contains("-logging"))
+            {
+                _isDebugEnabled = true;
+            }
+            Logger.Start(new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Trilha Informatica", $"Logs\\YandehCarga-{DateTime.Today:ddMMyy}.log")));
+            Logger.IgnoreDebug = !_isDebugEnabled;
+            _intervalTimer.AutoReset = true;
+            _intervalTimer.Interval = 60000 * 10;
             _intervalTimer.Elapsed += _intervalTimer_Elapsed;
             ButParar.IsEnabled = false;
             _progress = new(AtualizaTextBox);
             if (File.Exists("path.txt"))
             {
                 TxbDBPath.Text = File.ReadAllText("path.txt");
+                _logger.Debug($"Caminho da base: {TxbDBPath.Text}.");
             }
 
             if (Environment.GetCommandLineArgs().Contains("-autostart") && !string.IsNullOrWhiteSpace(TxbDBPath.Text))
             {
+                _logger.Debug($"Autostart definido.");
                 Start();
             }
         }
 
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            if (_isRunning)
+            {
+                this.WindowState = WindowState.Minimized;
+                return;
+            }
+            base.OnClosing(e);
+        }
         private void _intervalTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _farol.Release();
@@ -65,6 +76,7 @@ namespace YandehCarga
         {
             TxbLogs.AppendText(Environment.NewLine + message);
             TxbLogs.CaretIndex = TxbLogs.Text.Length;
+            TxbLogs.ScrollToEnd();
         }
 
         private void StartStop()
@@ -81,6 +93,7 @@ namespace YandehCarga
 
         private void Stop()
         {
+            _logger.Debug("Stop requisitado");
             TxbDBPath.IsReadOnly = false;
             ButParar.IsEnabled = false;
             ButIniciar.IsEnabled = true;
@@ -90,6 +103,7 @@ namespace YandehCarga
 
         private void Start()
         {
+            _logger.Debug("Start requisitado");
             TxbDBPath.IsReadOnly = true;
             ButParar.IsEnabled = true;
             ButIniciar.IsEnabled = false;
@@ -104,9 +118,12 @@ namespace YandehCarga
             progress.Report("Verificando Caminho da BD...");
             if (string.IsNullOrWhiteSpace(TxbDBPath.Text) || TxbDBPath.Text.Split('|').Length != 2)
             {
+                _logger.Warn("Caminho da base informado era inválido:");
+                _logger.Warn(TxbDBPath.Text);
                 progress.Report("Caminho da base de dados inválido. Tente novamente.");
                 progress.Report($"Caminho fornecido: {TxbDBPath.Text}");
                 Stop();
+                return;
             }
 
             progress.Report("Sintaxe do caminho é válida. Verificando conexão...");
@@ -126,25 +143,30 @@ namespace YandehCarga
                 progress.Report("Falha ao abrir a conexão com o Clipp.");
                 progress.Report(e.Message);
                 Stop();
+                return;
             }
 
             progress.Report("Conexão é válida.");
             if (!await GravaPathNoTxt())
             {
+                _logger.Warn("Falha ao gravar path.txt");
                 progress.Report("Falha ao gravar path.txt");
             }
 
             progress.Report("Verificando tabelas...");
             if (!_tablesChecked)
             {
+                _logger.Debug("Criando tabelas e triggers");
                 await CheckTablesAndTriggers(progress);
             }
 
             progress.Report("Obtendo authkey");
             if (!await ObtemAuthKey(progress))
             {
+                _logger.Error("Falha ao obter a authkey.");
                 progress.Report($"Falha ao obter a authkey");
                 Stop();
+                return;
             }
 
             while (_isRunning)
@@ -159,9 +181,11 @@ namespace YandehCarga
                 }
                 catch (Exception e)
                 {
-                    progress.Report("Falha ao obter os dados de YAN_SYNC");
+                    _logger.Error("Falha ao obter os dados a sincronizar");
+                    progress.Report("Falha ao obter os dados a sincronizar");
                     progress.Report(e.Message);
                     Stop();
+                    return;
                 }
 
 
@@ -169,305 +193,376 @@ namespace YandehCarga
                 progress.Report($"{_fbData.Rows.Count} entradas para carregar");
                 if (_fbData.Rows.Count == 0)
                 {
+                    _logger.Debug("Não havia entradas para carregar.");
+                    progress.Report("Não havia entradas para carregar.");
                 }
                 else
                 {
-                    foreach (DataRow fbDataRow in _fbData.Rows)
+                    try
                     {
-                        switch (fbDataRow["TABLE_NAME"])
+                        foreach (DataRow fbDataRow in _fbData.Rows)
                         {
-                            #region ESTOQUE
+                            progress.Report($"Entrada de {fbDataRow["TABLE_NAME"]} sendo processado");
+                            _logger.Debug($"Processando Entrada de {fbDataRow["TABLE_NAME"]}");
+                            switch (fbDataRow["TABLE_NAME"])
+                            {
+                                #region ESTOQUE
 
-                            case "ESTOQUE":
-                                _fbCommand.CommandText =
-                                    $"SELECT * FROM TB_ESTOQUE te JOIN TB_EST_IDENTIFICADOR tei ON te.ID_ESTOQUE = tei.ID_ESTOQUE JOIN TB_EST_PRODUTO tep ON tei.ID_IDENTIFICADOR = tep.ID_IDENTIFICADOR WHERE te.ID_ESTOQUE = {fbDataRow["RESPECTIVE_ID"]};";
-                                var estoqueTable = new DataTable();
-                                estoqueTable.Load(await _fbCommand.ExecuteReaderAsync());
-                                if (estoqueTable.Rows.Count == 0) continue;
-                                if (string.IsNullOrWhiteSpace((string)estoqueTable.Rows[0]["COD_BARRA"])) continue;
-
-                                progress.Report($"Carregando Estoque: {(string)estoqueTable.Rows[0]["DESCRICAO"]}");
-
-                                EstoqueBody body = new()
-                                {
-                                    origem_coleta = "API|Ambisoft",
-                                    dt_ultima_alt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
-                                    code = ((int)estoqueTable.Rows[0]["ID_IDENTIFICADOR"]).ToString(),
-                                    product_type = "simple",
-                                    sku = (string)estoqueTable.Rows[0]["COD_BARRA"],
-                                    name = (string)estoqueTable.Rows[0]["DESCRICAO"],
-                                    description = (string)estoqueTable.Rows[0]["DESCRICAO"],
-                                    dimension = new() { measurement_unit = (string)estoqueTable.Rows[0]["UNI_MEDIDA"] },
-                                    price_info = new Price_Info()
+                                case "ESTOQUE":
+                                    _fbCommand.CommandText =
+                                        $"SELECT * FROM TB_ESTOQUE te JOIN TB_EST_IDENTIFICADOR tei ON te.ID_ESTOQUE = tei.ID_ESTOQUE JOIN TB_EST_PRODUTO tep ON tei.ID_IDENTIFICADOR = tep.ID_IDENTIFICADOR WHERE te.ID_ESTOQUE = {fbDataRow["RESPECTIVE_ID"]};";
+                                    var estoqueTable = new DataTable();
+                                    estoqueTable.Load(await _fbCommand.ExecuteReaderAsync());
+                                    if (estoqueTable.Rows.Count == 0)
                                     {
-                                        price = (decimal)estoqueTable.Rows[0]["PRC_VENDA"]
-                                    },
-                                    visibility = "T",
-                                    status = "A"
-                                };
-
-
-                                try
-                                {
-                                    var estoqueResponse = await YandehAPI.EnviaEstoque(body);
-                                    if (!estoqueResponse.Item1)
-                                    {
-                                        progress.Report($"Erro ao carregar estoque: {estoqueResponse.Item2}");
-
+                                        progress.Report("estoqueTable.Count era 0");
+                                        _logger.Debug("estoqueTable.Count era 0");
+                                        _fbCommand.CommandText =
+                                            $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                        await _fbCommand.ExecuteNonQueryAsync();
+                                        progress.Report("Entrada removida.");
+                                        continue;
                                     }
-                                }
-                                catch (Exception e)
-                                {
-                                    progress.Report("Erro ao carregar estoque:");
-                                    progress.Report(e.Message);
-                                    Stop();
-                                }
-
-                                break;
-
-                            #endregion ESTOQUE
-
-                            #region VENDA
-
-                            case "VENDA":
-                                try
-                                {
-                                    _fbCommand.CommandText =
-                                        $"SELECT * FROM V_NFV WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
-                                    var vendaTable = new DataTable();
-                                    vendaTable.Load(await _fbCommand.ExecuteReaderAsync());
-                                    if (vendaTable.Rows.Count == 0) continue;
-
-                                    progress.Report(
-                                        $"Carregando Venda: {vendaTable.Rows[0]["NF_MODELO"]}-{vendaTable.Rows[0]["NF_SERIE"]}-{vendaTable.Rows[0]["NF_NUMERO"]}");
-
-                                    var itensVendaTable = new DataTable();
-                                    _fbCommand.CommandText =
-                                        $"SELECT * FROM V_NFV_ITEM WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
-                                    itensVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                                    //var pagamentosVendaTable = new DataTable();
-                                    //_fbCommand.CommandText = $"SELECT * FROM V_NFVENDA_PAGAMENTOS WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
-                                    //pagamentosVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                                    var satTable = new DataTable();
-                                    _fbCommand.CommandText =
-                                        $"SELECT * FROM V_SAT WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
-                                    satTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                                    var nfeTable = new DataTable();
-                                    _fbCommand.CommandText =
-                                        $"SELECT * FROM V_NFE WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
-                                    nfeTable.Load(await _fbCommand.ExecuteReaderAsync());
+                                    if (estoqueTable.Rows[0]["COD_BARRA"] is DBNull)
+                                    {
+                                        progress.Report("COD_BARRAS era nulo");
+                                        _logger.Debug("COD_BARRAS era nulo");
+                                        _fbCommand.CommandText =
+                                            $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                        await _fbCommand.ExecuteNonQueryAsync();
+                                        progress.Report("Entrada removida.");
+                                        continue;
+                                    }
+                                    if (string.IsNullOrWhiteSpace((string)estoqueTable.Rows[0]["COD_BARRA"]))
+                                    {
+                                        progress.Report("COD_BARRA estava em branco");
+                                        _logger.Debug("COD_BARRA estava em branco");
+                                        _fbCommand.CommandText =
+                                            $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                        await _fbCommand.ExecuteNonQueryAsync();
+                                        progress.Report("Entrada removida.");
+                                        continue;
+                                    }
+                                    if (((string)estoqueTable.Rows[0]["COD_BARRA"]).Length < 8)
+                                    {
+                                        progress.Report("COD_BARRA.length < 8");
+                                        _logger.Debug("COD_BARRA.length < 8");
+                                        _fbCommand.CommandText =
+                                            $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                        await _fbCommand.ExecuteNonQueryAsync();
+                                        progress.Report("Entrada removida.");
+                                        continue;
+                                    }
 
 
-                                    SelloutBody selloutBody = new()
+                                    progress.Report($"Carregando Estoque: {(string)estoqueTable.Rows[0]["DESCRICAO"]}");
+
+                                    EstoqueBody body = new()
                                     {
                                         origem_coleta = "API|Ambisoft",
-                                        id =
-                                            $"{vendaTable.Rows[0]["NF_MODELO"]}-{vendaTable.Rows[0]["NF_SERIE"]}-{vendaTable.Rows[0]["NF_NUMERO"]}",
-                                        sellout_timestamp =
-                                            $"{vendaTable.Rows[0]["DT_SAIDA"]:yyyy-MM-dd}T{(TimeSpan)vendaTable.Rows[0]["HR_SAIDA"]:hh\\:mm\\:ss}",
-                                        store_taxpayer_id = _cnpj,
-                                        checkout_id = $"{vendaTable.Rows[0]["NF_SERIE"]}",
-                                        receipt_number = ((int)vendaTable.Rows[0]["NF_NUMERO"]).ToString(),
-                                        receipt_series_number =
-                                            Regex.Match((string)vendaTable.Rows[0]["NF_SERIE"], @"\d+").Value,
-                                        total = (decimal)vendaTable.Rows[0]["TOT_NF"],
-                                        cancellation_flag = "N",
-                                        operation = "S",
-                                        transaction_type = "V",
-                                        ipi = 0m,
-                                        sales_discount = 0m,
-                                        sales_addition = 0m,
-                                        icms = 0m,
-                                        frete = 0m,
-                                        items = new()
-                                    };
-                                    if (nfeTable.Rows.Count > 0 &&
-                                        !string.IsNullOrWhiteSpace((string)nfeTable.Rows[0]["ID_NFE"]))
-                                    {
-                                        selloutBody.nfe_access_key = "NFe" + (string)nfeTable.Rows[0]["ID_NFE"];
-                                    }
-
-                                    if (satTable.Rows.Count > 0 &&
-                                        !string.IsNullOrWhiteSpace((string)satTable.Rows[0]["CHAVE"]))
-                                    {
-                                        selloutBody.nfe_access_key = "CFe" + (string)satTable.Rows[0]["CHAVE"];
-                                    }
-
-                                    foreach (DataRow dataRow in itensVendaTable.Rows)
-                                    {
-                                        SelloutItem selloutItem = new SelloutItem
+                                        dt_ultima_alt = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"),
+                                        code = ((int)estoqueTable.Rows[0]["ID_IDENTIFICADOR"]).ToString(),
+                                        product_type = "simple",
+                                        sku = (string)estoqueTable.Rows[0]["COD_BARRA"],
+                                        name = (string)estoqueTable.Rows[0]["DESCRICAO"],
+                                        description = (string)estoqueTable.Rows[0]["DESCRICAO"],
+                                        dimension = new() { measurement_unit = (string)estoqueTable.Rows[0]["UNI_MEDIDA"] },
+                                        price_info = new Price_Info()
                                         {
-                                            code = ((int)dataRow["ID_IDENTIFICADOR"]).ToString(),
-                                            sku = dataRow["COD_BARRA"] is DBNull ||
-                                                  string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
-                                                ? ((int)dataRow["ID_IDENTIFICADOR"]).ToString()
-                                                : (string)dataRow["COD_BARRA"],
-                                            description = (string)dataRow["PRODUTO"],
-                                            quantity = (decimal)dataRow["QTD_ITEM"],
-                                            unit_value = (decimal)dataRow["VLR_UNIT"],
-                                            measurement_unit = (string)dataRow["UNI_MEDIDA"],
-                                            cancellation_flag = "N",
-                                            cfop = 5102,
-                                            item_addition = 0m,
-                                            item_discount = (decimal)dataRow["VLR_DESC"],
-                                            icms = dataRow["VLR_ICMS"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_ICMS"],
-                                            pis = dataRow["VLR_PIS"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_PIS"],
-                                            cofins = dataRow["VLR_COFINS"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_COFINS"],
-                                            ipi = dataRow["VLR_IPI"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_IPI"],
-                                            other_expenses = (decimal)dataRow["VLR_DESPESA"],
-                                            icms_st = dataRow["VLR_ST"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_ST"],
-                                            fcp_st = 0m,
-                                            frete = (decimal)dataRow["VLR_FRETE"]
-                                        };
-                                        selloutBody.items.Add(selloutItem);
-                                    }
-
-                                    selloutBody.tipo = (string)vendaTable.Rows[0]["NF_MODELO"] switch
-                                    {
-                                        "55" => "nfe",
-                                        _ => "sat"
+                                            price = (decimal)estoqueTable.Rows[0]["PRC_VENDA"]
+                                        },
+                                        visibility = "T",
+                                        status = "A"
                                     };
-                                    //selloutBody.payment = new();
-                                    //foreach (DataRow pagamentosTableRow in pagamentosVendaTable.Rows)
-                                    //{
-                                    //    Payment payment = new();
-                                    //    payment.method = (string)pagamentosTableRow["DESC_FORMAPAGAMENTO"];
-                                    //    payment.condition = "Á vista";
-                                    //    payment.installments = new();
-                                    //    Installment installment = new();
-                                    //    installment.installment_number = 1;
-                                    //    installment.amount = (decimal)pagamentosTableRow["VLR_PAGTO"];
-                                    //    installment.payment_term = 1;
-                                    //    payment.installments.Add(installment);
-                                    //    selloutBody.payment.Add(payment);
-                                    //}
+
 
                                     try
                                     {
-                                        await YandehAPI.EnviaSellout(selloutBody);
+                                        var estoqueResponse = await YandehAPI.EnviaEstoque(body);
+                                        if (!estoqueResponse.Item1)
+                                        {
+                                            progress.Report($"Erro ao carregar estoque: {estoqueResponse.Item2}");
+
+                                        }
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        progress.Report("Erro ao carregar estoque:");
+                                        progress.Report(e.Message);
+                                        Stop();
+                                    }
+                                    _logger.Debug($"Item code:{body.code} enviado");
+                                    break;
+
+                                #endregion ESTOQUE
+
+                                #region VENDA
+
+                                case "VENDA":
+                                    try
+                                    {
+                                        _fbCommand.CommandText =
+                                            $"SELECT * FROM V_NFV WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
+                                        var vendaTable = new DataTable();
+                                        vendaTable.Load(await _fbCommand.ExecuteReaderAsync());
+                                        if (vendaTable.Rows.Count == 0)
+                                        {
+                                            _fbCommand.CommandText =
+                                                $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                            await _fbCommand.ExecuteNonQueryAsync();
+                                            continue;
+                                        }
+
+                                        progress.Report(
+                                            $"Carregando Venda: {vendaTable.Rows[0]["NF_MODELO"]}-{vendaTable.Rows[0]["NF_SERIE"]}-{vendaTable.Rows[0]["NF_NUMERO"]}");
+
+                                        var itensVendaTable = new DataTable();
+                                        _fbCommand.CommandText =
+                                            $"SELECT * FROM V_NFV_ITEM WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]};";
+                                        itensVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                        //var pagamentosVendaTable = new DataTable();
+                                        //_fbCommand.CommandText = $"SELECT * FROM V_NFVENDA_PAGAMENTOS WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                                        //pagamentosVendaTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                        var satTable = new DataTable();
+                                        _fbCommand.CommandText =
+                                            $"SELECT * FROM V_SAT WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                                        satTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                        var nfeTable = new DataTable();
+                                        _fbCommand.CommandText =
+                                            $"SELECT * FROM V_NFE WHERE ID_NFVENDA = {fbDataRow["RESPECTIVE_ID"]}";
+                                        nfeTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+
+                                        SelloutBody selloutBody = new()
+                                        {
+                                            origem_coleta = "API|Ambisoft",
+                                            id =
+                                                $"{vendaTable.Rows[0]["NF_MODELO"]}-{vendaTable.Rows[0]["NF_SERIE"]}-{vendaTable.Rows[0]["NF_NUMERO"]}",
+                                            sellout_timestamp =
+                                                $"{vendaTable.Rows[0]["DT_SAIDA"]:yyyy-MM-dd}T{(TimeSpan)vendaTable.Rows[0]["HR_SAIDA"]:hh\\:mm\\:ss}",
+                                            store_taxpayer_id = _cnpj,
+                                            checkout_id = $"{vendaTable.Rows[0]["NF_SERIE"]}",
+                                            receipt_number = ((int)vendaTable.Rows[0]["NF_NUMERO"]).ToString(),
+                                            receipt_series_number =
+                                                Regex.Match((string)vendaTable.Rows[0]["NF_SERIE"], @"\d+").Value,
+                                            total = (decimal)vendaTable.Rows[0]["TOT_NF"],
+                                            cancellation_flag = "N",
+                                            operation = "S",
+                                            transaction_type = "V",
+                                            ipi = 0m,
+                                            sales_discount = 0m,
+                                            sales_addition = 0m,
+                                            icms = 0m,
+                                            frete = 0m,
+                                            items = new()
+                                        };
+                                        if (nfeTable.Rows.Count > 0 && nfeTable.Rows[0]["ID_NFE"] is not DBNull &&
+                                            !string.IsNullOrWhiteSpace((string)nfeTable.Rows[0]["ID_NFE"]))
+                                        {
+                                            selloutBody.nfe_access_key = "NFe" + (string)nfeTable.Rows[0]["ID_NFE"];
+                                        }
+
+                                        if (satTable.Rows.Count > 0 && satTable.Rows[0]["CHAVE"] is not DBNull &&
+                                            !string.IsNullOrWhiteSpace((string)satTable.Rows[0]["CHAVE"]))
+                                        {
+                                            selloutBody.nfe_access_key = "CFe" + (string)satTable.Rows[0]["CHAVE"];
+                                        }
+
+                                        foreach (DataRow dataRow in itensVendaTable.Rows)
+                                        {
+                                            SelloutItem selloutItem = new SelloutItem
+                                            {
+                                                code = ((int)dataRow["ID_IDENTIFICADOR"]).ToString(),
+                                                sku = dataRow["COD_BARRA"] is DBNull ||
+                                                      string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
+                                                    ? ((int)dataRow["ID_IDENTIFICADOR"]).ToString()
+                                                    : (string)dataRow["COD_BARRA"],
+                                                description = (string)dataRow["PRODUTO"],
+                                                quantity = (decimal)dataRow["QTD_ITEM"],
+                                                unit_value = (decimal)dataRow["VLR_UNIT"],
+                                                measurement_unit = (string)dataRow["UNI_MEDIDA"],
+                                                cancellation_flag = "N",
+                                                cfop = 5102,
+                                                item_addition = 0m,
+                                                item_discount = (decimal)dataRow["VLR_DESC"],
+                                                icms = dataRow["VLR_ICMS"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_ICMS"],
+                                                pis = dataRow["VLR_PIS"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_PIS"],
+                                                cofins = dataRow["VLR_COFINS"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_COFINS"],
+                                                ipi = dataRow["VLR_IPI"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_IPI"],
+                                                other_expenses = (decimal)dataRow["VLR_DESPESA"],
+                                                icms_st = dataRow["VLR_ST"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_ST"],
+                                                fcp_st = 0m,
+                                                frete = (decimal)dataRow["VLR_FRETE"]
+                                            };
+                                            selloutBody.items.Add(selloutItem);
+                                        }
+
+                                        selloutBody.tipo = (string)vendaTable.Rows[0]["NF_MODELO"] switch
+                                        {
+                                            "55" => "nfe",
+                                            _ => "sat"
+                                        };
+                                        //selloutBody.payment = new();
+                                        //foreach (DataRow pagamentosTableRow in pagamentosVendaTable.Rows)
+                                        //{
+                                        //    Payment payment = new();
+                                        //    payment.method = (string)pagamentosTableRow["DESC_FORMAPAGAMENTO"];
+                                        //    payment.condition = "Á vista";
+                                        //    payment.installments = new();
+                                        //    Installment installment = new();
+                                        //    installment.installment_number = 1;
+                                        //    installment.amount = (decimal)pagamentosTableRow["VLR_PAGTO"];
+                                        //    installment.payment_term = 1;
+                                        //    payment.installments.Add(installment);
+                                        //    selloutBody.payment.Add(payment);
+                                        //}
+
+                                        try
+                                        {
+                                            await YandehAPI.EnviaSellout(selloutBody);
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            progress.Report("Erro ao enviar sellout:");
+                                            progress.Report(e.Message);
+                                            Stop();
+                                            return;
+                                        }
+
+                                        _logger.Debug($"Venda id:{selloutBody.id} enviada");
                                     }
                                     catch (Exception e)
                                     {
                                         progress.Report("Erro ao enviar sellout:");
                                         progress.Report(e.Message);
                                         Stop();
+                                        return;
                                     }
-                                }
-                                catch (Exception e)
-                                {
-                                    progress.Report("Erro ao enviar sellout:");
-                                    progress.Report(e.Message);
-                                    Stop();
-                                }
+                                    break;
 
-                                break;
+                                #endregion VENDA
 
-                            #endregion VENDA
-
-                            case "COMPRA":
-                                try
-                                {
-                                    _fbCommand.CommandText =
-                                        $"SELECT * FROM V_NFC WHERE ID_NFCOMPRA = {fbDataRow["RESPECTIVE_ID"]}";
-                                    var compraTable = new DataTable();
-                                    compraTable.Load(await _fbCommand.ExecuteReaderAsync());
-                                    if (compraTable.Rows.Count == 0) continue;
-
-                                    progress.Report(
-                                        $"Carregando Venda: {compraTable.Rows[0]["NF_MODELO"]}-{compraTable.Rows[0]["NF_SERIE"]}-{compraTable.Rows[0]["NF_NUMERO"]}");
-
-
-                                    var itensCompraTable = new DataTable();
-                                    _fbCommand.CommandText =
-                                        $"SELECT * FROM V_NFC_ITEM WHERE ID_NFCOMPRA = {fbDataRow["RESPECTIVE_ID"]};";
-                                    itensCompraTable.Load(await _fbCommand.ExecuteReaderAsync());
-
-                                    SellInBody sellinBody = new()
-                                    {
-                                        id =
-                                            $"{compraTable.Rows[0]["NF_MODELO"]}-{compraTable.Rows[0]["NF_SERIE"]}-{compraTable.Rows[0]["NF_NUMERO"]}",
-                                        sellin_timestamp =
-                                            $"{compraTable.Rows[0]["DT_ENTRADA"]:yyyy-MM-dd}T{(TimeSpan)compraTable.Rows[0]["HR_ENTRADA"]:hh\\:mm\\:ss}",
-                                        store_taxpayer_id = _cnpj,
-                                        nfe_number = ((int)compraTable.Rows[0]["NF_NUMERO"]),
-                                        nfe_series_number = int.Parse((string)compraTable.Rows[0]["NF_SERIE"]),
-                                        nfe_access_key = "null",
-                                        supplier_taxpayer_id = compraTable.Rows[0]["CNPJ_FORNECEDOR"] is DBNull
-                                            ? ""
-                                            : ((string)compraTable.Rows[0]["CNPJ_FORNECEDOR"]).TiraPont(),
-                                        gross_total = (decimal)compraTable.Rows[0]["TOT_ITEM"],
-                                        net_total = (decimal)compraTable.Rows[0]["TOT_NF"],
-                                        cancellation_flag = "N",
-                                        freight_price = (decimal)compraTable.Rows[0]["TOT_FRETE"],
-                                        insurance_price = (decimal)compraTable.Rows[0]["TOT_SEGURO"],
-                                        other_expenses = (decimal)compraTable.Rows[0]["TOT_DESPESA"],
-                                        origem_coleta = "API|Ambisoft",
-                                        ipi = 0m,
-                                        sales_discount = 0m,
-                                        sales_addition = 0m,
-                                        items = new()
-                                    };
-
-                                    foreach (DataRow dataRow in itensCompraTable.Rows)
-                                    {
-                                        SellInItem sellInItem = new()
-                                        {
-                                            code = ((int)dataRow["ID_IDENTIFICADOR"]).ToString(),
-                                            ean = string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
-                                                ? ((int)dataRow["ID_IDENTIFICADOR"]).ToString()
-                                                : (string)dataRow["COD_BARRA"],
-                                            description = (string)dataRow["PRODUTO"],
-                                            quantity = (decimal)dataRow["QTD_ITEM"],
-                                            measurement_unit = (string)dataRow["UNI_MEDIDA"],
-                                            unit_value = (decimal)dataRow["VLR_UNIT"],
-                                            gross_total = (decimal)dataRow["VLR_TOTAL"],
-                                            net_total = (decimal)dataRow["VLR_TOTAL"] -
-                                                        (decimal)dataRow["VLR_DESC"],
-                                            icms = dataRow["VLR_ICMS"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_ICMS"],
-                                            pis = dataRow["VLR_PIS"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_PIS"],
-                                            cofins = dataRow["VLR_COFINS"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_COFINS"],
-                                            cfop = int.Parse((string)dataRow["CFOP"]),
-                                            addition = 0m,
-                                            discount = (decimal)dataRow["VLR_DESC"],
-                                            ipi = dataRow["VLR_IPI"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_IPI"],
-                                            other_expenses = dataRow["VLR_DESPESA"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_DESPESA"],
-                                            icms_st = dataRow["VLR_ST"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_ST"],
-                                            fcp_st = 0m,
-                                            freight_price = dataRow["VLR_FRETE"] is DBNull
-                                                ? 0m
-                                                : (decimal)dataRow["VLR_FRETE"]
-                                        };
-                                        sellinBody.items.Add(sellInItem);
-                                    }
-
+                                case "COMPRA":
                                     try
                                     {
-                                        await YandehAPI.EnviaSellin(sellinBody);
+                                        _fbCommand.CommandText =
+                                            $"SELECT * FROM V_NFC WHERE ID_NFCOMPRA = {fbDataRow["RESPECTIVE_ID"]}";
+                                        var compraTable = new DataTable();
+                                        compraTable.Load(await _fbCommand.ExecuteReaderAsync());
+                                        if (compraTable.Rows.Count == 0)
+                                        {
+                                            _fbCommand.CommandText =
+                                                $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                            await _fbCommand.ExecuteNonQueryAsync();
+                                            progress.Report("Entrada removida.");
+                                            continue;
+                                        }
+
+                                        progress.Report(
+                                            $"Carregando Venda: {compraTable.Rows[0]["NF_MODELO"]}-{compraTable.Rows[0]["NF_SERIE"]}-{compraTable.Rows[0]["NF_NUMERO"]}");
+
+
+                                        var itensCompraTable = new DataTable();
+                                        _fbCommand.CommandText =
+                                            $"SELECT * FROM V_NFC_ITEM WHERE ID_NFCOMPRA = {fbDataRow["RESPECTIVE_ID"]};";
+                                        itensCompraTable.Load(await _fbCommand.ExecuteReaderAsync());
+
+                                        SellInBody sellinBody = new()
+                                        {
+                                            id =
+                                                $"{compraTable.Rows[0]["NF_MODELO"]}-{compraTable.Rows[0]["NF_SERIE"]}-{compraTable.Rows[0]["NF_NUMERO"]}",
+                                            sellin_timestamp =
+                                                $"{compraTable.Rows[0]["DT_ENTRADA"]:yyyy-MM-dd}T{(TimeSpan)compraTable.Rows[0]["HR_ENTRADA"]:hh\\:mm\\:ss}",
+                                            store_taxpayer_id = _cnpj,
+                                            nfe_number = ((int)compraTable.Rows[0]["NF_NUMERO"]),
+                                            nfe_series_number = int.Parse((string)compraTable.Rows[0]["NF_SERIE"]),
+                                            nfe_access_key = "null",
+                                            supplier_taxpayer_id = compraTable.Rows[0]["CNPJ_FORNECEDOR"] is DBNull
+                                                ? ""
+                                                : ((string)compraTable.Rows[0]["CNPJ_FORNECEDOR"]).TiraPont(),
+                                            gross_total = (decimal)compraTable.Rows[0]["TOT_ITEM"],
+                                            net_total = (decimal)compraTable.Rows[0]["TOT_NF"],
+                                            cancellation_flag = "N",
+                                            freight_price = (decimal)compraTable.Rows[0]["TOT_FRETE"],
+                                            insurance_price = (decimal)compraTable.Rows[0]["TOT_SEGURO"],
+                                            other_expenses = (decimal)compraTable.Rows[0]["TOT_DESPESA"],
+                                            origem_coleta = "API|Ambisoft",
+                                            ipi = 0m,
+                                            sales_discount = 0m,
+                                            sales_addition = 0m,
+                                            items = new()
+                                        };
+
+                                        foreach (DataRow dataRow in itensCompraTable.Rows)
+                                        {
+                                            SellInItem sellInItem = new()
+                                            {
+                                                code = ((int)dataRow["ID_IDENTIFICADOR"]).ToString(),
+                                                ean = string.IsNullOrWhiteSpace((string)dataRow["COD_BARRA"])
+                                                    ? ((int)dataRow["ID_IDENTIFICADOR"]).ToString()
+                                                    : (string)dataRow["COD_BARRA"],
+                                                description = (string)dataRow["PRODUTO"],
+                                                quantity = (decimal)dataRow["QTD_ITEM"],
+                                                measurement_unit = (string)dataRow["UNI_MEDIDA"],
+                                                unit_value = (decimal)dataRow["VLR_UNIT"],
+                                                gross_total = (decimal)dataRow["VLR_TOTAL"],
+                                                net_total = (decimal)dataRow["VLR_TOTAL"] -
+                                                            (decimal)dataRow["VLR_DESC"],
+                                                icms = dataRow["VLR_ICMS"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_ICMS"],
+                                                pis = dataRow["VLR_PIS"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_PIS"],
+                                                cofins = dataRow["VLR_COFINS"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_COFINS"],
+                                                cfop = int.Parse((string)dataRow["CFOP"]),
+                                                addition = 0m,
+                                                discount = (decimal)dataRow["VLR_DESC"],
+                                                ipi = dataRow["VLR_IPI"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_IPI"],
+                                                other_expenses = dataRow["VLR_DESPESA"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_DESPESA"],
+                                                icms_st = dataRow["VLR_ST"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_ST"],
+                                                fcp_st = 0m,
+                                                freight_price = dataRow["VLR_FRETE"] is DBNull
+                                                    ? 0m
+                                                    : (decimal)dataRow["VLR_FRETE"]
+                                            };
+                                            sellinBody.items.Add(sellInItem);
+                                        }
+
+                                        try
+                                        {
+                                            await YandehAPI.EnviaSellin(sellinBody);
+
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            progress.Report("Erro ao enviar sellin:");
+                                            progress.Report(e.Message);
+                                            Stop();
+                                            return;
+                                        }
+                                        _logger.Debug($"Compra id:{sellinBody.id} enviada");
 
                                     }
                                     catch (Exception e)
@@ -475,34 +570,51 @@ namespace YandehCarga
                                         progress.Report("Erro ao enviar sellin:");
                                         progress.Report(e.Message);
                                         Stop();
+                                        return;
                                     }
-                                }
-                                catch (Exception e)
-                                {
-                                    progress.Report("Erro ao enviar sellin:");
-                                    progress.Report(e.Message);
-                                    Stop();
-                                }
 
-                                break;
-                            default:
-                                break;
+                                    break;
+                                default:
+                                    progress.Report("TABLE_NAME não reconhecido");
+                                    break;
+                            }
+
+                            progress.Report("Carregado com sucesso.");
+                            try
+                            {
+                                _fbCommand.CommandText =
+                                    $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
+                                await _fbCommand.ExecuteNonQueryAsync();
+                                progress.Report("Entrada removida.");
+                            }
+                            catch (Exception e)
+                            {
+                                progress.Report("Falha ao apagar o registro");
+                                _logger.Error("Falha ao apagar o registro", e);
+                            }
                         }
 
-                        progress.Report("Carregado com sucesso.");
-                        _fbCommand.CommandText =
-                            $"DELETE FROM YAN_SYNC WHERE TABLE_NAME = '{fbDataRow["TABLE_NAME"]}' AND RESPECTIVE_ID = {fbDataRow["RESPECTIVE_ID"]}";
-                        await _fbCommand.ExecuteNonQueryAsync();
                     }
-                    progress.Report("Carga concluída com sucesso");
-                    progress.Report($"Próxima carga: {DateTime.Now.AddMinutes(5):HH:mm}");
-                    _intervalTimer.Start();
-                    await _farol.WaitAsync();
+                    catch (Exception e)
+                    {
+                        progress.Report("Falha não identificada...");
+                        progress.Report(e.Message);
+                        Stop();
+                        return;
+                    }
 
+
+
+
+                    
+                    #endregion COLETA E ENVIO
                 }
-
-                #endregion COLETA E ENVIO}
-
+                _logger.Info("Carga concluída com sucesso!");
+                _logger.Info($"Próxima carga: {DateTime.Now.AddMinutes(5):HH:mm}");
+                progress.Report("Carga concluída com sucesso");
+                progress.Report($"Próxima carga: {DateTime.Now.AddMinutes(5):HH:mm}");
+                _intervalTimer.Start();
+                await _farol.WaitAsync();
             }
         }
 
@@ -512,7 +624,7 @@ namespace YandehCarga
             {
                 if (!File.Exists("path.txt"))
                 {
-                    File.Create("path.txt");
+                    await File.Create("path.txt").DisposeAsync();
                 }
 
                 await File.WriteAllTextAsync("path.txt", TxbDBPath.Text);
@@ -529,8 +641,17 @@ namespace YandehCarga
         private async Task<bool> ObtemAuthKey(IProgress<string> progress)
         {
             DataTable emitenteTable = new();
+            if (_fbCommand.Connection is null) _fbCommand.Connection = _fbConnection;
             _fbCommand.CommandText = "SELECT * FROM TB_EMITENTE";
-            emitenteTable.Load(await _fbCommand.ExecuteReaderAsync());
+            try
+            {
+                emitenteTable.Load(await _fbCommand.ExecuteReaderAsync());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             if (emitenteTable.Rows.Count < 1 || string.IsNullOrWhiteSpace((string)emitenteTable.Rows[0]["CNPJ"]))
             {
                 progress.Report("Falha ao obter o CNPJ do Emitente");

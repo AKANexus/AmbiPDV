@@ -36,7 +36,7 @@ namespace PDV_WPF.Telas
             try
             {
                 revent.RemoteEventCounts += new EventHandler<FbRemoteEventCountsEventArgs>(OnEvent);
-                revent.QueueEvents("NOVA_RESP_RECEBIDA");
+                revent.QueueEvents(new [] { "NOVA_RESP_RECEBIDA" });
                 timer.IsEnabled = true;
             }
             catch (Exception ex)
