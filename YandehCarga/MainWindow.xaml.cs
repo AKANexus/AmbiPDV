@@ -2,6 +2,7 @@
 using System;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -58,6 +59,7 @@ namespace YandehCarga
             }
         }
 
+
         protected override void OnClosing(CancelEventArgs e)
         {
             if (_isRunning)
@@ -67,6 +69,7 @@ namespace YandehCarga
             }
             base.OnClosing(e);
         }
+
         private void _intervalTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             _farol.Release();
@@ -365,10 +368,15 @@ namespace YandehCarga
                                             selloutBody.nfe_access_key = "NFe" + (string)nfeTable.Rows[0]["ID_NFE"];
                                         }
 
-                                        if (satTable.Rows.Count > 0 && satTable.Rows[0]["CHAVE"] is not DBNull &&
+                                        else if (satTable.Rows.Count > 0 && satTable.Rows[0]["CHAVE"] is not DBNull &&
                                             !string.IsNullOrWhiteSpace((string)satTable.Rows[0]["CHAVE"]))
                                         {
                                             selloutBody.nfe_access_key = "CFe" + (string)satTable.Rows[0]["CHAVE"];
+                                        }
+
+                                        else
+                                        {
+                                            selloutBody.nfe_access_key = "null";
                                         }
 
                                         foreach (DataRow dataRow in itensVendaTable.Rows)
@@ -410,11 +418,19 @@ namespace YandehCarga
                                             selloutBody.items.Add(selloutItem);
                                         }
 
-                                        selloutBody.tipo = (string)vendaTable.Rows[0]["NF_MODELO"] switch
+                                        if (selloutBody.nfe_access_key.Contains("NFe"))
                                         {
-                                            "55" => "nfe",
-                                            _ => "sat"
-                                        };
+                                            selloutBody.tipo = "nfe";
+                                        }
+                                        else if (selloutBody.nfe_access_key.Contains("CFe"))
+                                        {
+                                            selloutBody.tipo = "sat";
+                                        }
+                                        else
+                                        {
+                                            selloutBody.tipo = "ger";
+                                        }
+
                                         //selloutBody.payment = new();
                                         //foreach (DataRow pagamentosTableRow in pagamentosVendaTable.Rows)
                                         //{
@@ -624,10 +640,10 @@ namespace YandehCarga
             {
                 if (!File.Exists("path.txt"))
                 {
-                    await File.Create("path.txt").DisposeAsync();
+                    File.Create("path.txt").Dispose();
                 }
 
-                await File.WriteAllTextAsync("path.txt", TxbDBPath.Text);
+                File.WriteAllText("path.txt", TxbDBPath.Text);
                 return true;
             }
             catch (Exception e)

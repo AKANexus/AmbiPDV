@@ -245,7 +245,7 @@ namespace YandehCarga
             if (s.Length == 8)
             {
                 StringBuilder sb = new StringBuilder();
-                sb.Append(s[..5]);
+                sb.Append(s.Substring(0,5));
                 sb.Append("-");
                 sb.Append(s.Substring(5, 3));
                 return sb.ToString();
@@ -263,7 +263,8 @@ namespace YandehCarga
         {
             if (s is null) return null;
             var sb = new StringBuilder();
-            sb.Append(s[..2]);
+            sb.Append(s.Substring(0, 2));
+
             sb.Append(".");
             sb.Append(s.Substring(2, 3));
             sb.Append(".");
