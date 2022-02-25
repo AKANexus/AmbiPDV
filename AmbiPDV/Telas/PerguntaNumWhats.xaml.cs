@@ -132,7 +132,7 @@ namespace PDV_WPF.Telas
                                 MetodoPagto = "Vale Refeição";
                                 break;
                             case "12":
-                                MetodoPagto = "Vale Presente";
+                                MetodoPagto = "PIX";
                                 break;
                             case "13":
                                 MetodoPagto = "Vale Combustível";

@@ -2451,7 +2451,7 @@ namespace PDV_WPF.Telas
                             { "05", "Crédito Loja" },
                             { "10", "Vale Aliment." },
                             { "11", "Vale Refeição" },
-                            { "12", "Vale Presente" },
+                            { "12", "PIX" },
                             { "13", "Vale Combustível" },
                             { "20", "PIX" },
                             { "99", "Outros" }
@@ -3364,7 +3364,7 @@ namespace PDV_WPF.Telas
                             { "05", "Crédito Loja" },
                             { "10", "Vale Aliment." },
                             { "11", "Vale Refeição" },
-                            { "12", "Vale Presente" },
+                            { "12", "PIX" },
                             { "13", "Vale Combustível" },
                             { "20", "PIX" },
                             { "99", "Outros" }

@@ -64,6 +64,7 @@ namespace YandehCarga
         {
             if (_isRunning)
             {
+                e.Cancel = true;
                 this.WindowState = WindowState.Minimized;
                 return;
             }

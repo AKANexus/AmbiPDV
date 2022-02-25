@@ -207,7 +207,9 @@ namespace PDV_WPF.Telas
                     0, 0, "0", 0, 0, 0, 0, "0",
                     "0", "1949", "102", 0, 9, "S", produto.Item2);
                 seq++;
-                
+
+
+                TbEstoque_TA.UpdateQuery(produto.Item2, DateTime.Now, produto.Item1.ID_IDENTIFICADOR);
             }
 
             PrintDEVOL.IMPRIME(idDevol, vlrDev);
