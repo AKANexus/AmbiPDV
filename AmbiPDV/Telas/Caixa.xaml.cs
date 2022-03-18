@@ -1453,32 +1453,16 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
+                    log.Debug($"ACREFERENCIA é {ACREFERENCIA.ToBool()}");
+
                     if (int.TryParse(combobox.Text, out int tentativa_conversao_cod))
                     {
-                        log.Debug($"ACREFERENCIA é {ACREFERENCIA.ToBool()}");
-                        switch (ACREFERENCIA.ToBool())
+                        object objItemEncontrado = mvm.LstProdutos.First(item => item.COD_BARRA.Equals(pInput) ||
+                            item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
+                        if (objItemEncontrado != null)
                         {
-                            case true:
-                                object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => (item.COD_BARRA.Equals(pInput) ||
-                                                                                                      item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod) ||
-                                                                                                      item.REFERENCIA.Equals(pInput)) && item.STATUS == "A");
-                                if (objItemEncontrado_with_ref != null)
-                                {
-                                    log.Debug("Encontrou um item pela referência");
-                                    combobox.SelectedItem = objItemEncontrado_with_ref;
-                                }
-                                break;
-                            case false:
-                            default:
-                                object objItemEncontrado = mvm.LstProdutos.First(item => item.COD_BARRA.Equals(pInput) ||
-                                                                                                      item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
-                                if (objItemEncontrado != null)
-                                {
-                                    combobox.SelectedItem = objItemEncontrado;
-                                }
-                                break;
+                            combobox.SelectedItem = objItemEncontrado;
                         }
-
                     }
                     else
                     {
@@ -1486,6 +1470,16 @@ namespace PDV_WPF.Telas
                         if (objItemEncontrado != null)
                         {
                             combobox.SelectedItem = objItemEncontrado;
+                        }
+                    }
+
+                    if (combobox.SelectedItem != null && ACREFERENCIA.ToBool())
+                    {
+                        object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => item.REFERENCIA.Equals(pInput) && item.STATUS == "A");
+                        if (objItemEncontrado_with_ref != null)
+                        {
+                            log.Debug("Encontrou um item pela referência");
+                            combobox.SelectedItem = objItemEncontrado_with_ref;
                         }
                     }
                 }

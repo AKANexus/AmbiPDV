@@ -9,7 +9,11 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SaidaDeRemessa", "SaidaDeRemessa\SaidaDeRemessa.csproj", "{D4A65774-1E0D-4D20-81B9-C4199A66EFC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YandehCarga", "YandehCarga\YandehCarga.csproj", "{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YandehCarga", "YandehCarga\YandehCarga.csproj", "{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relatórios", "Relatórios\Relatórios.csproj", "{41CF2797-A2BA-41B5-8810-517F513451DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Relatórios2", "Relatórios2\Relatórios2.csproj", "{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,6 +94,42 @@ Global
 		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x64.Build.0 = Debug|Any CPU
 		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x86.ActiveCfg = Debug|Any CPU
 		{BBF88BE4-FBA5-4706-B3A6-179AC2AF3455}.Remote Debug|x86.Build.0 = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Debug|x64.Build.0 = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Debug|x86.Build.0 = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Release|x64.ActiveCfg = Release|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Release|x64.Build.0 = Release|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Release|x86.ActiveCfg = Release|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Release|x86.Build.0 = Release|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Remote Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Remote Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Remote Debug|x64.ActiveCfg = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Remote Debug|x64.Build.0 = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Remote Debug|x86.ActiveCfg = Debug|Any CPU
+		{41CF2797-A2BA-41B5-8810-517F513451DB}.Remote Debug|x86.Build.0 = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Debug|x64.Build.0 = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Debug|x86.Build.0 = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Release|x64.ActiveCfg = Release|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Release|x64.Build.0 = Release|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Release|x86.ActiveCfg = Release|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Release|x86.Build.0 = Release|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Remote Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Remote Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Remote Debug|x64.ActiveCfg = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Remote Debug|x64.Build.0 = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Remote Debug|x86.ActiveCfg = Debug|Any CPU
+		{FA342AAE-DEBF-41C5-A1AC-0ADC5C94A3A8}.Remote Debug|x86.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
