@@ -71,24 +71,18 @@ namespace PDV_WPF.Telas
                     string hash = GenerateHash(txb_Senha1.Password);
 
                     using (var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) })
-                    using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
-                    using (var taUsersPdv = new FDBDataSetTableAdapters.TRI_PDV_USERSTableAdapter())
                     using (var taUsersServ = new FDBDataSetTableAdapters.TRI_PDV_USERSTableAdapter())
                     using (var taFuncPapelServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_PAPELTableAdapter())
                     {
-                        taUsersPdv.Connection = LOCAL_FB_CONN;
                         taUsersServ.Connection = SERVER_FB_CONN;
-
                         taFuncPapelServ.Connection = SERVER_FB_CONN;
 
                         if (taFuncPapelServ.ChecaSeEGerente(indice) == 1)
                         {
-                            taUsersPdv.NovoUsuario(indice, txb_Usuario.Text, hash, "SIM");
                             taUsersServ.NovoUsuario(indice, txb_Usuario.Text, hash, "SIM");
                         }
                         else
                         {
-                            taUsersPdv.NovoUsuario(indice, txb_Usuario.Text, hash, "NAO");
                             taUsersServ.NovoUsuario(indice, txb_Usuario.Text, hash, "NAO");
                         }
                     }
