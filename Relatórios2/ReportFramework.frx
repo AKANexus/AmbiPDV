@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="02/25/2022 12:29:15" ReportInfo.Modified="03/15/2022 13:03:06" ReportInfo.CreatorVersion="2022.1.0.0">
+  <Dictionary>
+    <BusinessObjectDataSource Name="Vendas" ReferenceName="Vendas" DataType="null" Enabled="true">
+      <BusinessObjectDataSource Name="BusinessObjectDataSource1" Alias="Vendas" DataType="null" PropName="Vendas" Enabled="true">
+        <Column Name="ValorTotal" DataType="System.Decimal"/>
+        <BusinessObjectDataSource Name="BusinessObjectDataSource2" Alias="Pagamentos" DataType="null" PropName="Pagamentos" Enabled="true">
+          <Column Name="FormaPagamento" DataType="System.String"/>
+          <Column Name="ValorPagamento" DataType="System.Decimal"/>
+        </BusinessObjectDataSource>
+        <Column Name="NumCupom" DataType="System.String"/>
+        <Column Name="TsVenda" DataType="System.DateTime"/>
+      </BusinessObjectDataSource>
+      <Column Name="StartDate" DataType="System.DateTime"/>
+      <Column Name="EndDate" DataType="System.DateTime"/>
+      <BusinessObjectDataSource Name="BusinessObjectDataSource3" Alias="SomaPagamentos" DataType="null" PropName="SomaPagamentos" Enabled="true">
+        <Column Name="FormaPagamento" DataType="System.String"/>
+        <Column Name="ValorPagamento" DataType="System.Decimal"/>
+      </BusinessObjectDataSource>
+    </BusinessObjectDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" Watermark.Font="Arial, 60pt">
+    <ReportTitleBand Name="ReportTitle1" Width="718.2" Height="37.8">
+      <TextObject Name="Text1" Width="718.2" Height="37.8" Text="Relatório de Vendas" HorzAlign="Center" Font="Microsoft Sans Serif, 24pt"/>
+    </ReportTitleBand>
+    <PageHeaderBand Name="PageHeader1" Top="40.09" Width="718.2" Height="37.8">
+      <TextObject Name="Text2" Top="9.45" Width="718.2" Height="18.9" Text="Período de [Vendas.StartDate] a [Vendas.EndDate]" HorzAlign="Center" Font="Microsoft Sans Serif, 12pt"/>
+    </PageHeaderBand>
+    <DataBand Name="Data1" Top="131.6" Width="718.2" Height="28.35" DataSource="BusinessObjectDataSource1">
+      <TableObject Name="Table7" Left="47.25" Top="9.45" Width="623.7" Height="18.9" Border.Lines="Bottom">
+        <TableColumn Name="Column30" Width="207.9"/>
+        <TableColumn Name="Column31" Width="207.9"/>
+        <TableColumn Name="Column32" Width="207.9"/>
+        <TableRow Name="Row16">
+          <TableCell Name="Cell75" Text="[Vendas.Vendas.TSVenda]" Format="Date" Format.Format="d" VertAlign="Center" Font="Microsoft Sans Serif, 10pt"/>
+          <TableCell Name="Cell76" Text="[Vendas.Vendas.NumCupom]" VertAlign="Center" Font="Microsoft Sans Serif, 10pt"/>
+          <TableCell Name="Cell77" Text="[Vendas.Vendas.ValorTotal]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" VertAlign="Center" Font="Microsoft Sans Serif, 10pt"/>
+        </TableRow>
+      </TableObject>
+      <DataHeaderBand Name="DataHeader1" Top="80.17" Width="718.2" Height="49.14">
+        <TextObject Name="Text3" Left="47.25" Top="9.45" Width="623.7" Height="18.9" Fill.Color="LightGray" Text="Vendas" HorzAlign="Center" Font="Microsoft Sans Serif, 10pt"/>
+        <TableObject Name="Table3" Left="47.25" Top="28.35" Width="623.7" Height="20.79" Fill.Color="LightGray">
+          <TableColumn Name="Column10" Width="207.9"/>
+          <TableColumn Name="Column11" Width="207.9"/>
+          <TableColumn Name="Column12" Width="207.9"/>
+          <TableRow Name="Row11" Height="20.79">
+            <TableCell Name="Cell50" Text="Data" Font="Microsoft Sans Serif, 10pt"/>
+            <TableCell Name="Cell51" Text="Nº Cupom" Font="Microsoft Sans Serif, 10pt"/>
+            <TableCell Name="Cell52" Text="Valor Total" Font="Microsoft Sans Serif, 10pt"/>
+          </TableRow>
+        </TableObject>
+      </DataHeaderBand>
+      <DataBand Name="Data2" Top="162.23" Width="718.2" Height="18.9" DataSource="BusinessObjectDataSource2">
+        <TextObject Name="Text4" Left="255.15" Width="207.9" Height="18.9" Text="[Vendas.Vendas.Pagamentos.FormaPagamento]" Font="Arial, 10pt"/>
+        <TextObject Name="Text5" Left="463.05" Width="207.9" Height="18.9" Text="[Vendas.Vendas.Pagamentos.ValorPagamento]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" HorzAlign="Right" Font="Arial, 10pt"/>
+      </DataBand>
+    </DataBand>
+    <DataBand Name="Data3" Top="232.95" Width="718.2" Height="18.9" DataSource="BusinessObjectDataSource3">
+      <TableObject Name="Table9" Left="47.25" Width="226.77" Height="18.9" Fill.Color="LightGray">
+        <TableColumn Name="Column35" Width="127.56"/>
+        <TableColumn Name="Column36" Width="99.21"/>
+        <TableRow Name="Row19">
+          <TableCell Name="Cell85" Border.Lines="Bottom" Fill.Color="White" Text="[Vendas.SomaPagamentos.FormaPagamento]" Font="Arial, 10pt"/>
+          <TableCell Name="Cell86" Border.Lines="Bottom" Fill.Color="White" Text="[Vendas.SomaPagamentos.ValorPagamento]" Format="Currency" Format.UseLocale="true" Format.DecimalDigits="2" Font="Arial, 10pt"/>
+        </TableRow>
+      </TableObject>
+      <DataHeaderBand Name="DataHeader2" Top="183.42" Width="718.2" Height="47.25">
+        <TableObject Name="Table8" Left="47.25" Top="9.45" Width="226.78" Height="37.8">
+          <TableColumn Name="Column33" Width="132.29"/>
+          <TableColumn Name="Column34" Width="94.49"/>
+          <TableRow Name="Row17">
+            <TableCell Name="Cell78" Fill.Color="LightGray" Text="Somatória" HorzAlign="Center" Font="Arial, 10pt" ColSpan="2"/>
+            <TableCell Name="Cell79" Font="Arial, 10pt"/>
+          </TableRow>
+          <TableRow Name="Row18">
+            <TableCell Name="Cell83" Fill.Color="LightGray" Text="Forma Pagto." Font="Arial, 10pt"/>
+            <TableCell Name="Cell84" Fill.Color="LightGray" Text="Total" Font="Arial, 10pt"/>
+          </TableRow>
+        </TableObject>
+      </DataHeaderBand>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="254.14" Width="718.2" Height="18.9">
+      <TextObject Name="Text6" Left="642.6" Width="75.6" Height="18.9" Text="[PageN]" Font="Microsoft Sans Serif, 10pt"/>
+    </PageFooterBand>
+  </ReportPage>
+</Report>

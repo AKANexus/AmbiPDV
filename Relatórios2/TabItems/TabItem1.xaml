@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="Relatórios2.TabItems.TabItem1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Relatórios2.TabItems"
+             xmlns:relatórios2="clr-namespace:Relatórios2"
+             mc:Ignorable="d" 
+             MinHeight="170" MinWidth="250">
+    <UserControl.DataContext>
+        <relatórios2:TabItem1VM/>
+    </UserControl.DataContext>
+    <Grid>
+        <Grid Margin="15">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Data Inicial:" VerticalAlignment="Top"/>
+            <DatePicker Grid.Column="1" Grid.Row="0" SelectedDate="{Binding StartDate}" d:SelectedDate="2022/02/22" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Text="Data Final:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top"/>
+            <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding EndDate}" d:SelectedDate="2022/02/22" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Gerar Relatório..." VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" Command="{Binding GerarRelatório}"/>
+        </Grid>
+    </Grid>
+</UserControl>

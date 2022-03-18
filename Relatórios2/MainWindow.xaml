@@ -1,0 +1,17 @@
+﻿<Window x:Class="Relatórios2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Relatórios2"
+        xmlns:tabItems="clr-namespace:Relatórios2.TabItems"
+        mc:Ignorable="d" SizeToContent="WidthAndHeight"
+        Title="MainWindow" MinHeight="170" MinWidth="250">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Vendas por Forma de Pgto.">
+                <tabItems:TabItem1/>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
