@@ -1011,7 +1011,7 @@ namespace PDV_WPF.Telas
                                 itemEncontradoAcbox.REFERENCIA = itemAlterado.ORIGEM_TB.Equals("TB_EST_PRODUTO") ? itemAlterado.REFERENCIA.Safestring() : itemEncontradoAcbox.REFERENCIA;
                             }
                         }
-                        
+
 
                     }
                     catch (Exception ex)
@@ -1453,41 +1453,42 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
+                    log.Debug($"Tentando converter {combobox.Text} em int");
                     if (int.TryParse(combobox.Text, out int tentativa_conversao_cod))
                     {
-                        log.Debug($"ACREFERENCIA é {ACREFERENCIA.ToBool()}");
-                        switch (ACREFERENCIA.ToBool())
-                        {
-                            case true:
-                                object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => (item.COD_BARRA.Equals(pInput) ||
-                                                                                                      item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod) ||
-                                                                                                      item.REFERENCIA.Equals(pInput)) && item.STATUS == "A");
-                                if (objItemEncontrado_with_ref != null)
-                                {
-                                    log.Debug("Encontrou um item pela referência");
-                                    combobox.SelectedItem = objItemEncontrado_with_ref;
-                                }
-                                break;
-                            case false:
-                            default:
-                                object objItemEncontrado = mvm.LstProdutos.First(item => item.COD_BARRA.Equals(pInput) ||
-                                                                                                      item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
-                                if (objItemEncontrado != null)
-                                {
-                                    combobox.SelectedItem = objItemEncontrado;
-                                }
-                                break;
-                        }
+                        log.Debug($"Convertido em int: {tentativa_conversao_cod}");
 
-                    }
-                    else
-                    {
-                        object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
+                        object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) ||
+                                                                                              item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
                         if (objItemEncontrado != null)
                         {
+                            log.Debug($"Achei");
                             combobox.SelectedItem = objItemEncontrado;
                         }
                     }
+                    else
+                    {
+                        log.Debug("Não converti em int");
+                        object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
+                        if (objItemEncontrado != null)
+                        {
+                            log.Debug("Achei");
+                            combobox.SelectedItem = objItemEncontrado;
+                        }
+                    }
+                    log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
+                    if (combobox.SelectedItem == null)
+                    {
+                        log.Debug("Procurando por referência");
+                        object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
+                        if (objItemEncontrado_with_ref != null)
+                        {
+                            log.Debug("Encontrou um item pela referência");
+                            combobox.SelectedItem = objItemEncontrado_with_ref;
+                        }
+                    }
+                    log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
+
                 }
                 catch (Exception ex)
                 {
@@ -5289,7 +5290,7 @@ namespace PDV_WPF.Telas
             vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);
             return ImprimeESalvaCupomFiscal(pFechamento, xmlret, cFeDeRetorno);
         }
-        
+
         private void ProcessarTextoNoACBox()
         {
             string input = combobox.Text;

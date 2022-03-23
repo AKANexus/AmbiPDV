@@ -202,6 +202,8 @@ namespace PDV_WPF.Controls
 
         int FindMatchingPrefix(string s)
         {
+            if (string.IsNullOrWhiteSpace(s)) return -1;
+            if (_CompletionStrings.Count == 0) return -1;
             int index = _CompletionStrings.BinarySearch(s, StringComparer.CurrentCultureIgnoreCase);
             if (index >= 0) return index;
             index = ~index;

@@ -2035,7 +2035,7 @@ namespace PDV_WPF.Funcoes
             }
         }
 
-        public void Sync_TB_EST_PRODUTO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa, List<ComboBoxBindingDTO_Produto_Sync> retornoProdutosAlterados)
+        public void Sync_TB_EST_PRODUTO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa, ref List<ComboBoxBindingDTO_Produto_Sync> retornoProdutosAlterados)
         {
             using (var tblEstProdutoPdv = new FDBDataSetOperSeed.TB_EST_PRODUTODataTable())
             using (var tblEstProdutoServ = new FDBDataSetOperSeed.TB_EST_PRODUTODataTable())
@@ -7365,7 +7365,7 @@ namespace PDV_WPF.Funcoes
                     }
                     try
                     {
-                        Sync_TB_EST_PRODUTO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa, retornoProdutosAlterados);
+                        Sync_TB_EST_PRODUTO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa, ref retornoProdutosAlterados);
                         log.Debug("Produtos sincronizados");
                     }
                     catch (Exception ex)
