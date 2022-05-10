@@ -5287,6 +5287,11 @@ namespace PDV_WPF.Telas
             {
                 cFeDeRetorno = (CFe)serializer.Deserialize(xreader);
             }
+
+            for (int i = 0; i < cFeDeRetorno.infCFe.det.Length; i++)
+            {
+                cFeDeRetorno.infCFe.det[i].prod.vUnComOri = vendaAtual.RetornaCFe().infCFe.det[i].prod.vUnComOri;
+            }
             vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);
             return ImprimeESalvaCupomFiscal(pFechamento, xmlret, cFeDeRetorno);
         }

@@ -88,12 +88,6 @@ namespace PDV_WPF.Objetos
             return _cFe;
         }
 
-        [Obsolete("", true)]
-        public List<envCFeCFeInfCFeDet> RetornaListaDets()
-        {
-            return _listaDets;
-        }
-
         public Venda()
         {
             _cFe = new CFe();
@@ -760,6 +754,7 @@ namespace PDV_WPF.Objetos
                     _imposto.COFINSST = _COFINSST;
                 _det.imposto = _imposto;
             }
+            _det.prod.vUnComOri = _det.prod.vUnCom;
             _listaDets.Add(_det);
             _produtoRecebido = _ICMSrecebido = _PISrecebido = _COFINSrecebido = _ISSQNRecebido = false;
             return true;
@@ -780,18 +775,6 @@ namespace PDV_WPF.Objetos
             //    _listaDets[i].nItem = (i + 1).ToString();
             //}
             return a_remover.prod;
-        }
-
-        /// <summary>
-        /// Remove um produto da venda atual.
-        /// </summary>
-        /// <param name="detARemover"></param>
-        /// <returns></returns>
-        [Obsolete("", true)]
-        public envCFeCFeInfCFeDetProd RemoveProduto(envCFeCFeInfCFeDet detARemover)
-        {
-            _listaDets.Remove(detARemover);
-            return detARemover.prod;
         }
 
         /// <summary>
@@ -1522,8 +1505,8 @@ namespace PDV_WPF.Objetos
                     {
                         if (det.prod.cProd == item.cod)
                         {
-                            //det.descAtacado = ((decimal.Parse(det.prod.vUnCom) - info.PRC_ATACADO) * decimal.Parse(det.prod.qCom));
                             det.prod.vUnComOri = det.prod.vUnCom;
+                            //det.descAtacado = ((decimal.Parse(det.prod.vUnCom) - info.PRC_ATACADO) * decimal.Parse(det.prod.qCom));
                             det.prod.vUnCom = info.PRC_ATACADO.ToString("0.000");
                             det.atacado = true;
                         }

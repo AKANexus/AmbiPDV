@@ -423,8 +423,8 @@ namespace PDV_WPF.Funcoes
                 var request = new RestRequest(Method.POST);
                 JSONRequestBody requestBody = new JSONRequestBody()
                 {
-                    serial = "PDV0146AAHI0688",
-                    documento = "14.839.018/0001-96".TiraPont()
+                    serial = _serial,
+                    documento =  EMITENTE_DT.Rows[0]["CNPJ"].ToString().TiraPont()
                 };
                 request.AddHeader("Content-Type", "application/json");
                 request.AddJsonBody(requestBody);

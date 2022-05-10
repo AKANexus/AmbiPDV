@@ -1774,18 +1774,18 @@ namespace PDV_WPF
                 foreach (Produto prod in produtos)
                 {
                     RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
-                    RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorunit.ToString("n2"), corpo, esquerda, 0);
-                    RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("n2") + ")", corpo, esquerda, 0);
-                    RecebePrint(prod.valortotal.ToString("n2"), corpo, direita, 1);
+                    RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorOriginal.ToString("n2"), corpo, esquerda, 0);
+                    RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorOriginal * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("n2") + ")", corpo, esquerda, 0);
+                    RecebePrint((prod.valorOriginal * prod.qtde).ToString("n2"), corpo, direita, 1);
                     if (prod.desconto > 0)
                     {
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
                     }
-                    if (prod.valorOriginal != 0)
+                    if (prod.valorOriginal != prod.valorunit)
                     {
-                        RecebePrint("ATACADO - Valor reduzido de", italico, esquerda, 0);
-                        RecebePrint("-" + prod.valorOriginal.ToString("n2"), italico, direita, 1);
+                        RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
+                        RecebePrint("-" + prod.valorunit.ToString("n2"), italico, direita, 1);
 
                     }
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
@@ -2193,9 +2193,9 @@ namespace PDV_WPF
                         default:
                         case false:
                             RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
-                            RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorunit).ToString("n2"), corpo, esquerda, 0);
-                            RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + ((prod.valorunit) * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("n2") + ")", corpo, esquerda, 0);
-                            RecebePrint((prod.valortotal.ToString("n2")), corpo, direita, 1);
+                            RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorOriginal).ToString("n2"), corpo, esquerda, 0);
+                            RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + ((prod.valorOriginal) * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("n2") + ")", corpo, esquerda, 0);
+                            RecebePrint(((prod.valorOriginal * prod.qtde).ToString("n2")), corpo, direita, 1);
                             break;
                     }
                     if (prod.desconto > 0)
@@ -2203,10 +2203,10 @@ namespace PDV_WPF
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
                     }
-                    if (prod.valorOriginal != 0)
+                    if (prod.valorOriginal != prod.valorunit)
                     {
-                        RecebePrint("ATACADO - Valor reduzido de", italico, esquerda, 0);
-                        RecebePrint("-" + prod.valorOriginal.ToString("n2"), italico, direita, 1);
+                        RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
+                        RecebePrint("-" + prod.valorunit.ToString("n2"), italico, direita, 1);
 
                     }
                     subtotal += prod.valortotal - prod.desconto;

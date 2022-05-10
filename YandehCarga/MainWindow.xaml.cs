@@ -34,10 +34,6 @@ namespace YandehCarga
         public MainWindow()
         {
             InitializeComponent();
-            if (Environment.GetCommandLineArgs().Contains("-logging"))
-            {
-                _isDebugEnabled = true;
-            }
             Logger.Start(new FileInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 "Trilha Informatica", $"Logs\\YandehCarga-{DateTime.Today:ddMMyy}.log")));
             Logger.IgnoreDebug = !_isDebugEnabled;
