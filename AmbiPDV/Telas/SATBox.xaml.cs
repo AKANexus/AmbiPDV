@@ -35,6 +35,7 @@ namespace PDV_WPF.Telas
             timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, SATTIMEOUT >= 1500 ? SATTIMEOUT : 1500), DispatcherPriority.Normal, ChecaManualmentePorNovaEntrada, Dispatcher);
             try
             {
+                revent.Open();
                 revent.RemoteEventCounts += new EventHandler<FbRemoteEventCountsEventArgs>(OnEvent);
                 revent.QueueEvents(new [] { "NOVA_RESP_RECEBIDA" });
                 timer.IsEnabled = true;
