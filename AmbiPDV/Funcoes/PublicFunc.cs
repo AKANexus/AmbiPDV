@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Threading;
+using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 
@@ -55,6 +56,7 @@ namespace PDV_WPF
         //    }
         //    return _valor;
         //}
+        FuncoesFirebird ff = new();
         public decimal CalculaValorEmCaixa(int ID_CAIXA)
         {
             decimal _valor = 0;
@@ -66,9 +68,15 @@ namespace PDV_WPF
 
                 SVF_TA.Connection = PDV_OperTA.Connection = LOCAL_FB_CONN;
                 DateTime abertura = (DateTime)PDV_OperTA.GetByCaixaAberto(NO_CAIXA)[0]["CURRENTTIME"];
-                decimal vendasFiscais = ((decimal?)SVF_TA.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now) ?? 0M);
-                decimal vendasNaoFiscais = ((decimal?)SVF_TA.SomaDeValores(abertura, 1, "N" + NO_CAIXA.ToString(), DateTime.Now) ?? 0M);
-                decimal vendasECF = ((decimal?)SVF_TA.SomaDeValores(abertura, 1, "E" + NO_CAIXA.ToString(), DateTime.Now) ?? 0M);
+
+                decimal vendasFiscais = ff.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now, LOCAL_FB_CONN);
+                decimal vendasNaoFiscais = ff.SomaDeValores(abertura, 1, "N" + NO_CAIXA, DateTime.Now, LOCAL_FB_CONN);
+                decimal vendasECF = 0;
+
+
+                //decimal vendasFiscais = (decimal?)SVF_TA.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now) ?? 0M;
+                //decimal vendasNaoFiscais = (decimal?)SVF_TA.SomaDeValores(abertura, 1, "N" + NO_CAIXA, DateTime.Now) ?? 0M;
+                //decimal vendasECF = (decimal?)SVF_TA.SomaDeValores(abertura, 1, "E" + NO_CAIXA, DateTime.Now) ?? 0M;
 
                 decimal totalRecebidoEmDinheiro = (vendasFiscais + vendasNaoFiscais + vendasECF);
 

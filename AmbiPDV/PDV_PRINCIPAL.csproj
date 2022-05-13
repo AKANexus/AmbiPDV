@@ -549,6 +549,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="REMENDOOOOO\FuncoesFirebird.cs" />
     <Compile Include="SWAT\DBReset.xaml.cs">
       <DependentUpon>DBReset.xaml</DependentUpon>
     </Compile>
