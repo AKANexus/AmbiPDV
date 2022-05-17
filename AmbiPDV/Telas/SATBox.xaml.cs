@@ -33,22 +33,22 @@ namespace PDV_WPF.Telas
         {
             InitializeComponent();
             timer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, SATTIMEOUT >= 1500 ? SATTIMEOUT : 1500), DispatcherPriority.Normal, ChecaManualmentePorNovaEntrada, Dispatcher);
-            try
-            {
-                revent.Open();
-                revent.RemoteEventCounts += new EventHandler<FbRemoteEventCountsEventArgs>(OnEvent);
-                revent.QueueEvents(new [] { "NOVA_RESP_RECEBIDA" });
-                timer.IsEnabled = true;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                FecharJanela(false);
-                return;
-            }
+			try
+			{
+				revent.Open();
+				revent.RemoteEventCounts += new EventHandler<FbRemoteEventCountsEventArgs>(OnEvent);
+				revent.QueueEvents(new[] { "NOVA_RESP_RECEBIDA" });
+				timer.IsEnabled = true;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+				FecharJanela(false);
+				return;
+			}
 
-            #region Preparação de Interface - Não alterar
-            tbl_Body.Inlines.Clear();
+			#region Preparação de Interface - Não alterar
+			tbl_Body.Inlines.Clear();
             lbl_Title.Text = title.ToUpper();
             Run run = new Run
             {

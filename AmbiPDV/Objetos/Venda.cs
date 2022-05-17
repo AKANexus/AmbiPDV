@@ -1496,7 +1496,7 @@ namespace PDV_WPF.Objetos
                     cod = newGroup.Key,
                     qtdTotal = newGroup.Sum(x => decimal.Parse(x.prod.qCom))
                 };
-            foreach (var item in quantsCupom)
+             foreach (var item in quantsCupom)
             {
                 var info = TA_Atacado.GetInfo(int.Parse(item.cod))[0];
                 if (!info.IsQTD_ATACADONull() && !info.IsPRC_ATACADONull() && info.PRC_ATACADO > 0 && (item.qtdTotal >= info.QTD_ATACADO))
