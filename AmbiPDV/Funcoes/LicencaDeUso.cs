@@ -342,7 +342,7 @@ namespace PDV_WPF.Funcoes
             {
                 //Não passou na validaçao
                 VALIDA_TA.SoChecou(DateTime.Today, serial);
-                DialogBox.Show("Ativação do produto.", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possível validar a sua licença.", resultado[1]);
+                bool? v = DialogBox.Show("Ativação do produto.", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possível validar a sua licença.", serial + " bloqueado", "Motivo:", resultado[2]);
                 if (resultado[0] == "-100")
                 { VALIDA_TA.FezLogin(DateTime.Today, DateTime.Today, serial); }
                 else if (resultado[0] == "-700")
@@ -390,7 +390,7 @@ namespace PDV_WPF.Funcoes
         /// <returns></returns>
         private string[] VerificarSerialOnline(string _serial)
         {
-            if (_serial == "DRANGELAZIEGLERr")
+            if (_serial == "DRANGELAZIEGLER")
             {
                 var result = new string[3];
                 result[0] = "200";
