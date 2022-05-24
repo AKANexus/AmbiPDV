@@ -97,7 +97,9 @@ namespace YandehInstaller
                 EventLog.WriteEntry("Instalador Yandeh", exception.Message, EventLogEntryType.Error);
                 throw;
             }
-            Debugger.Break();
+
+            MessageBox.Show("Instalado com sucesso!\nVerifique se o serviço consta na lista de serviços.");
+            Environment.Exit(0);
 
         }
 
