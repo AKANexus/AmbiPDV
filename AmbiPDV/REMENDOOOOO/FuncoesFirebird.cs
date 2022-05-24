@@ -67,8 +67,8 @@ namespace PDV_WPF.REMENDOOOOO
             FbCommand command = new FbCommand();
             command.Connection = connection;
             command.CommandType = CommandType.Text;
-            string hrAbertura = DT_ABERTURA.ToString("hh:mm:ss");
-            string hrFechamento = DT_FECHAMENTO.ToString("hh:mm:ss");
+            string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss");
+            string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
             string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd");
             string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
 
