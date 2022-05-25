@@ -3754,106 +3754,106 @@ namespace PDV_WPF.Telas
                 }
             }
 
-            if (!_modoTeste && PERGUNTA_WHATS == 0)
-            {
-                try
-                {
-                    ultimaImpressao = VendaImpressa.IMPRIME(venda_prazo, cFeDeRetorno);
-                    if (vendaAtual.imprimeViaAssinar)
-                    {
-                        VendaImpressa.IMPRIME(1);
-                    }
-                    #region Cod antigo
-                    //using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
-                    //{
-                    //    if (usouTEF)
-                    //    {
-                    //        tefAtual.ConfirmarUltimaTransacao();
-                    //        foreach (var file in new DirectoryInfo(@"C:\PAYGO\OPER").GetFiles())
-                    //        {
-                    //            Dictionary<string, string> respostaCRT = General.LeResposta(file.FullName);
-                    //            using var taNsuPdv = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_NSUTableAdapter();
-                    //            int a = tiposDeTransacao.IndexOf(respostaCRT["011-000"]);
-                    //            if ((a == -1) || (respostaCRT["009-000"] != "0")) continue;
-                    //            taNsuPdv.Connection = LOCAL_FB_CONN;
-                    //            audit("NFISCAL", "TEF>> Executou a confirmação");
+            //if (!_modoTeste && PERGUNTA_WHATS == 0)
+            //{
+            //    try
+            //    {
+            //        ultimaImpressao = VendaImpressa.IMPRIME(venda_prazo, cFeDeRetorno);
+            //        if (vendaAtual.imprimeViaAssinar)
+            //        {
+            //            VendaImpressa.IMPRIME(1);
+            //        }
+            //        #region Cod antigo
+            //        //using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+            //        //{
+            //        //    if (usouTEF)
+            //        //    {
+            //        //        tefAtual.ConfirmarUltimaTransacao();
+            //        //        foreach (var file in new DirectoryInfo(@"C:\PAYGO\OPER").GetFiles())
+            //        //        {
+            //        //            Dictionary<string, string> respostaCRT = General.LeResposta(file.FullName);
+            //        //            using var taNsuPdv = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_NSUTableAdapter();
+            //        //            int a = tiposDeTransacao.IndexOf(respostaCRT["011-000"]);
+            //        //            if ((a == -1) || (respostaCRT["009-000"] != "0")) continue;
+            //        //            taNsuPdv.Connection = LOCAL_FB_CONN;
+            //        //            audit("NFISCAL", "TEF>> Executou a confirmação");
 
-                    //            //try
-                    //            //{
-                    //            //    string strRespostaCRT_013_000 = string.IsNullOrWhiteSpace(respostaCRT["013-000"]) ? "0" : respostaCRT["013-000"];
-                    //            //    Decimal.TryParse(respostaCRT["003-000"], out decimal vlr_oper);
-                    //            //    taNsuPdv.SP_TRI_SALVA_NSU(noCupom,
-                    //            //                              respostaCRT["012-000"],
-                    //            //                              respostaCRT["739-000"],
-                    //            //                              strRespostaCRT_013_000,
-                    //            //                              vlr_oper / 100);
-                    //            //    audit("ImprimirNaoFiscal", $"TEF>> NSU Salvo: Cupom: {noCupom}, NSU: {respostaCRT["012-000"]}, REDE: {respostaCRT["739-000"]}, CÓD AUTOR: {strRespostaCRT_013_000}");
+            //        //            //try
+            //        //            //{
+            //        //            //    string strRespostaCRT_013_000 = string.IsNullOrWhiteSpace(respostaCRT["013-000"]) ? "0" : respostaCRT["013-000"];
+            //        //            //    Decimal.TryParse(respostaCRT["003-000"], out decimal vlr_oper);
+            //        //            //    taNsuPdv.SP_TRI_SALVA_NSU(noCupom,
+            //        //            //                              respostaCRT["012-000"],
+            //        //            //                              respostaCRT["739-000"],
+            //        //            //                              strRespostaCRT_013_000,
+            //        //            //                              vlr_oper / 100);
+            //        //            //    audit("ImprimirNaoFiscal", $"TEF>> NSU Salvo: Cupom: {noCupom}, NSU: {respostaCRT["012-000"]}, REDE: {respostaCRT["739-000"]}, CÓD AUTOR: {strRespostaCRT_013_000}");
 
-                    //            //}
-                    //            //catch (Exception ex)
-                    //            //{
-                    //            //    gravarMensagemErro(RetornarMensagemErro(ex, true));
-                    //            //    MessageBox.Show("Erro ao gravar NSU. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                    //            //    //blnDeuRuimNsu = true; //deuruim();
-                    //            //}
+            //        //            //}
+            //        //            //catch (Exception ex)
+            //        //            //{
+            //        //            //    gravarMensagemErro(RetornarMensagemErro(ex, true));
+            //        //            //    MessageBox.Show("Erro ao gravar NSU. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+            //        //            //    //blnDeuRuimNsu = true; //deuruim();
+            //        //            //}
 
-                    //            if (true)
-                    //            {
-                    //                ComprovanteTEF.ReciboTEF = respostaCRT;
+            //        //            if (true)
+            //        //            {
+            //        //                ComprovanteTEF.ReciboTEF = respostaCRT;
 
-                    //                #region printdecision
-                    //                if (respostaCRT.ContainsKey("737-000") && (respostaCRT["737-000"] == "1" || respostaCRT["737-000"] == "3") || !respostaCRT.ContainsKey("737-000"))
-                    //                {
-                    //                    if (respostaCRT.ContainsKey("710-000") && respostaCRT["710-000"] != "0")
-                    //                    {
-                    //                        ComprovanteTEF.IMPRIME(0, 0, 0, 1);
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        if (respostaCRT.ContainsKey("712-000") && respostaCRT["712-000"] != "0")
-                    //                        {
-                    //                            ComprovanteTEF.IMPRIME(1, 0, 0, 0);
-                    //                        }
-                    //                        else
-                    //                        {
-                    //                            ComprovanteTEF.IMPRIME(0, 0, 1, 0);
-                    //                        }
-                    //                    }
-                    //                }
-                    //                if (respostaCRT.ContainsKey("737-000") && (respostaCRT["737-000"] == "2" || respostaCRT["737-000"] == "3") || !respostaCRT.ContainsKey("737-000"))
-                    //                {
-                    //                    if (respostaCRT.ContainsKey("714-000") && respostaCRT["714-000"] != "0")
-                    //                    {
-                    //                        ComprovanteTEF.IMPRIME(0, 1, 0, 0);
-                    //                    }
-                    //                    else
-                    //                    {
-                    //                        ComprovanteTEF.IMPRIME(0, 0, 1, 0);
-                    //                    }
-                    //                }
-                    //                #endregion
-                    //            }
-                    //        }
-                    //    }
-                    //}
-                    #endregion
+            //        //                #region printdecision
+            //        //                if (respostaCRT.ContainsKey("737-000") && (respostaCRT["737-000"] == "1" || respostaCRT["737-000"] == "3") || !respostaCRT.ContainsKey("737-000"))
+            //        //                {
+            //        //                    if (respostaCRT.ContainsKey("710-000") && respostaCRT["710-000"] != "0")
+            //        //                    {
+            //        //                        ComprovanteTEF.IMPRIME(0, 0, 0, 1);
+            //        //                    }
+            //        //                    else
+            //        //                    {
+            //        //                        if (respostaCRT.ContainsKey("712-000") && respostaCRT["712-000"] != "0")
+            //        //                        {
+            //        //                            ComprovanteTEF.IMPRIME(1, 0, 0, 0);
+            //        //                        }
+            //        //                        else
+            //        //                        {
+            //        //                            ComprovanteTEF.IMPRIME(0, 0, 1, 0);
+            //        //                        }
+            //        //                    }
+            //        //                }
+            //        //                if (respostaCRT.ContainsKey("737-000") && (respostaCRT["737-000"] == "2" || respostaCRT["737-000"] == "3") || !respostaCRT.ContainsKey("737-000"))
+            //        //                {
+            //        //                    if (respostaCRT.ContainsKey("714-000") && respostaCRT["714-000"] != "0")
+            //        //                    {
+            //        //                        ComprovanteTEF.IMPRIME(0, 1, 0, 0);
+            //        //                    }
+            //        //                    else
+            //        //                    {
+            //        //                        ComprovanteTEF.IMPRIME(0, 0, 1, 0);
+            //        //                    }
+            //        //                }
+            //        //                #endregion
+            //        //            }
+            //        //        }
+            //        //    }
+            //        //}
+            //        #endregion
 
-                    if (PERMITE_ESTOQUE_NEGATIVO == null && RelNegativ.produtos.Count > 0)
-                    {
-                        log.Debug("Relatório de Itens negativos impresso.");
-                        RelNegativ.IMPRIME();
-                    }
+            //        if (PERMITE_ESTOQUE_NEGATIVO == null && RelNegativ.produtos.Count > 0)
+            //        {
+            //            log.Debug("Relatório de Itens negativos impresso.");
+            //            RelNegativ.IMPRIME();
+            //        }
 
-                    noCupom = 0;
-                    //usouTEF = false;
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Erro ao imprimir e salvar cupom fiscal", ex);
-                    MessageBox.Show("FinalizaNoSATLocal - Falha na impressão");
-                    return false;
-                }
-            }
+            //        noCupom = 0;
+            //        //usouTEF = false;
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        log.Error("Erro ao imprimir e salvar cupom fiscal", ex);
+            //        MessageBox.Show("FinalizaNoSATLocal - Falha na impressão");
+            //        return false;
+            //    }
+            //}
             DecisaoWhats resultado;
             switch (SYSEMITECOMPROVANTE)
             {
