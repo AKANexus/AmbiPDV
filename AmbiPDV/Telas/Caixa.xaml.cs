@@ -2681,7 +2681,6 @@ namespace PDV_WPF.Telas
                     whats.ShowDialog();
                     numeroWhats = whats.number.ToString();
                     log.Debug("PASSOU PELO PERGUNTA WHATS NFISCAL");
-
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
@@ -3865,7 +3864,7 @@ namespace PDV_WPF.Telas
                     switch (SYSUSAWHATS.ToBool())
                     {
                         case false:
-                            resultado = DecisaoWhats.NaoImprime;
+                            resultado = DecisaoWhats.ImpressaoNormal;
                             break;
                         default:
                             resultado = DecisaoComprovante(true);
@@ -3888,6 +3887,8 @@ namespace PDV_WPF.Telas
                     log.Debug("PASSOU PELO PERGUNTA WHATS FISCAL");
                     break;
                 case DecisaoWhats.NaoImprime:
+                    vendaAtual.imprimeViaCliente = false;
+                    if (FORÇA_GAVETA) AbreGaveta();
                     break;
 
                 case DecisaoWhats.ImpressaoNormal:
