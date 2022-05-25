@@ -174,7 +174,7 @@ namespace PDV_WPF.Telas
                 VendaDEMO.num_caixa = int.Parse(cupom.NF_SERIE.Replace("E", "").Replace("N", ""));
                 foreach (var item in Itens_DT)
                 {
-                    VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, 0, 0, 0, 0);
+                    VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, 0, 0, 0, 0, item.PRC_VENDA);
                 }
                 bool prazo = false;
                 foreach (var item in Pagtos_DT)
@@ -266,11 +266,11 @@ namespace PDV_WPF.Telas
                 {
                     Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun);
 
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, decimal.Parse(item.prod.vUnComOri));
                 }
                 else
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, _vUnCom);
                 }
 
             }

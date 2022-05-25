@@ -1782,10 +1782,10 @@ namespace PDV_WPF
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
                     }
-                    if (prod.valorOriginal != prod.valorunit)
+                    if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
-                        RecebePrint("-" + prod.valorunit.ToString("n2"), italico, direita, 1);
+                        RecebePrint(prod.valorunit.ToString("n2"), italico, direita, 1);
 
                     }
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
@@ -2206,7 +2206,7 @@ namespace PDV_WPF
                     if (prod.valorOriginal != prod.valorunit)
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
-                        RecebePrint("-" + prod.valorunit.ToString("n2"), italico, direita, 1);
+                        RecebePrint(prod.valorunit.ToString("n2"), italico, direita, 1);
 
                     }
                     subtotal += prod.valortotal - prod.desconto;
