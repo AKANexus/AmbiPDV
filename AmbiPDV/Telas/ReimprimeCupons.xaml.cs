@@ -302,7 +302,7 @@ namespace PDV_WPF.Telas
                 }
                 VendaImpressa.chavenfe = chavecfe;
                 VendaImpressa.TsOperacao =
-                    DateTime.ParseExact(cFeDeRetorno.infCFe.ide.dEmi + cFeDeRetorno.infCFe.ide.hEmi, "yyyyMMddhhmmss",
+                    DateTime.ParseExact(cFeDeRetorno.infCFe.ide.dEmi + cFeDeRetorno.infCFe.ide.hEmi, "yyyyMMddHHmmss",
                         ptBR);
                 VendaImpressa.assinaturaQRCODE = chavecfe + "|" +
                                          cFeDeRetorno.infCFe.ide.dEmi + cFeDeRetorno.infCFe.ide.hEmi + "|" +
