@@ -5049,1735 +5049,1744 @@ namespace PDV_WPF.Funcoes
         }
         private void Sync_Cupons_NFVVENDA(EnmTipoSync tipoSync)
         {
-
-            if (tipoSync == EnmTipoSync.vendas || tipoSync == EnmTipoSync.tudo)
+            try
             {
-                #region Padrão, unsynced
-
-                /// SP_TRI_CUPOM_GETALL_UNSYNCED
+                if (tipoSync == EnmTipoSync.vendas || tipoSync == EnmTipoSync.tudo)
                 {
-                    #region Cria objetos da transação
+                    #region Padrão, unsynced
 
-                    var taNfvendaUnsynced = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter();
-                    taNfvendaUnsynced.Connection.ConnectionString = _strConnContingency;
-
-                    var taSatPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter();
-                    taSatPdv.Connection.ConnectionString = _strConnContingency;
-
-                    var taSatCancPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter();
-                    taSatCancPdv.Connection.ConnectionString = _strConnContingency;
-
-                    var taNfvendaFmaPagtoNfcePdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
-                    taNfvendaFmaPagtoNfcePdv.Connection.ConnectionString = _strConnContingency;
-
-                    var taEstProdutoPdv = new TB_EST_PRODUTOTableAdapter();
-                    taEstProdutoPdv.Connection.ConnectionString = _strConnContingency;
-
-                    var taEstProdutoServ = new TB_EST_PRODUTOTableAdapter();
-                    taEstProdutoServ.Connection.ConnectionString = _strConnNetwork;
-
-                    var taNfvItemPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter();
-                    taNfvItemPdv.Connection.ConnectionString = _strConnContingency;
-
-                    var tblNfvendaUnsynced = new FDBDataSetVenda.TB_NFVENDADataTable();
-
-                    var tblNfvendaFmapagtoNfcePdv = new FDBDataSetVenda.TB_NFVENDA_FMAPAGTO_NFCEDataTable();
-
-                    var tblSatPdv = new FDBDataSetVenda.TB_SATDataTable();
-
-                    var tblSatCancPdv = new FDBDataSetVenda.TB_SAT_CANCDataTable();
-
-                    var tblCtaRecPdv = new FDBDataSet.TB_CONTA_RECEBERDataTable();
-
-                    var tblMovDiarioPdv = new FDBDataSet.TB_MOVDIARIODataTable();
-
-                    var tblNfvItemPdv = new FDBDataSetVenda.TB_NFV_ITEMDataTable();
-
-                    var tblNfvItemCofinsPdv = new FDBDataSetVenda.TB_NFV_ITEM_COFINSDataTable();
-
-                    var tblNfvItemPisPdv = new FDBDataSetVenda.TB_NFV_ITEM_PISDataTable();
-
-                    var tblNfvItemIcmsPdv = new FDBDataSetVenda.TB_NFV_ITEM_ICMSDataTable();
-
-                    var tblNfvItemStPdv = new FDBDataSetVenda.TB_NFV_ITEM_STDataTable();
-
-                    #endregion Cria objetos da transação
-
-                    List<AuxNfvFmaPgtoCtaRec> lstAuxNfvFmaPgtoCtaRec = new List<AuxNfvFmaPgtoCtaRec>();
-
-                    try
+                    /// SP_TRI_CUPOM_GETALL_UNSYNCED
                     {
-                        #region Prepara o lote inicial para sincronização
+                        #region Cria objetos da transação
 
-                        // Busca todos os cupons que foram finalizados mas não sincronizados (TIP_QUERY = 0):
-                        taNfvendaUnsynced.FillByNfvendaSync(tblNfvendaUnsynced, 0); // já usa sproc
-                        // Até o momento (23/02/2018), a quantidade de registros por lote 
-                        // fica definido na própria consulta de cupons (SP_TRI_CUPOM_GETALL_UNSYNCED).
-                        // O ideal seria que isso fosse parametrizado.
+                        var taNfvendaUnsynced = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter();
+                        taNfvendaUnsynced.Connection.ConnectionString = _strConnContingency;
 
-                        // Indica quantos lotes de cupons foram processados:
-                        int contLote = 0;
+                        var taSatPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter();
+                        taSatPdv.Connection.ConnectionString = _strConnContingency;
 
-                        #endregion Prepara o lote inicial para sincronização
+                        var taSatCancPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter();
+                        taSatCancPdv.Connection.ConnectionString = _strConnContingency;
 
-                        #region Procedimento executado enquanto houver cupons para sincronizar
+                        var taNfvendaFmaPagtoNfcePdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
+                        taNfvendaFmaPagtoNfcePdv.Connection.ConnectionString = _strConnContingency;
 
-                        if (tblNfvendaUnsynced != null && tblNfvendaUnsynced.Rows.Count > 0)
+                        var taEstProdutoPdv = new TB_EST_PRODUTOTableAdapter();
+                        taEstProdutoPdv.Connection.ConnectionString = _strConnContingency;
+
+                        var taEstProdutoServ = new TB_EST_PRODUTOTableAdapter();
+                        taEstProdutoServ.Connection.ConnectionString = _strConnNetwork;
+
+                        var taNfvItemPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter();
+                        taNfvItemPdv.Connection.ConnectionString = _strConnContingency;
+
+                        var tblNfvendaUnsynced = new FDBDataSetVenda.TB_NFVENDADataTable();
+
+                        var tblNfvendaFmapagtoNfcePdv = new FDBDataSetVenda.TB_NFVENDA_FMAPAGTO_NFCEDataTable();
+
+                        var tblSatPdv = new FDBDataSetVenda.TB_SATDataTable();
+
+                        var tblSatCancPdv = new FDBDataSetVenda.TB_SAT_CANCDataTable();
+
+                        var tblCtaRecPdv = new FDBDataSet.TB_CONTA_RECEBERDataTable();
+
+                        var tblMovDiarioPdv = new FDBDataSet.TB_MOVDIARIODataTable();
+
+                        var tblNfvItemPdv = new FDBDataSetVenda.TB_NFV_ITEMDataTable();
+
+                        var tblNfvItemCofinsPdv = new FDBDataSetVenda.TB_NFV_ITEM_COFINSDataTable();
+
+                        var tblNfvItemPisPdv = new FDBDataSetVenda.TB_NFV_ITEM_PISDataTable();
+
+                        var tblNfvItemIcmsPdv = new FDBDataSetVenda.TB_NFV_ITEM_ICMSDataTable();
+
+                        var tblNfvItemStPdv = new FDBDataSetVenda.TB_NFV_ITEM_STDataTable();
+
+                        #endregion Cria objetos da transação
+
+                        List<AuxNfvFmaPgtoCtaRec> lstAuxNfvFmaPgtoCtaRec = new List<AuxNfvFmaPgtoCtaRec>();
+
+                        try
                         {
-                            #region NOPE - CLIPP RULES NO MORE
-                            //taEstProdutoPdv.SP_TRI_BREAK_CLIPP_RULES();
-                            //taEstProdutoServ.SP_TRI_BREAK_CLIPP_RULES();
-                            #endregion NOPE - CLIPP RULES NO MORE
+                            #region Prepara o lote inicial para sincronização
 
-                            //TODO: ver uma saída pro loop infinito caso estourar exceção no sync
-                            // Detalhe: a 2ª condição poderia estourar uma exception se a 1ª fosse verdadeira e o operador 
-                            // fosse OR (||). Mas com o operador AND (&&), a 2ª condição nem é verificada se a 1ª for verdadeira.
-                            while (!(tblNfvendaUnsynced is null) && tblNfvendaUnsynced.Rows.Count > 0)
+                            // Busca todos os cupons que foram finalizados mas não sincronizados (TIP_QUERY = 0):
+                            taNfvendaUnsynced.FillByNfvendaSync(tblNfvendaUnsynced, 0); // já usa sproc
+                                                                                        // Até o momento (23/02/2018), a quantidade de registros por lote 
+                                                                                        // fica definido na própria consulta de cupons (SP_TRI_CUPOM_GETALL_UNSYNCED).
+                                                                                        // O ideal seria que isso fosse parametrizado.
+
+                            // Indica quantos lotes de cupons foram processados:
+                            int contLote = 0;
+
+                            #endregion Prepara o lote inicial para sincronização
+
+                            #region Procedimento executado enquanto houver cupons para sincronizar
+
+                            if (tblNfvendaUnsynced != null && tblNfvendaUnsynced.Rows.Count > 0)
                             {
-                                contLote++;
+                                #region NOPE - CLIPP RULES NO MORE
+                                //taEstProdutoPdv.SP_TRI_BREAK_CLIPP_RULES();
+                                //taEstProdutoServ.SP_TRI_BREAK_CLIPP_RULES();
+                                #endregion NOPE - CLIPP RULES NO MORE
 
-                                #region Sincroniza (manda para a retaguarda)
-
-                                // Percorre pelos cupons do banco local
-                                foreach (FDBDataSetVenda.TB_NFVENDARow nfvenda in tblNfvendaUnsynced.Rows)
+                                //TODO: ver uma saída pro loop infinito caso estourar exceção no sync
+                                // Detalhe: a 2ª condição poderia estourar uma exception se a 1ª fosse verdadeira e o operador 
+                                // fosse OR (||). Mas com o operador AND (&&), a 2ª condição nem é verificada se a 1ª for verdadeira.
+                                while (!(tblNfvendaUnsynced is null) && tblNfvendaUnsynced.Rows.Count > 0)
                                 {
-                                    int newIdNfvenda = 0;
+                                    contLote++;
 
-                                    #region Gravar a nfvenda na retaguarda (transação)
+                                    #region Sincroniza (manda para a retaguarda)
 
-                                    #region Validações
-
-                                    //// Foi necessário adaptar o COO como o ID_CUPOM negativo para sistema legado
-                                    //// Será que tem um equivalente para a NFVENDA?
-                                    //if (cupom.IsCOONull()) { cupom.COO = cupom.ID_CUPOM * -1; }
-                                    //if (cupom.IsNUM_CAIXANull()) { cupom.NUM_CAIXA = 0; }
-
-                                    #endregion Validações
-
-
-                                    //TransactionOptions to = new TransactionOptions();
-                                    //to.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
-
-                                    // Inicia a transação:
-                                    //using (var transactionScopeCupons = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0, 0)))
-                                    // Define a conexão com o banco do servidor:
-                                    // Define a conexão com o banco do PDV:
-                                    using (var fbConnServ = new FbConnection(_strConnNetwork))
-                                    using (var fbConnPdv = new FbConnection(_strConnContingency))
-                                    //using (var transactionScopeCupons = new TransactionScope(TransactionScopeOption.Required,
-                                    //                                                         new TransactionOptions() { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }
-                                    //                                                         )) //TODO: verificar se esse tipo de IsolationLevel é o mais indicado para essa situação
-                                    //using (var transactionScopeCupons = new TransactionScope())
+                                    // Percorre pelos cupons do banco local
+                                    foreach (FDBDataSetVenda.TB_NFVENDARow nfvenda in tblNfvendaUnsynced.Rows)
                                     {
-                                        // A função BeginTransaction() precisa de uma connection aberta... ¬¬
-                                        fbConnServ.Open();
-                                        fbConnPdv.Open();
+                                        int newIdNfvenda = 0;
 
-                                        using (var fbTransactServ = fbConnServ.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, _SyncTimeout) }))
-                                        using (var fbTransactPdv = fbConnPdv.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, _SyncTimeout) }))
+                                        #region Gravar a nfvenda na retaguarda (transação)
+
+                                        #region Validações
+
+                                        //// Foi necessário adaptar o COO como o ID_CUPOM negativo para sistema legado
+                                        //// Será que tem um equivalente para a NFVENDA?
+                                        //if (cupom.IsCOONull()) { cupom.COO = cupom.ID_CUPOM * -1; }
+                                        //if (cupom.IsNUM_CAIXANull()) { cupom.NUM_CAIXA = 0; }
+
+                                        #endregion Validações
+
+
+                                        //TransactionOptions to = new TransactionOptions();
+                                        //to.IsolationLevel = System.Transactions.IsolationLevel.Serializable;
+
+                                        // Inicia a transação:
+                                        //using (var transactionScopeCupons = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0, 0)))
+                                        // Define a conexão com o banco do servidor:
+                                        // Define a conexão com o banco do PDV:
+                                        using (var fbConnServ = new FbConnection(_strConnNetwork))
+                                        using (var fbConnPdv = new FbConnection(_strConnContingency))
+                                        //using (var transactionScopeCupons = new TransactionScope(TransactionScopeOption.Required,
+                                        //                                                         new TransactionOptions() { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }
+                                        //                                                         )) //TODO: verificar se esse tipo de IsolationLevel é o mais indicado para essa situação
+                                        //using (var transactionScopeCupons = new TransactionScope())
                                         {
-                                            try
+                                            // A função BeginTransaction() precisa de uma connection aberta... ¬¬
+                                            fbConnServ.Open();
+                                            fbConnPdv.Open();
+
+                                            using (var fbTransactServ = fbConnServ.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, _SyncTimeout) }))
+                                            using (var fbTransactPdv = fbConnPdv.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, _SyncTimeout) }))
                                             {
-                                                //int newIdNfvenda = 0;
-                                                //int newIdMaitPedidoServ = 0;
-                                                lstAuxNfvFmaPgtoCtaRec = null;
-                                                lstAuxNfvFmaPgtoCtaRec = new List<AuxNfvFmaPgtoCtaRec>();
-
-                                                #region Gravar a nfvenda no servidor (capa)
-
-                                                using (var fbCommNfvendaSyncInsertServ = new FbCommand())
+                                                try
                                                 {
-                                                    #region Prepara o comando da SP_TRI_NFVENDA_SYNC_INSERT
+                                                    //int newIdNfvenda = 0;
+                                                    //int newIdMaitPedidoServ = 0;
+                                                    lstAuxNfvFmaPgtoCtaRec = null;
+                                                    lstAuxNfvFmaPgtoCtaRec = new List<AuxNfvFmaPgtoCtaRec>();
 
-                                                    fbCommNfvendaSyncInsertServ.Connection = fbConnServ;
-                                                    //fbCommCupomSyncInsertServ.Connection.ConnectionString = _strConnNetwork;
+                                                    #region Gravar a nfvenda no servidor (capa)
 
-                                                    fbCommNfvendaSyncInsertServ.CommandText = "SP_TRI_NFVENDA_SYNC_INSERT";
-                                                    fbCommNfvendaSyncInsertServ.CommandType = CommandType.StoredProcedure;
-                                                    fbCommNfvendaSyncInsertServ.Transaction = fbTransactServ;
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_NATOPE", nfvenda.ID_NATOPE);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_VENDEDOR", nfvenda.IsID_VENDEDORNull() ? null : (short?)nfvenda.ID_VENDEDOR);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_CLIENTE", nfvenda.ID_CLIENTE);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pNF_NUMERO", nfvenda.NF_NUMERO);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pNF_SERIE", nfvenda.NF_SERIE);
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pNF_MODELO", nfvenda.NF_MODELO);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pDT_EMISSAO", nfvenda.DT_EMISSAO);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pDT_SAIDA", nfvenda.IsDT_SAIDANull() ? null : (DateTime?)nfvenda.DT_SAIDA);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pHR_SAIDA", nfvenda.IsHR_SAIDANull() ? null : (TimeSpan?)nfvenda.HR_SAIDA);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pESPECIE", nfvenda.IsESPECIENull() ? null : nfvenda.ESPECIE);
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pTIPO_FRETE", nfvenda.TIPO_FRETE);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pPES_LIQUID", nfvenda.IsPES_LIQUIDNull() ? null : (decimal?)nfvenda.PES_LIQUID);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pPES_BRUTO", nfvenda.IsPES_BRUTONull() ? null : (decimal?)nfvenda.PES_BRUTO);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pSTATUS", nfvenda.STATUS);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pENT_SAI", nfvenda.ENT_SAI);
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_FMAPGTO", nfvenda.ID_FMAPGTO);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_PARCELA", nfvenda.ID_PARCELA);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pMARCA", nfvenda.IsMARCANull() ? null : nfvenda.MARCA);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pQTD_VOLUM", nfvenda.IsQTD_VOLUMNull() ? null : (decimal?)nfvenda.QTD_VOLUM);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pNUM_VOLUM", nfvenda.IsNUM_VOLUMNull() ? null : nfvenda.NUM_VOLUM);
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pPROD_REV", nfvenda.IsPROD_REVNull() ? null : nfvenda.PROD_REV);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pSOMA_FRETE", nfvenda.IsSOMA_FRETENull() ? null : nfvenda.SOMA_FRETE);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pVLR_TROCO", nfvenda.IsVLR_TROCONull() ? null : (decimal?)nfvenda.VLR_TROCO);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pIND_PRES", nfvenda.IsIND_PRESNull() ? null : nfvenda.IND_PRES);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pIND_IE_DEST", nfvenda.IsIND_IE_DESTNull() ? null : nfvenda.IND_IE_DEST);
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvenda.DESCONTO_CONDICIONAL);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pINF_COMP_FIXA", nfvenda.IsINF_COMP_FIXANull() ? null : nfvenda.INF_COMP_FIXA);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pINF_COMP_EDIT", nfvenda.IsINF_COMP_EDITNull() ? null : nfvenda.INF_COMP_EDIT);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pENDERECO_ENTREGA", nfvenda.ENDERECO_ENTREGA);
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pENVIO_API", nfvenda.IsENVIO_APINull() ? null : (DateTime?)nfvenda.ENVIO_API);
-
-                                                    fbCommNfvendaSyncInsertServ.Parameters.Add("@pSYNCED", 1);
-
-                                                    #endregion Prepara o comando da SP_TRI_NFVENDA_SYNC_INSERT
-
-                                                    // Executa a sproc
-                                                    newIdNfvenda = (int)fbCommNfvendaSyncInsertServ.ExecuteScalar();
-                                                }
-
-                                                #endregion Gravar a nfvenda no servidor (capa)
-
-                                                #region Gravar TB_SAT, se houver
-
-                                                tblSatPdv.Clear();
-                                                //NOME_DA_PROCEDURE_AQUI
-                                                taSatPdv.FillByIdNfvenda(tblSatPdv, nfvenda.ID_NFVENDA);
-
-                                                foreach (FDBDataSetVenda.TB_SATRow satPdv in tblSatPdv)
-                                                {
-                                                    int newIdRegistro = 0;
-
-                                                    using (var fbCommSatSyncInsert = new FbCommand())
+                                                    using (var fbCommNfvendaSyncInsertServ = new FbCommand())
                                                     {
-                                                        #region Prepara o comando da SP_TRI_SAT_SYNC_INSERT
+                                                        #region Prepara o comando da SP_TRI_NFVENDA_SYNC_INSERT
 
-                                                        fbCommSatSyncInsert.Connection = fbConnServ;
-                                                        //fbCommCupomFmapagtoSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                        fbCommSatSyncInsert.Transaction = fbTransactServ;
+                                                        fbCommNfvendaSyncInsertServ.Connection = fbConnServ;
+                                                        //fbCommCupomSyncInsertServ.Connection.ConnectionString = _strConnNetwork;
 
-                                                        fbCommSatSyncInsert.CommandText = "SP_TRI_SAT_SYNC_INSERT";
-                                                        fbCommSatSyncInsert.CommandType = CommandType.StoredProcedure;
+                                                        fbCommNfvendaSyncInsertServ.CommandText = "SP_TRI_NFVENDA_SYNC_INSERT";
+                                                        fbCommNfvendaSyncInsertServ.CommandType = CommandType.StoredProcedure;
+                                                        fbCommNfvendaSyncInsertServ.Transaction = fbTransactServ;
 
-                                                        fbCommSatSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
-                                                        fbCommSatSyncInsert.Parameters.Add("@pCHAVE", satPdv.IsCHAVENull() ? null : satPdv.CHAVE);
-                                                        fbCommSatSyncInsert.Parameters.Add("@pDT_EMISSAO", satPdv.IsDT_EMISSAONull() ? null : (DateTime?)satPdv.DT_EMISSAO);
-                                                        fbCommSatSyncInsert.Parameters.Add("@pHR_EMISSAO", satPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)satPdv.HR_EMISSAO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_NATOPE", nfvenda.ID_NATOPE);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_VENDEDOR", nfvenda.IsID_VENDEDORNull() ? null : (short?)nfvenda.ID_VENDEDOR);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_CLIENTE", nfvenda.ID_CLIENTE);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pNF_NUMERO", nfvenda.NF_NUMERO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pNF_SERIE", nfvenda.NF_SERIE);
 
-                                                        fbCommSatSyncInsert.Parameters.Add("@pSTATUS", satPdv.IsSTATUSNull() ? null : satPdv.STATUS);
-                                                        fbCommSatSyncInsert.Parameters.Add("@pSTATUS_DES", satPdv.IsSTATUS_DESNull() ? null : satPdv.STATUS_DES);
-                                                        fbCommSatSyncInsert.Parameters.Add("@pNUMERO_CFE", satPdv.IsNUMERO_CFENull() ? null : (int?)satPdv.NUMERO_CFE);
-                                                        fbCommSatSyncInsert.Parameters.Add("@pNUM_SERIE_SAT", satPdv.IsNUM_SERIE_SATNull() ? null : satPdv.NUM_SERIE_SAT);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pNF_MODELO", nfvenda.NF_MODELO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pDT_EMISSAO", nfvenda.DT_EMISSAO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pDT_SAIDA", nfvenda.IsDT_SAIDANull() ? null : (DateTime?)nfvenda.DT_SAIDA);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pHR_SAIDA", nfvenda.IsHR_SAIDANull() ? null : (TimeSpan?)nfvenda.HR_SAIDA);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pESPECIE", nfvenda.IsESPECIENull() ? null : nfvenda.ESPECIE);
 
-                                                        #endregion Prepara o comando da SP_TRI_SAT_SYNC_INSERT
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pTIPO_FRETE", nfvenda.TIPO_FRETE);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pPES_LIQUID", nfvenda.IsPES_LIQUIDNull() ? null : (decimal?)nfvenda.PES_LIQUID);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pPES_BRUTO", nfvenda.IsPES_BRUTONull() ? null : (decimal?)nfvenda.PES_BRUTO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pSTATUS", nfvenda.STATUS);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pENT_SAI", nfvenda.ENT_SAI);
+
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_FMAPGTO", nfvenda.ID_FMAPGTO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pID_PARCELA", nfvenda.ID_PARCELA);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pMARCA", nfvenda.IsMARCANull() ? null : nfvenda.MARCA);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pQTD_VOLUM", nfvenda.IsQTD_VOLUMNull() ? null : (decimal?)nfvenda.QTD_VOLUM);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pNUM_VOLUM", nfvenda.IsNUM_VOLUMNull() ? null : nfvenda.NUM_VOLUM);
+
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pPROD_REV", nfvenda.IsPROD_REVNull() ? null : nfvenda.PROD_REV);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pSOMA_FRETE", nfvenda.IsSOMA_FRETENull() ? null : nfvenda.SOMA_FRETE);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pVLR_TROCO", nfvenda.IsVLR_TROCONull() ? null : (decimal?)nfvenda.VLR_TROCO);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pIND_PRES", nfvenda.IsIND_PRESNull() ? null : nfvenda.IND_PRES);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pIND_IE_DEST", nfvenda.IsIND_IE_DESTNull() ? null : nfvenda.IND_IE_DEST);
+
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvenda.DESCONTO_CONDICIONAL);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pINF_COMP_FIXA", nfvenda.IsINF_COMP_FIXANull() ? null : nfvenda.INF_COMP_FIXA);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pINF_COMP_EDIT", nfvenda.IsINF_COMP_EDITNull() ? null : nfvenda.INF_COMP_EDIT);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pENDERECO_ENTREGA", nfvenda.ENDERECO_ENTREGA);
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pENVIO_API", nfvenda.IsENVIO_APINull() ? null : (DateTime?)nfvenda.ENVIO_API);
+
+                                                        fbCommNfvendaSyncInsertServ.Parameters.Add("@pSYNCED", 1);
+
+                                                        #endregion Prepara o comando da SP_TRI_NFVENDA_SYNC_INSERT
 
                                                         // Executa a sproc
-                                                        newIdRegistro = (int)fbCommSatSyncInsert.ExecuteScalar();
+                                                        newIdNfvenda = (int)fbCommNfvendaSyncInsertServ.ExecuteScalar();
                                                     }
 
-                                                    #region Gravar TB_SAT_CANC, se houver
+                                                    #endregion Gravar a nfvenda no servidor (capa)
 
-                                                    tblSatCancPdv.Clear();
+                                                    #region Gravar TB_SAT, se houver
+
+                                                    tblSatPdv.Clear();
                                                     //NOME_DA_PROCEDURE_AQUI
-                                                    taSatCancPdv.FillByIdRegistro(tblSatCancPdv, satPdv.ID_REGISTRO);
+                                                    taSatPdv.FillByIdNfvenda(tblSatPdv, nfvenda.ID_NFVENDA);
 
-                                                    foreach (FDBDataSetVenda.TB_SAT_CANCRow satCancPdv in tblSatCancPdv)
+                                                    foreach (FDBDataSetVenda.TB_SATRow satPdv in tblSatPdv)
                                                     {
-                                                        //int newIdCancela = 0;
+                                                        int newIdRegistro = 0;
 
-                                                        using (var fbCommSatCancSyncInsert = new FbCommand())
+                                                        using (var fbCommSatSyncInsert = new FbCommand())
                                                         {
-                                                            #region Prepara o comando da SP_TRI_SAT_CANC_SYNC_INSERT
+                                                            #region Prepara o comando da SP_TRI_SAT_SYNC_INSERT
 
-                                                            fbCommSatCancSyncInsert.Connection = fbConnServ;
+                                                            fbCommSatSyncInsert.Connection = fbConnServ;
                                                             //fbCommCupomFmapagtoSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                            fbCommSatCancSyncInsert.Transaction = fbTransactServ;
+                                                            fbCommSatSyncInsert.Transaction = fbTransactServ;
 
-                                                            fbCommSatCancSyncInsert.CommandText = "SP_TRI_SAT_CANC_SYNC_INSERT";
-                                                            fbCommSatCancSyncInsert.CommandType = CommandType.StoredProcedure;
+                                                            fbCommSatSyncInsert.CommandText = "SP_TRI_SAT_SYNC_INSERT";
+                                                            fbCommSatSyncInsert.CommandType = CommandType.StoredProcedure;
 
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pID_REGISTRO", newIdRegistro);
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pDT_EMISSAO", satCancPdv.IsDT_EMISSAONull() ? null : (DateTime?)satCancPdv.DT_EMISSAO);
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pHR_EMISSAO", satCancPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)satCancPdv.HR_EMISSAO);
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pNUMERO_CFE", satCancPdv.IsNUMERO_CFENull() ? null : (int?)satCancPdv.NUMERO_CFE);
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pCHAVE", satCancPdv.IsCHAVENull() ? null : satCancPdv.CHAVE);
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pNUM_SERIE_SAT", satCancPdv.IsNUM_SERIE_SATNull() ? null : satCancPdv.NUM_SERIE_SAT);
-                                                            fbCommSatCancSyncInsert.Parameters.Add("@pENVIO_API", satCancPdv.IsENVIO_APINull() ? null : (DateTime?)satCancPdv.ENVIO_API);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pCHAVE", satPdv.IsCHAVENull() ? null : satPdv.CHAVE);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pDT_EMISSAO", satPdv.IsDT_EMISSAONull() ? null : (DateTime?)satPdv.DT_EMISSAO);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pHR_EMISSAO", satPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)satPdv.HR_EMISSAO);
 
-                                                            #endregion Prepara o comando da SP_TRI_SAT_CANC_SYNC_INSERT
+                                                            fbCommSatSyncInsert.Parameters.Add("@pSTATUS", satPdv.IsSTATUSNull() ? null : satPdv.STATUS);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pSTATUS_DES", satPdv.IsSTATUS_DESNull() ? null : satPdv.STATUS_DES);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pNUMERO_CFE", satPdv.IsNUMERO_CFENull() ? null : (int?)satPdv.NUMERO_CFE);
+                                                            fbCommSatSyncInsert.Parameters.Add("@pNUM_SERIE_SAT", satPdv.IsNUM_SERIE_SATNull() ? null : satPdv.NUM_SERIE_SAT);
+
+                                                            #endregion Prepara o comando da SP_TRI_SAT_SYNC_INSERT
 
                                                             // Executa a sproc
-                                                            //newIdCancela = (int)
-                                                            fbCommSatCancSyncInsert.ExecuteScalar();
+                                                            newIdRegistro = (int)fbCommSatSyncInsert.ExecuteScalar();
                                                         }
 
                                                         #region Gravar TB_SAT_CANC, se houver
 
-                                                        //TODO: gravar TB_SAT_CANC também
+                                                        tblSatCancPdv.Clear();
+                                                        //NOME_DA_PROCEDURE_AQUI
+                                                        taSatCancPdv.FillByIdRegistro(tblSatCancPdv, satPdv.ID_REGISTRO);
+
+                                                        foreach (FDBDataSetVenda.TB_SAT_CANCRow satCancPdv in tblSatCancPdv)
+                                                        {
+                                                            //int newIdCancela = 0;
+
+                                                            using (var fbCommSatCancSyncInsert = new FbCommand())
+                                                            {
+                                                                #region Prepara o comando da SP_TRI_SAT_CANC_SYNC_INSERT
+
+                                                                fbCommSatCancSyncInsert.Connection = fbConnServ;
+                                                                //fbCommCupomFmapagtoSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                                fbCommSatCancSyncInsert.Transaction = fbTransactServ;
+
+                                                                fbCommSatCancSyncInsert.CommandText = "SP_TRI_SAT_CANC_SYNC_INSERT";
+                                                                fbCommSatCancSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pID_REGISTRO", newIdRegistro);
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pDT_EMISSAO", satCancPdv.IsDT_EMISSAONull() ? null : (DateTime?)satCancPdv.DT_EMISSAO);
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pHR_EMISSAO", satCancPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)satCancPdv.HR_EMISSAO);
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pNUMERO_CFE", satCancPdv.IsNUMERO_CFENull() ? null : (int?)satCancPdv.NUMERO_CFE);
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pCHAVE", satCancPdv.IsCHAVENull() ? null : satCancPdv.CHAVE);
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pNUM_SERIE_SAT", satCancPdv.IsNUM_SERIE_SATNull() ? null : satCancPdv.NUM_SERIE_SAT);
+                                                                fbCommSatCancSyncInsert.Parameters.Add("@pENVIO_API", satCancPdv.IsENVIO_APINull() ? null : (DateTime?)satCancPdv.ENVIO_API);
+
+                                                                #endregion Prepara o comando da SP_TRI_SAT_CANC_SYNC_INSERT
+
+                                                                // Executa a sproc
+                                                                //newIdCancela = (int)
+                                                                fbCommSatCancSyncInsert.ExecuteScalar();
+                                                            }
+
+                                                            #region Gravar TB_SAT_CANC, se houver
+
+                                                            //TODO: gravar TB_SAT_CANC também
+
+                                                            #endregion Gravar TB_SAT_CANC, se houver
+                                                        }
 
                                                         #endregion Gravar TB_SAT_CANC, se houver
                                                     }
 
-                                                    #endregion Gravar TB_SAT_CANC, se houver
-                                                }
+                                                    #endregion Gravar TB_SAT, se houver
 
-                                                #endregion Gravar TB_SAT, se houver
+                                                    #region Buscar as formas de pagamento da nfvenda no PDV
 
-                                                #region Buscar as formas de pagamento da nfvenda no PDV
+                                                    tblNfvendaFmapagtoNfcePdv.Clear();
+                                                    //TB_NFVENDA_FMAPAGTO_NFCE();
+                                                    taNfvendaFmaPagtoNfcePdv.FillByIdNfvenda(tblNfvendaFmapagtoNfcePdv, nfvenda.ID_NFVENDA);
 
-                                                tblNfvendaFmapagtoNfcePdv.Clear();
-                                                //TB_NFVENDA_FMAPAGTO_NFCE();
-                                                taNfvendaFmaPagtoNfcePdv.FillByIdNfvenda(tblNfvendaFmapagtoNfcePdv, nfvenda.ID_NFVENDA);
+                                                    #endregion Buscar as formas de pagamento da nfvenda no PDV
 
-                                                #endregion Buscar as formas de pagamento da nfvenda no PDV
+                                                    #region Gravar as formas de pagamento da nfvenda na retaguarda
 
-                                                #region Gravar as formas de pagamento da nfvenda na retaguarda
-
-                                                foreach (FDBDataSetVenda.TB_NFVENDA_FMAPAGTO_NFCERow nfvendaFmapagtoNfcePdv in tblNfvendaFmapagtoNfcePdv)
-                                                {
-                                                    int newIdnumpag = 0;
-
-                                                    using (var fbCommNfvendaFmapagtoNfceSyncInsert = new FbCommand())
+                                                    foreach (FDBDataSetVenda.TB_NFVENDA_FMAPAGTO_NFCERow nfvendaFmapagtoNfcePdv in tblNfvendaFmapagtoNfcePdv)
                                                     {
-                                                        #region Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT
+                                                        int newIdnumpag = 0;
 
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.Connection = fbConnServ;
-                                                        //fbCommCupomFmapagtoSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.Transaction = fbTransactServ;
-
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.CommandText = "SP_TRI_NFV_FMAPAGT_SYNC_INSERT";
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.CommandType = CommandType.StoredProcedure;
-
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pVLR_PAGTO", nfvendaFmapagtoNfcePdv.VLR_PAGTO);
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_FMANFCE", nfvendaFmapagtoNfcePdv.ID_FMANFCE);
-                                                        fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_PARCELA", nfvendaFmapagtoNfcePdv.ID_PARCELA);
-
-                                                        #endregion Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT
-
-                                                        // Executa a sproc
-                                                        newIdnumpag = (int)fbCommNfvendaFmapagtoNfceSyncInsert.ExecuteScalar();
-                                                    }
-
-                                                    //TODO: o que fazer com newIdnumpag?
-                                                    // montar uma relação com o ID original pra gravar depois na relação forma de pagamento / conta a receber.
-                                                    AuxNfvFmaPgtoCtaRec itemAux = new AuxNfvFmaPgtoCtaRec
-                                                    {
-                                                        //PdvIdNfvenda = nfvenda.ID_NFVENDA,
-                                                        PdvIdNumPag = nfvendaFmapagtoNfcePdv.ID_NUMPAG,
-                                                        //ServIdNfvenda = newIdNfvenda,
-                                                        ServIdNumPag = newIdnumpag
-                                                    };
-                                                    lstAuxNfvFmaPgtoCtaRec.Add(itemAux);
-                                                }
-
-                                                #endregion Gravar as formas de pagamento da nfvenda na retaguarda
-
-                                                #region Pedido da nfvenda (AmbiMAITRE)
-
-                                                //TODO: não há (por enquanto?)
-
-                                                #endregion Pedido da nfvenda (AmbiMAITRE)
-
-                                                #region Itens de nfvenda do PDV
-
-                                                #region Consultar os itens da nfvenda do PDV
-
-                                                tblNfvItemPdv.Clear();
-                                                // Busca os itens do cupom pelo ID_CUPOM local (PDV):
-                                                //audit("SINCCONTNETDB>> " + "taCupomItemPdv.FillByIdCupom(): " + taCupomItemPdv.FillByIdCupom(tblCupomItemPdv, cupom.ID_CUPOM).ToString());
-                                                // SP_TRI_CUPOMITEMGET
-                                                taNfvItemPdv.FillByIdNfvenda(tblNfvItemPdv, nfvenda.ID_NFVENDA); // já usa sproc: SP_TRI_CUPOMITEMGET
-
-                                                foreach (FDBDataSetVenda.TB_NFV_ITEMRow nfvItem in tblNfvItemPdv.Rows)
-                                                {
-                                                    // Os itens do cupom devem referenciar o novo ID do cupom da retaguarda
-
-                                                    #region Gravar os itens da nfvenda
-
-                                                    int newIdNfvItem = 0;
-
-                                                    using (var fbCommNfvItemSyncInsert = new FbCommand())
-                                                    {
-                                                        #region Prepara o comando da SP_TRI_NFVITEM_SYNC_INSERT
-
-                                                        fbCommNfvItemSyncInsert.Connection = fbConnServ;
-                                                        //fbCommNfvItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                        fbCommNfvItemSyncInsert.Transaction = fbTransactServ;
-
-                                                        fbCommNfvItemSyncInsert.CommandText = "SP_TRI_NFVITEM_SYNC_INSERT";
-                                                        fbCommNfvItemSyncInsert.CommandType = CommandType.StoredProcedure;
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pID_IDENTIFICADOR", nfvItem.ID_IDENTIFICADOR);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pCFOP", nfvItem.CFOP);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pNUM_ITEM", nfvItem.NUM_ITEM);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pQTD_ITEM", nfvItem.QTD_ITEM);
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pUNI_MEDIDA", nfvItem.IsUNI_MEDIDANull() ? null : nfvItem.UNI_MEDIDA);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TOTAL", nfvItem.IsVLR_TOTALNull() ? null : (decimal?)nfvItem.VLR_TOTAL);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_DESC", nfvItem.IsVLR_DESCNull() ? null : (decimal?)nfvItem.VLR_DESC);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_CUSTO", nfvItem.IsVLR_CUSTONull() ? null : (decimal?)nfvItem.VLR_CUSTO);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pPRC_LISTA", nfvItem.IsPRC_LISTANull() ? null : (decimal?)nfvItem.PRC_LISTA);
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pCF", nfvItem.IsCFNull() ? null : nfvItem.CF);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_FRETE", nfvItem.VLR_FRETE);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_SEGURO", nfvItem.IsVLR_SEGURONull() ? null : (decimal?)nfvItem.VLR_SEGURO);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_DESPESA", nfvItem.IsVLR_DESPESANull() ? null : (decimal?)nfvItem.VLR_DESPESA);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pRET_PIS_COF_CSLL", nfvItem.IsRET_PIS_COF_CSLLNull() ? null : (decimal?)nfvItem.RET_PIS_COF_CSLL);
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pRET_IRRF", nfvItem.IsRET_IRRFNull() ? null : (decimal?)nfvItem.RET_IRRF);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pCOD_ENQ", nfvItem.IsCOD_ENQNull() ? null : nfvItem.COD_ENQ);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pCOD_BASE", nfvItem.IsCOD_BASENull() ? null : nfvItem.COD_BASE);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pCSOSN", nfvItem.IsCSOSNNull() ? null : nfvItem.CSOSN);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pNPED_COMPRA", nfvItem.IsNPED_COMPRANull() ? null : nfvItem.NPED_COMPRA);
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pITEM_COMPRA", nfvItem.IsITEM_COMPRANull() ? null : (int?)nfvItem.ITEM_COMPRA);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TOTTRIB", nfvItem.IsVLR_TOTTRIBNull() ? null : (decimal?)nfvItem.VLR_TOTTRIB);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pFCI", nfvItem.IsFCINull() ? null : nfvItem.FCI);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_ICM_DESO", nfvItem.IsVLR_ICM_DESONull() ? null : (decimal?)nfvItem.VLR_ICM_DESO);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pID_MOTIVO_DESO", nfvItem.IsID_MOTIVO_DESONull() ? null : (int?)nfvItem.ID_MOTIVO_DESO);
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pEST_BX", nfvItem.IsEST_BXNull() ? null : nfvItem.EST_BX);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TRIB_FED", nfvItem.IsVLR_TRIB_FEDNull() ? null : (decimal?)nfvItem.VLR_TRIB_FED);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TRIB_EST", nfvItem.IsVLR_TRIB_ESTNull() ? null : (decimal?)nfvItem.VLR_TRIB_EST);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TRIB_MUN", nfvItem.IsVLR_TRIB_MUNNull() ? null : (decimal?)nfvItem.VLR_TRIB_MUN);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pINCLUIR_FATURA", nfvItem.INCLUIR_FATURA);
-
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_UNIT", nfvItem.VLR_UNIT);
-                                                        //fbCommNfvItemSyncInsert.Parameters.Add("@pIMP_MANUAL", nfvItem.IsIMP_MANUALNull() ? null : nfvItem.IMP_MANUAL);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_RETENCAO", nfvItem.VLR_RETENCAO);
-                                                        fbCommNfvItemSyncInsert.Parameters.Add("@pREFERENCIA", nfvItem.IsREFERENCIANull() ? null : nfvItem.REFERENCIA);
-                                                        //fbCommNfvItemSyncInsert.Parameters.Add("@pCODPROMOSCANNTECH", nfvItem.IsCODPROMOSCANNTECHNull() ? null : (int?)nfvItem.CODPROMOSCANNTECH);
-
-
-                                                        #endregion Prepara o comando da SP_TRI_NFVITEM_SYNC_INSERT
-
-                                                        try
+                                                        using (var fbCommNfvendaFmapagtoNfceSyncInsert = new FbCommand())
                                                         {
+                                                            #region Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT
+
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Connection = fbConnServ;
+                                                            //fbCommCupomFmapagtoSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Transaction = fbTransactServ;
+
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.CommandText = "SP_TRI_NFV_FMAPAGT_SYNC_INSERT";
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pVLR_PAGTO", nfvendaFmapagtoNfcePdv.VLR_PAGTO);
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_FMANFCE", nfvendaFmapagtoNfcePdv.ID_FMANFCE);
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_PARCELA", nfvendaFmapagtoNfcePdv.ID_PARCELA);
+
+                                                            #endregion Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT
+
                                                             // Executa a sproc
-                                                            newIdNfvItem = (int)fbCommNfvItemSyncInsert.ExecuteScalar();
+                                                            newIdnumpag = (int)fbCommNfvendaFmapagtoNfceSyncInsert.ExecuteScalar();
                                                         }
-                                                        catch (Exception ex)
+
+                                                        //TODO: o que fazer com newIdnumpag?
+                                                        // montar uma relação com o ID original pra gravar depois na relação forma de pagamento / conta a receber.
+                                                        AuxNfvFmaPgtoCtaRec itemAux = new AuxNfvFmaPgtoCtaRec
                                                         {
-                                                            log.Error($"Erro ao sincronizar item de nfvenda. \npID_NFVENDA: {newIdNfvenda} \nID_IDENTIFICADOR: {nfvItem.ID_IDENTIFICADOR}", ex);
-                                                            throw ex;
-                                                        }
-
-                                                        //audit("SINCCONTNETDB>> ", "SP_TRI_NFVITEM_SYNC_INSERT(): " + newIdCupomItem.ToString());
+                                                            //PdvIdNfvenda = nfvenda.ID_NFVENDA,
+                                                            PdvIdNumPag = nfvendaFmapagtoNfcePdv.ID_NUMPAG,
+                                                            //ServIdNfvenda = newIdNfvenda,
+                                                            ServIdNumPag = newIdnumpag
+                                                        };
+                                                        lstAuxNfvFmaPgtoCtaRec.Add(itemAux);
                                                     }
 
-                                                    #endregion Gravar os itens da nfvenda
+                                                    #endregion Gravar as formas de pagamento da nfvenda na retaguarda
 
-                                                    #region Gravar TB_NFV_ITEM_COFINS
-
-                                                    #region Busca TB_NFV_ITEM_COFINS (PDV)
-
-                                                    tblNfvItemCofinsPdv.Clear();
-
-                                                    using (var taNfvItemCofinsPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_COFINSTableAdapter())
-                                                    {
-                                                        taNfvItemCofinsPdv.Connection.ConnectionString = _strConnContingency;
-                                                        // TRI_MAIT_PEDIDO_ITEM
-                                                        taNfvItemCofinsPdv.FillById(tblNfvItemCofinsPdv, nfvItem.ID_NFVITEM); // já usa sproc
-                                                    }
-
-                                                    #endregion Busca TB_NFV_ITEM_COFINS (PDV)
-
-                                                    #region Procedimento de gravação de TB_NFV_ITEM_COFINS (servidor)
-
-                                                    foreach (var nfvItemCofinsPdv in tblNfvItemCofinsPdv) // Deve ter apenas 1 item de pedido por item de cupom
-                                                    {
-                                                        #region Gravar TB_NFV_ITEM_COFINS (serv)
-
-                                                        //int newIdMaitPedItemServ = 0;
-
-                                                        using (var fbCommNfvItemCofinsSyncInsert = new FbCommand())
-                                                        {
-                                                            #region Prepara o comando da SP_TRI_NFVITEMCOFINS_SYNCINSERT
-
-                                                            fbCommNfvItemCofinsSyncInsert.Connection = fbConnServ;
-                                                            //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                            fbCommNfvItemCofinsSyncInsert.Transaction = fbTransactServ;
-
-                                                            fbCommNfvItemCofinsSyncInsert.CommandText = "SP_TRI_NFVITEMCOFINS_SYNCINSERT";
-                                                            fbCommNfvItemCofinsSyncInsert.CommandType = CommandType.StoredProcedure;
-
-                                                            fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
-                                                            fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pPOR_BC_COFINS", nfvItemCofinsPdv.IsPOR_BC_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.POR_BC_COFINS);
-                                                            fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pCST_COFINS", nfvItemCofinsPdv.IsCST_COFINSNull() ? null : nfvItemCofinsPdv.CST_COFINS);
-                                                            fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pALIQ_COFINS", nfvItemCofinsPdv.IsALIQ_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.ALIQ_COFINS);
-                                                            fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pVLR_COFINS", nfvItemCofinsPdv.IsVLR_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.VLR_COFINS);
-
-                                                            #endregion Prepara o comando da SP_TRI_NFVITEMCOFINS_SYNCINSERT
-
-                                                            //newIdMaitPedItemServ = (int)
-                                                            fbCommNfvItemCofinsSyncInsert.ExecuteScalar();
-
-                                                            //// Executa a sproc
-                                                            //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMCOFINS_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
-                                                            //                    newIdMaitPedidoServ,
-                                                            //                    pedItemPdv.ID_IDENTIFICADOR,
-                                                            //                    pedItemPdv.QTD_ITEM,
-                                                            //                    newIdMaitPedItemServ));
-                                                        }
-
-                                                        #endregion Gravar TB_NFV_ITEM_COFINS (serv)
-                                                    }
-
-                                                    #endregion Procedimento de gravação de TB_NFV_ITEM_COFINS (servidor)
-
-                                                    #endregion Gravar TB_NFV_ITEM_COFINS
-
-                                                    #region Gravar TB_NFV_ITEM_PIS
-
-                                                    #region Busca TB_NFV_ITEM_PIS (PDV)
-
-                                                    tblNfvItemPisPdv.Clear();
-
-                                                    using (var taNfvItemPisPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_PISTableAdapter())
-                                                    {
-                                                        taNfvItemPisPdv.Connection.ConnectionString = _strConnContingency;
-                                                        // TRI_MAIT_PEDIDO_ITEM
-                                                        taNfvItemPisPdv.FillById(tblNfvItemPisPdv, nfvItem.ID_NFVITEM); // já usa sproc
-                                                    }
-
-                                                    #endregion Busca TB_NFV_ITEM_PIS (PDV)
-
-                                                    #region Procedimento de gravação de TB_NFV_ITEM_PIS (servidor)
-
-                                                    foreach (var nfvItemPisPdv in tblNfvItemPisPdv)
-                                                    {
-                                                        #region Gravar TB_NFV_ITEM_PIS (serv)
-
-                                                        using (var fbCommNfvItemPisSyncInsert = new FbCommand())
-                                                        {
-                                                            #region Prepara o comando da SP_TRI_NFVITEMPIS_SYNCINSERT
-
-                                                            fbCommNfvItemPisSyncInsert.Connection = fbConnServ;
-                                                            //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                            fbCommNfvItemPisSyncInsert.Transaction = fbTransactServ;
-
-                                                            fbCommNfvItemPisSyncInsert.CommandText = "SP_TRI_NFVITEMPIS_SYNCINSERT";
-                                                            fbCommNfvItemPisSyncInsert.CommandType = CommandType.StoredProcedure;
-
-                                                            fbCommNfvItemPisSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
-                                                            fbCommNfvItemPisSyncInsert.Parameters.Add("@pPOR_BC_PIS", nfvItemPisPdv.IsPOR_BC_PISNull() ? null : (decimal?)nfvItemPisPdv.POR_BC_PIS);
-                                                            fbCommNfvItemPisSyncInsert.Parameters.Add("@pCST_PIS", nfvItemPisPdv.IsCST_PISNull() ? null : nfvItemPisPdv.CST_PIS);
-                                                            fbCommNfvItemPisSyncInsert.Parameters.Add("@pALIQ_PIS", nfvItemPisPdv.IsALIQ_PISNull() ? null : (decimal?)nfvItemPisPdv.ALIQ_PIS);
-                                                            fbCommNfvItemPisSyncInsert.Parameters.Add("@pVLR_PIS", nfvItemPisPdv.IsVLR_PISNull() ? null : (decimal?)nfvItemPisPdv.VLR_PIS);
-
-                                                            #endregion Prepara o comando da SP_TRI_NFVITEMPIS_SYNCINSERT
-
-                                                            //newIdMaitPedItemServ = (int)
-                                                            fbCommNfvItemPisSyncInsert.ExecuteScalar();
-
-                                                            //// Executa a sproc
-                                                            //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMPIS_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
-                                                            //                    newIdMaitPedidoServ,
-                                                            //                    pedItemPdv.ID_IDENTIFICADOR,
-                                                            //                    pedItemPdv.QTD_ITEM,
-                                                            //                    newIdMaitPedItemServ));
-                                                        }
-
-                                                        #endregion Gravar TB_NFV_ITEM_PIS (serv)
-                                                    }
-
-                                                    #endregion Procedimento de gravação de TB_NFV_ITEM_PIS (servidor)
-
-                                                    #endregion Gravar TB_NFV_ITEM_PIS
-
-                                                    #region Gravar TB_NFV_ITEM_ICMS
-
-                                                    #region Busca TB_NFV_ITEM_ICMS (PDV)
-
-                                                    tblNfvItemIcmsPdv.Clear();
-
-                                                    using (var taNfvItemIcmsPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_ICMSTableAdapter())
-                                                    {
-                                                        taNfvItemIcmsPdv.Connection.ConnectionString = _strConnContingency;
-                                                        // TRI_MAIT_PEDIDO_ITEM
-                                                        taNfvItemIcmsPdv.FillById(tblNfvItemIcmsPdv, nfvItem.ID_NFVITEM); // já usa sproc
-                                                    }
-
-                                                    #endregion Busca TB_NFV_ITEM_ICMS (PDV)
-
-                                                    #region Procedimento de gravação de TB_NFV_ITEM_ICMS (servidor)
-
-                                                    foreach (var nfvItemIcmsPdv in tblNfvItemIcmsPdv)
-                                                    {
-                                                        #region Gravar TB_NFV_ITEM_ICMS (serv)
-
-                                                        using (var fbCommNfvItemIcmsSyncInsert = new FbCommand())
-                                                        {
-                                                            #region Prepara o comando da SP_TRI_NFVITEMICMS_SYNCINSERT
-
-                                                            fbCommNfvItemIcmsSyncInsert.Connection = fbConnServ;
-                                                            //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                            fbCommNfvItemIcmsSyncInsert.Transaction = fbTransactServ;
-
-                                                            fbCommNfvItemIcmsSyncInsert.CommandText = "SP_TRI_NFVITEMICMS_SYNCINSERT";
-                                                            fbCommNfvItemIcmsSyncInsert.CommandType = CommandType.StoredProcedure;
-
-                                                            fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
-                                                            fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pVLR_BC_ICMS", nfvItemIcmsPdv.IsVLR_BC_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.VLR_BC_ICMS);
-                                                            fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pPOR_BC_ICMS", nfvItemIcmsPdv.IsPOR_BC_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.POR_BC_ICMS);
-                                                            fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pCST_ICMS", nfvItemIcmsPdv.IsCST_ICMSNull() ? null : nfvItemIcmsPdv.CST_ICMS);
-                                                            fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pALIQ_ICMS", nfvItemIcmsPdv.IsALIQ_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.ALIQ_ICMS);
-                                                            fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pVLR_ICMS", nfvItemIcmsPdv.IsVLR_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.VLR_ICMS);
-
-                                                            #endregion Prepara o comando da SP_TRI_NFVITEMICMS_SYNCINSERT
-
-                                                            //newIdMaitPedItemServ = (int)
-                                                            fbCommNfvItemIcmsSyncInsert.ExecuteScalar();
-
-                                                            //// Executa a sproc
-                                                            //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMICMS_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
-                                                            //                    newIdMaitPedidoServ,
-                                                            //                    pedItemPdv.ID_IDENTIFICADOR,
-                                                            //                    pedItemPdv.QTD_ITEM,
-                                                            //                    newIdMaitPedItemServ));
-                                                        }
-
-                                                        #endregion Gravar TB_NFV_ITEM_ICMS (serv)
-                                                    }
-
-                                                    #endregion Procedimento de gravação de TB_NFV_ITEM_ICMS (servidor)
-
-                                                    #endregion Gravar TB_NFV_ITEM_ICMS
-
-                                                    #region Gravar TB_NFV_ITEM_ST
-
-                                                    #region Busca TB_NFV_ITEM_ST (PDV)
-
-                                                    tblNfvItemStPdv.Clear();
-
-                                                    using (var taNfvItemStPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_STTableAdapter())
-                                                    {
-                                                        taNfvItemStPdv.Connection.ConnectionString = _strConnContingency;
-                                                        // TRI_MAIT_PEDIDO_ITEM
-                                                        taNfvItemStPdv.FillById(tblNfvItemStPdv, nfvItem.ID_NFVITEM); // já usa sproc
-                                                    }
-
-                                                    #endregion Busca TB_NFV_ITEM_ST (PDV)
-
-                                                    #region Procedimento de gravação de TB_NFV_ITEM_ST (servidor)
-
-                                                    foreach (var nfvItemStPdv in tblNfvItemStPdv)
-                                                    {
-                                                        #region Gravar TB_NFV_ITEM_ST (serv)
-
-                                                        using (var fbCommNfvItemStSyncInsert = new FbCommand())
-                                                        {
-                                                            #region Prepara o comando da SP_TRI_NFVITEMST_SYNCINSERT
-
-                                                            fbCommNfvItemStSyncInsert.Connection = fbConnServ;
-                                                            //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
-                                                            fbCommNfvItemStSyncInsert.Transaction = fbTransactServ;
-
-                                                            fbCommNfvItemStSyncInsert.CommandText = "SP_TRI_NFVITEMST_SYNCINSERT";
-                                                            fbCommNfvItemStSyncInsert.CommandType = CommandType.StoredProcedure;
-
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pPOR_BC_ICMS_ST", nfvItemStPdv.IsPOR_BC_ICMS_STNull() ? null : (decimal?)nfvItemStPdv.POR_BC_ICMS_ST);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pVLR_BC_ICMS_ST", nfvItemStPdv.IsVLR_BC_ICMS_STNull() ? null : (decimal?)nfvItemStPdv.VLR_BC_ICMS_ST);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pVLR_ST", nfvItemStPdv.IsVLR_STNull() ? null : (decimal?)nfvItemStPdv.VLR_ST);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pMVA", nfvItemStPdv.IsMVANull() ? null : (decimal?)nfvItemStPdv.MVA);
-
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pALIQ_ST_ORIG", nfvItemStPdv.IsALIQ_ST_ORIGNull() ? null : (decimal?)nfvItemStPdv.ALIQ_ST_ORIG);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pALIQ_ST_DEST", nfvItemStPdv.IsALIQ_ST_DESTNull() ? null : (decimal?)nfvItemStPdv.ALIQ_ST_DEST);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pINFORMA_ST", nfvItemStPdv.IsINFORMA_STNull() ? null : nfvItemStPdv.INFORMA_ST);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pICMS_EFETIVO", nfvItemStPdv.ICMS_EFETIVO);
-                                                            fbCommNfvItemStSyncInsert.Parameters.Add("@pVLR_ICMS_SUBSTITUTO", nfvItemStPdv.IsVLR_ICMS_SUBSTITUTONull() ? null : (decimal?)nfvItemStPdv.VLR_ICMS_SUBSTITUTO);
-
-                                                            #endregion Prepara o comando da SP_TRI_NFVITEMST_SYNCINSERT
-
-                                                            //newIdMaitPedItemServ = (int)
-                                                            fbCommNfvItemStSyncInsert.ExecuteScalar();
-
-                                                            //// Executa a sproc
-                                                            //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMST_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
-                                                            //                    newIdMaitPedidoServ,
-                                                            //                    pedItemPdv.ID_IDENTIFICADOR,
-                                                            //                    pedItemPdv.QTD_ITEM,
-                                                            //                    newIdMaitPedItemServ));
-                                                        }
-
-                                                        #endregion Gravar TB_NFV_ITEM_ST (serv)
-                                                    }
-
-                                                    #endregion Procedimento de gravação de TB_NFV_ITEM_ST (servidor)
-
-                                                    #endregion Gravar TB_NFV_ITEM_ST
-
-                                                    //TODO: sync TB_NFVENDA_TOT -- TALVEZ não seja necessário. Há uma trigger em TB_NFVENDA que atualiza o TOT. Testar no servidor.
-
-                                                    #region Buscar os itens de pedido (AmbiMAITRE) (PDV)
+                                                    #region Pedido da nfvenda (AmbiMAITRE)
 
                                                     //TODO: não há (por enquanto?)
 
-                                                    #endregion Buscar os itens de pedido (AmbiMAITRE) (PDV)
+                                                    #endregion Pedido da nfvenda (AmbiMAITRE)
 
-                                                    //if (cupom.IsQTD_MAIT_PED_CUPOMNull() || cupom.QTD_MAIT_PED_CUPOM <= 0)
+                                                    #region Itens de nfvenda do PDV
 
-                                                    #region Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+                                                    #region Consultar os itens da nfvenda do PDV
 
-                                                    #region Atualizar no servidor a quantidade em estoque
+                                                    tblNfvItemPdv.Clear();
+                                                    // Busca os itens do cupom pelo ID_CUPOM local (PDV):
+                                                    //audit("SINCCONTNETDB>> " + "taCupomItemPdv.FillByIdCupom(): " + taCupomItemPdv.FillByIdCupom(tblCupomItemPdv, cupom.ID_CUPOM).ToString());
+                                                    // SP_TRI_CUPOMITEMGET
+                                                    taNfvItemPdv.FillByIdNfvenda(tblNfvItemPdv, nfvenda.ID_NFVENDA); // já usa sproc: SP_TRI_CUPOMITEMGET
 
-                                                    using (var fbCommEstProdutoQtdServ = new FbCommand())
+                                                    foreach (FDBDataSetVenda.TB_NFV_ITEMRow nfvItem in tblNfvItemPdv.Rows)
                                                     {
-                                                        #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                        // Os itens do cupom devem referenciar o novo ID do cupom da retaguarda
 
-                                                        fbCommEstProdutoQtdServ.Connection = fbConnServ;
-                                                        //fbCommEstProdutoQtdServ.Connection.ConnectionString = _strConnNetwork;
-                                                        fbCommEstProdutoQtdServ.Transaction = fbTransactServ;
+                                                        #region Gravar os itens da nfvenda
 
-                                                        fbCommEstProdutoQtdServ.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
-                                                        fbCommEstProdutoQtdServ.CommandType = CommandType.StoredProcedure;
+                                                        int newIdNfvItem = 0;
 
-                                                        fbCommEstProdutoQtdServ.Parameters.Add("@pQTD_ITEM", nfvItem.QTD_ITEM);
-                                                        fbCommEstProdutoQtdServ.Parameters.Add("@pID_IDENTIF", nfvItem.ID_IDENTIFICADOR);
-                                                        fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPPRO", 0); // cupomItem.IsID_COMPPRONull() ? 0 : cupomItem.ID_COMPPRO); // AmbiMAITRE
-                                                        fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPOSICAO", nfvItem.IsID_COMPOSICAONull() ? 0 : nfvItem.ID_COMPOSICAO);
-
-                                                        #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
-
-                                                        try
+                                                        using (var fbCommNfvItemSyncInsert = new FbCommand())
                                                         {
-                                                            // Executa a sproc
-                                                            fbCommEstProdutoQtdServ.ExecuteScalar();
-                                                        }
-                                                        catch (Exception ex)
-                                                        {
-                                                            log.Error("Erro ao deduzir quantidade em estoque (Serv): \npQTD_ITEM=" + nfvItem.QTD_ITEM.ToString() +
-                                                                               "\npID_IDENTIF=" + nfvItem.ID_IDENTIFICADOR.ToString(), ex);
-                                                            throw ex;
-                                                        }
-                                                    }
+                                                            #region Prepara o comando da SP_TRI_NFVITEM_SYNC_INSERT
 
-                                                    #endregion Atualizar no servidor a quantidade em estoque
+                                                            fbCommNfvItemSyncInsert.Connection = fbConnServ;
+                                                            //fbCommNfvItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                            fbCommNfvItemSyncInsert.Transaction = fbTransactServ;
 
-                                                    #region Atualizar no PDV a quantidade em estoque
+                                                            fbCommNfvItemSyncInsert.CommandText = "SP_TRI_NFVITEM_SYNC_INSERT";
+                                                            fbCommNfvItemSyncInsert.CommandType = CommandType.StoredProcedure;
 
-                                                    // Já que todo o cadastro de produtos foi copiado do Serv pro PDV na etapa anterior, 
-                                                    // as quantidades em estoque devem ser redefinidas
-                                                    //using (var fbCommEstProdutoQtdPdv = new FbCommand())
-                                                    //{
-                                                    //    #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pID_IDENTIFICADOR", nfvItem.ID_IDENTIFICADOR);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCFOP", nfvItem.CFOP);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pNUM_ITEM", nfvItem.NUM_ITEM);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pQTD_ITEM", nfvItem.QTD_ITEM);
 
-                                                    //    fbCommEstProdutoQtdPdv.Connection = fbConnPdv;
-                                                    //    //fbCommEstProdutoQtdPdv.Connection.ConnectionString = _strConnContingency;
-                                                    //    fbCommEstProdutoQtdPdv.Transaction = fbTransactPdv;
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pUNI_MEDIDA", nfvItem.IsUNI_MEDIDANull() ? null : nfvItem.UNI_MEDIDA);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TOTAL", nfvItem.IsVLR_TOTALNull() ? null : (decimal?)nfvItem.VLR_TOTAL);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_DESC", nfvItem.IsVLR_DESCNull() ? null : (decimal?)nfvItem.VLR_DESC);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_CUSTO", nfvItem.IsVLR_CUSTONull() ? null : (decimal?)nfvItem.VLR_CUSTO);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pPRC_LISTA", nfvItem.IsPRC_LISTANull() ? null : (decimal?)nfvItem.PRC_LISTA);
 
-                                                    //    fbCommEstProdutoQtdPdv.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
-                                                    //    fbCommEstProdutoQtdPdv.CommandType = CommandType.StoredProcedure;
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCF", nfvItem.IsCFNull() ? null : nfvItem.CF);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_FRETE", nfvItem.VLR_FRETE);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_SEGURO", nfvItem.IsVLR_SEGURONull() ? null : (decimal?)nfvItem.VLR_SEGURO);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_DESPESA", nfvItem.IsVLR_DESPESANull() ? null : (decimal?)nfvItem.VLR_DESPESA);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pRET_PIS_COF_CSLL", nfvItem.IsRET_PIS_COF_CSLLNull() ? null : (decimal?)nfvItem.RET_PIS_COF_CSLL);
 
-                                                    //    fbCommEstProdutoQtdPdv.Parameters.Add("@pQTD_ITEM", nfvItem.QTD_ITEM);
-                                                    //    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_IDENTIF", nfvItem.ID_IDENTIFICADOR);
-                                                    //    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPPRO", 0); // nfvItem.IsID_COMPPRONull() ? 0 : nfvItem.ID_COMPPRO); // AmbiMAITRE
-                                                    //    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPOSICAO", nfvItem.IsID_COMPOSICAONull() ? 0 : nfvItem.ID_COMPOSICAO);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pRET_IRRF", nfvItem.IsRET_IRRFNull() ? null : (decimal?)nfvItem.RET_IRRF);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCOD_ENQ", nfvItem.IsCOD_ENQNull() ? null : nfvItem.COD_ENQ);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCOD_BASE", nfvItem.IsCOD_BASENull() ? null : nfvItem.COD_BASE);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCSOSN", nfvItem.IsCSOSNNull() ? null : nfvItem.CSOSN);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pNPED_COMPRA", nfvItem.IsNPED_COMPRANull() ? null : nfvItem.NPED_COMPRA);
 
-                                                    //    #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pITEM_COMPRA", nfvItem.IsITEM_COMPRANull() ? null : (int?)nfvItem.ITEM_COMPRA);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TOTTRIB", nfvItem.IsVLR_TOTTRIBNull() ? null : (decimal?)nfvItem.VLR_TOTTRIB);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pFCI", nfvItem.IsFCINull() ? null : nfvItem.FCI);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_ICM_DESO", nfvItem.IsVLR_ICM_DESONull() ? null : (decimal?)nfvItem.VLR_ICM_DESO);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pID_MOTIVO_DESO", nfvItem.IsID_MOTIVO_DESONull() ? null : (int?)nfvItem.ID_MOTIVO_DESO);
 
-                                                    //    try
-                                                    //    {
-                                                    //        // Executa a sproc
-                                                    //        fbCommEstProdutoQtdPdv.ExecuteScalar();
-                                                    //    }
-                                                    //    catch (Exception ex)
-                                                    //    {
-                                                    //        gravarMensagemErro("Erro ao deduzir quantidade em estoque (PDV): \npQTD_ITEM=" + nfvItem.QTD_ITEM.ToString() +
-                                                    //                           "\npID_IDENTIF=" + nfvItem.ID_IDENTIFICADOR.ToString() +
-                                                    //                            " \nMais infos: " + RetornarMensagemErro(ex, true));
-                                                    //        throw ex;
-                                                    //    }
-                                                    //}
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pEST_BX", nfvItem.IsEST_BXNull() ? null : nfvItem.EST_BX);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TRIB_FED", nfvItem.IsVLR_TRIB_FEDNull() ? null : (decimal?)nfvItem.VLR_TRIB_FED);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TRIB_EST", nfvItem.IsVLR_TRIB_ESTNull() ? null : (decimal?)nfvItem.VLR_TRIB_EST);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_TRIB_MUN", nfvItem.IsVLR_TRIB_MUNNull() ? null : (decimal?)nfvItem.VLR_TRIB_MUN);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pINCLUIR_FATURA", nfvItem.INCLUIR_FATURA);
 
-                                                    #endregion Atualizar no PDV a quantidade em estoque
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_UNIT", nfvItem.VLR_UNIT);
+                                                            //fbCommNfvItemSyncInsert.Parameters.Add("@pIMP_MANUAL", nfvItem.IsIMP_MANUALNull() ? null : nfvItem.IMP_MANUAL);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_RETENCAO", nfvItem.VLR_RETENCAO);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pREFERENCIA", nfvItem.IsREFERENCIANull() ? null : nfvItem.REFERENCIA);
+                                                            //fbCommNfvItemSyncInsert.Parameters.Add("@pCODPROMOSCANNTECH", nfvItem.IsCODPROMOSCANNTECHNull() ? null : (int?)nfvItem.CODPROMOSCANNTECH);
 
-                                                    #endregion Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
-                                                }
 
-                                                #endregion Consultar os itens da nfvenda do PDV
-
-                                                #endregion Itens de nfvenda do PDV
-
-                                                #region Vendas a prazo
-
-                                                #region Verifica se a nfvenda é a prazo
-
-                                                // Como verificar se o cupom é uma venda a prazo?
-                                                if (!nfvenda.IsQTD_CTARECNull() && nfvenda.QTD_CTAREC > 0)
-                                                {
-
-                                                    using (var taCtaRecPdv = new TB_CONTA_RECEBERTableAdapter())
-                                                    {
-                                                        taCtaRecPdv.Connection.ConnectionString = _strConnContingency;
-
-                                                        tblCtaRecPdv.Clear();
-                                                        // Consultar todas as contas a receber do cupom
-                                                        //audit("SINCCONTNETDB>> " + "taCtaRecPdv.FillByIdCupom(): " + /*taCtaRecPdv.FillByIdCupom(tblCtaRecPdv, cupom.ID_CUPOM)*/.ToString());
-                                                        taCtaRecPdv.FillByIdNfvenda(tblCtaRecPdv, nfvenda.ID_NFVENDA); // já usa sproc
-                                                    }
-
-                                                    // Percorre por cada conta a receber que o cupom possui:
-                                                    foreach (FDBDataSet.TB_CONTA_RECEBERRow ctaRecPdv in tblCtaRecPdv)
-                                                    {
-                                                        int newIdCtarec = 0;
-
-                                                        #region Grava conta a receber na retaguarda
-
-                                                        // TB_CONTA_RECEBER
-                                                        using (var fbCommCtaRecSyncInsertServ = new FbCommand())
-                                                        {
-                                                            #region Prepara o comando da SP_TRI_CTAREC_SYNC_INSERT
-
-                                                            fbCommCtaRecSyncInsertServ.Connection = fbConnServ;
-                                                            //fbCommCtaRecSyncInsertServ.Connection.ConnectionString = _strConnNetwork;
-                                                            fbCommCtaRecSyncInsertServ.Transaction = fbTransactServ;
-
-                                                            fbCommCtaRecSyncInsertServ.CommandText = "SP_TRI_CTAREC_SYNC_INSERT";
-                                                            fbCommCtaRecSyncInsertServ.CommandType = CommandType.StoredProcedure;
-
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pDOCUMENTO", ctaRecPdv.DOCUMENTO);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pHISTORICO", (ctaRecPdv.IsHISTORICONull() ? null : ctaRecPdv.HISTORICO));
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_EMISSAO", ctaRecPdv.DT_EMISSAO);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_VENCTO", ctaRecPdv.DT_VENCTO);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pVLR_CTAREC", ctaRecPdv.VLR_CTAREC);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pTIP_CTAREC", ctaRecPdv.TIP_CTAREC);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pID_PORTADOR", ctaRecPdv.ID_PORTADOR);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pID_CLIENTE", ctaRecPdv.ID_CLIENTE);
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pINV_REFERENCIA", (ctaRecPdv.IsINV_REFERENCIANull() ? null : ctaRecPdv.INV_REFERENCIA));
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_VENCTO_ORIG", (ctaRecPdv.IsDT_VENCTO_ORIGNull() ? null : (DateTime?)ctaRecPdv.DT_VENCTO_ORIG));
-                                                            fbCommCtaRecSyncInsertServ.Parameters.Add("@pNSU_CARTAO", (ctaRecPdv.IsNSU_CARTAONull() ? null : ctaRecPdv.NSU_CARTAO));
-
-                                                            #endregion Prepara o comando da SP_TRI_CTAREC_SYNC_INSERT
+                                                            #endregion Prepara o comando da SP_TRI_NFVITEM_SYNC_INSERT
 
                                                             try
                                                             {
                                                                 // Executa a sproc
-                                                                newIdCtarec = (int)fbCommCtaRecSyncInsertServ.ExecuteScalar();
+                                                                newIdNfvItem = (int)fbCommNfvItemSyncInsert.ExecuteScalar();
                                                             }
                                                             catch (Exception ex)
                                                             {
-                                                                log.Error("Erro ABSURDO ao gravar conta a receber. Eis os parâmetros da gravação: \npINV_REFERENCIA=" +
-                                                                    (ctaRecPdv.IsINV_REFERENCIANull() ? "null" : ctaRecPdv.INV_REFERENCIA.ToString()) + "\n" +
-                                                                    "pDOCUMENTO=" + ctaRecPdv.DOCUMENTO.ToString() + "\n" +
-                                                                    "pHISTORICO=" + (ctaRecPdv.IsHISTORICONull() ? "null" : ctaRecPdv.HISTORICO.ToString()) + "\n" +
-                                                                    //"cupom.COO=" + cupom.COO.ToString() + "\n" +
-                                                                    "nfvenda.NF_NUMERO=" + nfvenda.NF_NUMERO.ToString() + "\n" +
-                                                                    "newIdNfvenda=" + newIdNfvenda.ToString(), ex);
+                                                                log.Error($"Erro ao sincronizar item de nfvenda. \npID_NFVENDA: {newIdNfvenda} \nID_IDENTIFICADOR: {nfvItem.ID_IDENTIFICADOR}", ex);
                                                                 throw ex;
                                                             }
+
+                                                            //audit("SINCCONTNETDB>> ", "SP_TRI_NFVITEM_SYNC_INSERT(): " + newIdCupomItem.ToString());
                                                         }
 
-                                                        #endregion Grava conta a receber na retaguarda
+                                                        #endregion Gravar os itens da nfvenda
 
-                                                        #region Gravar a referência entre cupom e conta a receber
+                                                        #region Gravar TB_NFV_ITEM_COFINS
 
-                                                        using (var fbCommNfvCtarecInsertServ = new FbCommand())
+                                                        #region Busca TB_NFV_ITEM_COFINS (PDV)
+
+                                                        tblNfvItemCofinsPdv.Clear();
+
+                                                        using (var taNfvItemCofinsPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_COFINSTableAdapter())
                                                         {
-                                                            #region Prepara o comando
+                                                            taNfvItemCofinsPdv.Connection.ConnectionString = _strConnContingency;
+                                                            // TRI_MAIT_PEDIDO_ITEM
+                                                            taNfvItemCofinsPdv.FillById(tblNfvItemCofinsPdv, nfvItem.ID_NFVITEM); // já usa sproc
+                                                        }
 
-                                                            fbCommNfvCtarecInsertServ.Connection = fbConnServ;
-                                                            fbCommNfvCtarecInsertServ.Transaction = fbTransactServ;
-                                                            //fbCommNfvCtarecInsertServ.Connection.ConnectionString = _strConnNetwork;
+                                                        #endregion Busca TB_NFV_ITEM_COFINS (PDV)
 
-                                                            fbCommNfvCtarecInsertServ.CommandText = "INSERT INTO TB_NFV_CTAREC (ID_NFVENDA, ID_CTAREC, ID_NUMPAG) VALUES(@ID_NFVENDA, @ID_CTAREC, @ID_NUMPAG); ";
-                                                            fbCommNfvCtarecInsertServ.CommandType = CommandType.Text;
+                                                        #region Procedimento de gravação de TB_NFV_ITEM_COFINS (servidor)
 
-                                                            fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NFVENDA", newIdNfvenda);
-                                                            fbCommNfvCtarecInsertServ.Parameters.Add("@ID_CTAREC", newIdCtarec);
+                                                        foreach (var nfvItemCofinsPdv in tblNfvItemCofinsPdv) // Deve ter apenas 1 item de pedido por item de cupom
+                                                        {
+                                                            #region Gravar TB_NFV_ITEM_COFINS (serv)
 
-                                                            int? newIdNumPag = null;
+                                                            //int newIdMaitPedItemServ = 0;
 
-                                                            if (!ctaRecPdv.IsID_NUMPAGNull())
+                                                            using (var fbCommNfvItemCofinsSyncInsert = new FbCommand())
                                                             {
-                                                                newIdNumPag = (lstAuxNfvFmaPgtoCtaRec.Find(t => t.PdvIdNumPag.Equals(ctaRecPdv.ID_NUMPAG))).ServIdNumPag;
+                                                                #region Prepara o comando da SP_TRI_NFVITEMCOFINS_SYNCINSERT
+
+                                                                fbCommNfvItemCofinsSyncInsert.Connection = fbConnServ;
+                                                                //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                                fbCommNfvItemCofinsSyncInsert.Transaction = fbTransactServ;
+
+                                                                fbCommNfvItemCofinsSyncInsert.CommandText = "SP_TRI_NFVITEMCOFINS_SYNCINSERT";
+                                                                fbCommNfvItemCofinsSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                                fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
+                                                                fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pPOR_BC_COFINS", nfvItemCofinsPdv.IsPOR_BC_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.POR_BC_COFINS);
+                                                                fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pCST_COFINS", nfvItemCofinsPdv.IsCST_COFINSNull() ? null : nfvItemCofinsPdv.CST_COFINS);
+                                                                fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pALIQ_COFINS", nfvItemCofinsPdv.IsALIQ_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.ALIQ_COFINS);
+                                                                fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pVLR_COFINS", nfvItemCofinsPdv.IsVLR_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.VLR_COFINS);
+
+                                                                #endregion Prepara o comando da SP_TRI_NFVITEMCOFINS_SYNCINSERT
+
+                                                                //newIdMaitPedItemServ = (int)
+                                                                fbCommNfvItemCofinsSyncInsert.ExecuteScalar();
+
+                                                                //// Executa a sproc
+                                                                //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMCOFINS_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
+                                                                //                    newIdMaitPedidoServ,
+                                                                //                    pedItemPdv.ID_IDENTIFICADOR,
+                                                                //                    pedItemPdv.QTD_ITEM,
+                                                                //                    newIdMaitPedItemServ));
                                                             }
 
-                                                            fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NUMPAG", newIdNumPag);
-
-                                                            #endregion Prepara o comando
-
-                                                            // Executa a sproc
-                                                            fbCommNfvCtarecInsertServ.ExecuteNonQuery();
+                                                            #endregion Gravar TB_NFV_ITEM_COFINS (serv)
                                                         }
 
-                                                        #endregion Gravar a referência entre cupom e conta a receber
+                                                        #endregion Procedimento de gravação de TB_NFV_ITEM_COFINS (servidor)
 
-                                                        #region Consultar as movimentações diárias da conta a receber
+                                                        #endregion Gravar TB_NFV_ITEM_COFINS
 
-                                                        using (var taMovDiarioPdv = new TB_MOVDIARIOTableAdapter())
+                                                        #region Gravar TB_NFV_ITEM_PIS
+
+                                                        #region Busca TB_NFV_ITEM_PIS (PDV)
+
+                                                        tblNfvItemPisPdv.Clear();
+
+                                                        using (var taNfvItemPisPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_PISTableAdapter())
                                                         {
-                                                            taMovDiarioPdv.Connection.ConnectionString = _strConnContingency;
-
-                                                            tblMovDiarioPdv.Clear();
-                                                            //audit("SINCCONTNETDB>> " + "taMovDiarioPdv.FillByIdCtarec(): " + taMovDiarioPdv.FillByIdCtarec(tblMovDiarioPdv, ctaRecPdv.ID_CTAREC).ToString());
-                                                            taMovDiarioPdv.FillByIdCtarec(tblMovDiarioPdv, ctaRecPdv.ID_CTAREC); // já usa sproc
+                                                            taNfvItemPisPdv.Connection.ConnectionString = _strConnContingency;
+                                                            // TRI_MAIT_PEDIDO_ITEM
+                                                            taNfvItemPisPdv.FillById(tblNfvItemPisPdv, nfvItem.ID_NFVITEM); // já usa sproc
                                                         }
 
-                                                        #endregion Consultar as movimentações diárias da conta a receber
+                                                        #endregion Busca TB_NFV_ITEM_PIS (PDV)
 
-                                                        #region Gravar movimentação diária referente à conta a receber
+                                                        #region Procedimento de gravação de TB_NFV_ITEM_PIS (servidor)
 
-                                                        if (tblMovDiarioPdv != null && tblMovDiarioPdv.Rows.Count > 0)
+                                                        foreach (var nfvItemPisPdv in tblNfvItemPisPdv)
                                                         {
-                                                            foreach (FDBDataSet.TB_MOVDIARIORow movdiarioPdv in tblMovDiarioPdv)
+                                                            #region Gravar TB_NFV_ITEM_PIS (serv)
+
+                                                            using (var fbCommNfvItemPisSyncInsert = new FbCommand())
                                                             {
-                                                                int newIdMovto = 0;
-                                                                //movdiarioPdv.SYNCED = 1;
-                                                                // TB_MOVDIARIO
-                                                                using (var fbCommMovDiarioMovtoSyncInsertServ = new FbCommand())
-                                                                {
-                                                                    #region Prepara o comando da SP_TRI_MOVTO_SYNC_INSERT
+                                                                #region Prepara o comando da SP_TRI_NFVITEMPIS_SYNCINSERT
 
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Connection = fbConnServ;
-                                                                    //fbCommMovDiarioMovtoSyncInsertServ.Connection.ConnectionString = _strConnNetwork;
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Transaction = fbTransactServ;
+                                                                fbCommNfvItemPisSyncInsert.Connection = fbConnServ;
+                                                                //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                                fbCommNfvItemPisSyncInsert.Transaction = fbTransactServ;
 
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.CommandText = "SP_TRI_MOVTO_SYNC_INSERT";
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.CommandType = CommandType.StoredProcedure;
+                                                                fbCommNfvItemPisSyncInsert.CommandText = "SP_TRI_NFVITEMPIS_SYNCINSERT";
+                                                                fbCommNfvItemPisSyncInsert.CommandType = CommandType.StoredProcedure;
 
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pDT_MOVTO", (movdiarioPdv.IsDT_MOVTONull() ? null : (DateTime?)movdiarioPdv.DT_MOVTO));
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pHR_MOVTO", (movdiarioPdv.IsHR_MOVTONull() ? null : (TimeSpan?)movdiarioPdv.HR_MOVTO));
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pHISTORICO", (movdiarioPdv.IsHISTORICONull() ? null : movdiarioPdv.HISTORICO));
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pTIP_MOVTO", (movdiarioPdv.IsTIP_MOVTONull() ? null : movdiarioPdv.TIP_MOVTO));
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pVLR_MOVTO", (movdiarioPdv.IsVLR_MOVTONull() ? null : (decimal?)movdiarioPdv.VLR_MOVTO));
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pID_CTAPLA", (movdiarioPdv.IsID_CTAPLANull() ? null : (short?)movdiarioPdv.ID_CTAPLA));
-                                                                    fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pSYNCED", 1);
+                                                                fbCommNfvItemPisSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
+                                                                fbCommNfvItemPisSyncInsert.Parameters.Add("@pPOR_BC_PIS", nfvItemPisPdv.IsPOR_BC_PISNull() ? null : (decimal?)nfvItemPisPdv.POR_BC_PIS);
+                                                                fbCommNfvItemPisSyncInsert.Parameters.Add("@pCST_PIS", nfvItemPisPdv.IsCST_PISNull() ? null : nfvItemPisPdv.CST_PIS);
+                                                                fbCommNfvItemPisSyncInsert.Parameters.Add("@pALIQ_PIS", nfvItemPisPdv.IsALIQ_PISNull() ? null : (decimal?)nfvItemPisPdv.ALIQ_PIS);
+                                                                fbCommNfvItemPisSyncInsert.Parameters.Add("@pVLR_PIS", nfvItemPisPdv.IsVLR_PISNull() ? null : (decimal?)nfvItemPisPdv.VLR_PIS);
 
-                                                                    #endregion Prepara o comando da SP_TRI_MOVTO_SYNC_INSERT
+                                                                #endregion Prepara o comando da SP_TRI_NFVITEMPIS_SYNCINSERT
 
-                                                                    try
-                                                                    {
-                                                                        // Executa a sproc
-                                                                        newIdMovto = (int)fbCommMovDiarioMovtoSyncInsertServ.ExecuteScalar(); //TODO: esse trecho é problemático para a Estilo K, às vezes apresenta dead-lock
-                                                                    }
-                                                                    catch (Exception ex)
-                                                                    {
-                                                                        log.Error("Erro ao sync movdiario (Serv): \npDT_MOVTO=" + (movdiarioPdv.IsDT_MOVTONull() ? "null" : movdiarioPdv.DT_MOVTO.ToString()) +
-                                                                                           "\npHR_MOVTO=" + (movdiarioPdv.IsHR_MOVTONull() ? "null" : movdiarioPdv.HR_MOVTO.ToString()) +
-                                                                                           "\npHISTORICO=" + (movdiarioPdv.IsHISTORICONull() ? "null" : movdiarioPdv.HISTORICO.ToString()) +
-                                                                                           "\npTIP_MOVTO=" + (movdiarioPdv.IsTIP_MOVTONull() ? "null" : movdiarioPdv.TIP_MOVTO.ToString()) +
-                                                                                           "\npVLR_MOVTO=" + (movdiarioPdv.IsVLR_MOVTONull() ? "null" : movdiarioPdv.VLR_MOVTO.ToString()) +
-                                                                                           "\npID_CTAPLA=" + (movdiarioPdv.IsID_CTAPLANull() ? "null" : movdiarioPdv.ID_CTAPLA.ToString()), ex);
-                                                                        throw ex;
-                                                                    }
-                                                                }
+                                                                //newIdMaitPedItemServ = (int)
+                                                                fbCommNfvItemPisSyncInsert.ExecuteScalar();
 
-                                                                #region Gravar a referência entre a conta a receber e a movimentação diária
-
-                                                                using (var fbCommCtarecMovtoInsertServ = new FbCommand())
-                                                                {
-                                                                    #region Prepara o comando
-
-                                                                    fbCommCtarecMovtoInsertServ.Connection = fbConnServ;
-                                                                    fbCommCtarecMovtoInsertServ.Transaction = fbTransactServ;
-                                                                    //fbCommCtarecMovtoInsertServ.Connection.ConnectionString = _strConnNetwork;
-
-                                                                    fbCommCtarecMovtoInsertServ.CommandText = "INSERT INTO TB_CTAREC_MOVTO (ID_MOVTO, ID_CTAREC) VALUES(@ID_MOVTO, @ID_CTAREC); ";
-                                                                    fbCommCtarecMovtoInsertServ.CommandType = CommandType.Text;
-
-                                                                    fbCommCtarecMovtoInsertServ.Parameters.Add("@ID_MOVTO", newIdMovto);
-                                                                    fbCommCtarecMovtoInsertServ.Parameters.Add("@ID_CTAREC", newIdCtarec);
-
-                                                                    #endregion Prepara o comando
-
-                                                                    // Executa a sproc
-                                                                    fbCommCtarecMovtoInsertServ.ExecuteNonQuery();
-                                                                }
-
-                                                                #endregion Gravar a referência entre a conta a receber e a movimentação diária
-
-                                                                #region Indicar que o fechamento de caixa foi sincronizado
-
-                                                                using (var taMovDiarioPdv = new TB_MOVDIARIOTableAdapter())
-                                                                {
-                                                                    taMovDiarioPdv.Connection = fbConnPdv;
-                                                                    taMovDiarioPdv.Transaction = fbTransactPdv;
-                                                                    //taMovDiarioPdv.Connection.ConnectionString = _strConnContingency;
-
-                                                                    taMovDiarioPdv.SP_TRI_MOVTOSETSYNCED(movdiarioPdv.ID_MOVTO, 1);
-                                                                }
-
-                                                                #endregion Indicar que o fechamento de caixa foi sincronizado
+                                                                //// Executa a sproc
+                                                                //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMPIS_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
+                                                                //                    newIdMaitPedidoServ,
+                                                                //                    pedItemPdv.ID_IDENTIFICADOR,
+                                                                //                    pedItemPdv.QTD_ITEM,
+                                                                //                    newIdMaitPedItemServ));
                                                             }
+
+                                                            #endregion Gravar TB_NFV_ITEM_PIS (serv)
                                                         }
 
-                                                        #endregion Gravar movimentação diária referente à conta a receber
-                                                    }
-                                                }
+                                                        #endregion Procedimento de gravação de TB_NFV_ITEM_PIS (servidor)
 
-                                                #endregion Verifica se a nfvenda é a prazo
+                                                        #endregion Gravar TB_NFV_ITEM_PIS
 
-                                                #endregion Vendas a prazo
+                                                        #region Gravar TB_NFV_ITEM_ICMS
 
-                                                #region Verificar se a nfvenda foi cancelado: reativar o orçamento vinculado, se houver
+                                                        #region Busca TB_NFV_ITEM_ICMS (PDV)
 
-                                                //TODO: completar no orçamento
+                                                        tblNfvItemIcmsPdv.Clear();
 
-                                                //if (nfvenda.STATUS == "C" || nfvenda.STATUS == "X")
-                                                //{
-                                                //    // TRI_PDV_ORCA_NFVENDA_REL
-                                                //    using (var taOrcaServ = new DataSets.FDBDataSetOrcamTableAdapters.TRI_PDV_ORCA_NFVENDA_RELTableAdapter())
-                                                //    {
-                                                //        taOrcaServ.Connection = fbConnServ;
-                                                //        taOrcaServ.Transaction = fbTransactServ;
-                                                //        //taOrcaServ.Connection.ConnectionString = _strConnNetwork;
-
-                                                //        audit("SINCCONTNETDB>> ", string.Format("(nfvenda cancelado antes de sync) taOrcaServ.SP_TRI_ORCA_REATIVAORCA({1}): {0}",
-                                                //                            taOrcaServ.SP_TRI_ORCA_REATIVAORCA(nfvenda.ID_NFVENDA).Safestring(),
-                                                //                            nfvenda.ID_NFVENDA.Safestring()));
-                                                //    }
-                                                //}
-
-                                                #endregion Verificar se a nfvenda foi cancelado: reativar o orçamento vinculado, se houver
-
-                                                #region Indicar que a nfvenda foi synced
-
-                                                using (var fbCommNfvendaSetSynced = new FbCommand())
-                                                {
-                                                    #region Prepara o comando da SP_TRI_NFVENDASETSYNCED
-
-                                                    fbCommNfvendaSetSynced.Connection = fbConnPdv;
-                                                    fbCommNfvendaSetSynced.Transaction = fbTransactPdv;
-
-                                                    //fbCommNfvendaSetSynced.CommandText = "SP_TRI_CUPOMSETSYNCED";
-                                                    fbCommNfvendaSetSynced.CommandText = "SP_TRI_NFVENDA_SETSYNCED";
-                                                    fbCommNfvendaSetSynced.CommandType = CommandType.StoredProcedure;
-
-                                                    fbCommNfvendaSetSynced.Parameters.Add("@pIdNfvenda", nfvenda.ID_NFVENDA);
-                                                    fbCommNfvendaSetSynced.Parameters.Add("@pSynced", 1);
-
-                                                    #endregion Prepara o comando da SP_TRI_NFVENDASETSYNCED
-
-                                                    // Executa a sproc
-                                                    fbCommNfvendaSetSynced.ExecuteScalar();
-                                                }
-
-                                                #endregion Indicar que a nfvenda foi synced
-
-                                                //fbConnPdv.Close();
-                                                //fbConnServ.Close();
-
-                                                // Finaliza a transação:
-                                                //transactionScopeCupons.Complete();
-                                                fbTransactServ.Commit();
-                                                fbTransactPdv.Commit();
-                                            }
-                                            catch (TransactionAbortedException taEx)
-                                            {
-                                                log.Error("TransactionAbortedException", taEx);
-                                                fbTransactServ.Rollback();
-                                                fbTransactPdv.Rollback();
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                log.Error("Erro durante a transação de nfvendas:", ex);
-                                                fbTransactServ.Rollback();
-                                                fbTransactPdv.Rollback();
-                                            }
-                                        }
-                                        #region Forçar a execução da trigger ref. a tabela TB_NFVENDA_TOT
-
-                                        using (var fbCommNfvendaForceTriggerUpdate = new FbCommand())
-                                        {
-                                            #region Prepara o comando da SP_TRI_NFVENDASETSYNCED
-
-                                            fbCommNfvendaForceTriggerUpdate.Connection = fbConnServ;
-
-                                            fbCommNfvendaForceTriggerUpdate.CommandText = "UPDATE TB_NFVENDA SET STATUS = 'I' WHERE ID_NFVENDA = @Param1 AND STATUS = 'I'";
-                                            fbCommNfvendaForceTriggerUpdate.CommandType = CommandType.Text;
-
-                                            fbCommNfvendaForceTriggerUpdate.Parameters.Add("@Param1", newIdNfvenda);
-
-
-                                            #endregion Prepara o comando da SP_TRI_NFVENDASETSYNCED
-
-                                            // Executa o ad-hoc
-                                            fbCommNfvendaForceTriggerUpdate.ExecuteScalar();
-                                        }
-
-
-                                        #endregion
-
-                                    }
-                                    #endregion Gravar a nfvenda na retaguarda (transação)
-
-
-                                }
-
-                                log.Debug(string.Format("Lote {0} de nfvendas processado!", contLote.ToString()));
-
-                                #endregion Sincroniza (manda para a retaguarda)
-
-                                #region Prepara o próximo lote
-
-                                // Limpa a tabela para pegar o próximo lote (é necessário limpar mesmo? o comando seguinte deveria sobrescrevê-lo):
-                                tblNfvendaUnsynced.Clear();
-                                log.Debug("taNfvendaUnsynced.FillByNfvendaSync(): " + taNfvendaUnsynced.FillByNfvendaSync(tblNfvendaUnsynced, 0).ToString()); // já usa sproc
-
-                                #endregion Prepara o próximo lote
-                            }
-
-                            #region NOPE - CLIPP RULES NO MORE
-                            //taEstProdutoPdv.SP_TRI_FIX_CLIPP_RULES();
-                            //taEstProdutoServ.SP_TRI_FIX_CLIPP_RULES();
-                            #endregion NOPE - CLIPP RULES NO MORE
-                        }
-                        #endregion Procedimento executado enquanto houver cupons para sincronizar
-                    }
-                    #region Manipular Exception
-                    catch (Exception ex)
-                    {
-                        log.Error("Erro ao sincronizar", ex);
-                        GravarErroSync("Erro ao sincronizar nfvendas", tblCtaRecPdv, ex);
-                        GravarErroSync("Erro ao sincronizar nfvendas", tblNfvendaFmapagtoNfcePdv, ex);
-                        GravarErroSync("Erro ao sincronizar nfvendas", tblNfvItemPdv, ex);
-                        GravarErroSync("Erro ao sincronizar nfvendas", tblNfvendaUnsynced, ex);
-                        GravarErroSync("Erro ao sincronizar nfvendas", tblMovDiarioPdv, ex);
-                        throw ex;
-                    }
-                    #endregion Manipular Exception
-                    #region Limpeza da transação
-                    finally
-                    {
-                        #region Trata disposable objects
-
-                        #region(cupons, contas a receber e movimentação diária)
-
-                        if (taNfvendaFmaPagtoNfcePdv != null) { taNfvendaFmaPagtoNfcePdv.Dispose(); }
-                        //if (taCupomFmaPagtoServ != null) { taCupomFmaPagtoServ.Dispose(); }
-
-                        //if (taTrocaPdv != null) { taTrocaPdv.Dispose(); }
-                        //if (taTrocaServ != null) { taTrocaServ.Dispose(); }
-                        //if (tblTrocaPdv != null) { tblTrocaPdv.Dispose(); }
-
-                        //if (taCupomServ != null) { taCupomServ.Dispose(); }
-                        //if (taCtaRecServ != null) { taCtaRecServ.Dispose(); }
-                        //if (taCupomCtarecServ != null) { taCupomCtarecServ.Dispose(); }
-                        //if (taMovDiarioServ != null) { taMovDiarioServ.Dispose(); }
-                        //if (taCtarecMovtoServ != null) { taCtarecMovtoServ.Dispose(); }
-
-                        //if (taCtaRecPdv != null) { taCtaRecPdv.Dispose(); }
-                        //if (taMovDiarioPdv != null) { taMovDiarioPdv.Dispose(); }
-
-                        if (tblNfvendaFmapagtoNfcePdv != null) { tblNfvendaFmapagtoNfcePdv.Dispose(); }
-                        if (tblCtaRecPdv != null) { tblCtaRecPdv.Dispose(); }
-                        if (tblMovDiarioPdv != null) { tblMovDiarioPdv.Dispose(); }
-
-                        #endregion (cupons, contas a receber e movimentação diária)
-
-                        #region (item de cupom)
-
-                        if (tblNfvItemPdv != null) { tblNfvItemPdv.Dispose(); }
-                        if (taNfvItemPdv != null) { taNfvItemPdv.Dispose(); }
-                        //if (taCupomItemServ != null) { taCupomItemServ.Dispose(); }
-
-                        #endregion (item de cupom)
-
-                        #region (cupons unsynced, produtos)
-
-                        if (taNfvendaUnsynced != null) { taNfvendaUnsynced.Dispose(); }
-                        if (tblNfvendaUnsynced != null) { tblNfvendaUnsynced.Dispose(); }
-
-                        if (taEstProdutoServ != null) { taEstProdutoServ.Dispose(); }
-                        if (taEstProdutoPdv != null) { taEstProdutoPdv.Dispose(); }
-
-                        #endregion (cupons unsynced, produtos)
-
-                        taSatPdv?.Dispose();
-                        tblSatPdv?.Dispose();
-                        taSatCancPdv?.Dispose();
-                        tblSatCancPdv?.Dispose();
-
-                        tblNfvItemCofinsPdv?.Dispose();
-                        tblNfvItemPisPdv?.Dispose();
-                        tblNfvItemIcmsPdv?.Dispose();
-                        tblNfvItemStPdv?.Dispose();
-
-                        #endregion Trata disposable objects
-                    }
-                    #endregion Limpeza da transação
-                }
-
-                #endregion Padrão, unsynced
-
-                #region Nfvendas sincronizadas e posteriormente canceladas
-                {
-                    #region Cria os TableAdapters, DataTables e variáveis
-
-                    var taNfvendaSyncedCancelPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter();
-                    taNfvendaSyncedCancelPdv.Connection.ConnectionString = _strConnContingency;
-                    var tblNfvendaSyncedCancelPdv = new FDBDataSetVenda.TB_NFVENDADataTable();
-
-                    var taEstProdutoServ = new TB_EST_PRODUTOTableAdapter();
-                    taEstProdutoServ.Connection.ConnectionString = _strConnNetwork;
-
-                    var taEstProdutoPdv = new TB_EST_PRODUTOTableAdapter();
-                    taEstProdutoPdv.Connection.ConnectionString = _strConnContingency;
-
-                    int intCountLoteNfvendaSyncedCancel = 0;
-
-                    #endregion Cria os TableAdapters, DataTables e variáveis
-
-                    try
-                    {
-                        // Busca todos os cupons que foram synced e posteriormente cancelados (TIP_QUERY = 1)
-                        // Lembrando que a sproc executada abaixo retorna até 200 registros por vez.
-                        log.Debug("taNfvendaSyncedCancelPdv.FillByNfvendaSync(): " + taNfvendaSyncedCancelPdv.FillByNfvendaSync(tblNfvendaSyncedCancelPdv, 1).ToString()); // já usa sproc
-
-                        while (tblNfvendaSyncedCancelPdv != null && tblNfvendaSyncedCancelPdv.Rows.Count > 0)
-                        {
-                            intCountLoteNfvendaSyncedCancel++;
-
-                            #region NOPE - Break Clipp rules agora é permanente
-                            //// Para repor quantidade em estoque sem dar problemas
-                            //taEstProdutoServ.SP_TRI_BREAK_CLIPP_RULES();
-                            //taEstProdutoPdv.SP_TRI_BREAK_CLIPP_RULES();
-                            #endregion NOPE - Break Clipp rules agora é permanente
-
-                            // Percorre por cada cupom cancelado:
-                            foreach (FDBDataSetVenda.TB_NFVENDARow nfvendaCancelPdv in tblNfvendaSyncedCancelPdv)
-                            {
-                                #region Validações
-
-                                //// Foi necessário adaptar o COO como o ID_CUPOM negativo para sistema legado
-                                //if (cupomCancelPdv.IsCOONull()) { cupomCancelPdv.COO = cupomCancelPdv.ID_CUPOM * -1; }
-                                //if (cupomCancelPdv.IsNUM_CAIXANull()) { cupomCancelPdv.NUM_CAIXA = 0; }
-
-                                #endregion Validações
-
-                                #region Iniciar o procedimento de cancelamento na retaguarda
-                                //using (var transactionScopeCupomResync = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0, 0)))
-                                using (var transactionScopeNfvendaResync = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted })) //TODO: verificar se esse tipo de IsolationLevel é o mais indicado para essa situação
-                                {
-                                    // Define a conexão com o banco do servidor:
-                                    using (var fbConnServ = new FbConnection(_strConnNetwork))
-                                    // Define a conexão com o banco do PDV:
-                                    using (var fbConnPdv = new FbConnection(_strConnContingency))
-                                    using (var tblNfvendaItemSyncedCancelPdv = new FDBDataSetVenda.TB_NFV_ITEMDataTable())
-                                    using (var tblCtarecServ = new FDBDataSet.TB_CONTA_RECEBERDataTable())
-                                    using (var tblMovtoServ = new FDBDataSet.TB_MOVDIARIODataTable())
-                                    {
-                                        fbConnServ.Open();
-                                        fbConnPdv.Open();
-
-                                        // Verificar se a nfvenda tem conta a receber:
-                                        if (!nfvendaCancelPdv.IsQTD_CTARECNull() && nfvendaCancelPdv.QTD_CTAREC > 0)
-                                        {
-                                            #region Busca as contas a receber da nfvenda no serv
-                                            try
-                                            {
-                                                using (var taCtarecServ = new TB_CONTA_RECEBERTableAdapter())
-                                                {
-                                                    taCtarecServ.Connection = fbConnServ;
-                                                    //audit("SINCCONTNETDB>> " + "taCtarecServ.FillByCooNumcaixa(): " + taCtarecServ.FillByCooNumcaixa(tblCtarecServ, cupomCancelPdv.COO, cupomCancelPdv.NUM_CAIXA).ToString());
-
-                                                    //TODO -- DONE --: qual é a chave de identificação de uma nfvenda equivalente para ambas as bases de dados (cliente/servidor)?
-                                                    // Deve ser NF_NUMERO e NF_SERIE
-
-                                                    taCtarecServ.FillByNfNumeroSerie(tblCtarecServ, nfvendaCancelPdv.NF_NUMERO, nfvendaCancelPdv.NF_SERIE).ToString(); // já usa sproc
-                                                }
-                                            }
-                                            catch (Exception ex)
-                                            {
-                                                log.Error("Erro ao consultar contas a receber no servidor ( / NF_NUMERO = " + nfvendaCancelPdv.NF_NUMERO + " / NF_SERIE = " + nfvendaCancelPdv.NF_SERIE + "): ", ex);
-                                                throw ex;
-                                            }
-                                            #endregion Busca as contas a receber da nfvenda no serv
-
-                                            #region Percorre por cada conta a receber no servidor
-                                            foreach (FDBDataSet.TB_CONTA_RECEBERRow ctarecServ in tblCtarecServ)
-                                            {
-                                                #region Busca os movimentos diários da conta a receber
-                                                using (var taMovtoServ = new TB_MOVDIARIOTableAdapter())
-                                                {
-                                                    taMovtoServ.Connection = fbConnServ;
-                                                    tblMovtoServ.Clear();
-                                                    //audit("SINCCONTNETDB>> " + "taMovtoServ.FillByIdCtarec(): " + taMovtoServ.FillByIdCtarec(tblMovtoServ, ctarecServ.ID_CTAREC).ToString());
-                                                    taMovtoServ.FillByIdCtarec(tblMovtoServ, ctarecServ.ID_CTAREC); // já usa sproc
-                                                }
-                                                #endregion Busca os movimentos diários da conta a receber
-
-                                                #region Percorre por cada movimentação diária do servidor
-                                                foreach (FDBDataSet.TB_MOVDIARIORow movtoServ in tblMovtoServ)
-                                                {
-                                                    #region Apagar TB_CTAREC_MOVTO
-                                                    //taCtarecMovtoServ.SP_TRI_CTARECMOVTO_SYNC_DEL(movtoServ.ID_MOVTO, ctarecServ.ID_CTAREC);
-                                                    using (var fbCommCtarecMovtoSyncDelServ = new FbCommand())
-                                                    {
-                                                        #region Prepara o comando da SP_TRI_CTARECMOVTO_SYNC_DEL
-
-                                                        fbCommCtarecMovtoSyncDelServ.Connection = fbConnServ;
-
-                                                        fbCommCtarecMovtoSyncDelServ.CommandText = "SP_TRI_CTARECMOVTO_SYNC_DEL";
-                                                        fbCommCtarecMovtoSyncDelServ.CommandType = CommandType.StoredProcedure;
-
-                                                        fbCommCtarecMovtoSyncDelServ.Parameters.Add("@pID_MOVTO", movtoServ.ID_MOVTO);
-                                                        fbCommCtarecMovtoSyncDelServ.Parameters.Add("@pID_CTAREC", ctarecServ.ID_CTAREC);
-
-                                                        #endregion Prepara o comando da SP_TRI_CTARECMOVTO_SYNC_DEL
-
-                                                        // Executa a sproc
-                                                        fbCommCtarecMovtoSyncDelServ.ExecuteScalar();
-                                                    }
-                                                    #endregion Apagar TB_CTAREC_MOVTO
-
-                                                    #region Apagar TB_MOVDIARIO
-                                                    //taMovtoServ.SP_TRI_MOVTO_SYNC_DEL(movtoServ.ID_MOVTO);
-                                                    using (var fbCommMovtoSyncDelServ = new FbCommand())
-                                                    {
-                                                        #region Prepara o comando da SP_TRI_MOVTO_SYNC_DEL
-
-                                                        fbCommMovtoSyncDelServ.Connection = fbConnServ;
-
-                                                        fbCommMovtoSyncDelServ.CommandText = "SP_TRI_MOVTO_SYNC_DEL";
-                                                        fbCommMovtoSyncDelServ.CommandType = CommandType.StoredProcedure;
-
-                                                        fbCommMovtoSyncDelServ.Parameters.Add("@pID_MOVTO", movtoServ.ID_MOVTO);
-
-                                                        #endregion Prepara o comando da SP_TRI_MOVTO_SYNC_DEL
-
-                                                        // Executa a sproc
-                                                        fbCommMovtoSyncDelServ.ExecuteScalar();
-                                                    }
-                                                    #endregion Apagar TB_MOVDIARIO
-                                                }
-                                                #endregion Percorre por cada movimentação diária do servidor
-
-                                                #region Apagar o vínculo TB_NFV_CTAREC
-                                                //taCupomCtarecServ.SP_TRI_CUPOMCTAREC_SYNC_DEL(cupomCancelPdv.COO, cupomCancelPdv.NUM_CAIXA, ctarecServ.ID_CTAREC);
-                                                using (var fbCommNfvCtarecSyncDelServ = new FbCommand())
-                                                {
-                                                    #region Prepara o comando da SP_TRI_NFV_CTAREC_SYNC_DEL
-
-                                                    fbCommNfvCtarecSyncDelServ.Connection = fbConnServ;
-
-                                                    //TODO: talvez seja necessário adaptar a sproc para usar a ID_NUMPAG...
-
-                                                    fbCommNfvCtarecSyncDelServ.CommandText = "SP_TRI_NFV_CTAREC_SYNC_DEL";
-                                                    fbCommNfvCtarecSyncDelServ.CommandType = CommandType.StoredProcedure;
-
-                                                    fbCommNfvCtarecSyncDelServ.Parameters.Add("@pNfNumero", nfvendaCancelPdv.NF_NUMERO);
-                                                    fbCommNfvCtarecSyncDelServ.Parameters.Add("@pNfSerie", nfvendaCancelPdv.NF_SERIE);
-                                                    fbCommNfvCtarecSyncDelServ.Parameters.Add("@pIdCtarec", ctarecServ.ID_CTAREC);
-
-                                                    #endregion Prepara o comando da SP_TRI_NFV_CTAREC_SYNC_DEL
-
-                                                    // Executa a sproc
-                                                    try
-                                                    {
-                                                        fbCommNfvCtarecSyncDelServ.ExecuteScalar();
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        log.Error(String.Format("NF_NUMERO: {1}, NF_SERIE: {2}, ID_CTAREC {3}",
-                                                                                         nfvendaCancelPdv.NF_NUMERO,
-                                                                                         nfvendaCancelPdv.NF_SERIE,
-                                                                                         ctarecServ.ID_CTAREC), ex);
-                                                        throw ex;
-                                                    }
-
-                                                }
-                                                #endregion Apagar o vínculo TB_CUPOM_CTAREC
-
-                                                #region Apagar conta a receber (TB_CONTA_RECEBER)
-
-                                                using (var fbCommCtarecSyncDelServ = new FbCommand())
-                                                {
-                                                    #region Prepara o comando para deletar conta a receber
-
-                                                    fbCommCtarecSyncDelServ.Connection = fbConnServ;
-
-                                                    fbCommCtarecSyncDelServ.CommandText = "DELETE FROM TB_CONTA_RECEBER WHERE ID_CTAREC = @pID_CTAREC;";
-                                                    fbCommCtarecSyncDelServ.CommandType = CommandType.Text;
-
-                                                    fbCommCtarecSyncDelServ.Parameters.Add("@pID_CTAREC", ctarecServ.ID_CTAREC);
-
-                                                    #endregion Prepara o comando para deletar conta a receber
-
-                                                    try
-                                                    {
-                                                        // Executa a sproc
-                                                        fbCommCtarecSyncDelServ.ExecuteScalar();
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        log.Error($"Erro ao cancelar (excluir) conta a receber no servidor (ID_CTAREC { ctarecServ.ID_CTAREC }).", ex);
-                                                        throw ex;
-                                                    }
-                                                }
-                                                #endregion Apagar conta a receber (TB_CONTA_RECEBER)
-                                            }
-                                            #endregion Percorre por cada conta a receber no servidor
-                                        }
-
-                                        #region Atualizar TB_SAT no servidor
-
-                                        using (var tblSatPdv = new FDBDataSetVenda.TB_SATDataTable())
-                                        using (var taSatPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter())
-                                        using (var taSatServ = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter())
-                                        {
-                                            taSatPdv.Connection = fbConnPdv;
-                                            taSatPdv.FillByIdNfvenda(tblSatPdv, nfvendaCancelPdv.ID_NFVENDA);
-
-                                            taSatServ.Connection = fbConnServ;
-
-                                            foreach (var itemSatPdv in tblSatPdv)
-                                            {
-                                                #region Atualizar item SAT equivalente no servidor
-
-                                                using (var fbCommSatUpsertServ = new FbCommand())
-                                                {
-                                                    #region Prepara o comando da SP_TRI_SAT_UPSERT_BY_CHAVE
-
-                                                    fbCommSatUpsertServ.Connection = fbConnServ;
-
-                                                    fbCommSatUpsertServ.CommandText = "SP_TRI_SAT_UPSERT_BY_CHAVE";
-                                                    fbCommSatUpsertServ.CommandType = CommandType.StoredProcedure;
-
-                                                    //fbCommSatUpsertServ.Parameters.Add("@pID_NFVENDA", itemSatPdv.ID_NFVENDA);
-
-                                                    fbCommSatUpsertServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
-                                                    fbCommSatUpsertServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
-
-                                                    fbCommSatUpsertServ.Parameters.Add("@pCHAVE", itemSatPdv.CHAVE); //TODO: NÃO PODE SER NULL! VAI DAR RUIM
-                                                    fbCommSatUpsertServ.Parameters.Add("@pDT_EMISSAO", itemSatPdv.IsDT_EMISSAONull() ? null : (DateTime?)itemSatPdv.DT_EMISSAO);
-                                                    fbCommSatUpsertServ.Parameters.Add("@pHR_EMISSAO", itemSatPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)itemSatPdv.HR_EMISSAO);
-
-                                                    fbCommSatUpsertServ.Parameters.Add("@pSTATUS", itemSatPdv.IsSTATUSNull() ? null : itemSatPdv.STATUS);
-                                                    fbCommSatUpsertServ.Parameters.Add("@pSTATUS_DES", itemSatPdv.IsSTATUS_DESNull() ? null : itemSatPdv.STATUS_DES);
-                                                    fbCommSatUpsertServ.Parameters.Add("@pNUMERO_CFE", itemSatPdv.IsNUMERO_CFENull() ? null : (int?)itemSatPdv.NUMERO_CFE);
-                                                    fbCommSatUpsertServ.Parameters.Add("@pNUM_SERIE_SAT", itemSatPdv.IsNUM_SERIE_SATNull() ? null : itemSatPdv.NUM_SERIE_SAT);
-
-                                                    #endregion Prepara o comando da SP_TRI_SAT_UPSERT_BY_CHAVE
-
-                                                    // Executa a sproc
-                                                    try
-                                                    {
-                                                        log.Debug($"pNF_NUMERO: {fbCommSatUpsertServ.Parameters[0]}");
-                                                        log.Debug($"pNF_SERIE: {fbCommSatUpsertServ.Parameters[1]}");
-                                                        log.Debug($"pCHAVE: {fbCommSatUpsertServ.Parameters[2]}");
-                                                        log.Debug($"pDT_EMISSAO: {fbCommSatUpsertServ.Parameters[3]}");
-                                                        log.Debug($"pHR_EMISSAO: {fbCommSatUpsertServ.Parameters[4]}");
-                                                        log.Debug($"pSTATUS: {fbCommSatUpsertServ.Parameters[5]}");
-                                                        log.Debug($"pSTATUS_DES: {fbCommSatUpsertServ.Parameters[6]}");
-                                                        log.Debug($"pNUMERO_CFE: {fbCommSatUpsertServ.Parameters[7]}");
-                                                        log.Debug($"pNUM_SERIE_SAT: {fbCommSatUpsertServ.Parameters[8]}");
-
-                                                        fbCommSatUpsertServ.ExecuteScalar();
-                                                    }
-                                                    catch (Exception ex)
-                                                    {
-                                                        log.Error($"pNF_NUMERO: {nfvendaCancelPdv.NF_NUMERO}, NF_SERIE: {nfvendaCancelPdv.NF_SERIE}, pCHAVE {itemSatPdv.CHAVE} (PDV)", ex);
-                                                        throw ex;
-                                                    }
-
-                                                }
-
-                                                #endregion Atualizar item SAT equivalente no servidor
-
-                                                #region Buscar os itens cancelados SAT do item SAT atual
-
-                                                using (var tblSatCancPdv = new FDBDataSetVenda.TB_SAT_CANCDataTable())
-                                                using (var taSatCancPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter())
-                                                using (var taSatCancServ = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter())
-                                                {
-                                                    taSatCancPdv.Connection = fbConnPdv;
-                                                    taSatCancServ.Connection = fbConnServ;
-
-                                                    taSatCancPdv.FillByIdRegistro(tblSatCancPdv, itemSatPdv.ID_REGISTRO);
-
-                                                    foreach (var itemSatCancPdv in tblSatCancPdv)
-                                                    {
-                                                        #region Atualizar item cancelado SAT equivalente no servidor:
-
-                                                        using (var fbCommSatCancUpsertServ = new FbCommand())
+                                                        using (var taNfvItemIcmsPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_ICMSTableAdapter())
                                                         {
-                                                            #region Prepara o comando da SP_TRI_SATCANC_UPSERT_BY_CHAVE
+                                                            taNfvItemIcmsPdv.Connection.ConnectionString = _strConnContingency;
+                                                            // TRI_MAIT_PEDIDO_ITEM
+                                                            taNfvItemIcmsPdv.FillById(tblNfvItemIcmsPdv, nfvItem.ID_NFVITEM); // já usa sproc
+                                                        }
 
-                                                            fbCommSatCancUpsertServ.Connection = fbConnServ;
+                                                        #endregion Busca TB_NFV_ITEM_ICMS (PDV)
 
-                                                            fbCommSatCancUpsertServ.CommandText = "SP_TRI_SATCANC_UPSERT_BY_CHAVE";
-                                                            fbCommSatCancUpsertServ.CommandType = CommandType.StoredProcedure;
+                                                        #region Procedimento de gravação de TB_NFV_ITEM_ICMS (servidor)
 
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pCHAVE_SAT", itemSatPdv.CHAVE); //TODO: NÃO PODE SER NULO!!
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pDT_EMISSAO", itemSatCancPdv.IsDT_EMISSAONull() ? null : (DateTime?)itemSatCancPdv.DT_EMISSAO);
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pHR_EMISSAO", itemSatCancPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)itemSatCancPdv.HR_EMISSAO);
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pNUMERO_CFE", itemSatCancPdv.IsNUMERO_CFENull() ? null : (int?)itemSatCancPdv.NUMERO_CFE);
+                                                        foreach (var nfvItemIcmsPdv in tblNfvItemIcmsPdv)
+                                                        {
+                                                            #region Gravar TB_NFV_ITEM_ICMS (serv)
 
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pCHAVE", itemSatCancPdv.CHAVE); //TODO: NÃO PODE SER NULO!!
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pNUM_SERIE_SAT", itemSatCancPdv.IsNUM_SERIE_SATNull() ? null : itemSatCancPdv.NUM_SERIE_SAT);
-                                                            fbCommSatCancUpsertServ.Parameters.Add("@pENVIO_API", itemSatCancPdv.IsENVIO_APINull() ? null : (DateTime?)itemSatCancPdv.ENVIO_API);
+                                                            using (var fbCommNfvItemIcmsSyncInsert = new FbCommand())
+                                                            {
+                                                                #region Prepara o comando da SP_TRI_NFVITEMICMS_SYNCINSERT
 
-                                                            #endregion Prepara o comando da SP_TRI_SATCANC_UPSERT_BY_CHAVE
+                                                                fbCommNfvItemIcmsSyncInsert.Connection = fbConnServ;
+                                                                //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                                fbCommNfvItemIcmsSyncInsert.Transaction = fbTransactServ;
 
-                                                            // Executa a sproc
+                                                                fbCommNfvItemIcmsSyncInsert.CommandText = "SP_TRI_NFVITEMICMS_SYNCINSERT";
+                                                                fbCommNfvItemIcmsSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                                fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
+                                                                fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pVLR_BC_ICMS", nfvItemIcmsPdv.IsVLR_BC_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.VLR_BC_ICMS);
+                                                                fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pPOR_BC_ICMS", nfvItemIcmsPdv.IsPOR_BC_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.POR_BC_ICMS);
+                                                                fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pCST_ICMS", nfvItemIcmsPdv.IsCST_ICMSNull() ? null : nfvItemIcmsPdv.CST_ICMS);
+                                                                fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pALIQ_ICMS", nfvItemIcmsPdv.IsALIQ_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.ALIQ_ICMS);
+                                                                fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pVLR_ICMS", nfvItemIcmsPdv.IsVLR_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.VLR_ICMS);
+
+                                                                #endregion Prepara o comando da SP_TRI_NFVITEMICMS_SYNCINSERT
+
+                                                                //newIdMaitPedItemServ = (int)
+                                                                fbCommNfvItemIcmsSyncInsert.ExecuteScalar();
+
+                                                                //// Executa a sproc
+                                                                //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMICMS_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
+                                                                //                    newIdMaitPedidoServ,
+                                                                //                    pedItemPdv.ID_IDENTIFICADOR,
+                                                                //                    pedItemPdv.QTD_ITEM,
+                                                                //                    newIdMaitPedItemServ));
+                                                            }
+
+                                                            #endregion Gravar TB_NFV_ITEM_ICMS (serv)
+                                                        }
+
+                                                        #endregion Procedimento de gravação de TB_NFV_ITEM_ICMS (servidor)
+
+                                                        #endregion Gravar TB_NFV_ITEM_ICMS
+
+                                                        #region Gravar TB_NFV_ITEM_ST
+
+                                                        #region Busca TB_NFV_ITEM_ST (PDV)
+
+                                                        tblNfvItemStPdv.Clear();
+
+                                                        using (var taNfvItemStPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_STTableAdapter())
+                                                        {
+                                                            taNfvItemStPdv.Connection.ConnectionString = _strConnContingency;
+                                                            // TRI_MAIT_PEDIDO_ITEM
+                                                            taNfvItemStPdv.FillById(tblNfvItemStPdv, nfvItem.ID_NFVITEM); // já usa sproc
+                                                        }
+
+                                                        #endregion Busca TB_NFV_ITEM_ST (PDV)
+
+                                                        #region Procedimento de gravação de TB_NFV_ITEM_ST (servidor)
+
+                                                        foreach (var nfvItemStPdv in tblNfvItemStPdv)
+                                                        {
+                                                            #region Gravar TB_NFV_ITEM_ST (serv)
+
+                                                            using (var fbCommNfvItemStSyncInsert = new FbCommand())
+                                                            {
+                                                                #region Prepara o comando da SP_TRI_NFVITEMST_SYNCINSERT
+
+                                                                fbCommNfvItemStSyncInsert.Connection = fbConnServ;
+                                                                //fbCommMaitPedItemSyncInsert.Connection.ConnectionString = _strConnNetwork;
+                                                                fbCommNfvItemStSyncInsert.Transaction = fbTransactServ;
+
+                                                                fbCommNfvItemStSyncInsert.CommandText = "SP_TRI_NFVITEMST_SYNCINSERT";
+                                                                fbCommNfvItemStSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pID_NFVITEM", newIdNfvItem);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pPOR_BC_ICMS_ST", nfvItemStPdv.IsPOR_BC_ICMS_STNull() ? null : (decimal?)nfvItemStPdv.POR_BC_ICMS_ST);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pVLR_BC_ICMS_ST", nfvItemStPdv.IsVLR_BC_ICMS_STNull() ? null : (decimal?)nfvItemStPdv.VLR_BC_ICMS_ST);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pVLR_ST", nfvItemStPdv.IsVLR_STNull() ? null : (decimal?)nfvItemStPdv.VLR_ST);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pMVA", nfvItemStPdv.IsMVANull() ? null : (decimal?)nfvItemStPdv.MVA);
+
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pALIQ_ST_ORIG", nfvItemStPdv.IsALIQ_ST_ORIGNull() ? null : (decimal?)nfvItemStPdv.ALIQ_ST_ORIG);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pALIQ_ST_DEST", nfvItemStPdv.IsALIQ_ST_DESTNull() ? null : (decimal?)nfvItemStPdv.ALIQ_ST_DEST);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pINFORMA_ST", nfvItemStPdv.IsINFORMA_STNull() ? null : nfvItemStPdv.INFORMA_ST);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pICMS_EFETIVO", nfvItemStPdv.ICMS_EFETIVO);
+                                                                fbCommNfvItemStSyncInsert.Parameters.Add("@pVLR_ICMS_SUBSTITUTO", nfvItemStPdv.IsVLR_ICMS_SUBSTITUTONull() ? null : (decimal?)nfvItemStPdv.VLR_ICMS_SUBSTITUTO);
+
+                                                                #endregion Prepara o comando da SP_TRI_NFVITEMST_SYNCINSERT
+
+                                                                //newIdMaitPedItemServ = (int)
+                                                                fbCommNfvItemStSyncInsert.ExecuteScalar();
+
+                                                                //// Executa a sproc
+                                                                //audit("SINCCONTNETDB >> ", string.Format("SP_TRI_NFVITEMST_SYNCINSERT(pID_MAIT_PEDIDO: {0}, pID_IDENTIFICADOR: {1}, pQTD_ITEM: {2}): {3}",
+                                                                //                    newIdMaitPedidoServ,
+                                                                //                    pedItemPdv.ID_IDENTIFICADOR,
+                                                                //                    pedItemPdv.QTD_ITEM,
+                                                                //                    newIdMaitPedItemServ));
+                                                            }
+
+                                                            #endregion Gravar TB_NFV_ITEM_ST (serv)
+                                                        }
+
+                                                        #endregion Procedimento de gravação de TB_NFV_ITEM_ST (servidor)
+
+                                                        #endregion Gravar TB_NFV_ITEM_ST
+
+                                                        //TODO: sync TB_NFVENDA_TOT -- TALVEZ não seja necessário. Há uma trigger em TB_NFVENDA que atualiza o TOT. Testar no servidor.
+
+                                                        #region Buscar os itens de pedido (AmbiMAITRE) (PDV)
+
+                                                        //TODO: não há (por enquanto?)
+
+                                                        #endregion Buscar os itens de pedido (AmbiMAITRE) (PDV)
+
+                                                        //if (cupom.IsQTD_MAIT_PED_CUPOMNull() || cupom.QTD_MAIT_PED_CUPOM <= 0)
+
+                                                        #region Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+
+                                                        #region Atualizar no servidor a quantidade em estoque
+
+                                                        using (var fbCommEstProdutoQtdServ = new FbCommand())
+                                                        {
+                                                            #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
+                                                            fbCommEstProdutoQtdServ.Connection = fbConnServ;
+                                                            //fbCommEstProdutoQtdServ.Connection.ConnectionString = _strConnNetwork;
+                                                            fbCommEstProdutoQtdServ.Transaction = fbTransactServ;
+
+                                                            fbCommEstProdutoQtdServ.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
+                                                            fbCommEstProdutoQtdServ.CommandType = CommandType.StoredProcedure;
+
+                                                            fbCommEstProdutoQtdServ.Parameters.Add("@pQTD_ITEM", nfvItem.QTD_ITEM);
+                                                            fbCommEstProdutoQtdServ.Parameters.Add("@pID_IDENTIF", nfvItem.ID_IDENTIFICADOR);
+                                                            fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPPRO", 0); // cupomItem.IsID_COMPPRONull() ? 0 : cupomItem.ID_COMPPRO); // AmbiMAITRE
+                                                            fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPOSICAO", nfvItem.IsID_COMPOSICAONull() ? 0 : nfvItem.ID_COMPOSICAO);
+
+                                                            #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
                                                             try
                                                             {
-                                                                fbCommSatCancUpsertServ.ExecuteScalar();
+                                                                // Executa a sproc
+                                                                fbCommEstProdutoQtdServ.ExecuteScalar();
                                                             }
                                                             catch (Exception ex)
                                                             {
-                                                                log.Error($"pNF_NUMERO: {nfvendaCancelPdv.NF_NUMERO}, NF_SERIE: {nfvendaCancelPdv.NF_SERIE}, pCHAVE {itemSatPdv.CHAVE} (PDV)", ex);
+                                                                log.Error("Erro ao deduzir quantidade em estoque (Serv): \npQTD_ITEM=" + nfvItem.QTD_ITEM.ToString() +
+                                                                                   "\npID_IDENTIF=" + nfvItem.ID_IDENTIFICADOR.ToString(), ex);
                                                                 throw ex;
                                                             }
-
                                                         }
 
-                                                        #endregion Atualizar item cancelado SAT equivalente no servidor:
+                                                        #endregion Atualizar no servidor a quantidade em estoque
+
+                                                        #region Atualizar no PDV a quantidade em estoque
+
+                                                        // Já que todo o cadastro de produtos foi copiado do Serv pro PDV na etapa anterior, 
+                                                        // as quantidades em estoque devem ser redefinidas
+                                                        //using (var fbCommEstProdutoQtdPdv = new FbCommand())
+                                                        //{
+                                                        //    #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
+                                                        //    fbCommEstProdutoQtdPdv.Connection = fbConnPdv;
+                                                        //    //fbCommEstProdutoQtdPdv.Connection.ConnectionString = _strConnContingency;
+                                                        //    fbCommEstProdutoQtdPdv.Transaction = fbTransactPdv;
+
+                                                        //    fbCommEstProdutoQtdPdv.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
+                                                        //    fbCommEstProdutoQtdPdv.CommandType = CommandType.StoredProcedure;
+
+                                                        //    fbCommEstProdutoQtdPdv.Parameters.Add("@pQTD_ITEM", nfvItem.QTD_ITEM);
+                                                        //    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_IDENTIF", nfvItem.ID_IDENTIFICADOR);
+                                                        //    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPPRO", 0); // nfvItem.IsID_COMPPRONull() ? 0 : nfvItem.ID_COMPPRO); // AmbiMAITRE
+                                                        //    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPOSICAO", nfvItem.IsID_COMPOSICAONull() ? 0 : nfvItem.ID_COMPOSICAO);
+
+                                                        //    #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
+                                                        //    try
+                                                        //    {
+                                                        //        // Executa a sproc
+                                                        //        fbCommEstProdutoQtdPdv.ExecuteScalar();
+                                                        //    }
+                                                        //    catch (Exception ex)
+                                                        //    {
+                                                        //        gravarMensagemErro("Erro ao deduzir quantidade em estoque (PDV): \npQTD_ITEM=" + nfvItem.QTD_ITEM.ToString() +
+                                                        //                           "\npID_IDENTIF=" + nfvItem.ID_IDENTIFICADOR.ToString() +
+                                                        //                            " \nMais infos: " + RetornarMensagemErro(ex, true));
+                                                        //        throw ex;
+                                                        //    }
+                                                        //}
+
+                                                        #endregion Atualizar no PDV a quantidade em estoque
+
+                                                        #endregion Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+                                                    }
+
+                                                    #endregion Consultar os itens da nfvenda do PDV
+
+                                                    #endregion Itens de nfvenda do PDV
+
+                                                    #region Vendas a prazo
+
+                                                    #region Verifica se a nfvenda é a prazo
+
+                                                    // Como verificar se o cupom é uma venda a prazo?
+                                                    if (!nfvenda.IsQTD_CTARECNull() && nfvenda.QTD_CTAREC > 0)
+                                                    {
+
+                                                        using (var taCtaRecPdv = new TB_CONTA_RECEBERTableAdapter())
+                                                        {
+                                                            taCtaRecPdv.Connection.ConnectionString = _strConnContingency;
+
+                                                            tblCtaRecPdv.Clear();
+                                                            // Consultar todas as contas a receber do cupom
+                                                            //audit("SINCCONTNETDB>> " + "taCtaRecPdv.FillByIdCupom(): " + /*taCtaRecPdv.FillByIdCupom(tblCtaRecPdv, cupom.ID_CUPOM)*/.ToString());
+                                                            taCtaRecPdv.FillByIdNfvenda(tblCtaRecPdv, nfvenda.ID_NFVENDA); // já usa sproc
+                                                        }
+
+                                                        // Percorre por cada conta a receber que o cupom possui:
+                                                        foreach (FDBDataSet.TB_CONTA_RECEBERRow ctaRecPdv in tblCtaRecPdv)
+                                                        {
+                                                            int newIdCtarec = 0;
+
+                                                            #region Grava conta a receber na retaguarda
+
+                                                            // TB_CONTA_RECEBER
+                                                            using (var fbCommCtaRecSyncInsertServ = new FbCommand())
+                                                            {
+                                                                #region Prepara o comando da SP_TRI_CTAREC_SYNC_INSERT
+
+                                                                fbCommCtaRecSyncInsertServ.Connection = fbConnServ;
+                                                                //fbCommCtaRecSyncInsertServ.Connection.ConnectionString = _strConnNetwork;
+                                                                fbCommCtaRecSyncInsertServ.Transaction = fbTransactServ;
+
+                                                                fbCommCtaRecSyncInsertServ.CommandText = "SP_TRI_CTAREC_SYNC_INSERT";
+                                                                fbCommCtaRecSyncInsertServ.CommandType = CommandType.StoredProcedure;
+
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pDOCUMENTO", ctaRecPdv.DOCUMENTO);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pHISTORICO", (ctaRecPdv.IsHISTORICONull() ? null : ctaRecPdv.HISTORICO));
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_EMISSAO", ctaRecPdv.DT_EMISSAO);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_VENCTO", ctaRecPdv.DT_VENCTO);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pVLR_CTAREC", ctaRecPdv.VLR_CTAREC);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pTIP_CTAREC", ctaRecPdv.TIP_CTAREC);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pID_PORTADOR", ctaRecPdv.ID_PORTADOR);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pID_CLIENTE", ctaRecPdv.ID_CLIENTE);
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pINV_REFERENCIA", (ctaRecPdv.IsINV_REFERENCIANull() ? null : ctaRecPdv.INV_REFERENCIA));
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_VENCTO_ORIG", (ctaRecPdv.IsDT_VENCTO_ORIGNull() ? null : (DateTime?)ctaRecPdv.DT_VENCTO_ORIG));
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pNSU_CARTAO", (ctaRecPdv.IsNSU_CARTAONull() ? null : ctaRecPdv.NSU_CARTAO));
+
+                                                                #endregion Prepara o comando da SP_TRI_CTAREC_SYNC_INSERT
+
+                                                                try
+                                                                {
+                                                                    // Executa a sproc
+                                                                    newIdCtarec = (int)fbCommCtaRecSyncInsertServ.ExecuteScalar();
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+                                                                    log.Error("Erro ABSURDO ao gravar conta a receber. Eis os parâmetros da gravação: \npINV_REFERENCIA=" +
+                                                                        (ctaRecPdv.IsINV_REFERENCIANull() ? "null" : ctaRecPdv.INV_REFERENCIA.ToString()) + "\n" +
+                                                                        "pDOCUMENTO=" + ctaRecPdv.DOCUMENTO.ToString() + "\n" +
+                                                                        "pHISTORICO=" + (ctaRecPdv.IsHISTORICONull() ? "null" : ctaRecPdv.HISTORICO.ToString()) + "\n" +
+                                                                        //"cupom.COO=" + cupom.COO.ToString() + "\n" +
+                                                                        "nfvenda.NF_NUMERO=" + nfvenda.NF_NUMERO.ToString() + "\n" +
+                                                                        "newIdNfvenda=" + newIdNfvenda.ToString(), ex);
+                                                                    throw ex;
+                                                                }
+                                                            }
+
+                                                            #endregion Grava conta a receber na retaguarda
+
+                                                            #region Gravar a referência entre cupom e conta a receber
+
+                                                            using (var fbCommNfvCtarecInsertServ = new FbCommand())
+                                                            {
+                                                                #region Prepara o comando
+
+                                                                fbCommNfvCtarecInsertServ.Connection = fbConnServ;
+                                                                fbCommNfvCtarecInsertServ.Transaction = fbTransactServ;
+                                                                //fbCommNfvCtarecInsertServ.Connection.ConnectionString = _strConnNetwork;
+
+                                                                fbCommNfvCtarecInsertServ.CommandText = "INSERT INTO TB_NFV_CTAREC (ID_NFVENDA, ID_CTAREC, ID_NUMPAG) VALUES(@ID_NFVENDA, @ID_CTAREC, @ID_NUMPAG); ";
+                                                                fbCommNfvCtarecInsertServ.CommandType = CommandType.Text;
+
+                                                                fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NFVENDA", newIdNfvenda);
+                                                                fbCommNfvCtarecInsertServ.Parameters.Add("@ID_CTAREC", newIdCtarec);
+
+                                                                int? newIdNumPag = null;
+
+                                                                if (!ctaRecPdv.IsID_NUMPAGNull())
+                                                                {
+                                                                    newIdNumPag = (lstAuxNfvFmaPgtoCtaRec.Find(t => t.PdvIdNumPag.Equals(ctaRecPdv.ID_NUMPAG))).ServIdNumPag;
+                                                                }
+
+                                                                fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NUMPAG", newIdNumPag);
+
+                                                                #endregion Prepara o comando
+
+                                                                // Executa a sproc
+                                                                fbCommNfvCtarecInsertServ.ExecuteNonQuery();
+                                                            }
+
+                                                            #endregion Gravar a referência entre cupom e conta a receber
+
+                                                            #region Consultar as movimentações diárias da conta a receber
+
+                                                            using (var taMovDiarioPdv = new TB_MOVDIARIOTableAdapter())
+                                                            {
+                                                                taMovDiarioPdv.Connection.ConnectionString = _strConnContingency;
+
+                                                                tblMovDiarioPdv.Clear();
+                                                                //audit("SINCCONTNETDB>> " + "taMovDiarioPdv.FillByIdCtarec(): " + taMovDiarioPdv.FillByIdCtarec(tblMovDiarioPdv, ctaRecPdv.ID_CTAREC).ToString());
+                                                                taMovDiarioPdv.FillByIdCtarec(tblMovDiarioPdv, ctaRecPdv.ID_CTAREC); // já usa sproc
+                                                            }
+
+                                                            #endregion Consultar as movimentações diárias da conta a receber
+
+                                                            #region Gravar movimentação diária referente à conta a receber
+
+                                                            if (tblMovDiarioPdv != null && tblMovDiarioPdv.Rows.Count > 0)
+                                                            {
+                                                                foreach (FDBDataSet.TB_MOVDIARIORow movdiarioPdv in tblMovDiarioPdv)
+                                                                {
+                                                                    int newIdMovto = 0;
+                                                                    //movdiarioPdv.SYNCED = 1;
+                                                                    // TB_MOVDIARIO
+                                                                    using (var fbCommMovDiarioMovtoSyncInsertServ = new FbCommand())
+                                                                    {
+                                                                        #region Prepara o comando da SP_TRI_MOVTO_SYNC_INSERT
+
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Connection = fbConnServ;
+                                                                        //fbCommMovDiarioMovtoSyncInsertServ.Connection.ConnectionString = _strConnNetwork;
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Transaction = fbTransactServ;
+
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.CommandText = "SP_TRI_MOVTO_SYNC_INSERT";
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.CommandType = CommandType.StoredProcedure;
+
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pDT_MOVTO", (movdiarioPdv.IsDT_MOVTONull() ? null : (DateTime?)movdiarioPdv.DT_MOVTO));
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pHR_MOVTO", (movdiarioPdv.IsHR_MOVTONull() ? null : (TimeSpan?)movdiarioPdv.HR_MOVTO));
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pHISTORICO", (movdiarioPdv.IsHISTORICONull() ? null : movdiarioPdv.HISTORICO));
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pTIP_MOVTO", (movdiarioPdv.IsTIP_MOVTONull() ? null : movdiarioPdv.TIP_MOVTO));
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pVLR_MOVTO", (movdiarioPdv.IsVLR_MOVTONull() ? null : (decimal?)movdiarioPdv.VLR_MOVTO));
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pID_CTAPLA", (movdiarioPdv.IsID_CTAPLANull() ? null : (short?)movdiarioPdv.ID_CTAPLA));
+                                                                        fbCommMovDiarioMovtoSyncInsertServ.Parameters.Add("@pSYNCED", 1);
+
+                                                                        #endregion Prepara o comando da SP_TRI_MOVTO_SYNC_INSERT
+
+                                                                        try
+                                                                        {
+                                                                            // Executa a sproc
+                                                                            newIdMovto = (int)fbCommMovDiarioMovtoSyncInsertServ.ExecuteScalar(); //TODO: esse trecho é problemático para a Estilo K, às vezes apresenta dead-lock
+                                                                        }
+                                                                        catch (Exception ex)
+                                                                        {
+                                                                            log.Error("Erro ao sync movdiario (Serv): \npDT_MOVTO=" + (movdiarioPdv.IsDT_MOVTONull() ? "null" : movdiarioPdv.DT_MOVTO.ToString()) +
+                                                                                               "\npHR_MOVTO=" + (movdiarioPdv.IsHR_MOVTONull() ? "null" : movdiarioPdv.HR_MOVTO.ToString()) +
+                                                                                               "\npHISTORICO=" + (movdiarioPdv.IsHISTORICONull() ? "null" : movdiarioPdv.HISTORICO.ToString()) +
+                                                                                               "\npTIP_MOVTO=" + (movdiarioPdv.IsTIP_MOVTONull() ? "null" : movdiarioPdv.TIP_MOVTO.ToString()) +
+                                                                                               "\npVLR_MOVTO=" + (movdiarioPdv.IsVLR_MOVTONull() ? "null" : movdiarioPdv.VLR_MOVTO.ToString()) +
+                                                                                               "\npID_CTAPLA=" + (movdiarioPdv.IsID_CTAPLANull() ? "null" : movdiarioPdv.ID_CTAPLA.ToString()), ex);
+                                                                            throw ex;
+                                                                        }
+                                                                    }
+
+                                                                    #region Gravar a referência entre a conta a receber e a movimentação diária
+
+                                                                    using (var fbCommCtarecMovtoInsertServ = new FbCommand())
+                                                                    {
+                                                                        #region Prepara o comando
+
+                                                                        fbCommCtarecMovtoInsertServ.Connection = fbConnServ;
+                                                                        fbCommCtarecMovtoInsertServ.Transaction = fbTransactServ;
+                                                                        //fbCommCtarecMovtoInsertServ.Connection.ConnectionString = _strConnNetwork;
+
+                                                                        fbCommCtarecMovtoInsertServ.CommandText = "INSERT INTO TB_CTAREC_MOVTO (ID_MOVTO, ID_CTAREC) VALUES(@ID_MOVTO, @ID_CTAREC); ";
+                                                                        fbCommCtarecMovtoInsertServ.CommandType = CommandType.Text;
+
+                                                                        fbCommCtarecMovtoInsertServ.Parameters.Add("@ID_MOVTO", newIdMovto);
+                                                                        fbCommCtarecMovtoInsertServ.Parameters.Add("@ID_CTAREC", newIdCtarec);
+
+                                                                        #endregion Prepara o comando
+
+                                                                        // Executa a sproc
+                                                                        fbCommCtarecMovtoInsertServ.ExecuteNonQuery();
+                                                                    }
+
+                                                                    #endregion Gravar a referência entre a conta a receber e a movimentação diária
+
+                                                                    #region Indicar que o fechamento de caixa foi sincronizado
+
+                                                                    using (var taMovDiarioPdv = new TB_MOVDIARIOTableAdapter())
+                                                                    {
+                                                                        taMovDiarioPdv.Connection = fbConnPdv;
+                                                                        taMovDiarioPdv.Transaction = fbTransactPdv;
+                                                                        //taMovDiarioPdv.Connection.ConnectionString = _strConnContingency;
+
+                                                                        taMovDiarioPdv.SP_TRI_MOVTOSETSYNCED(movdiarioPdv.ID_MOVTO, 1);
+                                                                    }
+
+                                                                    #endregion Indicar que o fechamento de caixa foi sincronizado
+                                                                }
+                                                            }
+
+                                                            #endregion Gravar movimentação diária referente à conta a receber
+                                                        }
+                                                    }
+
+                                                    #endregion Verifica se a nfvenda é a prazo
+
+                                                    #endregion Vendas a prazo
+
+                                                    #region Verificar se a nfvenda foi cancelado: reativar o orçamento vinculado, se houver
+
+                                                    //TODO: completar no orçamento
+
+                                                    //if (nfvenda.STATUS == "C" || nfvenda.STATUS == "X")
+                                                    //{
+                                                    //    // TRI_PDV_ORCA_NFVENDA_REL
+                                                    //    using (var taOrcaServ = new DataSets.FDBDataSetOrcamTableAdapters.TRI_PDV_ORCA_NFVENDA_RELTableAdapter())
+                                                    //    {
+                                                    //        taOrcaServ.Connection = fbConnServ;
+                                                    //        taOrcaServ.Transaction = fbTransactServ;
+                                                    //        //taOrcaServ.Connection.ConnectionString = _strConnNetwork;
+
+                                                    //        audit("SINCCONTNETDB>> ", string.Format("(nfvenda cancelado antes de sync) taOrcaServ.SP_TRI_ORCA_REATIVAORCA({1}): {0}",
+                                                    //                            taOrcaServ.SP_TRI_ORCA_REATIVAORCA(nfvenda.ID_NFVENDA).Safestring(),
+                                                    //                            nfvenda.ID_NFVENDA.Safestring()));
+                                                    //    }
+                                                    //}
+
+                                                    #endregion Verificar se a nfvenda foi cancelado: reativar o orçamento vinculado, se houver
+
+                                                    #region Indicar que a nfvenda foi synced
+
+                                                    using (var fbCommNfvendaSetSynced = new FbCommand())
+                                                    {
+                                                        #region Prepara o comando da SP_TRI_NFVENDASETSYNCED
+
+                                                        fbCommNfvendaSetSynced.Connection = fbConnPdv;
+                                                        fbCommNfvendaSetSynced.Transaction = fbTransactPdv;
+
+                                                        //fbCommNfvendaSetSynced.CommandText = "SP_TRI_CUPOMSETSYNCED";
+                                                        fbCommNfvendaSetSynced.CommandText = "SP_TRI_NFVENDA_SETSYNCED";
+                                                        fbCommNfvendaSetSynced.CommandType = CommandType.StoredProcedure;
+
+                                                        fbCommNfvendaSetSynced.Parameters.Add("@pIdNfvenda", nfvenda.ID_NFVENDA);
+                                                        fbCommNfvendaSetSynced.Parameters.Add("@pSynced", 1);
+
+                                                        #endregion Prepara o comando da SP_TRI_NFVENDASETSYNCED
+
+                                                        // Executa a sproc
+                                                        fbCommNfvendaSetSynced.ExecuteScalar();
+                                                    }
+
+                                                    #endregion Indicar que a nfvenda foi synced
+
+                                                    //fbConnPdv.Close();
+                                                    //fbConnServ.Close();
+
+                                                    // Finaliza a transação:
+                                                    //transactionScopeCupons.Complete();
+                                                    fbTransactServ.Commit();
+                                                    fbTransactPdv.Commit();
+                                                }
+                                                catch (TransactionAbortedException taEx)
+                                                {
+                                                    log.Error("TransactionAbortedException", taEx);
+                                                    fbTransactServ.Rollback();
+                                                    fbTransactPdv.Rollback();
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    log.Error("Erro durante a transação de nfvendas:", ex);
+                                                    fbTransactServ.Rollback();
+                                                    fbTransactPdv.Rollback();
+                                                }
+                                            }
+                                            #region Forçar a execução da trigger ref. a tabela TB_NFVENDA_TOT
+
+                                            using (var fbCommNfvendaForceTriggerUpdate = new FbCommand())
+                                            {
+                                                #region Prepara o comando da SP_TRI_NFVENDASETSYNCED
+
+                                                fbCommNfvendaForceTriggerUpdate.Connection = fbConnServ;
+
+                                                fbCommNfvendaForceTriggerUpdate.CommandText = "UPDATE TB_NFVENDA SET STATUS = 'I' WHERE ID_NFVENDA = @Param1 AND STATUS = 'I'";
+                                                fbCommNfvendaForceTriggerUpdate.CommandType = CommandType.Text;
+
+                                                fbCommNfvendaForceTriggerUpdate.Parameters.Add("@Param1", newIdNfvenda);
+
+
+                                                #endregion Prepara o comando da SP_TRI_NFVENDASETSYNCED
+
+                                                // Executa o ad-hoc
+                                                fbCommNfvendaForceTriggerUpdate.ExecuteScalar();
+                                            }
+
+
+                                            #endregion
+
+                                        }
+                                        #endregion Gravar a nfvenda na retaguarda (transação)
+
+
+                                    }
+
+                                    log.Debug(string.Format("Lote {0} de nfvendas processado!", contLote.ToString()));
+
+                                    #endregion Sincroniza (manda para a retaguarda)
+
+                                    #region Prepara o próximo lote
+
+                                    // Limpa a tabela para pegar o próximo lote (é necessário limpar mesmo? o comando seguinte deveria sobrescrevê-lo):
+                                    tblNfvendaUnsynced.Clear();
+                                    log.Debug("taNfvendaUnsynced.FillByNfvendaSync(): " + taNfvendaUnsynced.FillByNfvendaSync(tblNfvendaUnsynced, 0).ToString()); // já usa sproc
+
+                                    #endregion Prepara o próximo lote
+                                }
+
+                                #region NOPE - CLIPP RULES NO MORE
+                                //taEstProdutoPdv.SP_TRI_FIX_CLIPP_RULES();
+                                //taEstProdutoServ.SP_TRI_FIX_CLIPP_RULES();
+                                #endregion NOPE - CLIPP RULES NO MORE
+                            }
+                            #endregion Procedimento executado enquanto houver cupons para sincronizar
+                        }
+                        #region Manipular Exception
+                        catch (Exception ex)
+                        {
+                            log.Error("Erro ao sincronizar", ex);
+                            GravarErroSync("Erro ao sincronizar nfvendas", tblCtaRecPdv, ex);
+                            GravarErroSync("Erro ao sincronizar nfvendas", tblNfvendaFmapagtoNfcePdv, ex);
+                            GravarErroSync("Erro ao sincronizar nfvendas", tblNfvItemPdv, ex);
+                            GravarErroSync("Erro ao sincronizar nfvendas", tblNfvendaUnsynced, ex);
+                            GravarErroSync("Erro ao sincronizar nfvendas", tblMovDiarioPdv, ex);
+                            throw ex;
+                        }
+                        #endregion Manipular Exception
+                        #region Limpeza da transação
+                        finally
+                        {
+                            #region Trata disposable objects
+
+                            #region(cupons, contas a receber e movimentação diária)
+
+                            if (taNfvendaFmaPagtoNfcePdv != null) { taNfvendaFmaPagtoNfcePdv.Dispose(); }
+                            //if (taCupomFmaPagtoServ != null) { taCupomFmaPagtoServ.Dispose(); }
+
+                            //if (taTrocaPdv != null) { taTrocaPdv.Dispose(); }
+                            //if (taTrocaServ != null) { taTrocaServ.Dispose(); }
+                            //if (tblTrocaPdv != null) { tblTrocaPdv.Dispose(); }
+
+                            //if (taCupomServ != null) { taCupomServ.Dispose(); }
+                            //if (taCtaRecServ != null) { taCtaRecServ.Dispose(); }
+                            //if (taCupomCtarecServ != null) { taCupomCtarecServ.Dispose(); }
+                            //if (taMovDiarioServ != null) { taMovDiarioServ.Dispose(); }
+                            //if (taCtarecMovtoServ != null) { taCtarecMovtoServ.Dispose(); }
+
+                            //if (taCtaRecPdv != null) { taCtaRecPdv.Dispose(); }
+                            //if (taMovDiarioPdv != null) { taMovDiarioPdv.Dispose(); }
+
+                            if (tblNfvendaFmapagtoNfcePdv != null) { tblNfvendaFmapagtoNfcePdv.Dispose(); }
+                            if (tblCtaRecPdv != null) { tblCtaRecPdv.Dispose(); }
+                            if (tblMovDiarioPdv != null) { tblMovDiarioPdv.Dispose(); }
+
+                            #endregion (cupons, contas a receber e movimentação diária)
+
+                            #region (item de cupom)
+
+                            if (tblNfvItemPdv != null) { tblNfvItemPdv.Dispose(); }
+                            if (taNfvItemPdv != null) { taNfvItemPdv.Dispose(); }
+                            //if (taCupomItemServ != null) { taCupomItemServ.Dispose(); }
+
+                            #endregion (item de cupom)
+
+                            #region (cupons unsynced, produtos)
+
+                            if (taNfvendaUnsynced != null) { taNfvendaUnsynced.Dispose(); }
+                            if (tblNfvendaUnsynced != null) { tblNfvendaUnsynced.Dispose(); }
+
+                            if (taEstProdutoServ != null) { taEstProdutoServ.Dispose(); }
+                            if (taEstProdutoPdv != null) { taEstProdutoPdv.Dispose(); }
+
+                            #endregion (cupons unsynced, produtos)
+
+                            taSatPdv?.Dispose();
+                            tblSatPdv?.Dispose();
+                            taSatCancPdv?.Dispose();
+                            tblSatCancPdv?.Dispose();
+
+                            tblNfvItemCofinsPdv?.Dispose();
+                            tblNfvItemPisPdv?.Dispose();
+                            tblNfvItemIcmsPdv?.Dispose();
+                            tblNfvItemStPdv?.Dispose();
+
+                            #endregion Trata disposable objects
+                        }
+                        #endregion Limpeza da transação
+                    }
+
+                    #endregion Padrão, unsynced
+
+                    #region Nfvendas sincronizadas e posteriormente canceladas
+                    {
+                        #region Cria os TableAdapters, DataTables e variáveis
+
+                        var taNfvendaSyncedCancelPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter();
+                        taNfvendaSyncedCancelPdv.Connection.ConnectionString = _strConnContingency;
+                        var tblNfvendaSyncedCancelPdv = new FDBDataSetVenda.TB_NFVENDADataTable();
+
+                        var taEstProdutoServ = new TB_EST_PRODUTOTableAdapter();
+                        taEstProdutoServ.Connection.ConnectionString = _strConnNetwork;
+
+                        var taEstProdutoPdv = new TB_EST_PRODUTOTableAdapter();
+                        taEstProdutoPdv.Connection.ConnectionString = _strConnContingency;
+
+                        int intCountLoteNfvendaSyncedCancel = 0;
+
+                        #endregion Cria os TableAdapters, DataTables e variáveis
+
+                        try
+                        {
+                            // Busca todos os cupons que foram synced e posteriormente cancelados (TIP_QUERY = 1)
+                            // Lembrando que a sproc executada abaixo retorna até 200 registros por vez.
+                            log.Debug("taNfvendaSyncedCancelPdv.FillByNfvendaSync(): " + taNfvendaSyncedCancelPdv.FillByNfvendaSync(tblNfvendaSyncedCancelPdv, 1).ToString()); // já usa sproc
+
+                            while (tblNfvendaSyncedCancelPdv != null && tblNfvendaSyncedCancelPdv.Rows.Count > 0)
+                            {
+                                intCountLoteNfvendaSyncedCancel++;
+
+                                #region NOPE - Break Clipp rules agora é permanente
+                                //// Para repor quantidade em estoque sem dar problemas
+                                //taEstProdutoServ.SP_TRI_BREAK_CLIPP_RULES();
+                                //taEstProdutoPdv.SP_TRI_BREAK_CLIPP_RULES();
+                                #endregion NOPE - Break Clipp rules agora é permanente
+
+                                // Percorre por cada cupom cancelado:
+                                foreach (FDBDataSetVenda.TB_NFVENDARow nfvendaCancelPdv in tblNfvendaSyncedCancelPdv)
+                                {
+                                    #region Validações
+
+                                    //// Foi necessário adaptar o COO como o ID_CUPOM negativo para sistema legado
+                                    //if (cupomCancelPdv.IsCOONull()) { cupomCancelPdv.COO = cupomCancelPdv.ID_CUPOM * -1; }
+                                    //if (cupomCancelPdv.IsNUM_CAIXANull()) { cupomCancelPdv.NUM_CAIXA = 0; }
+
+                                    #endregion Validações
+
+                                    #region Iniciar o procedimento de cancelamento na retaguarda
+                                    //using (var transactionScopeCupomResync = new TransactionScope(TransactionScopeOption.Required, new TimeSpan(1, 0, 0, 0)))
+                                    using (var transactionScopeNfvendaResync = new TransactionScope(TransactionScopeOption.Required, new TransactionOptions() { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted })) //TODO: verificar se esse tipo de IsolationLevel é o mais indicado para essa situação
+                                    {
+                                        // Define a conexão com o banco do servidor:
+                                        using (var fbConnServ = new FbConnection(_strConnNetwork))
+                                        // Define a conexão com o banco do PDV:
+                                        using (var fbConnPdv = new FbConnection(_strConnContingency))
+                                        using (var tblNfvendaItemSyncedCancelPdv = new FDBDataSetVenda.TB_NFV_ITEMDataTable())
+                                        using (var tblCtarecServ = new FDBDataSet.TB_CONTA_RECEBERDataTable())
+                                        using (var tblMovtoServ = new FDBDataSet.TB_MOVDIARIODataTable())
+                                        {
+                                            fbConnServ.Open();
+                                            fbConnPdv.Open();
+
+                                            // Verificar se a nfvenda tem conta a receber:
+                                            if (!nfvendaCancelPdv.IsQTD_CTARECNull() && nfvendaCancelPdv.QTD_CTAREC > 0)
+                                            {
+                                                #region Busca as contas a receber da nfvenda no serv
+                                                try
+                                                {
+                                                    using (var taCtarecServ = new TB_CONTA_RECEBERTableAdapter())
+                                                    {
+                                                        taCtarecServ.Connection = fbConnServ;
+                                                        //audit("SINCCONTNETDB>> " + "taCtarecServ.FillByCooNumcaixa(): " + taCtarecServ.FillByCooNumcaixa(tblCtarecServ, cupomCancelPdv.COO, cupomCancelPdv.NUM_CAIXA).ToString());
+
+                                                        //TODO -- DONE --: qual é a chave de identificação de uma nfvenda equivalente para ambas as bases de dados (cliente/servidor)?
+                                                        // Deve ser NF_NUMERO e NF_SERIE
+
+                                                        taCtarecServ.FillByNfNumeroSerie(tblCtarecServ, nfvendaCancelPdv.NF_NUMERO, nfvendaCancelPdv.NF_SERIE).ToString(); // já usa sproc
                                                     }
                                                 }
+                                                catch (Exception ex)
+                                                {
+                                                    log.Error("Erro ao consultar contas a receber no servidor ( / NF_NUMERO = " + nfvendaCancelPdv.NF_NUMERO + " / NF_SERIE = " + nfvendaCancelPdv.NF_SERIE + "): ", ex);
+                                                    throw ex;
+                                                }
+                                                #endregion Busca as contas a receber da nfvenda no serv
 
-                                                #endregion Buscar os itens cancelados SAT do item SAT atual
+                                                #region Percorre por cada conta a receber no servidor
+                                                foreach (FDBDataSet.TB_CONTA_RECEBERRow ctarecServ in tblCtarecServ)
+                                                {
+                                                    #region Busca os movimentos diários da conta a receber
+                                                    using (var taMovtoServ = new TB_MOVDIARIOTableAdapter())
+                                                    {
+                                                        taMovtoServ.Connection = fbConnServ;
+                                                        tblMovtoServ.Clear();
+                                                        //audit("SINCCONTNETDB>> " + "taMovtoServ.FillByIdCtarec(): " + taMovtoServ.FillByIdCtarec(tblMovtoServ, ctarecServ.ID_CTAREC).ToString());
+                                                        taMovtoServ.FillByIdCtarec(tblMovtoServ, ctarecServ.ID_CTAREC); // já usa sproc
+                                                    }
+                                                    #endregion Busca os movimentos diários da conta a receber
+
+                                                    #region Percorre por cada movimentação diária do servidor
+                                                    foreach (FDBDataSet.TB_MOVDIARIORow movtoServ in tblMovtoServ)
+                                                    {
+                                                        #region Apagar TB_CTAREC_MOVTO
+                                                        //taCtarecMovtoServ.SP_TRI_CTARECMOVTO_SYNC_DEL(movtoServ.ID_MOVTO, ctarecServ.ID_CTAREC);
+                                                        using (var fbCommCtarecMovtoSyncDelServ = new FbCommand())
+                                                        {
+                                                            #region Prepara o comando da SP_TRI_CTARECMOVTO_SYNC_DEL
+
+                                                            fbCommCtarecMovtoSyncDelServ.Connection = fbConnServ;
+
+                                                            fbCommCtarecMovtoSyncDelServ.CommandText = "SP_TRI_CTARECMOVTO_SYNC_DEL";
+                                                            fbCommCtarecMovtoSyncDelServ.CommandType = CommandType.StoredProcedure;
+
+                                                            fbCommCtarecMovtoSyncDelServ.Parameters.Add("@pID_MOVTO", movtoServ.ID_MOVTO);
+                                                            fbCommCtarecMovtoSyncDelServ.Parameters.Add("@pID_CTAREC", ctarecServ.ID_CTAREC);
+
+                                                            #endregion Prepara o comando da SP_TRI_CTARECMOVTO_SYNC_DEL
+
+                                                            // Executa a sproc
+                                                            fbCommCtarecMovtoSyncDelServ.ExecuteScalar();
+                                                        }
+                                                        #endregion Apagar TB_CTAREC_MOVTO
+
+                                                        #region Apagar TB_MOVDIARIO
+                                                        //taMovtoServ.SP_TRI_MOVTO_SYNC_DEL(movtoServ.ID_MOVTO);
+                                                        using (var fbCommMovtoSyncDelServ = new FbCommand())
+                                                        {
+                                                            #region Prepara o comando da SP_TRI_MOVTO_SYNC_DEL
+
+                                                            fbCommMovtoSyncDelServ.Connection = fbConnServ;
+
+                                                            fbCommMovtoSyncDelServ.CommandText = "SP_TRI_MOVTO_SYNC_DEL";
+                                                            fbCommMovtoSyncDelServ.CommandType = CommandType.StoredProcedure;
+
+                                                            fbCommMovtoSyncDelServ.Parameters.Add("@pID_MOVTO", movtoServ.ID_MOVTO);
+
+                                                            #endregion Prepara o comando da SP_TRI_MOVTO_SYNC_DEL
+
+                                                            // Executa a sproc
+                                                            fbCommMovtoSyncDelServ.ExecuteScalar();
+                                                        }
+                                                        #endregion Apagar TB_MOVDIARIO
+                                                    }
+                                                    #endregion Percorre por cada movimentação diária do servidor
+
+                                                    #region Apagar o vínculo TB_NFV_CTAREC
+                                                    //taCupomCtarecServ.SP_TRI_CUPOMCTAREC_SYNC_DEL(cupomCancelPdv.COO, cupomCancelPdv.NUM_CAIXA, ctarecServ.ID_CTAREC);
+                                                    using (var fbCommNfvCtarecSyncDelServ = new FbCommand())
+                                                    {
+                                                        #region Prepara o comando da SP_TRI_NFV_CTAREC_SYNC_DEL
+
+                                                        fbCommNfvCtarecSyncDelServ.Connection = fbConnServ;
+
+                                                        //TODO: talvez seja necessário adaptar a sproc para usar a ID_NUMPAG...
+
+                                                        fbCommNfvCtarecSyncDelServ.CommandText = "SP_TRI_NFV_CTAREC_SYNC_DEL";
+                                                        fbCommNfvCtarecSyncDelServ.CommandType = CommandType.StoredProcedure;
+
+                                                        fbCommNfvCtarecSyncDelServ.Parameters.Add("@pNfNumero", nfvendaCancelPdv.NF_NUMERO);
+                                                        fbCommNfvCtarecSyncDelServ.Parameters.Add("@pNfSerie", nfvendaCancelPdv.NF_SERIE);
+                                                        fbCommNfvCtarecSyncDelServ.Parameters.Add("@pIdCtarec", ctarecServ.ID_CTAREC);
+
+                                                        #endregion Prepara o comando da SP_TRI_NFV_CTAREC_SYNC_DEL
+
+                                                        // Executa a sproc
+                                                        try
+                                                        {
+                                                            fbCommNfvCtarecSyncDelServ.ExecuteScalar();
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            log.Error(String.Format("NF_NUMERO: {1}, NF_SERIE: {2}, ID_CTAREC {3}",
+                                                                                             nfvendaCancelPdv.NF_NUMERO,
+                                                                                             nfvendaCancelPdv.NF_SERIE,
+                                                                                             ctarecServ.ID_CTAREC), ex);
+                                                            throw ex;
+                                                        }
+
+                                                    }
+                                                    #endregion Apagar o vínculo TB_CUPOM_CTAREC
+
+                                                    #region Apagar conta a receber (TB_CONTA_RECEBER)
+
+                                                    using (var fbCommCtarecSyncDelServ = new FbCommand())
+                                                    {
+                                                        #region Prepara o comando para deletar conta a receber
+
+                                                        fbCommCtarecSyncDelServ.Connection = fbConnServ;
+
+                                                        fbCommCtarecSyncDelServ.CommandText = "DELETE FROM TB_CONTA_RECEBER WHERE ID_CTAREC = @pID_CTAREC;";
+                                                        fbCommCtarecSyncDelServ.CommandType = CommandType.Text;
+
+                                                        fbCommCtarecSyncDelServ.Parameters.Add("@pID_CTAREC", ctarecServ.ID_CTAREC);
+
+                                                        #endregion Prepara o comando para deletar conta a receber
+
+                                                        try
+                                                        {
+                                                            // Executa a sproc
+                                                            fbCommCtarecSyncDelServ.ExecuteScalar();
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            log.Error($"Erro ao cancelar (excluir) conta a receber no servidor (ID_CTAREC { ctarecServ.ID_CTAREC }).", ex);
+                                                            throw ex;
+                                                        }
+                                                    }
+                                                    #endregion Apagar conta a receber (TB_CONTA_RECEBER)
+                                                }
+                                                #endregion Percorre por cada conta a receber no servidor
                                             }
-                                        }
 
-                                        #endregion Atualizar TB_SAT no servidor
+                                            #region Atualizar TB_SAT no servidor
 
-                                        #region Atualizar no servidor a quantidade em estoque
+                                            using (var tblSatPdv = new FDBDataSetVenda.TB_SATDataTable())
+                                            using (var taSatPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter())
+                                            using (var taSatServ = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter())
+                                            {
+                                                taSatPdv.Connection = fbConnPdv;
+                                                taSatPdv.FillByIdNfvenda(tblSatPdv, nfvendaCancelPdv.ID_NFVENDA);
 
-                                        using (var taNfvItemSyncedCancelPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter())
-                                        {
-                                            taNfvItemSyncedCancelPdv.Connection = fbConnPdv;
-                                            tblNfvendaItemSyncedCancelPdv.Clear();
-                                            taNfvItemSyncedCancelPdv.FillByIdNfvenda(tblNfvendaItemSyncedCancelPdv, nfvendaCancelPdv.ID_NFVENDA); // já usa sproc
-                                        }
+                                                taSatServ.Connection = fbConnServ;
 
-                                        // Percorrer por cada item de cupom para repor as quantidades em estoque:
-                                        foreach (FDBDataSetVenda.TB_NFV_ITEMRow nfvendaItemSyncedCancel in tblNfvendaItemSyncedCancelPdv)
-                                        {
-                                            #region Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+                                                foreach (var itemSatPdv in tblSatPdv)
+                                                {
+                                                    #region Atualizar item SAT equivalente no servidor
+
+                                                    using (var fbCommSatUpsertServ = new FbCommand())
+                                                    {
+                                                        #region Prepara o comando da SP_TRI_SAT_UPSERT_BY_CHAVE
+
+                                                        fbCommSatUpsertServ.Connection = fbConnServ;
+
+                                                        fbCommSatUpsertServ.CommandText = "SP_TRI_SAT_UPSERT_BY_CHAVE";
+                                                        fbCommSatUpsertServ.CommandType = CommandType.StoredProcedure;
+
+                                                        //fbCommSatUpsertServ.Parameters.Add("@pID_NFVENDA", itemSatPdv.ID_NFVENDA);
+
+                                                        fbCommSatUpsertServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
+                                                        fbCommSatUpsertServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
+
+                                                        fbCommSatUpsertServ.Parameters.Add("@pCHAVE", itemSatPdv.CHAVE); //TODO: NÃO PODE SER NULL! VAI DAR RUIM
+                                                        fbCommSatUpsertServ.Parameters.Add("@pDT_EMISSAO", itemSatPdv.IsDT_EMISSAONull() ? null : (DateTime?)itemSatPdv.DT_EMISSAO);
+                                                        fbCommSatUpsertServ.Parameters.Add("@pHR_EMISSAO", itemSatPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)itemSatPdv.HR_EMISSAO);
+
+                                                        fbCommSatUpsertServ.Parameters.Add("@pSTATUS", itemSatPdv.IsSTATUSNull() ? null : itemSatPdv.STATUS);
+                                                        fbCommSatUpsertServ.Parameters.Add("@pSTATUS_DES", itemSatPdv.IsSTATUS_DESNull() ? null : itemSatPdv.STATUS_DES);
+                                                        fbCommSatUpsertServ.Parameters.Add("@pNUMERO_CFE", itemSatPdv.IsNUMERO_CFENull() ? null : (int?)itemSatPdv.NUMERO_CFE);
+                                                        fbCommSatUpsertServ.Parameters.Add("@pNUM_SERIE_SAT", itemSatPdv.IsNUM_SERIE_SATNull() ? null : itemSatPdv.NUM_SERIE_SAT);
+
+                                                        #endregion Prepara o comando da SP_TRI_SAT_UPSERT_BY_CHAVE
+
+                                                        // Executa a sproc
+                                                        try
+                                                        {
+                                                            log.Debug($"pNF_NUMERO: {fbCommSatUpsertServ.Parameters[0]}");
+                                                            log.Debug($"pNF_SERIE: {fbCommSatUpsertServ.Parameters[1]}");
+                                                            log.Debug($"pCHAVE: {fbCommSatUpsertServ.Parameters[2]}");
+                                                            log.Debug($"pDT_EMISSAO: {fbCommSatUpsertServ.Parameters[3]}");
+                                                            log.Debug($"pHR_EMISSAO: {fbCommSatUpsertServ.Parameters[4]}");
+                                                            log.Debug($"pSTATUS: {fbCommSatUpsertServ.Parameters[5]}");
+                                                            log.Debug($"pSTATUS_DES: {fbCommSatUpsertServ.Parameters[6]}");
+                                                            log.Debug($"pNUMERO_CFE: {fbCommSatUpsertServ.Parameters[7]}");
+                                                            log.Debug($"pNUM_SERIE_SAT: {fbCommSatUpsertServ.Parameters[8]}");
+
+                                                            fbCommSatUpsertServ.ExecuteScalar();
+                                                        }
+                                                        catch (Exception ex)
+                                                        {
+                                                            log.Error($"pNF_NUMERO: {nfvendaCancelPdv.NF_NUMERO}, NF_SERIE: {nfvendaCancelPdv.NF_SERIE}, pCHAVE {itemSatPdv.CHAVE} (PDV)", ex);
+                                                            throw ex;
+                                                        }
+
+                                                    }
+
+                                                    #endregion Atualizar item SAT equivalente no servidor
+
+                                                    #region Buscar os itens cancelados SAT do item SAT atual
+
+                                                    using (var tblSatCancPdv = new FDBDataSetVenda.TB_SAT_CANCDataTable())
+                                                    using (var taSatCancPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter())
+                                                    using (var taSatCancServ = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter())
+                                                    {
+                                                        taSatCancPdv.Connection = fbConnPdv;
+                                                        taSatCancServ.Connection = fbConnServ;
+
+                                                        taSatCancPdv.FillByIdRegistro(tblSatCancPdv, itemSatPdv.ID_REGISTRO);
+
+                                                        foreach (var itemSatCancPdv in tblSatCancPdv)
+                                                        {
+                                                            #region Atualizar item cancelado SAT equivalente no servidor:
+
+                                                            using (var fbCommSatCancUpsertServ = new FbCommand())
+                                                            {
+                                                                #region Prepara o comando da SP_TRI_SATCANC_UPSERT_BY_CHAVE
+
+                                                                fbCommSatCancUpsertServ.Connection = fbConnServ;
+
+                                                                fbCommSatCancUpsertServ.CommandText = "SP_TRI_SATCANC_UPSERT_BY_CHAVE";
+                                                                fbCommSatCancUpsertServ.CommandType = CommandType.StoredProcedure;
+
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pCHAVE_SAT", itemSatPdv.CHAVE); //TODO: NÃO PODE SER NULO!!
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pDT_EMISSAO", itemSatCancPdv.IsDT_EMISSAONull() ? null : (DateTime?)itemSatCancPdv.DT_EMISSAO);
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pHR_EMISSAO", itemSatCancPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)itemSatCancPdv.HR_EMISSAO);
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pNUMERO_CFE", itemSatCancPdv.IsNUMERO_CFENull() ? null : (int?)itemSatCancPdv.NUMERO_CFE);
+
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pCHAVE", itemSatCancPdv.CHAVE); //TODO: NÃO PODE SER NULO!!
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pNUM_SERIE_SAT", itemSatCancPdv.IsNUM_SERIE_SATNull() ? null : itemSatCancPdv.NUM_SERIE_SAT);
+                                                                fbCommSatCancUpsertServ.Parameters.Add("@pENVIO_API", itemSatCancPdv.IsENVIO_APINull() ? null : (DateTime?)itemSatCancPdv.ENVIO_API);
+
+                                                                #endregion Prepara o comando da SP_TRI_SATCANC_UPSERT_BY_CHAVE
+
+                                                                // Executa a sproc
+                                                                try
+                                                                {
+                                                                    fbCommSatCancUpsertServ.ExecuteScalar();
+                                                                }
+                                                                catch (Exception ex)
+                                                                {
+                                                                    log.Error($"pNF_NUMERO: {nfvendaCancelPdv.NF_NUMERO}, NF_SERIE: {nfvendaCancelPdv.NF_SERIE}, pCHAVE {itemSatPdv.CHAVE} (PDV)", ex);
+                                                                    throw ex;
+                                                                }
+
+                                                            }
+
+                                                            #endregion Atualizar item cancelado SAT equivalente no servidor:
+                                                        }
+                                                    }
+
+                                                    #endregion Buscar os itens cancelados SAT do item SAT atual
+                                                }
+                                            }
+
+                                            #endregion Atualizar TB_SAT no servidor
 
                                             #region Atualizar no servidor a quantidade em estoque
 
-                                            using (var fbCommEstProdutoQtdServ = new FbCommand())
+                                            using (var taNfvItemSyncedCancelPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter())
                                             {
-                                                #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                taNfvItemSyncedCancelPdv.Connection = fbConnPdv;
+                                                tblNfvendaItemSyncedCancelPdv.Clear();
+                                                taNfvItemSyncedCancelPdv.FillByIdNfvenda(tblNfvendaItemSyncedCancelPdv, nfvendaCancelPdv.ID_NFVENDA); // já usa sproc
+                                            }
 
-                                                fbCommEstProdutoQtdServ.Connection = fbConnServ;
+                                            // Percorrer por cada item de cupom para repor as quantidades em estoque:
+                                            foreach (FDBDataSetVenda.TB_NFV_ITEMRow nfvendaItemSyncedCancel in tblNfvendaItemSyncedCancelPdv)
+                                            {
+                                                #region Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
 
-                                                fbCommEstProdutoQtdServ.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
-                                                fbCommEstProdutoQtdServ.CommandType = CommandType.StoredProcedure;
+                                                #region Atualizar no servidor a quantidade em estoque
 
-                                                fbCommEstProdutoQtdServ.Parameters.Add("@pQTD_ITEM", nfvendaItemSyncedCancel.QTD_ITEM * -1);
-                                                fbCommEstProdutoQtdServ.Parameters.Add("@pID_IDENTIF", nfvendaItemSyncedCancel.ID_IDENTIFICADOR);
-                                                fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPPRO", 0);// cupomItemSyncedCancel.IsID_COMPPRONull() ? 0 : cupomItemSyncedCancel.ID_COMPPRO); // AmbiMAITRE
-                                                fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPOSICAO", nfvendaItemSyncedCancel.IsID_COMPOSICAONull() ? 0 : nfvendaItemSyncedCancel.ID_COMPOSICAO);
+                                                using (var fbCommEstProdutoQtdServ = new FbCommand())
+                                                {
+                                                    #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
 
-                                                #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                    fbCommEstProdutoQtdServ.Connection = fbConnServ;
 
-                                                // Executa a sproc
-                                                fbCommEstProdutoQtdServ.ExecuteScalar();
+                                                    fbCommEstProdutoQtdServ.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
+                                                    fbCommEstProdutoQtdServ.CommandType = CommandType.StoredProcedure;
+
+                                                    fbCommEstProdutoQtdServ.Parameters.Add("@pQTD_ITEM", nfvendaItemSyncedCancel.QTD_ITEM * -1);
+                                                    fbCommEstProdutoQtdServ.Parameters.Add("@pID_IDENTIF", nfvendaItemSyncedCancel.ID_IDENTIFICADOR);
+                                                    fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPPRO", 0);// cupomItemSyncedCancel.IsID_COMPPRONull() ? 0 : cupomItemSyncedCancel.ID_COMPPRO); // AmbiMAITRE
+                                                    fbCommEstProdutoQtdServ.Parameters.Add("@pID_COMPOSICAO", nfvendaItemSyncedCancel.IsID_COMPOSICAONull() ? 0 : nfvendaItemSyncedCancel.ID_COMPOSICAO);
+
+                                                    #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
+                                                    // Executa a sproc
+                                                    fbCommEstProdutoQtdServ.ExecuteScalar();
+                                                }
+
+                                                #endregion Atualizar no servidor a quantidade em estoque
+
+                                                #region Atualizar no PDV a quantidade em estoque
+
+                                                // Já que todo o cadastro de produtos foi copiado do Serv pro PDV na etapa anterior, 
+                                                // as quantidades em estoque devem ser redefinidas
+                                                using (var fbCommEstProdutoQtdPdv = new FbCommand())
+                                                {
+                                                    #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
+                                                    fbCommEstProdutoQtdPdv.Connection = fbConnPdv;
+
+                                                    fbCommEstProdutoQtdPdv.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
+                                                    fbCommEstProdutoQtdPdv.CommandType = CommandType.StoredProcedure;
+
+                                                    fbCommEstProdutoQtdPdv.Parameters.Add("@pQTD_ITEM", nfvendaItemSyncedCancel.QTD_ITEM * -1);
+                                                    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_IDENTIF", nfvendaItemSyncedCancel.ID_IDENTIFICADOR);
+                                                    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPPRO", 0);// ItemSyncedCancel.IsID_COMPPRONull() ? 0 : cupomItemSyncedCancel.ID_COMPPRO); // AmbiMAITRE
+                                                    fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPOSICAO", nfvendaItemSyncedCancel.IsID_COMPOSICAONull() ? 0 : nfvendaItemSyncedCancel.ID_COMPOSICAO);
+
+                                                    #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+
+                                                    // Executa a sproc
+                                                    fbCommEstProdutoQtdPdv.ExecuteScalar();
+                                                }
+
+                                                #endregion Atualizar no PDV a quantidade em estoque
+
+                                                #endregion Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
                                             }
 
                                             #endregion Atualizar no servidor a quantidade em estoque
 
-                                            #region Atualizar no PDV a quantidade em estoque
+                                            #region Indicar que a nfvenda foi synced depois de cancelado (Serv)
 
-                                            // Já que todo o cadastro de produtos foi copiado do Serv pro PDV na etapa anterior, 
-                                            // as quantidades em estoque devem ser redefinidas
-                                            using (var fbCommEstProdutoQtdPdv = new FbCommand())
+                                            using (var fbCommNfvendaUpdtByNumeroSerieServ = new FbCommand())
                                             {
-                                                #region Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                #region Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
 
-                                                fbCommEstProdutoQtdPdv.Connection = fbConnPdv;
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Connection = fbConnServ;
 
-                                                fbCommEstProdutoQtdPdv.CommandText = "SP_TRI_PRODUTO_RETIRAESTOQUE";
-                                                fbCommEstProdutoQtdPdv.CommandType = CommandType.StoredProcedure;
+                                                //fbCommNfvendaUpdtByCooNumcaixaServ.CommandText = "SP_TRI_CUPOM_UPDT_BYCOONUMCAIX";
 
-                                                fbCommEstProdutoQtdPdv.Parameters.Add("@pQTD_ITEM", nfvendaItemSyncedCancel.QTD_ITEM * -1);
-                                                fbCommEstProdutoQtdPdv.Parameters.Add("@pID_IDENTIF", nfvendaItemSyncedCancel.ID_IDENTIFICADOR);
-                                                fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPPRO", 0);// ItemSyncedCancel.IsID_COMPPRONull() ? 0 : cupomItemSyncedCancel.ID_COMPPRO); // AmbiMAITRE
-                                                fbCommEstProdutoQtdPdv.Parameters.Add("@pID_COMPOSICAO", nfvendaItemSyncedCancel.IsID_COMPOSICAONull() ? 0 : nfvendaItemSyncedCancel.ID_COMPOSICAO);
+                                                //TODO: o que seria um COO e NUM_CAIXA do TB_CUPOM para a TB_NFVENDA?
+                                                // Seria a NF_NUMERO e a NF_SERIE
 
-                                                #endregion Prepara o comando da SP_TRI_PRODUTO_RETIRAESTOQUE
+                                                fbCommNfvendaUpdtByNumeroSerieServ.CommandText = "SP_TRI_NFV_UPDT_BYNFNUMSERIE";
+                                                fbCommNfvendaUpdtByNumeroSerieServ.CommandType = CommandType.StoredProcedure;
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_NATOPE", nfvendaCancelPdv.ID_NATOPE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_VENDEDOR", nfvendaCancelPdv.IsID_VENDEDORNull() ? null : (short?)nfvendaCancelPdv.ID_VENDEDOR);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_CLIENTE", nfvendaCancelPdv.ID_CLIENTE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_MODELO", nfvendaCancelPdv.NF_MODELO);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_EMISSAO", nfvendaCancelPdv.DT_EMISSAO);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_SAIDA", nfvendaCancelPdv.IsDT_SAIDANull() ? null : (DateTime?)nfvendaCancelPdv.DT_SAIDA);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pHR_SAIDA", nfvendaCancelPdv.IsHR_SAIDANull() ? null : (TimeSpan?)nfvendaCancelPdv.HR_SAIDA);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pESPECIE", nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE);
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pTIPO_FRETE", nfvendaCancelPdv.TIPO_FRETE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_LIQUID", nfvendaCancelPdv.IsPES_LIQUIDNull() ? null : (decimal?)nfvendaCancelPdv.PES_LIQUID);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_BRUTO", nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSTATUS", nfvendaCancelPdv.STATUS);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENT_SAI", nfvendaCancelPdv.ENT_SAI);
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_FMAPGTO", nfvendaCancelPdv.ID_FMAPGTO);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_PARCELA", nfvendaCancelPdv.ID_PARCELA);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pMARCA", nfvendaCancelPdv.IsMARCANull() ? null : nfvendaCancelPdv.MARCA);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pQTD_VOLUM", nfvendaCancelPdv.IsQTD_VOLUMNull() ? null : (decimal?)nfvendaCancelPdv.QTD_VOLUM);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNUM_VOLUM", nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM);
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPROD_REV", nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSOMA_FRETE", nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pVLR_TROCO", nfvendaCancelPdv.IsVLR_TROCONull() ? null : (decimal?)nfvendaCancelPdv.VLR_TROCO);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_PRES", nfvendaCancelPdv.IsIND_PRESNull() ? null : nfvendaCancelPdv.IND_PRES);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_IE_DEST", nfvendaCancelPdv.IsIND_IE_DESTNull() ? null : nfvendaCancelPdv.IND_IE_DEST);
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvendaCancelPdv.DESCONTO_CONDICIONAL);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_FIXA", nfvendaCancelPdv.IsINF_COMP_FIXANull() ? null : nfvendaCancelPdv.INF_COMP_FIXA);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_EDIT", nfvendaCancelPdv.IsINF_COMP_EDITNull() ? null : nfvendaCancelPdv.INF_COMP_EDIT);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENDERECO_ENTREGA", nfvendaCancelPdv.ENDERECO_ENTREGA);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENVIO_API", nfvendaCancelPdv.IsENVIO_APINull() ? null : (DateTime?)nfvendaCancelPdv.ENVIO_API);
+
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSYNCED", 2);
+
+                                                #endregion Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
 
                                                 // Executa a sproc
-                                                fbCommEstProdutoQtdPdv.ExecuteScalar();
+                                                fbCommNfvendaUpdtByNumeroSerieServ.ExecuteScalar();
                                             }
 
-                                            #endregion Atualizar no PDV a quantidade em estoque
+                                            #endregion Indicar que a nfvenda foi synced depois de cancelado (Serv)
 
-                                            #endregion Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+                                            #region Indicar que os itens da nfvenda foram cancelados (Serv) -- DESATIVADO
+
+                                            ////TODO: parece que esse procedimento não é necessário em TB_NFV_ITEM
+
+                                            //using (var fbCommNfvendaItemSetCancelByNumeroSerieServ = new FbCommand())
+                                            //{
+                                            //    #region Prepara o comando da SP_TRI_CUPOM_ITEM_SET_CANCEL
+
+                                            //    fbCommNfvendaItemSetCancelByNumeroSerieServ.Connection = fbConnServ;
+
+                                            //    fbCommNfvendaItemSetCancelByNumeroSerieServ.CommandText = "SP_TRI_CUPOM_ITEM_SET_CANCEL";
+                                            //    fbCommNfvendaItemSetCancelByNumeroSerieServ.CommandType = CommandType.StoredProcedure;
+
+                                            //    fbCommNfvendaItemSetCancelByNumeroSerieServ.Parameters.Add("@pCOO", cupomCancelPdv.COO);
+                                            //    fbCommNfvendaItemSetCancelByNumeroSerieServ.Parameters.Add("@pNUM_CAIXA", cupomCancelPdv.NUM_CAIXA);
+
+                                            //    #endregion Prepara o comando da SP_TRI_CUPOM_ITEM_SET_CANCEL
+
+                                            //    // Executa a sproc
+                                            //    fbCommNfvendaItemSetCancelByNumeroSerieServ.ExecuteScalar();
+                                            //}
+
+                                            #endregion Indicar que os itens da nfvenda foram cancelados (Serv) -- DESATIVADO
+
+                                            #region Indicar que a nfvenda foi synced depois de cancelado (PDV)
+
+                                            using (var fbCommNfvendaUnsyncedSetSynced = new FbCommand())
+                                            {
+                                                #region Prepara o comando da SP_TRI_NFVENDA_SETSYNCED
+
+                                                fbCommNfvendaUnsyncedSetSynced.Connection = fbConnPdv;
+
+                                                fbCommNfvendaUnsyncedSetSynced.CommandText = "SP_TRI_NFVENDA_SETSYNCED";
+                                                fbCommNfvendaUnsyncedSetSynced.CommandType = CommandType.StoredProcedure;
+
+                                                fbCommNfvendaUnsyncedSetSynced.Parameters.Add("@pIdNfvenda", nfvendaCancelPdv.ID_NFVENDA);
+                                                fbCommNfvendaUnsyncedSetSynced.Parameters.Add("@pSynced", 2);
+
+                                                #endregion Prepara o comando da SP_TRI_NFVENDA_SETSYNCED
+
+                                                // Executa a sproc
+                                                fbCommNfvendaUnsyncedSetSynced.ExecuteScalar();
+                                            }
+                                            //}
+                                            #endregion Indicar que a nfvenda foi synced depois de cancelado (PDV)
+
+                                            #region Desfazer vínculo de nfvenda com orçamento e setar status do orçamento para "SALVO"
+
+                                            #region Verificar se a nfvenda foi cancelada: reativar o orçamento vinculado, se houver
+
+                                            //TODO: adaptar vínculo do orçamento com NFVENDA
+
+                                            //using (var taOrcaServ = new DataSets.FDBDataSetOrcamTableAdapters.TRI_PDV_ORCA_NFVENDA_RELTableAdapter())
+                                            //{
+                                            //    taOrcaServ.Connection = fbConnServ;
+
+                                            //    audit("SINCCONTNETDB>> ", string.Format("(nfvenda cancelada depois de synced) taOrcaServ.SP_TRI_ORCA_REATIVAORCA({1}): {0}",
+                                            //                        taOrcaServ.SP_TRI_ORCA_REATIVAORCA(nfvendaCancelPdv.ID_NFVENDA).Safestring(),
+                                            //                        nfvendaCancelPdv.ID_NFVENDA.Safestring()));
+                                            //}
+
+                                            #endregion Verificar se a nfvenda foi cancelada: reativar o orçamento vinculado, se houver
+
+                                            #endregion Desfazer vínculo de nfvenda com orçamento e setar status do orçamento para "SALVO"
+
+                                            // Teste de transação:
+                                            //int minibomba = 0;
+                                            //decimal bomba = 100 / minibomba;
+
+                                            //fbConnServ.Close();
+                                            //fbConnPdv.Close();
                                         }
-
-                                        #endregion Atualizar no servidor a quantidade em estoque
-
-                                        #region Indicar que a nfvenda foi synced depois de cancelado (Serv)
-
-                                        using (var fbCommNfvendaUpdtByNumeroSerieServ = new FbCommand())
-                                        {
-                                            #region Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Connection = fbConnServ;
-
-                                            //fbCommNfvendaUpdtByCooNumcaixaServ.CommandText = "SP_TRI_CUPOM_UPDT_BYCOONUMCAIX";
-
-                                            //TODO: o que seria um COO e NUM_CAIXA do TB_CUPOM para a TB_NFVENDA?
-                                            // Seria a NF_NUMERO e a NF_SERIE
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.CommandText = "SP_TRI_NFV_UPDT_BYNFNUMSERIE";
-                                            fbCommNfvendaUpdtByNumeroSerieServ.CommandType = CommandType.StoredProcedure;
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_NATOPE", nfvendaCancelPdv.ID_NATOPE);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_VENDEDOR", nfvendaCancelPdv.IsID_VENDEDORNull() ? null : (short?)nfvendaCancelPdv.ID_VENDEDOR);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_CLIENTE", nfvendaCancelPdv.ID_CLIENTE);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_MODELO", nfvendaCancelPdv.NF_MODELO);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_EMISSAO", nfvendaCancelPdv.DT_EMISSAO);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_SAIDA", nfvendaCancelPdv.IsDT_SAIDANull() ? null : (DateTime?)nfvendaCancelPdv.DT_SAIDA);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pHR_SAIDA", nfvendaCancelPdv.IsHR_SAIDANull() ? null : (TimeSpan?)nfvendaCancelPdv.HR_SAIDA);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pESPECIE", nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE);
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pTIPO_FRETE", nfvendaCancelPdv.TIPO_FRETE);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_LIQUID", nfvendaCancelPdv.IsPES_LIQUIDNull() ? null : (decimal?)nfvendaCancelPdv.PES_LIQUID);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_BRUTO", nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSTATUS", nfvendaCancelPdv.STATUS);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENT_SAI", nfvendaCancelPdv.ENT_SAI);
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_FMAPGTO", nfvendaCancelPdv.ID_FMAPGTO);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_PARCELA", nfvendaCancelPdv.ID_PARCELA);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pMARCA", nfvendaCancelPdv.IsMARCANull() ? null : nfvendaCancelPdv.MARCA);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pQTD_VOLUM", nfvendaCancelPdv.IsQTD_VOLUMNull() ? null : (decimal?)nfvendaCancelPdv.QTD_VOLUM);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNUM_VOLUM", nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM);
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPROD_REV", nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSOMA_FRETE", nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pVLR_TROCO", nfvendaCancelPdv.IsVLR_TROCONull() ? null : (decimal?)nfvendaCancelPdv.VLR_TROCO);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_PRES", nfvendaCancelPdv.IsIND_PRESNull() ? null : nfvendaCancelPdv.IND_PRES);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_IE_DEST", nfvendaCancelPdv.IsIND_IE_DESTNull() ? null : nfvendaCancelPdv.IND_IE_DEST);
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvendaCancelPdv.DESCONTO_CONDICIONAL);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_FIXA", nfvendaCancelPdv.IsINF_COMP_FIXANull() ? null : nfvendaCancelPdv.INF_COMP_FIXA);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_EDIT", nfvendaCancelPdv.IsINF_COMP_EDITNull() ? null : nfvendaCancelPdv.INF_COMP_EDIT);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENDERECO_ENTREGA", nfvendaCancelPdv.ENDERECO_ENTREGA);
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENVIO_API", nfvendaCancelPdv.IsENVIO_APINull() ? null : (DateTime?)nfvendaCancelPdv.ENVIO_API);
-
-                                            fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSYNCED", 2);
-
-                                            #endregion Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
-
-                                            // Executa a sproc
-                                            fbCommNfvendaUpdtByNumeroSerieServ.ExecuteScalar();
-                                        }
-
-                                        #endregion Indicar que a nfvenda foi synced depois de cancelado (Serv)
-
-                                        #region Indicar que os itens da nfvenda foram cancelados (Serv) -- DESATIVADO
-
-                                        ////TODO: parece que esse procedimento não é necessário em TB_NFV_ITEM
-
-                                        //using (var fbCommNfvendaItemSetCancelByNumeroSerieServ = new FbCommand())
-                                        //{
-                                        //    #region Prepara o comando da SP_TRI_CUPOM_ITEM_SET_CANCEL
-
-                                        //    fbCommNfvendaItemSetCancelByNumeroSerieServ.Connection = fbConnServ;
-
-                                        //    fbCommNfvendaItemSetCancelByNumeroSerieServ.CommandText = "SP_TRI_CUPOM_ITEM_SET_CANCEL";
-                                        //    fbCommNfvendaItemSetCancelByNumeroSerieServ.CommandType = CommandType.StoredProcedure;
-
-                                        //    fbCommNfvendaItemSetCancelByNumeroSerieServ.Parameters.Add("@pCOO", cupomCancelPdv.COO);
-                                        //    fbCommNfvendaItemSetCancelByNumeroSerieServ.Parameters.Add("@pNUM_CAIXA", cupomCancelPdv.NUM_CAIXA);
-
-                                        //    #endregion Prepara o comando da SP_TRI_CUPOM_ITEM_SET_CANCEL
-
-                                        //    // Executa a sproc
-                                        //    fbCommNfvendaItemSetCancelByNumeroSerieServ.ExecuteScalar();
-                                        //}
-
-                                        #endregion Indicar que os itens da nfvenda foram cancelados (Serv) -- DESATIVADO
-
-                                        #region Indicar que a nfvenda foi synced depois de cancelado (PDV)
-
-                                        using (var fbCommNfvendaUnsyncedSetSynced = new FbCommand())
-                                        {
-                                            #region Prepara o comando da SP_TRI_NFVENDA_SETSYNCED
-
-                                            fbCommNfvendaUnsyncedSetSynced.Connection = fbConnPdv;
-
-                                            fbCommNfvendaUnsyncedSetSynced.CommandText = "SP_TRI_NFVENDA_SETSYNCED";
-                                            fbCommNfvendaUnsyncedSetSynced.CommandType = CommandType.StoredProcedure;
-
-                                            fbCommNfvendaUnsyncedSetSynced.Parameters.Add("@pIdNfvenda", nfvendaCancelPdv.ID_NFVENDA);
-                                            fbCommNfvendaUnsyncedSetSynced.Parameters.Add("@pSynced", 2);
-
-                                            #endregion Prepara o comando da SP_TRI_NFVENDA_SETSYNCED
-
-                                            // Executa a sproc
-                                            fbCommNfvendaUnsyncedSetSynced.ExecuteScalar();
-                                        }
-                                        //}
-                                        #endregion Indicar que a nfvenda foi synced depois de cancelado (PDV)
-
-                                        #region Desfazer vínculo de nfvenda com orçamento e setar status do orçamento para "SALVO"
-
-                                        #region Verificar se a nfvenda foi cancelada: reativar o orçamento vinculado, se houver
-
-                                        //TODO: adaptar vínculo do orçamento com NFVENDA
-
-                                        //using (var taOrcaServ = new DataSets.FDBDataSetOrcamTableAdapters.TRI_PDV_ORCA_NFVENDA_RELTableAdapter())
-                                        //{
-                                        //    taOrcaServ.Connection = fbConnServ;
-
-                                        //    audit("SINCCONTNETDB>> ", string.Format("(nfvenda cancelada depois de synced) taOrcaServ.SP_TRI_ORCA_REATIVAORCA({1}): {0}",
-                                        //                        taOrcaServ.SP_TRI_ORCA_REATIVAORCA(nfvendaCancelPdv.ID_NFVENDA).Safestring(),
-                                        //                        nfvendaCancelPdv.ID_NFVENDA.Safestring()));
-                                        //}
-
-                                        #endregion Verificar se a nfvenda foi cancelada: reativar o orçamento vinculado, se houver
-
-                                        #endregion Desfazer vínculo de nfvenda com orçamento e setar status do orçamento para "SALVO"
-
-                                        // Teste de transação:
-                                        //int minibomba = 0;
-                                        //decimal bomba = 100 / minibomba;
-
-                                        //fbConnServ.Close();
-                                        //fbConnPdv.Close();
+                                        // Finaliza a transação:
+                                        transactionScopeNfvendaResync.Complete();
                                     }
-                                    // Finaliza a transação:
-                                    transactionScopeNfvendaResync.Complete();
+                                    #endregion Iniciar o procedimento de cancelamento na retaguarda
                                 }
-                                #endregion Iniciar o procedimento de cancelamento na retaguarda
+
+                                log.Debug(string.Format("Lote {0} de nfvendas sincronizadas e canceladas processado!", intCountLoteNfvendaSyncedCancel.ToString()));
+
+                                // Busca todas as nfvendas que foram synced e posteriormente canceladas (TIP_QUERY = 1)
+                                // Lembrando que a sproc executada abaixo retorna até 200 registros por vez (lote).
+                                tblNfvendaSyncedCancelPdv.Clear();
+                                log.Debug("taNfvendaSyncedCancelPdv.FillByNfvendaSync(1): " + taNfvendaSyncedCancelPdv.FillByNfvendaSync(tblNfvendaSyncedCancelPdv, 1).ToString()); // já usa sproc
                             }
-
-                            log.Debug(string.Format("Lote {0} de nfvendas sincronizadas e canceladas processado!", intCountLoteNfvendaSyncedCancel.ToString()));
-
-                            // Busca todas as nfvendas que foram synced e posteriormente canceladas (TIP_QUERY = 1)
-                            // Lembrando que a sproc executada abaixo retorna até 200 registros por vez (lote).
-                            tblNfvendaSyncedCancelPdv.Clear();
-                            log.Debug("taNfvendaSyncedCancelPdv.FillByNfvendaSync(1): " + taNfvendaSyncedCancelPdv.FillByNfvendaSync(tblNfvendaSyncedCancelPdv, 1).ToString()); // já usa sproc
                         }
+                        #region Manipular Exception
+                        catch (Exception ex)
+                        {
+                            log.Error("Erro ao sincronizar (synced e cancelado depois):", ex);
+                            GravarErroSync("Erro ao sincronizar", tblNfvendaSyncedCancelPdv, ex);
+                            throw ex;
+                        }
+                        #endregion Manipular Exception
+                        #region Limpeza dos objetos Disposable
+                        finally
+                        {
+                            if (taNfvendaSyncedCancelPdv != null) { taNfvendaSyncedCancelPdv.Dispose(); }
+                            if (tblNfvendaSyncedCancelPdv != null) { tblNfvendaSyncedCancelPdv.Dispose(); }
+                            if (taEstProdutoServ != null) { taEstProdutoServ.Dispose(); }
+                            if (taEstProdutoPdv != null) { taEstProdutoPdv.Dispose(); }
+                        }
+                        #endregion Limpeza dos objetos Disposable
                     }
-                    #region Manipular Exception
-                    catch (Exception ex)
-                    {
-                        log.Error("Erro ao sincronizar (synced e cancelado depois):", ex);
-                        GravarErroSync("Erro ao sincronizar", tblNfvendaSyncedCancelPdv, ex);
-                        throw ex;
-                    }
-                    #endregion Manipular Exception
-                    #region Limpeza dos objetos Disposable
-                    finally
-                    {
-                        if (taNfvendaSyncedCancelPdv != null) { taNfvendaSyncedCancelPdv.Dispose(); }
-                        if (tblNfvendaSyncedCancelPdv != null) { tblNfvendaSyncedCancelPdv.Dispose(); }
-                        if (taEstProdutoServ != null) { taEstProdutoServ.Dispose(); }
-                        if (taEstProdutoPdv != null) { taEstProdutoPdv.Dispose(); }
-                    }
-                    #endregion Limpeza dos objetos Disposable
+                    #endregion Nfvendas sincronizadas e posteriormente canceladas
                 }
-                #endregion Nfvendas sincronizadas e posteriormente canceladas
             }
+            catch (Exception e)
+            {
+                log.Error("Erro de sincronização", e);
+                log.Error("Erro interno", e.InnerException);
+                throw;
+            }
+
         }
 
         #endregion
@@ -7040,7 +7049,7 @@ namespace PDV_WPF.Funcoes
                     GravarErroSync("Fill dtAuxSyncPendentes by NO_CAIXA", dtAuxSyncPendentes, ex);
                     throw ex;
                 }
-                
+
                 /*
                 #region Impressoras fiscais
 
@@ -7842,6 +7851,7 @@ namespace PDV_WPF.Funcoes
                     #endregion TRI_PDV_USERS
 
                     #region Cadastros pro AmbiMAITRE
+
                     Sync_TB_EST_COMPOSICAO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                     #region TB_EST_COMPOSICAO
                     /*
@@ -10967,6 +10977,7 @@ namespace PDV_WPF.Funcoes
             //}
 
             #endregion Cupons (ECF)
+
             Sync_Cupons_NFVVENDA(tipoSync);
             #region Cupons (NFVenda)
             /*

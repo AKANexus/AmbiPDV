@@ -1434,7 +1434,7 @@ namespace PDV_WPF.Objetos
                                 }
                                 try
                                 {
-                                    strMensagemErro = string.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}", "x",
+                                    strMensagemErro = string.Format("NFISCAL SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}", "x",
                                                                                  Convert.ToDecimal(pagamento.vMP, ptBR),
                                                                                  ("Venda à prazo AmbiPDV - Cupom " + NF_NUMERO.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
                                                                                  147, 5);
@@ -1483,11 +1483,10 @@ namespace PDV_WPF.Objetos
             return (NF_NUMERO, ID_NFVENDA);
         }
 
-        [Obsolete("Essa informação deve vir diretamente de OBTEMINFODOITEM, e não ser puxada apenas no final. 15-04-2020 ~Artur")]
         public void AplicaPrecoAtacado()
             {
             using FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
-            using var TA_Atacado = new DataSets.FDBDataSetVendaTableAdapters.PrecoAtacadoTableAdapter() { Connection = LOCAL_FB_CONN };
+            using var TA_Atacado = new DataSets.FDBDataSetVendaTableAdapters.PrecoAtacadoTableAdapter { Connection = LOCAL_FB_CONN };
             var quantsCupom =
                 from det in _listaDets
                 group det by det.prod.cProd into newGroup
