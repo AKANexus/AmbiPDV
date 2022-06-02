@@ -26,6 +26,8 @@
             <DatePicker Grid.Column="1" Grid.Row="0" SelectedDate="{Binding StartDate}" d:SelectedDate="2022/02/22" VerticalAlignment="Top" HorizontalAlignment="Center"/>
             <TextBlock Text="Data Final:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Top"/>
             <DatePicker Grid.Column="1" Grid.Row="1" SelectedDate="{Binding EndDate}" d:SelectedDate="2022/02/22" VerticalAlignment="Top" HorizontalAlignment="Center"/>
+            <TextBlock Grid.Row="2">Caixa:</TextBlock>
+            <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Top" Height="24" VerticalContentAlignment="Center" Text="{Binding CaixaNum}"></TextBox>
             <Button Grid.Row="3" Grid.ColumnSpan="2" Content="Gerar Relatório..." VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10" Command="{Binding GerarRelatório}"/>
         </Grid>
     </Grid>

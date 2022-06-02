@@ -4,6 +4,8 @@ using PDV_WPF.Exceptions;
 using PDV_WPF.Funcoes;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using static PDV_WPF.Funcoes.Statics;
 
 
@@ -92,37 +94,67 @@ namespace PDV_WPF.Objetos
         }
         public static bool CarregaInfo()
         {
-            using var EMITENTE_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable();
-            using var EMITENTE_TA = new TB_EMITENTETableAdapter();
-            using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
-            try
+            if (File.Exists("emitente.ini"))
             {
-                EMITENTE_TA.Connection = LOCAL_FB_CONN;
-                EMITENTE_TA.Fill(EMITENTE_DT);
+                try
+                {
+                    Dictionary<string, string> iniEmitente = File.ReadAllLines("emitente.ini").ToDictionary(x=>x.Split('=')[0], x=>x.Split('=')[1]);
+                    _razaoSocial = iniEmitente["RazaoSocial"];
+                    _nomeFantasia = iniEmitente["NomeFantasia"];
+                    _cEP = iniEmitente["CEP"];
+                    _end_Tipo = iniEmitente["Tipo"];
+                    _endereco = iniEmitente["Logradouro"];
+                    _end_Numero = iniEmitente["Numero"];
+                    _end_Bairro = iniEmitente["Bairro"];
+                    _cNPJ = iniEmitente["CNPJ"];
+                    _iE = iniEmitente["IE"];
+                    _iM = iniEmitente["IM"];
+                    _dDD_Comer = iniEmitente["DDD"];
+                    _tel_Comer = iniEmitente["Fone"];
+                    _email = iniEmitente["Email"];
+                    StrSimples = iniEmitente["SimplesNacional(S/N)"];
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Arquivo de emitente inválido", e);
+                }
+                _infoCarregada = true;
+                return true;
             }
-            catch (Exception ex)
+            else
             {
-                throw new DataNotLoadedException("Dados de emitente não puderam ser carregados", ex);
+                using var EMITENTE_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable();
+                using var EMITENTE_TA = new TB_EMITENTETableAdapter();
+                using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+                try
+                {
+                    EMITENTE_TA.Connection = LOCAL_FB_CONN;
+                    EMITENTE_TA.Fill(EMITENTE_DT);
+                }
+                catch (Exception ex)
+                {
+                    throw new DataNotLoadedException("Dados de emitente não puderam ser carregados", ex);
+                }
+
+                DataSets.FDBDataSetOperSeed.TB_EMITENTERow row = EMITENTE_DT[0];
+
+                _razaoSocial = row.NOME;
+                _nomeFantasia = row.IsNOME_FANTANull() ? "" : row.NOME_FANTA;
+                _cEP = row.IsEND_CEPNull() ? "" : row.END_CEP;
+                _end_Tipo = row.IsEND_TIPONull() ? "" : row.END_TIPO;
+                _endereco = row.IsEND_LOGRADNull() ? "Não Identificado" : row.END_LOGRAD;
+                _end_Numero = row.IsEND_NUMERONull() ? "S/N" : row.END_NUMERO;
+                _end_Bairro = row.IsEND_BAIRRONull() ? "" : row.END_BAIRRO;
+                _cNPJ = row.CNPJ;
+                _iE = row.IsINSC_ESTADNull() ? "Isento" : row.INSC_ESTAD.TiraPont();
+                _iM = row.IsINSC_MUNICNull() ? "" : row.INSC_MUNIC;
+                _dDD_Comer = row.IsDDD_COMERNull() ? "" : row.DDD_COMER;
+                _tel_Comer = row.IsFONE_COMERNull() ? "" : row.FONE_COMER;
+                _email = row.IsEMAIL_CONTNull() ? "" : row.EMAIL_CONT;
+                StrSimples = row.SIMPLES;
+                _infoCarregada = true;
+                return true;
             }
-
-            DataSets.FDBDataSetOperSeed.TB_EMITENTERow row = EMITENTE_DT[0];
-
-            _razaoSocial = row.NOME;
-            _nomeFantasia = row.IsNOME_FANTANull() ? "" : row.NOME_FANTA;
-            _cEP = row.IsEND_CEPNull() ? "" : row.END_CEP;
-            _end_Tipo = row.IsEND_TIPONull() ? "" : row.END_TIPO;
-            _endereco = row.IsEND_LOGRADNull() ? "Não Identificado" : row.END_LOGRAD;
-            _end_Numero = row.IsEND_NUMERONull() ? "S/N" : row.END_NUMERO;
-            _end_Bairro = row.IsEND_BAIRRONull() ? "" : row.END_BAIRRO;
-            _cNPJ = row.CNPJ;
-            _iE = row.IsINSC_ESTADNull() ? "Isento" : row.INSC_ESTAD.TiraPont();
-            _iM = row.IsINSC_MUNICNull() ? "" : row.INSC_MUNIC;
-            _dDD_Comer = row.IsDDD_COMERNull() ? "" : row.DDD_COMER;
-            _tel_Comer = row.IsFONE_COMERNull() ? "" : row.FONE_COMER;
-            _email = row.IsEMAIL_CONTNull() ? "" : row.EMAIL_CONT;
-            StrSimples = row.SIMPLES;
-            _infoCarregada = true;
-            return true;
         }
     }
 }

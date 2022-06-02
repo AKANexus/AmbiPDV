@@ -763,6 +763,7 @@
     <None Include="DataSets\FDBDataSetDevolucao.xss">
       <DependentUpon>FDBDataSetDevolucao.xsd</DependentUpon>
     </None>
+    <None Include="emitente.ini" />
     <None Include="SiTEF\CliSiTef.ini" />
     <None Include="SiTEF\Homologa\CliSiTef.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

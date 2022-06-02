@@ -47,6 +47,7 @@ namespace Relatórios2
 
         public DateTime StartDate { get; set; } = DateTime.Now;
         public DateTime EndDate { get; set; } = DateTime.Now;
+        public string CaixaNum { get; set; } = "1";
         public ICommand GerarRelatório { get; set; }
     }
 
@@ -70,23 +71,32 @@ namespace Relatórios2
         {
             if (!File.Exists("caminho.ini"))
             {
-                File.WriteAllText("caminho.ini","C:\\Program Files (x86)\\CompuFour\\Clipp\\Base\\CLIPP.FDB");
+                File.WriteAllText("caminho.ini","localhost|C:\\Program Files (x86)\\CompuFour\\Clipp\\Base\\CLIPP.FDB");
             }
 
-            string path = File.ReadAllLines("caminho.ini")[0];
-            path = @"D:\TRILHEIROS\D - Bases de Clientes\Base clipp loja 2 da trilha\CLIPP.FDB";
-            if (!File.Exists(path))
-            {
-                MessageBox.Show("O arquivo da base de dados não foi encontrado. Ele deve estar numa pasta local");
-                return;
-            }
+            string line = File.ReadAllLines("caminho.ini")[0];
+            string servername = line.Split('|')[0];
+            string catalog = line.Split('|')[1];
             using FbConnection fbConn =
                 new FbConnection(
-                    $@"initial catalog={path};data source=localhost;user id=sysdba;Password=masterkey;encoding=WIN1252");
+                    $@"initial catalog={catalog};data source={servername};user id=sysdba;Password=masterkey;encoding=WIN1252");
+
+            try
+            {
+                fbConn.Open();
+                fbConn.Close();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Base de dados não encontrada.");
+                return;
+            }
+
             using FbCommand command = new FbCommand($"SELECT DT_EMISSAO, NF_SERIE, NF_NUMERO, TOT_NF, DESC_FORMAPAGAMENTO, VLR_PAGTO " +
                                                     $"FROM V_NFV vn JOIN V_NFVENDA_PAGAMENTOS vnp ON vn.ID_NFVENDA = vnp.ID_NFVENDA WHERE " +
                                                     $"vn.DT_SAIDA >= CAST ('{tabItem1VM.StartDate:yyyy-MM-dd}' AS DATE) AND vn.DT_SAIDA <= CAST " +
-                                                    $"('{tabItem1VM.EndDate:yyyy-MM-dd}' AS DATE) ORDER BY NF_SERIE, NF_NUMERO;", fbConn);
+                                                    $"('{tabItem1VM.EndDate:yyyy-MM-dd}' AS DATE) AND NF_SERIE CONTAINING '{tabItem1VM.CaixaNum}' " +
+                                                    $"ORDER BY NF_SERIE, NF_NUMERO;", fbConn);
             using DataTable vendas = new DataTable();
 
             command.CommandType = CommandType.Text;
