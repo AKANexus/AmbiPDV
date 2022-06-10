@@ -1560,7 +1560,7 @@ namespace PDV_WPF.Objetos
             decimal valVenda = 0;
             foreach (envCFeCFeInfCFeDet det in _listaDets)
             {
-                valVenda += ((det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal()) - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
+                valVenda += (det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal() - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
             }
             return valVenda;
         }
