@@ -1544,7 +1544,7 @@ namespace PDV_WPF.Objetos
                     {
                         if (det1.familia == familia)
                         {
-                            var info1 = _funcoes.GetInfoAtacado(int.Parse(det.prod.cProd), LOCAL_FB_CONN);
+                            var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
 
                             det1.prod.vUnComOri = det1.prod.vUnCom;
                             det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
