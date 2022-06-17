@@ -35,6 +35,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using System.Xml;
 using System.Xml.Serialization;
+using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.SiTEFDLL;
 using static PDV_WPF.Funcoes.Statics;
@@ -4949,24 +4950,33 @@ namespace PDV_WPF.Telas
             }
             return;
         }
+        private FuncoesFirebird _funcoes = new();
 
         private void ProcessarItemNovo(int pCodigoItem, decimal pPrecoUnitario, decimal pQuant, decimal pDesconto)
         {
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
-            using var dadosDoItem = new DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMDataTable();
-            log.Debug("Executando obtemDadosdoItem.Fill");
-            using (var obtemdadosdoitem = new SP_TRI_OBTEMDADOSDOITEMTableAdapter())
+
+
+            var dadosDoItem = _funcoes.ObtemDadosDoItem(pCodigoItem, LOCAL_FB_CONN);
+            if (dadosDoItem is null)
             {
-                obtemdadosdoitem.Connection = LOCAL_FB_CONN;
-                obtemdadosdoitem.Fill(dadosDoItem, pCodigoItem);
+                throw new Exception("dadosDoItem era vazio");
             }
-            log.Debug("obtemDadosdoItem.Fill done");
-            log.Debug("isolando itemRow");
-            DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow itemRow = (DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow)dadosDoItem.Rows[0];
-            log.Debug("itemRow isolado");
+
+            //using var dadosDoItem = new DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMDataTable();
+            //log.Debug("Executando obtemDadosdoItem.Fill");
+            //using (var obtemdadosdoitem = new SP_TRI_OBTEMDADOSDOITEMTableAdapter())
+            //{
+            //    obtemdadosdoitem.Connection = LOCAL_FB_CONN;
+            //    obtemdadosdoitem.Fill(dadosDoItem, pCodigoItem);
+            //}
+            //log.Debug("obtemDadosdoItem.Fill done");
+            //log.Debug("isolando itemRow");
+            //DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow itemRow = (DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow)dadosDoItem.Rows[0];
+            //log.Debug("itemRow isolado");
 
             #region Pegar peso
-            if (_prepesado == false && (itemRow.UNI_MEDIDA == "KG" || itemRow.UNI_MEDIDA == "KU") && BALMODELO != 0)
+            if (_prepesado == false && (dadosDoItem.UNI_MEDIDA == "KG" || dadosDoItem.UNI_MEDIDA == "KU") && BALMODELO != 0)
             {
                 try
                 {
@@ -4992,56 +5002,71 @@ namespace PDV_WPF.Telas
 
             log.Debug($" Código: {pCodigoItem}, Preço: {pPrecoUnitario}, Quant {pQuant}");
             log.Debug("obtendo csosnCfe");
-            string csosnCfe = itemRow.IsRCSOSN_CFENull() ? "" : itemRow.RCSOSN_CFE.Safestring().Trim();
+            string csosnCfe = dadosDoItem.RCSOSN_CFE.Safestring().Trim();
             log.Debug("csosnCfe obtido");
             lbl_Marquee.Visibility = Visibility.Hidden;
             log.Debug("obtendo descrição");
-            lbl_Cortesia.Content = itemRow.DESCRICAO.ToString();
+            lbl_Cortesia.Content = dadosDoItem.DESCRICAO;
             log.Debug("descrição obtida");
             combobox.Text = "";
             txb_Qtde.Clear();
             string barcode = null;
             if (_prepesado == false)
             {
-                barcode = itemRow.IsCOD_BARRANull() ? pCodigoItem.ToString() : itemRow.COD_BARRA.ToString();
+                barcode = dadosDoItem.COD_BARRA;
             }
             else { barcode = pCodigoItem.ToString(); }
 
             _prepesado = false;
+            string famiglia = null;
+            string[] observacaoLines =
+                dadosDoItem.OBSERVACAO.Split(new[] {Environment.NewLine}, StringSplitOptions.RemoveEmptyEntries);
+            if (observacaoLines.Length > 0)
+            {
+                foreach (string observacaoLine in observacaoLines)
+                {
+                    if (observacaoLine.Split(':')[0].ToLower() == "classe")
+                    {
+                        famiglia = observacaoLine.Split(':')[1].ToLower();
+                    }
+                }
+            }
             if (_modoDevolucao)
             {
                 devolAtual.RecebeNovoProduto(
                                         pCodigoItem,
-                                        itemRow.DESCRICAO,
-                                        itemRow.IsCOD_NCMNull() ? "" : itemRow.COD_NCM,
+                                        dadosDoItem.DESCRICAO,
+                                        dadosDoItem.COD_NCM,
                                         pPrecoUnitario,
-                                        0, pDesconto, itemRow.UNI_MEDIDA, pQuant, itemRow.IsCOD_BARRANull() ? "" : itemRow.COD_BARRA
+                                        0, pDesconto, dadosDoItem.UNI_MEDIDA, pQuant, dadosDoItem.COD_BARRA
                                         );
                 devolAtual.AdicionaProduto();
             }
             else
             {
                 log.Debug("Recebendo Novo Produto em vendaAtual");
+
                 vendaAtual.RecebeNovoProduto(
                                         pCodigoItem,
-                                        itemRow.DESCRICAO,
-                                        itemRow.IsCOD_NCMNull() ? "" : itemRow.COD_NCM,
-                                        itemRow.IsCFOPNull() ? "5102" : itemRow.CFOP,
+                                        dadosDoItem.DESCRICAO,
+                                        dadosDoItem.COD_NCM,
+                                        dadosDoItem.CFOP,
                                         pPrecoUnitario,
-                                        itemRow.IsRSTR_CESTNull() ? "" : itemRow.RSTR_CEST,
+                                        dadosDoItem.RSTR_CEST,
                                         0,
                                         pDesconto,
-                                        itemRow.UNI_MEDIDA,
+                                        dadosDoItem.UNI_MEDIDA,
                                         pQuant,
-                                        itemRow.IsCOD_BARRANull() ? "" : itemRow.COD_BARRA
+                                        dadosDoItem.COD_BARRA,
+                                        famiglia
                                         );
                 log.Debug("vendaAtual.RecebeNovoProduto concluído");
-                switch (itemRow.RID_TIPOITEM == "9")
+                switch (dadosDoItem.RID_TIPOITEM == "9")
                 {
                     case true:
                         {
                             log.Debug("Recebendo ISSQN");
-                            vendaAtual.RecebeInfoISSQN(itemRow.RALIQ_ISS);
+                            vendaAtual.RecebeInfoISSQN(dadosDoItem.RALIQ_ISS);
                             log.Debug("ISSQN Recebido");
                             break;
                         }
@@ -5050,10 +5075,10 @@ namespace PDV_WPF.Telas
                             log.Debug("Recebendo ICMS");
                             vendaAtual.RecebeInfoICMS(
                                 tipoDeEmpresa,
-                                itemRow.IsRCSOSN_CFENull() ? "" : itemRow.RCSOSN_CFE.Trim(),
-                                itemRow.IsRCST_CFENull() ? "" : itemRow.RCST_CFE,
-                                itemRow.RUF_SP.ToString(),
-                                itemRow.RBASE_ICMS.ToString()
+                                dadosDoItem.RCSOSN_CFE.Trim(),
+                                dadosDoItem.RCST_CFE,
+                                dadosDoItem.RUF_SP.ToString(),
+                                dadosDoItem.RBASE_ICMS.ToString()
                                 );
                             log.Debug("ICMS Recebido");
                             break;
@@ -5061,20 +5086,20 @@ namespace PDV_WPF.Telas
                 }
                 log.Debug("Recebendo PIS");
                 vendaAtual.RecebePIS(
-                    itemRow.IsRCST_PISNull() ? "" : itemRow.RCST_PIS,
+                    dadosDoItem.RCST_PIS,
                     pPrecoUnitario,
-                    itemRow.IsRPISNull() ? 0M : itemRow.RPIS,
+                    dadosDoItem.RPIS,
                     pQuant
                     );
                 log.Debug("PIS Recebido. Recebendo COFINS");
                 vendaAtual.RecebeCOFINS(
-                    itemRow.IsRCST_COFINSNull() ? "" : itemRow.RCST_COFINS,
+                    dadosDoItem.RCST_COFINS,
                     pPrecoUnitario,
-                    itemRow.IsRCOFINSNull() ? 0M : itemRow.RCOFINS,
+                    dadosDoItem.RCOFINS,
                     pQuant
                     );
                 log.Debug("COFINS Recebido. Adicionando produto");
-                vendaAtual.AdicionaProduto(itemRow.IsRCST_CFENull() ? "" : itemRow.RCST_CFE);
+                vendaAtual.AdicionaProduto(dadosDoItem.RCST_CFE);
                 log.Debug("Produto adicionado");
                 using (StreamWriter sw = File.AppendText(AppDomain.CurrentDomain.BaseDirectory + "\\Ultimavenda.txt"))
                 {
@@ -5123,10 +5148,10 @@ namespace PDV_WPF.Telas
                     numAtual = (vendaAtual.nItemCupom - 1).ToString().PadLeft(3, '0');
                     break;
             }
-            if (barcode == null) { ImprimirCupomVirtual($@"{numAtual} {pCodigoItem.ToString().PadLeft(13, '0')} {itemRow.DESCRICAO.Trunca(27)}"); }
+            if (barcode == null) { ImprimirCupomVirtual($@"{numAtual} {pCodigoItem.ToString().PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27)}"); }
 
-            else { ImprimirCupomVirtual($"{numAtual} {barcode.PadLeft(13, '0')} {itemRow.DESCRICAO.Trunca(27)}"); }
-            ImprimirCupomVirtual($"{pQuant.RoundABNT(3).ToString("0.000").Trunca(5),8} {itemRow.UNI_MEDIDA} {pPrecoUnitario.RoundABNT(),10:0.00} {(pPrecoUnitario * pQuant).RoundABNT(),20:0.00}");
+            else { ImprimirCupomVirtual($"{numAtual} {barcode.PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27)}"); }
+            ImprimirCupomVirtual($"{pQuant.RoundABNT(3).ToString("0.000").Trunca(5),8} {dadosDoItem.UNI_MEDIDA} {pPrecoUnitario.RoundABNT(),10:0.00} {(pPrecoUnitario * pQuant).RoundABNT(),20:0.00}");
             if (pDesconto > 0) ImprimirCupomVirtual($"---Desconto no item: {pDesconto:C2}");
         }
 

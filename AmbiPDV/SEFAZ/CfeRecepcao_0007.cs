@@ -1142,10 +1142,12 @@ namespace CfeRecepcao_0007
                 this.nItemField = value;
             }
         }
-        [System.Xml.Serialization.XmlIgnoreAttribute()]
+        [XmlIgnoreAttribute()]
         public decimal descAtacado;
         [XmlIgnoreAttribute()]
         public bool atacado = false;
+        [XmlIgnoreAttribute()]
+        public string familia;
     }
 
     /// <remarks/>

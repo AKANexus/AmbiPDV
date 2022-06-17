@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 
@@ -248,7 +249,8 @@ namespace PDV_WPF.Objetos
                                       decimal valorDesconto = 0,
                                       string uniComercial = "UN",
                                       decimal quantidade = 1,
-                                      string GTIN = null)
+                                      string GTIN = null,
+                                      string familia = null)
         {
             _det = new envCFeCFeInfCFeDet();
             _produto = new envCFeCFeInfCFeDetProd
@@ -355,6 +357,8 @@ namespace PDV_WPF.Objetos
                 _listaObsFiscoDet.Add(_obsFiscoDet);
                 _produto.obsFiscoDet = _listaObsFiscoDet.ToArray();
             }
+
+            _det.familia = familia;
             _produtoRecebido = true;
         }
 
@@ -1483,10 +1487,11 @@ namespace PDV_WPF.Objetos
             return (NF_NUMERO, ID_NFVENDA);
         }
 
+        private FuncoesFirebird _funcoes = new();
+
         public void AplicaPrecoAtacado()
-            {
+        {
             using FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
-            using var TA_Atacado = new DataSets.FDBDataSetVendaTableAdapters.PrecoAtacadoTableAdapter { Connection = LOCAL_FB_CONN };
             var quantsCupom =
                 from det in _listaDets
                 group det by det.prod.cProd into newGroup
@@ -1495,19 +1500,55 @@ namespace PDV_WPF.Objetos
                     cod = newGroup.Key,
                     qtdTotal = newGroup.Sum(x => decimal.Parse(x.prod.qCom))
                 };
-             foreach (var item in quantsCupom)
+
+            var familiasCupom =
+                from det in _listaDets
+                group det by det.familia
+                into newGroup
+                select new
+                {
+                    familia = newGroup.Key,
+                    qtdTotal = newGroup.Sum(x => decimal.Parse(x.prod.qCom))
+                };
+
+            foreach (var item in quantsCupom)
             {
-                var info = TA_Atacado.GetInfo(int.Parse(item.cod))[0];
-                if (!info.IsQTD_ATACADONull() && !info.IsPRC_ATACADONull() && info.PRC_ATACADO > 0 && (item.qtdTotal >= info.QTD_ATACADO))
+                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);
+                if (info is not null && info.PrcAtacado > 0 && item.qtdTotal >= info.QtdAtacado)
                 {
                     foreach (var det in _listaDets)
                     {
                         if (det.prod.cProd == item.cod)
                         {
                             det.prod.vUnComOri = det.prod.vUnCom;
-                            //det.descAtacado = ((decimal.Parse(det.prod.vUnCom) - info.PRC_ATACADO) * decimal.Parse(det.prod.qCom));
-                            det.prod.vUnCom = info.PRC_ATACADO.ToString("0.000");
+                            det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
                             det.atacado = true;
+                        }
+                    }
+                }
+            }
+
+            List<string> familiasVerificadas = new();
+            foreach (var det in _listaDets)
+            {
+                var info = _funcoes.GetInfoAtacado(int.Parse(det.prod.cProd), LOCAL_FB_CONN);
+                string familia = det.familia;
+                if (familiasVerificadas.Contains(familia))
+                {
+                    continue;
+                }
+                familiasVerificadas.Add(familia);
+                if (familiasCupom.Any(x => x.familia == familia && info.QtdAtacado > 0 && x.qtdTotal >= info.QtdAtacado))
+                {
+                    foreach (var det1 in _listaDets)
+                    {
+                        if (det1.familia == familia)
+                        {
+                            var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
+
+                            det1.prod.vUnComOri = det1.prod.vUnCom;
+                            det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
+                            det1.atacado = true;
                         }
                     }
                 }
@@ -1519,7 +1560,7 @@ namespace PDV_WPF.Objetos
             decimal valVenda = 0;
             foreach (envCFeCFeInfCFeDet det in _listaDets)
             {
-                valVenda += ((det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal()) - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
+                valVenda += (det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal() - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
             }
             return valVenda;
         }
