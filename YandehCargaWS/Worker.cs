@@ -61,16 +61,23 @@ namespace YandehCargaWS
             return false;
         }
 
-        private async Task<bool> GravaPathNoTxt()
+        private async Task<bool> CriaArquivoPath()
         {
             try
             {
-                if (!File.Exists("path.txt"))
+                if (!Directory.Exists(Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS")))
                 {
-                    File.Create("path.txt").Dispose();
+                    Directory.CreateDirectory(Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS"));
+                }
+                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS", "path.txt")))
+                {
+                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS", "path.txt")).Dispose();
+                    return false;
                 }
 
-                File.WriteAllText("path.txt", dbPath);
+                //File.WriteAllText("path.txt", @"localhost|C:\Path\Clipp.FDB");
                 return true;
             }
             catch (Exception e)
@@ -132,9 +139,18 @@ namespace YandehCargaWS
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            dbPath = File.ReadAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "path.txt"));
+
+            if (await CriaArquivoPath())
+            {
+                EventLog.WriteEntry("YandehCarga", $"Arquivo Path não existe a e foi criado. Reinicie o serviço.");
+                return;
+            }
+
+            dbPath = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS", "path.txt"));
+
+
             EventLog.WriteEntry("YandehCarga", "Iniciando Carga Yandeh");
-            EventLog.WriteEntry("YandehCarga", $"Lendo path.txt em {Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "path.txt")}");
+            EventLog.WriteEntry("YandehCarga", $"Lendo path.txt em {dbPath}");
             if (string.IsNullOrWhiteSpace(dbPath) || dbPath.Split('|').Length != 2)
             {
                 EventLog.WriteEntry("YandehCarga", "Caminho da base de dados inválido. Tente novamente.");
