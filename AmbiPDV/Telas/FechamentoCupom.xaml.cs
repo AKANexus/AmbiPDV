@@ -59,7 +59,7 @@ namespace PDV_WPF.Telas
 
         #endregion Fields & Properties
 
-
+        public static decimal vlrTotalVenda;
         #region (De)Constructor
 
         public FechamentoCupom(decimal desconto_maximo, ref Venda vendaAtual, bool modoTeste = false)
@@ -70,7 +70,7 @@ namespace PDV_WPF.Telas
             txb_Metodo.Focus();
             _modoTeste = modoTeste;
             //tefAtual = tEFAtual;
-            _vendaAtual = vendaAtual;
+            _vendaAtual = vendaAtual;                     
         }
 
         /// <summary>
@@ -133,6 +133,7 @@ namespace PDV_WPF.Telas
             txb_Valor.Value = valor_a_ser_pago;
             txb_SaldoRest.Value = valor_a_ser_pago;
             txb_Pago.Value = 0;
+            VerificaVlrTotal(); //CHAMA METODO QUE VERIFICA SE VALOR TOTAL DA VENDA É DIFERENTE DO SALDO RESTANTE
             if (_vendaAtual.DescontoAplicado() > 0)
             {
                 desconto = _vendaAtual.DescontoAplicado();
@@ -714,6 +715,15 @@ namespace PDV_WPF.Telas
             if (taxaAdicionada && DialogResult != true)
             {
                 _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);
+            }
+        }
+        public void VerificaVlrTotal()
+        {            
+            if (vlrTotalVenda > valor_a_ser_pago)
+            {
+                decimal ObtemDesc = vlrTotalVenda - valor_a_ser_pago;                          
+                txt_Vlr.Text = ObtemDesc.ToString("C");
+                txbDesc.Visibility = Visibility.Visible;
             }
         }
     }
