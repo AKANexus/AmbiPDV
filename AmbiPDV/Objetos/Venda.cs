@@ -1512,14 +1512,15 @@ namespace PDV_WPF.Objetos
                 };
 
             foreach (var item in quantsCupom)
-            {                
-                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);
+            {                           
+                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);               
                 if (info is not null && info.PrcAtacado > 0 && item.qtdTotal >= info.QtdAtacado)
                 {
                     foreach (var det in _listaDets)
                     {
+                        
                         if (det.prod.cProd == item.cod)
-                        {
+                        {                            
                             det.prod.vUnComOri = det.prod.vUnCom;
                             det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
                             det.atacado = true;
@@ -1535,7 +1536,7 @@ namespace PDV_WPF.Objetos
                 string familia = det.familia;
                 if (familia == null || familia == "")
                 {
-                    break;
+                    continue;
                 }
                 else
                 {

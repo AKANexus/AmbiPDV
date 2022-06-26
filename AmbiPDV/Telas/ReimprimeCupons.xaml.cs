@@ -293,7 +293,9 @@ namespace PDV_WPF.Telas
 
                     foreach (envCFeCFeInfCFePgtoMP item in cFeDeRetorno.infCFe.pgto.MP)
                     {
-                        VendaImpressa.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], item.dec_vMP);
+                        string vMPXML = item.vMP.Replace(".", ",");
+                        decimal vMP = Convert.ToDecimal(vMPXML);
+                        VendaImpressa.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], vMP);
                         if (item.cMP == "05")
                         {
                             valor_prazo = item.dec_vMP;
