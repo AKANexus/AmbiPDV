@@ -12,7 +12,7 @@ namespace PDV_WPF.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.2.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -20,17 +20,6 @@ namespace PDV_WPF.Properties {
         public static Settings Default {
             get {
                 return defaultInstance;
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("charset=WIN1252;initial catalog=D:\\PROGRAMAS\\InfoTech\\InfoPad.FDB;data source=192" +
-            ".168.10.250;user id=SYSDBA;Password=masterkey")]
-        public string ComandasCS {
-            get {
-                return ((string)(this["ComandasCS"]));
             }
         }
         
@@ -123,6 +112,17 @@ namespace PDV_WPF.Properties {
         public string FDBConnString {
             get {
                 return ((string)(this["FDBConnString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("charset=WIN1252;initial catalog=D:\\PROGRAMAS\\InfoTech\\InfoPad.FDB;data source=192" +
+            ".168.10.250;user id=SYSDBA;Password=masterkey")]
+        public string ComandasCS {
+            get {
+                return ((string)(this["ComandasCS"]));
             }
         }
     }

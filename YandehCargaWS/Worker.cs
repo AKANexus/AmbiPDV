@@ -66,14 +66,18 @@ namespace YandehCargaWS
             try
             {
                 if (!Directory.Exists(Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS")))
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS")))
                 {
+                    EventLog.WriteEntry("YandehCarga", $"Criando pasta em {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS")}");
+
                     Directory.CreateDirectory(Path.Combine(
-                        Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS"));
+                        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS"));
                 }
-                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS", "path.txt")))
+                if (!File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS", "path.txt")))
                 {
-                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS", "path.txt")).Dispose();
+                    EventLog.WriteEntry("YandehCarga", $"Criando arquivo em {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS", "path.txt")}");
+
+                    File.Create(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS", "path.txt")).Dispose();
                     return false;
                 }
 
@@ -140,17 +144,17 @@ namespace YandehCargaWS
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
 
-            if (await CriaArquivoPath())
+            if (!await CriaArquivoPath())
             {
                 EventLog.WriteEntry("YandehCarga", $"Arquivo Path não existe a e foi criado. Reinicie o serviço.");
                 return;
             }
 
-            dbPath = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), "YandehServiceWS", "path.txt"));
+            dbPath = File.ReadAllText(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS", "path.txt"));
 
 
             EventLog.WriteEntry("YandehCarga", "Iniciando Carga Yandeh");
-            EventLog.WriteEntry("YandehCarga", $"Lendo path.txt em {dbPath}");
+            EventLog.WriteEntry("YandehCarga", $"Lendo path.txt em {Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "YandehServiceWS", "path.txt")}");
             if (string.IsNullOrWhiteSpace(dbPath) || dbPath.Split('|').Length != 2)
             {
                 EventLog.WriteEntry("YandehCarga", "Caminho da base de dados inválido. Tente novamente.");

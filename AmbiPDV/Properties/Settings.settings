@@ -2,14 +2,6 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PDV_WPF.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="ComandasCS" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;charset=WIN1252;initial catalog=D:\PROGRAMAS\InfoTech\InfoPad.FDB;data source=192.168.10.250;user id=SYSDBA;Password=masterkey&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">charset=WIN1252;initial catalog=D:\PROGRAMAS\InfoTech\InfoPad.FDB;data source=192.168.10.250;user id=SYSDBA;Password=masterkey</Value>
-    </Setting>
     <Setting Name="PedidoMax" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">12</Value>
     </Setting>
@@ -33,11 +25,19 @@
     </Setting>
     <Setting Name="FDBConnString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
   &lt;ConnectionString&gt;data source=192.168.10.250;initial catalog=D:\PROGRAMAS\CompuFour\Clipp_LOJA\Base\CLIPP_TESTE.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">data source=192.168.10.250;initial catalog=D:\PROGRAMAS\CompuFour\Clipp_LOJA\Base\CLIPP_TESTE.FDB;user id=SYSDBA;password=masterkey;charset=WIN1252</Value>
+    </Setting>
+    <Setting Name="ComandasCS" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;charset=WIN1252;initial catalog=D:\PROGRAMAS\InfoTech\InfoPad.FDB;data source=192.168.10.250;user id=SYSDBA;Password=masterkey&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">charset=WIN1252;initial catalog=D:\PROGRAMAS\InfoTech\InfoPad.FDB;data source=192.168.10.250;user id=SYSDBA;Password=masterkey</Value>
     </Setting>
   </Settings>
 </SettingsFile>
