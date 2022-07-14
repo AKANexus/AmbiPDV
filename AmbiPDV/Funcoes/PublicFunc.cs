@@ -625,6 +625,10 @@ namespace PDV_WPF
                 Config_TA.D_PROCEDURES7();
                 Config_TA.D_PROCEDURES8();
 
+                FuncoesFirebird remendo = new();
+                remendo.EnsureTBOSTriggersCreated(Config_TA.Connection);
+
+
                 #region DDL Orçamento 1
                 OrcasQueries_TA.A_ORCA_CRIATABELAS();
                 OrcasQueries_TA.B_ORCA_ATUALIZATABELAS();

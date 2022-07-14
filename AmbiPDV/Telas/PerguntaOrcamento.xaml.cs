@@ -14,7 +14,8 @@ namespace PDV_WPF.Telas
 
         public enum EnmTipo
         {
-            orcamento, pedido
+            orcamento, pedido,
+            ordemServico
         }
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
@@ -27,19 +28,14 @@ namespace PDV_WPF.Telas
             numeroInformado = -1;
             InitializeComponent();
             txb_Cupom.Focus();
-
-            switch (enmTipo)
+            lblNumero.Content = enmTipo switch
             {
-                case EnmTipo.orcamento:
-                    lblNumero.Content = "DIGITE O NÚMERO DO ORÇAMENTO";
-                    break;
-                case EnmTipo.pedido:
-                    lblNumero.Content = "DIGITE O NÚMERO DO PEDIDO";
-                    break;
-                default:
-                    break;
-            }
-        }
+                EnmTipo.orcamento => "DIGITE O NÚMERO DO ORÇAMENTO",
+                EnmTipo.pedido => "DIGITE O NÚMERO DO PEDIDO",
+                EnmTipo.ordemServico => "DIGITE O NÚMERO DA OS:",
+                _ => throw new ArgumentOutOfRangeException(nameof(enmTipo), enmTipo, null)
+            };
+           }
 
         #endregion (De)Constructor
 
