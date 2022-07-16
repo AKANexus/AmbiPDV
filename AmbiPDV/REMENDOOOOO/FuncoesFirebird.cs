@@ -343,6 +343,7 @@ namespace PDV_WPF.REMENDOOOOO
                         ID_OS = x["ID_OS"] is DBNull ? 0 : x["ID_OS"] as int? ?? 0,
                         ITEM_CANCEL = x["ITEM_CANCEL"] is DBNull ? 'N' : x["ITEM_CANCEL"] as char? ?? 'N',
                         VLR_UNIT = x["VLR_UNIT"] is DBNull ? 0 : x["VLR_UNIT"] as decimal? ?? 0,
+                        QTD_ITEM = x["QTD_ITEM"] is DBNull ? 1 : x["QTD_ITEM"] as decimal? ?? 1
                     }).ToList();
 
                 return new CLIPP_OS

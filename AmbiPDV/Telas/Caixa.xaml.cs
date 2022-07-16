@@ -6156,17 +6156,17 @@ namespace PDV_WPF.Telas
                 });
             }//Limpa o campo de pesquisa.
             /* ---------------*/
-            else if (e.Key == Key.Escape && _usouOrcamento)
+            else if (e.Key == Key.Escape && _usouOrcamento || _usouOS)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
-                    if (DialogBox.Show(strings.ORCAMENTO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Pausar esse orçamento agora?", "Você poderá usá-lo mais tarde.") == true)
+                    if (DialogBox.Show(strings.ORCAMENTO, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Pausar esse(a) orçamento/OS agora?", "Você poderá usá-lo mais tarde.") == true)
                     {
                         #region Zerar o cupom para iniciar um novo
                         LimparObjetoDeVendaNovo();
                         LimparTela();
                         LimparUltimaVenda();
-                        _usouOrcamento = false;
+                        _usouOrcamento = _usouOS = false;
                         #endregion Zerar o cupom para iniciar um novo
                     }
                 });
