@@ -323,7 +323,7 @@ namespace PDV_WPF.REMENDOOOOO
             try
             {
 
-                command.CommandText = $"SELECT * FROM TB_OS WHERE ID_OS = {id}";
+                command.CommandText = $"SELECT * FROM TB_OS WHERE ID_OS = {id} AND STATUS <> 9";
                 oses.Load(command.ExecuteReader());
                 command.CommandText = $"SELECT * FROM TB_OS_ITEM WHERE ID_OS = {id}";
                 osItems.Load(command.ExecuteReader());
