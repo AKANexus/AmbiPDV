@@ -630,7 +630,7 @@ namespace PDV_WPF.Funcoes
             PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
             PrintFunc.PrintaSpooler();
         }
-#if TRUE
+
         readonly static object errorObj = new object();
         static StreamWriter errorwriter = new StreamWriter($@"{AppDomain.CurrentDomain.BaseDirectory}\Logs\erro-{DateTime.Today:dd-MM-yy}.txt", true) { AutoFlush = true };
         //static StreamWriter TEFwriter = new StreamWriter($@"{AppDomain.CurrentDomain.BaseDirectory}\Logs\TEFPend-{DateTime.Today.ToString("dd-MM-yy")}.txt", true) { AutoFlush = true };
@@ -653,7 +653,7 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
-#endif
+
     }
 
 }
