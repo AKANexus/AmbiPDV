@@ -205,7 +205,7 @@ namespace PDV_WPF.Telas
         #region (De)Constructor
 
         public Caixa(bool _contingencia)
-        {
+        {           
             DataContext = mvm;
             var args = new List<string>();
             foreach (string arg in Environment.GetCommandLineArgs())
@@ -219,7 +219,7 @@ namespace PDV_WPF.Telas
             try
             {
                 InicializarCaixa(_contingencia);
-                combobox.MultiplyAdded += Combobox_MultiplyAdded;
+                combobox.MultiplyAdded += Combobox_MultiplyAdded;                
             }
             catch (Exception ex)
             {
@@ -4236,6 +4236,7 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATServidor())
                         {
+                            Login.stateGif = false;
                             MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
                     }
@@ -4253,6 +4254,7 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATLocal(pContingencia))
                         {
+                            Login.stateGif = false;
                             MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
 

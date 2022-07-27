@@ -1,0 +1,12 @@
+﻿<Window x:Class="PDV_WPF.Telas.ExibirGif"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="ExibirGif" Height="440.479" Width="428.543" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+    <Border CornerRadius="10">
+        <MediaElement x:Name="mediaElement" MediaEnded="mediaElement_MediaEnded" HorizontalAlignment="Center" Height="456" VerticalAlignment="Top" Width="457" Source="" Stretch="Fill" UnloadedBehavior="Manual" LoadedBehavior="Play" Margin="-15,-6,-13,-10"/>
+    </Border>
+</Window>
