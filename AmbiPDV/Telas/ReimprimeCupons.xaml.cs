@@ -266,7 +266,7 @@ namespace PDV_WPF.Telas
                 {
                     Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun);
 
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, decimal.Parse(item.prod.vUnComOri));
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, decimal.Parse(item.prod.vUnComOri ?? "0"));
                 }
                 else
                 {
