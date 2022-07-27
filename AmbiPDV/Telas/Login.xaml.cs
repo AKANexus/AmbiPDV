@@ -27,6 +27,7 @@ using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Properties.strings;
 using ECF = PDV_WPF.FuncoesECF;
+using System.Threading;
 
 namespace PDV_WPF
 {
@@ -41,6 +42,13 @@ namespace PDV_WPF
         //private SiTEFBox vendaTEF;
         Logger log = new Logger("Login");
         LoadingScreen ls = new LoadingScreen();
+        public static volatile bool stateGif;
+        public static Thread t1 = new Thread(() =>
+        {
+            ExibirGif gif = new ExibirGif();
+            gif.ShowDialog();
+        });
+
         #endregion Fields & Properties
 
         #region Constructor
@@ -129,6 +137,7 @@ namespace PDV_WPF
             }
             catch (Exception ex)
             {
+                stateGif = false;
                 log.Error("Erro ao abrir o caixa", ex);
                 MessageBox.Show("Falha ao iniciar o caixa. Verifique Logerro.txt");
                 Application.Current.Shutdown();
@@ -152,7 +161,7 @@ namespace PDV_WPF
                 {
                     confirm_exit = false;
                     if (cbb_Usuario.IsFocused)
-                    {
+                    {                        
                         txb_Senha.Focus();
                         txb_Senha.SelectAll();
                     }
@@ -164,6 +173,7 @@ namespace PDV_WPF
                         }
                         catch (Exception ex)
                         {
+                            stateGif = false;
                             log.Error("Erro ao abrir o caixa", ex);
                             MessageBox.Show("Erro ao sincronizar. Verifique LogErro.txt");
                             return;
@@ -362,6 +372,7 @@ namespace PDV_WPF
             }
             catch (Exception ex)
             {
+                stateGif = false;
                 log.Error("Erro ao executar Contingencia() e StartupSequence()", ex);
                 MessageBox.Show("Erro ao inicar o caixa. O caixa será fechado.");
                 Application.Current.Shutdown();
@@ -583,20 +594,22 @@ namespace PDV_WPF
             if (ChecaHash(txb_Senha.Password, strHashDoUser) == true)
             {
                 #region Senha correta, segue o jogo.
+                t1.SetApartmentState(ApartmentState.STA);
+                t1.Start();
                 log.Debug("Senha correta.");
                 operador = cbb_Usuario.SelectedItem.ToString();
                 log.Debug($"Operador: {operador}");
-                SplashScreen ss = new SplashScreen("Resources/loading_anim.gif");
-                ss.Show(false, false);
+                //SplashScreen ss = new SplashScreen("Resources/loading_anim.gif");
+                //ss.Show(false, false);
                 var MainWindow = new Caixa(_contingencia);
-                MainWindow.Show();
-                ss.Close(TimeSpan.FromMilliseconds(1));
+                MainWindow.Show();                
+                //ss.Close(TimeSpan.FromMilliseconds(1));
                 this.Hide();
+                stateGif = false;
                 // Gravar no banco local a data do último login válido:
-                (new LicencaDeUsoOffline(90, 15)).SetLastLog();
-
+                (new LicencaDeUsoOffline(90, 15)).SetLastLog();                
                 return;
-                #endregion Senha correta, segue o jogo.
+                #endregion Senha correta, segue o jogo.                
             }
             else
             {

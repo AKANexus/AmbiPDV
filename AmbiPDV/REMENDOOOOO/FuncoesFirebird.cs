@@ -103,8 +103,8 @@ namespace PDV_WPF.REMENDOOOOO
             {
                 Console.WriteLine(e);
                 throw;
-            }
 
+            }
             FbCommand command = new FbCommand();
             command.Connection = connection;
             command.CommandType = CommandType.Text;

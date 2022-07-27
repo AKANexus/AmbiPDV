@@ -1773,19 +1773,29 @@ namespace PDV_WPF
                 //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
                 foreach (Produto prod in produtos)
                 {
-                    RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
-                    RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorOriginal.ToString("n2"), corpo, esquerda, 0);
-                    RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorOriginal * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("n2") + ")", corpo, esquerda, 0);
-                    RecebePrint((prod.valorOriginal * prod.qtde).ToString("n2"), corpo, direita, 1);
+                    if (prod.valorOriginal <= 0) //se for igual a 0 quer muito provavelmente é uma reimpressão.
+                    {
+                        RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
+                        RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorunit.ToString("C"), corpo, esquerda, 0);
+                        RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
+                        RecebePrint((prod.valorunit * prod.qtde).ToString("C"), corpo, direita, 1);
+                    }
+                    else //se não for quer dizer que é a primeira impressão, isso pq não tem como sabermos o valor original do produto já que não consta no XML e no banco de dados já pode ter sido alterado.
+                    {
+                        RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
+                        RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorOriginal.ToString("C"), corpo, esquerda, 0);
+                        RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
+                        RecebePrint((prod.valorOriginal * prod.qtde).ToString("C"), corpo, direita, 1);
+                    }
                     if (prod.desconto > 0)
                     {
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
-                        RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
+                        RecebePrint("-" + prod.desconto.ToString("C"), italico, direita, 1);
                     }
                     if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
-                        RecebePrint(prod.valorunit.ToString("n2"), italico, direita, 1);
+                        RecebePrint(prod.valorunit.ToString("C"), italico, direita, 1);
 
                     }
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
@@ -1799,18 +1809,18 @@ namespace PDV_WPF
                 RecebePrint("VALOR TOTAL R$", titulo, esquerda, 0);
                 if (desconto != 0)
                 {
-                    RecebePrint(subtotal.ToString("n2"), titulo, direita, 1);
+                    RecebePrint(subtotal.ToString("C"), titulo, direita, 1);
                     RecebePrint("Desconto R$", corpo, esquerda, 0);
-                    RecebePrint(desconto.ToString("n2"), corpo, direita, 1);
+                    RecebePrint(desconto.ToString("C"), corpo, direita, 1);
                 }
                 else
                 {
-                    RecebePrint(subtotal.ToString("n2"), titulo, direita, 1);
+                    RecebePrint(subtotal.ToString("C"), titulo, direita, 1);
                 }
                 foreach (MetodoPagamento met in pagamentos)
                 {
                     RecebePrint(met.NomeMetodo, corpo, esquerda, 0);
-                    RecebePrint(met.ValorDoPgto.ToString("n2"), corpo, direita, 1);
+                    RecebePrint(met.ValorDoPgto.ToString("C"), corpo, direita, 1);
                 }
                 if (troco != "0,00")
                 {
@@ -1821,8 +1831,16 @@ namespace PDV_WPF
                 {
                     RecebePrint("", corpo, esquerda, 0);
                 }
-                RecebePrint(" ", corpo, esquerda, 1);
+                //RecebePrint(" ", corpo, esquerda, 1);
                 LinhaHorizontal();
+                if (FechamentoCupom.ObtemDesc > 0)
+                {
+                    RecebePrint($"NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);
+                    RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
+                    RecebePrint(" ", corpo, esquerda, 1);
+                    LinhaHorizontal();
+                    FechamentoCupom.ObtemDesc = 0;
+                }
                 if (DETALHADESCONTO)
                 {
                     bool existeDetalhamento = false;
@@ -2188,25 +2206,25 @@ namespace PDV_WPF
                         case true:
                             RecebePrint(prod.descricao, corpo, esquerda, 1);
                             RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid, corpo, esquerda, 0);
-                            RecebePrint((prod.valortotal.ToString("n2")), corpo, direita, 1);
+                            RecebePrint((prod.valortotal.ToString("C")), corpo, direita, 1);
                             break;
                         default:
                         case false:
                             RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
-                            RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorOriginal).ToString("n2"), corpo, esquerda, 0);
-                            RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + ((prod.valorOriginal) * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("n2") + ")", corpo, esquerda, 0);
+                            RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorOriginal).ToString("C"), corpo, esquerda, 0);
+                            RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + ((prod.valorOriginal) * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
                             RecebePrint(((prod.valorOriginal * prod.qtde).ToString("n2")), corpo, direita, 1);
                             break;
                     }
                     if (prod.desconto > 0)
                     {
                         RecebePrint("(DESCONTO)", italico, esquerda, 0);
-                        RecebePrint("-" + prod.desconto.ToString("n2"), italico, direita, 1);
+                        RecebePrint("-" + prod.desconto.ToString("C"), italico, direita, 1);
                     }
                     if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
-                        RecebePrint(prod.valorunit.ToString("n2"), italico, direita, 1);
+                        RecebePrint(prod.valorunit.ToString("C"), italico, direita, 1);
 
                     }
                     subtotal += prod.valortotal - prod.desconto;
@@ -2220,20 +2238,20 @@ namespace PDV_WPF
                 RecebePrint("VALOR TOTAL R$", titulo, esquerda, 0);
                 if (desconto != 0)
                 {
-                    RecebePrint(subtotal.ToString("n2"), titulo, direita, 1);
+                    RecebePrint(subtotal.ToString("C"), titulo, direita, 1);
                     RecebePrint("Desconto R$", corpo, esquerda, 0);
-                    RecebePrint(desconto.ToString("n2"), corpo, direita, 1);
+                    RecebePrint(desconto.ToString("C"), corpo, direita, 1);
                 }
                 else
                 {
-                    RecebePrint(subtotal.ToString("n2"), titulo, direita, 1);
+                    RecebePrint(subtotal.ToString("C"), titulo, direita, 1);
                 }
                 foreach (MetodoPagamento met in pagamentos)
                 {
                     RecebePrint(met.NomeMetodo, corpo, esquerda, 0);
-                    RecebePrint(met.ValorDoPgto.ToString("n2"), corpo, direita, 1);
+                    RecebePrint(met.ValorDoPgto.ToString("C"), corpo, direita, 1);
                 }
-                if (troco != "0,00")
+                if (troco != "0,00" && troco != null)
                 {
                     RecebePrint("TROCO R$", corpo, esquerda, 0);
                     RecebePrint(troco, corpo, direita, 1);
@@ -2242,8 +2260,16 @@ namespace PDV_WPF
                 {
                     RecebePrint("", corpo, esquerda, 0);
                 }
-                RecebePrint(" ", corpo, esquerda, 1);
+                //RecebePrint(" ", corpo, esquerda, 1);
                 LinhaHorizontal();
+                if(FechamentoCupom.ObtemDesc > 0)
+                {
+                    RecebePrint($"NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);                    
+                    RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
+                    RecebePrint(" ", corpo, esquerda, 1);
+                    LinhaHorizontal();
+                    FechamentoCupom.ObtemDesc = 0;
+                }                
                 if (DETALHADESCONTO)
                 {
                     bool existeDetalhamento = false;

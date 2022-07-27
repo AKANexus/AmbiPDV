@@ -1512,14 +1512,15 @@ namespace PDV_WPF.Objetos
                 };
 
             foreach (var item in quantsCupom)
-            {
-                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);
+            {                           
+                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);               
                 if (info is not null && info.PrcAtacado > 0 && item.qtdTotal >= info.QtdAtacado)
                 {
                     foreach (var det in _listaDets)
                     {
+                        
                         if (det.prod.cProd == item.cod)
-                        {
+                        {                            
                             det.prod.vUnComOri = det.prod.vUnCom;
                             det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
                             det.atacado = true;
@@ -1533,22 +1534,29 @@ namespace PDV_WPF.Objetos
             {
                 var info = _funcoes.GetInfoAtacado(int.Parse(det.prod.cProd), LOCAL_FB_CONN);
                 string familia = det.familia;
-                if (familiasVerificadas.Contains(familia))
+                if (familia == null || familia == "")
                 {
                     continue;
                 }
-                familiasVerificadas.Add(familia);
-                if (familiasCupom.Any(x => x.familia == familia && info.QtdAtacado > 0 && x.qtdTotal >= info.QtdAtacado))
+                else
                 {
-                    foreach (var det1 in _listaDets)
+                    if (familiasVerificadas.Contains(familia))
                     {
-                        if (det1.familia == familia)
+                        continue;
+                    }
+                    familiasVerificadas.Add(familia);
+                    if (familiasCupom.Any(x => x.familia == familia && info.QtdAtacado > 0 && x.qtdTotal >= info.QtdAtacado))
+                    {
+                        foreach (var det1 in _listaDets)
                         {
-                            var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
+                            if (det1.familia == familia)
+                            {
+                                var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
 
-                            det1.prod.vUnComOri = det1.prod.vUnCom;
-                            det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
-                            det1.atacado = true;
+                                //det1.prod.vUnComOri = det1.prod.vUnCom;
+                                det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
+                                det1.atacado = true;
+                            }
                         }
                     }
                 }

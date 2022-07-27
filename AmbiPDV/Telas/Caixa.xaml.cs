@@ -205,7 +205,7 @@ namespace PDV_WPF.Telas
         #region (De)Constructor
 
         public Caixa(bool _contingencia)
-        {
+        {           
             DataContext = mvm;
             var args = new List<string>();
             foreach (string arg in Environment.GetCommandLineArgs())
@@ -219,7 +219,7 @@ namespace PDV_WPF.Telas
             try
             {
                 InicializarCaixa(_contingencia);
-                combobox.MultiplyAdded += Combobox_MultiplyAdded;
+                combobox.MultiplyAdded += Combobox_MultiplyAdded;                
             }
             catch (Exception ex)
             {
@@ -2231,8 +2231,7 @@ namespace PDV_WPF.Telas
         {
             //ChecaPorContingencia(contingencia, EnmTipoSync.cadastros);
             if (subtotal > 0)
-            {
-
+            {                
                 #region AmbiMAITRE
 
                 if (IMPRESSORA_USB_PED != "Nenhuma")
@@ -2260,7 +2259,11 @@ namespace PDV_WPF.Telas
                 }
 
                 #endregion AmbiMAITRE
-
+                //Pega valor do textBox Total Geral fiquei com preguiça de procurar a variavel que armazena esse valor então peguei do textbox.
+                string tot = txb_TotGer.Text;
+                string[] totConvert = tot.Split(' ');
+                decimal.TryParse(totConvert[1], out decimal totConvertido);
+                FechamentoCupom.vlrTotalVenda = totConvertido;
                 var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, ref vendaAtual, _modoTeste)
                 {
                     //valor_venda = subtotal,
@@ -2270,7 +2273,7 @@ namespace PDV_WPF.Telas
 
                 log.Debug("Cupom sem ser devolução a ser finalizado");
                 try
-                {
+                {                                      
                     fechamento.ShowDialog();
                     //vendaAtual = fechamento._vendaAtual;
                 }
@@ -4233,7 +4236,8 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATServidor())
                         {
-                            MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.");
+                            Login.stateGif = false;
+                            MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
                     }
                     catch (Exception ex)
@@ -4250,7 +4254,8 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATLocal(pContingencia))
                         {
-                            MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.");
+                            Login.stateGif = false;
+                            MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
 
                     }
