@@ -580,12 +580,14 @@ namespace PDV_WPF.Funcoes
                 string[] retorno = Declaracoes_DllSat.sRetorno.Split('|');
                 if (retorno.Length == 0)
                 {
-                    MessageBox.Show("Falha ao obter retorno do SAT");
+                    Login.stateGif = false;
+                    MessageBox.Show("Falha ao obter retorno do SAT", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
                 if (retorno.Length == 1)
                 {
-                    MessageBox.Show(retorno[0]);
+                    Login.stateGif = false;
+                    MessageBox.Show("Retorno na tentatativa de comunicação com o SAT\n" + retorno[0], "Resposta SAT", MessageBoxButton.OK, MessageBoxImage.Information);
                     return false;
                 }
                 else

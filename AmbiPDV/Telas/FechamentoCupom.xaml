@@ -18,11 +18,15 @@
                     <ColumnDefinition Width="29*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Margin="15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="139*"/>
+                        <ColumnDefinition Width="66*"/>
+                    </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="58"/>
                     </Grid.RowDefinitions>
-                    <DataGrid Grid.Row="0"  x:Name="dgv_Metodos" AutoGenerateColumns="False" IsReadOnly="True"  Margin="0 ,10" HeadersVisibility="None" Language="pt-BR">
+                    <DataGrid Grid.Row="0"  x:Name="dgv_Metodos" AutoGenerateColumns="False" IsReadOnly="True"  Margin="0,2,0,18" HeadersVisibility="None" Language="pt-BR" Grid.ColumnSpan="2">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
                                 <Setter Property="FontWeight" Value="Bold"/>
@@ -33,9 +37,9 @@
                             <DataGridTextColumn Header="Cód" Binding="{Binding ID_FMANFCE}" Width="*" FontSize="20"/>
                             <DataGridTextColumn Header="Método" Binding="{Binding DESCRICAO}" Width="3*" FontSize="20"/>
                         </DataGrid.Columns>
-
                     </DataGrid>
-                    <TextBlock Grid.Row="1" TextAlignment="Center" FontSize="14"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="F8 - Aplicar desconto na venda"/><LineBreak/><Run Text="ATENÇÃO - À vista deve ser a última forma de pgto." Foreground="Red" FontStyle="Italic" /></TextBlock>
+                    <TextBlock TextAlignment="Left" FontSize="13" Margin="0,306,0,27" Grid.RowSpan="2" Grid.ColumnSpan="2"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="F8 - Aplicar desconto na venda"/><LineBreak/><Run Text="ATENÇÃO - À vista deve ser a última forma de pgto." Foreground="Red" FontStyle="Italic" /></TextBlock>
+                    <TextBlock x:Name="txbDesc" Visibility="Hidden" TextAlignment="Left" FontSize="13" Margin="0,17,0,-17" Grid.ColumnSpan="2" Grid.Row="1"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run x:Name="txt_Msg" Text="VOCÊ ESTÁ ECONOMIZANDO: " FontSize="17"/><Run x:Name="txt_Vlr" Text="R$ 0,00" Foreground="Green" FontStyle="Italic" FontSize="22"/></TextBlock>
                 </Grid>
                 <Grid Grid.Column="1">
                     <Grid.RowDefinitions>
@@ -80,7 +84,7 @@
                     <StackPanel Margin="0" Grid.Row="5">
                         <Label Content="SALDO RESTANTE" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                            <nexusControls:NexusCurrencyBox IsReadOnly="True" x:Name="txb_SaldoRest" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="22" FontWeight="Bold" Padding="3" Language="pt-BR"/>
+                            <nexusControls:NexusCurrencyBox IsReadOnly="True" x:Name="txb_SaldoRest" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" FontWeight="Bold" Padding="3" Language="pt-BR"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="0" Grid.Row="6" Name="stp_Troco" Visibility="Visible">

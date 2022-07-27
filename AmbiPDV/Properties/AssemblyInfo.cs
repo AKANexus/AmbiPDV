@@ -51,3 +51,4 @@ using System.Windows;
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("1.6.1.2")]
 [assembly: AssemblyFileVersion("1.6.1.2")]
+

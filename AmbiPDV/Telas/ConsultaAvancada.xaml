@@ -8,18 +8,20 @@
         Title="Pressione ESC para voltar" Height="284.703" Width="458.924" WindowState="Maximized" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" ResizeMode="NoResize" Closing="Window_Closing">
     <Grid >
         <TextBox Name="txb_Consulta"  Margin="10,15,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" KeyDown="TextBox_KeyDown"/>
-        <DataGrid Language="pt-BR" FontSize="28" FontFamily="Open Sans UI" FontWeight="DemiBold" x:Name="dgv_Tabela" Margin="10,53,10,10" AutoGenerateColumns="False" CanUserReorderColumns="False" ColumnWidth="SizeToHeader" HorizontalGridLinesBrush="#FFC8C8C8" VerticalGridLinesBrush="#FFC8C8C8" IsReadOnly="True" PreviewKeyDown="dgv_Tabela_KeyDown">
+        <DataGrid Language="pt-BR" FontSize="23" FontFamily="Open Sans UI" FontWeight="DemiBold" x:Name="dgv_Tabela" Margin="10,53,10,10" AutoGenerateColumns="False" CanUserReorderColumns="False" ColumnWidth="SizeToHeader" HorizontalGridLinesBrush="#FFC8C8C8" VerticalGridLinesBrush="#FFC8C8C8" IsReadOnly="True" PreviewKeyDown="dgv_Tabela_KeyDown">
             <DataGrid.ColumnHeaderStyle>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="FontWeight" Value="Bold"/>
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Código" Binding="{Binding ESTOQUE}" Width="*" />
-                <DataGridTextColumn Header="Código de Barras" Binding="{Binding CODBARRA}" Width="2*" />
-                <DataGridTextColumn Header="Descrição" Binding="{Binding DESCRICAO}" Width="5*"/>
-                <DataGridTextColumn Header="Quant." Binding="{Binding QTDATUAL}" Width="*"/>
-                <DataGridTextColumn Header="Preço" Binding="{Binding PRCVENDA, StringFormat=C}" Width="*"/>
+                <DataGridTextColumn Header="Código" Binding="{Binding ESTOQUE}" Width="0.6*" />
+                <DataGridTextColumn Header="Código de Barras" Binding="{Binding CODBARRA}" Width="1.4*" />
+                <DataGridTextColumn Header="Descrição" Binding="{Binding DESCRICAO}" Width="3.0*"/>
+                <DataGridTextColumn Header="Quant." Binding="{Binding QTDATUAL}" Width="0.6*"/>
+                <DataGridTextColumn Header="Preço" Binding="{Binding PRCVENDA, StringFormat=C}" Width="0.8*"/>
+                <DataGridTextColumn Header="Quant. Atacado" Binding="{Binding QTDATAC}" Width="1.3*"/>
+                <DataGridTextColumn Header="Preço Atacado" Binding="{Binding PRCATACADO, StringFormat=C}" Width="1.1*"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
