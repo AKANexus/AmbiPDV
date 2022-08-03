@@ -307,7 +307,8 @@ namespace PDV_ORCAMENTO.Telas
                         {
                             ID_IDENTIFICADOR = (int)row["ID_IDENTIFICADOR"],
                             COD_BARRA = row["COD_BARRA"].ToString(),
-                            DESCRICAO = row["DESCRICAO"].ToString()
+                            DESCRICAO = row["DESCRICAO"].ToString(),
+                            REFERENCIA = row["REFERENCIA"].ToString()
                         });
                     }
 
@@ -1998,6 +1999,7 @@ namespace PDV_ORCAMENTO.Telas
         public int ID_IDENTIFICADOR { get; set; }
         public string DESCRICAO { get; set; }
         public string COD_BARRA { get; set; }
+        public string REFERENCIA { get; set; }
     }
 
     #endregion Classes auxiliares
