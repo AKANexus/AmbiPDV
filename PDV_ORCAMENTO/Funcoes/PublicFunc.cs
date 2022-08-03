@@ -756,7 +756,7 @@ namespace PDV_WPF
                 //        break;
                 //    case EnmDBSync.serv:
                 audit("Atualizando base do servidor");
-                SETUP_TA.Connection.ConnectionString = Settings.Default.NetworkDB.ToString();
+                SETUP_TA.Connection.ConnectionString = Settings.Default.NetworkDB;
                 audit("ConnectionString definido para " + SETUP_TA.Connection.ConnectionString);
                 //        break;
                 //    default:
