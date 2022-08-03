@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FirebirdSql.Data.FirebirdClient;
+using DateTime = System.DateTime;
 
 namespace PDV_WPF.REMENDOOOOO
 {
@@ -103,8 +104,8 @@ namespace PDV_WPF.REMENDOOOOO
             {
                 Console.WriteLine(e);
                 throw;
-            }
 
+            }
             FbCommand command = new FbCommand();
             command.Connection = connection;
             command.CommandType = CommandType.Text;
@@ -201,6 +202,247 @@ namespace PDV_WPF.REMENDOOOOO
                     OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty
                 };
             }
+        }
+
+        public void EnsureTBOSTriggersCreated(FbConnection connection)
+        {
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            FbTransaction transaction = connection.BeginTransaction();
+            FbCommand tbOsBITrigger = new();
+            FbCommand tbOsItemBITrigger = new();
+            FbCommand tbOsBUTrigger = new();
+            FbCommand tbOsItemBUTrigger = new();
+            tbOsBITrigger.Connection = tbOsItemBITrigger.Connection = tbOsBUTrigger.Connection = tbOsItemBUTrigger.Connection = connection;
+            tbOsBITrigger.CommandType = tbOsItemBITrigger.CommandType = tbOsBUTrigger.CommandType = tbOsItemBUTrigger.CommandType = CommandType.Text;
+            tbOsBITrigger.Transaction = tbOsItemBITrigger.Transaction = tbOsBUTrigger.Transaction = tbOsItemBUTrigger.Transaction = transaction;
+            tbOsBITrigger.CommandText = "CREATE OR ALTER TRIGGER TB_OS_AUX_SYNC_INS FOR TB_OS ACTIVE BEFORE INSERT AS DECLARE vNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC(SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), new.ID_OS, 'TB_OS', 'I', :VNUMCAIXA, CURRENT_TIMESTAMP); END END;";
+            tbOsItemBITrigger.CommandText = " CREATE OR ALTER TRIGGER TB_OS_ITEM_AUX_SYNC_INS FOR TB_OS_ITEM ACTIVE BEFORE INSERT AS DECLARE vNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), new.ID_ITEMOS, 'TB_OS_ITEM', 'I', :VNUMCAIXA, CURRENT_TIMESTAMP); END END; ";
+            tbOsBUTrigger.CommandText = " CREATE OR ALTER TRIGGER TB_OS_AUX_SYNC_UPD FOR TB_OS ACTIVE BEFORE UPDATE AS DECLARE vNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN IF ( OLD.ID_CLIENTE IS DISTINCT FROM NEW.ID_CLIENTE OR OLD.ID_STATUS IS DISTINCT FROM NEW.ID_STATUS) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = OLD.ID_OS AND TABELA = 'TB_OS' AND (OPERACAO = 'I' OR OPERACAO = 'U') AND NO_CAIXA = :VNUMCAIXA)= 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_OS, 'TB_OS', 'U', :VNUMCAIXA, CURRENT_TIMESTAMP); END END END END;";
+            tbOsItemBUTrigger.CommandText = "CREATE OR ALTER TRIGGER TB_OS_ITEM_AUX_SYNC_UPD FOR TB_OS_ITEM ACTIVE BEFORE UPDATE AS DECLARE vNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN IF ( OLD.QTD_ITEM IS DISTINCT FROM NEW.QTD_ITEM OR OLD.VLR_TOTAL IS DISTINCT FROM NEW.VLR_TOTAL OR OLD.ID_IDENTIFICADOR IS DISTINCT FROM NEW.ID_IDENTIFICADOR OR OLD.ID_OS IS DISTINCT FROM NEW.ID_OS OR OLD.COD_BARRA IS DISTINCT FROM NEW.COD_BARRA OR OLD.VLR_UNIT IS DISTINCT FROM NEW.VLR_UNIT) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = OLD.ID_OS AND TABELA = 'TB_OS' AND (OPERACAO = 'I' OR OPERACAO = 'U') AND NO_CAIXA = :VNUMCAIXA)= 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_OS, 'TB_OS', 'U', :VNUMCAIXA, CURRENT_TIMESTAMP); END END END END;";
+            try
+            {
+                tbOsBITrigger.ExecuteNonQuery();
+                tbOsItemBITrigger.ExecuteNonQuery();
+                tbOsBUTrigger.ExecuteNonQuery();
+                tbOsItemBUTrigger.ExecuteNonQuery();
+                transaction.Commit();
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+        //public List<CLIPP_OS> GetClippOsesNotSynced(FbConnection connection)
+        //{
+        //    List<CLIPP_OS> retorno = new();
+        //    try
+        //    {
+        //        connection.Open();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+
+        //    FbCommand command = new FbCommand();
+        //    DataTable oses = new();
+        //    DataTable osItems = new();
+        //    command.Connection = connection;
+        //    command.CommandType = CommandType.Text;
+
+        //    command.CommandText = "SELECT * FROM TB_OS WHERE SYNCED = 0";
+
+        //    try
+        //    {
+        //        oses.Load(command.ExecuteReader());
+        //        command.CommandText = "SELECT toi.* FROM TB_OS_ITEM toi JOIN TB_OS tos ON toi.ID_OS = tos.ID_OS WHERE tos.SYNCED = 0";
+        //        osItems.Load(command.ExecuteReader());
+        //    }
+        //    finally
+        //    {
+        //        connection.Close();
+        //    }
+
+        //    if (oses.Rows.Count != 0)
+        //    {
+        //        foreach (DataRow infoTableRow in oses.Rows)
+        //        {
+        //            retorno.Add(new CLIPP_OS
+        //            {
+        //                ID_OS = infoTableRow["ID_OS"] is DBNull ? 0 : infoTableRow["ID_OS"] as int? ?? 0,
+        //                ID_CLIENTE = infoTableRow["ID_CLIENTE"] is DBNull ? 0 : infoTableRow["ID_CLIENTE"] as int? ?? 0,
+        //                ID_VENDEDOR = infoTableRow["ID_VENDEDOR"] is DBNull ? 0 : infoTableRow["ID_VENDEDOR"] as int? ?? 0,
+        //                DT_OS = infoTableRow["DT_OS"] is DBNull ? DateTime.Now : infoTableRow["DT_OS"] as DateTime? ?? DateTime.Now,
+        //                HR_OS = infoTableRow["HR_OS"] is DBNull ? DateTime.Now : infoTableRow["HR_OS"] as DateTime? ?? DateTime.Now,
+        //                ID_STATUS = infoTableRow["ID_STATUS"] is DBNull ? 0 : infoTableRow["ID_STATUS"] as int? ?? 0,
+        //                ID_PARCELA = infoTableRow["ID_PARCELA"] is DBNull ? 0 : infoTableRow["ID_PARCELA"] as int? ?? 0,
+        //                ClippOsItems = osItems.AsEnumerable().Where(x => x["ID_OS"] == infoTableRow["ID_OS"]).Select(x => new CLIPP_OS_ITEM
+        //                {
+        //                    ID_ITEMOS = x["ID_ITEMOS"] is DBNull ? 0 : x["ID_ITEMOS"] as int? ?? 0,
+        //                    ID_IDENTIFICADOR = x["ID_IDENTIFICADOR"] is DBNull ? 0 : x["ID_IDENTIFICADOR"] as int? ?? 0,
+        //                    ID_OS = x["ID_OS"] is DBNull ? 0 : x["ID_OS"] as int? ?? 0,
+        //                    ITEM_CANCEL = x["ITEM_CANCEL"] is DBNull ? 'N' : x["ITEM_CANCEL"] as char? ?? 'N',
+        //                    VLR_UNIT = x["VLR_UNIT"] is DBNull ? 0 : x["VLR_UNIT"] as decimal? ?? 0,
+        //                }).ToList(),
+        //            });
+        //        }
+        //    }
+
+        //    return retorno;
+        //}
+
+        public CLIPP_OS? GetClippOsByID(FbConnection connection, int id)
+        {
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            FbCommand command = new FbCommand();
+            DataTable oses = new();
+            DataTable osItems = new();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+
+
+            try
+            {
+
+                command.CommandText = $"SELECT * FROM TB_OS WHERE ID_OS = {id} AND ID_STATUS <> 9";
+                oses.Load(command.ExecuteReader());
+                command.CommandText = $"SELECT * FROM TB_OS_ITEM WHERE ID_OS = {id}";
+                osItems.Load(command.ExecuteReader());
+            }
+            finally
+            {
+                connection.Close();
+            }
+
+            if (oses.Rows.Count == 1)
+            {
+                var OsItems = osItems.AsEnumerable().Where(x => (int)x["ID_OS"] == (int)oses.Rows[0]["ID_OS"]).Select(x =>
+                    new CLIPP_OS_ITEM
+                    {
+                        ID_ITEMOS = x["ID_ITEMOS"] is DBNull ? 0 : x["ID_ITEMOS"] as int? ?? 0,
+                        ID_IDENTIFICADOR = x["ID_IDENTIFICADOR"] is DBNull ? 0 : x["ID_IDENTIFICADOR"] as int? ?? 0,
+                        ID_OS = x["ID_OS"] is DBNull ? 0 : x["ID_OS"] as int? ?? 0,
+                        ITEM_CANCEL = x["ITEM_CANCEL"] is DBNull ? 'N' : x["ITEM_CANCEL"] as char? ?? 'N',
+                        VLR_UNIT = x["VLR_UNIT"] is DBNull ? 0 : x["VLR_UNIT"] as decimal? ?? 0,
+                        QTD_ITEM = x["QTD_ITEM"] is DBNull ? 1 : x["QTD_ITEM"] as decimal? ?? 1
+                    }).ToList();
+
+                return new CLIPP_OS
+                {
+                    ID_OS = oses.Rows[0]["ID_OS"] is DBNull ? 0 : oses.Rows[0]["ID_OS"] as int? ?? 0,
+                    ID_CLIENTE = oses.Rows[0]["ID_CLIENTE"] is DBNull ? 0 : oses.Rows[0]["ID_CLIENTE"] as int? ?? 0,
+                    ID_VENDEDOR = oses.Rows[0]["ID_VENDEDOR"] is DBNull ? 0 : oses.Rows[0]["ID_VENDEDOR"] as int? ?? 0,
+                    DT_OS = oses.Rows[0]["DT_OS"] is DBNull ? DateTime.Now : oses.Rows[0]["DT_OS"] as DateTime? ?? DateTime.Now,
+                    HR_OS = oses.Rows[0]["HR_OS"] is DBNull ? DateTime.Now : oses.Rows[0]["HR_OS"] as DateTime? ?? DateTime.Now,
+                    ID_STATUS = oses.Rows[0]["ID_STATUS"] is DBNull ? 0 : oses.Rows[0]["ID_STATUS"] as int? ?? 0,
+                    ID_PARCELA = oses.Rows[0]["ID_PARCELA"] is DBNull ? 0 : oses.Rows[0]["ID_PARCELA"] as int? ?? 0,
+                    ClippOsItems = OsItems,
+                };
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        public void FechaOrdemDeServico(FbConnection connection, int os)
+        {
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            FbCommand command = new FbCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+            command.CommandText = $"UPDATE TB_OS SET ID_STATUS=9, DT_FECHADO='{DateTime.Now:yyyy-MM-dd}' WHERE ID_OS={os}; ";
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
+    }
+
+    public class CLIPP_OS
+    {
+        public int ID_OS { get; set; }
+        public int ID_CLIENTE { get; set; }
+        public int ID_VENDEDOR { get; set; }
+        public DateTime? DT_OS { get; set; }
+        public DateTime? HR_OS { get; set; }
+        public DateTime? DT_ENTREGA { get; set; }
+        public string? COMPRADOR { get; set; }
+        public int ID_STATUS { get; set; }
+        public string? OBSERVACAO { get; set; }
+        public int? ID_MODULO { get; set; }
+        public char? ENTREGA { get; set; }
+        public string? CHAVE { get; set; }
+        public int? ID_OSATEND { get; set; }
+        public DateTime? DT_GARANTIA { get; set; }
+        public int? ID_OBJETO_CONTRATO { get; set; }
+        public DateTime? DT_RETIRADA { get; set; }
+        public string? OBS_INTERNA { get; set; }
+        public int? ID_TECNICO_RESP { get; set; }
+        public DateTime? DT_FECHADO { get; set; }
+        public char? IMPORTADO { get; set; }
+        public int ID_PARCELA { get; set; }
+        public List<CLIPP_OS_ITEM> ClippOsItems { get; set; }
+    }
+
+    public class CLIPP_OS_ITEM
+    {
+        public int ID_ITEMOS { get; set; }
+        public decimal? QTD_ITEM { get; set; }
+        public decimal? QTD_IMPORT { get; set; }
+        public decimal? VLR_TOTAL { get; set; }
+        public decimal? PRC_CUSTO { get; set; }
+        public decimal? PRC_LISTA { get; set; }
+        public decimal? VLR_DESC { get; set; }
+        public int ID_IDENTIFICADOR { get; set; }
+        public int ID_OS { get; set; }
+        public char ITEM_CANCEL { get; set; }
+        public DateTime? DT_LACTO { get; set; }
+        public char? CASAS_QTD { get; set; }
+        public char? CASAS_VLR { get; set; }
+        public char? ST { get; set; }
+        public decimal? ALIQUOTA { get; set; }
+        public string? CHAVE { get; set; }
+        public string? COD_BARRA { get; set; }
+        public int? ID_FUNCIONARIO { get; set; }
+        public DateTime? DT_ITEM { get; set; }
+        public DateTime? HR_ITEM { get; set; }
+        public decimal VLR_UNIT { get; set; }
+        public decimal? POR_COMISSAO { get; set; }
+    }
+
         }
 
         //public bool CheckIfDeletionExists(FbConnection connection)

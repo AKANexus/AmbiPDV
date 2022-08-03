@@ -1376,8 +1376,15 @@ namespace PDV_WPF.Funcoes
                                     using (var taFornecServ = new TB_FORNECEDORTableAdapter())
                                     {
                                         taFornecServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
-
-                                        taFornecServ.FillById(tblFornecServ, idFornec);
+                                        try
+                                        {
+                                            taFornecServ.FillById(tblFornecServ, idFornec);
+                                        }
+                                        catch (Exception)
+                                        {
+                                            var a = tblFornecServ.GetErrors();
+                                            throw;
+                                        }
 
                                         if (tblFornecServ != null && tblFornecServ.Rows.Count > 0)
                                         {

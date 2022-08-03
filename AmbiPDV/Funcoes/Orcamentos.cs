@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Windows;
+using FirebirdSql.Data.FirebirdClient;
+using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
