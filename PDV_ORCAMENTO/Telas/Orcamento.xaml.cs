@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using PDV_ORCAMENTO.REMENDOOOOO;
 using static PDV_WPF.Extensoes;
 using static PDV_WPF.staticfunc;
 
@@ -269,6 +270,7 @@ namespace PDV_ORCAMENTO.Telas
             LimparTelaAtual();
         }
 
+        private FuncoesFirebird _funcoes;
         /// <summary>
         /// 
         /// </summary>
@@ -278,13 +280,15 @@ namespace PDV_ORCAMENTO.Telas
             bool blnCarregouProdutosComSucesso = false;
 
             audit("Carregando produtos...");
-            using (var dt = new FDBOrcaDataSet.TB_EST_ESTOQUE_KEYVALUEDataTable())
-            using (var estoque_TA = new TB_EST_ESTOQUE_KEYVALUETableAdapter())
+            //using (var dt = new FDBOrcaDataSet.TB_EST_ESTOQUE_KEYVALUEDataTable())
+            //using (var estoque_TA = new TB_EST_ESTOQUE_KEYVALUETableAdapter())
+            DataTable dt = new();
             {
                 try
                 {
                     //Ordena por nome, ascendente - 1.0.2.7 (27-11-2018 ~ Artur)
-                    estoque_TA.FillOrderByDescricao(dt);
+                    //estoque_TA.FillOrderByDescricao(dt);
+                    dt = _funcoes.PegaTodosOsItens(null);
 
                     blnCarregouProdutosComSucesso = true;
                 }
@@ -301,7 +305,7 @@ namespace PDV_ORCAMENTO.Telas
                 {
                     var lstKeyPairProdutos = new List<ComboBoxBindingDTO_Produto>();
 
-                    foreach (DataRow row in dt)
+                    foreach (DataRow row in dt.Rows)
                     {
                         lstKeyPairProdutos.Add(new ComboBoxBindingDTO_Produto()
                         {
