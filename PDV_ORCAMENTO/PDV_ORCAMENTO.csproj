@@ -112,10 +112,6 @@
     <Reference Include="Microsoft.ReportViewer.WinForms, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.140.1000.523\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.SqlServer.Types.14.0.314.76\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="Syncfusion.SfBusyIndicator.WPF, Version=16.1460.0.24, Culture=neutral, PublicKeyToken=3d67ed1f87d44c89, processorArchitecture=MSIL">
       <HintPath>..\packages\Syncfusion.SfBusyIndicator.WPF46.16.1.0.24\lib\net46\Syncfusion.SfBusyIndicator.WPF.dll</HintPath>
@@ -207,7 +203,6 @@
     <Compile Include="NovoACI\FimdeConfig.xaml.cs" />
     <Compile Include="NovoACI\Pilantraje.xaml.cs" />
     <Compile Include="Reports\DTOs.cs" />
-    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Telas\ACI.xaml.cs" />
     <Compile Include="Telas\CadastraSenha.xaml.cs">
       <DependentUpon>CadastraSenha.xaml</DependentUpon>
@@ -405,19 +400,6 @@
   <ItemGroup>
     <Resource Include="Icons\Ambicon.ico" />
     <Resource Include="Ambicon.ico" />
-    <Content Include="SqlServerTypes\readme.htm" />
-    <Content Include="SqlServerTypes\x64\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\msvcr120.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
