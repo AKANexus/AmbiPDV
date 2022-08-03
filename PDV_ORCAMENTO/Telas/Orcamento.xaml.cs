@@ -431,20 +431,30 @@ namespace PDV_ORCAMENTO.Telas
             {
                 if (ACBox.SelectedItem == null)
                 {
-                    if (int.TryParse(ACBox.Text, out int tentativa_conversao_cod))
+                    ACBox.SelectedItem =
+                        ((IEnumerable<ComboBoxBindingDTO_Produto>) ACBox.ItemsSource).First(i =>
+                            i.REFERENCIA.Equals(ACBox.Text));
+
+                    if (ACBox.SelectedItem == null)
                     {
-                        ACBox.SelectedItem = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(item => item.COD_BARRA.Equals(ACBox.Text) ||
-                                                                                                                item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
-                    }
-                    else
-                    {
-                        ACBox.SelectedItem = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(item => item.COD_BARRA.Equals(ACBox.Text));
+                        if (int.TryParse(ACBox.Text, out int tentativa_conversao_cod))
+                        {
+                            ACBox.SelectedItem = ((IEnumerable<ComboBoxBindingDTO_Produto>) ACBox.ItemsSource).First(
+                                item => item.COD_BARRA.Equals(ACBox.Text) ||
+                                        item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
+                        }
+                        else
+                        {
+                            ACBox.SelectedItem =
+                                ((IEnumerable<ComboBoxBindingDTO_Produto>) ACBox.ItemsSource).First(item =>
+                                    item.COD_BARRA.Equals(ACBox.Text));
+                        }
                     }
 
                     if (ACBox.SelectedItem == null)
                     {
                         ACBox.Text = string.Empty;
-                        audit("Produto não foi encontrado. Método: " + MethodBase.GetCurrentMethod().Name);
+                        audit("Produto não foi encontrado.");
                         return;
                     }
                 }
