@@ -11,9 +11,9 @@ namespace PDV_ORCAMENTO.REMENDOOOOO
 {
     public class FuncoesFirebird
     {
-        public DataTable PegaTodosOsItens(FbConnection? connection)
+        public DataTable PegaTodosOsItens()
         {
-            connection ??= new FbConnection(Settings.Default.NetworkDB);
+            FbConnection connection = new FbConnection(Settings.Default.NetworkDB);
 
             try
             {

@@ -270,7 +270,7 @@ namespace PDV_ORCAMENTO.Telas
             LimparTelaAtual();
         }
 
-        private FuncoesFirebird _funcoes;
+        private FuncoesFirebird _funcoes = new();
         /// <summary>
         /// 
         /// </summary>
@@ -288,7 +288,7 @@ namespace PDV_ORCAMENTO.Telas
                 {
                     //Ordena por nome, ascendente - 1.0.2.7 (27-11-2018 ~ Artur)
                     //estoque_TA.FillOrderByDescricao(dt);
-                    dt = _funcoes.PegaTodosOsItens(null);
+                    dt = _funcoes.PegaTodosOsItens();
 
                     blnCarregouProdutosComSucesso = true;
                 }
