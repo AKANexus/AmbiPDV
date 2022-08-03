@@ -389,6 +389,34 @@ namespace PDV_WPF.REMENDOOOOO
             }
         }
 
+        public void ClearAuxSyncTable(FbConnection connection)
+        {
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            FbCommand command = new FbCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+
+            command.CommandText = "DELETE FROM TRI_PDV_AUX_SYNC";
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+
     }
 
     public class CLIPP_OS
@@ -443,81 +471,54 @@ namespace PDV_WPF.REMENDOOOOO
         public decimal? POR_COMISSAO { get; set; }
     }
 
-        }
 
-        //public bool CheckIfDeletionExists(FbConnection connection)
-        //{
-        //    try
-        //    {
-        //        connection.Open();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e);
-        //        throw;
-        //    }
 
-        //    FbCommand command = new FbCommand();
-        //    command.Connection = connection;
-        //    command.CommandType = CommandType.Text;
+    //public bool CheckIfDeletionExists(FbConnection connection)
+    //{
+    //    try
+    //    {
+    //        connection.Open();
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Console.WriteLine(e);
+    //        throw;
+    //    }
 
-        //    command.CommandText = "SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC"
-        //}
+    //    FbCommand command = new FbCommand();
+    //    command.Connection = connection;
+    //    command.CommandType = CommandType.Text;
 
-        public void ClearAuxSyncTable(FbConnection connection)
-        {
-            try
-            {
-                connection.Open();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+    //    command.CommandText = "SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC"
+    //}
 
-            FbCommand command = new FbCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.Text;
-
-            command.CommandText = "DELETE FROM TRI_PDV_AUX_SYNC";
-
-            try
-            {
-                command.ExecuteNonQuery();
-            }
-            finally
-            {
-                connection.Close();
-            }
-        }
-    }
-
-    public class InfoAtacado
-    {
-        public decimal QtdAtacado { get; set; }
-        public decimal PrcAtacado { get; set; }
-        public string Família { get; set; }
-    }
-
-    public class DadosDoItem
-    {
-        public string DESCRICAO { get; set; }
-        public string CFOP { get; set; }
-        public string UNI_MEDIDA { get; set; }
-        public string COD_NCM { get; set; }
-        public string COD_BARRA { get; set; }
-        public string RCSOSN_CFE { get; set; }
-        public string RCST_CFE { get; set; }
-        public string RCST_PIS { get; set; }
-        public string RCST_COFINS { get; set; }
-        public decimal RPIS { get; set; }
-        public decimal RCOFINS { get; set; }
-        public decimal RUF_SP { get; set; }
-        public decimal RBASE_ICMS { get; set; }
-        public decimal RALIQ_ISS { get; set; }
-        public string RID_TIPOITEM { get; set; }
-        public string RSTR_CEST { get; set; }
-        public string OBSERVACAO { get; set; }
-    }
 }
+
+public class InfoAtacado
+{
+    public decimal QtdAtacado { get; set; }
+    public decimal PrcAtacado { get; set; }
+    public string Família { get; set; }
+}
+
+public class DadosDoItem
+{
+    public string DESCRICAO { get; set; }
+    public string CFOP { get; set; }
+    public string UNI_MEDIDA { get; set; }
+    public string COD_NCM { get; set; }
+    public string COD_BARRA { get; set; }
+    public string RCSOSN_CFE { get; set; }
+    public string RCST_CFE { get; set; }
+    public string RCST_PIS { get; set; }
+    public string RCST_COFINS { get; set; }
+    public decimal RPIS { get; set; }
+    public decimal RCOFINS { get; set; }
+    public decimal RUF_SP { get; set; }
+    public decimal RBASE_ICMS { get; set; }
+    public decimal RALIQ_ISS { get; set; }
+    public string RID_TIPOITEM { get; set; }
+    public string RSTR_CEST { get; set; }
+    public string OBSERVACAO { get; set; }
+}
+
