@@ -1,0 +1,110 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_ORCAMENTO"
+        xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="PDV_ORCAMENTO.Parametros"
+        mc:Ignorable="d"
+        Title="Parametros" Height="574" Width="579" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" FontFamily="Open Sans" Closing="Window_Closing">
+    <StackPanel Width="442" Height="549">
+        <GroupBox Header="Sangria" Padding="0" Margin="10,10,10,5">
+            <StackPanel Margin="0" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <CheckBox Content="Limitar dinheiro em terminal" Margin="5,10,5,5" x:Name="chk_Exige_Sangria" Checked="chk_Exige_Sangria_Checked" Unchecked="chk_Exige_Sangria_Unchecked"/>
+                    <CheckBox Content="Bloquear ao atingir limite" Margin="5" x:Name="chk_Bloqueia_Limite" />
+                    <CheckBox Content="Permitir Valor de Folga" Margin="5" x:Name="chk_Permite_Folga" Checked="chk_Bloqueia_Limite_Checked" Unchecked="chk_Bloqueia_Limite_Unchecked"/>
+                </StackPanel>
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Margin="2.5">
+                        <Label Content="Valor Máximo em terminal"/>
+                        <syncfusion:CurrencyTextBox Width="90" x:Name="txb_Valor_Max" Culture="pt-BR"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="2.5">
+                        <Label Content="Margem de Sangria"/>
+                        <syncfusion:CurrencyTextBox Culture="pt-BR" Width="90" x:Name="txb_Valor_Folga"/>
+                    </StackPanel>
+                </StackPanel>
+            </StackPanel>
+
+
+
+        </GroupBox>
+        <GroupBox Header="Configurações do Terminal" Padding="0" Margin="10,0,10,5">
+            <StackPanel Margin="0" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Width="409">
+                    <StackPanel Orientation="Horizontal" Margin="2.5">
+                        <Label Content="Número do Terminal"/>
+                        <TextBox Width="74" MaxLength="4" x:Name="txb_no_terminal"/>
+                        <Label Content="Pedir CPF"/>
+                        <ComboBox x:Name="cbb_Pede_CPF" HorizontalAlignment="Left" VerticalAlignment="Top" Width="137" FontFamily="Open Sans">
+                            <ComboBoxItem>Nunca</ComboBoxItem>
+                            <ComboBoxItem>No ínicio da venda</ComboBoxItem>
+                            <ComboBoxItem>Ao final da venda</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+                    <CheckBox Content="Interromper ao não encontrar produto" Margin="5" x:Name="chk_Interrompe_Nao_Encontrado"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Content="Permite venda com estoque negativo" Margin="5" x:Name="chk_Permite_Venda_Negativa" IsThreeState="True" IsChecked="{x:Null}"/>
+                        <Label Content="Mod. Cupom:" Padding="12,5,5,5"/>
+                        <ComboBox x:Name="cbb_Mod_CUP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="80" FontFamily="Open Sans">
+                            <ComboBoxItem>Completo</ComboBoxItem>
+                            <ComboBoxItem>Simples</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+
+
+                    <Button Content="Assistente de Configuração de Impressora..." HorizontalAlignment="Left" Margin="5" Click="Button_Click" Height="23"/>
+                    <Label Content="Mensagem de Cortesia" />
+                    <TextBox x:Name="txb_Cortesia"/>
+
+                </StackPanel>
+            </StackPanel>
+
+
+
+        </GroupBox>
+        <GroupBox Header="Alíquotas de Contingência" Padding="0" Margin="10,0,10,5">
+            <StackPanel Margin="0" Orientation="Horizontal">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" Margin="2.5">
+                        <Label Content="ICMS"/>
+                        <syncfusion:PercentTextBox x:Name="txb_ICMS" Width="90" Margin="0,0,5,0" Culture="pt-BR" PercentValue="0"/>
+                        <Label Content="CSOSN" Margin="5,0,0,0"/>
+                        <syncfusion:PercentTextBox x:Name="txb_CSOSN" Width="90" Culture="pt-BR" PercentValue="0"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </StackPanel>
+
+
+
+        </GroupBox>
+        <GroupBox Header="Configurações Técnicas" Padding="0" Margin="10,0,10,5">
+            <StackPanel Margin="0" Orientation="Horizontal">
+                <Button Content="Acessar Configurações Técnicas..." Margin="5,5,0,5" Click="Button_Click_1" Height="23"/>
+                <Label Content="Versão do PDV: 10.1.2.3" x:Name="lbl_Versao" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0,0,0" />
+            </StackPanel>
+
+
+
+        </GroupBox>
+        <GroupBox Header="Cadastros" Margin="10,0" Height="61">
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Métodos de Pagamento" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0" Click="Button_Click_3" Height="23"/>
+            </StackPanel>
+
+        </GroupBox>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
+            <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
+                <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+            </Border>
+            <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
+                <Label x:Name="lbl_Nyet" Content="FECHAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+            </Border>
+
+        </StackPanel>
+
+    </StackPanel>
+
+</Window>

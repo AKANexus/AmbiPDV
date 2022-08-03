@@ -1,0 +1,220 @@
+﻿<Window x:Class="PDV_ORCAMENTO.Telas.VisualizacaoCadastroCliente"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_ORCAMENTO.Telas"
+        xmlns:syncfusion="clr-namespace:Syncfusion.Windows.Controls.Input;assembly=Syncfusion.SfInput.Wpf"
+        xmlns:syncfusion1="clr-namespace:Syncfusion.Windows.Tools.Controls;assembly=Syncfusion.Shared.Wpf"
+        mc:Ignorable="d"
+        Title="VisualizacaoCadastroCliente" Height="610" Width="900" ShowInTaskbar="False" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" WindowStyle="None" 
+        BorderBrush="#FF7D7D7D" BorderThickness="1" KeyDown="Window_KeyDown">
+    <Grid>
+        <!--Height="550"-->
+        <StackPanel Orientation="Vertical">
+
+            <GroupBox Header="Identificação" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1,0,1,1" BorderBrush="#FF95989A" FontSize="21" 
+                          FontFamily="Segoe UI Semilight" Foreground="#FF7D7D7D" Margin="5,5,5,5" MinHeight="169">
+
+                <Grid Grid.Row="0" Grid.RowSpan="2">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="160"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <GroupBox Header="Nome / Razão social" Grid.Row="0" Grid.Column="0" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" 
+                                  FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                        <TextBox Name="txbClienteNome" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                    </GroupBox>
+
+                    <GroupBox Header="CPF / CNPJ" Grid.Row="0" Grid.Column="1" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,10,5">
+                        <syncfusion:SfTextBoxExt x:Name="txbClienteCpfCnpj" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White"
+                                                         IsEnabled="False" />
+                    </GroupBox>
+
+                    <GroupBox Header="RG" Grid.Row="0" Grid.Column="2" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,10,5">
+                        <syncfusion:SfTextBoxExt x:Name="txbClienteRg" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White"
+                                                         IsEnabled="False" />
+                    </GroupBox>
+
+                    <GroupBox Header="Nome fantasia" Grid.Row="1" Grid.Column="0" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                        <TextBox Name="txbClienteNomeFanta" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.Column="1" Header="Inscrição Estadual" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                        <TextBox Name="txbClienteInscricaoEstadual" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.Column="2" Header="Inscrição Municipal" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                        <TextBox Name="txbClienteInscricaoMunicipal" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                    </GroupBox>
+
+                </Grid>
+                
+            </GroupBox>
+
+            <GroupBox Header="Endereço" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1,0,1,1" BorderBrush="#FF95989A" FontSize="21" 
+                          FontFamily="Segoe UI Semilight" Foreground="#FF7D7D7D" Margin="5,5,5,5">
+
+                <Grid>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Grid Grid.Row="0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="166"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+
+                        <GroupBox Grid.Row="0" Grid.Column="0" Header="Tipo" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoTipo" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="0" Grid.Column="1" Header="Logradouro" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoLogradouro" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+                        <GroupBox Grid.Row="0" Grid.Column="3" Header="Número" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoNumero" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+
+                        <GroupBox Grid.Row="1" Grid.ColumnSpan="3" Header="Complemento" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoComplemento" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+
+                    </Grid>
+
+
+
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="121"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+
+                        <GroupBox Grid.Column="0" Header="CEP" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoCep" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+                        <GroupBox Grid.Column="1" Header="Bairro" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoBairro" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+                        <GroupBox Grid.Column="2" Header="Cidade" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoCidade" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+                        <GroupBox Grid.Column="3" Header="UF" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                            <TextBox Name="txbClienteEnderecoUf" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                        </GroupBox>
+
+                    </Grid>
+
+                </Grid>
+
+            </GroupBox>
+
+            <GroupBox Header="Contato" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderThickness="1,0,1,1" BorderBrush="#FF95989A" FontSize="21" 
+                          FontFamily="Segoe UI Semilight" Foreground="#FF7D7D7D" Margin="5,5,5,5">
+                
+                <Grid>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <GroupBox Grid.Row="0" Grid.Column="0" Header="Telefone Comercial" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" FontFamily="Segoe UI" Margin="5,5,5,10">
+                        <syncfusion:SfMaskedEdit x:Name="txb_TelefoneComercial" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White"
+                                                         Mask="(00)0000-00009" MaskType="Simple" BorderBrush="#FF09CAAA"
+                                                         DockPanel.Dock="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                                         IsEnabled="False"/>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="0" Grid.Column="1" Header="Telefone Celular" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" FontFamily="Segoe UI" Margin="5,5,10,10">
+                        <syncfusion:SfMaskedEdit x:Name="txb_TelefoneCelular" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White"
+                                                         Mask="(00)0000-00009" MaskType="Simple" BorderBrush="#FF09CAAA" 
+                                                         DockPanel.Dock="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                                         IsEnabled="False"/>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="0" Grid.Column="2" Header="Telefone Residencial" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" FontFamily="Segoe UI" Margin="5,5,10,10">
+                        <syncfusion:SfMaskedEdit x:Name="txb_TelefoneResidencial" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White"
+                                                         Mask="(00)0000-00009" MaskType="Simple" BorderBrush="#FF09CAAA" 
+                                                         DockPanel.Dock="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                                         IsEnabled="False"/>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="0" Grid.Column="3" Header="Fax" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" FontFamily="Segoe UI" Margin="5,5,10,10">
+                        <syncfusion:SfMaskedEdit x:Name="txb_Fax" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White"
+                                                         Mask="(00)0000-00009" MaskType="Simple" BorderBrush="#FF09CAAA" 
+                                                         DockPanel.Dock="Right" VerticalContentAlignment="Center" VerticalAlignment="Center"
+                                                         IsEnabled="False"/>
+                    </GroupBox>
+
+                    <GroupBox Grid.Row="1" Grid.ColumnSpan="4" Grid.Column="0" Header="Email" BorderBrush="#FF5DDCC7" BorderThickness="1" Background="Transparent" Foreground="#FF95989A" FontSize="13" Height="52" 
+                                      FontFamily="Segoe UI" Margin="5,10,5,5">
+                        <TextBox Name="txbClienteEmailCont" FontSize="17" BorderThickness="0" FontFamily="Segoe UI Semibold" Background="White" BorderBrush="{x:Null}" 
+                                 VerticalContentAlignment="Center" IsEnabled="False" />
+                    </GroupBox>
+
+                </Grid>
+                
+            </GroupBox>
+
+        </StackPanel>
+
+    </Grid>
+</Window>

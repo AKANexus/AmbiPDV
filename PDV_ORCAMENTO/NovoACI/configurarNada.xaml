@@ -1,0 +1,25 @@
+﻿<Page x:Class="PDV_ORCAMENTO.NovoACI.configurarNada"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_ORCAMENTO.NovoACI"
+      mc:Ignorable="d"
+      Title="configurarNada" >
+
+    <StackPanel Height="406" Width="493">
+        <TextBlock TextWrapping="Wrap" Margin="15,15,15,10" FontSize="17" Height="342"><Run Foreground="#FF09CAAA" FontWeight="Bold" Text="AMBIENTE DE TESTES"/><LineBreak/><Run FontSize="14"/><LineBreak/><Run FontSize="14" Text="Sem problema! É possível utilizar o sistema sem nenhuma impressora instalada. Desta forma, o sistema irá rodar normalmente também."/><LineBreak/><Run FontSize="14"/><LineBreak/><Run FontSize="14" Text="Esse assistente pode ser executado novamente a qualquer momento a partir do menu de configurações, acessível pelo comando CTRL+P"/><Run FontSize="14" Text="."/><LineBreak/></TextBlock>
+        <UniformGrid Columns="3" VerticalAlignment="Center" Margin="10,0">
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="but_Prev_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Voltar" x:Name="lbl_Prev"/></TextBlock>
+            </Border>
+            <Border Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" Visibility="Hidden" HorizontalAlignment="Center">
+                <TextBlock Foreground="White"><Run FontSize="20" FontFamily="Open Sans" Text="Testar" x:Name="lbl_Action"/></TextBlock>
+            </Border>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" MouseDown="but_Next_MouseDown">
+                <TextBlock x:Name="tbl_Continuar" Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Continuar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            </Border>
+        </UniformGrid>
+
+    </StackPanel>
+</Page>

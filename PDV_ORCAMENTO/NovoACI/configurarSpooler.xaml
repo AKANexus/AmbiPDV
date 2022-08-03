@@ -1,0 +1,39 @@
+﻿<Page x:Class="PDV_ORCAMENTO.NovoACI.configurarSpooler"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_ORCAMENTO.NovoACI"
+      mc:Ignorable="d" 
+      Title="configurarSpooler" >
+
+    <StackPanel Height="406" Width="493">
+        <TextBlock TextWrapping="Wrap" Margin="15,15,15,10" FontSize="17" FontFamily="Open Sans"><Run Foreground="#FF09CAAA" FontWeight="Bold" Text="CONFIGURANDO A IMPRESSORA USB"/><LineBreak/><Run FontSize="14"/><LineBreak/><Run FontSize="14" Text="Vamos agora configurar sua impressora USB!"/><LineBreak/><Run FontSize="14" Text="Antes de continuarmos, é necessário que seu software de impressão esteja previamente instalado. I"/><Run FontSize="14" Text="s"/><Run FontSize="14" Text="so é feito de acordo com as instruções fornecidas pelo fabricante da impressora."/><LineBreak/><Run FontWeight="Bold" FontSize="12" Text="Para mais informações, consulte o manual de sua impressora!..."/><LineBreak/><Run FontWeight="Bold" FontSize="11"/><LineBreak/><Run FontWeight="Bold" FontSize="14" Text="Caso ainda não tenha realizado este procedimento, "/><Run FontSize="14" Text="pressione o botão Minimizar e instale sua impressora."/><LineBreak/><LineBreak/><Run FontWeight="Bold" FontSize="14" Text="Caso já tenha realizado o procedimento, "/><Run FontSize="14" Text="selecione a impressora abaixo"/></TextBlock>
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0">
+                <Label Content="Impressora" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0" FontFamily="Open Sans" FontSize="14"/>
+                <ComboBox x:Name="cbb_printers" HorizontalAlignment="Center" VerticalAlignment="Center" Width="220" Margin="5,0,0,0" DropDownClosed="cbb_printers_DropDownClosed" FontFamily="Open Sans" FontSize="14"/>
+            </StackPanel>
+        </Grid>
+        <UniformGrid Columns="3" VerticalAlignment="Center" Margin="10,0">
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="but_Prev_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Voltar" x:Name="lbl_Prev"/></TextBlock>
+            </Border>
+            <Border Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" Visibility="Visible" HorizontalAlignment="Center">
+                <TextBlock Foreground="White"><Run FontSize="20" FontFamily="Open Sans" Text="Minimizar" x:Name="lbl_Action"/></TextBlock>
+            </Border>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="tbl_Continuar" Foreground="#6609CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Continuar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            </Border>
+        </UniformGrid>
+
+
+    </StackPanel>
+</Page>

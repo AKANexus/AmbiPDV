@@ -1,0 +1,47 @@
+﻿<Window x:Class="PDV_ORCAMENTO.Telas.ConsultaAvancada"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_ORCAMENTO.Telas"
+        mc:Ignorable="d"
+        Title="Pressione ESC para voltar" Height="284.703" Width="458.924" WindowState="Maximized" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" ResizeMode="NoResize" 
+        Closing="Window_Closing">
+    <Grid >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="120"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="47"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBox Name="txb_Consulta" Grid.Row="0" Grid.Column="0" Margin="10,15,10,0" TextWrapping="Wrap" VerticalAlignment="Top" FontSize="20" KeyDown="TextBox_KeyDown"/>
+        <ComboBox Name="cmbPesqNomeClienteTipo" Grid.Row="0" Grid.Column="1" Margin="0,15,10,0" FontSize="18" FontFamily="Segoe UI">
+            <ComboBoxItem>Contendo</ComboBoxItem>
+            <ComboBoxItem>Iniciando</ComboBoxItem>
+            <ComboBoxItem>Igual</ComboBoxItem>
+        </ComboBox>
+        <DataGrid x:Name="dgv_Tabela" Grid.Row="1" Grid.ColumnSpan="2" Language="pt-BR" FontSize="28" FontFamily="Open Sans UI" FontWeight="DemiBold" Margin="10,10,10,10" 
+                  AutoGenerateColumns="False" CanUserReorderColumns="False" ColumnWidth="SizeToHeader" HorizontalGridLinesBrush="#FFC8C8C8" VerticalGridLinesBrush="#FFC8C8C8" IsReadOnly="True" 
+                  PreviewKeyDown="dgv_Tabela_KeyDown">
+            <DataGrid.Resources>
+                <Style TargetType="DataGridRow">
+                    <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="FontWeight" Value="Bold"/>
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Código" Binding="{Binding ESTOQUE}" Width="*" />
+                <DataGridTextColumn Header="Código de Barras" Binding="{Binding CODBARRA}" Width="2*" />
+                <DataGridTextColumn Header="Descrição" Binding="{Binding DESCRICAO}" Width="5*"/>
+                <DataGridTextColumn Header="Quant." Binding="{Binding QTDATUAL}" Width="*"/>
+                <DataGridTextColumn Header="Preço" Binding="{Binding PRCVENDA, StringFormat=C}" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

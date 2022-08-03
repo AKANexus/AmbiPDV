@@ -1,0 +1,15 @@
+﻿<Window x:Class="PDV_ORCAMENTO.Telas.ReportExibicao"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_ORCAMENTO.Telas"
+        xmlns:rv="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
+        mc:Ignorable="d"
+        Title="Exibição do Relatório de Orçamento" Height="300" Width="300" WindowStyle="ToolWindow" WindowStartupLocation="CenterScreen" WindowState="Maximized">
+    <Grid>
+        <WindowsFormsHost>
+            <rv:ReportViewer x:Name="ReportViewer" Load="ReportViewer_Load"/>
+        </WindowsFormsHost>
+    </Grid>
+</Window>

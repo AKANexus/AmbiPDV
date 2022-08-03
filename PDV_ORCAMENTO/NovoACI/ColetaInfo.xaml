@@ -1,0 +1,34 @@
+﻿<Page x:Class="PDV_ORCAMENTO.NovoACI.ColetaInfo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PDV_ORCAMENTO.NovoACI"
+      mc:Ignorable="d" 
+      Title="ColetaInfo" >
+
+    <StackPanel Height="406" Width="493">
+        <TextBlock TextWrapping="Wrap" Margin="15,15,15,10" FontSize="17"><Run Text="IMPORTANTE"/><LineBreak/><Run Foreground="#FF09CAAA" FontWeight="Bold" Text="ESCOLHENDO A IMPRESSORA"/><LineBreak/><Run FontSize="14"/><LineBreak/><Run FontSize="14" Text="Inicialm"/><Run FontSize="14" Text="ente precisamos saber qual tipo de impressora será utilizado nesta máquina. Por favor escolha abaixo e clique em "/><Run FontWeight="Bold" FontSize="14" Text="Continuar"/><Run FontSize="14" Text="."/></TextBlock>
+        <StackPanel Margin="20, 0" Height="222">
+            <RadioButton Name="rbt80ThermalPrinter" Content="Impressora térmica 80mm" Margin="3" FontFamily="Open Sans" Checked="rbt80ThermalPrinter_Checked" />
+            <!--<CheckBox Name="cbx_80_thermal_printer" Content="Impressora térmica 80mm" Margin="3" Checked="cbx_80_thermal_printer_Checked" Unchecked="cbx_80_thermal_printer_Unchecked" FontFamily="Open Sans"/>-->
+            <RadioButton Name="rbtOfficePrinter" Content="Impressora de escritório (A4)" Margin="3" FontFamily="Open Sans" Checked="rbtOfficePrinter_Checked" />
+            <!--<CheckBox Name="cbx_office_printer" Content="Impressora de escritório (A4)" Margin="3" FontFamily="Open Sans" Checked="cbx_office_printer_Checked" Unchecked="cbx_office_printer_Unchecked"/>-->
+            <RadioButton Name="rbtTestes" Content="Nenhum equipamento (ambiente de testes)" Margin="3" FontFamily="Open Sans" Checked="rbtTestes_Checked" />
+            <!--<CheckBox Name="cbx_testes" Content="Nenhum equipamento (Ambiente de testes)" Margin="3" Checked="cbx_testes_Checked" Unchecked="cbx_testes_Unchecked" FontFamily="Open Sans"/>-->
+            
+        </StackPanel>
+        <UniformGrid Columns="3" VerticalAlignment="Center" Margin="10,0">
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="but_Prev_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Voltar" x:Name="lbl_Prev"/></TextBlock>
+            </Border>
+            <Border Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" Visibility="Hidden" HorizontalAlignment="Center">
+                <TextBlock Foreground="White"><Run FontSize="20" FontFamily="Open Sans" Text="Pula corda" x:Name="lbl_Action"/></TextBlock>
+            </Border>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="but_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Continuar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            </Border>
+        </UniformGrid>
+
+    </StackPanel>
+</Page>

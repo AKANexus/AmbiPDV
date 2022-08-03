@@ -1,0 +1,63 @@
+﻿<Window x:Class="PDV_ORCAMENTO.Telas.DialogBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_ORCAMENTO.Telas"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" AllowsTransparency="True" KeyDown="window_KeyDown"
+        Title="DialogBox" Height="450" Width="470" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
+
+    <Border Margin="10,0" Background="#FFF9F9F9" CornerRadius="10" VerticalAlignment="Center" Padding="13">
+        <Border.Effect>
+            <DropShadowEffect BlurRadius="8" Opacity="0.8" Direction="300" ShadowDepth="1.5"/>
+        </Border.Effect>
+        <Grid Margin="0">
+            <Grid.Background>
+                <ImageBrush/>
+            </Grid.Background>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="1" x:Name="lbl_Title" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Open Sans SemiBold" FontSize="24" Foreground="#FF757575" Text="TÍTULO DA JANELA DE DIÁLOGO"/>
+            <Viewbox Name="icn_info"  Width="85" Grid.Row="0" Visibility="Collapsed" Margin="0,31">
+                <Canvas Width="123.760" Height="123.760">
+                    <Path Fill="#ff2c4893" Data="F1 M 61.880,0.000 C 96.055,0.000 123.760,27.705 123.760,61.880 C 123.760,96.055 96.055,123.760 61.880,123.760 C 27.705,123.760 0.000,96.055 0.000,61.880 C 0.000,27.705 27.705,0.000 61.880,0.000 Z"/>
+                    <Path Fill="#ffffffff" Data="F1 M 58.680,38.740 L 65.080,38.740 C 67.609,38.740 69.660,40.791 69.660,43.320 L 69.660,102.530 C 69.660,105.059 67.609,107.110 65.080,107.110 L 58.680,107.110 C 56.151,107.110 54.100,105.059 54.100,102.530 L 54.100,43.320 C 54.100,40.791 56.151,38.740 58.680,38.740 Z"/>
+                    <Path Fill="#ffffffff" Data="F1 M 61.880,16.650 C 66.779,16.650 70.750,20.621 70.750,25.520 C 70.750,30.419 66.779,34.390 61.880,34.390 C 56.981,34.390 53.010,30.419 53.010,25.520 C 53.010,20.621 56.981,16.650 61.880,16.650 Z"/>
+                </Canvas>
+            </Viewbox>
+            <Viewbox Name="icn_warn" Width="60" Grid.Row="0" Visibility="Collapsed" Margin="0,31">
+                <Canvas Width="123.760" Height="123.760">
+                    <Path Fill="#ffebc837" Data="F1 M 64.961,2.441 L 0.631,113.871 C -0.711,116.284 0.157,119.329 2.571,120.671 C 3.302,121.078 4.124,121.294 4.961,121.301 L 133.601,121.301 C 136.362,121.257 138.565,118.983 138.521,116.222 C 138.508,115.398 138.292,114.591 137.891,113.871 L 73.551,2.441 C 72.137,0.069 69.068,-0.708 66.696,0.706 C 65.983,1.131 65.386,1.727 64.961,2.441 Z"/>
+                    <Path Fill="#ffffffff" Data="F1 M 61.961,32.701 L 76.521,32.701 C 78.520,32.701 80.141,34.322 80.141,36.321 C 80.141,36.321 80.141,36.321 80.141,36.321 L 73.821,83.101 C 73.471,85.101 72.991,86.721 70.991,86.721 L 67.521,86.721 C 65.521,86.721 64.941,85.161 64.691,83.101 L 58.371,36.321 C 58.371,34.333 59.974,32.717 61.961,32.701 Z"/>
+                    <Path Fill="#ffffffff" Data="F1 M 69.261,90.161 C 73.133,90.161 76.271,93.299 76.271,97.171 C 76.271,101.042 73.133,104.181 69.261,104.181 C 65.390,104.181 62.251,101.042 62.251,97.171 C 62.251,93.299 65.390,90.161 69.261,90.161 Z"/>
+                </Canvas>
+            </Viewbox>
+            <Viewbox Name="icn_error" Width="60" Grid.Row="0" Visibility="Collapsed" Margin="0,31">
+                <Canvas Width="123.760" Height="123.760">
+                    <Path Fill="#ffc13233" Data="F1 M 61.880,0.000 C 96.055,0.000 123.760,27.705 123.760,61.880 C 123.760,96.055 96.055,123.760 61.880,123.760 C 27.705,123.760 0.000,96.055 0.000,61.880 C 0.000,27.705 27.705,0.000 61.880,0.000 Z"/>
+                    <Path Fill="#ffffffff" Data="F1 M 31.841,80.280 L 80.310,31.862 C 82.655,29.520 86.454,29.522 88.796,31.866 L 91.905,34.979 C 94.247,37.323 94.245,41.122 91.901,43.464 L 43.432,91.883 C 41.087,94.225 37.288,94.223 34.946,91.878 L 31.837,88.766 C 29.495,86.421 29.497,82.622 31.841,80.280 Z"/>
+                    <Path Fill="#ffffffff" Data="F1 M 31.844,34.976 L 35.013,31.810 C 37.357,29.468 41.156,29.470 43.498,31.814 L 91.917,80.283 C 94.259,82.628 94.257,86.427 91.912,88.769 L 88.743,91.935 C 86.399,94.277 82.600,94.275 80.258,91.930 L 31.839,43.461 C 29.497,41.117 29.499,37.318 31.844,34.976 Z"/>
+                </Canvas>
+            </Viewbox>
+            <Image Name="icn_dolan" Visibility="Collapsed" Source="/Resources/sangria.jpg" Width="123" Height="123" />
+            <Image Name="icn_supr" Visibility="Collapsed" Source="/Resources/suprimento.jpg" Width="123" Height="123" />
+            <Image Name="icn_sang" Visibility="Collapsed" Source="/Resources/sangria.jpg" Width="123" Height="123" />
+
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="tbl_Body" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontFamily="Open Sans SemiBold" FontSize="14" Foreground="#FF757575" MaxWidth="430" TextAlignment="Center"><Run x:Name="run_Linha1"  Text="Primeira linha da mensagem da caixa de diálogo"/><LineBreak/><Run x:Name="run_Linha2" Text="Segunda linha de mensagem da caixa de diálogo"/><LineBreak/><Run x:Name="run_Linha3" Text="Terceira linha de mensagem da caixa d"/><Run Text="e "/><Run Text="diálogo"/></TextBlock>
+            <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,31">
+                <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
+                    <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+                </Border>
+                <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
+                    <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+                </Border>
+
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
