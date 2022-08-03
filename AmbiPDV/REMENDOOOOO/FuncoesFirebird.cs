@@ -139,7 +139,6 @@ namespace PDV_WPF.REMENDOOOOO
 
         public DadosDoItem? ObtemDadosDoItem(int codigoitem, FbConnection connection)
         {
-
             try
             {
                 connection.Open();
@@ -201,6 +200,53 @@ namespace PDV_WPF.REMENDOOOOO
                     RSTR_CEST = row["COD_CEST"] is DBNull ? string.Empty : row["COD_CEST"] as string ?? string.Empty,
                     OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty
                 };
+            }
+        }
+
+        //public bool CheckIfDeletionExists(FbConnection connection)
+        //{
+        //    try
+        //    {
+        //        connection.Open();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Console.WriteLine(e);
+        //        throw;
+        //    }
+
+        //    FbCommand command = new FbCommand();
+        //    command.Connection = connection;
+        //    command.CommandType = CommandType.Text;
+
+        //    command.CommandText = "SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC"
+        //}
+
+        public void ClearAuxSyncTable(FbConnection connection)
+        {
+            try
+            {
+                connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+            FbCommand command = new FbCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+
+            command.CommandText = "DELETE FROM TRI_PDV_AUX_SYNC";
+
+            try
+            {
+                command.ExecuteNonQuery();
+            }
+            finally
+            {
+                connection.Close();
             }
         }
     }

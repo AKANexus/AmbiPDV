@@ -1454,38 +1454,38 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
-                    log.Debug($"Tentando converter {combobox.Text} em int");
-                    if (int.TryParse(combobox.Text, out int tentativa_conversao_cod))
+                    log.Debug("Procurando por referência");
+                    object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
+                    if (objItemEncontrado_with_ref != null)
                     {
-                        log.Debug($"Convertido em int: {tentativa_conversao_cod}");
-
-                        object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) ||
-                                                                                              item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
-                        if (objItemEncontrado != null)
-                        {
-                            log.Debug($"Achei");
-                            combobox.SelectedItem = objItemEncontrado;
-                        }
-                    }
-                    else
-                    {
-                        log.Debug("Não converti em int");
-                        object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
-                        if (objItemEncontrado != null)
-                        {
-                            log.Debug("Achei");
-                            combobox.SelectedItem = objItemEncontrado;
-                        }
+                        log.Debug("Encontrou um item pela referência");
+                        combobox.SelectedItem = objItemEncontrado_with_ref;
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
                     if (combobox.SelectedItem == null)
                     {
-                        log.Debug("Procurando por referência");
-                        object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
-                        if (objItemEncontrado_with_ref != null)
+                        log.Debug($"Tentando converter {combobox.Text} em int");
+                        if (int.TryParse(combobox.Text, out int tentativa_conversao_cod))
                         {
-                            log.Debug("Encontrou um item pela referência");
-                            combobox.SelectedItem = objItemEncontrado_with_ref;
+                            log.Debug($"Convertido em int: {tentativa_conversao_cod}");
+
+                            object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) ||
+                                item.ID_IDENTIFICADOR.Equals(tentativa_conversao_cod));
+                            if (objItemEncontrado != null)
+                            {
+                                log.Debug($"Achei");
+                                combobox.SelectedItem = objItemEncontrado;
+                            }
+                        }
+                        else
+                        {
+                            log.Debug("Não converti em int");
+                            object objItemEncontrado = mvm.LstProdutos.FirstOrDefault(item => item.COD_BARRA.Equals(pInput) && item.STATUS == "A");
+                            if (objItemEncontrado != null)
+                            {
+                                log.Debug("Achei");
+                                combobox.SelectedItem = objItemEncontrado;
+                            }
                         }
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
@@ -5401,6 +5401,7 @@ namespace PDV_WPF.Telas
                 }
             }
             #endregion
+
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
             #region Detecta se foi escaneado um código pré-pesado

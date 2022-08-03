@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Transactions;
 using System.Windows;
+using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 
@@ -4033,6 +4034,7 @@ namespace PDV_WPF.Funcoes
             }
         }
 
+        private readonly FuncoesFirebird _funcoes = new();
         public void Sync_Delete_TB_ESTOQUE(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
         {
             try
@@ -4121,6 +4123,22 @@ namespace PDV_WPF.Funcoes
                             }
                             #endregion TB_EST_ADICIONAL
 
+                            #region TB_EST_PRC_VENDA_HISTORICO
+                            try
+                            {
+                                commEstAdicional.Connection = fbConnDependenciasEstoquePdv;
+                                commEstAdicional.CommandType = CommandType.Text;
+
+                                commEstAdicional.CommandText = $"DELETE FROM TB_EST_PRC_VENDA_HISTORICO WHERE ID_ESTOQUE = {drEstoqueDeletePendente["ID_REG"]}";
+                                commEstAdicional.ExecuteNonQuery();
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error("Erro ao deletar registro de TB_EST_PRC_VENDA_HISTORICO - SQL syntaxe\n DELETE FROM TB_EST_PRC_VENDA_HISTORICO WHERE ID_ESTOQUE = {drEstoqueDeletePendente['ID_REG']}\n", ex);
+                                throw ex;
+                            }
+                            #endregion TB_EST_PRC_VENDA_HISTORICO
+
                             #region TB_ESTOQUE
                             try
                             {
@@ -4154,6 +4172,7 @@ namespace PDV_WPF.Funcoes
             catch (Exception ex)
             {
                 log.Error("Erro ao deletar registro de TB_ESTOQUE e/ou suas dependências: ", ex);
+                _funcoes.ClearAuxSyncTable(fbConnServ);
                 throw ex;
             }
         }
