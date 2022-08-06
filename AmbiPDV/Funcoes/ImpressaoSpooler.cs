@@ -373,7 +373,7 @@ namespace PDV_WPF
             RecebePrint(Emitente.NomeFantasia, negrito, centro, 1);
             RecebePrint(Emitente.RazaoSocial, corpo, centro, 1);
             RecebePrint(Emitente.EnderecoCompleto, corpo, centro, 1);
-            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IM}  IM: {Emitente.IM}", corpo, centro, 1);
+            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IE}  IM: {Emitente.IM}", corpo, centro, 1);
             LinhaHorizontal();
             RecebePrint("Extrato No. " + numerodoextrato, titulo, centro, 1);
             RecebePrint("CUPOM FISCAL ELETRÔNICO - SAT", titulo, centro, 1);
@@ -1539,7 +1539,7 @@ namespace PDV_WPF
             #region Region1
             RecebePrint(Emitente.NomeFantasia, negrito, centro, 1);
             RecebePrint(Emitente.EnderecoCompleto, corpo, centro, 1);
-            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IM}  IM: {Emitente.IM}", corpo, centro, 1);
+            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IE}  IM: {Emitente.IM}", corpo, centro, 1);
             LinhaHorizontal();
             RecebePrint("CUPOM DE DEVOLUÇÃO", titulo, centro, 1);
             //RecebePrint(String.Format("CUPOM Nº {0}", NO_CAIXA.ToString() + "-" + numerodocupom), Titulo, centro, 1);
@@ -2190,7 +2190,7 @@ namespace PDV_WPF
                 #region Cumpom de Venda
                 RecebePrint(Emitente.NomeFantasia, negrito, centro, 1);
                 RecebePrint(Emitente.EnderecoCompleto, corpo, centro, 1);
-                RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IM}  IM: {Emitente.IM}", corpo, centro, 1);
+                RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IE}  IM: {Emitente.IM}", corpo, centro, 1);
                 LinhaHorizontal();
                 RecebePrint("Extrato No. " + numerodocupom, titulo, centro, 1);
                 RecebePrint("CUPOM PROVISÓRIO", titulo, centro, 1);
@@ -2522,7 +2522,7 @@ namespace PDV_WPF
 
             RecebePrint(Emitente.NomeFantasia, negrito, centro, 1);
             RecebePrint(Emitente.EnderecoCompleto, corpo, centro, 1);
-            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IM}  IM: {Emitente.IM}", corpo, centro, 1);
+            RecebePrint($"CNPJ: {Emitente.CNPJ}  IE: {Emitente.IE}  IM: {Emitente.IM}", corpo, centro, 1);
             RecebePrint(new string('-', 89), negrito, centro, 1);
             RecebePrint("CUPOM NO. " + numerodoextrato, Titulo, centro, 1);
             RecebePrint("CUPOM PROVISÓRIO", Titulo, centro, 1);

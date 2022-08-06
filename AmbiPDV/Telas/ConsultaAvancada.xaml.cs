@@ -101,12 +101,11 @@ namespace PDV_WPF.Telas
                     {
                         return;
                     }
-                }
-
+                }                                            
                 var row = ((DataRowView)dgv_Tabela.SelectedItem).Row["ESTOQUE"];
                 codigo = row.Safeint();
                 DialogResult = true;
-                this.Close();
+                this.Close();                
             }
             else if (e.Key == Key.Tab)
             {
