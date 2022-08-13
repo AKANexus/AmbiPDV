@@ -1251,7 +1251,7 @@ namespace PDV_WPF.Objetos
                     }
                     ID_NFVENDA = nFVendaRow.RID_NFVENDA;
                     NF_NUMERO = nFVendaRow.RNF_NUMERO;
-                    log.Debug($"ID_NFVENDA = (int)OPER_TA.SP_TRI_GRAVANFVENDA(0, \"1\", {tsEmissao}, {tsEmissao}, 2, {vTroco});");
+                    log.Debug($"ID_NFVENDA = (int)OPER_TA.SP_TRI_GRAVANFVEHFHFHFNDA(0, \"1\", {tsEmissao}, {tsEmissao}, 2, {vTroco});");
                 }
                 catch (Exception ex)
                 {
