@@ -440,7 +440,7 @@ namespace PDV_WPF
                     case DiffVer.atualizado:
                         break;
                     case DiffVer.compativel:
-                        MessageBox.Show("A versão do banco é maior que a do software de Orçamento. Atualize assim que possível.");
+                        //MessageBox.Show("A versão do banco é maior que a do software de Orçamento. Atualize assim que possível.");
                         break;
                     case DiffVer.incompativel:
                         MessageBox.Show("O progama está desatualizado e não é compatível com a nova versão. É necessário atualizar o software antes de continuar.");

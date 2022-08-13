@@ -351,7 +351,7 @@ namespace PDV_ORCAMENTO
                 RecebePrint(nomefantasia, negrito, centro.align, 1, tipoImpressora);
                 RecebePrint(nomedaempresa, corpo, centro.align, 1, tipoImpressora);
                 RecebePrint(enderecodaempresa, corpo, centro.align, 1, tipoImpressora);
-                RecebePrint("CNPJ: " + cnpjempresa.ToString().Substring(0, 2) + "." + cnpjempresa.ToString().Substring(2, 3) + "." + cnpjempresa.ToString().Substring(5, 3) + "/" + cnpjempresa.ToString().Substring(8, 4) + "-" + cnpjempresa.ToString().Substring(12, 2) + "  IE: " + ieempresa + "  IM: " + imempresa, corpo, centro.align, 1, tipoImpressora);
+                RecebePrint("CNPJ: " + cnpjempresa.ToString() + "  IE: " + ieempresa + "  IM: " + imempresa, corpo, centro.align, 1, tipoImpressora);
                 RecebePrint(new string('-', 91), negrito, centro.align, 1, tipoImpressora);
                 RecebePrint("Orçamento No. " + numerodoextrato, Titulo, centro.align, 1, tipoImpressora);
 

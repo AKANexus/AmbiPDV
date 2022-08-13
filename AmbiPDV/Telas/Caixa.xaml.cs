@@ -889,7 +889,7 @@ namespace PDV_WPF.Telas
                 switch (pd.absoluto)
                 {
                     case true:
-                        desconto = pd.reais * 1;
+                        desconto = pd.reais;
                         tipoDeDesconto = tipoDesconto.Absoluto;
                         txb_Avisos.Text = "DESCONTO ATIVO";
                         break;
@@ -5591,7 +5591,8 @@ namespace PDV_WPF.Telas
             {
                 log.Debug($"Aplicado desconto: R${desconto}");
                 //comdesc = vUnCom - desconto;
-                vDescAplic = (vUnCom - desconto) * quant;
+                //vDescAplic = (vUnCom - desconto) * quant;
+                vDescAplic = desconto;
                 tipoDeDesconto = tipoDesconto.Nenhum;
                 txb_Avisos.Text = "CUPOM ABERTO";
             }

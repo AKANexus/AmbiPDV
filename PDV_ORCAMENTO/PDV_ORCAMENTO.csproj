@@ -181,6 +181,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Funcoes\Conexao.cs" />
     <Compile Include="DataSetes\FDBDataSetDDL.cs">
       <DependentUpon>FDBDataSetDDL.xsd</DependentUpon>
     </Compile>
@@ -431,6 +432,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\loading_anim.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

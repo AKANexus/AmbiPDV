@@ -216,11 +216,31 @@ namespace PDV_ORCAMENTO.Telas
                 }
                 else { return; }
             }
-
-            var row = ((DataRowView)dgv_Tabela.SelectedItem).Row["ESTOQUE"];
-            codigo = row.Safeint();
-            DialogResult = true;
-            this.Close();
+            var referencia = ((DataRowView)dgv_Tabela.SelectedItem).Row["REFERENCIA"];
+            string refe = referencia.ToString();
+            if (refe != "" && refe != null)
+            {
+                if (MessageBox.Show("Deseja utilizar o campo 'REFERÊNCIA' nesta consulta?", "Confirmação", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {                    
+                    codigo = referencia.Safeint();
+                    DialogResult = true;
+                    this.Close();
+                }
+                else
+                {
+                    var row = ((DataRowView)dgv_Tabela.SelectedItem).Row["ESTOQUE"];
+                    codigo = row.Safeint();
+                    DialogResult = true;
+                    this.Close();
+                }
+            }
+            else
+            {
+                var row = ((DataRowView)dgv_Tabela.SelectedItem).Row["ESTOQUE"];
+                codigo = row.Safeint();
+                DialogResult = true;
+                this.Close();
+            }
         }
 
         #endregion Methods

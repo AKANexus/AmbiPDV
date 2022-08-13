@@ -22,7 +22,7 @@
             <ComboBoxItem>Iniciando</ComboBoxItem>
             <ComboBoxItem>Igual</ComboBoxItem>
         </ComboBox>
-        <DataGrid x:Name="dgv_Tabela" Grid.Row="1" Grid.ColumnSpan="2" Language="pt-BR" FontSize="28" FontFamily="Open Sans UI" FontWeight="DemiBold" Margin="10,10,10,10" 
+        <DataGrid x:Name="dgv_Tabela" Grid.Row="1" Grid.ColumnSpan="2" Language="pt-BR" FontSize="23" FontFamily="Open Sans UI" FontWeight="DemiBold" Margin="10,10,10,10" 
                   AutoGenerateColumns="False" CanUserReorderColumns="False" ColumnWidth="SizeToHeader" HorizontalGridLinesBrush="#FFC8C8C8" VerticalGridLinesBrush="#FFC8C8C8" IsReadOnly="True" 
                   PreviewKeyDown="dgv_Tabela_KeyDown">
             <DataGrid.Resources>
@@ -36,10 +36,11 @@
                 </Style>
             </DataGrid.ColumnHeaderStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Código" Binding="{Binding ESTOQUE}" Width="*" />
-                <DataGridTextColumn Header="Código de Barras" Binding="{Binding CODBARRA}" Width="2*" />
+                <DataGridTextColumn Header="Código" Binding="{Binding ESTOQUE}" Width="0.7*" />
+                <DataGridTextColumn Header="Referência" Binding="{Binding REFERENCIA}" Width="*" />
+                <DataGridTextColumn Header="Código de Barras" Binding="{Binding CODBARRA}" Width="1.6*" />
                 <DataGridTextColumn Header="Descrição" Binding="{Binding DESCRICAO}" Width="5*"/>
-                <DataGridTextColumn Header="Quant." Binding="{Binding QTDATUAL}" Width="*"/>
+                <DataGridTextColumn Header="Quant." Binding="{Binding QTDATUAL}" Width="0.7*"/>
                 <DataGridTextColumn Header="Preço" Binding="{Binding PRCVENDA, StringFormat=C}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
