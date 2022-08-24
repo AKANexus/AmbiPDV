@@ -657,6 +657,7 @@ namespace PDV_ORCAMENTO.Telas
                     catch (Exception ex)
                     {
                         string strErrMess = "Erro ao consultar cliente do orçamento. \nPor favor tente novamente.";
+                        var a = tbOrcaCliente.GetErrors();
                         gravarMensagemErro(strErrMess + "\n" + RetornarMensagemErro(ex, true));
                         MessageBox.Show(strErrMess);
                         return;

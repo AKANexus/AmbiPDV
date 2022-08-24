@@ -232,7 +232,7 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a CPF/CNPJ inválido.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CPF/CNPJ inválido ou está em branco. Favor verificar..
         /// </summary>
         internal static string CPF_CNPJ_INVALIDO {
             get {

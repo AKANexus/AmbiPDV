@@ -6,42 +6,102 @@
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         xmlns:nexusControls="clr-namespace:PDV_WPF.Controls"
         mc:Ignorable="d"
-        Title="FechamentoCupom" FontFamily="Open Sans" Closing="Window_Closing" Loaded="Window_Loaded" KeyDown="NovoFechamento_KeyDown" WindowStartupLocation="Manual" Top="300" Left="135" ResizeMode="NoResize" ShowInTaskbar="True" WindowStyle="None" AllowsTransparency="True" Height="440.733" Width="576" Background="Transparent" PreviewKeyDown="Window_PreviewKeyDown">
-    <Border Margin="10" CornerRadius="10">
+        Title="FechamentoCupom" FontFamily="Open Sans" Closing="Window_Closing" Loaded="Window_Loaded" KeyDown="NovoFechamento_KeyDown" WindowStartupLocation="CenterScreen" Top="300" Left="135" ResizeMode="NoResize" ShowInTaskbar="True" WindowStyle="None" AllowsTransparency="True" Height="533.144" Width="785.5" Background="Transparent" PreviewKeyDown="Window_PreviewKeyDown">
+    <Window.Resources>
+        <Storyboard x:Key="Canvas_Open">
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="0,136,-47,148" To="0,136,-189,148" Duration="0:0:0.3" />
+        </Storyboard>
+        <Storyboard x:Key="Canvas_Close">
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="0,136,-189,148" To="0,136,-47,148" Duration="0:0:0.3" />
+        </Storyboard>
+    </Window.Resources>
+    <Border Margin="10,10,32,10" CornerRadius="10">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
         </Border.Effect>
-        <Border BorderBrush="Black" CornerRadius="10" Grid.ColumnSpan="2" Background="#FFFEFEFE">
+        <Border BorderBrush="Black" CornerRadius="10" Grid.ColumnSpan="2" Background="#FFFEFEFE" Margin="0,0,206,0">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="110*"/>
                     <ColumnDefinition Width="29*"/>
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0" Margin="15">
+                <Grid Margin="0,136,-47,148" x:Name="Canvas_Menu" Width="189" HorizontalAlignment="Right" Background="LightGray" RenderTransformOrigin="0.5,0.5" Grid.ColumnSpan="2">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+                    <Grid Width="263" Margin="0,0,-74,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="but_F3" Content="✔" Margin="148,1,14,10" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="Black" FontSize="25" Grid.Row="0" Padding="0"/>
+                        <Label x:Name="but_F4" Content="⚖" Margin="148,44,15,7" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="Black" FontSize="25" Padding="0" Grid.RowSpan="2"/>
+                        <Label x:Name="but_F5" Content="💱" Margin="146,47,16,5" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="Black" FontSize="29" Grid.Row="1" Padding="0" Grid.RowSpan="2"/>
+                        <Label x:Name="but_F7" Content="💰" Margin="147,2,16,8" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="Black" FontSize="27" Grid.Row="3" Padding="0"/>
+                        <TextBlock Margin="5,5,0,8" FontFamily="Open Sans SemiBold" Foreground="Black" FontSize="15" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30"><Run Text="F1 - "/><Run FontSize="17" Text="A"/><Run Text="bre Atalhos" FontSize="13"/></TextBlock>
+                        <TextBlock Margin="5,4,0,9" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="Black" FontSize="15" HorizontalAlignment="Left" VerticalAlignment="Center" Height="30" Grid.Row="1"><Run Text="F2 -"/><Run Text=" "/><Run FontSize="17" Text="T"/><Run Text="axa Serviço" FontSize="13"/></TextBlock>
+                        <TextBlock Margin="5,4,38,9" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="Black" FontSize="15" Grid.Row="2" VerticalAlignment="Center" Height="30"><Run Text="F7 -"/><Run Text=" "/><Run FontSize="17" Text="A"/><Run Text="plica Devolução" FontSize="13"/></TextBlock>
+                        <TextBlock Margin="5,5,38,14" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="Black" FontSize="15" Grid.Row="3" VerticalAlignment="Center"><Run Text="F8 -"/><Run Text=" "/><Run FontSize="17" Text="A"/><Run Text="plica Desconto" FontSize="13"/></TextBlock>
+                    </Grid>
+                </Grid>
+                <Grid Grid.Column="0" Margin="15,15,106,15" Background="White" Grid.ColumnSpan="2">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="139*"/>
+                        <ColumnDefinition Width="89*"/>
+                        <ColumnDefinition Width="50*"/>
                         <ColumnDefinition Width="66*"/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="58"/>
+                        <RowDefinition Height="0*"/>
+                        <RowDefinition/>
+                        <RowDefinition Height="75"/>
                     </Grid.RowDefinitions>
-                    <DataGrid Grid.Row="0"  x:Name="dgv_Metodos" AutoGenerateColumns="False" IsReadOnly="True"  Margin="0,2,0,18" HeadersVisibility="None" Language="pt-BR" Grid.ColumnSpan="2">
+                    <DataGrid Grid.Row="0"  x:Name="dgv_Metodos" AutoGenerateColumns="False" IsReadOnly="True"  Margin="0,27,16,15" HeadersVisibility="None" Language="pt-BR" Grid.ColumnSpan="3" Background="White" BorderBrush="White" Foreground="White" RowBackground="Transparent" Grid.RowSpan="2">
                         <DataGrid.ColumnHeaderStyle>
                             <Style TargetType="{x:Type DataGridColumnHeader}">
-                                <Setter Property="FontWeight" Value="Bold"/>
                                 <Setter Property="FontSize" Value="22"/>
+                                <Setter Property="VerticalAlignment" Value="Center"/>
                             </Style>
                         </DataGrid.ColumnHeaderStyle>
+                        <DataGrid.CellStyle>
+                            <Style TargetType="{x:Type DataGridCell}">
+                                <Setter Property="VerticalAlignment" Value="Center"/>
+                            </Style>
+                        </DataGrid.CellStyle>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="{x:Type DataGridRow}">
+                                <Setter Property="Height" Value="53"/>
+                            </Style>
+                        </DataGrid.RowStyle>
+                        <DataGrid.Style>
+                            <Style TargetType="{x:Type DataGrid}">
+                                <Setter Property="AlternatingRowBackground" Value="LightGray"/>
+                                <Setter Property="VerticalGridLinesBrush" Value="Gray"/>
+                                <Setter Property="GridLinesVisibility" Value="Vertical"/>
+                                <Setter Property="VerticalScrollBarVisibility" Value="Hidden"/>
+                            </Style>
+                        </DataGrid.Style>
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Cód" Binding="{Binding ID_FMANFCE}" Width="*" FontSize="20"/>
-                            <DataGridTextColumn Header="Método" Binding="{Binding DESCRICAO}" Width="3*" FontSize="20"/>
+                            <DataGridTextColumn Header="Cód" Binding="{Binding ID_FMANFCE}" Width="0.5*" FontFamily="Century Gothic" FontStyle="Italic" FontSize="20" Foreground="Black"/>
+                            <DataGridTextColumn Header="Método" Binding="{Binding DESCRICAO}" Width="3*" FontFamily="Century Gothic" FontStyle="Italic" FontSize="20" Foreground="Black"/>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <TextBlock TextAlignment="Left" FontSize="13" Margin="0,306,0,27" Grid.RowSpan="2" Grid.ColumnSpan="2"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="F8 - Aplicar desconto na venda"/><LineBreak/><Run Text="ATENÇÃO - À vista deve ser a última forma de pgto." Foreground="Red" FontStyle="Italic" /></TextBlock>
-                    <TextBlock x:Name="txbDesc" Visibility="Hidden" TextAlignment="Left" FontSize="13" Margin="0,17,0,-17" Grid.ColumnSpan="2" Grid.Row="1"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run x:Name="txt_Msg" Text="VOCÊ ESTÁ ECONOMIZANDO: " FontSize="17"/><Run x:Name="txt_Vlr" Text="R$ 0,00" Foreground="Green" FontStyle="Italic" FontSize="22"/></TextBlock>
+                    <TextBlock TextAlignment="Left" FontSize="13" Margin="0,395,0,-62" Grid.RowSpan="3" Grid.ColumnSpan="3"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="Atenção" Foreground="Red"/><LineBreak/><Run Text="À vista deve ser a última forma de pgto." Foreground="Red" FontStyle="Italic" /></TextBlock>
+                    <TextBlock x:Name="txbDesc" Visibility="Hidden" TextAlignment="Left" FontSize="13" Margin="-2,29,2,-29" Grid.ColumnSpan="3" Grid.Row="2"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run x:Name="txt_Msg" Text="VOCÊ ESTÁ ECONOMIZANDO: " FontSize="17"/><Run x:Name="txt_Vlr" Text="R$ 0,00" Foreground="Green" FontStyle="Italic" FontSize="22"/></TextBlock>
                 </Grid>
-                <Grid Grid.Column="1">
+                <Label Content="Cód" Foreground="Gray" FontSize="18" FontFamily="Century Gothic" FontStyle="Italic" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="15,15,470,0"/>
+                <Label Content="Método" Foreground="Gray" FontSize="18" FontFamily="Century Gothic" FontStyle="Italic" VerticalAlignment="Top" Margin="80,15,258,0"/>
+                <Grid Grid.Column="1" Background="White" Margin="0,10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="100*"/>
                         <RowDefinition Height="100*"/>

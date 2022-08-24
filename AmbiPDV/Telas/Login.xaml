@@ -34,11 +34,11 @@
             <BeginStoryboard Storyboard="{StaticResource Fade_In}"/>
         </EventTrigger>
     </Window.Triggers>
-    <Border Margin="10" CornerRadius="10">
+    <Border Background="White" Margin="10" CornerRadius="10">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
         </Border.Effect>
-        <Grid Background="White" Name="grd_MainGrid">
+        <Grid Name="grd_MainGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1.7319*"/>

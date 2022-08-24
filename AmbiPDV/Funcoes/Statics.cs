@@ -221,6 +221,39 @@ namespace PDV_WPF.Funcoes
             {
                 if (row.STATUS == "A")
                 clientesOC.Add(row.NOME);
+            }   
+        }
+        public static string RetornaCPF_CNPJSat(string nomeCli)
+        {
+            try
+            {               
+                FbConnection fbConnection = new() { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+                using var cLIENTETableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = fbConnection };
+                using var cLIENTETableAdapterCPF = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter() { Connection = fbConnection };
+                using var cLIENTETableAdapterCNPJ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PJTableAdapter() { Connection = fbConnection };
+                using var cnjpcpf_cli = new DataSets.FDBDataSetOperSeed.TB_CLI_PFDataTable();
+                var idObjetc = cLIENTETableAdapter.PegaIDPorCliente(nomeCli);
+                int idInt = Convert.ToInt32(idObjetc);                
+                string CPF = cLIENTETableAdapterCPF.PegaCPFPorID(idInt); string CNPJ = cLIENTETableAdapterCNPJ.PegaCNPJPorID(idInt);
+                if(CPF is not null)
+                {
+                    CPF = CPF.Replace(".", ""); CPF = CPF.Replace("-", "");                    
+                }
+                if(CNPJ is not null)
+                {
+                    CNPJ = CNPJ.Replace(".", ""); CNPJ = CNPJ.Replace("/", ""); CNPJ = CNPJ.Replace("-", "");
+                }
+                string retorno = CPF == null ? CNPJ : CPF;     
+                if(retorno is null)
+                {
+                    retorno = "";
+                }                
+                return retorno;
+            }
+            catch
+            {                                
+                MessageBox.Show("Não foi possivel capturar o CPF/CNPJ do cliente pelo cadastro, favor digitar manualmente no campo acima!", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
+                return "";
             }
         }
 

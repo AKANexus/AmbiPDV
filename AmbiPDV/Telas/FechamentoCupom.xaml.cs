@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
@@ -39,6 +40,7 @@ namespace PDV_WPF.Telas
         public decimal valor_a_ser_pago;
         private decimal valor_pago;
         private bool _modoTeste;
+        private bool _painelFechado = true;
         public envCFeCFeInfCFePgto pgto = new envCFeCFeInfCFePgto();
         public List<envCFeCFeInfCFePgtoMP> metodos = new List<envCFeCFeInfCFePgtoMP>();
         public List<(string, decimal)> metodosnew = new List<(string, decimal)>();
@@ -563,7 +565,7 @@ namespace PDV_WPF.Telas
                     }
                 });
             }
-            if (e.Key == Key.F1)
+            if (e.Key == Key.F2)
             {
                 if (taxaAdicionada)
                 {
@@ -615,6 +617,28 @@ namespace PDV_WPF.Telas
                 txb_Valor.Value = valor_a_ser_pago;
                 txb_SaldoRest.Value = valor_a_ser_pago;
                 txb_Pago.Value = 0;
+            }
+            if (e.Key == Key.F1 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
+            {
+                //combobox.SelectedIndex = 13732;
+                e.Handled = true;
+                AlternarPainelDeAjuda();
+            } // Abre um painel de ajuda (Tecla F1)
+        }
+        private void AlternarPainelDeAjuda()
+        {
+            switch (_painelFechado)
+            {
+                case true:
+                    Storyboard abre = FindResource("Canvas_Open") as Storyboard;
+                    abre.Begin();
+                    _painelFechado = false;
+                    break;
+                case false:
+                    Storyboard fecha = FindResource("Canvas_Close") as Storyboard;
+                    fecha.Begin();
+                    _painelFechado = true;
+                    break;
             }
         }
 
