@@ -14,6 +14,7 @@ namespace PDV_WPF.Telas
         public IdentificaConsumidor()
         {
             InitializeComponent();
+            PreencherCombobox();
             txb_Cliente.Focus();
         }
 
@@ -42,7 +43,6 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-
                         DialogBox.Show(strings.IDENTIFICACAO_DO_CONSUMIDOR, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.CPF_CNPJ_INVALIDO);
                         txb_Cliente.Clear();
                         txb_Cliente.Focus();
@@ -62,6 +62,56 @@ namespace PDV_WPF.Telas
             //    tipo = CfeRecepcao_0007.ItemChoiceType.DEMONSTRACAO;
             //    Close();
             //}
+        }
+        private void cbb_ClienteSat_KeyDown(object sender, KeyEventArgs e)
+        {           
+            if (e.Key == Key.Enter)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    string CPF_CNPJ = RetornaCPF_CNPJSat(cbb_ClienteSat.Text.ToString());
+                    if (Funcoes.ValidaCNPJ.IsCnpj(CPF_CNPJ) == true)
+                    {
+                        tipo = CfeRecepcao_0007.ItemChoiceType.CNPJ;
+                        identificacao = CPF_CNPJ;
+                        Close();
+
+                    }
+                    else if (Funcoes.ValidaCPF.IsCpf(CPF_CNPJ) == true)
+                    {
+                        tipo = CfeRecepcao_0007.ItemChoiceType.CPF;
+                        identificacao = CPF_CNPJ;
+                        Close();
+                    }
+                    else
+                    {
+                        DialogBox.Show(strings.IDENTIFICACAO_DO_CONSUMIDOR, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.CPF_CNPJ_INVALIDO);
+                        txb_Cliente.Clear();
+                        txb_Cliente.Focus();
+                    }
+                });
+            }
+            else if (e.Key == Key.Escape)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    tipo = CfeRecepcao_0007.ItemChoiceType.NENHUM;
+                    Close();
+                });
+            }
+            //else if (e.Key == Key.F2)
+            //{
+            //    tipo = CfeRecepcao_0007.ItemChoiceType.DEMONSTRACAO;
+            //    Close();
+            //}
+        }
+        private void PreencherCombobox()
+        {
+            cbb_ClienteSat.Items.Clear();
+            foreach (var item in clientesOC)
+            {
+                cbb_ClienteSat.Items.Add(item);
+            }
         }
     }
 }

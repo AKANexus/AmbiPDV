@@ -175,7 +175,7 @@
     <value>Comanda</value>
   </data>
   <data name="CPF_CNPJ_INVALIDO" xml:space="preserve">
-    <value>CPF/CNPJ inválido</value>
+    <value>CPF/CNPJ inválido ou está em branco. Favor verificar.</value>
   </data>
   <data name="CUPOM_ABERTO" xml:space="preserve">
     <value>CUPOM ABERTO</value>

@@ -14,7 +14,6 @@
         Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
         ResizeMode="NoResize" Loaded="Window_Loaded" PreviewKeyDown="Caixa_OnPreviewKeyDown" WindowStyle="None"
         Closing="MainWindow_Closing" Foreground="#FF4D4D4D" Background="#FFF4F4F4" d:DataContext="{d:DesignInstance viewModels:CaixaViewModel }">
-
     <Window.Resources>
         <Style x:Key="{x:Type TextBoxBase}" BasedOn="{x:Null}" TargetType="{x:Type TextBoxBase}">
             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
@@ -229,10 +228,10 @@
             </Style.Triggers>
         </Style>
         <Storyboard x:Key="Canvas_Open">
-            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-191,0,0,0" To="-10,0,0,0" Duration="0:0:0.3" />
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-209,0,0,0" To="-10,0,0,0" Duration="0:0:0.3" />
         </Storyboard>
         <Storyboard x:Key="Canvas_Close">
-            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,0,0,0" To="-191,0,0,0" Duration="0:0:0.3" />
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,0,0,0" To="-209,0,0,0" Duration="0:0:0.3" />
         </Storyboard>
         <Style  x:Key="myLBStyle" TargetType="ListBoxItem">
             <Setter Property="Background" Value="#E5FFFFFF" />
@@ -456,7 +455,6 @@
                         <Rectangle Height="65" Grid.Row="7" MouseDown="but_F12_MouseDown" d:IsHidden="True"/>
                     </Grid>
                 </Grid>
-
             </Grid>
             <Label x:Name="lbl_Operador" Content="POR QUÊ VOCÊ ESTÁ LENDO ISSO?" Grid.Column="1" Margin="-60,5" Grid.Row="3" VerticalContentAlignment="Center" FontSize="15" FontFamily="Open Sans"/>
             <Label FontFamily="Open Sans" x:Name="lbl_Hora" Grid.Column="2" Margin="0,5" Grid.Row="3" Width="196" HorizontalAlignment="Center" HorizontalContentAlignment="Stretch" Content="Coelinho se fosse como tu" VerticalContentAlignment="Center" FontSize="15"/>
