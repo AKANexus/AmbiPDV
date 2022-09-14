@@ -143,14 +143,14 @@ namespace PDV_WPF.Telas
             _usouOrcamento,
             _nightmode = false,
             _usouPedido,
-            erroVenda,
-            _contingencia,
+            erroVenda,            
             _modoDevolucao,
             _emTransacao,
             _modo_consulta,
             _painelFechado = true,
             _modoTeste,
             _interromperModoTeste;
+        public static bool _contingencia;
 
         //private PerguntaWhatsEnum _modoWhats;
 
@@ -889,7 +889,7 @@ namespace PDV_WPF.Telas
                 switch (pd.absoluto)
                 {
                     case true:
-                        desconto = pd.reais * 1;
+                        desconto = pd.reais;
                         tipoDeDesconto = tipoDesconto.Absoluto;
                         txb_Avisos.Text = "DESCONTO ATIVO";
                         break;
@@ -1450,8 +1450,10 @@ namespace PDV_WPF.Telas
                 return;
             }
             else if (conectividade == false && pContingencia == false)
-            {
-                //Aqui houve a queda de conexão com o servidor.
+            {              
+                //Aqui houve a queda de conexão com o servidor.                
+                DialogBox.Show("CONEXÃO COM O SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se conectar com o Servidor.\n O sistema entrara em modo de contigencia " +
+                    "e para testar novamente a comunicação com o servidor utilize as teclas\n'CTRL+S'."); ;
                 funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
                 _contingencia = true;
                 log.Debug($"FDBConnString definido para DB de contingência: {Settings.Default.FDBConnString}");
@@ -2116,7 +2118,17 @@ namespace PDV_WPF.Telas
                 if (ProcessarVendaNoECF(pFechamento))
                 {
                     LimparUltimaVenda();
-                    ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                    log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Fiscal(...)");
+                    if (_contingencia == false)
+                    {
+                        log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
+                        ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                    }
+                    else
+                    {
+                        log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                      "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                    }
                     return true;
                 }
                 else
@@ -2127,7 +2139,17 @@ namespace PDV_WPF.Telas
                 if (EnviaParaSAT(pFechamento))
                 {
                     LimparUltimaVenda();
-                    ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                    log.Debug("Verificando se o caixa já está em modo de contigencia na finaização da venda Fiscal(...)");
+                    if(_contingencia == false)
+                    {
+                        log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
+                        ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                    }
+                    else
+                    {
+                        log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                        "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                    }
                 }
                 else
                 {
@@ -2170,7 +2192,17 @@ namespace PDV_WPF.Telas
                 }
             }
             LimparUltimaVenda();
-            ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo);
+            log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Não Fiscal(...)");
+            if (_contingencia == false)
+            {
+                log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
+                ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo);
+            }
+            else
+            {
+                log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                        "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+            }
         }
 
         /// <summary>
@@ -5469,8 +5501,17 @@ namespace PDV_WPF.Telas
             }
             if (turno_aberto && !_emTransacao)
             {
-                log.Debug("Iniciando ChecarPorContingencia(...)");
-                ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros);
+                log.Debug("Verificando se o caixa já está em modo de contigencia na abertura da venda(...)");
+                if (_contingencia == false)
+                {
+                    log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
+                    ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros);
+                }
+                else
+                {
+                    log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                        "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                }
                 log.Debug("Iniciando CarregarProdutos(...)");
                 AtualizarProdutosNoACBox();
             }
@@ -5591,7 +5632,8 @@ namespace PDV_WPF.Telas
             {
                 log.Debug($"Aplicado desconto: R${desconto}");
                 //comdesc = vUnCom - desconto;
-                vDescAplic = (vUnCom - desconto) * quant;
+                //vDescAplic = (vUnCom - desconto) * quant;
+                vDescAplic = desconto;
                 tipoDeDesconto = tipoDesconto.Nenhum;
                 txb_Avisos.Text = "CUPOM ABERTO";
             }
@@ -6345,6 +6387,7 @@ namespace PDV_WPF.Telas
                     /// Exibir uma tela de aguardar.
                     if (DialogBox.Show(strings.SINCRONIZACAO, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, strings.PDV_INICIARA_ATUALIZACAO_DE_REGISTROS) == true)
                     {
+                        ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
                         IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.CtrlS*/);
                     }
 

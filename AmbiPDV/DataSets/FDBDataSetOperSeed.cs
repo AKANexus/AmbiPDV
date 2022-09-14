@@ -31,8 +31,22 @@ namespace PDV_WPF.DataSets
 
     partial class FDBDataSetOperSeed
     {
+        partial class TB_EMITENTEDataTable
+        {
+        }
+
         partial class TB_CLI_PFDataTable
         {
         }
+    }
+}
+
+namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters
+{
+    partial class TB_CLIENTETableAdapter
+    {
+    }
+
+    public partial class TB_CLI_PFTableAdapter {
     }
 }

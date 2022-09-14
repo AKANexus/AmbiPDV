@@ -299,11 +299,14 @@ namespace PDV_ORCAMENTO
                     {
                         #region Senha correta, segue o jogo.
                         audit("Senha correta.");
+                        SplashScreen SS = new SplashScreen("/resources/loading_anim.gif");
+                        SS.Show(false, false);
                         operador.DESCRICAO = ((MainViewModel.ComboBoxBindingDTO)cbb_Usuario.SelectedItem).DESCRICAO.ToString();
                         operador.ID = ((MainViewModel.ComboBoxBindingDTO)cbb_Usuario.SelectedItem).ID;
                         audit("Operador: " + operador);
                         var MainWindow = new Orcamento();
                         MainWindow.Show();
+                        SS.Close(TimeSpan.FromMilliseconds(1));
                         this.Hide();
 
                         // Gravar no banco local a data do último login válido:

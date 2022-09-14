@@ -14,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using FirebirdSql.Data.FirebirdClient;
 using PDV_ORCAMENTO.REMENDOOOOO;
 using static PDV_WPF.Extensoes;
 using static PDV_WPF.staticfunc;
@@ -40,6 +41,7 @@ namespace PDV_ORCAMENTO.Telas
         private int _id_cliente = -1;
         private bool _orcamento_inclusao = false;
         private bool _orcamento_alteracao = false;
+        public static bool _verifica_referencia = false;
         private int _id_orcamento;
         private string _status_orcamento = string.Empty;
         private decimal _desconto = 0; // pode ser em porcento ou absoluto
@@ -434,11 +436,19 @@ namespace PDV_ORCAMENTO.Telas
             if (pIdProduto == 0)
             {
                 if (ACBox.SelectedItem == null)
-                {
-                    ACBox.SelectedItem =
-                        ((IEnumerable<ComboBoxBindingDTO_Produto>) ACBox.ItemsSource).First(i =>
-                            i.REFERENCIA.Equals(ACBox.Text));
-
+                {                  
+                    int.TryParse(ACBox.Text, out int convert);
+                    try
+                    {
+                        ACBox.SelectedItem = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(
+                        item => item.REFERENCIA.Equals(ACBox.Text));
+                    }
+                    catch
+                    {
+                        ACBox.SelectedItem = ((IEnumerable<ComboBoxBindingDTO_Produto>)ACBox.ItemsSource).First(
+                                 item => item.COD_BARRA.Equals(ACBox.Text) ||
+                                         item.ID_IDENTIFICADOR.Equals(convert));
+                    }
                     if (ACBox.SelectedItem == null)
                     {
                         if (int.TryParse(ACBox.Text, out int tentativa_conversao_cod))
@@ -647,6 +657,7 @@ namespace PDV_ORCAMENTO.Telas
                     catch (Exception ex)
                     {
                         string strErrMess = "Erro ao consultar cliente do orçamento. \nPor favor tente novamente.";
+                        var a = tbOrcaCliente.GetErrors();
                         gravarMensagemErro(strErrMess + "\n" + RetornarMensagemErro(ex, true));
                         MessageBox.Show(strErrMess);
                         return;
@@ -1034,6 +1045,10 @@ namespace PDV_ORCAMENTO.Telas
                                 return;
                             }
 
+                            Conexao.conectar(); //Gambi para pegar IM (preguiça de mexer nos DataSets)
+                            FbCommand SQL_INCS_MUNIC = new FbCommand("SELECT TB.INSC_MUNIC FROM TB_EMITENTE TB", Conexao.conexao);
+                            string INSC_MUNICIPAL = Convert.ToString(SQL_INCS_MUNIC.ExecuteScalar()); //Finaliza Gambi
+                            
                             PrintORCA.nomefantasia = EMITENTE_DT[0].NOME_FANTA;
                             PrintORCA.nomedaempresa = EMITENTE_DT[0].NOME;
                             PrintORCA.enderecodaempresa = string.Format("{0} {1}, {2} - {3}, {4}", EMITENTE_DT[0].END_TIPO,
@@ -1042,8 +1057,9 @@ namespace PDV_ORCAMENTO.Telas
                                                                                                    EMITENTE_DT[0].END_BAIRRO,
                                                                                                    EMITENTE_DT[0].CIDADE_NOME);
                             PrintORCA.cnpjempresa = EMITENTE_DT[0].CNPJ;
+                            PrintORCA.ieempresa = EMITENTE_DT[0].INSC_ESTAD;
+                            PrintORCA.imempresa = INSC_MUNICIPAL;
                             PrintORCA.numerodoextrato = _id_orcamento;
-
                             PrintORCA.emissao = txb_Abertura.SelectedDate;
                             PrintORCA.validade = txb_Validade.SelectedDate;
                             PrintORCA.prevEntrega = txb_Entrega.SelectedDate;
@@ -1093,7 +1109,7 @@ namespace PDV_ORCAMENTO.Telas
                     {
                         string strErrMess = "Erro ao imprimir orçamento (impressora térmica). \nO orçamento atual foi salvo, mas houve um problema antes de imprimir. \nPor favor entre em contato com a equipe de suporte.";
                         gravarMensagemErro(strErrMess + "\n" + RetornarMensagemErro(ex, true));
-                        MessageBox.Show(strErrMess);
+                        MessageBox.Show("Segue erro: " + ex);
                         return;
                     }
 
@@ -1491,7 +1507,7 @@ namespace PDV_ORCAMENTO.Telas
             try
             {
                 if (e.Key == Key.Enter && ACBox.Text != string.Empty)
-                {
+                {                   
                     e.Handled = true;
                     ProcessaItem(false);
                     txbPrecoUnit.Focus();
@@ -1509,6 +1525,43 @@ namespace PDV_ORCAMENTO.Telas
                 gravarMensagemErro(RetornarMensagemErro(ex, true));
                 MessageBox.Show(ex.Message);
             }
+        }
+        private void bd_Novo_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var brush = (Brush)converter.ConvertFromString("#FFFAFAFA");
+            bd_Novo.Background = brush;
+        }
+        private void bd_Novo_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bd_Novo.Background = Brushes.LightGray;
+        }
+        private void bd_Editar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            var converter = new System.Windows.Media.BrushConverter();
+            var brush = (Brush)converter.ConvertFromString("#FFEAEAEA");
+            bd_Editar.Background = brush;            
+        }
+        private void bd_Editar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            bd_Editar.Background = Brushes.LightGray;
+        }
+        private void txb_Ok_MouseLeave(object sender, MouseEventArgs e)
+        {
+            txb_Ok.FontSize = 20;
+        }
+        private void txb_Ok_MouseEnter(object sender, MouseEventArgs e)
+        {
+            txb_Ok.FontSize = 25;
+        }
+
+        private void txb_Cancel_MouseLeave(object sender, MouseEventArgs e)
+        {
+            txb_Cancel.FontSize = 22;
+        }
+        private void txb_Cancel_MouseEnter(object sender, MouseEventArgs e)
+        {
+            txb_Cancel.FontSize = 29;
         }
         private void Editar_MouseDown(object sender, MouseButtonEventArgs e) //Carrega informações do orçamento informado
         {
@@ -1971,7 +2024,7 @@ namespace PDV_ORCAMENTO.Telas
                         {
                             // Pode dar erro de conexão... neste ponto, o app deve ser fechado.
                             gravarMensagemErro("Erro no Window_KeyDown(...) em ProcessaItem(...). O app deve ser fechado.\n" + RetornarMensagemErro(ex, true));
-                            MessageBox.Show("Erro ao processar itens do orçamento. \n\nO aplicativo deve ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                            MessageBox.Show("Erro ao processar itens do orçamento. \n\nO aplicativo deve ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");                            
                             Application.Current.Shutdown(); // deuruim();
                             return;
                         }
@@ -2010,10 +2063,10 @@ namespace PDV_ORCAMENTO.Telas
 
     public class ComboBoxBindingDTO_Produto
     {
+        public string REFERENCIA { get; set; }
         public int ID_IDENTIFICADOR { get; set; }
         public string DESCRICAO { get; set; }
-        public string COD_BARRA { get; set; }
-        public string REFERENCIA { get; set; }
+        public string COD_BARRA { get; set; }       
     }
 
     #endregion Classes auxiliares

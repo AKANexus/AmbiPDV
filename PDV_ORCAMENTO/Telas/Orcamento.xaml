@@ -461,13 +461,13 @@
 						<ColumnDefinition Width="*"/>
 						<ColumnDefinition Width="*"/>
 					</Grid.ColumnDefinitions>
-					<Border Grid.Column="0" BorderThickness="0" Height="69.24" VerticalAlignment="Top" 
-							Background="#FFFAFAFA" HorizontalAlignment="Stretch" >
+                    <Border Name="bd_Novo" Grid.Column="0" BorderThickness="0" Height="69.24" VerticalAlignment="Top" 
+							Background="#FFFAFAFA" HorizontalAlignment="Stretch" MouseEnter="bd_Novo_MouseEnter" MouseLeave="bd_Novo_MouseLeave">
 						<Label x:Name="lbl_novo" Content="Novo Orçamento" MouseDown="lbl_novo_MouseDown" 
 						   VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF5DDCC7" Cursor="Hand" FontSize="16" FontFamily="Segoe UI Semibold"/>
 					</Border>
-					<Border Grid.Column="1" BorderThickness="0" Height="69.24" VerticalAlignment="Top" 
-							Background="#FFEAEAEA" HorizontalAlignment="Stretch">
+					<Border Name="bd_Editar" Grid.Column="1" BorderThickness="0" Height="69.24" VerticalAlignment="Top" 
+							Background="#FFEAEAEA" HorizontalAlignment="Stretch" MouseEnter="bd_Editar_MouseEnter" MouseLeave="bd_Editar_MouseLeave">
 						<Label Content="Editar Orçamento" Grid.Column="1" MouseDown="Editar_MouseDown" 
 						   VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#FF818181" Cursor="Hand" FontSize="16"/>
 					</Border>
@@ -981,7 +981,7 @@
 						<Border Name="but_Cancelar" MouseDown="but_Cancelar_MouseDown" KeyDown="but_Cancelar_KeyDown"
 								Grid.Column="0" Height="50" Width="50" HorizontalAlignment="Right" CornerRadius="100" Focusable="True"
 								BorderBrush="#FFFF7272" BorderThickness="2" Cursor="Hand" Background="#00000000" FocusVisualStyle="{DynamicResource MyFocusVisualRed}">
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFFF7272" FontFamily="Segoe UI Semibold">X</TextBlock>
+                            <TextBlock HorizontalAlignment="Center" Name="txb_Cancel" VerticalAlignment="Center" FontSize="22" MouseEnter="txb_Cancel_MouseEnter" MouseLeave="txb_Cancel_MouseLeave" Foreground="#FFFF7272" FontFamily="Segoe UI Semibold">X</TextBlock>
 						</Border>
 
 						<StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -999,7 +999,7 @@
 						<Border Name="but_Salvar" MouseDown="but_Salvar_MouseDown" KeyDown="but_Salvar_KeyDown"
 								Grid.Column="2" Height="50" Width="50" HorizontalAlignment="Left" CornerRadius="100" Focusable="True"
 								BorderBrush="#FF09CAAA" BorderThickness="2" Cursor="Hand" Background="#00000000" FocusVisualStyle="{DynamicResource MyFocusVisualGreen}">
-							<TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FF09CAAA" FontFamily="Segoe UI Semibold">OK</TextBlock>
+                            <TextBlock HorizontalAlignment="Center" Name="txb_Ok" VerticalAlignment="Center" MouseEnter="txb_Ok_MouseEnter" MouseLeave="txb_Ok_MouseLeave" Foreground="#FF09CAAA" FontSize="20" FontFamily="Segoe UI Semibold">OK</TextBlock>
 						</Border>
 
 						<!--<Border Name="but_Imprimir" MouseDown="but_Imprimir_MouseDown" KeyDown="but_Imprimir_KeyDown"
