@@ -561,6 +561,21 @@
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
     <Compile Include="REMENDOOOOO\FuncoesFirebird.cs" />
+    <Compile Include="SEFAZ\CfeAtivacao_0008.cs" />
+    <Compile Include="SEFAZ\CfeAtualizacao_0008.cs" />
+    <Compile Include="SEFAZ\CfeCancelamento_0008.cs" />
+    <Compile Include="SEFAZ\CfeCertificacao_0008.cs" />
+    <Compile Include="SEFAZ\CfeComando_0008.cs" />
+    <Compile Include="SEFAZ\CfeConsultaGestao_0008.cs" />
+    <Compile Include="SEFAZ\CfeLogs_0008.cs" />
+    <Compile Include="SEFAZ\CfeParametrizacao_0008.cs" />
+    <Compile Include="SEFAZ\CfeRecepcao_0008.cs" />
+    <Compile Include="SEFAZ\CfeReset_0008.cs" />
+    <Compile Include="SEFAZ\CfeRetRecepcao_0008.cs" />
+    <Compile Include="SEFAZ\CfeServicoNacional_0008.cs" />
+    <Compile Include="SEFAZ\CfeSignAC_0008.cs" />
+    <Compile Include="SEFAZ\CfeStatus_0008.cs" />
+    <Compile Include="SEFAZ\CfeTeste_0008.cs" />
     <Compile Include="SWAT\DBReset.xaml.cs">
       <DependentUpon>DBReset.xaml</DependentUpon>
     </Compile>
@@ -1019,19 +1034,6 @@
     <Compile Include="Funcoes\DarumaFrameWork.cs" />
     <Compile Include="Funcoes\PublicFunc.cs" />
     <Compile Include="Funcoes\CFeAuxiliar.cs" />
-    <Compile Include="SEFAZ\CfeAtivacao_0007.cs" />
-    <Compile Include="SEFAZ\CfeAtualizacao_0007.cs" />
-    <Compile Include="SEFAZ\CfeCancelamento_0007.cs" />
-    <Compile Include="SEFAZ\CfeCertificacao_0007.cs" />
-    <Compile Include="SEFAZ\CfeComandos_0007.cs" />
-    <Compile Include="SEFAZ\CfeLogs_0007.cs" />
-    <Compile Include="SEFAZ\CfeParametrizacao_0007.cs" />
-    <Compile Include="SEFAZ\CfeRecepcao_0007.cs" />
-    <Compile Include="SEFAZ\CfeRetRecepcao_0007.cs" />
-    <Compile Include="SEFAZ\CfeServicoNacional_0007.cs" />
-    <Compile Include="SEFAZ\CfeSignAC_0007.cs" />
-    <Compile Include="SEFAZ\CfeStatus_0007.cs" />
-    <Compile Include="SEFAZ\CfeTeste_0007.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using Clearcove.Logging;
 using LocalDarumaFrameworkDLL;
 using PDV_WPF.Properties;

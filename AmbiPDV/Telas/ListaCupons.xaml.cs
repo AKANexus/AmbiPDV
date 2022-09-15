@@ -1,4 +1,4 @@
-﻿using CfeCancelamento_0007;
+﻿using CfeCancelamento_0008;
 using Clearcove.Logging;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
@@ -302,9 +302,9 @@ namespace PDV_WPF.Telas
             }
             StringReader XmlRetorno = new StringReader(_xmlret_canc);
             XmlReader _xreader = XmlReader.Create(XmlRetorno);
-            CFeCanc xml_de_retorno_canc = new CFeCanc();
+            cancCFeCFeCanc xml_de_retorno_canc = new cancCFeCFeCanc();
             var _serializer = new XmlSerializer(xml_de_retorno_canc.GetType());
-            xml_de_retorno_canc = (CFeCanc)_serializer.Deserialize(_xreader);
+            xml_de_retorno_canc = (cancCFeCFeCanc)_serializer.Deserialize(_xreader);
             string valorcfe = xml_de_retorno_canc.infCFe.total.vCFe;
             _infoStr = xml_de_retorno_canc.infCFe.dest.Item;
             string chavenfe = xml_de_retorno_canc.infCFe.Id.Substring(3);
@@ -362,15 +362,15 @@ namespace PDV_WPF.Telas
         /// <param name="pCupomInterno">ID_CUPOM do cupom a ser cancelado</param>
         private void CancelarSatServidorPelaBase(CupomSAT cupomSAT)
         {
-            PrintCANCL printCANCL = new PrintCANCL();
+            PrintCANCL printCANCL = new();
             log.Debug("Cupom sat a ser cancelado: {cupomSAT.CHAVE_CFE}");
-            CFeCanc CfeCanc = new CFeCanc();
-            infCFe CancinfCFe = new infCFe();
-            infCFeDest CancinfCFeDest = new infCFeDest();
-            infCFeEmit CancinfCFeEmit = new infCFeEmit();
-            infCFeIde CancinfCFeIde = new infCFeIde();
-            infCFeObsFisco CancinfCFeObsFisco = new infCFeObsFisco();
-            infCFeTotal CancinfCFeTotal = new infCFeTotal();
+            cancCFeCFeCanc CfeCanc = new();
+            cancCFeCFeCancInfCFe CancinfCFe = new();
+            cancCFeCFeCancInfCFeDest CancinfCFeDest = new();
+            cancCFeCFeCancInfCFeEmit CancinfCFeEmit = new();
+            cancCFeCFeCancInfCFeIde CancinfCFeIde = new();
+            cancCFeCFeCancInfCFeObsFisco CancinfCFeObsFisco = new();
+            cancCFeCFeCancInfCFeTotal CancinfCFeTotal = new();
             CancinfCFe.chCanc = "CFe" + cupomSAT.CHAVE_CFE;
             CancinfCFeIde.signAC = SIGN_AC;
             CancinfCFeIde.numeroCaixa = NO_CAIXA.ToString("D3");
@@ -487,7 +487,7 @@ namespace PDV_WPF.Telas
             }
             StringReader XmlRetorno = new StringReader(_xmlret_canc);
             XmlReader _xreader = XmlReader.Create(XmlRetorno);
-            CFeCanc xml_de_retorno_canc = (CFeCanc)_serializer.Deserialize(_xreader);
+            cancCFeCFeCanc xml_de_retorno_canc = (cancCFeCFeCanc)_serializer.Deserialize(_xreader);
             string valorcfe = xml_de_retorno_canc.infCFe.total.vCFe;
             _infoStr = xml_de_retorno_canc.infCFe.dest.Item;
             string chavenfe = xml_de_retorno_canc.infCFe.Id.Substring(3);

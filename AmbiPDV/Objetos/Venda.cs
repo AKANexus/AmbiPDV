@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using Clearcove.Logging;
 using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.Exceptions;
@@ -169,7 +169,7 @@ namespace PDV_WPF.Objetos
             if (string.IsNullOrWhiteSpace(numeroCaixa) || !int.TryParse(numeroCaixa, out int _x) || _x <= 0) throw new ErroDeValidacaoDeConteudo("Número do caixa inválido. Deve ser um número inteiro e maior que zero");
             if (string.IsNullOrWhiteSpace(cNPJEmit) || cNPJEmit.Length != 14) throw new ErroDeValidacaoDeConteudo("CNPJ do Emitente inválido. Não deve conter pontuação.");
             if (string.IsNullOrWhiteSpace(iEEmit)) throw new ErroDeValidacaoDeConteudo("Inscrição Estadual do Emitente Inválida.");
-            _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = "0.07" };
+            _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = "0.08" };
             _infCfe.ide = new envCFeCFeInfCFeIde() { CNPJ = cNPJSH, signAC = assinatura, numeroCaixa = numeroCaixa.PadLeft(3, '0') };
             if (string.IsNullOrWhiteSpace(iMEmit))
             {
@@ -736,7 +736,7 @@ namespace PDV_WPF.Objetos
             _imposto = new envCFeCFeInfCFeDetImposto();
             if (_ICMSrecebido)
             {
-                _imposto.CST = cST;
+                //_imposto.CST = cST;
                 _imposto.Item = _ICMS;
                 _imposto.PIS = _PIS;
                 _imposto.COFINS = _COFINS;
@@ -748,7 +748,7 @@ namespace PDV_WPF.Objetos
             }
             else if (_ISSQNRecebido)
             {
-                _imposto.CST = cST;
+                //_imposto.CST = cST;
                 _imposto.Item = _ISSQN;
                 _imposto.PIS = _PIS;
                 _imposto.COFINS = _COFINS;
@@ -1140,10 +1140,7 @@ namespace PDV_WPF.Objetos
                             }
                             try
                             {
-                                strMensagemErro = string.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}", "x",
-                                                                             Convert.ToDecimal(pagamento.vMP, CultureInfo.InvariantCulture),
-                                                                             ("Venda à prazo AmbiPDV - Cupom " + ID_NFVENDA.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                             147, 5);
+                                strMensagemErro = string.Format("NFISCAL");
                                 log.Debug(strMensagemErro);
                                 ID_MOVTO = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
                                                                                         Convert.ToDecimal(pagamento.vMP, CultureInfo.InvariantCulture),

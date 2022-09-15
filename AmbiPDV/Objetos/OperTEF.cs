@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using PayGo;
 using PDV_WPF.Exceptions;
 using PDV_WPF.Telas;

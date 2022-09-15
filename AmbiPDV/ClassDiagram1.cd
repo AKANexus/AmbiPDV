@@ -1321,693 +1321,693 @@
     <Position X="15.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwAAAIGAABAAAEAAAAIAAQAAAgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeAtivacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeAtivacao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consAtualiza" Collapsed="true">
     <Position X="17" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAgAAAAgwAAAIGAARAAAEAAAAAAAAAAAgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeAtualizacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeAtualizacao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consCmd" Collapsed="true">
     <Position X="18.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAEAAgAgwAAAIGAABAAAEAAAAAAAAAAAgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeComandos_0007.cs</FileName>
+      <FileName>SEFAZ\CfeComandos_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consCmdComando" Collapsed="true">
     <Position X="20.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAQAAAAAAAAAAAAAQAAAAAAQAAAAAAAAAAAAAAAAIAA=</HashCode>
-      <FileName>SEFAZ\CfeComandos_0007.cs</FileName>
+      <FileName>SEFAZ\CfeComandos_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="envLog" Collapsed="true">
     <Position X="32.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwAAAIGAABACAEAAAAAAAAAQAgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeLogs_0007.cs</FileName>
+      <FileName>SEFAZ\CfeLogs_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consParam" Collapsed="true">
     <Position X="22.25" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwAAAIGAABAACEAAAAAAAAAAEgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeParametrizacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeParametrizacao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consReci" Collapsed="true">
     <Position X="24" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwgAAJGAABAAAEAAAAAAAAAAAgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRetRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRetRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="endServ" Collapsed="true">
     <Position X="27.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwAAAIGAABAAAEAAAAAAAAAAAgAJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeServicoNacional_0007.cs</FileName>
+      <FileName>SEFAZ\CfeServicoNacional_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="configAss" Collapsed="true">
     <Position X="10" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAACwAQAIGAABAAAEAAAAAAAABAAgAJIIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeSignAC_0007.cs</FileName>
+      <FileName>SEFAZ\CfeSignAC_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consStat" Collapsed="true">
     <Position X="25.75" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAwAAAAAAgwAAAIGAABAAAEAAAAAAAAAAAgAJAIAIAA=</HashCode>
-      <FileName>SEFAZ\CfeStatus_0007.cs</FileName>
+      <FileName>SEFAZ\CfeStatus_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="consStatStatus" Collapsed="true">
     <Position X="27.5" Y="1.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>oAAAgAipAAIQDAJQVEUCUAIAQCABAAABIIQJggIkABI=</HashCode>
-      <FileName>SEFAZ\CfeStatus_0007.cs</FileName>
+      <FileName>SEFAZ\CfeStatus_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFe" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFe" Collapsed="true">
     <Position X="13.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAASQAIgAAgUAAAAEAAAAAAAAAAACCAIAEAABAAFCgA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFeIde" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFeIde" Collapsed="true">
     <Position X="20.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAQAAQIgAAAIQAAAMAFgJAEAAACIAAQAAAAAoIIBEAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFeEmit" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFeEmit" Collapsed="true">
     <Position X="17" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAQAAQQAQAEAAAAAAQAAABAAAIAAQEAAEAAAAgAAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFeEmitEnderEmit" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFeEmitEnderEmit" Collapsed="true">
     <Position X="18.75" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>mAAAAAEAAgBAAAAAAAAIAIAAAVgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFeDest" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFeDest" Collapsed="true">
     <Position X="15.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFeTotal" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFeTotal" Collapsed="true">
     <Position X="24" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAQAAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCancelamento_0007.infCFeObsFisco" Collapsed="true">
+  <Class Name="CfeCancelamento_0008.infCFeObsFisco" Collapsed="true">
     <Position X="22.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAQAAAAAAACAAAAAQAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeCertificacao_0007.certifica" Collapsed="true">
+  <Class Name="CfeCertificacao_0008.certifica" Collapsed="true">
     <Position X="31" Y="0.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwACAIGAABAAQUEAAAAAAAAAAgoJAIAAAA=</HashCode>
-      <FileName>SEFAZ\CfeCertificacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCertificacao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFe" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFe" Collapsed="true">
     <Position X="29.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAAAAwAAAKGAABAAAEAAAAABAAAAAgAJAIQAAg=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFe" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFe" Collapsed="true">
     <Position X="31" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAQA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFe" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFe" Collapsed="true">
     <Position X="32.75" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAASUAAAQAgUAAQCEAAAggAAAAAQCCAIBEAQBQAAAgA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeIde" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeIde" Collapsed="true">
     <Position X="17" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAwAAQIgAAAIQAIAMAFgJAEAAACIAAQAAAAAoIIBEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeEmit" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeEmit" Collapsed="true">
     <Position X="11.75" Y="4.5" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAEAQAAQQAQAkAAAgAAQACABAACIAAwEAAEAAAAgAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeEmitEnderEmit" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeEmitEnderEmit" Collapsed="true">
     <Position X="13.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>mAAAAAEAAgBAAAAAAAAIAIAAAVgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDest" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDest" Collapsed="true">
     <Position X="34.5" Y="2.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQQAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeEntrega" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeEntrega" Collapsed="true">
     <Position X="15.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>mAAAAAEAAgAAAAAIAAAAgIAAAVgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDet" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDet" Collapsed="true">
     <Position X="3" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAQEAAIAAIAAAAAAAAAAAAAAAAAAAAABAAgAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetProd" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetProd" Collapsed="true">
     <Position X="8.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIpIAJAdACEgAIEAAgCSESgAAAAAAAAAAQAAAAQggMA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetProdObsFiscoDet" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetProdObsFiscoDet" Collapsed="true">
     <Position X="10" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACIAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImposto" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImposto" Collapsed="true">
     <Position X="4.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ADAAAFQAAAAYAAAAAAAAAAAEACAAAAAQAGAgAACAkAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoICMS" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoICMS" Collapsed="true">
     <Position X="18.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoICMSICMS00" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoICMSICMS00" Collapsed="true">
     <Position X="20.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAEAAACAAAACAAAAAAAIAAAAAAAAAAIAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoICMSICMS40" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoICMSICMS40" Collapsed="true">
     <Position X="22.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAEAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoICMSICMSSN102" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoICMSICMSSN102" Collapsed="true">
     <Position X="24" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAEAAACAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoICMSICMSSN900" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoICMSICMSSN900" Collapsed="true">
     <Position X="25.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACIAAEAAACAAAACAAAAAAAIAAAAAAAAACIAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoISSQN" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoISSQN" Collapsed="true">
     <Position X="27.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAQAAAAAAAC0AAAwAAACBCBAIBAABIIAAAAAAEAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPIS" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPIS" Collapsed="true">
     <Position X="29.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPISPISAliq" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPISPISAliq" Collapsed="true">
     <Position X="31" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYAAAAAAAAAAAAAAAAAAAEAIAAAAAAAAIAAAAAgEEA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPISPISNT" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPISPISNT" Collapsed="true">
     <Position X="32.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPISPISOutr" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPISPISOutr" Collapsed="true">
     <Position X="34.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIgAACAAAAACAAAAAABAAEAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPISPISQtde" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPISPISQtde" Collapsed="true">
     <Position X="3" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAJAAAAAIAABAAAAAAAAAAEAAAAAAIAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPISPISSN" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPISPISSN" Collapsed="true">
     <Position X="4.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoPISST" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoPISST" Collapsed="true">
     <Position X="0.5" Y="9.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIgAACAAAAACAAAAAABAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINS" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINS" Collapsed="true">
     <Position X="0.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINSCOFINSAliq" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINSCOFINSAliq" Collapsed="true">
     <Position X="8.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAwAEAAAAAAAAABAAAAAAAAAIgAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINSCOFINSNT" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINSCOFINSNT" Collapsed="true">
     <Position X="10" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINSCOFINSOutr" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINSCOFINSOutr" Collapsed="true">
     <Position X="11.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgEACAAAAACAAAAAABAAAAAgAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde" Collapsed="true">
     <Position X="13.5" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAEAAAIAABAAAAAAAAAAAAAgAAAIAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINSCOFINSSN" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINSCOFINSSN" Collapsed="true">
     <Position X="15.25" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeDetImpostoCOFINSST" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeDetImpostoCOFINSST" Collapsed="true">
     <Position X="17" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgEACAAAAACAAAAAABAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeTotal" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeTotal" Collapsed="true">
     <Position X="25.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAAAAAAAAAAAEAACAAAwAABAAAQACBQAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeTotalICMSTot" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeTotalICMSTot" Collapsed="true">
     <Position X="29.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AApAEABEAAAAAAECAAACAAUIAgAAAAAAAgAAAAAAAIA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeTotalISSQNtot" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeTotalISSQNtot" Collapsed="true">
     <Position X="31" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYAEABAAAAAAAAAAAAAABUAIiAAAAAAAgAAAAAAAIA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeTotalDescAcrEntr" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeTotalDescAcrEntr" Collapsed="true">
     <Position X="27.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFePgto" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFePgto" Collapsed="true">
     <Position X="22.25" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAAIAAAAAAIAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFePgtoMP" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFePgtoMP" Collapsed="true">
     <Position X="24" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>EAAAAAAAAAABQAAICAAAAAAAAAoAAAEEAECAAAAUAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeInfAdic" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeInfAdic" Collapsed="true">
     <Position X="18.75" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAASAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAQAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeRecepcao_0007.envCFeCFeInfCFeInfAdicObsFisco" Collapsed="true">
+  <Class Name="CfeRecepcao_0008.envCFeCFeInfCFeInfAdicObsFisco" Collapsed="true">
     <Position X="20.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAQAAAAAAACAAAAAQAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTeste" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTeste" Collapsed="true">
     <Position X="34.5" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAgAAAAABAwAAAKGACDgAAEAAAAAAAAAAAgAJAIQAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFe" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFe" Collapsed="true">
     <Position X="3" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAQA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFe" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFe" Collapsed="true">
     <Position X="4.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>gAASUAAAQAgUAAQCEAAAggAAAAAQCCAIBEAQBQAAAgA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeIde" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeIde" Collapsed="true">
     <Position X="22.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>IAwAAQIgAAAIQAIAMAFgJAEAAACIAAQAAAAAoIIBEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeEmit" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeEmit" Collapsed="true">
     <Position X="17" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEAQAAQQAQAkAAAgAAQACABAACIAAwEAAEAAAAgAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeEmitEnderEmit" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeEmitEnderEmit" Collapsed="true">
     <Position X="18.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>mAAAAAEAAgBAAAAAAAAIAIAAAVgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDest" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDest" Collapsed="true">
     <Position X="6.5" Y="7.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQQAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeEntrega" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeEntrega" Collapsed="true">
     <Position X="20.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>mAAAAAEAAgAAAAAIAAAAgIAAAVgAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDet" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDet" Collapsed="true">
     <Position X="8.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAgAAAQEAAIAAIAAAAAAAAAAAAAAAAAAAAABAAgAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetProd" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetProd" Collapsed="true">
     <Position X="13.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AIpIAJAdACEgAIEAAgCSESgAAAAAAAAAAQAAAAQggMA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetProdObsFiscoDet" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetProdObsFiscoDet" Collapsed="true">
     <Position X="15.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACIAAAAAAABAAAAAAAAAAEAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImposto" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImposto" Collapsed="true">
     <Position X="10" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAAFQAAAAYAAAAAAAAAAAEACAAAAAQAEAgAACAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoICMS" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoICMS" Collapsed="true">
     <Position X="24" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoICMSICMS00" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoICMSICMS00" Collapsed="true">
     <Position X="25.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAIAAEAAACAAAACAAAAAAAIAAAAAAAAAAIAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoICMSICMS40" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoICMSICMS40" Collapsed="true">
     <Position X="27.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAEAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoICMSICMSSN102" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoICMSICMSSN102" Collapsed="true">
     <Position X="29.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACAAAEAAACAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoICMSICMSSN900" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoICMSICMSSN900" Collapsed="true">
     <Position X="31" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AACIAAEAAACAAAACAAAAAAAIAAAAAAAAACIAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoISSQN" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoISSQN" Collapsed="true">
     <Position X="32.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>CAQAAAAAAAC0AAAwAAACBCBAIBAABIIAAAAAAEAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPIS" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPIS" Collapsed="true">
     <Position X="34.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPISPISAliq" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPISPISAliq" Collapsed="true">
     <Position X="3" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYAAAAAAAAAAAAAAAAAAAEAIAAAAAAAAIAAAAAgEEA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPISPISNT" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPISPISNT" Collapsed="true">
     <Position X="4.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPISPISOutr" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPISPISOutr" Collapsed="true">
     <Position X="6.5" Y="4.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIgAACAAAAACAAAAAABAAEAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPISPISQtde" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPISPISQtde" Collapsed="true">
     <Position X="8.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAJAAAAAIAABAAAAAAAAAAEAAAAAAIAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPISPISSN" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPISPISSN" Collapsed="true">
     <Position X="10" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoPISST" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoPISST" Collapsed="true">
     <Position X="11.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAIgAACAAAAACAAAAAABAAEAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINS" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINS" Collapsed="true">
     <Position X="11.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINSCOFINSAliq" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINSCOFINSAliq" Collapsed="true">
     <Position X="13.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAwAEAAAAAAAAABAAAAAAAAAIgAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINSCOFINSNT" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINSCOFINSNT" Collapsed="true">
     <Position X="15.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINSCOFINSOutr" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINSCOFINSOutr" Collapsed="true">
     <Position X="17" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgEACAAAAACAAAAAABAAAAAgAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINSCOFINSQtde" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINSCOFINSQtde" Collapsed="true">
     <Position X="18.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABAEAAAIAABAAAAAAAAAAAAAgAAAIAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINSCOFINSSN" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINSCOFINSSN" Collapsed="true">
     <Position X="20.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgEAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeDetImpostoCOFINSST" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeDetImpostoCOFINSST" Collapsed="true">
     <Position X="22.25" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAgEACAAAAACAAAAAABAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeTotal" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeTotal" Collapsed="true">
     <Position X="31" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAQAAAAAAAAAAAAAEAACAAAwAABAAAQACBQAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeTotalICMSTot" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeTotalICMSTot" Collapsed="true">
     <Position X="34.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AApAEABEAAAAAAECAAACAAUIAgAAAAAAAgAAAAAAAIA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeTotalISSQNtot" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeTotalISSQNtot" Collapsed="true">
     <Position X="3" Y="7.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAYAEABAAAAAAAAAAAAAABUAIiAAAAAAAgAAAAAAAIA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeTotalDescAcrEntr" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeTotalDescAcrEntr" Collapsed="true">
     <Position X="32.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAACAAAAAAAAAQEAAAAAAAAAAAgAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFePgto" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFePgto" Collapsed="true">
     <Position X="27.5" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAEAAAAAAAAAAAgAAAAAAAIAAAAAAIAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFePgtoMP" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFePgtoMP" Collapsed="true">
     <Position X="29.25" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAQAAIAAAAAAAAAAgAAAEAAEAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeInfAdic" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeInfAdic" Collapsed="true">
     <Position X="24" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAASAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAQAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="CfeTeste_0007.envTesteCFeInfCFeInfAdicObsFisco" Collapsed="true">
+  <Class Name="CfeTeste_0008.envTesteCFeInfCFeInfAdicObsFisco" Collapsed="true">
     <Position X="25.75" Y="6.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAACAAAAAAAAAAAAAAQAAAAAAACAAAAAQAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="PDV_WPF.SWAT.ApagaCaixa" Collapsed="true" BaseTypeListCollapsed="true">
@@ -2387,126 +2387,126 @@
     <Position X="3" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeAtivacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeAtivacao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="consAtualizaTpAmb" Collapsed="true">
     <Position X="4.75" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeAtualizacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeAtualizacao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="consCmdTpAmb" Collapsed="true">
     <Position X="8.25" Y="24.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeComandos_0007.cs</FileName>
+      <FileName>SEFAZ\CfeComandos_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Enum Name="envLogTpAmb" Collapsed="true">
     <Position X="13.5" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAABAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeLogs_0007.cs</FileName>
+      <FileName>SEFAZ\CfeLogs_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeCancelamento_0007.ItemChoiceType" Collapsed="true">
+  <Enum Name="CfeCancelamento_0008.ItemChoiceType" Collapsed="true">
     <Position X="18.75" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeCancelamento_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCancelamento_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeCertificacao_0007.ItemChoiceType" Collapsed="true">
+  <Enum Name="CfeCertificacao_0008.ItemChoiceType" Collapsed="true">
     <Position X="20.5" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAEAA=</HashCode>
-      <FileName>SEFAZ\CfeCertificacao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeCertificacao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeRecepcao_0007.ItemChoiceType" Collapsed="true">
+  <Enum Name="CfeRecepcao_0008.ItemChoiceType" Collapsed="true">
     <Position X="15.25" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAIAAAAAAAAAAAAACAEAAIBgAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeRecepcao_0007.ItemsChoiceType" Collapsed="true">
+  <Enum Name="CfeRecepcao_0008.ItemsChoiceType" Collapsed="true">
     <Position X="27.5" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AARAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeRecepcao_0007.ItemsChoiceType1" Collapsed="true">
+  <Enum Name="CfeRecepcao_0008.ItemsChoiceType1" Collapsed="true">
     <Position X="29.25" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AARAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeRecepcao_0007.ItemsChoiceType2" Collapsed="true">
+  <Enum Name="CfeRecepcao_0008.ItemsChoiceType2" Collapsed="true">
     <Position X="32.75" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAxAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeRecepcao_0007.ItemsChoiceType3" Collapsed="true">
+  <Enum Name="CfeRecepcao_0008.ItemsChoiceType3" Collapsed="true">
     <Position X="3" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAxAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeRecepcao_0007.ItemChoiceType1" Collapsed="true">
+  <Enum Name="CfeRecepcao_0008.ItemChoiceType1" Collapsed="true">
     <Position X="22.25" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeRecepcao_0007.cs</FileName>
+      <FileName>SEFAZ\CfeRecepcao_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeTeste_0007.ItemChoiceType" Collapsed="true">
+  <Enum Name="CfeTeste_0008.ItemChoiceType" Collapsed="true">
     <Position X="17" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAACAAAAIAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeTeste_0007.ItemsChoiceType" Collapsed="true">
+  <Enum Name="CfeTeste_0008.ItemsChoiceType" Collapsed="true">
     <Position X="25.75" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AARAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeTeste_0007.ItemsChoiceType1" Collapsed="true">
+  <Enum Name="CfeTeste_0008.ItemsChoiceType1" Collapsed="true">
     <Position X="31" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AARAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAIAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeTeste_0007.ItemsChoiceType2" Collapsed="true">
+  <Enum Name="CfeTeste_0008.ItemsChoiceType2" Collapsed="true">
     <Position X="34.5" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAxAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeTeste_0007.ItemsChoiceType3" Collapsed="true">
+  <Enum Name="CfeTeste_0008.ItemsChoiceType3" Collapsed="true">
     <Position X="4.75" Y="20.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAxAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="CfeTeste_0007.ItemChoiceType1" Collapsed="true">
+  <Enum Name="CfeTeste_0008.ItemChoiceType1" Collapsed="true">
     <Position X="24" Y="19.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAACAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAA=</HashCode>
-      <FileName>SEFAZ\CfeTeste_0007.cs</FileName>
+      <FileName>SEFAZ\CfeTeste_0008.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="Segoe UI" Size="9" />
