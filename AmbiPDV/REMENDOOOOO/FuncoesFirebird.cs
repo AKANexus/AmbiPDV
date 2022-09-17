@@ -235,6 +235,10 @@ namespace PDV_WPF.REMENDOOOOO
                 tbOsItemBUTrigger.ExecuteNonQuery();
                 transaction.Commit();
             }
+            catch(Exception ex)
+            {
+
+            }
             finally
             {
                 connection.Close();
