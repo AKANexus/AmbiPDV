@@ -988,6 +988,73 @@ namespace PDV_WPF.Objetos
 
                         }
 
+                        if (detalhamento.imposto.COFINS is not null)
+                        {
+                            using var TB_NFV_ITEM_COFINS = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_COFINSTableAdapter()
+                            {
+                                Connection = LOCAL_FB_CONN
+                            };
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSAliq
+                                COFINSAliq)
+                            {
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, decimal.Parse(COFINSAliq.pCOFINS),
+                                    COFINSAliq.CST, decimal.Parse(COFINSAliq.vCOFINS), decimal.Parse(COFINSAliq.vBC));
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSNT
+                                COFINSNT)
+                            {
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, 100, COFINSNT.CST, 0, 0);
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSOutr
+                                COFINSOutr)
+                            {
+
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde
+                                COFINSQtde)
+                            {
+
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSSN
+                                COFINSSN)
+                            {
+
+                            }
+                        }
+
+                        if (detalhamento.imposto.PIS is not null)
+                        {
+                            using var TB_NFV_ITEM_PIS = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_PISTableAdapter()
+                            {
+                                Connection = LOCAL_FB_CONN
+                            };
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISAliq
+                                PISAliq)
+                            {
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISAliq.CST, decimal.Parse(PISAliq.pPIS), decimal.Parse(PISAliq.vPIS), decimal.Parse(PISAliq.vBC));
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISNT
+                                PISNT)
+                            {
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISNT.CST,  100,  0, 0);
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISOutr
+                                PISOutr)
+                            {
+
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISQtde
+                                PISQtde)
+                            {
+
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISSN
+                                PISSN)
+                            {
+
+                            }
+                        }
+
                     }
                     catch (Exception ex)
                     {
