@@ -972,7 +972,7 @@ namespace PDV_WPF.Objetos
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN900 ICMSSN900)
                             {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMSSN900.vICMS), decimal.Parse(ICMSSN900.pICMS), detalhamento.imposto.CST, decimal.Parse(ICMSSN900.pICMS), decimal.Parse(ICMSSN900.vICMS));
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMSSN900.vICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMSSN900.pICMS, CultureInfo.InvariantCulture), detalhamento.imposto.CST, decimal.Parse(ICMSSN900.pICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMSSN900.vICMS, CultureInfo.InvariantCulture));
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS40 ICMS40)
                             {
@@ -980,7 +980,7 @@ namespace PDV_WPF.Objetos
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS00 ICMS00)
                             {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMS00.vICMS), decimal.Parse(ICMS00.pICMS), ICMS00.Orig + ICMS00.CST, decimal.Parse(ICMS00.pICMS), decimal.Parse(ICMS00.vICMS));
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMS00.pICMS, CultureInfo.InvariantCulture), ICMS00.Orig + ICMS00.CST, decimal.Parse(ICMS00.pICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture));
                             }
                         }
                         else if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoISSQN)
@@ -997,8 +997,7 @@ namespace PDV_WPF.Objetos
                             if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSAliq
                                 COFINSAliq)
                             {
-                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, decimal.Parse(COFINSAliq.pCOFINS),
-                                    COFINSAliq.CST, decimal.Parse(COFINSAliq.vCOFINS), decimal.Parse(COFINSAliq.vBC));
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, decimal.Parse(COFINSAliq.vBC, CultureInfo.InvariantCulture) / decimal.Parse(detalhamento.prod.vUnCom), COFINSAliq.CST, decimal.Parse(COFINSAliq.pCOFINS, CultureInfo.InvariantCulture), decimal.Parse(COFINSAliq.vCOFINS, CultureInfo.InvariantCulture));
                             }
                             if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSNT
                                 COFINSNT)
@@ -1031,7 +1030,7 @@ namespace PDV_WPF.Objetos
                             if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISAliq
                                 PISAliq)
                             {
-                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISAliq.CST, decimal.Parse(PISAliq.pPIS), decimal.Parse(PISAliq.vPIS), decimal.Parse(PISAliq.vBC));
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISAliq.CST, decimal.Parse(PISAliq.vBC, CultureInfo.InvariantCulture) / decimal.Parse(detalhamento.prod.vUnCom, CultureInfo.InvariantCulture), decimal.Parse(PISAliq.pPIS, CultureInfo.InvariantCulture), decimal.Parse(PISAliq.vPIS, CultureInfo.InvariantCulture));
                             }
                             if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISNT
                                 PISNT)
