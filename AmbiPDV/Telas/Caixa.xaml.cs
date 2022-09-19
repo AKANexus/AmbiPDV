@@ -5143,7 +5143,8 @@ namespace PDV_WPF.Telas
                     combobox.IsEnabled = false;
                     txb_Qtde.Text = "Pesando...";
                     PegarPesoDaBalanca();
-                    combobox.IsEnabled = true; combobox.Focus();                    
+                    combobox.IsEnabled = true; 
+                    combobox.Focus();                    
                     if (txb_Qtde.Text == "")
                     {
                         return;
