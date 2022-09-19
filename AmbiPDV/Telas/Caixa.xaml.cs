@@ -671,7 +671,7 @@ namespace PDV_WPF.Telas
 
         /// <summary>
         /// Abre a janela de sangria e suprimento
-        /// </summary>
+        /// </summary>     
         private void AbrirJanelaSangriaSupr()
         {
             if (!turno_aberto)
@@ -4674,7 +4674,7 @@ namespace PDV_WPF.Telas
                                     PegarPesoDaBalanca();
                                     return;
                                 case false:
-                                    txb_Qtde.Text = "";
+                                    txb_Qtde.Text = "";                                    
                                     return;
                             }
                     }
@@ -4779,7 +4779,7 @@ namespace PDV_WPF.Telas
                 lbl_Cortesia.Content = dadosDoItem.Rows[0][dadosDoItem.DESCRICAOColumn].ToString(); // Usa ID_IDENTIFICADOR
                 txb_ValorUnit.Text = pPrecoUnitario.RoundABNT(2).ToString("C2");
                 var strTipoDeItem = dadosDoItem.Rows[0][dadosDoItem.UNI_MEDIDAColumn].ToString(); // Usa ID_IDENTIFICADOR
-                if (strTipoDeItem.Safestring() == "KG" || strTipoDeItem.Safestring() == "KU")
+                if (strTipoDeItem.Safestring() == "KG")
                 {
                     if (!pPrePesado)
                     {
@@ -5136,14 +5136,15 @@ namespace PDV_WPF.Telas
             //log.Debug("itemRow isolado");
 
             #region Pegar peso
-            if (_prepesado == false && (dadosDoItem.UNI_MEDIDA == "KG" || dadosDoItem.UNI_MEDIDA == "KU") && BALMODELO != 0)
+            if (_prepesado == false && dadosDoItem.UNI_MEDIDA == "KG" && BALMODELO != 0)
             {
                 try
                 {
                     combobox.IsEnabled = false;
                     txb_Qtde.Text = "Pesando...";
                     PegarPesoDaBalanca();
-                    combobox.IsEnabled = true;
+                    combobox.IsEnabled = true; 
+                    combobox.Focus();                    
                     if (txb_Qtde.Text == "")
                     {
                         return;
