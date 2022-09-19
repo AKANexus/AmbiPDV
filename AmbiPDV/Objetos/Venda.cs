@@ -976,11 +976,11 @@ namespace PDV_WPF.Objetos
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS40 ICMS40)
                             {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 100, ICMS40.CST, 0, 0);
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 100, ICMS40.Orig + ICMS40.CST, 0, 0);
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS00 ICMS00)
                             {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMS00.vICMS), decimal.Parse(ICMS00.pICMS), ICMS00.CST, decimal.Parse(ICMS00.pICMS), decimal.Parse(ICMS00.vICMS));
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMS00.vICMS), decimal.Parse(ICMS00.pICMS), ICMS00.Orig + ICMS00.CST, decimal.Parse(ICMS00.pICMS), decimal.Parse(ICMS00.vICMS));
                             }
                         }
                         else if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoISSQN)
