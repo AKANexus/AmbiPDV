@@ -1730,6 +1730,7 @@ namespace PDV_WPF.Funcoes
                                             using (var taEstoquePdv = new TB_ESTOQUETableAdapter())
                                             {
                                                 taEstoquePdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                string testetrib = "012";
 
                                                 //foreach (FDBDataSetOperSeed.TB_ESTOQUERow estoqueServ in tblEstoqueServ)
                                                 foreach (FDBDataSetOperSeed.SP_TRI_ESTOQUE_ID_GETBY_IDRow estoqueServ in tblAuxEstoqueServ)
@@ -1762,8 +1763,9 @@ namespace PDV_WPF.Funcoes
                                                                                        (estoqueServ.IsCFOP_NFNull() ? null : estoqueServ.CFOP_NF),
                                                                                        (estoqueServ.IsPRC_ATACADONull() ? null : (decimal?)estoqueServ.PRC_ATACADO),
                                                                                        (estoqueServ.IsID_CTI_PARTNull() ? null : estoqueServ.ID_CTI_PART),
-                                                                                       (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),
+                                                                                       (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),                                                                                       
                                                                                        (estoqueServ.IsQTD_ATACADONull() ? null : (decimal?)estoqueServ.QTD_ATACADO),
+                                                                                       (estoqueServ.IsID_CTI_CFENull() ? null : estoqueServ.ID_CTI_CFE),
                                                                                        DateTime.Now);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.

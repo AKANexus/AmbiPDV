@@ -4440,6 +4440,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnQTD_ATACADO;
             
+            private global::System.Data.DataColumn columnID_CTI_CFE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_ESTOQUEDataTable() {
@@ -4723,6 +4725,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ID_CTI_CFEColumn {
+                get {
+                    return this.columnID_CTI_CFE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4789,7 +4799,8 @@ namespace PDV_WPF.DataSets {
                         TB_TAXA_UFRow parentTB_TAXA_UFRowByFK_TB_ESTOQUE_ID_CTI_PART, 
                         TB_TAXA_UFRow parentTB_TAXA_UFRowByFK_TB_ESTOQUE_ID_CTI_FCP, 
                         System.DateTime TRI_PDV_DT_UPD, 
-                        decimal QTD_ATACADO) {
+                        decimal QTD_ATACADO, 
+                        string ID_CTI_CFE) {
                 TB_ESTOQUERow rowTB_ESTOQUERow = ((TB_ESTOQUERow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_ESTOQUE,
@@ -4822,7 +4833,8 @@ namespace PDV_WPF.DataSets {
                         null,
                         null,
                         TRI_PDV_DT_UPD,
-                        QTD_ATACADO};
+                        QTD_ATACADO,
+                        ID_CTI_CFE};
                 if ((parentTB_FORNECEDORRowByFK_ULTIMO_FORNECEDOR != null)) {
                     columnValuesArray[12] = parentTB_FORNECEDORRowByFK_ULTIMO_FORNECEDOR[0];
                 }
@@ -4898,6 +4910,7 @@ namespace PDV_WPF.DataSets {
                 this.columnID_CTI_FCP = base.Columns["ID_CTI_FCP"];
                 this.columnTRI_PDV_DT_UPD = base.Columns["TRI_PDV_DT_UPD"];
                 this.columnQTD_ATACADO = base.Columns["QTD_ATACADO"];
+                this.columnID_CTI_CFE = base.Columns["ID_CTI_CFE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4965,6 +4978,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnTRI_PDV_DT_UPD);
                 this.columnQTD_ATACADO = new global::System.Data.DataColumn("QTD_ATACADO", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQTD_ATACADO);
+                this.columnID_CTI_CFE = new global::System.Data.DataColumn("ID_CTI_CFE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CTI_CFE);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_ESTOQUE}, true));
                 this.columnID_ESTOQUE.AllowDBNull = false;
@@ -4990,6 +5005,7 @@ namespace PDV_WPF.DataSets {
                 this.columnCFOP_NF.MaxLength = 4;
                 this.columnID_CTI_PART.MaxLength = 3;
                 this.columnID_CTI_FCP.MaxLength = 3;
+                this.columnID_CTI_CFE.MaxLength = 4;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13835,6 +13851,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnID_IDENTIFICADOR;
             
+            private global::System.Data.DataColumn columnID_CTI_CFE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public SP_TRI_ESTOQUE_ID_GETBY_IDDataTable() {
@@ -14126,6 +14144,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ID_CTI_CFEColumn {
+                get {
+                    return this.columnID_CTI_CFE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -14193,7 +14219,8 @@ namespace PDV_WPF.DataSets {
                         string ID_CTI_FCP, 
                         decimal QTD_ATACADO, 
                         System.DateTime TRI_PDV_DT_UPD, 
-                        int ID_IDENTIFICADOR) {
+                        int ID_IDENTIFICADOR, 
+                        string ID_CTI_CFE) {
                 SP_TRI_ESTOQUE_ID_GETBY_IDRow rowSP_TRI_ESTOQUE_ID_GETBY_IDRow = ((SP_TRI_ESTOQUE_ID_GETBY_IDRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_ESTOQUE,
@@ -14227,7 +14254,8 @@ namespace PDV_WPF.DataSets {
                         ID_CTI_FCP,
                         QTD_ATACADO,
                         TRI_PDV_DT_UPD,
-                        ID_IDENTIFICADOR};
+                        ID_IDENTIFICADOR,
+                        ID_CTI_CFE};
                 rowSP_TRI_ESTOQUE_ID_GETBY_IDRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSP_TRI_ESTOQUE_ID_GETBY_IDRow);
                 return rowSP_TRI_ESTOQUE_ID_GETBY_IDRow;
@@ -14282,6 +14310,7 @@ namespace PDV_WPF.DataSets {
                 this.columnQTD_ATACADO = base.Columns["QTD_ATACADO"];
                 this.columnTRI_PDV_DT_UPD = base.Columns["TRI_PDV_DT_UPD"];
                 this.columnID_IDENTIFICADOR = base.Columns["ID_IDENTIFICADOR"];
+                this.columnID_CTI_CFE = base.Columns["ID_CTI_CFE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14351,6 +14380,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnTRI_PDV_DT_UPD);
                 this.columnID_IDENTIFICADOR = new global::System.Data.DataColumn("ID_IDENTIFICADOR", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_IDENTIFICADOR);
+                this.columnID_CTI_CFE = new global::System.Data.DataColumn("ID_CTI_CFE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CTI_CFE);
                 this.columnDESCRICAO.MaxLength = 50;
                 this.columnSTATUS.MaxLength = 1;
                 this.columnFRACIONADO.MaxLength = 1;
@@ -14365,6 +14396,7 @@ namespace PDV_WPF.DataSets {
                 this.columnCFOP_NF.MaxLength = 4;
                 this.columnID_CTI_PART.MaxLength = 3;
                 this.columnID_CTI_FCP.MaxLength = 3;
+                this.columnID_CTI_CFE.MaxLength = 4;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -18555,6 +18587,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ID_CTI_CFE {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_ESTOQUE.ID_CTI_CFEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CTI_CFE\' na tabela \'TB_ESTOQUE\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_ESTOQUE.ID_CTI_CFEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_TAXA_UFRow TB_TAXA_UFRowByFK_CTI_ESTOQUE {
                 get {
                     return ((TB_TAXA_UFRow)(this.GetParentRow(this.Table.ParentRelations["FK_CTI_ESTOQUE"])));
@@ -18882,6 +18930,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetQTD_ATACADONull() {
                 this[this.tableTB_ESTOQUE.QTD_ATACADOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsID_CTI_CFENull() {
+                return this.IsNull(this.tableTB_ESTOQUE.ID_CTI_CFEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetID_CTI_CFENull() {
+                this[this.tableTB_ESTOQUE.ID_CTI_CFEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -25529,6 +25589,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ID_CTI_CFE {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CTI_CFE\' na tabela \'SP_TRI_ESTOQUE_ID_GETBY_ID\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsID_ESTOQUENull() {
                 return this.IsNull(this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_ESTOQUEColumn);
             }
@@ -25909,6 +25985,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetID_IDENTIFICADORNull() {
                 this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_IDENTIFICADORColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsID_CTI_CFENull() {
+                return this.IsNull(this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetID_CTI_CFENull() {
+                this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -34200,6 +34288,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
             tableMapping.ColumnMappings.Add("ID_CTI_FCP", "ID_CTI_FCP");
             tableMapping.ColumnMappings.Add("TRI_PDV_DT_UPD", "TRI_PDV_DT_UPD");
             tableMapping.ColumnMappings.Add("QTD_ATACADO", "QTD_ATACADO");
+            tableMapping.ColumnMappings.Add("ID_CTI_CFE", "ID_CTI_CFE");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -34928,6 +35017,12 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.ParameterName = "PQTD_ATACADO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PID_CTI_CFE";
+            param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -35695,6 +35790,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
                     string PID_CTI_PART, 
                     string PID_CTI_FCP, 
                     global::System.Nullable<decimal> PQTD_ATACADO, 
+                    string PID_CTI_CFE, 
                     global::System.Nullable<global::System.DateTime> PTRI_PDV_DT_UPD) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
             if ((PID_ESTOQUE.HasValue == true)) {
@@ -35877,11 +35973,17 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             else {
                 command.Parameters[29].Value = global::System.DBNull.Value;
             }
-            if ((PTRI_PDV_DT_UPD.HasValue == true)) {
-                command.Parameters[30].Value = ((System.DateTime)(PTRI_PDV_DT_UPD.Value));
+            if ((PID_CTI_CFE == null)) {
+                command.Parameters[30].Value = global::System.DBNull.Value;
             }
             else {
-                command.Parameters[30].Value = global::System.DBNull.Value;
+                command.Parameters[30].Value = ((string)(PID_CTI_CFE));
+            }
+            if ((PTRI_PDV_DT_UPD.HasValue == true)) {
+                command.Parameters[31].Value = ((System.DateTime)(PTRI_PDV_DT_UPD.Value));
+            }
+            else {
+                command.Parameters[31].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -55565,6 +55667,7 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             tableMapping.ColumnMappings.Add("QTD_ATACADO", "QTD_ATACADO");
             tableMapping.ColumnMappings.Add("TRI_PDV_DT_UPD", "TRI_PDV_DT_UPD");
             tableMapping.ColumnMappings.Add("ID_IDENTIFICADOR", "ID_IDENTIFICADOR");
+            tableMapping.ColumnMappings.Add("ID_CTI_CFE", "ID_CTI_CFE");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
