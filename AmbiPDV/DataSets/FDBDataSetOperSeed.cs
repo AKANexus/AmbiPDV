@@ -47,6 +47,10 @@ namespace PDV_WPF.DataSets
 
 namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters
 {
+    partial class TB_TAXA_UFTableAdapter
+    {
+    }
+
     partial class TB_CLIENTETableAdapter
     {
     }
