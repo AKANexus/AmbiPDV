@@ -3745,6 +3745,81 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
+        public void Sync_TB_CARTAO_ADMINISTRADORA(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+        {
+            using (var tblAdminsServ = new FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable())
+            {
+                try
+                {                    
+                    {
+                        DataRow[] pendentesConfig = dtAuxSyncPendentes.Select($"TABELA = 'TB_CARTAO_ADMINISTRADORA'");
+                        for(int i = 0; i < pendentesConfig.Length; i++)
+                        {
+                            var idAdmins = pendentesConfig[i]["ID_REG"].Safestring();
+                            var operacao = pendentesConfig[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesConfig[i]["NO_CAIXA"].Safeshort();
+
+                            // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                            if (operacao.Equals("I") || operacao.Equals("U"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taAdminsServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter())
+                                {                                    
+                                    taAdminsServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;                                                                        
+                                    int.TryParse(idAdmins, out int idAdministradora);
+                                    taAdminsServ.FillByIdAdmins(tblAdminsServ, idAdministradora);
+                                    if (tblAdminsServ != null && tblAdminsServ.Rows.Count > 0)
+                                    {
+                                        using (var taAdminsPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taAdminsPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow AdminsServ in tblAdminsServ)
+                                                {
+                                                    fbConnPdv.Open();
+                                                    FbCommand comand = new FbCommand("UPDATE OR INSERT INTO TB_CARTAO_ADMINISTRADORA (ID_ADMINISTRADORA, ID_CLIENTE, DESCRICAO, TAXA_CREDITO, TAXA_DEBITO) VALUES (@id_admin, @id_cli, @descri, @taxa_cre, @taxa_deb);", fbConnPdv);
+                                                    comand.Parameters.AddWithValue("@id_admin", AdminsServ.ID_ADMINISTRADORA);
+                                                    comand.Parameters.AddWithValue("@id_cli", AdminsServ.ID_CLIENTE);
+                                                    comand.Parameters.AddWithValue("@descri", AdminsServ.DESCRICAO);
+                                                    comand.Parameters.AddWithValue("@taxa_cre", AdminsServ.TAXA_CREDITO);
+                                                    comand.Parameters.AddWithValue("@taxa_deb", AdminsServ.TAXA_DEBITO);
+                                                    comand.ExecuteNonQuery();                                                    
+                                                }
+                                                ConfirmarAuxSync(idAdministradora, "TB_CARTAO_ADMINISTRADORA", operacao, NO_CAIXA);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("erro ao tentar sincronizar insert ou update das administradoras para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if(operacao.Equals("D"))
+                            {
+                                try
+                                {
+                                    int.TryParse(idAdmins, out int idAdministradora);
+                                    fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand("DELETE FROM TB_CARTAO_ADMINISTRADORA WHERE ID_ADMINISTRADORA = " + idAdministradora, fbConnPdv);
+                                    comand.ExecuteNonQuery();
+                                    ConfirmarAuxSync(idAdministradora, "TB_CARTAO_ADMINISTRADORA", operacao, NO_CAIXA);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("erro ao tentar sincronizar delete das administradoras para base local, segue erro: " + ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch(Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar administradoras, erro: " + ex);
+                }
+            }
+        }
 
         public void Sync_TRI_PDV_CONFIG(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
         {
@@ -3847,7 +3922,7 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.BALPORTA, configServ.BALBITS, configServ.BALBAUD, configServ.BALPARITY,
                                                                                                             configServ.BALMODELO, configServ.ACFILLPREFIX, configServ.ACFILLMODE, configServ.ACREFERENCIA,
                                                                                                             configServ.SYSCOMISSAO, configServ.SATSERVTIMEOUT, configServ.SATLIFESIGNINTERVAL,
-                                                                                                            configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA, configServ.SYSEMITECOMPROVANTE);
+                                                                                                            configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA, configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA);                                                                                                           
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -5367,24 +5442,30 @@ namespace PDV_WPF.Funcoes
                                                     #region Gravar as formas de pagamento da nfvenda na retaguarda
 
                                                     foreach (FDBDataSetVenda.TB_NFVENDA_FMAPAGTO_NFCERow nfvendaFmapagtoNfcePdv in tblNfvendaFmapagtoNfcePdv)
-                                                    {
+                                                    {                                                        
                                                         int newIdnumpag = 0;
+
+                                                        //Problema encontrado, TB_NFC_BANDEIRA não tem a coluna 'ID_NFVENDA', sendo assim só é possivel usar como eixo de pesquisa a coluna 'ID_NUMPAG'
+                                                        //o que acaba fugindo um pouco da lógica do que acontece aqui, então vamos lá capturar o 'ID_NUMPAG' e ver qual administradora foi ultilizada.
+                                                        int idNumPag = nfvendaFmapagtoNfcePdv.ID_NUMPAG;
+                                                        var tbNfceBandeira = new DataSets.FDBDataSetVendaTableAdapters.TB_NFCE_BANDEIRATableAdapter(); tbNfceBandeira.Connection.ConnectionString = _strConnContingency;
+                                                        var idAdmins = tbNfceBandeira.PegaIDAdmin(idNumPag); 
 
                                                         using (var fbCommNfvendaFmapagtoNfceSyncInsert = new FbCommand())
                                                         {
-                                                            #region Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT
-
+                                                            #region Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT                                                                                                                        
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Connection = fbConnServ;
                                                             //fbCommCupomFmapagtoSyncInsert.Connection.ConnectionString = _strConnNetwork;
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Transaction = fbTransactServ;
 
-                                                            fbCommNfvendaFmapagtoNfceSyncInsert.CommandText = "SP_TRI_NFV_FMAPAGT_SYNC_INSERT";
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.CommandText = "SP_TRI_NFV_FMAPAGT_SYNC_INSERT"; //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, sincronização OK.
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.CommandType = CommandType.StoredProcedure;
 
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pVLR_PAGTO", nfvendaFmapagtoNfcePdv.VLR_PAGTO);
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_FMANFCE", nfvendaFmapagtoNfcePdv.ID_FMANFCE);
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_PARCELA", nfvendaFmapagtoNfcePdv.ID_PARCELA);
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_ADMINISTRADORA", idAdmins);
 
                                                             #endregion Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT
 
@@ -7482,6 +7563,16 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar Sync_TRI_PDV_USERS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TRI_PDV_USERS", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_CARTAO_ADMINISTRADORA(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_CARTAO_ADMINISTRADORA sincronizados");
+                    }
+                    catch(Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_CARTAO_ADMINISTRADORA", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_CARTAO_ADMINISTRADORA", ex);
                     }
                     #region Função Desativada
 

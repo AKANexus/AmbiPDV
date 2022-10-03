@@ -3218,6 +3218,8 @@ namespace CfeRecepcao_0007
 
         private bool descontoField;
 
+        private int adminsField;
+
         private DateTime vencimentoField;
 
         private int idClienteField;
@@ -3261,6 +3263,19 @@ namespace CfeRecepcao_0007
             set
             {
                 this.dec_vMPField = value;
+            }
+        }
+
+        [XmlIgnore]
+        public int idADMINS
+        {
+            get
+            {
+                return this.adminsField;
+            }
+            set
+            {
+                this.adminsField = value;
             }
         }
 

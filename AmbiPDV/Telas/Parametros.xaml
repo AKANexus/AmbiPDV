@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="Parametros" Height="725" Width="700" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
 
-    <StackPanel Width="545" Height="676">
+    <StackPanel Width="545" Height="689">
         <GroupBox Header="Sangria" Padding="0" Margin="10,10,10,5">
             <StackPanel VerticalAlignment="Top" Margin="5,0" Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -23,7 +23,7 @@
                         <Label Content="Valor Máximo em Caixa"/>
                         <nexusControls:NexusCurrencyBox Width="90" x:Name="txb_Valor_Max" Language="pt-BR"/>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Margin="2.5">
+                    <StackPanel Orientation="Horizontal" Margin="25,7,0,0">
                         <Label Content="Margem de Sangria"/>
                         <nexusControls:NexusCurrencyBox Language="pt-BR" Width="90" x:Name="txb_Valor_Folga"/>
                     </StackPanel>
@@ -38,22 +38,16 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                     <Label Content="Term."/>
                     <TextBox Width="74" MaxLength="4" x:Name="txb_No_Caixa" VerticalContentAlignment="Center"/>
-                    <CheckBox Content="Utiliza SiTEF?" Margin="5,10,5,5" x:Name="chk_usatef" IsEnabled="True" Visibility="Visible"/>
+                    <CheckBox Content="Utiliza SiTEF?" Margin="20,10,5,5" x:Name="chk_usatef" IsEnabled="True" Visibility="Visible"/>
                     <CheckBox Content="Usa Comanda?" Margin="5,10,5,5" x:Name="chk_comanda" IsEnabled="True" Visibility="Visible"/>
                     <CheckBox Content="Detalha Desconto?" Margin="5,10,5,5" x:Name="chk_detalhadesconto" IsEnabled="True" Visibility="Visible"/>
-
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
-                    <CheckBox Content="Modo Bar?" VerticalAlignment="Center" Margin="5,0,5,0" x:Name="chk_modobar" IsEnabled="True" Visibility="Visible"/>
-                    <CheckBox Content="Pede Senha?" VerticalAlignment="Center" Margin="5,0,5,0" x:Name="chk_pedesenha" IsEnabled="True" Visibility="Visible"/>
-                    <Label Content="Pedir CPF" Margin="10,0,0,0" VerticalAlignment="Center"/>
-                    <ComboBox x:Name="cbb_Pede_CPF" HorizontalAlignment="Left" Width="127" VerticalAlignment="Top" FontFamily="Open Sans" Margin="0,0,10,0">
-                        <ComboBoxItem>Nunca</ComboBoxItem>
-                        <ComboBoxItem>No ínicio da venda</ComboBoxItem>
-                        <ComboBoxItem>Ao final da venda</ComboBoxItem>
-                    </ComboBox>
+                <StackPanel Orientation="Horizontal" Margin="12,0,10,10" HorizontalAlignment="Center" Height="29" Width="393">
+                    <CheckBox Content="Informar maquininha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_maquininha" IsEnabled="True" Visibility="Visible"/>
+                    <CheckBox Content="Modo Bar?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_modobar" IsEnabled="True" Visibility="Visible"/>
+                    <CheckBox Content="Pede Senha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_pedesenha" IsEnabled="True" Visibility="Visible"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="24" Margin="8,0,7,0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="250">
                         <Label Content="Comprovante" Margin="10,0,0,0"/>
                         <ComboBox x:Name="cbb_PerguntaImpressao" HorizontalAlignment="Left" Width="127" VerticalAlignment="Top" FontFamily="Open Sans" Margin="0,0,10,0">
@@ -63,6 +57,23 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="238">
+                        <Label Content="Pedir CPF" Margin="14,0,0,0" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="cbb_Pede_CPF" HorizontalAlignment="Left" Width="127" VerticalAlignment="Top" FontFamily="Open Sans" Margin="0,0,10,0">
+                            <ComboBoxItem Content="Nunca"/>
+                            <ComboBoxItem Content="No ínicio da venda"/>
+                            <ComboBoxItem Content="Ao final da venda"/>
+                        </ComboBox>
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="467" Visibility="Visible" Margin="36,18,0,0" Height="29">
+                    <CheckBox Content="Recargas no Fechamento" Margin="5" x:Name="chk_Recargas" Visibility="Collapsed"/>
+                    <Label Visibility="Visible" Content="Comissão" Margin="4,0,0,0"/>
+                    <ComboBox Visibility="Visible" x:Name="cbb_Pede_Vend" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" FontFamily="Open Sans">
+                        <ComboBoxItem Content="Nunca"/>
+                        <ComboBoxItem Content="No ínicio da venda"/>
+                        <ComboBoxItem Content="Ao final da venda"/>
+                    </ComboBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="238">
                         <Label Content="Envio p/ Whats" Margin="10,0,0,0"/>
                         <ComboBox x:Name="cbb_Pede_WHATS" HorizontalAlignment="Left" Width="127" VerticalAlignment="Top" FontFamily="Open Sans" Margin="0,0,10,0">
                             <ComboBoxItem Content="Não"/>
@@ -70,16 +81,7 @@
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="203" Visibility="Visible" Margin="0, 5, 0, 0">
-                    <CheckBox Content="Recargas no Fechamento" Margin="5" x:Name="chk_Recargas" Visibility="Collapsed"/>
-                    <Label Visibility="Visible" Content="Comissão" Margin="0,0,0,0"/>
-                    <ComboBox Visibility="Visible" x:Name="cbb_Pede_Vend" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" FontFamily="Open Sans">
-                        <ComboBoxItem>Nunca</ComboBoxItem>
-                        <ComboBoxItem>No ínicio da venda</ComboBoxItem>
-                        <ComboBoxItem>Ao final da venda</ComboBoxItem>
-                    </ComboBox>
-                </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                     <CheckBox Content="Interromper ao não encontrar produto" Margin="5" x:Name="chk_Interrompe_Nao_Encontrado"/>
                     <CheckBox Content="Permite venda com estoque negativo" FontFamily="Open Sans" Margin="5" x:Name="chk_Permite_Venda_Negativa" IsThreeState="True" IsChecked="{x:Null}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
@@ -105,7 +107,7 @@
         </GroupBox>
         <GroupBox Header="Configurações Técnicas" Padding="0" Margin="10,0,10,5">
             <StackPanel Margin="0" Orientation="Horizontal">
-                <Button Content="Acessar Configurações Extras..." Margin="5,5,0,5" Click="ConfigsTecs_click" Height="23"/>
+                <Button Content="Acessar Configurações Extras..." Margin="10,5,0,5" Click="ConfigsTecs_click" Height="23"/>
                 <Label Content="Versão do PDV: H.N.D." x:Name="lbl_Versao" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0,0,0" />
             </StackPanel>
 
@@ -118,7 +120,7 @@
             </StackPanel>
 
         </GroupBox>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="68,10,67,10" Height="41">
             <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
                 <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
             </Border>

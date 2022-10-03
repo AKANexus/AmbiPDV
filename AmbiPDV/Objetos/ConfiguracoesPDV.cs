@@ -110,6 +110,30 @@ namespace PDV_WPF.Configuracoes
             }
         }
 
+        private static string _iNFORMA_MAQUININHA;
+        public static bool INFORMA_MAQUININHA
+        {
+            get
+            {
+                switch (_iNFORMA_MAQUININHA)
+                {
+                    case "S":
+                    case "1":
+                        return true;
+                    case "N":
+                    case "0":
+                    default:
+                        return false;
+                }
+
+            }
+            set
+            {
+                _iNFORMA_MAQUININHA = value ? "S" : "N";
+            }
+
+        }
+
         private static string _iNTERROMPE_NAO_ENCONTRADO;
         public static bool INTERROMPE_NAO_ENCONTRADO
         {
@@ -384,6 +408,7 @@ namespace PDV_WPF.Configuracoes
         }
 
         public static bool DETALHADESCONTO { get; set; }
+      
 
         public static int COD10PORCENTO;
 
@@ -576,6 +601,7 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pBLOQUEIA_NO_LIMITE", _bLOQUEIA_NO_LIMITE);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pVALOR_DE_FOLGA", VALOR_DE_FOLGA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pPERMITE_FOLGA_SANGRIA", _pERMITE_FOLGA_SANGRIA);
+                fbCommSalvaConfig.Parameters.AddWithValue("@pINFORMA_MAQUININHA", _iNFORMA_MAQUININHA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pINTERROMPE_NAO_ENCONTRADO", _iNTERROMPE_NAO_ENCONTRADO);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pMENSAGEM_CORTESIA", MENSAGEM_CORTESIA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pICMS_CONT", ICMS_CONT);
@@ -613,19 +639,19 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSYSPARCELA", SYSPARCELA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSATLIFESIGNINTERVAL", SATLIFESIGNINTERVAL);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSYSEMITECOMPROVANTE", SYSEMITECOMPROVANTE);
-                fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);
+                fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);               
 
                 fbCommSalvaConfig.CommandText =
                                         "UPDATE OR INSERT INTO TRI_PDV_CONFIG " +
                                         "(ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, " +
-                                        "INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, " +
+                                        "INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, " +
                                         "MODELO_CUPOM, MENSAGEM_RODAPE, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, " +
                                         " IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, " +
                                         "BALPORTA, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, " +
                                         "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE) " +
                                         "VALUES " +
                                         "(@pID_MAC, @pNO_CAIXA, @pEXIGE_SANGRIA, @pVALOR_MAX_CAIXA, @pBLOQUEIA_NO_LIMITE, @pVALOR_DE_FOLGA, @pPERMITE_FOLGA_SANGRIA, " +
-                                        "@pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
+                                        "@pINFORMA_MAQUININHA, @pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
                                         "@pMODELO_CUPOM, @pMENSAGEM_RODAPE, @pMODELO_SAT, @pSATSERVIDOR, @pSAT_CODATIV, @pSIGN_AC, @pSAT_USADO, @pECF_ATIVA, " +
                                         "@pECF_PORTA, @pIMPRESSORA_USB, @pIMPRESSORA_USB_PED, @pPERGUNTA_WHATS, @pUSATEF, @pTEFIP, @pTEFNUMLOJA, @pTEFNUMTERMINAL, " +
                                         "@pTEFPEDECPFPELOPINPAD, @pBALPORTA, @pBALBAUD, @pBALPARITY, @pBALMODELO, @pACFILLPREFIX, @pACFILLMODE, @pACREFERENCIA, @pSYSCOMISSAO, @pSATSERVTIMEOUT, " +
@@ -752,6 +778,7 @@ namespace PDV_WPF.Configuracoes
                 VALOR_MAX_CAIXA = (decimal)registro.VALOR_MAX_CAIXA;
                 _bLOQUEIA_NO_LIMITE = (registro.BLOQUEIA_NO_LIMITE is null) ? "N" : registro.BLOQUEIA_NO_LIMITE;
                 VALOR_DE_FOLGA = (decimal)registro.VALOR_DE_FOLGA;
+                _iNFORMA_MAQUININHA = (registro.INFORMA_MAQUININHA is null) ? "N" : registro.INFORMA_MAQUININHA;
                 _iNTERROMPE_NAO_ENCONTRADO = (registro.INTERROMPE_NAO_ENCONTRADO is null) ? "N" : registro.INTERROMPE_NAO_ENCONTRADO;
                 _pERMITE_FOLGA_SANGRIA = (registro.PERMITE_FOLGA_SANGRIA is null) ? "N" : registro.PERMITE_FOLGA_SANGRIA;
                 MENSAGEM_CORTESIA = registro.MENSAGEM_CORTESIA;

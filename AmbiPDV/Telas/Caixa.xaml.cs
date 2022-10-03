@@ -2405,18 +2405,18 @@ namespace PDV_WPF.Telas
                 else if (fechamento.DialogResult == true) //Caso o fechamento tenha sido bem sucedido ou é um processo de devolução:
                 {
                     //oldCRT = fechamento.respCRT;
-                    foreach ((string strCfePgto, decimal vlrPgto) metodo in fechamento.metodosnew)
+                    foreach ((string strCfePgto, decimal vlrPgto, int idAdm) metodo in fechamento.metodosnew)
                     {
                         if (metodo.strCfePgto == "05")
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, fechamento.vencimento, fechamento.id_cliente);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.vencimento, fechamento.id_cliente);
                         else if (metodo.strCfePgto == "01")
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, fechamento.troco);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.troco);
                         else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && USATEF)
                         {
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'),  metodo.vlrPgto, metodo.idAdm);
                         }
                         else
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
 
                     }
 
@@ -4227,8 +4227,9 @@ namespace PDV_WPF.Telas
             //IniciarTestes();
             ChecarStatusTurno();
             try
-            {
+            {              
                 CarregarClientesOC();
+                CarregaAdministradoras();
                 log.Debug("Clientes carregados");
             }
             catch (Exception ex)
@@ -5609,18 +5610,27 @@ namespace PDV_WPF.Telas
 
             #region Lançamento de produto no cupom
 
-            decimal vUnCom;
+            decimal vUnCom = 0;
             //decimal comdesc;
-            decimal vDescAplic = 0;
-            using var ESTOQUE_TA = new TB_ESTOQUETableAdapter();
-
-            if (decimal.TryParse(ESTOQUE_TA.SP_TRI_PEGAPRECO(/*cod_produto*/produtoEncontrado.ID_IDENTIFICADOR, quant).Safestring(),
-                             out vUnCom) == false)
-            {
-                throw new Exceptions.DataNotLoadedException("Não foi possível \"parsear\" o preço do produto.");
+            decimal vDescAplic = 0;                           
+            using var ESTOQUE_TA = new TB_ESTOQUETableAdapter(); log.Debug("Instanciado TableAdapter da TB_ESTOQUE, a seguir será chamado SP_TRI_PEGAPRECO");
+            inicio:            
+            try
+            {                
+                if (decimal.TryParse(ESTOQUE_TA.SP_TRI_PEGAPRECO(/*cod_produto*/produtoEncontrado.ID_IDENTIFICADOR, quant).Safestring(),
+                                 out vUnCom) == false)
+                {
+                    log.Debug("Caiu no IF e não conseguiu parsear o retorno da SP_TRI_PEGAPRECO");
+                    throw new Exceptions.DataNotLoadedException("Não foi possível \"parsear\" o preço do produto.");                    
+                }
+                log.Debug($"SP_TRI_PEGAPRECO({produtoEncontrado.ID_IDENTIFICADOR}, {quant}): {vUnCom}");
             }
-            log.Debug($"SP_TRI_PEGAPRECO({produtoEncontrado.ID_IDENTIFICADOR}, {quant}): {vUnCom}");
-
+            catch(Exception ex)
+            {
+                MessageBox.Show("Por motivos de oscilação na rede o sistema não conseguiu obter informações do produto passado.\n\n      Precione enter para tentar novamente.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //MIGUÉ
+                log.Debug("Erro ao chamar SP_TRI_PEGAPRECO, e essa é a Exception gerada: " + ex);                                
+                goto inicio;
+            }
             if (tipoDeDesconto == tipoDesconto.Percentual)
             {
                 log.Debug($"Aplicado desconto: {desconto}%");
