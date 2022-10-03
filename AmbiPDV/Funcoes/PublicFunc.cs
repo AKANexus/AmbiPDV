@@ -623,9 +623,8 @@ namespace PDV_WPF
                 Config_TA.D_PROCEDURES5();
                 Config_TA.D_PROCEDURES6();
                 Config_TA.D_PROCEDURES7();
-                Config_TA.D_PROCEDURES8();   
+                Config_TA.D_PROCEDURES8();
                 
-
                 #region DDL Orçamento 1
                 OrcasQueries_TA.A_ORCA_CRIATABELAS();
                 OrcasQueries_TA.B_ORCA_ATUALIZATABELAS();
@@ -638,7 +637,7 @@ namespace PDV_WPF
                 {
                     //mensagem = "Erro ao Criar tabelas";
                     throw new Exception(CRIATABELAS);
-                }                
+                }             
 
                 string CRIATABELAS_AUX_SYNC = (string)Config_TA.SP_TRI_CRIATABELAS_AUX_SYNC();
                 if (CRIATABELAS_AUX_SYNC != "deu certo")

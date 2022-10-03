@@ -491,21 +491,26 @@ namespace PDV_WPF.Telas
         private Pendencia pendenciaTEFAtual;
         private void ArmazenaValor(byte[] buffer)
         {
+            Console.WriteLine($"tipoCampo = {TipoCampo}");
             if (TipoCampo == 100)
             {
                 statusAtual = StatusTEF.Confirmado;
             }
             if (TipoCampo == 121)
             {
+                Console.WriteLine("Via do Cliente");
                 foreach (var linha in Encoding.ASCII.GetString(buffer).Split('\0')[0].Split('\n'))
                 {
+                    Console.WriteLine(linha);
                     _viaCliente.Add(linha);
                 }
             }
             if (TipoCampo == 122)
             {
+                Console.WriteLine("Via da Loja");
                 foreach (var linha in Encoding.ASCII.GetString(buffer).Split('\0')[0].Split('\n'))
                 {
+                    Console.WriteLine(linha);
                     _viaLoja.Add(linha);
                 }
             }
@@ -516,6 +521,7 @@ namespace PDV_WPF.Telas
             if (TipoCampo == 161)
             {
                 numPagamentoTEF = Encoding.ASCII.GetString(buffer).Split('\0')[0];
+                Console.WriteLine($"NumPagamentoTEF = {numPagamentoTEF}");
             }
             if (TipoCampo == 210 && Encoding.ASCII.GetString(buffer).Split('\0')[0] != "0")
             {
@@ -523,16 +529,19 @@ namespace PDV_WPF.Telas
             }
             if (TipoCampo == 160)
             {
+                Console.WriteLine("Nova pendencia");
                 pendenciaTEFAtual = new Pendencia() { NoCupom = Encoding.ASCII.GetString(buffer).Split('\0')[0] };
                 //teflog($"Cupom fiscal: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
             }
             if (TipoCampo == 161 && _tipoTEF == TipoTEF.PendenciasTerminal)
             {
+                Console.WriteLine("Pendencia idPag");
                 //teflog($"ID do pag. : {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
                 pendenciaTEFAtual.IdPag = Encoding.ASCII.GetString(buffer).Split('\0')[0];
             }
             if (TipoCampo == 163 && _tipoTEF == TipoTEF.PendenciasTerminal)
             {
+                Console.WriteLine("Pendencia DataFiscal");
                 //teflog($"Data Fiscal: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
                 pendenciaTEFAtual.DataFiscal = Encoding.ASCII.GetString(buffer).Split('\0')[0];
             }
@@ -544,16 +553,19 @@ namespace PDV_WPF.Telas
             }
             if (TipoCampo == 164 && _tipoTEF == TipoTEF.PendenciasTerminal)
             {
+                Console.WriteLine("Pendencia HoraFiscal");
                 //teflog($"Hora Fiscal: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
                 pendenciaTEFAtual.HoraFiscal = Encoding.ASCII.GetString(buffer).Split('\0')[0];
             }
             if (TipoCampo == 211 && _tipoTEF == TipoTEF.PendenciasTerminal)
             {
+                Console.WriteLine("Pendencia CodDaFuncao");
                 //teflog($"Cód da função: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
                 pendenciaTEFAtual.CodDaFuncao = Encoding.ASCII.GetString(buffer).Split('\0')[0];
             }
             if (TipoCampo == 1319 && _tipoTEF == TipoTEF.PendenciasTerminal)
             {
+                Console.WriteLine("Pendencia ValOriginal");
                 //teflog($"Vlr orig.: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}\n");
                 pendenciaTEFAtual.ValOriginal = Encoding.ASCII.GetString(buffer).Split('\0')[0];
                 pendenciasList.Add(pendenciaTEFAtual);
@@ -562,6 +574,7 @@ namespace PDV_WPF.Telas
 
         private void LimpaTituloMenu()
         {
+            Console.WriteLine("Limpando título");
             tituloMenu = "";
             tituloJanela = "OPERAÇÃO NO TEF";
         }
@@ -571,6 +584,7 @@ namespace PDV_WPF.Telas
         StringBuilder sbOpcoes = new StringBuilder();
         private void ExibeMenuDeOpcoes(byte[] buffer)
         {
+            Console.WriteLine("Exibindo menu");
             sbOpcoes.Clear();
             if (pagina == -1)
             {
@@ -608,16 +622,18 @@ namespace PDV_WPF.Telas
         {
             tituloMenu = Encoding.ASCII.GetString(buffer).Split('\0')[0];
             tituloJanela = tituloMenu;
+            Console.WriteLine($"ArmazenaTituloMenu: {tituloMenu}");
+
         }
 
         private void RemoveMensagemCliente()
         {
-
+            Console.WriteLine("RemoveMensagemCliente");
         }
 
         private void RemoveMensagemOperador()
         {
-
+            Console.WriteLine("RemoveMensagemOperador");
         }
 
 
@@ -681,6 +697,7 @@ namespace PDV_WPF.Telas
 
         private void ExibeMensagemCliente(byte[] buffer)
         {
+            Console.WriteLine($"ExibeMensagemCliente: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
             return;
         }
 
@@ -688,6 +705,8 @@ namespace PDV_WPF.Telas
         {
             tituloJanela = "OPERAÇÃO NO TEF";
             mensagemJanela = Encoding.ASCII.GetString(buffer).Split('\0')[0];
+            Console.WriteLine($"ExibeMensagemOperador: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
+
         }
 
         private void AtualizaUI((string body, string titulo) item)
