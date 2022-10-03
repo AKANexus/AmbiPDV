@@ -623,11 +623,8 @@ namespace PDV_WPF
                 Config_TA.D_PROCEDURES5();
                 Config_TA.D_PROCEDURES6();
                 Config_TA.D_PROCEDURES7();
-                Config_TA.D_PROCEDURES8();
-
-                FuncoesFirebird remendo = new();
-                remendo.EnsureTBOSTriggersCreated(Config_TA.Connection);
-
+                Config_TA.D_PROCEDURES8();   
+                
 
                 #region DDL Orçamento 1
                 OrcasQueries_TA.A_ORCA_CRIATABELAS();
@@ -641,7 +638,7 @@ namespace PDV_WPF
                 {
                     //mensagem = "Erro ao Criar tabelas";
                     throw new Exception(CRIATABELAS);
-                }
+                }                
 
                 string CRIATABELAS_AUX_SYNC = (string)Config_TA.SP_TRI_CRIATABELAS_AUX_SYNC();
                 if (CRIATABELAS_AUX_SYNC != "deu certo")
@@ -707,13 +704,13 @@ namespace PDV_WPF
                 {
                     //mensagem = "Erro ao Gerar Procedures";
                     throw new Exception(PROCEDURES2);
-                }
+                }                
                 string PROCEDURES3 = (string)Config_TA.SP_TRI_PROCEDURES3();
                 if (PROCEDURES3 != "deu certo")
                 {
                     //mensagem = "Erro ao Gerar Procedures";
                     throw new Exception(PROCEDURES3);
-                }
+                }                               
                 string PROCEDURES4 = (string)Config_TA.SP_TRI_PROCEDURES4();
                 if (PROCEDURES4 != "deu certo")
                 {
@@ -789,6 +786,15 @@ namespace PDV_WPF
                 {
                     logErroAntigo(RetornarMensagemErro(ex, true));
                     MessageBox.Show("erro em " + ex.Message);
+                }
+                try
+                {
+                    FuncoesFirebird remendo = new();
+                    remendo.EnsureTBOSTriggersCreated(Config_TA.Connection);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erro ao criar trigger TB_OS_AUX_SYNC_INS: \n" + ex);
                 }
             }
             return true;

@@ -786,11 +786,11 @@ namespace PDV_WPF.Objetos
         /// </summary>
         /// <param name="codigoMetodo">Código CFE do método de pagamento</param>
         /// <param name="valorMetodo">Valor do método de pagamento</param>
-        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, decimal valorTroco = 0)
+        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, int idAdministradora, decimal valorTroco = 0)
         {
             if (_listaPagamentos is null) _listaPagamentos = new List<envCFeCFeInfCFePgtoMP>();
             if (!_listademetodos.Contains(codigoMetodo)) throw new ErroDeValidacaoDeConteudo("Código do Método de Pagamento informado inválido.");
-            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00") };
+            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idADMINS = idAdministradora };
             _listaPagamentos.Add(_MP);
             _valTroco = valorTroco;
         }
@@ -802,11 +802,11 @@ namespace PDV_WPF.Objetos
         /// <param name="valorMetodo">Valor do método de pagamento</param>
         /// <param name="vencimento">Vencimento da forma de pagamento</param>
         /// <param name="id_cliente">ID do cliente</param>
-        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, DateTime vencimento, int id_cliente)
+        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, int idAdministradora, DateTime vencimento, int id_cliente)
         {
             if (_listaPagamentos is null) _listaPagamentos = new List<envCFeCFeInfCFePgtoMP>();
             if (!_listademetodos.Contains(codigoMetodo)) throw new ErroDeValidacaoDeConteudo("Código do Método de Pagamento informado inválido.");
-            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idCliente = id_cliente, vencimento = vencimento };
+            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idCliente = id_cliente, vencimento = vencimento, idADMINS = idAdministradora };
             imprimeViaAssinar = true;
             _listaPagamentos.Add(_MP);
         }
@@ -1015,13 +1015,24 @@ namespace PDV_WPF.Objetos
                         int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
                         TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
                         //ID_NUMPAG = (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(Decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
-
-                        ID_NUMPAG = idNfce switch
+                        if (pagamento.idADMINS <= 0)
                         {
-                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2),
-                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3),
-                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2)
-                        };
+                            ID_NUMPAG = idNfce switch
+                            {
+                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null),
+                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, null),
+                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null)
+                            };
+                        }
+                        else
+                        {
+                            ID_NUMPAG = idNfce switch
+                            {
+                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.idADMINS),
+                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, pagamento.idADMINS),
+                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
+                            };
+                        }
 
                         //ID_NUMPAG = (idNfce == 3) ?
                         //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3) :
@@ -1180,8 +1191,8 @@ namespace PDV_WPF.Objetos
                         MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
                         return -1;
                     }
+                    Administradora.idAdm = 0; //Terminei de gravar as administradora, preciso voltar ao estado inicial. (será arrumado mais pra frente)
                 }
-
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
             }
             return ID_NFVENDA;
@@ -1318,15 +1329,25 @@ namespace PDV_WPF.Objetos
                             using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
                             TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
                             int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
-
-                            ID_NUMPAG = idNfce switch
+                            if (pagamento.idADMINS <= 0)
                             {
-                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2),
-                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3),
-                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2)
-                            };
-
-
+                                ID_NUMPAG = idNfce switch
+                                {
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, null), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, null),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, null)
+                                };
+                            }
+                            else
+                            {
+                                ID_NUMPAG = idNfce switch
+                                {
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.idADMINS), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.idADMINS),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
+                                };
+                            }
+                            
                             //ID_NUMPAG = (idNfce == 3) ?
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3) :
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
@@ -1487,6 +1508,7 @@ namespace PDV_WPF.Objetos
                             return (-1, -1);
                         }
                     }
+                    Administradora.idAdm = 0; //Terminei de gravar as administradora, preciso voltar ao estado inicial. (será arrumado mais pra frente)
                 }
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
 

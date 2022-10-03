@@ -208,8 +208,7 @@ namespace PDV_WPF.Funcoes
             }
         }
 
-        public static List<string> clientesOC = new List<string>();
-
+        public static List<string> clientesOC = new List<string>();        
         public static void CarregarClientesOC()
         {
             FbConnection fbConnection = new() { ConnectionString = MontaStringDeConexao("localhost", localpath) };
@@ -222,6 +221,18 @@ namespace PDV_WPF.Funcoes
                 if (row.STATUS == "A")
                 clientesOC.Add(row.NOME);
             }   
+        }
+        public static List<string> administradoraOC = new List<string>();
+        public static void CarregaAdministradoras()
+        {
+            FbConnection fbConnection = new() { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+            using var aDIMINISTRADORATableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter() { Connection = fbConnection };
+            using var dt_admin = new DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable();
+            aDIMINISTRADORATableAdapter.FillPegaAdmins(dt_admin);
+            foreach(DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow row in dt_admin)
+            {
+                administradoraOC.Add(row.DESCRICAO);
+            }
         }
         public static string RetornaCPF_CNPJSat(string nomeCli)
         {

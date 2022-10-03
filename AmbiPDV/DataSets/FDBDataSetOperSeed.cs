@@ -31,6 +31,10 @@ namespace PDV_WPF.DataSets
 
     partial class FDBDataSetOperSeed
     {
+        partial class TB_CARTAO_ADMINISTRADORADataTable
+        {
+        }
+
         partial class TB_EMITENTEDataTable
         {
         }
