@@ -4827,6 +4827,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnVLR_COFINS;
             
+            private global::System.Data.DataColumn columnVLR_BC_COFINS;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_NFV_ITEM_COFINSDataTable() {
@@ -4902,6 +4904,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn VLR_BC_COFINSColumn {
+                get {
+                    return this.columnVLR_BC_COFINS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4937,14 +4947,15 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TB_NFV_ITEM_COFINSRow AddTB_NFV_ITEM_COFINSRow(TB_NFV_ITEMRow parentTB_NFV_ITEMRowByFK_NFV_ITEM_COFINS, decimal POR_BC_COFINS, string CST_COFINS, decimal ALIQ_COFINS, decimal VLR_COFINS) {
+            public TB_NFV_ITEM_COFINSRow AddTB_NFV_ITEM_COFINSRow(TB_NFV_ITEMRow parentTB_NFV_ITEMRowByFK_NFV_ITEM_COFINS, decimal POR_BC_COFINS, string CST_COFINS, decimal ALIQ_COFINS, decimal VLR_COFINS, decimal VLR_BC_COFINS) {
                 TB_NFV_ITEM_COFINSRow rowTB_NFV_ITEM_COFINSRow = ((TB_NFV_ITEM_COFINSRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         POR_BC_COFINS,
                         CST_COFINS,
                         ALIQ_COFINS,
-                        VLR_COFINS};
+                        VLR_COFINS,
+                        VLR_BC_COFINS};
                 if ((parentTB_NFV_ITEMRowByFK_NFV_ITEM_COFINS != null)) {
                     columnValuesArray[0] = parentTB_NFV_ITEMRowByFK_NFV_ITEM_COFINS[0];
                 }
@@ -4982,6 +4993,7 @@ namespace PDV_WPF.DataSets {
                 this.columnCST_COFINS = base.Columns["CST_COFINS"];
                 this.columnALIQ_COFINS = base.Columns["ALIQ_COFINS"];
                 this.columnVLR_COFINS = base.Columns["VLR_COFINS"];
+                this.columnVLR_BC_COFINS = base.Columns["VLR_BC_COFINS"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4997,6 +5009,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnALIQ_COFINS);
                 this.columnVLR_COFINS = new global::System.Data.DataColumn("VLR_COFINS", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVLR_COFINS);
+                this.columnVLR_BC_COFINS = new global::System.Data.DataColumn("VLR_BC_COFINS", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnVLR_BC_COFINS);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_NFVITEM}, true));
                 this.columnID_NFVITEM.AllowDBNull = false;
@@ -5145,6 +5159,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnVLR_PIS;
             
+            private global::System.Data.DataColumn columnVLR_BC_PIS;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_NFV_ITEM_PISDataTable() {
@@ -5220,6 +5236,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn VLR_BC_PISColumn {
+                get {
+                    return this.columnVLR_BC_PIS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -5255,14 +5279,15 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TB_NFV_ITEM_PISRow AddTB_NFV_ITEM_PISRow(TB_NFV_ITEMRow parentTB_NFV_ITEMRowByFK_NFV_ITEM_PIS, string CST_PIS, decimal POR_BC_PIS, decimal ALIQ_PIS, decimal VLR_PIS) {
+            public TB_NFV_ITEM_PISRow AddTB_NFV_ITEM_PISRow(TB_NFV_ITEMRow parentTB_NFV_ITEMRowByFK_NFV_ITEM_PIS, string CST_PIS, decimal POR_BC_PIS, decimal ALIQ_PIS, decimal VLR_PIS, decimal VLR_BC_PIS) {
                 TB_NFV_ITEM_PISRow rowTB_NFV_ITEM_PISRow = ((TB_NFV_ITEM_PISRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
                         CST_PIS,
                         POR_BC_PIS,
                         ALIQ_PIS,
-                        VLR_PIS};
+                        VLR_PIS,
+                        VLR_BC_PIS};
                 if ((parentTB_NFV_ITEMRowByFK_NFV_ITEM_PIS != null)) {
                     columnValuesArray[0] = parentTB_NFV_ITEMRowByFK_NFV_ITEM_PIS[0];
                 }
@@ -5300,6 +5325,7 @@ namespace PDV_WPF.DataSets {
                 this.columnPOR_BC_PIS = base.Columns["POR_BC_PIS"];
                 this.columnALIQ_PIS = base.Columns["ALIQ_PIS"];
                 this.columnVLR_PIS = base.Columns["VLR_PIS"];
+                this.columnVLR_BC_PIS = base.Columns["VLR_BC_PIS"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5315,6 +5341,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnALIQ_PIS);
                 this.columnVLR_PIS = new global::System.Data.DataColumn("VLR_PIS", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVLR_PIS);
+                this.columnVLR_BC_PIS = new global::System.Data.DataColumn("VLR_BC_PIS", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnVLR_BC_PIS);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_NFVITEM}, true));
                 this.columnID_NFVITEM.AllowDBNull = false;
@@ -15250,6 +15278,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal VLR_BC_COFINS {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableTB_NFV_ITEM_COFINS.VLR_BC_COFINSColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'VLR_BC_COFINS\' na tabela \'TB_NFV_ITEM_COFINS\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_NFV_ITEM_COFINS.VLR_BC_COFINSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_NFV_ITEMRow TB_NFV_ITEMRow {
                 get {
                     return ((TB_NFV_ITEMRow)(this.GetParentRow(this.Table.ParentRelations["FK_NFV_ITEM_COFINS"])));
@@ -15316,6 +15360,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetVLR_COFINSNull() {
                 this[this.tableTB_NFV_ITEM_COFINS.VLR_COFINSColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsVLR_BC_COFINSNull() {
+                return this.IsNull(this.tableTB_NFV_ITEM_COFINS.VLR_BC_COFINSColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetVLR_BC_COFINSNull() {
+                this[this.tableTB_NFV_ITEM_COFINS.VLR_BC_COFINSColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -15410,6 +15466,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal VLR_BC_PIS {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableTB_NFV_ITEM_PIS.VLR_BC_PISColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'VLR_BC_PIS\' na tabela \'TB_NFV_ITEM_PIS\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_NFV_ITEM_PIS.VLR_BC_PISColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_NFV_ITEMRow TB_NFV_ITEMRow {
                 get {
                     return ((TB_NFV_ITEMRow)(this.GetParentRow(this.Table.ParentRelations["FK_NFV_ITEM_PIS"])));
@@ -15476,6 +15548,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetVLR_PISNull() {
                 this[this.tableTB_NFV_ITEM_PIS.VLR_PISColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsVLR_BC_PISNull() {
+                return this.IsNull(this.tableTB_NFV_ITEM_PIS.VLR_BC_PISColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetVLR_BC_PISNull() {
+                this[this.tableTB_NFV_ITEM_PIS.VLR_BC_PISColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -33266,10 +33350,11 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             tableMapping.ColumnMappings.Add("CST_COFINS", "CST_COFINS");
             tableMapping.ColumnMappings.Add("ALIQ_COFINS", "ALIQ_COFINS");
             tableMapping.ColumnMappings.Add("VLR_COFINS", "VLR_COFINS");
+            tableMapping.ColumnMappings.Add("VLR_BC_COFINS", "VLR_BC_COFINS");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_NFV_ITEM_COFINS"" WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM) AND ((@IsNull_POR_BC_COFINS = 1 AND ""POR_BC_COFINS"" IS NULL) OR (""POR_BC_COFINS"" = @Original_POR_BC_COFINS)) AND ((@IsNull_CST_COFINS = 1 AND ""CST_COFINS"" IS NULL) OR (""CST_COFINS"" = @Original_CST_COFINS)) AND ((@IsNull_ALIQ_COFINS = 1 AND ""ALIQ_COFINS"" IS NULL) OR (""ALIQ_COFINS"" = @Original_ALIQ_COFINS)) AND ((@IsNull_VLR_COFINS = 1 AND ""VLR_COFINS"" IS NULL) OR (""VLR_COFINS"" = @Original_VLR_COFINS)))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM \"TB_NFV_ITEM_COFINS\" WHERE ((\"ID_NFVITEM\" = @Original_ID_NFVITEM))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NFVITEM";
@@ -33279,78 +33364,11 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.SourceColumn = "ID_NFVITEM";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_POR_BC_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "POR_BC_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_POR_BC_COFINS";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "POR_BC_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_CST_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "CST_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_CST_COFINS";
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "CST_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_ALIQ_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "ALIQ_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_ALIQ_COFINS";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "ALIQ_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_VLR_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "VLR_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_VLR_COFINS";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "VLR_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_NFV_ITEM_COFINS\" (\"ID_NFVITEM\", \"POR_BC_COFINS\", \"CST_COFINS\", \"A" +
-                "LIQ_COFINS\", \"VLR_COFINS\") VALUES (@ID_NFVITEM, @POR_BC_COFINS, @CST_COFINS, @AL" +
-                "IQ_COFINS, @VLR_COFINS)";
+                "LIQ_COFINS\", \"VLR_COFINS\", \"VLR_BC_COFINS\") VALUES (@ID_NFVITEM, @POR_BC_COFINS," +
+                " @CST_COFINS, @ALIQ_COFINS, @VLR_COFINS, @VLR_BC_COFINS)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NFVITEM";
@@ -33386,9 +33404,16 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.IsNullable = true;
             param.SourceColumn = "VLR_COFINS";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@VLR_BC_COFINS";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_COFINS";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_NFV_ITEM_COFINS"" SET ""ID_NFVITEM"" = @ID_NFVITEM, ""POR_BC_COFINS"" = @POR_BC_COFINS, ""CST_COFINS"" = @CST_COFINS, ""ALIQ_COFINS"" = @ALIQ_COFINS, ""VLR_COFINS"" = @VLR_COFINS WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM) AND ((@IsNull_POR_BC_COFINS = 1 AND ""POR_BC_COFINS"" IS NULL) OR (""POR_BC_COFINS"" = @Original_POR_BC_COFINS)) AND ((@IsNull_CST_COFINS = 1 AND ""CST_COFINS"" IS NULL) OR (""CST_COFINS"" = @Original_CST_COFINS)) AND ((@IsNull_ALIQ_COFINS = 1 AND ""ALIQ_COFINS"" IS NULL) OR (""ALIQ_COFINS"" = @Original_ALIQ_COFINS)) AND ((@IsNull_VLR_COFINS = 1 AND ""VLR_COFINS"" IS NULL) OR (""VLR_COFINS"" = @Original_VLR_COFINS)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_NFV_ITEM_COFINS"" SET ""ID_NFVITEM"" = @ID_NFVITEM, ""POR_BC_COFINS"" = @POR_BC_COFINS, ""CST_COFINS"" = @CST_COFINS, ""ALIQ_COFINS"" = @ALIQ_COFINS, ""VLR_COFINS"" = @VLR_COFINS, ""VLR_BC_COFINS"" = @VLR_BC_COFINS WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NFVITEM";
@@ -33425,78 +33450,18 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.SourceColumn = "VLR_COFINS";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@VLR_BC_COFINS";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_COFINS";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NFVITEM";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "ID_NFVITEM";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_POR_BC_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "POR_BC_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_POR_BC_COFINS";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "POR_BC_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_CST_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "CST_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_CST_COFINS";
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "CST_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_ALIQ_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "ALIQ_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_ALIQ_COFINS";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "ALIQ_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_VLR_COFINS";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "VLR_COFINS";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Original_VLR_COFINS";
-            param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 8;
-            param.IsNullable = true;
-            param.SourceColumn = "VLR_COFINS";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
         }
@@ -33514,7 +33479,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM TB_NFV_ITEM_COFINS";
+            this._commandCollection[0].CommandText = "SELECT        ID_NFVITEM, POR_BC_COFINS, CST_COFINS, ALIQ_COFINS, VLR_COFINS, VLR" +
+                "_BC_COFINS\r\nFROM            TB_NFV_ITEM_COFINS";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -33594,40 +33560,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_NFVITEM, global::System.Nullable<decimal> Original_POR_BC_COFINS, string Original_CST_COFINS, global::System.Nullable<decimal> Original_ALIQ_COFINS, global::System.Nullable<decimal> Original_VLR_COFINS) {
+        public virtual int Delete(int Original_ID_NFVITEM) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_NFVITEM));
-            if ((Original_POR_BC_COFINS.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((decimal)(Original_POR_BC_COFINS.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[2].Value = global::System.DBNull.Value;
-            }
-            if ((Original_CST_COFINS == null)) {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[4].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[3].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[4].Value = ((string)(Original_CST_COFINS));
-            }
-            if ((Original_ALIQ_COFINS.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[6].Value = ((decimal)(Original_ALIQ_COFINS.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
-            }
-            if ((Original_VLR_COFINS.HasValue == true)) {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[8].Value = ((decimal)(Original_VLR_COFINS.Value));
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
-            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -33648,7 +33582,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_NFVITEM, global::System.Nullable<decimal> POR_BC_COFINS, string CST_COFINS, global::System.Nullable<decimal> ALIQ_COFINS, global::System.Nullable<decimal> VLR_COFINS) {
+        public virtual int Insert(int ID_NFVITEM, global::System.Nullable<decimal> POR_BC_COFINS, string CST_COFINS, global::System.Nullable<decimal> ALIQ_COFINS, global::System.Nullable<decimal> VLR_COFINS, global::System.Nullable<decimal> VLR_BC_COFINS) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_NFVITEM));
             if ((POR_BC_COFINS.HasValue == true)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(POR_BC_COFINS.Value));
@@ -33674,6 +33608,12 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             else {
                 this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
+            if ((VLR_BC_COFINS.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((decimal)(VLR_BC_COFINS.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -33694,7 +33634,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_NFVITEM, global::System.Nullable<decimal> POR_BC_COFINS, string CST_COFINS, global::System.Nullable<decimal> ALIQ_COFINS, global::System.Nullable<decimal> VLR_COFINS, int Original_ID_NFVITEM, global::System.Nullable<decimal> Original_POR_BC_COFINS, string Original_CST_COFINS, global::System.Nullable<decimal> Original_ALIQ_COFINS, global::System.Nullable<decimal> Original_VLR_COFINS) {
+        public virtual int Update(int ID_NFVITEM, global::System.Nullable<decimal> POR_BC_COFINS, string CST_COFINS, global::System.Nullable<decimal> ALIQ_COFINS, global::System.Nullable<decimal> VLR_COFINS, global::System.Nullable<decimal> VLR_BC_COFINS, int Original_ID_NFVITEM) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_NFVITEM));
             if ((POR_BC_COFINS.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((decimal)(POR_BC_COFINS.Value));
@@ -33720,39 +33660,13 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             else {
                 this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID_NFVITEM));
-            if ((Original_POR_BC_COFINS.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_POR_BC_COFINS.Value));
+            if ((VLR_BC_COFINS.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(VLR_BC_COFINS.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
             }
-            if ((Original_CST_COFINS == null)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((string)(Original_CST_COFINS));
-            }
-            if ((Original_ALIQ_COFINS.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((decimal)(Original_ALIQ_COFINS.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
-            }
-            if ((Original_VLR_COFINS.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((decimal)(Original_VLR_COFINS.Value));
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
-            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_NFVITEM));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -33773,8 +33687,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(global::System.Nullable<decimal> POR_BC_COFINS, string CST_COFINS, global::System.Nullable<decimal> ALIQ_COFINS, global::System.Nullable<decimal> VLR_COFINS, int Original_ID_NFVITEM, global::System.Nullable<decimal> Original_POR_BC_COFINS, string Original_CST_COFINS, global::System.Nullable<decimal> Original_ALIQ_COFINS, global::System.Nullable<decimal> Original_VLR_COFINS) {
-            return this.Update(Original_ID_NFVITEM, POR_BC_COFINS, CST_COFINS, ALIQ_COFINS, VLR_COFINS, Original_ID_NFVITEM, Original_POR_BC_COFINS, Original_CST_COFINS, Original_ALIQ_COFINS, Original_VLR_COFINS);
+        public virtual int Update(global::System.Nullable<decimal> POR_BC_COFINS, string CST_COFINS, global::System.Nullable<decimal> ALIQ_COFINS, global::System.Nullable<decimal> VLR_COFINS, global::System.Nullable<decimal> VLR_BC_COFINS, int Original_ID_NFVITEM) {
+            return this.Update(Original_ID_NFVITEM, POR_BC_COFINS, CST_COFINS, ALIQ_COFINS, VLR_COFINS, VLR_BC_COFINS, Original_ID_NFVITEM);
         }
     }
     
@@ -33904,10 +33818,11 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             tableMapping.ColumnMappings.Add("POR_BC_PIS", "POR_BC_PIS");
             tableMapping.ColumnMappings.Add("ALIQ_PIS", "ALIQ_PIS");
             tableMapping.ColumnMappings.Add("VLR_PIS", "VLR_PIS");
+            tableMapping.ColumnMappings.Add("VLR_BC_PIS", "VLR_BC_PIS");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_NFV_ITEM_PIS"" WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM) AND ((@IsNull_CST_PIS = 1 AND ""CST_PIS"" IS NULL) OR (""CST_PIS"" = @Original_CST_PIS)) AND ((@IsNull_POR_BC_PIS = 1 AND ""POR_BC_PIS"" IS NULL) OR (""POR_BC_PIS"" = @Original_POR_BC_PIS)) AND ((@IsNull_ALIQ_PIS = 1 AND ""ALIQ_PIS"" IS NULL) OR (""ALIQ_PIS"" = @Original_ALIQ_PIS)) AND ((@IsNull_VLR_PIS = 1 AND ""VLR_PIS"" IS NULL) OR (""VLR_PIS"" = @Original_VLR_PIS)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_NFV_ITEM_PIS"" WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM) AND ((@IsNull_CST_PIS = 1 AND ""CST_PIS"" IS NULL) OR (""CST_PIS"" = @Original_CST_PIS)) AND ((@IsNull_POR_BC_PIS = 1 AND ""POR_BC_PIS"" IS NULL) OR (""POR_BC_PIS"" = @Original_POR_BC_PIS)) AND ((@IsNull_ALIQ_PIS = 1 AND ""ALIQ_PIS"" IS NULL) OR (""ALIQ_PIS"" = @Original_ALIQ_PIS)) AND ((@IsNull_VLR_PIS = 1 AND ""VLR_PIS"" IS NULL) OR (""VLR_PIS"" = @Original_VLR_PIS)) AND ((@IsNull_VLR_BC_PIS = 1 AND ""VLR_BC_PIS"" IS NULL) OR (""VLR_BC_PIS"" = @Original_VLR_BC_PIS)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NFVITEM";
@@ -33984,10 +33899,28 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.SourceColumn = "VLR_PIS";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_VLR_BC_PIS";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_PIS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_VLR_BC_PIS";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_PIS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_NFV_ITEM_PIS\" (\"ID_NFVITEM\", \"CST_PIS\", \"POR_BC_PIS\", \"ALIQ_PIS\"," +
-                " \"VLR_PIS\") VALUES (@ID_NFVITEM, @CST_PIS, @POR_BC_PIS, @ALIQ_PIS, @VLR_PIS)";
+                " \"VLR_PIS\", \"VLR_BC_PIS\") VALUES (@ID_NFVITEM, @CST_PIS, @POR_BC_PIS, @ALIQ_PIS," +
+                " @VLR_PIS, @VLR_BC_PIS)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NFVITEM";
@@ -34023,9 +33956,16 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.IsNullable = true;
             param.SourceColumn = "VLR_PIS";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@VLR_BC_PIS";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_PIS";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_NFV_ITEM_PIS"" SET ""ID_NFVITEM"" = @ID_NFVITEM, ""CST_PIS"" = @CST_PIS, ""POR_BC_PIS"" = @POR_BC_PIS, ""ALIQ_PIS"" = @ALIQ_PIS, ""VLR_PIS"" = @VLR_PIS WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM) AND ((@IsNull_CST_PIS = 1 AND ""CST_PIS"" IS NULL) OR (""CST_PIS"" = @Original_CST_PIS)) AND ((@IsNull_POR_BC_PIS = 1 AND ""POR_BC_PIS"" IS NULL) OR (""POR_BC_PIS"" = @Original_POR_BC_PIS)) AND ((@IsNull_ALIQ_PIS = 1 AND ""ALIQ_PIS"" IS NULL) OR (""ALIQ_PIS"" = @Original_ALIQ_PIS)) AND ((@IsNull_VLR_PIS = 1 AND ""VLR_PIS"" IS NULL) OR (""VLR_PIS"" = @Original_VLR_PIS)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_NFV_ITEM_PIS"" SET ""ID_NFVITEM"" = @ID_NFVITEM, ""CST_PIS"" = @CST_PIS, ""POR_BC_PIS"" = @POR_BC_PIS, ""ALIQ_PIS"" = @ALIQ_PIS, ""VLR_PIS"" = @VLR_PIS, ""VLR_BC_PIS"" = @VLR_BC_PIS WHERE ((""ID_NFVITEM"" = @Original_ID_NFVITEM) AND ((@IsNull_CST_PIS = 1 AND ""CST_PIS"" IS NULL) OR (""CST_PIS"" = @Original_CST_PIS)) AND ((@IsNull_POR_BC_PIS = 1 AND ""POR_BC_PIS"" IS NULL) OR (""POR_BC_PIS"" = @Original_POR_BC_PIS)) AND ((@IsNull_ALIQ_PIS = 1 AND ""ALIQ_PIS"" IS NULL) OR (""ALIQ_PIS"" = @Original_ALIQ_PIS)) AND ((@IsNull_VLR_PIS = 1 AND ""VLR_PIS"" IS NULL) OR (""VLR_PIS"" = @Original_VLR_PIS)) AND ((@IsNull_VLR_BC_PIS = 1 AND ""VLR_BC_PIS"" IS NULL) OR (""VLR_BC_PIS"" = @Original_VLR_BC_PIS)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NFVITEM";
@@ -34060,6 +34000,13 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "VLR_PIS";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@VLR_BC_PIS";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_PIS";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NFVITEM";
@@ -34134,6 +34081,23 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "VLR_PIS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_VLR_BC_PIS";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_PIS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_VLR_BC_PIS";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "VLR_BC_PIS";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
         }
@@ -34231,7 +34195,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_NFVITEM, string Original_CST_PIS, global::System.Nullable<decimal> Original_POR_BC_PIS, global::System.Nullable<decimal> Original_ALIQ_PIS, global::System.Nullable<decimal> Original_VLR_PIS) {
+        public virtual int Delete(int Original_ID_NFVITEM, string Original_CST_PIS, global::System.Nullable<decimal> Original_POR_BC_PIS, global::System.Nullable<decimal> Original_ALIQ_PIS, global::System.Nullable<decimal> Original_VLR_PIS, global::System.Nullable<decimal> Original_VLR_BC_PIS) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_NFVITEM));
             if ((Original_CST_PIS == null)) {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((object)(1));
@@ -34265,6 +34229,14 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
                 this.Adapter.DeleteCommand.Parameters[7].Value = ((object)(1));
                 this.Adapter.DeleteCommand.Parameters[8].Value = global::System.DBNull.Value;
             }
+            if ((Original_VLR_BC_PIS.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[10].Value = ((decimal)(Original_VLR_BC_PIS.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[10].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -34285,7 +34257,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_NFVITEM, string CST_PIS, global::System.Nullable<decimal> POR_BC_PIS, global::System.Nullable<decimal> ALIQ_PIS, global::System.Nullable<decimal> VLR_PIS) {
+        public virtual int Insert(int ID_NFVITEM, string CST_PIS, global::System.Nullable<decimal> POR_BC_PIS, global::System.Nullable<decimal> ALIQ_PIS, global::System.Nullable<decimal> VLR_PIS, global::System.Nullable<decimal> VLR_BC_PIS) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_NFVITEM));
             if ((CST_PIS == null)) {
                 this.Adapter.InsertCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -34311,6 +34283,12 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             else {
                 this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
+            if ((VLR_BC_PIS.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((decimal)(VLR_BC_PIS.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -34331,7 +34309,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_NFVITEM, string CST_PIS, global::System.Nullable<decimal> POR_BC_PIS, global::System.Nullable<decimal> ALIQ_PIS, global::System.Nullable<decimal> VLR_PIS, int Original_ID_NFVITEM, string Original_CST_PIS, global::System.Nullable<decimal> Original_POR_BC_PIS, global::System.Nullable<decimal> Original_ALIQ_PIS, global::System.Nullable<decimal> Original_VLR_PIS) {
+        public virtual int Update(int ID_NFVITEM, string CST_PIS, global::System.Nullable<decimal> POR_BC_PIS, global::System.Nullable<decimal> ALIQ_PIS, global::System.Nullable<decimal> VLR_PIS, global::System.Nullable<decimal> VLR_BC_PIS, int Original_ID_NFVITEM, string Original_CST_PIS, global::System.Nullable<decimal> Original_POR_BC_PIS, global::System.Nullable<decimal> Original_ALIQ_PIS, global::System.Nullable<decimal> Original_VLR_PIS, global::System.Nullable<decimal> Original_VLR_BC_PIS) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_NFVITEM));
             if ((CST_PIS == null)) {
                 this.Adapter.UpdateCommand.Parameters[1].Value = global::System.DBNull.Value;
@@ -34357,38 +34335,52 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             else {
                 this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID_NFVITEM));
-            if ((Original_CST_PIS == null)) {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[7].Value = global::System.DBNull.Value;
+            if ((VLR_BC_PIS.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((decimal)(VLR_BC_PIS.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[6].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[7].Value = ((string)(Original_CST_PIS));
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_NFVITEM));
+            if ((Original_CST_PIS == null)) {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[7].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[8].Value = ((string)(Original_CST_PIS));
             }
             if ((Original_POR_BC_PIS.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[9].Value = ((decimal)(Original_POR_BC_PIS.Value));
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((decimal)(Original_POR_BC_PIS.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[8].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[9].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[9].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[10].Value = global::System.DBNull.Value;
             }
             if ((Original_ALIQ_PIS.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[11].Value = ((decimal)(Original_ALIQ_PIS.Value));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((decimal)(Original_ALIQ_PIS.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
             }
             if ((Original_VLR_PIS.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((decimal)(Original_VLR_PIS.Value));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((decimal)(Original_VLR_PIS.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[14].Value = global::System.DBNull.Value;
+            }
+            if ((Original_VLR_BC_PIS.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((decimal)(Original_VLR_BC_PIS.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -34410,8 +34402,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string CST_PIS, global::System.Nullable<decimal> POR_BC_PIS, global::System.Nullable<decimal> ALIQ_PIS, global::System.Nullable<decimal> VLR_PIS, int Original_ID_NFVITEM, string Original_CST_PIS, global::System.Nullable<decimal> Original_POR_BC_PIS, global::System.Nullable<decimal> Original_ALIQ_PIS, global::System.Nullable<decimal> Original_VLR_PIS) {
-            return this.Update(Original_ID_NFVITEM, CST_PIS, POR_BC_PIS, ALIQ_PIS, VLR_PIS, Original_ID_NFVITEM, Original_CST_PIS, Original_POR_BC_PIS, Original_ALIQ_PIS, Original_VLR_PIS);
+        public virtual int Update(string CST_PIS, global::System.Nullable<decimal> POR_BC_PIS, global::System.Nullable<decimal> ALIQ_PIS, global::System.Nullable<decimal> VLR_PIS, global::System.Nullable<decimal> VLR_BC_PIS, int Original_ID_NFVITEM, string Original_CST_PIS, global::System.Nullable<decimal> Original_POR_BC_PIS, global::System.Nullable<decimal> Original_ALIQ_PIS, global::System.Nullable<decimal> Original_VLR_PIS, global::System.Nullable<decimal> Original_VLR_BC_PIS) {
+            return this.Update(Original_ID_NFVITEM, CST_PIS, POR_BC_PIS, ALIQ_PIS, VLR_PIS, VLR_BC_PIS, Original_ID_NFVITEM, Original_CST_PIS, Original_POR_BC_PIS, Original_ALIQ_PIS, Original_VLR_PIS, Original_VLR_BC_PIS);
         }
     }
     

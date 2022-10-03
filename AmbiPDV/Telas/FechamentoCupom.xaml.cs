@@ -715,9 +715,7 @@ namespace PDV_WPF.Telas
                 switch (_result)
                 {
                     case 3:
-                    case 4:
-                    case 6:
-                    case 7:
+                    case 4:                    
                         if (INFORMA_MAQUININHA == true)
                         {
                             Administradora adm = new Administradora();
