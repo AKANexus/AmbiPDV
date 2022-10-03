@@ -34,7 +34,7 @@ namespace PDV_WPF.Telas
 
         private void cancelar_Click(object sender, MouseButtonEventArgs e)
         {
-            DialogResult = false;
+            DialogResult = false;            
             this.Close();
             return;
         }
@@ -53,7 +53,7 @@ namespace PDV_WPF.Telas
             if (e.Key == Key.Escape)
             {
                 DialogResult = false;
-                retry = false;
+                retry = false;                                          
                 this.Close();
                 return;
             }

@@ -671,7 +671,7 @@ namespace PDV_WPF.Telas
 
         /// <summary>
         /// Abre a janela de sangria e suprimento
-        /// </summary>
+        /// </summary>     
         private void AbrirJanelaSangriaSupr()
         {
             if (!turno_aberto)
@@ -2435,7 +2435,7 @@ namespace PDV_WPF.Telas
                         catch (Exception ex)
                         {
                             log.Error("Erro ao fechar o cupom fiscal", ex);
-                            MessageBox.Show("LogERR.");
+                            MessageBox.Show("LogERR. " + ex);
                             return;
                         }
                     }//Fechamento fiscal.
@@ -2450,7 +2450,7 @@ namespace PDV_WPF.Telas
                         catch (Exception ex)
                         {
                             log.Error("Erro ao fechar cupom não fiscal", ex);
-                            MessageBox.Show("LogERR");
+                            MessageBox.Show("LogERR " + ex);
                             return;
                             //deuruim();
                         }
@@ -4675,7 +4675,7 @@ namespace PDV_WPF.Telas
                                     PegarPesoDaBalanca();
                                     return;
                                 case false:
-                                    txb_Qtde.Text = "";
+                                    txb_Qtde.Text = "";                                    
                                     return;
                             }
                     }
@@ -5144,7 +5144,8 @@ namespace PDV_WPF.Telas
                     combobox.IsEnabled = false;
                     txb_Qtde.Text = "Pesando...";
                     PegarPesoDaBalanca();
-                    combobox.IsEnabled = true; combobox.Focus();
+                    combobox.IsEnabled = true; 
+                    combobox.Focus();                    
                     if (txb_Qtde.Text == "")
                     {
                         return;

@@ -4482,6 +4482,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnQTD_ATACADO;
             
+            private global::System.Data.DataColumn columnID_CTI_CFE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_ESTOQUEDataTable() {
@@ -4765,6 +4767,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ID_CTI_CFEColumn {
+                get {
+                    return this.columnID_CTI_CFE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -4831,7 +4841,8 @@ namespace PDV_WPF.DataSets {
                         TB_TAXA_UFRow parentTB_TAXA_UFRowByFK_TB_ESTOQUE_ID_CTI_PART, 
                         TB_TAXA_UFRow parentTB_TAXA_UFRowByFK_TB_ESTOQUE_ID_CTI_FCP, 
                         System.DateTime TRI_PDV_DT_UPD, 
-                        decimal QTD_ATACADO) {
+                        decimal QTD_ATACADO, 
+                        string ID_CTI_CFE) {
                 TB_ESTOQUERow rowTB_ESTOQUERow = ((TB_ESTOQUERow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_ESTOQUE,
@@ -4864,7 +4875,8 @@ namespace PDV_WPF.DataSets {
                         null,
                         null,
                         TRI_PDV_DT_UPD,
-                        QTD_ATACADO};
+                        QTD_ATACADO,
+                        ID_CTI_CFE};
                 if ((parentTB_FORNECEDORRowByFK_ULTIMO_FORNECEDOR != null)) {
                     columnValuesArray[12] = parentTB_FORNECEDORRowByFK_ULTIMO_FORNECEDOR[0];
                 }
@@ -4940,6 +4952,7 @@ namespace PDV_WPF.DataSets {
                 this.columnID_CTI_FCP = base.Columns["ID_CTI_FCP"];
                 this.columnTRI_PDV_DT_UPD = base.Columns["TRI_PDV_DT_UPD"];
                 this.columnQTD_ATACADO = base.Columns["QTD_ATACADO"];
+                this.columnID_CTI_CFE = base.Columns["ID_CTI_CFE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -5007,6 +5020,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnTRI_PDV_DT_UPD);
                 this.columnQTD_ATACADO = new global::System.Data.DataColumn("QTD_ATACADO", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnQTD_ATACADO);
+                this.columnID_CTI_CFE = new global::System.Data.DataColumn("ID_CTI_CFE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CTI_CFE);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_ESTOQUE}, true));
                 this.columnID_ESTOQUE.AllowDBNull = false;
@@ -5032,6 +5047,7 @@ namespace PDV_WPF.DataSets {
                 this.columnCFOP_NF.MaxLength = 4;
                 this.columnID_CTI_PART.MaxLength = 3;
                 this.columnID_CTI_FCP.MaxLength = 3;
+                this.columnID_CTI_CFE.MaxLength = 4;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13877,6 +13893,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnID_IDENTIFICADOR;
             
+            private global::System.Data.DataColumn columnID_CTI_CFE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public SP_TRI_ESTOQUE_ID_GETBY_IDDataTable() {
@@ -14168,6 +14186,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ID_CTI_CFEColumn {
+                get {
+                    return this.columnID_CTI_CFE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -14235,7 +14261,8 @@ namespace PDV_WPF.DataSets {
                         string ID_CTI_FCP, 
                         decimal QTD_ATACADO, 
                         System.DateTime TRI_PDV_DT_UPD, 
-                        int ID_IDENTIFICADOR) {
+                        int ID_IDENTIFICADOR, 
+                        string ID_CTI_CFE) {
                 SP_TRI_ESTOQUE_ID_GETBY_IDRow rowSP_TRI_ESTOQUE_ID_GETBY_IDRow = ((SP_TRI_ESTOQUE_ID_GETBY_IDRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_ESTOQUE,
@@ -14269,7 +14296,8 @@ namespace PDV_WPF.DataSets {
                         ID_CTI_FCP,
                         QTD_ATACADO,
                         TRI_PDV_DT_UPD,
-                        ID_IDENTIFICADOR};
+                        ID_IDENTIFICADOR,
+                        ID_CTI_CFE};
                 rowSP_TRI_ESTOQUE_ID_GETBY_IDRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowSP_TRI_ESTOQUE_ID_GETBY_IDRow);
                 return rowSP_TRI_ESTOQUE_ID_GETBY_IDRow;
@@ -14324,6 +14352,7 @@ namespace PDV_WPF.DataSets {
                 this.columnQTD_ATACADO = base.Columns["QTD_ATACADO"];
                 this.columnTRI_PDV_DT_UPD = base.Columns["TRI_PDV_DT_UPD"];
                 this.columnID_IDENTIFICADOR = base.Columns["ID_IDENTIFICADOR"];
+                this.columnID_CTI_CFE = base.Columns["ID_CTI_CFE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -14393,6 +14422,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnTRI_PDV_DT_UPD);
                 this.columnID_IDENTIFICADOR = new global::System.Data.DataColumn("ID_IDENTIFICADOR", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_IDENTIFICADOR);
+                this.columnID_CTI_CFE = new global::System.Data.DataColumn("ID_CTI_CFE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CTI_CFE);
                 this.columnDESCRICAO.MaxLength = 50;
                 this.columnSTATUS.MaxLength = 1;
                 this.columnFRACIONADO.MaxLength = 1;
@@ -14407,6 +14438,7 @@ namespace PDV_WPF.DataSets {
                 this.columnCFOP_NF.MaxLength = 4;
                 this.columnID_CTI_PART.MaxLength = 3;
                 this.columnID_CTI_FCP.MaxLength = 3;
+                this.columnID_CTI_CFE.MaxLength = 4;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -18915,6 +18947,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ID_CTI_CFE {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_ESTOQUE.ID_CTI_CFEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CTI_CFE\' na tabela \'TB_ESTOQUE\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_ESTOQUE.ID_CTI_CFEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_TAXA_UFRow TB_TAXA_UFRowByFK_CTI_ESTOQUE {
                 get {
                     return ((TB_TAXA_UFRow)(this.GetParentRow(this.Table.ParentRelations["FK_CTI_ESTOQUE"])));
@@ -19242,6 +19290,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetQTD_ATACADONull() {
                 this[this.tableTB_ESTOQUE.QTD_ATACADOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsID_CTI_CFENull() {
+                return this.IsNull(this.tableTB_ESTOQUE.ID_CTI_CFEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetID_CTI_CFENull() {
+                this[this.tableTB_ESTOQUE.ID_CTI_CFEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -25900,6 +25960,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string ID_CTI_CFE {
+                get {
+                    try {
+                        return ((string)(this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CTI_CFE\' na tabela \'SP_TRI_ESTOQUE_ID_GETBY_ID\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public bool IsID_ESTOQUENull() {
                 return this.IsNull(this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_ESTOQUEColumn);
             }
@@ -26280,6 +26356,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public void SetID_IDENTIFICADORNull() {
                 this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_IDENTIFICADORColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsID_CTI_CFENull() {
+                return this.IsNull(this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetID_CTI_CFENull() {
+                this[this.tableSP_TRI_ESTOQUE_ID_GETBY_ID.ID_CTI_CFEColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -29493,308 +29581,328 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[6];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[8];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "select * from TB_TAXA_UF";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "DELETE FROM TB_TAXA_UF WHERE ID_CTI = @param";
+            this._commandCollection[1].CommandText = "SELECT UF_SP FROM TB_TAXA_UF WHERE (ID_CTI = @Param1)";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@param";
+            param.ParameterName = "@Param1";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = "ID_CTI";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._commandCollection[1].Parameters.Add(param);
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "select * from TB_TAXA_UF where ID_CTI = @param";
+            this._commandCollection[2].CommandText = "select BASE_ICMS from TB_TAXA_UF where (ID_CTI = @Param2)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@param";
+            param.ParameterName = "@Param2";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = "ID_CTI";
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "\"SP_TRI_TAXAUF_GETBY_DTUPD\"";
-            this._commandCollection[3].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[3].CommandText = "DELETE FROM TB_TAXA_UF WHERE ID_CTI = @param";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@param";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTI";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "select * from TB_TAXA_UF where ID_CTI = @param";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@param";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTI";
+            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "\"SP_TRI_TAXAUF_GETBY_DTUPD\"";
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PULTIMASYNC";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[3].Parameters.Add(param);
-            this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "\"SP_TRI_TAXAUF_UPSERT\"";
-            this._commandCollection[4].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[6].Connection = this.Connection;
+            this._commandCollection[6].CommandText = "\"SP_TRI_TAXAUF_UPSERT\"";
+            this._commandCollection[6].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PID_CTI";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PDESCRICAO";
             param.Size = 40;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PBASE_ICMS";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PBASE_ICMSFE";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PBASE_ICMS_ST";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_AC";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_AL";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_AM";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_AP";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_BA";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_CE";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_DF";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_ES";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_GO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_MA";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_MG";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_MS";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_MT";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_PA";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_PB";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_PE";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_PI";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_PR";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_RJ";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_RN";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_RO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_RR";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_RS";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_SC";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_SE";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_SP";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUF_TO";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PBASE_ISS";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PISS";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PPOR_DIF";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PTRI_PDV_DT_UPD";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[4].Parameters.Add(param);
-            this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "\"SP_TRI_TRIBUTOESTADUAL\"";
-            this._commandCollection[5].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[6].Parameters.Add(param);
+            this._commandCollection[7] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[7].Connection = this.Connection;
+            this._commandCollection[7].CommandText = "\"SP_TRI_TRIBUTOESTADUAL\"";
+            this._commandCollection[7].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PRODUTO";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[5].Parameters.Add(param);
+            this._commandCollection[7].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -29826,7 +29934,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
         public virtual int FillById(FDBDataSetOperSeed.TB_TAXA_UFDataTable dataTable, string param) {
-            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand = this.CommandCollection[4];
             if ((param == null)) {
                 throw new global::System.ArgumentNullException("param");
             }
@@ -29845,7 +29953,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
         public virtual int FillByUpdateDate(FDBDataSetOperSeed.TB_TAXA_UFDataTable dataTable, global::System.Nullable<global::System.DateTime> PULTIMASYNC) {
-            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand = this.CommandCollection[5];
             if ((PULTIMASYNC.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(PULTIMASYNC.Value));
             }
@@ -31157,9 +31265,77 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual object AliqPorID(string Param1) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            if ((Param1 == null)) {
+                throw new global::System.ArgumentNullException("Param1");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(Param1));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual object BCPorID(string Param2) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
+            if ((Param2 == null)) {
+                throw new global::System.ArgumentNullException("Param2");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(Param2));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
         public virtual int DeleteById(string param) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[3];
             if ((param == null)) {
                 throw new global::System.ArgumentNullException("param");
             }
@@ -31223,7 +31399,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
                     global::System.Nullable<decimal> PISS, 
                     global::System.Nullable<decimal> PPOR_DIF, 
                     global::System.Nullable<global::System.DateTime> PTRI_PDV_DT_UPD) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[6];
             if ((PID_CTI == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
@@ -31467,7 +31643,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_TRIBUTOESTADUAL(global::System.Nullable<int> PRODUTO) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
             if ((PRODUTO.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(PRODUTO.Value));
             }
@@ -34754,6 +34930,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
             tableMapping.ColumnMappings.Add("ID_CTI_FCP", "ID_CTI_FCP");
             tableMapping.ColumnMappings.Add("TRI_PDV_DT_UPD", "TRI_PDV_DT_UPD");
             tableMapping.ColumnMappings.Add("QTD_ATACADO", "QTD_ATACADO");
+            tableMapping.ColumnMappings.Add("ID_CTI_CFE", "ID_CTI_CFE");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -35201,7 +35378,7 @@ namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[9];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[10];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_ESTOQUE ORDER BY DESCRICAO";
@@ -35486,6 +35663,12 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PID_CTI_CFE";
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PTRI_PDV_DT_UPD";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 8;
@@ -35510,6 +35693,17 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[8].Parameters.Add(param);
+            this._commandCollection[9] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[9].Connection = this.Connection;
+            this._commandCollection[9].CommandText = "SELECT ID_CTI_CFE FROM TB_ESTOQUE \r\nWHERE (ID_ESTOQUE = @Param3)";
+            this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Param3";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_ESTOQUE";
+            this._commandCollection[9].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -36249,6 +36443,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
                     string PID_CTI_PART, 
                     string PID_CTI_FCP, 
                     global::System.Nullable<decimal> PQTD_ATACADO, 
+                    string PID_CTI_CFE, 
                     global::System.Nullable<global::System.DateTime> PTRI_PDV_DT_UPD) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
             if ((PID_ESTOQUE.HasValue == true)) {
@@ -36431,11 +36626,17 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             else {
                 command.Parameters[29].Value = global::System.DBNull.Value;
             }
-            if ((PTRI_PDV_DT_UPD.HasValue == true)) {
-                command.Parameters[30].Value = ((System.DateTime)(PTRI_PDV_DT_UPD.Value));
+            if ((PID_CTI_CFE == null)) {
+                command.Parameters[30].Value = global::System.DBNull.Value;
             }
             else {
-                command.Parameters[30].Value = global::System.DBNull.Value;
+                command.Parameters[30].Value = ((string)(PID_CTI_CFE));
+            }
+            if ((PTRI_PDV_DT_UPD.HasValue == true)) {
+                command.Parameters[31].Value = ((System.DateTime)(PTRI_PDV_DT_UPD.Value));
+            }
+            else {
+                command.Parameters[31].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -36477,6 +36678,35 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             else {
                 command.Parameters[1].Value = global::System.DBNull.Value;
             }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual object TaxaPorID(int Param3) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[9];
+            command.Parameters[0].Value = ((int)(Param3));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -56119,6 +56349,7 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             tableMapping.ColumnMappings.Add("QTD_ATACADO", "QTD_ATACADO");
             tableMapping.ColumnMappings.Add("TRI_PDV_DT_UPD", "TRI_PDV_DT_UPD");
             tableMapping.ColumnMappings.Add("ID_IDENTIFICADOR", "ID_IDENTIFICADOR");
+            tableMapping.ColumnMappings.Add("ID_CTI_CFE", "ID_CTI_CFE");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
