@@ -1730,6 +1730,7 @@ namespace PDV_WPF.Funcoes
                                             using (var taEstoquePdv = new TB_ESTOQUETableAdapter())
                                             {
                                                 taEstoquePdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                string testetrib = "012";
 
                                                 //foreach (FDBDataSetOperSeed.TB_ESTOQUERow estoqueServ in tblEstoqueServ)
                                                 foreach (FDBDataSetOperSeed.SP_TRI_ESTOQUE_ID_GETBY_IDRow estoqueServ in tblAuxEstoqueServ)
@@ -1762,8 +1763,9 @@ namespace PDV_WPF.Funcoes
                                                                                        (estoqueServ.IsCFOP_NFNull() ? null : estoqueServ.CFOP_NF),
                                                                                        (estoqueServ.IsPRC_ATACADONull() ? null : (decimal?)estoqueServ.PRC_ATACADO),
                                                                                        (estoqueServ.IsID_CTI_PARTNull() ? null : estoqueServ.ID_CTI_PART),
-                                                                                       (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),
+                                                                                       (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),                                                                                       
                                                                                        (estoqueServ.IsQTD_ATACADONull() ? null : (decimal?)estoqueServ.QTD_ATACADO),
+                                                                                       (estoqueServ.IsID_CTI_CFENull() ? null : estoqueServ.ID_CTI_CFE),
                                                                                        DateTime.Now);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
@@ -5539,6 +5541,7 @@ namespace PDV_WPF.Funcoes
                                                                 fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pCST_COFINS", nfvItemCofinsPdv.IsCST_COFINSNull() ? null : nfvItemCofinsPdv.CST_COFINS);
                                                                 fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pALIQ_COFINS", nfvItemCofinsPdv.IsALIQ_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.ALIQ_COFINS);
                                                                 fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pVLR_COFINS", nfvItemCofinsPdv.IsVLR_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.VLR_COFINS);
+                                                                fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pVLR_BC_COFINS", nfvItemCofinsPdv.IsVLR_BC_COFINSNull() ? null : (decimal?)nfvItemCofinsPdv.VLR_BC_COFINS);
 
                                                                 #endregion Prepara o comando da SP_TRI_NFVITEMCOFINS_SYNCINSERT
 
@@ -5597,6 +5600,7 @@ namespace PDV_WPF.Funcoes
                                                                 fbCommNfvItemPisSyncInsert.Parameters.Add("@pCST_PIS", nfvItemPisPdv.IsCST_PISNull() ? null : nfvItemPisPdv.CST_PIS);
                                                                 fbCommNfvItemPisSyncInsert.Parameters.Add("@pALIQ_PIS", nfvItemPisPdv.IsALIQ_PISNull() ? null : (decimal?)nfvItemPisPdv.ALIQ_PIS);
                                                                 fbCommNfvItemPisSyncInsert.Parameters.Add("@pVLR_PIS", nfvItemPisPdv.IsVLR_PISNull() ? null : (decimal?)nfvItemPisPdv.VLR_PIS);
+                                                                fbCommNfvItemPisSyncInsert.Parameters.Add("@pVLR_BC_PIS", nfvItemPisPdv.IsVLR_BC_PISNull() ? null : (decimal?)nfvItemPisPdv.VLR_BC_PIS);
 
                                                                 #endregion Prepara o comando da SP_TRI_NFVITEMPIS_SYNCINSERT
 

@@ -31,6 +31,10 @@ namespace PDV_WPF.DataSets
 
     partial class FDBDataSetOperSeed
     {
+        partial class SP_TRI_ESTOQUE_ID_GETBY_IDDataTable
+        {
+        }
+
         partial class TB_EMITENTEDataTable
         {
         }
@@ -43,6 +47,10 @@ namespace PDV_WPF.DataSets
 
 namespace PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters
 {
+    partial class TB_TAXA_UFTableAdapter
+    {
+    }
+
     partial class TB_CLIENTETableAdapter
     {
     }

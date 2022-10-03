@@ -2435,7 +2435,7 @@ namespace PDV_WPF.Telas
                         catch (Exception ex)
                         {
                             log.Error("Erro ao fechar o cupom fiscal", ex);
-                            MessageBox.Show("LogERR.");
+                            MessageBox.Show("LogERR. " + ex);
                             return;
                         }
                     }//Fechamento fiscal.
@@ -2450,7 +2450,7 @@ namespace PDV_WPF.Telas
                         catch (Exception ex)
                         {
                             log.Error("Erro ao fechar cupom não fiscal", ex);
-                            MessageBox.Show("LogERR");
+                            MessageBox.Show("LogERR " + ex);
                             return;
                             //deuruim();
                         }

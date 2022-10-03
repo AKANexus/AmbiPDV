@@ -2510,6 +2510,8 @@ namespace CfeRecepcao_0007
 
         private ItemsChoiceType2[] itemsElementNameField;
 
+        private string pCOFINSField;
+
         private string vCOFINSField;
 
         /// <remarks/>
@@ -2556,9 +2558,8 @@ namespace CfeRecepcao_0007
             {
                 this.itemsElementNameField = value;
             }
-        }
-
-        /// <remarks/>
+        }   
+        /// <remarks/>             
         public string vCOFINS
         {
             get
@@ -2671,7 +2672,7 @@ namespace CfeRecepcao_0007
     public partial class envCFeCFeInfCFeDetImpostoCOFINSCOFINSSN
     {
 
-        private string cSTField;
+        private string cSTField;        
 
         /// <remarks/>
         public string CST
