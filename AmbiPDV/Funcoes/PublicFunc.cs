@@ -703,13 +703,13 @@ namespace PDV_WPF
                 {
                     //mensagem = "Erro ao Gerar Procedures";
                     throw new Exception(PROCEDURES2);
-                }                
+                }               
                 string PROCEDURES3 = (string)Config_TA.SP_TRI_PROCEDURES3();
                 if (PROCEDURES3 != "deu certo")
                 {
                     //mensagem = "Erro ao Gerar Procedures";
                     throw new Exception(PROCEDURES3);
-                }                               
+                }                            
                 string PROCEDURES4 = (string)Config_TA.SP_TRI_PROCEDURES4();
                 if (PROCEDURES4 != "deu certo")
                 {
