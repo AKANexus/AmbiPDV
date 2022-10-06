@@ -1408,9 +1408,14 @@ END;</CommandText>
 						execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD SYSEMITECOMPROVANTE SMALLINT DEFAULT 0 NOT NULL;';
 						execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD SYSPERGUNTAWHATS SMALLINT DEFAULT 0 NOT NULL;';
 						execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD SYSPARCELA SMALLINT DEFAULT 0 NOT NULL;';
-						execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD INFORMA_MAQUININHA CHAR(1) DEFAULT ''N'' NOT NULL;';
-						end
+                                                                                                                end
 
+                                                                                                                erro = 'alter table TRI_PDV_CONFIG add CONFIGS MAQUININHA';
+                                                                                                                IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = 'TRI_PDV_CONFIG' AND RDB$FIELD_NAME = 'INFORMA_MAQUININHA'))
+						then begin
+                                                                                                                execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD INFORMA_MAQUININHA CHAR(1) DEFAULT ''N'' NOT NULL;';
+						end
+                                                                                                              
 						erro = 'delete UK TRI_PDV_DEVOL_PK';
 						if (exists (select 1 from RDB$INDICES where rdb$index_name = 'TRI_PDV_DEVOL_PK'))
 						then

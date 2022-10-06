@@ -5485,7 +5485,7 @@ namespace PDV_WPF.Telas
         }
 
         private void ProcessarTextoNoACBox()
-        {
+        {            
             string input = combobox.Text;
             log.Debug("ProcessarTextoNoACBox chamado");
             if (!_modoDevolucao && !_modo_consulta)
@@ -5612,8 +5612,9 @@ namespace PDV_WPF.Telas
 
             decimal vUnCom = 0;
             //decimal comdesc;
-            decimal vDescAplic = 0;                           
+            decimal vDescAplic = 0;            
             using var ESTOQUE_TA = new TB_ESTOQUETableAdapter(); log.Debug("Instanciado TableAdapter da TB_ESTOQUE, a seguir será chamado SP_TRI_PEGAPRECO");
+            int i = 0;
             inicio:            
             try
             {                
@@ -5627,10 +5628,21 @@ namespace PDV_WPF.Telas
             }
             catch(Exception ex)
             {
-                MessageBox.Show("Por motivos de oscilação na rede o sistema não conseguiu obter informações do produto passado.\n\n      Precione enter para tentar novamente.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //MIGUÉ
-                log.Debug("Erro ao chamar SP_TRI_PEGAPRECO, e essa é a Exception gerada: " + ex);                                
-                goto inicio;
+                i++;
+                if (i <= 3)
+                {
+                    MessageBox.Show("Por motivos de oscilação na rede o sistema não conseguiu obter informações do produto informado.\n\n      Pressione 'ENTER' para tentar novamente.\n      Tentativa: " + i, "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //MIGUÉ
+                    log.Debug("Erro ao chamar SP_TRI_PEGAPRECO, e essa é a Exception gerada: " + ex);
+                    goto inicio;
+                }
+                else
+                {
+                    MessageBox.Show("Após 3 tentativas o sistema não conseguiu obter informações do item.\n\nPor favor, reinicie a venda!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    i = 0;
+                    return;
+                }
             }
+            i = 0;
             if (tipoDeDesconto == tipoDesconto.Percentual)
             {
                 log.Debug($"Aplicado desconto: {desconto}%");
@@ -5769,7 +5781,6 @@ namespace PDV_WPF.Telas
                         subtotal -= ((precounit - desc) * quant).RoundABNT();
                         txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");
                         numProximoItem += 1;
-
                     }
                     catch (Exception ex)
                     {
@@ -6036,7 +6047,8 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    AbrirConsultaAvancada();
+                    if (!PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
+                    else AbrirConsultaAvancada();
                 });
             } // Ativa o modo de consulta (Tecla F4)
             /* ---------------*/
