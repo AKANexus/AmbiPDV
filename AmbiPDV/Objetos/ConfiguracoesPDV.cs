@@ -565,6 +565,7 @@ namespace PDV_WPF.Configuracoes
         public static int SATTIMEOUT { get; set; }
         public static bool EXIBEFOTO { get; set; }
         public static bool SENHA_PRAZO { get; set; }
+        public static bool SENHA_CONSULTA { get; set; }
 
         #endregion Propriedades
 
@@ -881,6 +882,6 @@ namespace PDV_WPF.Configuracoes
         public int SATTIMEOUT { get; set; }
         public int EXIBEFOTO { get; set; }
         public int SENHA_PRAZO { get; set; } = 0;
+        public int SENHA_CONSULTA { get; set; } = 0;
     }
-
 }
