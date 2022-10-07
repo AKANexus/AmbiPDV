@@ -6047,7 +6047,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    if (!PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
+                    if (SENHA_CONSULTA && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
                     else AbrirConsultaAvancada();
                 });
             } // Ativa o modo de consulta (Tecla F4)
