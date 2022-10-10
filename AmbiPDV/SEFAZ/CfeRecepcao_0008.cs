@@ -2215,6 +2215,8 @@ namespace CfeRecepcao_0008
             get => dec_vMPField;
             set => dec_vMPField = value;
         }
+        [XmlIgnore]
+        public int idADMINS { get; set; }
     }
 
     /// <remarks/>
