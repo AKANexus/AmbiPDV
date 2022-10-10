@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 
 namespace PDV_WPF
 {
@@ -75,38 +75,38 @@ namespace PDV_WPF
             set { newInfadic = value; }
         }
     }
-    public class CFeCanc
-    {
-        private CfeCancelamento_0007.infCFe newInfCFe;
-        public CfeCancelamento_0007.infCFe infCFe
-        {
-            get { return newInfCFe; }
-            set { newInfCFe = value; }
-        }
-        private CfeCancelamento_0007.infCFeIde newInfCFeIde;
-        public CfeCancelamento_0007.infCFeIde infCFeIde
-        {
-            get { return newInfCFeIde; }
-            set { newInfCFeIde = value; }
-        }
-        private CfeCancelamento_0007.infCFeEmit newInfCFeEmit;
-        public CfeCancelamento_0007.infCFeEmit infCFeEmit
-        {
-            get { return newInfCFeEmit; }
-            set { newInfCFeEmit = value; }
-        }
-        private CfeCancelamento_0007.infCFeDest newInfCFeDest;
-        public CfeCancelamento_0007.infCFeDest infCFeDest
-        {
-            get { return newInfCFeDest; }
-            set { newInfCFeDest = value; }
-        }
-        private CfeCancelamento_0007.infCFeTotal newInfCFeTotal;
-        public CfeCancelamento_0007.infCFeTotal infCFeTotal
-        {
-            get { return newInfCFeTotal; }
-            set { newInfCFeTotal = value; }
-        }
+    //public class CFeCanc
+    //{
+    //    private CfeCancelamento_0008.cancCFeCFeCanc newInfCFe;
+    //    public CfeCancelamento_0008.cancCFeCFeCanc infCFe
+    //    {
+    //        get { return newInfCFe; }
+    //        set { newInfCFe = value; }
+    //    }
+    //    private CfeCancelamento_0008.cancCFeCFeCancInfCFeIde newInfCFeIde;
+    //    public CfeCancelamento_0008.cancCFeCFeCancInfCFeIde infCFeIde
+    //    {
+    //        get { return newInfCFeIde; }
+    //        set { newInfCFeIde = value; }
+    //    }
+    //    private CfeCancelamento_0008.cancCFeCFeCancInfCFeEmit newInfCFeEmit;
+    //    public CfeCancelamento_0008.cancCFeCFeCancInfCFeEmit infCFeEmit
+    //    {
+    //        get { return newInfCFeEmit; }
+    //        set { newInfCFeEmit = value; }
+    //    }
+    //    private CfeCancelamento_0008.cancCFeCFeCancInfCFeDest newInfCFeDest;
+    //    public CfeCancelamento_0008.cancCFeCFeCancInfCFeDest infCFeDest
+    //    {
+    //        get { return newInfCFeDest; }
+    //        set { newInfCFeDest = value; }
+    //    }
+    //    private CfeCancelamento_0008.cancCFeCFeCancInfCFeTotal newInfCFeTotal;
+    //    public CfeCancelamento_0008.cancCFeCFeCancInfCFeTotal infCFeTotal
+    //    {
+    //        get { return newInfCFeTotal; }
+    //        set { newInfCFeTotal = value; }
+    //    }
 
-    }
+    //}
 }

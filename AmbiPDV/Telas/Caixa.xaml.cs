@@ -1,5 +1,5 @@
 ﻿using Balancas;
-using CfeRecepcao_0007;
+using CfeRecepcao_0008;
 using Clearcove.Logging;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
@@ -567,7 +567,7 @@ namespace PDV_WPF.Telas
         //    icmssn102.Orig = "0";
         //    icmssn102.CSOSN = "500";
         //    PISOutr.CST = "99";
-        //    PISOutr.ItemsElementName = new CfeRecepcao_0007.ItemsChoiceType[] { ItemsChoiceType.vBC, ItemsChoiceType.pPIS };
+        //    PISOutr.ItemsElementName = new CfeRecepcao_0008.ItemsChoiceType[] { ItemsChoiceType.vBC, ItemsChoiceType.pPIS };
         //    PISOutr.Items = new string[] { "0.00", "0.0000" };
         //    COFINSOutr.CST = "99";
         //    COFINSOutr.ItemsElementName = new ItemsChoiceType2[] { ItemsChoiceType2.vBC, ItemsChoiceType2.pCOFINS };
@@ -2568,10 +2568,8 @@ namespace PDV_WPF.Telas
                             { "05", "Crédito Loja" },
                             { "10", "Vale Aliment." },
                             { "11", "Vale Refeição" },
-                            { "12", "PIX" },
                             { "13", "Vale Combustível" },
-                            { "17", "Transferência Pix" },
-                            { "20", "PIX" },
+                            { "17", "PIX" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             var cFeDeRetorno = vendaAtual.RetornaCFe();
@@ -2666,9 +2664,9 @@ namespace PDV_WPF.Telas
                 {
                     VendaDEMO.troco = "0,00";
                 }
-                if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.infAdic.obsFisco is null))
+                if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.obsFisco is null))
                 {
-                    VendaDEMO.observacaoFisco = (cFeDeRetorno.infCFe.infAdic.obsFisco[0].xCampo, cFeDeRetorno.infCFe.infAdic.obsFisco[0].xTexto);
+                    VendaDEMO.observacaoFisco = (cFeDeRetorno.infCFe.obsFisco[0].xCampo, cFeDeRetorno.infCFe.obsFisco[0].xTexto);
                 }
                 log.Debug($"Troco: {pFechamento.troco}");
                 try
@@ -3483,9 +3481,8 @@ namespace PDV_WPF.Telas
                             { "05", "Crédito Loja" },
                             { "10", "Vale Aliment." },
                             { "11", "Vale Refeição" },
-                            { "12", "PIX" },
                             { "13", "Vale Combustível" },
-                            { "20", "PIX" },
+                            { "17", "PIX" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             int venda_prazo = 0;
@@ -3639,9 +3636,9 @@ namespace PDV_WPF.Telas
                 {
                     VendaImpressa.troco = "0,00";
                 }
-                if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.infAdic.obsFisco is null))
+                if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.obsFisco is null))
                 {
-                    VendaImpressa.observacaoFisco = (cFeDeRetorno.infCFe.infAdic.obsFisco[0].xCampo, cFeDeRetorno.infCFe.infAdic.obsFisco[0].xTexto);
+                    VendaImpressa.observacaoFisco = (cFeDeRetorno.infCFe.obsFisco[0].xCampo, cFeDeRetorno.infCFe.obsFisco[0].xTexto);
                 }
                 log.Debug($"Troco: {pFechamento.troco}");
                 try
@@ -5856,11 +5853,11 @@ namespace PDV_WPF.Telas
         //            return true;
         //        }
 
-        //        if ((_tipo == CfeRecepcao_0007.ItemChoiceType.FECHADO || _tipo == CfeRecepcao_0007.ItemChoiceType.DEVOLUCAO) && modo_consulta == false)
+        //        if ((_tipo == CfeRecepcao_0008.ItemChoiceType.FECHADO || _tipo == CfeRecepcao_0008.ItemChoiceType.DEVOLUCAO) && modo_consulta == false)
         //        {
-        //            if (_tipo != CfeRecepcao_0007.ItemChoiceType.DEVOLUCAO)
+        //            if (_tipo != CfeRecepcao_0008.ItemChoiceType.DEVOLUCAO)
         //            {
-        //                _tipo = CfeRecepcao_0007.ItemChoiceType.ABERTO;
+        //                _tipo = CfeRecepcao_0008.ItemChoiceType.ABERTO;
         //            }
         //            if (!ChecagemPreVenda())
         //            {

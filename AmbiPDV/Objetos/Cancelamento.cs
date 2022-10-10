@@ -1,4 +1,4 @@
-﻿using CfeCancelamento_0007;
+﻿using CfeCancelamento_0008;
 using DeclaracoesDllSat;
 using PDV_WPF.Exceptions;
 using System;
@@ -11,13 +11,13 @@ namespace PDV_WPF.Objetos
 {
     class Cancelamento : IDisposable
     {
-        private CFeCanc _cFeCanc;
-        private infCFe _cancinfCFe;
-        private infCFeDest _cancinfCFeDest;
-        private infCFeEmit _cancinfCFeEmit;
-        private infCFeIde _cancinfCfeIde;
+        private cancCFeCFeCanc _cFeCanc;
+        private cancCFeCFeCancInfCFe _cancinfCFe;
+        private cancCFeCFeCancInfCFeDest _cancinfCFeDest;
+        private cancCFeCFeCancInfCFeEmit _cancinfCFeEmit;
+        private cancCFeCFeCancInfCFeIde _cancinfCfeIde;
         //private infCFeObsFisco _caninfCFeObsFisco;
-        private infCFeTotal _cancinfCFeTotal;
+        private cancCFeCFeCancInfCFeTotal _cancinfCFeTotal;
 
 
 
@@ -30,13 +30,13 @@ namespace PDV_WPF.Objetos
         {
             if (!(_cFeCanc is null)) throw new ErroDeValidacaoDeConteudo("XML só pode conter um grupo de informações de cabeçalho");
             if (chaveAnterior.Length != 44) throw new ErroDeValidacaoDeConteudo("Chave de acesso informada é inválida");
-            _cFeCanc = new CFeCanc();
-            _cancinfCFe = new infCFe();
-            _cancinfCfeIde = new infCFeIde();
-            _cancinfCFeEmit = new infCFeEmit();
-            _cancinfCFeDest = new infCFeDest();
-            _cancinfCFeTotal = new infCFeTotal();
-            _cancinfCFe.chCanc = "CFe" + chaveAnterior;
+            _cFeCanc = new();
+            _cancinfCFe = new();
+            _cancinfCfeIde = new();
+            _cancinfCFeEmit = new();
+            _cancinfCFeDest = new();
+            _cancinfCFeTotal = new();
+            _cFeCanc.infCFe.chCanc = "CFe" + chaveAnterior;
             _cancinfCfeIde.signAC = assinatura;
             _cancinfCfeIde.numeroCaixa = numeroCaixa;
             _cancinfCfeIde.CNPJ = CNPJSH;

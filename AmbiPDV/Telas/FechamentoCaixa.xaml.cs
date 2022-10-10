@@ -33,6 +33,7 @@ namespace PDV_WPF.Telas
         public decimal _refeicao { get; set; }
         public decimal _presente { get; set; }
         public decimal _combustivel { get; set; }
+        public decimal _pix { get; set; }
         public decimal _outros { get; set; }
         public decimal _pix { get; set; }
         public decimal _SANG { get; set; }
@@ -105,8 +106,8 @@ namespace PDV_WPF.Telas
                             lbl_combustivel.Content = item.DESCRICAO;
                             break;
                         case "17":
-                            if (!USATEF) txb_Pix.Visibility = lbl_Pix.Visibility = Visibility.Visible;
-                            lbl_Pix.Content = item.DESCRICAO;
+                            txb_Pix.Visibility = lbl_pix.Visibility = Visibility.Visible;
+                            lbl_pix.Content = item.DESCRICAO;
                             break;
                         case "99":
                             txb_Outros.Visibility = lbl_outros.Visibility = Visibility.Visible;
@@ -189,6 +190,7 @@ namespace PDV_WPF.Telas
             _refeicao = txb_Refeicao.Value;
             _presente = txb_Presente.Value;
             _combustivel = txb_Combustivel.Value;
+            _pix = txb_Pix.Value;
             _outros = txb_Outros.Value;
             _pix = txb_Pix.Value;
             _SANG = txb_San.Value;

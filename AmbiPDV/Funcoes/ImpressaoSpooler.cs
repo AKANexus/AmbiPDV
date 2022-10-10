@@ -1181,7 +1181,7 @@ namespace PDV_WPF
                 log.Debug($"metodo{metodo},valoresOperacinais: {valoresOperacionais}");
                 if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17") && USATEF)
                 {
-                    //Caso o sistema use TEF, nenhum valor de CARTÃO e PIX(caso use PIX) serão informados - o sistema pega o valor diretamente da base.
+                    //Caso o sistema use TEF, nenhum valor de TEF será informado - o sistema pega o valor diretamente da base.
                     valorASerImpresso = metodo.VALOR;
                 }
                 else
@@ -1504,8 +1504,8 @@ namespace PDV_WPF
                 case 10:
                     retorno = Convert.ToDecimal(tRI_PDV_OPERRow["OUTROS"]);
                     break;
-                case 16: //retorno PIX 
-                    retorno = Convert.ToDecimal(tRI_PDV_OPERRow["EXTRA_1"]); //por enquanto está sendo salvo na coluna "EXTRA_1"
+                case 16:
+                    retorno = Convert.ToDecimal(tRI_PDV_OPERRow["EXTRA_1"]);
                     break;
                 default:
                     break;

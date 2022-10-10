@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.Objetos;
@@ -321,9 +321,9 @@ namespace PDV_WPF.Telas
                 {
                     VendaImpressa.troco = "0,00";
                 }
-                if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.infAdic.obsFisco is null))
+                if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.obsFisco is null))
                 {
-                    VendaImpressa.observacaoFisco = (cFeDeRetorno.infCFe.infAdic.obsFisco[0].xCampo, cFeDeRetorno.infCFe.infAdic.obsFisco[0].xTexto);
+                    VendaImpressa.observacaoFisco = (cFeDeRetorno.infCFe.obsFisco[0].xCampo, cFeDeRetorno.infCFe.obsFisco[0].xTexto);
                 }
                 //try
                 //{

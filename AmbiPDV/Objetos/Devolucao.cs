@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using PDV_WPF.Exceptions;
 using System;
 using System.Collections.Generic;
