@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using MySql.Data.MySqlClient;
 using PDV_WPF.DataSets.FDBDataSetVendaTableAdapters;
 using PDV_WPF.Objetos;

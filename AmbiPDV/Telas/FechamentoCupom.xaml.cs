@@ -1,4 +1,4 @@
-﻿using CfeRecepcao_0007;
+﻿using CfeRecepcao_0008;
 using Clearcove.Logging;
 using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.Objetos;
@@ -275,7 +275,7 @@ namespace PDV_WPF.Telas
                 return;
             }
 
-            if (strPgCfe is "03" or "04" or "17")
+            if (strPgCfe is "03" or "04")
             {
                 int intPagamentoDias = 10;
                 if (DateTime.Today.Day < intPagamentoDias)
@@ -303,13 +303,9 @@ namespace PDV_WPF.Telas
                     {
                         case "03":
                             tefAtual.ShowTEF(TipoTEF.Credito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
-
                             break;
                         case "04":
                             tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
-                            break;
-                        case "17":
-                            tefAtual.ShowTEF(TipoTEF.Pix, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
                     }
                     tefAtual.StatusChanged += Tef_StatusChanged;
@@ -341,6 +337,18 @@ namespace PDV_WPF.Telas
                             MessageBox.Show("É necessário informar um cliente.");
                             return;
                     }
+                }
+            }
+
+            if (strPgCfe == "17")
+            {
+                if (USATEF)
+                {
+                    tefAtual = new SiTEFBox();
+                    tefAtual.ShowTEF(TipoTEF.Pix, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
+                    tefAtual.StatusChanged += Tef_StatusChanged;
+                    this.IsEnabled = false;
+                    return;
                 }
             }
             AcrescentaMetodoPagamento(idMetodo, _valor, strPgCfe);

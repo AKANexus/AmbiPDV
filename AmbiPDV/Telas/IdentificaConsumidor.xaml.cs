@@ -19,7 +19,7 @@ namespace PDV_WPF.Telas
         }
 
         public string identificacao { get; set; }
-        public CfeRecepcao_0007.ItemChoiceType tipo { get; set; }
+        public CfeRecepcao_0008.ItemChoiceType tipo { get; set; }
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
         private void CPF_CNPJ_KeyDown(object sender, KeyEventArgs e)
@@ -30,14 +30,14 @@ namespace PDV_WPF.Telas
                 {
                     if (Funcoes.ValidaCNPJ.IsCnpj(txb_Cliente.Text.ToString()) == true)
                     {
-                        tipo = CfeRecepcao_0007.ItemChoiceType.CNPJ;
+                        tipo = CfeRecepcao_0008.ItemChoiceType.CNPJ;
                         identificacao = txb_Cliente.Text.ToString();
                         Close();
 
                     }
                     else if (Funcoes.ValidaCPF.IsCpf(txb_Cliente.Text.ToString()) == true)
                     {
-                        tipo = CfeRecepcao_0007.ItemChoiceType.CPF;
+                        tipo = CfeRecepcao_0008.ItemChoiceType.CPF;
                         identificacao = txb_Cliente.Text.ToString();
                         Close();
                     }
@@ -53,13 +53,13 @@ namespace PDV_WPF.Telas
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
-                    tipo = CfeRecepcao_0007.ItemChoiceType.NENHUM;
+                    tipo = CfeRecepcao_0008.ItemChoiceType.NENHUM;
                     Close();
                 });
             }
             //else if (e.Key == Key.F2)
             //{
-            //    tipo = CfeRecepcao_0007.ItemChoiceType.DEMONSTRACAO;
+            //    tipo = CfeRecepcao_0008.ItemChoiceType.DEMONSTRACAO;
             //    Close();
             //}
         }
@@ -72,14 +72,14 @@ namespace PDV_WPF.Telas
                     string CPF_CNPJ = RetornaCPF_CNPJSat(cbb_ClienteSat.Text.ToString());
                     if (Funcoes.ValidaCNPJ.IsCnpj(CPF_CNPJ) == true)
                     {
-                        tipo = CfeRecepcao_0007.ItemChoiceType.CNPJ;
+                        tipo = CfeRecepcao_0008.ItemChoiceType.CNPJ;
                         identificacao = CPF_CNPJ;
                         Close();
 
                     }
                     else if (Funcoes.ValidaCPF.IsCpf(CPF_CNPJ) == true)
                     {
-                        tipo = CfeRecepcao_0007.ItemChoiceType.CPF;
+                        tipo = CfeRecepcao_0008.ItemChoiceType.CPF;
                         identificacao = CPF_CNPJ;
                         Close();
                     }
@@ -95,13 +95,13 @@ namespace PDV_WPF.Telas
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
-                    tipo = CfeRecepcao_0007.ItemChoiceType.NENHUM;
+                    tipo = CfeRecepcao_0008.ItemChoiceType.NENHUM;
                     Close();
                 });
             }
             //else if (e.Key == Key.F2)
             //{
-            //    tipo = CfeRecepcao_0007.ItemChoiceType.DEMONSTRACAO;
+            //    tipo = CfeRecepcao_0008.ItemChoiceType.DEMONSTRACAO;
             //    Close();
             //}
         }

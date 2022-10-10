@@ -636,7 +636,10 @@ namespace PDV_WPF.Telas
             Console.WriteLine("RemoveMensagemOperador");
         }
 
+        private void ExibeQRCode(byte[] buffer)
+        {
 
+        }
         private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             if (estadoTEF == StateTEF.AguardaMenu && e.Text.IsNumbersOnly())
@@ -706,7 +709,6 @@ namespace PDV_WPF.Telas
             tituloJanela = "OPERAÇÃO NO TEF";
             mensagemJanela = Encoding.ASCII.GetString(buffer).Split('\0')[0];
             Console.WriteLine($"ExibeMensagemOperador: {Encoding.ASCII.GetString(buffer).Split('\0')[0]}");
-
         }
 
         private void AtualizaUI((string body, string titulo) item)

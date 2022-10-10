@@ -308,7 +308,7 @@ namespace PDV_WPF.Funcoes
                     {
                         TipoTEF.Credito => "03",
                         TipoTEF.Debito => "04",
-                        TipoTEF.Pix => "20",
+                        TipoTEF.Pix => "17",
                         _ => "99"
                     };
                 }
