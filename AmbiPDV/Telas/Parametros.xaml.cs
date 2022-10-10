@@ -112,7 +112,24 @@ namespace PDV_WPF
             txb_Valor_Max.IsEnabled = false;
             txb_Valor_Max.Value = 0;
         }
-
+        private void chk_Usatef_Checked(object sender, RoutedEventArgs e)
+        {
+            chk_maquininha.IsChecked = false;
+            chk_maquininha.IsEnabled = false;
+        }
+        private void chk_Usatef_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chk_maquininha.IsEnabled = true;
+        }
+        private void chk_Maquininha_Checked(object sender, RoutedEventArgs e)
+        {
+            chk_usatef.IsChecked = false;
+            chk_usatef.IsEnabled = false;
+        }
+        private void chk_Maquininha_Unchecked(object sender, RoutedEventArgs e)
+        {
+            chk_usatef.IsEnabled = true;
+        }
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.

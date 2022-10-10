@@ -2570,6 +2570,7 @@ namespace PDV_WPF.Telas
                             { "11", "Vale Refeição" },
                             { "12", "PIX" },
                             { "13", "Vale Combustível" },
+                            { "17", "Transferência Pix" },
                             { "20", "PIX" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.

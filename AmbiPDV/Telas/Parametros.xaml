@@ -38,12 +38,12 @@
                 <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                     <Label Content="Term."/>
                     <TextBox Width="74" MaxLength="4" x:Name="txb_No_Caixa" VerticalContentAlignment="Center"/>
-                    <CheckBox Content="Utiliza SiTEF?" Margin="20,10,5,5" x:Name="chk_usatef" IsEnabled="True" Visibility="Visible"/>
+                    <CheckBox Content="Utiliza SiTEF?" Margin="20,10,5,5" x:Name="chk_usatef" IsEnabled="True" Visibility="Visible" Checked="chk_Usatef_Checked" Unchecked="chk_Usatef_Unchecked"/>
                     <CheckBox Content="Usa Comanda?" Margin="5,10,5,5" x:Name="chk_comanda" IsEnabled="True" Visibility="Visible"/>
                     <CheckBox Content="Detalha Desconto?" Margin="5,10,5,5" x:Name="chk_detalhadesconto" IsEnabled="True" Visibility="Visible"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="12,0,10,10" HorizontalAlignment="Center" Height="29" Width="393">
-                    <CheckBox Content="Informar maquininha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_maquininha" IsEnabled="True" Visibility="Visible"/>
+                    <CheckBox Content="Informar maquininha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_maquininha" IsEnabled="True" Visibility="Visible" Checked="chk_Maquininha_Checked" Unchecked="chk_Maquininha_Unchecked"/>
                     <CheckBox Content="Modo Bar?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_modobar" IsEnabled="True" Visibility="Visible"/>
                     <CheckBox Content="Pede Senha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_pedesenha" IsEnabled="True" Visibility="Visible"/>
                 </StackPanel>
@@ -114,7 +114,7 @@
 
 
         </GroupBox>
-        <GroupBox Header="Cadastros" Margin="10,0" Height="61" Visibility="Hidden">
+        <GroupBox Header="Cadastros" Margin="10,0" Height="61" Visibility="Visible">
             <StackPanel Orientation="Horizontal">
                 <Button Name="but_Metodos" Content="Métodos de Pagamento" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0" Click="MetodosPgto_click" Height="23"/>
             </StackPanel>
