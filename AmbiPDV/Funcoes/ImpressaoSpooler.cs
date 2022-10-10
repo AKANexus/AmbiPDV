@@ -1179,9 +1179,9 @@ namespace PDV_WPF
             foreach (var metodo in valoresOperacionais)
             {
                 log.Debug($"metodo{metodo},valoresOperacinais: {valoresOperacionais}");
-                if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04") && USATEF)
+                if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17") && USATEF)
                 {
-                    //Caso o sistema use TEF, nenhum valor de cartão será informado - o sistema pega o valor diretamente da base.
+                    //Caso o sistema use TEF, nenhum valor de TEF será informado - o sistema pega o valor diretamente da base.
                     valorASerImpresso = metodo.VALOR;
                 }
                 else
@@ -1255,7 +1255,7 @@ namespace PDV_WPF
                 {
                     log.Debug($"metodo {metodo},valoresOperacinais: {valoresOperacionais}");
                     decimal valorInformado = GetValorMetodoFromOper(fecha_infor_dt[0], metodo.ID_FMANFCE);
-                    if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04") && USATEF)
+                    if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17") && USATEF)
                     {
                         valorInformado = metodo.VALOR;
                     }
@@ -1503,6 +1503,9 @@ namespace PDV_WPF
                     break;
                 case 10:
                     retorno = Convert.ToDecimal(tRI_PDV_OPERRow["OUTROS"]);
+                    break;
+                case 16:
+                    retorno = Convert.ToDecimal(tRI_PDV_OPERRow["EXTRA_1"]);
                     break;
                 default:
                     break;

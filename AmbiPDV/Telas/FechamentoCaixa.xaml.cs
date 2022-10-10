@@ -33,6 +33,7 @@ namespace PDV_WPF.Telas
         public decimal _refeicao { get; set; }
         public decimal _presente { get; set; }
         public decimal _combustivel { get; set; }
+        public decimal _pix { get; set; }
         public decimal _outros { get; set; }
         public decimal _SANG { get; set; }
         public decimal _SUP { get; set; }
@@ -102,6 +103,10 @@ namespace PDV_WPF.Telas
                         case "13":
                             txb_Combustivel.Visibility = lbl_combustivel.Visibility = Visibility.Visible;
                             lbl_combustivel.Content = item.DESCRICAO;
+                            break;
+                        case "17":
+                            txb_Pix.Visibility = lbl_pix.Visibility = Visibility.Visible;
+                            lbl_pix.Content = item.DESCRICAO;
                             break;
                         case "99":
                             txb_Outros.Visibility = lbl_outros.Visibility = Visibility.Visible;
@@ -184,6 +189,7 @@ namespace PDV_WPF.Telas
             _refeicao = txb_Refeicao.Value;
             _presente = txb_Presente.Value;
             _combustivel = txb_Combustivel.Value;
+            _pix = txb_Pix.Value;
             _outros = txb_Outros.Value;
             _SANG = txb_San.Value;
             _SUP = txb_Sup.Value;
@@ -214,7 +220,7 @@ namespace PDV_WPF.Telas
                         metodo_pgto_col["PRESENTE"] = _presente;
                         metodo_pgto_col["COMBUSTIVEL"] = _combustivel;
                         metodo_pgto_col["OUTROS"] = _outros;
-                        metodo_pgto_col["EXTRA_1"] = 0;
+                        metodo_pgto_col["EXTRA_1"] = _pix;
                         metodo_pgto_col["EXTRA_2"] = 0;
                         metodo_pgto_col["EXTRA_3"] = 0;
                         metodo_pgto_col["EXTRA_4"] = 0;
