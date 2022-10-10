@@ -43,8 +43,6 @@
                 <nexusControls:NexusCurrencyBox LostFocus="txb_Troca_LostFocus" Visibility="Collapsed" x:Name="txb_Outros" TextWrapping="Wrap" Value="0" HorizontalAlignment="Left" FontFamily="OpenSans" Margin="5,0,0,0" Width="120" Height="23" HorizontalContentAlignment="Right" Language="pt-BR"/>
                 <Label Visibility="Collapsed" Content="TROCA" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="OpenSansSemiBold" Margin="0,0,5,0" Name="lbl_Troca"/>
                 <nexusControls:NexusCurrencyBox Visibility="Collapsed" x:Name="txb_Troca" TextWrapping="Wrap" Value="0" HorizontalAlignment="Left" FontFamily="OpenSans" Margin="5,0,0,0" Width="120" Height="23" HorizontalContentAlignment="Right" Language="pt-BR" LostFocus="txb_Troca_LostFocus"/>
-                <Label Visibility="Collapsed" Content="PIX" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="OpenSansSemiBold" Margin="0,0,5,0" Name="lbl_Pix"/>
-                <nexusControls:NexusCurrencyBox Visibility="Collapsed" x:Name="txb_Pix" TextWrapping="Wrap" Value="0" HorizontalAlignment="Left" FontFamily="OpenSans" Margin="5,0,0,0" Width="120" Height="23" HorizontalContentAlignment="Right" Language="pt-BR" LostFocus="txb_Troca_LostFocus"/>
             </UniformGrid>
             <UniformGrid Columns="2" Margin="0,25,0,0">
                 <Label Content="SUPRIMENTOS" HorizontalAlignment="Right" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontFamily="OpenSansSemiBold" Margin="0,0,5,0" Name="lbl_sup"/>

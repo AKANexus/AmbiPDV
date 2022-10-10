@@ -35,7 +35,6 @@ namespace PDV_WPF.Telas
         public decimal _combustivel { get; set; }
         public decimal _pix { get; set; }
         public decimal _outros { get; set; }
-        public decimal _pix { get; set; }
         public decimal _SANG { get; set; }
         public decimal _SUP { get; set; }
         public decimal _TROCA { get; set; }
