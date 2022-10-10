@@ -597,6 +597,9 @@
     <Compile Include="Telas\AcrTaxaServico.xaml.cs">
       <DependentUpon>AcrTaxaServico.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\Administradora.xaml.cs">
+      <DependentUpon>Administradora.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\CadastraSenha.xaml.cs">
       <DependentUpon>CadastraSenha.xaml</DependentUpon>
     </Compile>
@@ -846,6 +849,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Telas\AcrTaxaServico.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\Administradora.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -43,7 +43,7 @@ namespace PDV_WPF.Telas
         private bool _painelFechado = true;
         public envCFeCFeInfCFePgto pgto = new envCFeCFeInfCFePgto();
         public List<envCFeCFeInfCFePgtoMP> metodos = new List<envCFeCFeInfCFePgtoMP>();
-        public List<(string, decimal)> metodosnew = new List<(string, decimal)>();
+        public List<(string, decimal, int)> metodosnew = new List<(string, decimal, int)>();
         public List<SiTEFBox> tefUsados = new List<SiTEFBox>();
         //private OperTEF tefAtual;
         public Venda _vendaAtual;
@@ -219,9 +219,9 @@ namespace PDV_WPF.Telas
             return false;
         }
 
-        private void txb_Metodo_KeyDown(object sender, KeyEventArgs e)
+        private void txb_Metodo_KeyDown(object sender, KeyEventArgs e)        
         {
-            if (e.Key == Key.Enter)
+            if (e.Key == Key.Enter)            
             {
                 int.TryParse(txb_Metodo.Text, out int _result);
                 switch (ValidarMetodo(_result))
@@ -234,7 +234,7 @@ namespace PDV_WPF.Telas
                         else
                         {
                             stp_Parcelas.Visibility = Visibility.Hidden;
-                        }
+                        }                                                                      
                         metodo = _result;
                         txb_Valor.Focus();
                         txb_Valor.SelectAll();
@@ -378,9 +378,9 @@ namespace PDV_WPF.Telas
             envCFeCFeInfCFePgtoMP pgto = new envCFeCFeInfCFePgtoMP()
             {
                 cMP = strPgCfe.PadLeft(2, '0'),
-                dec_vMP = (_valor),
+                dec_vMP = (_valor),                
                 vMP = (_valor).ToString("0.00"),
-                desconto = false
+                desconto = false               
             };
             if (strPgCfe == "05")
             {
@@ -399,7 +399,7 @@ namespace PDV_WPF.Telas
             nomes_pgtos.Add(strDescricaoMetodo);
 
             pagamentos[idMetodo] += (_valor - troco);
-            metodosnew.Add((strPgCfe, _valor));
+            metodosnew.Add((strPgCfe, _valor, Administradora.idAdm));
             metodos.Add(pgto);
             valores_pgtos.Add(_valor);
 
@@ -481,13 +481,12 @@ namespace PDV_WPF.Telas
                                 dec_vMP = _valor,
                                 vMP = _valor.ToString("0.00"),
                                 desconto = true
-
                             };
                             nomes_pgtos.Add("DEVOLUÇÃO");
                             valores_pgtos.Add(_valor);
                             pagamentos[100] += _valor;
                             metodos.Add(pgto);
-                            metodosnew.Add(("99", _valor));
+                            metodosnew.Add(("99", _valor, Administradora.idAdm));
                             if (_valor >= valor_a_ser_pago)
                             {
                                 if (_valor == valor_a_ser_pago)
@@ -720,9 +719,21 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Enter)
             {
+                int.TryParse(txb_Metodo.Text, out int _result);
+                switch (_result)
+                {
+                    case 3:
+                    case 4:                    
+                        if (INFORMA_MAQUININHA == true)
+                        {
+                            Administradora adm = new Administradora();
+                            adm.ShowDialog();                            
+                        }
+                        break;
+                }
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
-                    int.TryParse(txb_Metodo.Text, out int _result);
+                    //int.TryParse(txb_Metodo.Text, out int _result);
                 if (_result == 3 && SYSPARCELA.ToBool())
                     {
                         txb_parcelas.Focus();

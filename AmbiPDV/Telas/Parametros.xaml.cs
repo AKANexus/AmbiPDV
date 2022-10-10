@@ -155,6 +155,7 @@ namespace PDV_WPF
                 txb_No_Caixa.Text = NO_CAIXA.ToString("D3");
                 cbb_Pede_CPF.SelectedIndex = PEDE_CPF;
                 cbb_Pede_Vend.SelectedIndex = SYSCOMISSAO;
+                chk_maquininha.IsChecked = INFORMA_MAQUININHA;
                 chk_Interrompe_Nao_Encontrado.IsChecked = INTERROMPE_NAO_ENCONTRADO;
                 chk_Permite_Venda_Negativa.IsChecked = PERMITE_ESTOQUE_NEGATIVO;
                 cbb_Mod_CUP.SelectedIndex = (int)MODELO_CUPOM;
@@ -190,6 +191,7 @@ namespace PDV_WPF
                 txb_No_Caixa.Text = "";
                 cbb_Pede_CPF.SelectedIndex = 0;
                 cbb_Pede_Vend.SelectedIndex = 0;
+                chk_maquininha.IsChecked = false;
                 chk_Interrompe_Nao_Encontrado.IsChecked = false;
                 chk_Permite_Venda_Negativa.IsChecked = false;
                 cbb_Mod_CUP.SelectedIndex = 0;
@@ -273,6 +275,7 @@ namespace PDV_WPF
             PERMITE_FOLGA_SANGRIA = chk_Permite_Folga.IsChecked ?? false;
             NO_CAIXA = txb_No_Caixa.Text.Safeint();
             PEDE_CPF = cbb_Pede_CPF.SelectedIndex;
+            INFORMA_MAQUININHA = chk_maquininha.IsChecked ?? false;
             INTERROMPE_NAO_ENCONTRADO = chk_Interrompe_Nao_Encontrado.IsChecked ?? false;
             PERMITE_ESTOQUE_NEGATIVO = chk_Permite_Venda_Negativa.IsChecked;
             MODELO_CUPOM = ModeloCupom.Simples;

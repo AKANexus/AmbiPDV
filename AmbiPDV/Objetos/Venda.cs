@@ -13,6 +13,7 @@ using System.Windows;
 using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.DataSets;
 
 namespace PDV_WPF.Objetos
 {
@@ -595,8 +596,8 @@ namespace PDV_WPF.Objetos
                     _COFINS.Item = _COFINSAliq;
                     _COFINSrecebido = true;
                     break;
-                case "03":
-                    _COFINSQtde = new envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde() { CST = cST, vAliqProd = (valorBaseCalculo * qtdVendida).ToString("0.0000"), qBCProd = qtdVendida.ToString("0.000") };
+                case "03":                    
+                    _COFINSQtde = new envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde() { CST = cST, vAliqProd = (aliquotaPorcento * valorBaseCalculo / 100).ToString("0.0000"), qBCProd = qtdVendida.ToString("0.000") };
                     _COFINS.Item = _COFINSQtde;
                     _COFINSrecebido = true;
                     break;
@@ -617,7 +618,7 @@ namespace PDV_WPF.Objetos
                 case "99":
                     _COFINSOutr = new envCFeCFeInfCFeDetImpostoCOFINSCOFINSOutr
                     {
-                        CST = cST
+                        CST = cST                        
                     };
 
                     if ((valorBaseCalculo != 0 || aliquotaPorcento != 0) && (aliquotaValor != 0 || qtdVendida != 0))
@@ -786,11 +787,11 @@ namespace PDV_WPF.Objetos
         /// </summary>
         /// <param name="codigoMetodo">Código CFE do método de pagamento</param>
         /// <param name="valorMetodo">Valor do método de pagamento</param>
-        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, decimal valorTroco = 0)
+        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, int idAdministradora, decimal valorTroco = 0)
         {
             if (_listaPagamentos is null) _listaPagamentos = new List<envCFeCFeInfCFePgtoMP>();
             if (!_listademetodos.Contains(codigoMetodo)) throw new ErroDeValidacaoDeConteudo("Código do Método de Pagamento informado inválido.");
-            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00") };
+            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idADMINS = idAdministradora };
             _listaPagamentos.Add(_MP);
             _valTroco = valorTroco;
         }
@@ -802,11 +803,11 @@ namespace PDV_WPF.Objetos
         /// <param name="valorMetodo">Valor do método de pagamento</param>
         /// <param name="vencimento">Vencimento da forma de pagamento</param>
         /// <param name="id_cliente">ID do cliente</param>
-        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, DateTime vencimento, int id_cliente)
+        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, int idAdministradora, DateTime vencimento, int id_cliente)
         {
             if (_listaPagamentos is null) _listaPagamentos = new List<envCFeCFeInfCFePgtoMP>();
             if (!_listademetodos.Contains(codigoMetodo)) throw new ErroDeValidacaoDeConteudo("Código do Método de Pagamento informado inválido.");
-            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idCliente = id_cliente, vencimento = vencimento };
+            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idCliente = id_cliente, vencimento = vencimento, idADMINS = idAdministradora };
             imprimeViaAssinar = true;
             _listaPagamentos.Add(_MP);
         }
@@ -962,30 +963,111 @@ namespace PDV_WPF.Objetos
                         if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoICMS)
                         {
                             envCFeCFeInfCFeDetImpostoICMS iCMS = (envCFeCFeInfCFeDetImpostoICMS)detalhamento.imposto.Item;
-                            using var TB_NFV_ITEM_ICMS = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_ICMSTableAdapter
+                            using var TB_NFV_ITEM_ICMS = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_ICMSTableAdapter { Connection = LOCAL_FB_CONN };
+                            if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN102 ICMSSN102) //SIMPLES NACIONAL = CSOSN 102, 300, 400, 500 E OUTROS
                             {
-                                Connection = LOCAL_FB_CONN
-                            };
-                            if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN102 ICMSSN102)
-                            {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 100, detalhamento.imposto.CST, 0, 0);
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 0, "000", 0, 0);
                             }
-                            else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN900 ICMSSN900)
+                            else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN900 ICMSSN900) //SIMPLES NACIONAL = CSOSN 900
                             {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMSSN900.vICMS), decimal.Parse(ICMSSN900.pICMS), detalhamento.imposto.CST, 0, 0);
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMSSN900.vICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMSSN900.pICMS, CultureInfo.InvariantCulture), "000", decimal.Parse(ICMSSN900.pICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMSSN900.vICMS, CultureInfo.InvariantCulture));
                             }
-                            else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS40 ICMS40)
-                            {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 100, ICMS40.CST, 0, 0);
-                            }
-                            else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS00 ICMS00)
-                            {
-                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMS00.vICMS), decimal.Parse(ICMS00.pICMS), ICMS00.CST, 0, 0);
+                            else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS40 ICMS40) //REGIME NORMAL = CST 40, 41 E 60
+                            {                                
+                                TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 0, ICMS40.Orig + ICMS40.CST, 0, 0);
+                            }                            
+                            else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS00 ICMS00) //REGIME NORMAL = CST 00, 20 E 90
+                            {                                
+                                if (ICMS00.CST is "20") //Redução BC
+                                {
+                                    int.TryParse(detalhamento.prod.cProd, out int codProd);
+
+                                    using var TaxaProd = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUETableAdapter { Connection = LOCAL_FB_CONN };
+                                    using var AliqTaxa = new DataSets.FDBDataSetOperSeedTableAdapters.TB_TAXA_UFTableAdapter { Connection = LOCAL_FB_CONN };                                    
+
+                                    var taxa = TaxaProd.TaxaPorID(codProd);
+                                    decimal ALIQ_ICMS = Convert.ToDecimal(AliqTaxa.AliqPorID(taxa.ToString()), CultureInfo.InvariantCulture);
+                                    decimal POR_BC_ICMS = Convert.ToDecimal(AliqTaxa.BCPorID(taxa.ToString()), CultureInfo.InvariantCulture);                                     
+                                    decimal.TryParse(detalhamento.prod.vProd.Replace('.', ','), out decimal vProd);
+                                    decimal VLR_BC_ICMS = Math.Round(POR_BC_ICMS / 100 * vProd, 2);
+
+                                    TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, VLR_BC_ICMS, POR_BC_ICMS, ICMS00.Orig + ICMS00.CST, ALIQ_ICMS, decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture)); ;
+                                }                               
+                                else //Cobrado integralmente
+                                {                                    
+                                    TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(detalhamento.prod.vItem, CultureInfo.InvariantCulture), 100, ICMS00.Orig + ICMS00.CST, decimal.Parse(ICMS00.pICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture)); ;
+                                }
                             }
                         }
                         else if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoISSQN)
                         {
 
+                        }
+
+                        if (detalhamento.imposto.COFINS is not null)
+                        {
+                            using var TB_NFV_ITEM_COFINS = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_COFINSTableAdapter()
+                            {
+                                Connection = LOCAL_FB_CONN
+                            };
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSAliq
+                                COFINSAliq) //CST 01, 02 e 05
+                            {                                
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, 100, COFINSAliq.CST, decimal.Parse(COFINSAliq.pCOFINS, CultureInfo.InvariantCulture) * 100, decimal.Parse(COFINSAliq.vCOFINS, CultureInfo.InvariantCulture), decimal.Parse(COFINSAliq.vBC, CultureInfo.InvariantCulture));
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSNT
+                                COFINSNT) //CST 04, 06, 07, 08 e 09
+                            {
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, 0, COFINSNT.CST, 0, 0, 0);
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSOutr
+                                COFINSOutr) //CST 99
+                            {
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, 100, COFINSOutr.CST, decimal.Parse(COFINSOutr.Items[1], CultureInfo.InvariantCulture) * 100, decimal.Parse(COFINSOutr.vCOFINS, CultureInfo.InvariantCulture), decimal.Parse(COFINSOutr.Items[0], CultureInfo.InvariantCulture));
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde
+                                COFINSQtde)
+                            {
+
+                            }
+                            if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSSN
+                                COFINSSN) //CST 49
+                            {
+                                TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, 0, COFINSSN.CST, 0, 0, 0);
+                            }
+                        }
+
+                        if (detalhamento.imposto.PIS is not null)
+                        {
+                            using var TB_NFV_ITEM_PIS = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_PISTableAdapter()
+                            {
+                                Connection = LOCAL_FB_CONN
+                            };
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISAliq
+                                PISAliq) //CST 01, 02 E 05
+                            {
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISAliq.CST, 100, decimal.Parse(PISAliq.pPIS, CultureInfo.InvariantCulture) * 100, decimal.Parse(PISAliq.vPIS, CultureInfo.InvariantCulture), decimal.Parse(PISAliq.vBC, CultureInfo.InvariantCulture));
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISNT
+                                PISNT) //CST 04, 06, 07, 08 E 09
+                            {
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISNT.CST, 0, 0, 0, 0);
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISOutr
+                                PISOutr) //CST 99
+                            {
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISOutr.CST, 100, decimal.Parse(PISOutr.Items[1], CultureInfo.InvariantCulture) * 100, decimal.Parse(PISOutr.vPIS, CultureInfo.InvariantCulture), decimal.Parse(PISOutr.Items[0], CultureInfo.InvariantCulture));
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISQtde
+                                PISQtde)
+                            {
+
+                            }
+                            if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISSN
+                                PISSN) //CST 49
+                            {                                
+                                TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISSN.CST, 0, 0, 0, 0);
+                            }
                         }
 
                     }
@@ -1015,13 +1097,24 @@ namespace PDV_WPF.Objetos
                         int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
                         TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
                         //ID_NUMPAG = (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(Decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
-
-                        ID_NUMPAG = idNfce switch
+                        if (pagamento.idADMINS <= 0)
                         {
-                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2),
-                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3),
-                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2)
-                        };
+                            ID_NUMPAG = idNfce switch
+                            {
+                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null),
+                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, null),
+                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null)
+                            };
+                        }
+                        else
+                        {
+                            ID_NUMPAG = idNfce switch
+                            {
+                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.idADMINS),
+                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, pagamento.idADMINS),
+                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
+                            };
+                        }
 
                         //ID_NUMPAG = (idNfce == 3) ?
                         //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3) :
@@ -1177,8 +1270,8 @@ namespace PDV_WPF.Objetos
                         MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
                         return -1;
                     }
+                    Administradora.idAdm = 0; //Terminei de gravar as administradora, preciso voltar ao estado inicial. (será arrumado mais pra frente)
                 }
-
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
             }
             return ID_NFVENDA;
@@ -1315,15 +1408,25 @@ namespace PDV_WPF.Objetos
                             using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
                             TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
                             int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
-
-                            ID_NUMPAG = idNfce switch
+                            if (pagamento.idADMINS <= 0)
                             {
-                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2),
-                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3),
-                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2)
-                            };
-
-
+                                ID_NUMPAG = idNfce switch
+                                {
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, null), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, null),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, null)
+                                };
+                            }
+                            else
+                            {
+                                ID_NUMPAG = idNfce switch
+                                {
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.idADMINS), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.idADMINS),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
+                                };
+                            }
+                            
                             //ID_NUMPAG = (idNfce == 3) ?
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3) :
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
@@ -1484,6 +1587,7 @@ namespace PDV_WPF.Objetos
                             return (-1, -1);
                         }
                     }
+                    Administradora.idAdm = 0; //Terminei de gravar as administradora, preciso voltar ao estado inicial. (será arrumado mais pra frente)
                 }
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
 

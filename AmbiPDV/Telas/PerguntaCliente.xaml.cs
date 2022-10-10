@@ -183,7 +183,7 @@ namespace PDV_WPF.Telas
             {
                 CarregarClientesOC();
                 PreencherCombobox();
-                MessageBox.Show("Concluído. Confira!");
+                MessageBox.Show("Cadastro de clientes atualizado com sucesso!", "Confirmação", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
