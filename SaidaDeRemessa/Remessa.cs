@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using CfeRecepcao_0007;
+using CfeRecepcao_0008;
 using FirebirdSql.Data.FirebirdClient;
+using PDV_WPF.Funcoes;
 using static PDV_WPF.Funcoes.Statics;
 
 namespace SaidaDeRemessa
@@ -12,7 +13,7 @@ namespace SaidaDeRemessa
     {
         public override (int NF_NUMERO, int ID_NFVENDA) GravaNaoFiscalBase(decimal vTroco, int noCaixa, short idVendedor, bool ECF = false)
         {
-            PDV_WPF.CFe cfeDeRetorno = RetornaCFe();
+            CFe cfeDeRetorno = RetornaCFe();
             int NF_NUMERO, nItemCup, ID_NFVENDA, ID_CLIENTE = 0;
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             using (var OPER_TA = new PDV_WPF.DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())

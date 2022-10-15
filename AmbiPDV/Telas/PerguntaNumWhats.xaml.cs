@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+using PDV_WPF.Funcoes;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Funcoes.Extensions;

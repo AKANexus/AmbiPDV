@@ -2,6 +2,7 @@
 using PDV_WPF.Exceptions;
 using System;
 using System.Collections.Generic;
+using PDV_WPF.Funcoes;
 
 namespace PDV_WPF.Objetos
 {

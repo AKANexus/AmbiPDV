@@ -11,7 +11,7 @@ namespace PDV_WPF.Objetos
 {
     class Cancelamento : IDisposable
     {
-        private cancCFeCFeCanc _cFeCanc;
+        private CFeCanc _cFeCanc;
         private cancCFeCFeCancInfCFe _cancinfCFe;
         private cancCFeCFeCancInfCFeDest _cancinfCFeDest;
         private cancCFeCFeCancInfCFeEmit _cancinfCFeEmit;
@@ -36,7 +36,7 @@ namespace PDV_WPF.Objetos
             _cancinfCFeEmit = new();
             _cancinfCFeDest = new();
             _cancinfCFeTotal = new();
-            _cFeCanc.infCFe.chCanc = "CFe" + chaveAnterior;
+            _cancinfCFe.chCanc = "CFe" + chaveAnterior;
             _cancinfCfeIde.signAC = assinatura;
             _cancinfCfeIde.numeroCaixa = numeroCaixa;
             _cancinfCfeIde.CNPJ = CNPJSH;

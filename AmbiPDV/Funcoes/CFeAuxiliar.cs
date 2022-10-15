@@ -1,6 +1,6 @@
 ﻿using CfeRecepcao_0008;
 
-namespace PDV_WPF
+namespace PDV_WPF.Funcoes
 {
     public class CFe
     {
@@ -77,8 +77,8 @@ namespace PDV_WPF
     }
     //public class CFeCanc
     //{
-    //    private CfeCancelamento_0008.cancCFeCFeCanc newInfCFe;
-    //    public CfeCancelamento_0008.cancCFeCFeCanc infCFe
+    //    private CfeCancelamento_0008.cancCFe newInfCFe;
+    //    public CfeCancelamento_0008.cancCFe infCFe
     //    {
     //        get { return newInfCFe; }
     //        set { newInfCFe = value; }

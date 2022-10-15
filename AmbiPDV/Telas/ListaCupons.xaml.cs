@@ -4,6 +4,7 @@ using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using LocalDarumaFrameworkDLL;
 using PDV_WPF.FDBDataSetTableAdapters;
+using PDV_WPF.Funcoes;
 using PDV_WPF.Objetos;
 using PDV_WPF.Properties;
 using System;
@@ -300,24 +301,40 @@ namespace PDV_WPF.Telas
                 log.Debug($"Erro do SAT: {erro_canc}");
                 return;
             }
-            StringReader XmlRetorno = new StringReader(_xmlret_canc);
-            XmlReader _xreader = XmlReader.Create(XmlRetorno);
-            cancCFeCFeCanc xml_de_retorno_canc = new cancCFeCFeCanc();
-            var _serializer = new XmlSerializer(xml_de_retorno_canc.GetType());
-            xml_de_retorno_canc = (cancCFeCFeCanc)_serializer.Deserialize(_xreader);
-            string valorcfe = xml_de_retorno_canc.infCFe.total.vCFe;
-            _infoStr = xml_de_retorno_canc.infCFe.dest.Item;
-            string chavenfe = xml_de_retorno_canc.infCFe.Id.Substring(3);
+            var serializer = new XmlSerializer(typeof(CFeCanc));
+
+            CFeCanc retornoCanc = new();
+            using (var xmlRetorno = new StringReader(_xmlret_canc))
+            using (var xreader = XmlReader.Create(xmlRetorno))
+            {
+                retornoCanc = (CFeCanc)serializer.Deserialize(xreader);
+            }
+
+            //StringReader XmlRetorno = new StringReader(_xmlret_canc);
+            //XmlReader _xreader = XmlReader.Create(XmlRetorno);
+            //cancCFe xml_de_retorno_canc = new cancCFe();
+            //XmlRootAttribute xRoot = new();
+            //xRoot.ElementName = "CFeCanc";
+            //var _serializer = new XmlSerializer(xml_de_retorno_canc.GetType());
+            //xml_de_retorno_canc = (cancCFe)_serializer.Deserialize(_xreader);
+
+
+
+
+
+            string valorcfe = retornoCanc.infCFe.total.vCFe;
+            _infoStr = retornoCanc.infCFe.dest.Item;
+            string chavenfe = retornoCanc.infCFe.Id.Substring(3);
             Directory.CreateDirectory(@"SAT\Cancelamentos");
             File.WriteAllText(string.Format(@"SAT\Cancelamentos\ADC {0}.xml", chavenfe), _xmlret_canc);
-            int.TryParse(xml_de_retorno_canc.infCFe.ide.nCFe, out printCANCL.numerodoextrato);
-            int.TryParse(xml_de_retorno_canc.infCFe.ide.nserieSAT, out printCANCL.numerosat);
-            int.TryParse(xml_de_retorno_canc.infCFe.chCanc.Substring(34, 6), out printCANCL.cupomcancelado);
+            int.TryParse(retornoCanc.infCFe.ide.nCFe, out printCANCL.numerodoextrato);
+            int.TryParse(retornoCanc.infCFe.ide.nserieSAT, out printCANCL.numerosat);
+            int.TryParse(retornoCanc.infCFe.chCanc.Substring(34, 6), out printCANCL.cupomcancelado);
             printCANCL.cpfcnpjconsumidor = _infoStr;
             printCANCL._operador = operador.Split(' ')[0];
             printCANCL.chavenfe = chavenfe;
             printCANCL.total = decimal.Parse(valorcfe.Replace('.', ','));
-            printCANCL.assinaturaQRCODE = chavenfe + "|" + DateTime.Now.ToString("yyyyMMddHHmmss") + "|" + valorcfe + "|" + _infoStr + "|" + xml_de_retorno_canc.infCFe.ide.assinaturaQRCODE;
+            printCANCL.assinaturaQRCODE = chavenfe + "|" + DateTime.Now.ToString("yyyyMMddHHmmss") + "|" + valorcfe + "|" + _infoStr + "|" + retornoCanc.infCFe.ide.assinaturaQRCODE;
             printCANCL.IMPRIME();
             log.Debug("Impressão do CFe de cancelamento");
             log.Debug($"CANCELAULTIMOCUPOM({cupomSAT.ID_NFVENDA})");
@@ -333,9 +350,9 @@ namespace PDV_WPF.Telas
                     cupomSAT.ID_REGISTRO,
                     DateTime.Today,
                     DateTime.Now,
-                    int.Parse(xml_de_retorno_canc.infCFe.ide.nCFe),
-                    xml_de_retorno_canc.infCFe.chCanc,
-                    xml_de_retorno_canc.infCFe.ide.nserieSAT,
+                    int.Parse(retornoCanc.infCFe.ide.nCFe),
+                    retornoCanc.infCFe.chCanc,
+                    retornoCanc.infCFe.ide.nserieSAT,
                     null);
             }
 
@@ -364,7 +381,7 @@ namespace PDV_WPF.Telas
         {
             PrintCANCL printCANCL = new();
             log.Debug("Cupom sat a ser cancelado: {cupomSAT.CHAVE_CFE}");
-            cancCFeCFeCanc CfeCanc = new();
+            CFeCanc CfeCanc = new();
             cancCFeCFeCancInfCFe CancinfCFe = new();
             cancCFeCFeCancInfCFeDest CancinfCFeDest = new();
             cancCFeCFeCancInfCFeEmit CancinfCFeEmit = new();
@@ -487,7 +504,7 @@ namespace PDV_WPF.Telas
             }
             StringReader XmlRetorno = new StringReader(_xmlret_canc);
             XmlReader _xreader = XmlReader.Create(XmlRetorno);
-            cancCFeCFeCanc xml_de_retorno_canc = (cancCFeCFeCanc)_serializer.Deserialize(_xreader);
+            CFeCanc xml_de_retorno_canc = (CFeCanc)_serializer.Deserialize(_xreader);
             string valorcfe = xml_de_retorno_canc.infCFe.total.vCFe;
             _infoStr = xml_de_retorno_canc.infCFe.dest.Item;
             string chavenfe = xml_de_retorno_canc.infCFe.Id.Substring(3);
