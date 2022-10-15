@@ -105,7 +105,7 @@ namespace PDV_WPF.Telas
                             lbl_combustivel.Content = item.DESCRICAO;
                             break;
                         case "17":
-                            txb_Pix.Visibility = lbl_pix.Visibility = Visibility.Visible;
+                            if(!USATEF) txb_Pix.Visibility = lbl_pix.Visibility = Visibility.Visible;
                             lbl_pix.Content = item.DESCRICAO;
                             break;
                         case "99":
