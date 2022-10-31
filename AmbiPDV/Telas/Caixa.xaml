@@ -11,7 +11,7 @@
         x:Name="MainWindow" 
         mc:Ignorable="d"
         Focusable="False"
-        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized"
+        Title="MainWindow" Height="1080" Width="1920" WindowStartupLocation="CenterScreen" WindowState="Maximized" KeyDown="MainWindows_KeyDown" 
         ResizeMode="NoResize" Loaded="Window_Loaded" PreviewKeyDown="Caixa_OnPreviewKeyDown" WindowStyle="None"
         Closing="MainWindow_Closing" Foreground="#FF4D4D4D" Background="#FFF4F4F4" d:DataContext="{d:DesignInstance viewModels:CaixaViewModel }">
     <Window.Resources>

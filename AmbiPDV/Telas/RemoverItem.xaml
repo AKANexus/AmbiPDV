@@ -11,7 +11,8 @@
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
         </Border.Effect>
         <StackPanel Orientation="Vertical">
-            <Label Content="Estornar Item do Cupom" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Foreground="#FF4D4D4D" FontSize="26" FontFamily="Open Sans" Margin="0,15,0,0"/>
+            <Label Content="Estornar Item do Cupom" HorizontalContentAlignment="Center" HorizontalAlignment="Center" Foreground="#FF4D4D4D" FontSize="26" FontFamily="Open Sans" Margin="0,15,0,-10"/>
+            <Label Content="Passe o código de barras ou digite o numero do item a ser estornado" HorizontalAlignment="Center" Foreground="Gray" FontSize="11.50" FontStyle="Italic" Margin="0,0,0,-7"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,25">
                 <Border Width="36" Height="36" Background="#FF09CAAA">
                     <Viewbox Width="29.897" Height="21.925"
@@ -27,7 +28,7 @@
                         </Canvas>
                     </Viewbox>
                 </Border>
-                <TextBox x:Name="textBox1" Width="192" FontSize="16" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="Open Sans" Margin="-1,0,0,0" Panel.ZIndex="-1" Height="36" Padding="6,0,0,0" KeyDown="RemoveItem_KeyDown" AcceptsReturn="False"/>
+                <TextBox x:Name="textBox1" Width="192" FontSize="16" VerticalAlignment="Center" VerticalContentAlignment="Center" FontFamily="Open Sans" Margin="-1,0,0,0" Panel.ZIndex="-1" Height="36" Padding="6,0,0,0" KeyDown="RemoveItem_KeyDown" AcceptsReturn="False" MaxLength="15" PreviewTextInput="TextBox_PreviewTextInput"/>
             </StackPanel>
         </StackPanel>
     </Border>
