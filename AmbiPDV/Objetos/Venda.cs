@@ -770,18 +770,65 @@ namespace PDV_WPF.Objetos
         /// </summary>
         /// <param name="numItem">Número sequencial referente ao produto a ser retirado</param>
         /// <returns></returns>
-        public envCFeCFeInfCFeDetProd RemoveProduto(int numItem)
+        public List <envCFeCFeInfCFeDetProd> RemoveProduto(int numItemINT = 0, string numItemSTRING = null)
         {
-            envCFeCFeInfCFeDet a_remover = _listaDets.Find(x => x.nItem == numItem.ToString());
-            if (a_remover is null) return null;
-            _listaDets.Remove(a_remover);
-            //for (int i = 0; i < _listaDets.Count; i++)
-            //{
-            //    _listaDets[i].nItem = (i + 1).ToString();
-            //}
-            return a_remover.prod;
+            try
+            {
+                if (numItemINT != 0)
+                {
+                    List<envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(x => x.nItem == numItemINT.ToString());
+                    List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
+                    foreach (var list in listCanc)
+                    {
+                        if (list is null) return null;
+                        listProdCanc.Add(list.prod);
+                        _listaDets.Remove(list);
+                        //for (int i = 0; i < _listaDets.Count; i++)
+                        //{
+                        //    _listaDets[i].nItem = (i + 1).ToString();
+                        //}                    
+                    }
+                    return listProdCanc.Count == 0 ? null : listProdCanc;
+                }
+                if (numItemSTRING != null)
+                {
+                    if (DialogBox.Show("Cancelamento de item", DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, "Deseja cancelar todos os itens passados com o código de barras:\n" + numItemSTRING) == true)
+                    {
+                        List<CfeRecepcao_0008.envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(s => s.prod.cEAN == numItemSTRING);
+                        List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
+                        foreach (var list in listCanc)
+                        {
+                            if (list is null) return null;
+                            listProdCanc.Add(list.prod);
+                            _listaDets.Remove(list);
+                        }
+                        return listProdCanc.Count == 0 ? null : listProdCanc;
+                    }
+                    else
+                    {
+                        List<CfeRecepcao_0008.envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(s => s.prod.cEAN == numItemSTRING);
+                        List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
+                        foreach (var list in listCanc)
+                        {
+                            if (list is null) return null;
+                            listProdCanc.Add(list.prod);
+                            _listaDets.Remove(list);
+                            DialogBox.Show("Item estornado", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Cancelado primeiro item passado com o código de barras: " + numItemSTRING);
+                            break;
+                        }
+                        return listProdCanc.Count == 0 ? null : listProdCanc;
+                    }
+                }
+                else
+                    return null;
+            }
+            catch(Exception ex)
+            {              
+                MessageBox.Show("Erro ao tentar estornar item.\n\nSe o problema persistir entre em contato com o suporte.", "Estorno de item", MessageBoxButton.OK, MessageBoxImage.Error);
+                log.Debug("Erro ao tentar estornar item, segue erro: " + ex);
+                return null;
+            }
         }
-
         /// <summary>
         /// Recebe informações sobre um método de pagamento.
         /// </summary>

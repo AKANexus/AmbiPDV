@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Funcoes.Statics;
+using System.Text.RegularExpressions;
+using System.Windows.Controls;
 
 namespace PDV_WPF.Telas
 {
@@ -12,6 +14,7 @@ namespace PDV_WPF.Telas
         #region Fields & Properties
 
         public int _int;
+        public string _string;
         private int _numProxItem;
 
 
@@ -32,6 +35,12 @@ namespace PDV_WPF.Telas
 
         #region Events
 
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            e.Handled = Regex.IsMatch(e.Text, "[^0-9]+");
+        }
+
         private void RemoveItem_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
@@ -40,8 +49,8 @@ namespace PDV_WPF.Telas
                 return;
             }
             if (e.Key == Key.Enter)
-            {
-                if (string.IsNullOrWhiteSpace(textBox1.Text) || !int.TryParse(textBox1.Text, out _int))
+            {              
+                if (string.IsNullOrWhiteSpace(textBox1.Text) || textBox1.Text.Contains(" "))
                 {
                     DialogBox.Show("Estornar Item",
                         DialogBoxButtons.No,
@@ -50,6 +59,16 @@ namespace PDV_WPF.Telas
                     textBox1.Clear();
                     textBox1.Focus();
                     return;
+                }
+                switch (textBox1.Text.Length)
+                {
+                    case <= 5:
+                        int.TryParse(textBox1.Text, out _int);
+                        break;
+                    case > 5:
+                        _string = textBox1.Text;
+                        break;
+                       
                 }
                 //if (_int <= 0 || _int > _numProxItem)
                 //{
@@ -60,7 +79,7 @@ namespace PDV_WPF.Telas
                 //    textBox1.Clear();
                 //    textBox1.Focus();
                 //    return;
-                //}
+                //}                
                 DialogResult = true;
                 return;
             }

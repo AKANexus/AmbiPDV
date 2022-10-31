@@ -275,6 +275,12 @@ namespace PDV_WPF.Telas
             //}
         }
 
+        private void MainWindows_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+                combobox.Focus();
+        }
+
         #region Teclas de Atalho
 
         void ExecutaTeste()
@@ -5761,30 +5767,33 @@ namespace PDV_WPF.Telas
                 var remitem = new RemoverItem(numProximoItem - 1);
                 if (remitem.ShowDialog() == true)
                 {
-                    envCFeCFeInfCFeDetProd produtoARemover = vendaAtual.RemoveProduto(remitem._int);
+                    List <envCFeCFeInfCFeDetProd> produtoARemover = vendaAtual.RemoveProduto(remitem._int, remitem._string);
                     if (produtoARemover is null)
                     {
                         DialogBox.Show(strings.ESTORNO_DE_ITEM, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.ITEM_INVALIDO_VERIFIQUE);
                         return;
                     }
-                    try
-                    {
-                        decimal.TryParse(produtoARemover.vUnCom.Replace('.', ','), out decimal precounit);
-                        decimal.TryParse(produtoARemover.qCom.Replace('.', ','), out decimal quant);
-                        decimal.TryParse(produtoARemover.vDesc.Replace('.', ','), out decimal desc);
+                    foreach (var produtoRemove in produtoARemover)
+                    {                     
+                        try
+                        {
+                            decimal.TryParse(produtoRemove.vUnCom.Replace('.', ','), out decimal precounit);
+                            decimal.TryParse(produtoRemove.qCom.Replace('.', ','), out decimal quant);
+                            decimal.TryParse(produtoRemove.vDesc.Replace('.', ','), out decimal desc);
 
-                        ImprimirCupomVirtual(string.Format("CANCELADO - " + produtoARemover.xProd.Trunca(29)));
-                        ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoARemover.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)));
+                            ImprimirCupomVirtual(string.Format("CANCELADO - " + produtoRemove.xProd.Trunca(29)));
+                            ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoRemove.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)));
 
-                        subtotal -= ((precounit - desc) * quant).RoundABNT();
-                        txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");
-                        numProximoItem += 1;
-                    }
-                    catch (Exception ex)
-                    {
-                        log.Error("Erro ao remover item da venda", ex);
-                        DialogBox.Show(strings.ESTORNO_DE_ITEM, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.FALHA_AO_ESTORNAR, RetornarMensagemErro(ex, false));
-                        return;
+                            subtotal -= ((precounit - desc) * quant).RoundABNT();
+                            txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");
+                            numProximoItem += 1;
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error("Erro ao remover item da venda", ex);
+                            DialogBox.Show(strings.ESTORNO_DE_ITEM, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.FALHA_AO_ESTORNAR, RetornarMensagemErro(ex, false));
+                            return;
+                        }
                     }
                 }
             }
@@ -5963,12 +5972,11 @@ namespace PDV_WPF.Telas
         #endregion Methods
 
         private void Combobox_OnKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
+        {            
+            if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))            
                 ProcessarTextoNoACBox();
-            //else MainWindow_KeyDown(sender, e);
+                //else MainWindow_KeyDown(sender, e);            
         }
-
         private void Caixa_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
             /*Os métodos a seguir dependem da configuração do sistema:
