@@ -6160,8 +6160,42 @@ END;";
                 "IXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABEL" +
                 "A , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(G" +
                 "EN_PDV_AUX_SYNC_SEQ,1) , -1 , \'\'TB_FORMA_PAGTO_NFCE\'\' , \'\'D\'\' , :VNUMCAIXA , CUR" +
-                "RENT_TIMESTAMP , null , old.ID_FMANFCE , null ) ; END END;\';\r\n\r\nerro = \'deu cert" +
-                "o\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "RENT_TIMESTAMP , null , old.ID_FMANFCE , null ) ; END END;\';\r\n\r\nerro = \'drop tb_" +
+                "estpreco_aux_sync_ins\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$T" +
+                "RIGGER_NAME = \'TB_ESTPRECO_AUX_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT " +
+                "\'DROP TRIGGER TB_ESTPRECO_AUX_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create tb_estpreco_aux_" +
+                "sync_ins\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ESTPRECO_AUX_SYNC_INS FOR" +
+                " TB_ESTOQUE_PRECOS ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_" +
+                "PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_C" +
+                "AIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA," +
+                " OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1), new.ID_IDEN" +
+                "TIFICADOR, \'\'TB_ESTOQUE_PRECOS\'\', \'\'I\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END" +
+                ";\';\r\n\r\nerro = \'drop tb_estpreco_aux_sync_upd\';\r\n\t\t\t\t\t\tif (exists(select 1 from R" +
+                "DB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ESTPRECO_AUX_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t" +
+                "\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ESTPRECO_AUX_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'" +
+                "create tb_estpreco_aux_sync_upd\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ES" +
+                "TPRECO_AUX_SYNC_UPD FOR TB_ESTOQUE_PRECOS BEFORE UPDATE AS DECLARE VNUMCAIXA TYP" +
+                "E OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OLD.PRC_VENDA IS DISTINCT FROM n" +
+                "ew.PRC_VENDA OR old.DT_INICIO IS DISTINCT FROM new.DT_INICIO OR old.DT_FIM IS DI" +
+                "STINCT FROM new.DT_FIM OR old.PERIODO IS DISTINCT FROM new.PERIODO OR OLD.DIAS_S" +
+                "EMANA IS DISTINCT  FROM  NEW.DIAS_SEMANA) THEN BEGIN FOR SELECT NO_CAIXA FROM TR" +
+                "I_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT(1) FR" +
+                "OM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_IDENTIFICADOR AND TABELA = \'\'TB_ESTOQU" +
+                "E_PRECOS\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA)" +
+                " = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO " +
+                ", NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_IDENTIFIC" +
+                "ADOR , \'\'TB_ESTOQUE_PRECOS\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END" +
+                " END END;\';\r\n\r\nerro = \'drop tb_estpreco_aux_sync_del\';\r\n\t\t\t\t\t\tif (exists(select " +
+                "1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ESTPRECO_AUX_SYNC_DEL\'))\r\n\t\t\t\t\t" +
+                "\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ESTPRECO_AUX_SYNC_DEL\';\r\n\t\t\t\t\t\te" +
+                "rro = \'create tb_estpreco_aux_sync_del\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGE" +
+                "R TB_ESTPRECO_AUX_SYNC_DEL FOR TB_ESTOQUE_PRECOS ACTIVE BEFORE DELETE AS DECLARE" +
+                " VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FRO" +
+                "M TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_" +
+                "AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PD" +
+                "V_AUX_SYNC_SEQ,1), old.ID_IDENTIFICADOR, \'\'TB_ESTOQUE_PRECOS\'\', \'\'D\'\', :VNUMCAIX" +
+                "A, CURRENT_TIMESTAMP); END END;\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r" +
+                "\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[11].Connection = this.Connection;

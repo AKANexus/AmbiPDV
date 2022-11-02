@@ -108,7 +108,8 @@ namespace PDV_WPF.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("data source=localhost;initial catalog=\"C:\\Users\\TRILHA SISTEMA\\Desktop\\BANCO TEST" +
-            "E TRILHA LOJA 01\\CLIPP.FDB\";user id=SYSDBA;password=masterkey;charset=WIN1252")]
+            "E TRILHA LOJA 01\\COPIA DB\\CLIPP.FDB\";user id=SYSDBA;password=masterkey;charset=W" +
+            "IN1252")]
         public string FDBConnString {
             get {
                 return ((string)(this["FDBConnString"]));
@@ -119,7 +120,8 @@ namespace PDV_WPF.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("charset=WIN1252;initial catalog=\"C:\\Users\\TRILHA SISTEMA\\Desktop\\BANCO TESTE TRIL" +
-            "HA LOJA 01\\InfoPad.FDB\";data source=localhost;user id=SYSDBA;password=masterkey")]
+            "HA LOJA 01\\COPIA DB\\InfoPad.FDB\";data source=localhost;user id=SYSDBA;password=m" +
+            "asterkey")]
         public string ComandasCS {
             get {
                 return ((string)(this["ComandasCS"]));

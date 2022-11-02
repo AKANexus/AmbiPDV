@@ -291,7 +291,7 @@
               <Mapping SourceColumn="TRI_PDV_DT_UPD" DataSetColumn="TRI_PDV_DT_UPD" />
             </Mappings>
             <Sources>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_TAXA_UF" DbObjectType="Table" GenerateShortCommands="true" GeneratorSourceName="AliqPorID" Modifier="Public" Name="AliqPorID" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="AliqPorID">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_TAXA_UF" DbObjectType="Table" GenerateShortCommands="true" GeneratorSourceName="AliqPorID" Modifier="Public" Name="AliqPorID" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="AliqPorID">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT UF_SP FROM TB_TAXA_UF WHERE (ID_CTI = @Param1)</CommandText>
@@ -301,7 +301,7 @@
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_TAXA_UF" DbObjectType="Table" GenerateShortCommands="true" GeneratorSourceName="BCPorID" Modifier="Public" Name="BCPorID" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="BCPorID">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_TAXA_UF" DbObjectType="Table" GenerateShortCommands="true" GeneratorSourceName="BCPorID" Modifier="Public" Name="BCPorID" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="BCPorID">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>select BASE_ICMS from TB_TAXA_UF where (ID_CTI = @Param2)</CommandText>
@@ -311,7 +311,7 @@
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="DeleteById" Modifier="Public" Name="DeleteById" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="DeleteById">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="DeleteById" Modifier="Public" Name="DeleteById" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="DeleteById">
                 <DeleteCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>DELETE FROM TB_TAXA_UF WHERE ID_CTI = @param</CommandText>
@@ -321,7 +321,7 @@
                   </DbCommand>
                 </DeleteCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_TAXA_UF" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillById">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_TAXA_UF" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="FillById">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>select * from TB_TAXA_UF where ID_CTI = @param</CommandText>
@@ -331,7 +331,7 @@
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_TAXAUF_GETBY_DTUPD&quot;" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="FillByUpdateDate" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByUpdateDate" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="FillByUpdateDate">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_TAXAUF_GETBY_DTUPD&quot;" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="FillByUpdateDate" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByUpdateDate" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="FillByUpdateDate">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>"SP_TRI_TAXAUF_GETBY_DTUPD"</CommandText>
@@ -341,7 +341,7 @@
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_TAXAUF_UPSERT&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_TAXAUF_UPSERT" Modifier="Public" Name="SP_TRI_TAXAUF_UPSERT" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="SP_TRI_TAXAUF_UPSERT">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_TAXAUF_UPSERT&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_TAXAUF_UPSERT" Modifier="Public" Name="SP_TRI_TAXAUF_UPSERT" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="SP_TRI_TAXAUF_UPSERT">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>"SP_TRI_TAXAUF_UPSERT"</CommandText>
@@ -386,7 +386,7 @@
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_TRIBUTOESTADUAL&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_TRIBUTOESTADUAL" Modifier="Public" Name="SP_TRI_TRIBUTOESTADUAL" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="SP_TRI_TRIBUTOESTADUAL">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_TRIBUTOESTADUAL&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_TRIBUTOESTADUAL" Modifier="Public" Name="SP_TRI_TRIBUTOESTADUAL" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="SP_TRI_TRIBUTOESTADUAL">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>"SP_TRI_TRIBUTOESTADUAL"</CommandText>
@@ -3702,6 +3702,87 @@ FROM            TRI_PDV_AUX_SYNC</CommandText>
               </DbSource>
             </Sources>
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TB_ESTOQUE_PRECOSTableAdapter" GeneratorDataComponentClassName="TB_ESTOQUE_PRECOSTableAdapter" Name="TB_ESTOQUE_PRECOS" UserDataComponentName="TB_ESTOQUE_PRECOSTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_ESTOQUE_PRECOS" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "TB_ESTOQUE_PRECOS" WHERE (("ID_IDENTIFICADOR" = @Original_ID_IDENTIFICADOR) AND ("PRC_VENDA" = @Original_PRC_VENDA) AND ("DT_INICIO" = @Original_DT_INICIO) AND ("DT_FIM" = @Original_DT_FIM) AND ((@IsNull_PERIODO = 1 AND "PERIODO" IS NULL) OR ("PERIODO" = @Original_PERIODO)) AND ((@IsNull_DIAS_SEMANA = 1 AND "DIAS_SEMANA" IS NULL) OR ("DIAS_SEMANA" = @Original_DIAS_SEMANA)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID_IDENTIFICADOR" Precision="0" Scale="0" Size="4" SourceColumn="ID_IDENTIFICADOR" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@Original_PRC_VENDA" Precision="0" Scale="0" Size="8" SourceColumn="PRC_VENDA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_DT_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="DT_INICIO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_DT_FIM" Precision="0" Scale="0" Size="4" SourceColumn="DT_FIM" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_PERIODO" Precision="0" Scale="0" Size="1" SourceColumn="PERIODO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_PERIODO" Precision="0" Scale="0" Size="1" SourceColumn="PERIODO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_DIAS_SEMANA" Precision="0" Scale="0" Size="1" SourceColumn="DIAS_SEMANA" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_DIAS_SEMANA" Precision="0" Scale="0" Size="1" SourceColumn="DIAS_SEMANA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO "TB_ESTOQUE_PRECOS" ("ID_IDENTIFICADOR", "PRC_VENDA", "DT_INICIO", "DT_FIM", "PERIODO", "DIAS_SEMANA") VALUES (@ID_IDENTIFICADOR, @PRC_VENDA, @DT_INICIO, @DT_FIM, @PERIODO, @DIAS_SEMANA)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID_IDENTIFICADOR" Precision="0" Scale="0" Size="4" SourceColumn="ID_IDENTIFICADOR" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@PRC_VENDA" Precision="0" Scale="0" Size="8" SourceColumn="PRC_VENDA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@DT_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="DT_INICIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@DT_FIM" Precision="0" Scale="0" Size="4" SourceColumn="DT_FIM" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@PERIODO" Precision="0" Scale="0" Size="1" SourceColumn="PERIODO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@DIAS_SEMANA" Precision="0" Scale="0" Size="1" SourceColumn="DIAS_SEMANA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM TB_ESTOQUE_PRECOS</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "TB_ESTOQUE_PRECOS" SET "ID_IDENTIFICADOR" = @ID_IDENTIFICADOR, "PRC_VENDA" = @PRC_VENDA, "DT_INICIO" = @DT_INICIO, "DT_FIM" = @DT_FIM, "PERIODO" = @PERIODO, "DIAS_SEMANA" = @DIAS_SEMANA WHERE (("ID_IDENTIFICADOR" = @Original_ID_IDENTIFICADOR) AND ("PRC_VENDA" = @Original_PRC_VENDA) AND ("DT_INICIO" = @Original_DT_INICIO) AND ("DT_FIM" = @Original_DT_FIM) AND ((@IsNull_PERIODO = 1 AND "PERIODO" IS NULL) OR ("PERIODO" = @Original_PERIODO)) AND ((@IsNull_DIAS_SEMANA = 1 AND "DIAS_SEMANA" IS NULL) OR ("DIAS_SEMANA" = @Original_DIAS_SEMANA)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID_IDENTIFICADOR" Precision="0" Scale="0" Size="4" SourceColumn="ID_IDENTIFICADOR" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@PRC_VENDA" Precision="0" Scale="0" Size="8" SourceColumn="PRC_VENDA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@DT_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="DT_INICIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@DT_FIM" Precision="0" Scale="0" Size="4" SourceColumn="DT_FIM" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@PERIODO" Precision="0" Scale="0" Size="1" SourceColumn="PERIODO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@DIAS_SEMANA" Precision="0" Scale="0" Size="1" SourceColumn="DIAS_SEMANA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID_IDENTIFICADOR" Precision="0" Scale="0" Size="4" SourceColumn="ID_IDENTIFICADOR" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@Original_PRC_VENDA" Precision="0" Scale="0" Size="8" SourceColumn="PRC_VENDA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_DT_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="DT_INICIO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_DT_FIM" Precision="0" Scale="0" Size="4" SourceColumn="DT_FIM" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_PERIODO" Precision="0" Scale="0" Size="1" SourceColumn="PERIODO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_PERIODO" Precision="0" Scale="0" Size="1" SourceColumn="PERIODO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_DIAS_SEMANA" Precision="0" Scale="0" Size="1" SourceColumn="DIAS_SEMANA" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_DIAS_SEMANA" Precision="0" Scale="0" Size="1" SourceColumn="DIAS_SEMANA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID_IDENTIFICADOR" DataSetColumn="ID_IDENTIFICADOR" />
+              <Mapping SourceColumn="PRC_VENDA" DataSetColumn="PRC_VENDA" />
+              <Mapping SourceColumn="DT_INICIO" DataSetColumn="DT_INICIO" />
+              <Mapping SourceColumn="DT_FIM" DataSetColumn="DT_FIM" />
+              <Mapping SourceColumn="PERIODO" DataSetColumn="PERIODO" />
+              <Mapping SourceColumn="DIAS_SEMANA" DataSetColumn="DIAS_SEMANA" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_ESTOQUE_PRECOS" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT ID_IDENTIFICADOR, PRC_VENDA, DT_INICIO, DT_FIM, PERIODO, DIAS_SEMANA FROM TB_ESTOQUE_PRECOS WHERE (ID_IDENTIFICADOR = @param)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="param" ColumnName="ID_IDENTIFICADOR" DataSourceName="TB_ESTOQUE_PRECOS" DataTypeServer="DbType.Int32(4)" DbType="Int32" Direction="Input" ParameterName="@param" Precision="0" Scale="0" Size="4" SourceColumn="ID_IDENTIFICADOR" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -5791,6 +5872,30 @@ FROM            TRI_PDV_AUX_SYNC</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TB_ESTOQUE_PRECOS" msprop:Generator_TableClassName="TB_ESTOQUE_PRECOSDataTable" msprop:Generator_TableVarName="tableTB_ESTOQUE_PRECOS" msprop:Generator_RowChangedName="TB_ESTOQUE_PRECOSRowChanged" msprop:Generator_TablePropName="TB_ESTOQUE_PRECOS" msprop:Generator_RowDeletingName="TB_ESTOQUE_PRECOSRowDeleting" msprop:Generator_RowChangingName="TB_ESTOQUE_PRECOSRowChanging" msprop:Generator_RowEvHandlerName="TB_ESTOQUE_PRECOSRowChangeEventHandler" msprop:Generator_RowDeletedName="TB_ESTOQUE_PRECOSRowDeleted" msprop:Generator_RowClassName="TB_ESTOQUE_PRECOSRow" msprop:Generator_UserTableName="TB_ESTOQUE_PRECOS" msprop:Generator_RowEvArgName="TB_ESTOQUE_PRECOSRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_IDENTIFICADOR" msprop:Generator_ColumnVarNameInTable="columnID_IDENTIFICADOR" msprop:Generator_ColumnPropNameInRow="ID_IDENTIFICADOR" msprop:Generator_ColumnPropNameInTable="ID_IDENTIFICADORColumn" msprop:Generator_UserColumnName="ID_IDENTIFICADOR" type="xs:int" />
+              <xs:element name="PRC_VENDA" msprop:Generator_ColumnVarNameInTable="columnPRC_VENDA" msprop:Generator_ColumnPropNameInRow="PRC_VENDA" msprop:Generator_ColumnPropNameInTable="PRC_VENDAColumn" msprop:Generator_UserColumnName="PRC_VENDA" type="xs:decimal" />
+              <xs:element name="DT_INICIO" msprop:Generator_ColumnVarNameInTable="columnDT_INICIO" msprop:Generator_ColumnPropNameInRow="DT_INICIO" msprop:Generator_ColumnPropNameInTable="DT_INICIOColumn" msprop:Generator_UserColumnName="DT_INICIO" type="xs:dateTime" />
+              <xs:element name="DT_FIM" msprop:Generator_ColumnVarNameInTable="columnDT_FIM" msprop:Generator_ColumnPropNameInRow="DT_FIM" msprop:Generator_ColumnPropNameInTable="DT_FIMColumn" msprop:Generator_UserColumnName="DT_FIM" type="xs:dateTime" />
+              <xs:element name="PERIODO" msprop:Generator_ColumnVarNameInTable="columnPERIODO" msprop:Generator_ColumnPropNameInRow="PERIODO" msprop:Generator_ColumnPropNameInTable="PERIODOColumn" msprop:Generator_UserColumnName="PERIODO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DIAS_SEMANA" msprop:Generator_ColumnVarNameInTable="columnDIAS_SEMANA" msprop:Generator_ColumnPropNameInRow="DIAS_SEMANA" msprop:Generator_ColumnPropNameInTable="DIAS_SEMANAColumn" msprop:Generator_UserColumnName="DIAS_SEMANA" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="1" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -5914,6 +6019,10 @@ FROM            TRI_PDV_AUX_SYNC</CommandText>
       <xs:selector xpath=".//mstns:TB_CARTAO_ADMINISTRADORA" />
       <xs:field xpath="mstns:ID_ADMINISTRADORA" />
     </xs:unique>
+    <xs:unique name="TB_ESTOQUE_PRECOS_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TB_ESTOQUE_PRECOS" />
+      <xs:field xpath="mstns:ID_IDENTIFICADOR" />
+    </xs:unique>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
@@ -5936,6 +6045,7 @@ FROM            TRI_PDV_AUX_SYNC</CommandText>
       <msdata:Relationship name="FK_CONVENIO_CLIENTE" msdata:parent="TB_CLI_CONVENIO" msdata:child="TB_CLIENTE" msdata:parentkey="ID_CONVENIO" msdata:childkey="ID_CONVENIO" msprop:Generator_UserChildTable="TB_CLIENTE" msprop:Generator_ChildPropName="GetTB_CLIENTERows" msprop:Generator_UserRelationName="FK_CONVENIO_CLIENTE" msprop:Generator_RelationVarName="relationFK_CONVENIO_CLIENTE" msprop:Generator_UserParentTable="TB_CLI_CONVENIO" msprop:Generator_ParentPropName="TB_CLI_CONVENIORow" />
       <msdata:Relationship name="FK_FUNCIONARIO" msdata:parent="TB_FUNCIONARIO" msdata:child="TB_CLIENTE" msdata:parentkey="ID_FUNCIONARIO" msdata:childkey="ID_FUNCIONARIO" msprop:Generator_UserChildTable="TB_CLIENTE" msprop:Generator_ChildPropName="GetTB_CLIENTERows" msprop:Generator_UserRelationName="FK_FUNCIONARIO" msprop:Generator_RelationVarName="relationFK_FUNCIONARIO" msprop:Generator_UserParentTable="TB_FUNCIONARIO" msprop:Generator_ParentPropName="TB_FUNCIONARIORow" />
       <msdata:Relationship name="FK_CARTAO_ADM_ID_CLIENTE" msdata:parent="TB_CLIENTE" msdata:child="TB_CARTAO_ADMINISTRADORA" msdata:parentkey="ID_CLIENTE" msdata:childkey="ID_CLIENTE" msprop:Generator_UserChildTable="TB_CARTAO_ADMINISTRADORA" msprop:Generator_ChildPropName="GetTB_CARTAO_ADMINISTRADORARows" msprop:Generator_UserRelationName="FK_CARTAO_ADM_ID_CLIENTE" msprop:Generator_ParentPropName="TB_CLIENTERow" msprop:Generator_RelationVarName="relationFK_CARTAO_ADM_ID_CLIENTE" msprop:Generator_UserParentTable="TB_CLIENTE" />
+      <msdata:Relationship name="FK_TB_ESTOQUE_PRECOS" msdata:parent="TB_EST_IDENTIFICADOR" msdata:child="TB_ESTOQUE_PRECOS" msdata:parentkey="ID_IDENTIFICADOR" msdata:childkey="ID_IDENTIFICADOR" msprop:Generator_UserChildTable="TB_ESTOQUE_PRECOS" msprop:Generator_ChildPropName="GetTB_ESTOQUE_PRECOSRows" msprop:Generator_UserRelationName="FK_TB_ESTOQUE_PRECOS" msprop:Generator_RelationVarName="relationFK_TB_ESTOQUE_PRECOS" msprop:Generator_UserParentTable="TB_EST_IDENTIFICADOR" msprop:Generator_ParentPropName="TB_EST_IDENTIFICADORRow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

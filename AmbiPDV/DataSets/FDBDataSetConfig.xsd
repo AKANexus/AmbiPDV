@@ -2598,6 +2598,27 @@ EXECUTE STATEMENT 'DROP TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL;';
 erro = 'create TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL';
 EXECUTE STATEMENT 'CREATE TRIGGER TB_FMAPGTONFCE_AUX_UPD_SYNC_DEL FOR TB_FORMA_PAGTO_NFCE ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , -1 , ''TB_FORMA_PAGTO_NFCE'' , ''D'' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , old.ID_FMANFCE , null ) ; END END;';
 
+erro = 'drop tb_estpreco_aux_sync_ins';
+						if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = 'TB_ESTPRECO_AUX_SYNC_INS'))
+						then
+						EXECUTE STATEMENT 'DROP TRIGGER TB_ESTPRECO_AUX_SYNC_INS;';
+						erro = 'create tb_estpreco_aux_sync_ins';
+						EXECUTE STATEMENT 'CREATE TRIGGER TB_ESTPRECO_AUX_SYNC_INS FOR TB_ESTOQUE_PRECOS ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1), new.ID_IDENTIFICADOR, ''TB_ESTOQUE_PRECOS'', ''I'', :VNUMCAIXA, CURRENT_TIMESTAMP); END END;';
+
+erro = 'drop tb_estpreco_aux_sync_upd';
+						if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = 'TB_ESTPRECO_AUX_SYNC_UPD'))
+						then
+						EXECUTE STATEMENT 'DROP TRIGGER TB_ESTPRECO_AUX_SYNC_UPD;';
+						erro = 'create tb_estpreco_aux_sync_upd';
+						EXECUTE STATEMENT 'CREATE TRIGGER TB_ESTPRECO_AUX_SYNC_UPD FOR TB_ESTOQUE_PRECOS BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OLD.PRC_VENDA IS DISTINCT FROM new.PRC_VENDA OR old.DT_INICIO IS DISTINCT FROM new.DT_INICIO OR old.DT_FIM IS DISTINCT FROM new.DT_FIM OR old.PERIODO IS DISTINCT FROM new.PERIODO OR OLD.DIAS_SEMANA IS DISTINCT  FROM  NEW.DIAS_SEMANA) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_IDENTIFICADOR AND TABELA = ''TB_ESTOQUE_PRECOS'' AND (OPERACAO = ''I'' OR OPERACAO = ''U'') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_IDENTIFICADOR , ''TB_ESTOQUE_PRECOS'' , ''U'' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END END END;';
+
+erro = 'drop tb_estpreco_aux_sync_del';
+						if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = 'TB_ESTPRECO_AUX_SYNC_DEL'))
+						then
+						EXECUTE STATEMENT 'DROP TRIGGER TB_ESTPRECO_AUX_SYNC_DEL';
+						erro = 'create tb_estpreco_aux_sync_del';
+						EXECUTE STATEMENT 'CREATE TRIGGER TB_ESTPRECO_AUX_SYNC_DEL FOR TB_ESTOQUE_PRECOS ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1), old.ID_IDENTIFICADOR, ''TB_ESTOQUE_PRECOS'', ''D'', :VNUMCAIXA, CURRENT_TIMESTAMP); END END;';
+
 erro = 'deu certo';
 SUSPEND;
 WHEN ANY DO
@@ -3648,7 +3669,7 @@ execute statement 'RECREATE VIEW V_TRI_CUPONSCANCELAVEIS (VALOR_TOTAL, TS_VENDA,
   <xs:element name="FDBDataSetConfig" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="true" msprop:Generator_DataSetName="FDBDataSetConfig" msprop:Generator_UserDSName="FDBDataSetConfig">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TRI_PDV_CONFIG" msprop:Generator_TableClassName="TRI_PDV_CONFIGDataTable" msprop:Generator_TableVarName="tableTRI_PDV_CONFIG" msprop:Generator_RowChangedName="TRI_PDV_CONFIGRowChanged" msprop:Generator_TablePropName="TRI_PDV_CONFIG" msprop:Generator_RowDeletingName="TRI_PDV_CONFIGRowDeleting" msprop:Generator_RowChangingName="TRI_PDV_CONFIGRowChanging" msprop:Generator_RowEvHandlerName="TRI_PDV_CONFIGRowChangeEventHandler" msprop:Generator_RowDeletedName="TRI_PDV_CONFIGRowDeleted" msprop:Generator_RowClassName="TRI_PDV_CONFIGRow" msprop:Generator_UserTableName="TRI_PDV_CONFIG" msprop:Generator_RowEvArgName="TRI_PDV_CONFIGRowChangeEvent">
+        <xs:element name="TRI_PDV_CONFIG" msprop:Generator_TableClassName="TRI_PDV_CONFIGDataTable" msprop:Generator_TableVarName="tableTRI_PDV_CONFIG" msprop:Generator_TablePropName="TRI_PDV_CONFIG" msprop:Generator_RowDeletingName="TRI_PDV_CONFIGRowDeleting" msprop:Generator_RowChangingName="TRI_PDV_CONFIGRowChanging" msprop:Generator_RowEvHandlerName="TRI_PDV_CONFIGRowChangeEventHandler" msprop:Generator_RowDeletedName="TRI_PDV_CONFIGRowDeleted" msprop:Generator_UserTableName="TRI_PDV_CONFIG" msprop:Generator_RowChangedName="TRI_PDV_CONFIGRowChanged" msprop:Generator_RowEvArgName="TRI_PDV_CONFIGRowChangeEvent" msprop:Generator_RowClassName="TRI_PDV_CONFIGRow">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="ID_MAC" msprop:Generator_ColumnVarNameInTable="columnID_MAC" msprop:Generator_ColumnPropNameInRow="ID_MAC" msprop:Generator_ColumnPropNameInTable="ID_MACColumn" msprop:Generator_UserColumnName="ID_MAC">
