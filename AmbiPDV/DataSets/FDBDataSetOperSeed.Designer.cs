@@ -84,6 +84,8 @@ namespace PDV_WPF.DataSets {
         
         private TB_CARTAO_ADMINISTRADORADataTable tableTB_CARTAO_ADMINISTRADORA;
         
+        private TB_ESTOQUE_PRECOSDataTable tableTB_ESTOQUE_PRECOS;
+        
         private global::System.Data.DataRelation relationFK_CTI_ESTOQUE;
         
         private global::System.Data.DataRelation relationFK_TB_ESTOQUE_ID_CTI_FCP;
@@ -121,6 +123,8 @@ namespace PDV_WPF.DataSets {
         private global::System.Data.DataRelation relationFK_FUNCIONARIO;
         
         private global::System.Data.DataRelation relationFK_CARTAO_ADM_ID_CLIENTE;
+        
+        private global::System.Data.DataRelation relationFK_TB_ESTOQUE_PRECOS;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -239,6 +243,9 @@ namespace PDV_WPF.DataSets {
                 }
                 if ((ds.Tables["TB_CARTAO_ADMINISTRADORA"] != null)) {
                     base.Tables.Add(new TB_CARTAO_ADMINISTRADORADataTable(ds.Tables["TB_CARTAO_ADMINISTRADORA"]));
+                }
+                if ((ds.Tables["TB_ESTOQUE_PRECOS"] != null)) {
+                    base.Tables.Add(new TB_ESTOQUE_PRECOSDataTable(ds.Tables["TB_ESTOQUE_PRECOS"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -560,6 +567,16 @@ namespace PDV_WPF.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TB_ESTOQUE_PRECOSDataTable TB_ESTOQUE_PRECOS {
+            get {
+                return this.tableTB_ESTOQUE_PRECOS;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -714,6 +731,9 @@ namespace PDV_WPF.DataSets {
                 }
                 if ((ds.Tables["TB_CARTAO_ADMINISTRADORA"] != null)) {
                     base.Tables.Add(new TB_CARTAO_ADMINISTRADORADataTable(ds.Tables["TB_CARTAO_ADMINISTRADORA"]));
+                }
+                if ((ds.Tables["TB_ESTOQUE_PRECOS"] != null)) {
+                    base.Tables.Add(new TB_ESTOQUE_PRECOSDataTable(ds.Tables["TB_ESTOQUE_PRECOS"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -928,6 +948,12 @@ namespace PDV_WPF.DataSets {
                     this.tableTB_CARTAO_ADMINISTRADORA.InitVars();
                 }
             }
+            this.tableTB_ESTOQUE_PRECOS = ((TB_ESTOQUE_PRECOSDataTable)(base.Tables["TB_ESTOQUE_PRECOS"]));
+            if ((initTable == true)) {
+                if ((this.tableTB_ESTOQUE_PRECOS != null)) {
+                    this.tableTB_ESTOQUE_PRECOS.InitVars();
+                }
+            }
             this.relationFK_CTI_ESTOQUE = this.Relations["FK_CTI_ESTOQUE"];
             this.relationFK_TB_ESTOQUE_ID_CTI_FCP = this.Relations["FK_TB_ESTOQUE_ID_CTI_FCP"];
             this.relationFK_TB_ESTOQUE_ID_CTI_PART = this.Relations["FK_TB_ESTOQUE_ID_CTI_PART"];
@@ -947,6 +973,7 @@ namespace PDV_WPF.DataSets {
             this.relationFK_CONVENIO_CLIENTE = this.Relations["FK_CONVENIO_CLIENTE"];
             this.relationFK_FUNCIONARIO = this.Relations["FK_FUNCIONARIO"];
             this.relationFK_CARTAO_ADM_ID_CLIENTE = this.Relations["FK_CARTAO_ADM_ID_CLIENTE"];
+            this.relationFK_TB_ESTOQUE_PRECOS = this.Relations["FK_TB_ESTOQUE_PRECOS"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1017,6 +1044,8 @@ namespace PDV_WPF.DataSets {
             base.Tables.Add(this.tableTRI_PDV_SANSUP);
             this.tableTB_CARTAO_ADMINISTRADORA = new TB_CARTAO_ADMINISTRADORADataTable();
             base.Tables.Add(this.tableTB_CARTAO_ADMINISTRADORA);
+            this.tableTB_ESTOQUE_PRECOS = new TB_ESTOQUE_PRECOSDataTable();
+            base.Tables.Add(this.tableTB_ESTOQUE_PRECOS);
             this.relationFK_CTI_ESTOQUE = new global::System.Data.DataRelation("FK_CTI_ESTOQUE", new global::System.Data.DataColumn[] {
                         this.tableTB_TAXA_UF.ID_CTIColumn}, new global::System.Data.DataColumn[] {
                         this.tableTB_ESTOQUE.ID_CTIColumn}, false);
@@ -1093,6 +1122,10 @@ namespace PDV_WPF.DataSets {
                         this.tableTB_CLIENTE.ID_CLIENTEColumn}, new global::System.Data.DataColumn[] {
                         this.tableTB_CARTAO_ADMINISTRADORA.ID_CLIENTEColumn}, false);
             this.Relations.Add(this.relationFK_CARTAO_ADM_ID_CLIENTE);
+            this.relationFK_TB_ESTOQUE_PRECOS = new global::System.Data.DataRelation("FK_TB_ESTOQUE_PRECOS", new global::System.Data.DataColumn[] {
+                        this.tableTB_EST_IDENTIFICADOR.ID_IDENTIFICADORColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTB_ESTOQUE_PRECOS.ID_IDENTIFICADORColumn}, false);
+            this.Relations.Add(this.relationFK_TB_ESTOQUE_PRECOS);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1277,6 +1310,12 @@ namespace PDV_WPF.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private bool ShouldSerializeTB_ESTOQUE_PRECOS() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -1419,6 +1458,9 @@ namespace PDV_WPF.DataSets {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public delegate void TB_CARTAO_ADMINISTRADORARowChangeEventHandler(object sender, TB_CARTAO_ADMINISTRADORARowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public delegate void TB_ESTOQUE_PRECOSRowChangeEventHandler(object sender, TB_ESTOQUE_PRECOSRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -15234,6 +15276,342 @@ namespace PDV_WPF.DataSets {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TB_ESTOQUE_PRECOSDataTable : global::System.Data.TypedTableBase<TB_ESTOQUE_PRECOSRow> {
+            
+            private global::System.Data.DataColumn columnID_IDENTIFICADOR;
+            
+            private global::System.Data.DataColumn columnPRC_VENDA;
+            
+            private global::System.Data.DataColumn columnDT_INICIO;
+            
+            private global::System.Data.DataColumn columnDT_FIM;
+            
+            private global::System.Data.DataColumn columnPERIODO;
+            
+            private global::System.Data.DataColumn columnDIAS_SEMANA;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSDataTable() {
+                this.TableName = "TB_ESTOQUE_PRECOS";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal TB_ESTOQUE_PRECOSDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected TB_ESTOQUE_PRECOSDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn ID_IDENTIFICADORColumn {
+                get {
+                    return this.columnID_IDENTIFICADOR;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PRC_VENDAColumn {
+                get {
+                    return this.columnPRC_VENDA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DT_INICIOColumn {
+                get {
+                    return this.columnDT_INICIO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DT_FIMColumn {
+                get {
+                    return this.columnDT_FIM;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn PERIODOColumn {
+                get {
+                    return this.columnPERIODO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn DIAS_SEMANAColumn {
+                get {
+                    return this.columnDIAS_SEMANA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRow this[int index] {
+                get {
+                    return ((TB_ESTOQUE_PRECOSRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TB_ESTOQUE_PRECOSRowChangeEventHandler TB_ESTOQUE_PRECOSRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TB_ESTOQUE_PRECOSRowChangeEventHandler TB_ESTOQUE_PRECOSRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TB_ESTOQUE_PRECOSRowChangeEventHandler TB_ESTOQUE_PRECOSRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public event TB_ESTOQUE_PRECOSRowChangeEventHandler TB_ESTOQUE_PRECOSRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void AddTB_ESTOQUE_PRECOSRow(TB_ESTOQUE_PRECOSRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRow AddTB_ESTOQUE_PRECOSRow(TB_EST_IDENTIFICADORRow parentTB_EST_IDENTIFICADORRowByFK_TB_ESTOQUE_PRECOS, decimal PRC_VENDA, System.DateTime DT_INICIO, System.DateTime DT_FIM, string PERIODO, string DIAS_SEMANA) {
+                TB_ESTOQUE_PRECOSRow rowTB_ESTOQUE_PRECOSRow = ((TB_ESTOQUE_PRECOSRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        PRC_VENDA,
+                        DT_INICIO,
+                        DT_FIM,
+                        PERIODO,
+                        DIAS_SEMANA};
+                if ((parentTB_EST_IDENTIFICADORRowByFK_TB_ESTOQUE_PRECOS != null)) {
+                    columnValuesArray[0] = parentTB_EST_IDENTIFICADORRowByFK_TB_ESTOQUE_PRECOS[0];
+                }
+                rowTB_ESTOQUE_PRECOSRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTB_ESTOQUE_PRECOSRow);
+                return rowTB_ESTOQUE_PRECOSRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRow FindByID_IDENTIFICADOR(int ID_IDENTIFICADOR) {
+                return ((TB_ESTOQUE_PRECOSRow)(this.Rows.Find(new object[] {
+                            ID_IDENTIFICADOR})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                TB_ESTOQUE_PRECOSDataTable cln = ((TB_ESTOQUE_PRECOSDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TB_ESTOQUE_PRECOSDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal void InitVars() {
+                this.columnID_IDENTIFICADOR = base.Columns["ID_IDENTIFICADOR"];
+                this.columnPRC_VENDA = base.Columns["PRC_VENDA"];
+                this.columnDT_INICIO = base.Columns["DT_INICIO"];
+                this.columnDT_FIM = base.Columns["DT_FIM"];
+                this.columnPERIODO = base.Columns["PERIODO"];
+                this.columnDIAS_SEMANA = base.Columns["DIAS_SEMANA"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            private void InitClass() {
+                this.columnID_IDENTIFICADOR = new global::System.Data.DataColumn("ID_IDENTIFICADOR", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_IDENTIFICADOR);
+                this.columnPRC_VENDA = new global::System.Data.DataColumn("PRC_VENDA", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPRC_VENDA);
+                this.columnDT_INICIO = new global::System.Data.DataColumn("DT_INICIO", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDT_INICIO);
+                this.columnDT_FIM = new global::System.Data.DataColumn("DT_FIM", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDT_FIM);
+                this.columnPERIODO = new global::System.Data.DataColumn("PERIODO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPERIODO);
+                this.columnDIAS_SEMANA = new global::System.Data.DataColumn("DIAS_SEMANA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDIAS_SEMANA);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnID_IDENTIFICADOR}, true));
+                this.columnID_IDENTIFICADOR.AllowDBNull = false;
+                this.columnID_IDENTIFICADOR.Unique = true;
+                this.columnPRC_VENDA.AllowDBNull = false;
+                this.columnDT_INICIO.AllowDBNull = false;
+                this.columnDT_FIM.AllowDBNull = false;
+                this.columnPERIODO.MaxLength = 1;
+                this.columnDIAS_SEMANA.MaxLength = 1;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRow NewTB_ESTOQUE_PRECOSRow() {
+                return ((TB_ESTOQUE_PRECOSRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TB_ESTOQUE_PRECOSRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(TB_ESTOQUE_PRECOSRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TB_ESTOQUE_PRECOSRowChanged != null)) {
+                    this.TB_ESTOQUE_PRECOSRowChanged(this, new TB_ESTOQUE_PRECOSRowChangeEvent(((TB_ESTOQUE_PRECOSRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TB_ESTOQUE_PRECOSRowChanging != null)) {
+                    this.TB_ESTOQUE_PRECOSRowChanging(this, new TB_ESTOQUE_PRECOSRowChangeEvent(((TB_ESTOQUE_PRECOSRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TB_ESTOQUE_PRECOSRowDeleted != null)) {
+                    this.TB_ESTOQUE_PRECOSRowDeleted(this, new TB_ESTOQUE_PRECOSRowChangeEvent(((TB_ESTOQUE_PRECOSRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TB_ESTOQUE_PRECOSRowDeleting != null)) {
+                    this.TB_ESTOQUE_PRECOSRowDeleting(this, new TB_ESTOQUE_PRECOSRowChangeEvent(((TB_ESTOQUE_PRECOSRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void RemoveTB_ESTOQUE_PRECOSRow(TB_ESTOQUE_PRECOSRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                FDBDataSetOperSeed ds = new FDBDataSetOperSeed();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TB_ESTOQUE_PRECOSDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class TB_TAXA_UFRow : global::System.Data.DataRow {
@@ -19607,6 +19985,17 @@ namespace PDV_WPF.DataSets {
                 }
                 else {
                     return ((TB_EST_ESTOQUE_KEYVALUERow[])(base.GetChildRows(this.Table.ChildRelations["FK_EST_IDENT_PROD1"])));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRow[] GetTB_ESTOQUE_PRECOSRows() {
+                if ((this.Table.ChildRelations["FK_TB_ESTOQUE_PRECOS"] == null)) {
+                    return new TB_ESTOQUE_PRECOSRow[0];
+                }
+                else {
+                    return ((TB_ESTOQUE_PRECOSRow[])(base.GetChildRows(this.Table.ChildRelations["FK_TB_ESTOQUE_PRECOS"])));
                 }
             }
         }
@@ -26613,6 +27002,132 @@ namespace PDV_WPF.DataSets {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class TB_ESTOQUE_PRECOSRow : global::System.Data.DataRow {
+            
+            private TB_ESTOQUE_PRECOSDataTable tableTB_ESTOQUE_PRECOS;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            internal TB_ESTOQUE_PRECOSRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTB_ESTOQUE_PRECOS = ((TB_ESTOQUE_PRECOSDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public int ID_IDENTIFICADOR {
+                get {
+                    return ((int)(this[this.tableTB_ESTOQUE_PRECOS.ID_IDENTIFICADORColumn]));
+                }
+                set {
+                    this[this.tableTB_ESTOQUE_PRECOS.ID_IDENTIFICADORColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public decimal PRC_VENDA {
+                get {
+                    return ((decimal)(this[this.tableTB_ESTOQUE_PRECOS.PRC_VENDAColumn]));
+                }
+                set {
+                    this[this.tableTB_ESTOQUE_PRECOS.PRC_VENDAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public System.DateTime DT_INICIO {
+                get {
+                    return ((global::System.DateTime)(this[this.tableTB_ESTOQUE_PRECOS.DT_INICIOColumn]));
+                }
+                set {
+                    this[this.tableTB_ESTOQUE_PRECOS.DT_INICIOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public System.DateTime DT_FIM {
+                get {
+                    return ((global::System.DateTime)(this[this.tableTB_ESTOQUE_PRECOS.DT_FIMColumn]));
+                }
+                set {
+                    this[this.tableTB_ESTOQUE_PRECOS.DT_FIMColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string PERIODO {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_ESTOQUE_PRECOS.PERIODOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'PERIODO\' na tabela \'TB_ESTOQUE_PRECOS\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_ESTOQUE_PRECOS.PERIODOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string DIAS_SEMANA {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_ESTOQUE_PRECOS.DIAS_SEMANAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'DIAS_SEMANA\' na tabela \'TB_ESTOQUE_PRECOS\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_ESTOQUE_PRECOS.DIAS_SEMANAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_EST_IDENTIFICADORRow TB_EST_IDENTIFICADORRow {
+                get {
+                    return ((TB_EST_IDENTIFICADORRow)(this.GetParentRow(this.Table.ParentRelations["FK_TB_ESTOQUE_PRECOS"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_TB_ESTOQUE_PRECOS"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsPERIODONull() {
+                return this.IsNull(this.tableTB_ESTOQUE_PRECOS.PERIODOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetPERIODONull() {
+                this[this.tableTB_ESTOQUE_PRECOS.PERIODOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsDIAS_SEMANANull() {
+                return this.IsNull(this.tableTB_ESTOQUE_PRECOS.DIAS_SEMANAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetDIAS_SEMANANull() {
+                this[this.tableTB_ESTOQUE_PRECOS.DIAS_SEMANAColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
@@ -27618,6 +28133,40 @@ namespace PDV_WPF.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_CARTAO_ADMINISTRADORARow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public class TB_ESTOQUE_PRECOSRowChangeEvent : global::System.EventArgs {
+            
+            private TB_ESTOQUE_PRECOSRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRowChangeEvent(TB_ESTOQUE_PRECOSRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public TB_ESTOQUE_PRECOSRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -57680,6 +58229,598 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
     }
     
     /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class TB_ESTOQUE_PRECOSTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbDataAdapter _adapter;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbConnection _connection;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbTransaction _transaction;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public TB_ESTOQUE_PRECOSTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        protected internal global::FirebirdSql.Data.FirebirdClient.FbDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public global::FirebirdSql.Data.FirebirdClient.FbConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::FirebirdSql.Data.FirebirdClient.FbCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        internal global::FirebirdSql.Data.FirebirdClient.FbTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        protected global::FirebirdSql.Data.FirebirdClient.FbCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::FirebirdSql.Data.FirebirdClient.FbDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "TB_ESTOQUE_PRECOS";
+            tableMapping.ColumnMappings.Add("ID_IDENTIFICADOR", "ID_IDENTIFICADOR");
+            tableMapping.ColumnMappings.Add("PRC_VENDA", "PRC_VENDA");
+            tableMapping.ColumnMappings.Add("DT_INICIO", "DT_INICIO");
+            tableMapping.ColumnMappings.Add("DT_FIM", "DT_FIM");
+            tableMapping.ColumnMappings.Add("PERIODO", "PERIODO");
+            tableMapping.ColumnMappings.Add("DIAS_SEMANA", "DIAS_SEMANA");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_ESTOQUE_PRECOS"" WHERE ((""ID_IDENTIFICADOR"" = @Original_ID_IDENTIFICADOR) AND (""PRC_VENDA"" = @Original_PRC_VENDA) AND (""DT_INICIO"" = @Original_DT_INICIO) AND (""DT_FIM"" = @Original_DT_FIM) AND ((@IsNull_PERIODO = 1 AND ""PERIODO"" IS NULL) OR (""PERIODO"" = @Original_PERIODO)) AND ((@IsNull_DIAS_SEMANA = 1 AND ""DIAS_SEMANA"" IS NULL) OR (""DIAS_SEMANA"" = @Original_DIAS_SEMANA)))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_IDENTIFICADOR";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PRC_VENDA";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "PRC_VENDA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DT_INICIO";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_INICIO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DT_FIM";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_FIM";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_PERIODO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERIODO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PERIODO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERIODO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DIAS_SEMANA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "DIAS_SEMANA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DIAS_SEMANA";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "DIAS_SEMANA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_ESTOQUE_PRECOS\" (\"ID_IDENTIFICADOR\", \"PRC_VENDA\", \"DT_INICIO\", \"D" +
+                "T_FIM\", \"PERIODO\", \"DIAS_SEMANA\") VALUES (@ID_IDENTIFICADOR, @PRC_VENDA, @DT_INI" +
+                "CIO, @DT_FIM, @PERIODO, @DIAS_SEMANA)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_IDENTIFICADOR";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PRC_VENDA";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "PRC_VENDA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_INICIO";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_INICIO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_FIM";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_FIM";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PERIODO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERIODO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DIAS_SEMANA";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "DIAS_SEMANA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_ESTOQUE_PRECOS"" SET ""ID_IDENTIFICADOR"" = @ID_IDENTIFICADOR, ""PRC_VENDA"" = @PRC_VENDA, ""DT_INICIO"" = @DT_INICIO, ""DT_FIM"" = @DT_FIM, ""PERIODO"" = @PERIODO, ""DIAS_SEMANA"" = @DIAS_SEMANA WHERE ((""ID_IDENTIFICADOR"" = @Original_ID_IDENTIFICADOR) AND (""PRC_VENDA"" = @Original_PRC_VENDA) AND (""DT_INICIO"" = @Original_DT_INICIO) AND (""DT_FIM"" = @Original_DT_FIM) AND ((@IsNull_PERIODO = 1 AND ""PERIODO"" IS NULL) OR (""PERIODO"" = @Original_PERIODO)) AND ((@IsNull_DIAS_SEMANA = 1 AND ""DIAS_SEMANA"" IS NULL) OR (""DIAS_SEMANA"" = @Original_DIAS_SEMANA)))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_IDENTIFICADOR";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PRC_VENDA";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "PRC_VENDA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_INICIO";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_INICIO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_FIM";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_FIM";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PERIODO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERIODO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DIAS_SEMANA";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "DIAS_SEMANA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_IDENTIFICADOR";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PRC_VENDA";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "PRC_VENDA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DT_INICIO";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_INICIO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DT_FIM";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_FIM";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_PERIODO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERIODO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PERIODO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERIODO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DIAS_SEMANA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "DIAS_SEMANA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DIAS_SEMANA";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "DIAS_SEMANA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::FirebirdSql.Data.FirebirdClient.FbConnection();
+            this._connection.ConnectionString = global::PDV_WPF.Properties.Settings.Default.FDBConnString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
+            this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT * FROM TB_ESTOQUE_PRECOS";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT ID_IDENTIFICADOR, PRC_VENDA, DT_INICIO, DT_FIM, PERIODO, DIAS_SEMANA FROM " +
+                "TB_ESTOQUE_PRECOS WHERE (ID_IDENTIFICADOR = @param)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@param";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            this._commandCollection[1].Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
+        public virtual FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable GetData() {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable dataTable = new FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillById(FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable dataTable, int param) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(param));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSetOperSeed dataSet) {
+            return this.Adapter.Update(dataSet, "TB_ESTOQUE_PRECOS");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
+        public virtual int Delete(int Original_ID_IDENTIFICADOR, decimal Original_PRC_VENDA, System.DateTime Original_DT_INICIO, System.DateTime Original_DT_FIM, string Original_PERIODO, string Original_DIAS_SEMANA) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_IDENTIFICADOR));
+            this.Adapter.DeleteCommand.Parameters[1].Value = ((decimal)(Original_PRC_VENDA));
+            this.Adapter.DeleteCommand.Parameters[2].Value = ((System.DateTime)(Original_DT_INICIO));
+            this.Adapter.DeleteCommand.Parameters[3].Value = ((System.DateTime)(Original_DT_FIM));
+            if ((Original_PERIODO == null)) {
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[4].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((string)(Original_PERIODO));
+            }
+            if ((Original_DIAS_SEMANA == null)) {
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[7].Value = ((string)(Original_DIAS_SEMANA));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
+            if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.DeleteCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.DeleteCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.DeleteCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
+        public virtual int Insert(int ID_IDENTIFICADOR, decimal PRC_VENDA, System.DateTime DT_INICIO, System.DateTime DT_FIM, string PERIODO, string DIAS_SEMANA) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_IDENTIFICADOR));
+            this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(PRC_VENDA));
+            this.Adapter.InsertCommand.Parameters[2].Value = ((System.DateTime)(DT_INICIO));
+            this.Adapter.InsertCommand.Parameters[3].Value = ((System.DateTime)(DT_FIM));
+            if ((PERIODO == null)) {
+                this.Adapter.InsertCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[4].Value = ((string)(PERIODO));
+            }
+            if ((DIAS_SEMANA == null)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(DIAS_SEMANA));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
+            if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.InsertCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.InsertCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.InsertCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(int ID_IDENTIFICADOR, decimal PRC_VENDA, System.DateTime DT_INICIO, System.DateTime DT_FIM, string PERIODO, string DIAS_SEMANA, int Original_ID_IDENTIFICADOR, decimal Original_PRC_VENDA, System.DateTime Original_DT_INICIO, System.DateTime Original_DT_FIM, string Original_PERIODO, string Original_DIAS_SEMANA) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_IDENTIFICADOR));
+            this.Adapter.UpdateCommand.Parameters[1].Value = ((decimal)(PRC_VENDA));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((System.DateTime)(DT_INICIO));
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((System.DateTime)(DT_FIM));
+            if ((PERIODO == null)) {
+                this.Adapter.UpdateCommand.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(PERIODO));
+            }
+            if ((DIAS_SEMANA == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(DIAS_SEMANA));
+            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_IDENTIFICADOR));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_PRC_VENDA));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((System.DateTime)(Original_DT_INICIO));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((System.DateTime)(Original_DT_FIM));
+            if ((Original_PERIODO == null)) {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[10].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(Original_PERIODO));
+            }
+            if ((Original_DIAS_SEMANA == null)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[13].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_DIAS_SEMANA));
+            }
+            global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
+            if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                this.Adapter.UpdateCommand.Connection.Open();
+            }
+            try {
+                int returnValue = this.Adapter.UpdateCommand.ExecuteNonQuery();
+                return returnValue;
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    this.Adapter.UpdateCommand.Connection.Close();
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
+        public virtual int Update(decimal PRC_VENDA, System.DateTime DT_INICIO, System.DateTime DT_FIM, string PERIODO, string DIAS_SEMANA, int Original_ID_IDENTIFICADOR, decimal Original_PRC_VENDA, System.DateTime Original_DT_INICIO, System.DateTime Original_DT_FIM, string Original_PERIODO, string Original_DIAS_SEMANA) {
+            return this.Update(Original_ID_IDENTIFICADOR, PRC_VENDA, DT_INICIO, DT_FIM, PERIODO, DIAS_SEMANA, Original_ID_IDENTIFICADOR, Original_PRC_VENDA, Original_DT_INICIO, Original_DT_FIM, Original_PERIODO, Original_DIAS_SEMANA);
+        }
+    }
+    
+    /// <summary>
     ///TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -57736,6 +58877,8 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
         private TRI_PDV_SANSUPTableAdapter _tRI_PDV_SANSUPTableAdapter;
         
         private TB_CARTAO_ADMINISTRADORATableAdapter _tB_CARTAO_ADMINISTRADORATableAdapter;
+        
+        private TB_ESTOQUE_PRECOSTableAdapter _tB_ESTOQUE_PRECOSTableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -58076,6 +59219,20 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public TB_ESTOQUE_PRECOSTableAdapter TB_ESTOQUE_PRECOSTableAdapter {
+            get {
+                return this._tB_ESTOQUE_PRECOSTableAdapter;
+            }
+            set {
+                this._tB_ESTOQUE_PRECOSTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -58185,6 +59342,10 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                             && (this._tB_CARTAO_ADMINISTRADORATableAdapter.Connection != null))) {
                     return this._tB_CARTAO_ADMINISTRADORATableAdapter.Connection;
                 }
+                if (((this._tB_ESTOQUE_PRECOSTableAdapter != null) 
+                            && (this._tB_ESTOQUE_PRECOSTableAdapter.Connection != null))) {
+                    return this._tB_ESTOQUE_PRECOSTableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -58267,6 +59428,9 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                 if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
                     count = (count + 1);
                 }
+                if ((this._tB_ESTOQUE_PRECOSTableAdapter != null)) {
+                    count = (count + 1);
+                }
                 return count;
             }
         }
@@ -58287,39 +59451,12 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tB_TAXA_UFTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_TAXA_UF.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_TAXA_UFTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tB_UNI_MEDIDATableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_UNI_MEDIDA.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_UNI_MEDIDATableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._tB_FUNC_SETORTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.TB_FUNC_SETOR.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._tB_FUNC_SETORTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tB_FORNECEDORTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_FORNECEDOR.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_FORNECEDORTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -58332,12 +59469,48 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._tB_FORNECEDORTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_FORNECEDOR.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_FORNECEDORTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_UNI_MEDIDATableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_UNI_MEDIDA.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_UNI_MEDIDATableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_TAXA_UFTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_TAXA_UF.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_TAXA_UFTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             if ((this._tB_FUNCIONARIOTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.TB_FUNCIONARIO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._tB_FUNCIONARIOTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_CLI_CONVENIOTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLI_CONVENIO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_CLI_CONVENIOTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -58350,12 +59523,12 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tB_CLI_CONVENIOTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLI_CONVENIO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tB_CLIENTETableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLIENTE.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CLI_CONVENIOTableAdapter.Update(updatedRows));
+                    result = (result + this._tB_CLIENTETableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -58386,48 +59559,12 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tB_CLIENTETableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLIENTE.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tRI_PDV_SANSUPTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_SANSUP.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CLIENTETableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tB_EST_ADICIONALTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_EST_ADICIONAL.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_EST_ADICIONALTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tB_IFSTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_IFS.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_IFSTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tB_CLI_PFTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLI_PF.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CLI_PFTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tB_CLI_PJTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLI_PJ.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CLI_PJTableAdapter.Update(updatedRows));
+                    result = (result + this._tRI_PDV_SANSUPTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -58440,12 +59577,21 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tRI_PDV_SANSUPTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_SANSUP.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tB_IFSTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_IFS.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tRI_PDV_SANSUPTableAdapter.Update(updatedRows));
+                    result = (result + this._tB_IFSTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CARTAO_ADMINISTRADORA.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_CARTAO_ADMINISTRADORATableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -58467,6 +59613,33 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
+            if ((this._tB_EST_ADICIONALTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_EST_ADICIONAL.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_EST_ADICIONALTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_CLI_PJTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLI_PJ.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_CLI_PJTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_CLI_PFTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CLI_PF.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_CLI_PFTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
             if ((this._tRI_PDV_TERMINAL_USUARIOTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_TERMINAL_USUARIO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
@@ -58476,12 +59649,12 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CARTAO_ADMINISTRADORA.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tB_ESTOQUE_PRECOSTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_ESTOQUE_PRECOS.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CARTAO_ADMINISTRADORATableAdapter.Update(updatedRows));
+                    result = (result + this._tB_ESTOQUE_PRECOSTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -58503,35 +59676,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tB_TAXA_UFTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_TAXA_UF.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_TAXA_UFTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tB_UNI_MEDIDATableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_UNI_MEDIDA.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_UNI_MEDIDATableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._tB_FUNC_SETORTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TB_FUNC_SETOR.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._tB_FUNC_SETORTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tB_FORNECEDORTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_FORNECEDOR.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_FORNECEDORTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -58543,11 +59692,43 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._tB_FORNECEDORTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_FORNECEDOR.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_FORNECEDORTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_UNI_MEDIDATableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_UNI_MEDIDA.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_UNI_MEDIDATableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_TAXA_UFTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_TAXA_UF.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_TAXA_UFTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             if ((this._tB_FUNCIONARIOTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TB_FUNCIONARIO.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._tB_FUNCIONARIOTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_CLI_CONVENIOTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CLI_CONVENIO.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_CLI_CONVENIOTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -58559,11 +59740,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tB_CLI_CONVENIOTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CLI_CONVENIO.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tB_CLIENTETableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CLIENTE.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CLI_CONVENIOTableAdapter.Update(addedRows));
+                    result = (result + this._tB_CLIENTETableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -58591,43 +59772,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tB_CLIENTETableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CLIENTE.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tRI_PDV_SANSUPTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_SANSUP.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CLIENTETableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tB_EST_ADICIONALTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_EST_ADICIONAL.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_EST_ADICIONALTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tB_IFSTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_IFS.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_IFSTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tB_CLI_PFTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CLI_PF.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CLI_PFTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tB_CLI_PJTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CLI_PJ.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CLI_PJTableAdapter.Update(addedRows));
+                    result = (result + this._tRI_PDV_SANSUPTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -58639,11 +59788,19 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tRI_PDV_SANSUPTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_SANSUP.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tB_IFSTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_IFS.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tRI_PDV_SANSUPTableAdapter.Update(addedRows));
+                    result = (result + this._tB_IFSTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CARTAO_ADMINISTRADORA.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_CARTAO_ADMINISTRADORATableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -58663,6 +59820,30 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._tB_EST_ADICIONALTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_EST_ADICIONAL.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_EST_ADICIONALTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_CLI_PJTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CLI_PJ.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_CLI_PJTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_CLI_PFTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CLI_PF.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_CLI_PFTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             if ((this._tRI_PDV_TERMINAL_USUARIOTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_TERMINAL_USUARIO.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -58671,11 +59852,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CARTAO_ADMINISTRADORA.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tB_ESTOQUE_PRECOSTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_ESTOQUE_PRECOS.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CARTAO_ADMINISTRADORATableAdapter.Update(addedRows));
+                    result = (result + this._tB_ESTOQUE_PRECOSTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -58689,11 +59870,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private int UpdateDeletedRows(FDBDataSetOperSeed dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CARTAO_ADMINISTRADORA.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_ESTOQUE_PRECOSTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_ESTOQUE_PRECOS.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CARTAO_ADMINISTRADORATableAdapter.Update(deletedRows));
+                    result = (result + this._tB_ESTOQUE_PRECOSTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -58702,6 +59883,30 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._tRI_PDV_TERMINAL_USUARIOTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_CLI_PFTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLI_PF.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_CLI_PFTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_CLI_PJTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLI_PJ.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_CLI_PJTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_EST_ADICIONALTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_EST_ADICIONAL.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_EST_ADICIONALTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -58721,35 +59926,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tRI_PDV_SANSUPTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_SANSUP.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_CARTAO_ADMINISTRADORA.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tRI_PDV_SANSUPTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._tB_FUNC_PAPELTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNC_PAPEL.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_FUNC_PAPELTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._tB_CLI_PJTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLI_PJ.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CLI_PJTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._tB_CLI_PFTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLI_PF.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CLI_PFTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_CARTAO_ADMINISTRADORATableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -58761,19 +59942,19 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_EST_ADICIONALTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_EST_ADICIONAL.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_FUNC_PAPELTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNC_PAPEL.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_EST_ADICIONALTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_FUNC_PAPELTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_CLIENTETableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLIENTE.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tRI_PDV_SANSUPTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_SANSUP.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CLIENTETableAdapter.Update(deletedRows));
+                    result = (result + this._tRI_PDV_SANSUPTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -58801,11 +59982,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_CLI_CONVENIOTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLI_CONVENIO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_CLIENTETableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLIENTE.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CLI_CONVENIOTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_CLIENTETableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -58817,6 +59998,14 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(deletedRows);
                 }
             }
+            if ((this._tB_CLI_CONVENIOTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_CLI_CONVENIO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_CLI_CONVENIOTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._tB_FUNCIONARIOTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNCIONARIO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -58825,27 +60014,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_FUNC_CARGOTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNC_CARGO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_TAXA_UFTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_TAXA_UF.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_FUNC_CARGOTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._tB_FORNECEDORTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_FORNECEDOR.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_FORNECEDORTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._tB_FUNC_SETORTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNC_SETOR.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_FUNC_SETORTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_TAXA_UFTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -58857,11 +60030,27 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_TAXA_UFTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_TAXA_UF.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_FORNECEDORTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_FORNECEDOR.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_TAXA_UFTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_FORNECEDORTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_FUNC_CARGOTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNC_CARGO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_FUNC_CARGOTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_FUNC_SETORTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_FUNC_SETOR.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_FUNC_SETORTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -59024,6 +60213,11 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             }
             if (((this._tB_CARTAO_ADMINISTRADORATableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._tB_CARTAO_ADMINISTRADORATableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
+                        "cadeia de conexão.");
+            }
+            if (((this._tB_ESTOQUE_PRECOSTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._tB_ESTOQUE_PRECOSTableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
                         "cadeia de conexão.");
             }
@@ -59266,6 +60460,15 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                         adaptersWithAcceptChangesDuringUpdate.Add(this._tB_CARTAO_ADMINISTRADORATableAdapter.Adapter);
                     }
                 }
+                if ((this._tB_ESTOQUE_PRECOSTableAdapter != null)) {
+                    revertConnections.Add(this._tB_ESTOQUE_PRECOSTableAdapter, this._tB_ESTOQUE_PRECOSTableAdapter.Connection);
+                    this._tB_ESTOQUE_PRECOSTableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(workConnection));
+                    this._tB_ESTOQUE_PRECOSTableAdapter.Transaction = ((global::FirebirdSql.Data.FirebirdClient.FbTransaction)(workTransaction));
+                    if (this._tB_ESTOQUE_PRECOSTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._tB_ESTOQUE_PRECOSTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._tB_ESTOQUE_PRECOSTableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -59415,6 +60618,10 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
                 if ((this._tB_CARTAO_ADMINISTRADORATableAdapter != null)) {
                     this._tB_CARTAO_ADMINISTRADORATableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tB_CARTAO_ADMINISTRADORATableAdapter]));
                     this._tB_CARTAO_ADMINISTRADORATableAdapter.Transaction = null;
+                }
+                if ((this._tB_ESTOQUE_PRECOSTableAdapter != null)) {
+                    this._tB_ESTOQUE_PRECOSTableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tB_ESTOQUE_PRECOSTableAdapter]));
+                    this._tB_ESTOQUE_PRECOSTableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

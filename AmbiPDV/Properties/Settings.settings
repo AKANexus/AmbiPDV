@@ -26,18 +26,18 @@
     <Setting Name="FDBConnString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;data source=localhost;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\CLIPP.FDB";user id=SYSDBA;password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;data source=localhost;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\COPIA DB\CLIPP.FDB";user id=SYSDBA;password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">data source=localhost;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\CLIPP.FDB";user id=SYSDBA;password=masterkey;charset=WIN1252</Value>
+      <Value Profile="(Default)">data source=localhost;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\COPIA DB\CLIPP.FDB";user id=SYSDBA;password=masterkey;charset=WIN1252</Value>
     </Setting>
     <Setting Name="ComandasCS" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
 &lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;charset=WIN1252;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\InfoPad.FDB";data source=localhost;user id=SYSDBA;password=masterkey&lt;/ConnectionString&gt;
+  &lt;ConnectionString&gt;charset=WIN1252;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\COPIA DB\InfoPad.FDB";data source=localhost;user id=SYSDBA;password=masterkey&lt;/ConnectionString&gt;
   &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">charset=WIN1252;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\InfoPad.FDB";data source=localhost;user id=SYSDBA;password=masterkey</Value>
+      <Value Profile="(Default)">charset=WIN1252;initial catalog="C:\Users\TRILHA SISTEMA\Desktop\BANCO TESTE TRILHA LOJA 01\COPIA DB\InfoPad.FDB";data source=localhost;user id=SYSDBA;password=masterkey</Value>
     </Setting>
   </Settings>
 </SettingsFile>
