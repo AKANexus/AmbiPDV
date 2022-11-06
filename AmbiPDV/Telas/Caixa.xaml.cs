@@ -5767,7 +5767,7 @@ namespace PDV_WPF.Telas
                 var remitem = new RemoverItem(numProximoItem - 1);
                 if (remitem.ShowDialog() == true)
                 {
-                    List <envCFeCFeInfCFeDetProd> produtoARemover = vendaAtual.RemoveProduto(remitem._int, remitem._string);
+                    List <envCFeCFeInfCFeDetProd> produtoARemover = vendaAtual.RemoveProduto(remitem._int, remitem._string, remitem._qtdDevolver);
                     if (produtoARemover is null)
                     {
                         DialogBox.Show(strings.ESTORNO_DE_ITEM, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.ITEM_INVALIDO_VERIFIQUE);
