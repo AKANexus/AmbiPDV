@@ -28,7 +28,7 @@ namespace PDV_WPF.Objetos
         private CFe _cFe;
         private envCFeCFeInfCFe _infCfe;
         private envCFeCFeInfCFeDet _det;
-        private List<envCFeCFeInfCFeDet> _listaDets;
+        public List<envCFeCFeInfCFeDet> _listaDets;
         private envCFeCFeInfCFeDetProd _produto;
         private envCFeCFeInfCFeDetImposto _imposto;
         private envCFeCFeInfCFeDetImpostoICMS _ICMS;
@@ -770,7 +770,7 @@ namespace PDV_WPF.Objetos
         /// </summary>
         /// <param name="numItem">Número sequencial referente ao produto a ser retirado</param>
         /// <returns></returns>
-        public List <envCFeCFeInfCFeDetProd> RemoveProduto(int numItemINT = 0, string numItemSTRING = null)
+        public List <envCFeCFeInfCFeDetProd> RemoveProduto(int numItemINT = 0, string numItemSTRING = null, int qtdDevolver = 0)
         {
             try
             {
@@ -791,33 +791,19 @@ namespace PDV_WPF.Objetos
                     return listProdCanc.Count == 0 ? null : listProdCanc;
                 }
                 if (numItemSTRING != null)
-                {
-                    if (DialogBox.Show("Cancelamento de item", DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, "Deseja cancelar todos os itens passados com o código de barras:\n" + numItemSTRING) == true)
+                {                    
+                    List<CfeRecepcao_0008.envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(s => s.prod.cEAN == numItemSTRING);
+                    List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
+                    int iteracao = 0;
+                    foreach (var list in listCanc)
                     {
-                        List<CfeRecepcao_0008.envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(s => s.prod.cEAN == numItemSTRING);
-                        List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
-                        foreach (var list in listCanc)
-                        {
-                            if (list is null) return null;
-                            listProdCanc.Add(list.prod);
-                            _listaDets.Remove(list);
-                        }
-                        return listProdCanc.Count == 0 ? null : listProdCanc;
+                        if (list is null) return null;                        
+                        listProdCanc.Add(list.prod);
+                        _listaDets.Remove(list);
+                        iteracao++;
+                        if (iteracao == qtdDevolver) break;                        
                     }
-                    else
-                    {
-                        List<CfeRecepcao_0008.envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(s => s.prod.cEAN == numItemSTRING);
-                        List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
-                        foreach (var list in listCanc)
-                        {
-                            if (list is null) return null;
-                            listProdCanc.Add(list.prod);
-                            _listaDets.Remove(list);
-                            DialogBox.Show("Item estornado", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Cancelado primeiro item passado com o código de barras: " + numItemSTRING);
-                            break;
-                        }
-                        return listProdCanc.Count == 0 ? null : listProdCanc;
-                    }
+                        return listProdCanc.Count == 0 ? null : listProdCanc;                    
                 }
                 else
                     return null;
