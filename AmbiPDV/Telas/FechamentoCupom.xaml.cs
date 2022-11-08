@@ -572,7 +572,7 @@ namespace PDV_WPF.Telas
                     }
                 });
             }
-            if (e.Key == Key.F2)
+            if (e.Key == Key.F4)
             {
                 if (taxaAdicionada)
                 {
@@ -589,6 +589,11 @@ namespace PDV_WPF.Telas
                         using (var dadosDoItem = new DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMDataTable())
                         using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
                         {
+                            if (COD10PORCENTO is -1 || COD10PORCENTO is 0)
+                            {
+                                MessageBox.Show("Código da Taxa de Serviço não configurada.\n\n     Configure corretamente e tente novamente.", "Informação", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                return;
+                            }
                             obtemdadosdoitem.Connection = LOCAL_FB_CONN;
                             obtemdadosdoitem.Fill(dadosDoItem, COD10PORCENTO);
                             DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow itemRow = (DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMRow)dadosDoItem.Rows[0];
