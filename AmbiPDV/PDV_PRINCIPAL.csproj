@@ -685,9 +685,6 @@
     <Compile Include="Telas\SWAT.xaml.cs">
       <DependentUpon>SWAT.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Telas\TEFBox.xaml.cs">
-      <DependentUpon>TEFBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Telas\TimedBox.xaml.cs">
       <DependentUpon>TimedBox.xaml</DependentUpon>
     </Compile>
@@ -971,10 +968,6 @@
     <Page Include="Telas\SWAT.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Telas\TEFBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Telas\TimedBox.xaml">
       <Generator>MSBuild:Compile</Generator>

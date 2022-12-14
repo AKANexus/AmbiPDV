@@ -420,20 +420,6 @@ namespace PDV_WPF.Funcoes
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="prime"></param>
-        /// <param name="set"></param>
-        public static void BombaLogica(bool prime = false, bool set = false)
-        {
-            if (prime && set)
-            {
-                int minibomba = 0;
-                _ = 1 / minibomba;
-            }
-        }
-
-        /// <summary>
         /// Compara duas versões e informa qual a compatibilidade entre elas.
         /// </summary>
         /// <param name="versaoreferencia">Versão a ser usada como referência. Normalmente a versão do banco de dados.</param>

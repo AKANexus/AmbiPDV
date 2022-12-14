@@ -1928,96 +1928,96 @@ namespace PDV_WPF.Telas
             }
         }
 
-        /// <summary>
-        /// Executa uma função administrativa no TEF
-        /// </summary>
-        private void ExecFuncaoAdminTEF()
-        {
-            if (PedeSenhaGerencial("Executando Função Administraiva no TEF"))
-            {
-                int tef_cliente = 0;
-                int tef_estab = 0;
-                int tef_redux = 0;
-                int tef_unica = 0;
-                try
-                {
-                    var Administrativo = new ADM();
+        ///// <summary>
+        ///// Executa uma função administrativa no TEF
+        ///// </summary>
+        //private void ExecFuncaoAdminTEF()
+        //{
+        //    if (PedeSenhaGerencial("Executando Função Administraiva no TEF"))
+        //    {
+        //        int tef_cliente = 0;
+        //        int tef_estab = 0;
+        //        int tef_redux = 0;
+        //        int tef_unica = 0;
+        //        try
+        //        {
+        //            var Administrativo = new ADM();
 
-                    var respCRT = new Dictionary<string, string>();
-                    Administrativo.Exec();
-                    var db = new TEFBox(strings.VENDA_NO_TEF, strings.SIGA_AS_INSTRUCOES_NO_TEF, TEFBox.DialogBoxButtons.Yes, TEFBox.DialogBoxIcons.None);
-                    db.ShowDialog();
-                    if (db.DialogResult == false)
-                    {
-                        return;
-                    }
-                    respCRT = General.LeResposta();
-                    using (var tb = new TimedBox(strings.VENDA_NO_TEF, "", respCRT["030-000"], TimedBox.DialogBoxButtons.Yes, TimedBox.DialogBoxIcons.None, 4))
-                    { tb.ShowDialog(); }
-                    if (respCRT.ContainsKey("009-000") && respCRT["009-000"] != "0")
-                    {
-                        var dbTef = DialogBox.Show(strings.VENDA_NO_TEF, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.OPERACAO_CANCELADA_OU_NAO_CONCLUIDA, strings.TENTE_NOVAMENTE_OU_OUTRO_METODO);
-                        return;
-                    }
-                    VendaImpressa.ReciboTEF = respCRT;
-                    #region printdecision
-                    if (respCRT.ContainsKey("737-000") && (respCRT["737-000"] == "1" || respCRT["737-000"] == "3") || !respCRT.ContainsKey("737-000"))
-                    {
-                        if (respCRT.ContainsKey("710-000") && respCRT["710-000"] != "0")
-                        {
-                            tef_redux += 1;
-                        }
-                        else
-                        {
-                            if (respCRT.ContainsKey("712-000") && respCRT["712-000"] != "0")
-                            {
-                                tef_cliente += 1;
-                            }
-                            else
-                            {
-                                tef_unica += 1;
-                            }
-                        }
-                    }
-                    if (respCRT.ContainsKey("737-000") && (respCRT["737-000"] == "2" || respCRT["737-000"] == "3") || !respCRT.ContainsKey("737-000"))
-                    {
-                        if (respCRT.ContainsKey("714-000") && respCRT["714-000"] != "0")
-                        {
-                            tef_estab += 1;
-                        }
-                        else
-                        {
-                            tef_unica += 1;
-                        }
-                    }
-                    ultimaImpressao = VendaImpressa.IMPRIME(0);
+        //            var respCRT = new Dictionary<string, string>();
+        //            Administrativo.Exec();
+        //            var db = new TEFBox(strings.VENDA_NO_TEF, strings.SIGA_AS_INSTRUCOES_NO_TEF, TEFBox.DialogBoxButtons.Yes, TEFBox.DialogBoxIcons.None);
+        //            db.ShowDialog();
+        //            if (db.DialogResult == false)
+        //            {
+        //                return;
+        //            }
+        //            respCRT = General.LeResposta();
+        //            using (var tb = new TimedBox(strings.VENDA_NO_TEF, "", respCRT["030-000"], TimedBox.DialogBoxButtons.Yes, TimedBox.DialogBoxIcons.None, 4))
+        //            { tb.ShowDialog(); }
+        //            if (respCRT.ContainsKey("009-000") && respCRT["009-000"] != "0")
+        //            {
+        //                var dbTef = DialogBox.Show(strings.VENDA_NO_TEF, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.OPERACAO_CANCELADA_OU_NAO_CONCLUIDA, strings.TENTE_NOVAMENTE_OU_OUTRO_METODO);
+        //                return;
+        //            }
+        //            VendaImpressa.ReciboTEF = respCRT;
+        //            #region printdecision
+        //            if (respCRT.ContainsKey("737-000") && (respCRT["737-000"] == "1" || respCRT["737-000"] == "3") || !respCRT.ContainsKey("737-000"))
+        //            {
+        //                if (respCRT.ContainsKey("710-000") && respCRT["710-000"] != "0")
+        //                {
+        //                    tef_redux += 1;
+        //                }
+        //                else
+        //                {
+        //                    if (respCRT.ContainsKey("712-000") && respCRT["712-000"] != "0")
+        //                    {
+        //                        tef_cliente += 1;
+        //                    }
+        //                    else
+        //                    {
+        //                        tef_unica += 1;
+        //                    }
+        //                }
+        //            }
+        //            if (respCRT.ContainsKey("737-000") && (respCRT["737-000"] == "2" || respCRT["737-000"] == "3") || !respCRT.ContainsKey("737-000"))
+        //            {
+        //                if (respCRT.ContainsKey("714-000") && respCRT["714-000"] != "0")
+        //                {
+        //                    tef_estab += 1;
+        //                }
+        //                else
+        //                {
+        //                    tef_unica += 1;
+        //                }
+        //            }
+        //            ultimaImpressao = VendaImpressa.IMPRIME(0);
 
-                    if (tef_estab > 0)
-                    {
-                        ultimaImpressao = VendaImpressa.IMPRIME(0);
-                    }
-                    #endregion
-                    var Confirma = new CNF()
-                    {
-                        _010 = respCRT["010-000"],
-                        _027 = respCRT["027-000"],
-                        _717 = DateTime.Now
-                    };
-                    Confirma.Exec();
-                }
-                catch (ArgumentException)
-                {
-                    DialogBox.Show(strings.VENDA_NO_TEF, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.PAYGO_NAO_ESTA_INSTALADO);
-                    return;
-                }
-                catch (Exception ex)
-                {
-                    log.Error("Erro ao executar função admin no TEF", ex);
-                    DialogBox.Show(strings.VENDA_NO_TEF, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.ERRO_INESPERADO, RetornarMensagemErro(ex, false));
-                    return;
-                }
-            }
-        }
+        //            if (tef_estab > 0)
+        //            {
+        //                ultimaImpressao = VendaImpressa.IMPRIME(0);
+        //            }
+        //            #endregion
+        //            var Confirma = new CNF()
+        //            {
+        //                _010 = respCRT["010-000"],
+        //                _027 = respCRT["027-000"],
+        //                _717 = DateTime.Now
+        //            };
+        //            Confirma.Exec();
+        //        }
+        //        catch (ArgumentException)
+        //        {
+        //            DialogBox.Show(strings.VENDA_NO_TEF, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.PAYGO_NAO_ESTA_INSTALADO);
+        //            return;
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            log.Error("Erro ao executar função admin no TEF", ex);
+        //            DialogBox.Show(strings.VENDA_NO_TEF, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.ERRO_INESPERADO, RetornarMensagemErro(ex, false));
+        //            return;
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Executa bateria de testes de vendas.
