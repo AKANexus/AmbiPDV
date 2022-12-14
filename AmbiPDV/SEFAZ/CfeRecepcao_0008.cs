@@ -719,6 +719,7 @@ namespace CfeRecepcao_0008
 
         [XmlIgnoreAttribute()] public string familia;
 
+        [XmlIgnoreAttribute()] public bool kit = false;
         [XmlIgnoreAttribute()] public bool atacado = false;
         [XmlIgnoreAttribute()] public decimal descAtacado;
 

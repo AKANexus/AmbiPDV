@@ -3745,7 +3745,8 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
-        public void Sync_TB_CARTAO_ADMINISTRADORA(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+
+        public void Sync_TB_CARTAO_ADMINISTRADORA(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
         {
             using (var tblAdminsServ = new FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable())
             {
@@ -3777,14 +3778,15 @@ namespace PDV_WPF.Funcoes
                                                 taAdminsPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow AdminsServ in tblAdminsServ)
                                                 {
-                                                    fbConnPdv.Open();
-                                                    FbCommand comand = new FbCommand("UPDATE OR INSERT INTO TB_CARTAO_ADMINISTRADORA (ID_ADMINISTRADORA, ID_CLIENTE, DESCRICAO, TAXA_CREDITO, TAXA_DEBITO) VALUES (@id_admin, @id_cli, @descri, @taxa_cre, @taxa_deb);", fbConnPdv);
-                                                    comand.Parameters.AddWithValue("@id_admin", AdminsServ.ID_ADMINISTRADORA);
-                                                    comand.Parameters.AddWithValue("@id_cli", AdminsServ.ID_CLIENTE);
-                                                    comand.Parameters.AddWithValue("@descri", AdminsServ.DESCRICAO);
-                                                    comand.Parameters.AddWithValue("@taxa_cre", AdminsServ.TAXA_CREDITO);
-                                                    comand.Parameters.AddWithValue("@taxa_deb", AdminsServ.TAXA_DEBITO);
-                                                    comand.ExecuteNonQuery();                                                    
+                                                    switch(operacao)
+                                                    {
+                                                        case "I":
+                                                            taAdminsPdv.Insert(AdminsServ.ID_ADMINISTRADORA, AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO);
+                                                            break;
+                                                        case "U":
+                                                            taAdminsPdv.UpdateQuery(AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO, AdminsServ.ID_ADMINISTRADORA);
+                                                            break;
+                                                    }                                                                                                     
                                                 }
                                                 ConfirmarAuxSync(idAdministradora, "TB_CARTAO_ADMINISTRADORA", operacao, NO_CAIXA);
                                             }
@@ -3801,8 +3803,8 @@ namespace PDV_WPF.Funcoes
                                 try
                                 {
                                     int.TryParse(idAdmins, out int idAdministradora);
-                                    fbConnPdv.Open();
-                                    FbCommand comand = new FbCommand("DELETE FROM TB_CARTAO_ADMINISTRADORA WHERE ID_ADMINISTRADORA = " + idAdministradora, fbConnPdv);
+                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand($"DELETE FROM TB_CARTAO_ADMINISTRADORA WHERE ID_ADMINISTRADORA = {idAdministradora}", fbConnPdv);
                                     comand.ExecuteNonQuery();
                                     ConfirmarAuxSync(idAdministradora, "TB_CARTAO_ADMINISTRADORA", operacao, NO_CAIXA);
                                 }
@@ -3821,7 +3823,7 @@ namespace PDV_WPF.Funcoes
             }
         }
 
-        public void Sync_TB_ESTOQUE_PRECOS(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+        public void Sync_TB_ESTOQUE_PRECOS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
         {
             using(var tblPromoServ = new FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable())
             {
@@ -3853,16 +3855,16 @@ namespace PDV_WPF.Funcoes
                                                 taPromoPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_ESTOQUE_PRECOSRow PromoServ in tblPromoServ)
                                                 {
-                                                    fbConnPdv.Open();
-                                                    FbCommand comand = new FbCommand("UPDATE OR INSERT INTO TB_ESTOQUE_PRECOS (ID_IDENTIFICADOR, PRC_VENDA, DT_INICIO, DT_FIM, PERIODO, DIAS_SEMANA) VALUES (@id_ident, @prc_venda, @dt_inicio, @dt_fim, @periodo, @dias_semana);", fbConnPdv);
-                                                    comand.Parameters.AddWithValue("@id_ident", PromoServ.ID_IDENTIFICADOR);
-                                                    comand.Parameters.AddWithValue("@prc_venda", PromoServ.PRC_VENDA);
-                                                    comand.Parameters.AddWithValue("@dt_inicio", PromoServ.DT_INICIO);
-                                                    comand.Parameters.AddWithValue("@dt_fim", PromoServ.DT_FIM);
-                                                    comand.Parameters.AddWithValue("@periodo", PromoServ.PERIODO);
-                                                    comand.Parameters.AddWithValue("@dias_semana", PromoServ.DIAS_SEMANA);
-                                                    comand.ExecuteNonQuery();
-                                                }
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taPromoPdv.Insert(PromoServ.ID_IDENTIFICADOR, PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA);
+                                                            break;
+                                                        case "U":
+                                                            taPromoPdv.UpdateQuery(PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA, PromoServ.ID_IDENTIFICADOR);
+                                                            break;
+                                                    }
+                                                 }
                                                 ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
                                             }
                                             catch (Exception ex)
@@ -3878,15 +3880,15 @@ namespace PDV_WPF.Funcoes
                                 try
                                 {
                                     int.TryParse(idIdent, out int idIdentificador);
-                                    fbConnPdv.Open();
-                                    FbCommand comand = new FbCommand("DELETE FROM TB_ESTOQUE_PRECOS WHERE ID_IDENTIFICADOR = " + idIdentificador, fbConnPdv);
+                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand($"DELETE FROM TB_ESTOQUE_PRECOS WHERE ID_IDENTIFICADOR = {idIdentificador}", fbConnPdv);
                                     comand.ExecuteNonQuery();
                                     ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
                                 }
                                 catch (Exception ex)
                                 {
                                     log.Debug("erro ao tentar sincronizar delete das promoções para base local, segue erro: " + ex);
-                                }
+                                }                              
                             }
                         }
                     }
@@ -3894,6 +3896,162 @@ namespace PDV_WPF.Funcoes
                 catch(Exception ex)
                 {
                     log.Debug("Erro ao sincronizar promoções, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_EST_KIT(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblKitServ = new FDBDataSetOperSeed.TB_EST_KITDataTable())
+            {
+                try
+                {
+                    {
+                        DataRow[] pendentesConfig = dtAuxSyncPendentes.Select($"TABELA = 'TB_EST_KIT'");
+                        for (int i = 0; i < pendentesConfig.Length; i++)
+                        {
+                            var idKit = pendentesConfig[i]["ID_REG"].Safestring();
+                            var operacao = pendentesConfig[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesConfig[i]["NO_CAIXA"].Safeshort();
+
+                            if (operacao == "D") Sync_TB_EST_KIT_ITEM(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+
+                            // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                            if (operacao.Equals("I") || operacao.Equals("U"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taKitServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_KITTableAdapter())
+                                {
+                                    taKitServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                    int.TryParse(idKit, out int id_kit);
+                                    taKitServ.FillByIdKit(tblKitServ, id_kit);
+                                    if (tblKitServ != null && tblKitServ.Rows.Count > 0)
+                                    {
+                                        using (var taKitPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_KITTableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taKitPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_EST_KITRow KitServ in tblKitServ)
+                                                {
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taKitPdv.Insert(KitServ.ID_KIT, KitServ.DESCRICAO, KitServ.STATUS, KitServ.DATA);
+                                                            break;
+                                                        case "U":
+                                                            taKitPdv.UpdateQuery(KitServ.DESCRICAO, KitServ.STATUS, KitServ.DATA, KitServ.ID_KIT);
+                                                            break;
+                                                    }
+                                                }
+                                                ConfirmarAuxSync(id_kit, "TB_EST_KIT", operacao, NO_CAIXA);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("erro ao tentar sincronizar insert ou update da TB_EST_KIT para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (operacao.Equals("D"))
+                            {
+                                try
+                                {
+                                    int.TryParse(idKit, out int id_kit);
+                                    if(fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand($"DELETE FROM TB_EST_KIT WHERE ID_KIT = {id_kit}", fbConnPdv);
+                                    comand.ExecuteNonQuery();
+                                    ConfirmarAuxSync(id_kit, "TB_EST_KIT", operacao, NO_CAIXA);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("erro ao tentar sincronizar delete da TB_EST_KIT para base local, segue erro: " + ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_EST_KIT, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_EST_KIT_ITEM(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblKitItemServ = new FDBDataSetOperSeed.TB_EST_KIT_ITEMDataTable())
+            {
+                try
+                {
+                    {
+                        DataRow[] pendentesConfig = dtAuxSyncPendentes.Select($"TABELA = 'TB_EST_KIT_ITEM'");
+                        for (int i = 0; i < pendentesConfig.Length; i++)
+                        {
+                            var idEstKit = pendentesConfig[i]["ID_REG"].Safestring();
+                            var operacao = pendentesConfig[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesConfig[i]["NO_CAIXA"].Safeshort();
+
+                            // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                            if (operacao.Equals("I") || operacao.Equals("U"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taKitItemServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_KIT_ITEMTableAdapter())
+                                {
+                                    taKitItemServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                    int.TryParse(idEstKit, out int id_est_kit);
+                                    taKitItemServ.FillByEstKit(tblKitItemServ, id_est_kit);
+                                    if (tblKitItemServ != null && tblKitItemServ.Rows.Count > 0)
+                                    {
+                                        using (var taKitItemPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_KIT_ITEMTableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taKitItemPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_EST_KIT_ITEMRow KitItemServ in tblKitItemServ)
+                                                {                                                    
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taKitItemPdv.Insert(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);
+                                                            break;
+                                                        case "U":
+                                                            taKitItemPdv.UpdateQuery(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);
+                                                            break;
+                                                    }                                                                                                                                                         
+                                                }
+                                                ConfirmarAuxSync(id_est_kit, "TB_EST_KIT_ITEM", operacao, NO_CAIXA);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("erro ao tentar sincronizar insert ou update da TB_EST_KIT_ITEM para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (operacao.Equals("D"))
+                            {
+                                try
+                                {
+                                    int.TryParse(idEstKit, out int id_est_kit);
+                                    if(fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand($"DELETE FROM TB_EST_KIT_ITEM WHERE ID_ESTKIT = {id_est_kit}", fbConnPdv);
+                                    comand.ExecuteNonQuery();
+                                    ConfirmarAuxSync(id_est_kit, "TB_EST_KIT_ITEM", operacao, NO_CAIXA);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("erro ao tentar sincronizar delete da TB_EST_KIT_ITEM para base local, segue erro: " + ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_EST_KIT_ITEM, erro: " + ex);
                 }
             }
         }
@@ -7469,9 +7627,9 @@ namespace PDV_WPF.Funcoes
 
                 // Inicia a sincronização de cadastros apenas se houver registro indicado na tabela auxiliar (a TB_IFS é exceção):
                 if (dtAuxSyncPendentes != null && dtAuxSyncPendentes.Rows.Count > 0)
-                {
+                {                   
                     try
-                    {
+                    {                        
                         Sync_Emitente(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
                         log.Debug("Emitentes sincronizados");
                     }
@@ -7511,10 +7669,10 @@ namespace PDV_WPF.Funcoes
                         throw new SynchException("Erro ao sincronizar NatOper", ex);
                     }
                     try
-                    {
+                    {                                                
                         Sync_TB_EST_GRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         log.Debug("EST_GRUPO sincronizados");
-                    }
+                    }                    
                     catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar EST_GRUPO", ex);
@@ -7642,9 +7800,9 @@ namespace PDV_WPF.Funcoes
                         throw new SynchException("Erro ao sincronizar Sync_TRI_PDV_USERS", ex);
                     }
                     try
-                    {
-                        Sync_TB_CARTAO_ADMINISTRADORA(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                        log.Debug("Sync_TB_CARTAO_ADMINISTRADORA sincronizados");
+                    {                        
+                        Sync_TB_CARTAO_ADMINISTRADORA(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_CARTAO_ADMINISTRADORA sincronizados");                        
                     }
                     catch(Exception ex)
                     {
@@ -7652,17 +7810,36 @@ namespace PDV_WPF.Funcoes
                         throw new SynchException("Erro ao sincronizar Sync_TB_CARTAO_ADMINISTRADORA", ex);
                     }
                     try
-                    {
-                        Sync_TB_ESTOQUE_PRECOS(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
-                        log.Debug("Sync_TB_ESTOQUE_PRECOS sincronizados");
+                    {                        
+                        Sync_TB_ESTOQUE_PRECOS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_ESTOQUE_PRECOS sincronizados");                        
                     }
                     catch(Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_ESTOQUE_PRECOS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_ESTOQUE_PRECOS", ex);
                     }
+                    try
+                    {
+                        Sync_TB_EST_KIT(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_EST_KIT sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_EST_KIT", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_EST_KIT", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_KIT_ITEM(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_EST_KIT_ITEM sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_EST_KIT_ITEM", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_EST_KIT_ITEM", ex);
+                    }                                      
                     #region Função Desativada
-
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 
                     #region TRI_PDV_METODOS
 

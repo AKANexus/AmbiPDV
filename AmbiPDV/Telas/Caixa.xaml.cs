@@ -134,13 +134,14 @@ namespace PDV_WPF.Telas
         private readonly Regex rgx = new(@"(\d+\*)");
         public string numeroWhats;//HACK
         private enum tipoDesconto { Nenhum, Absoluto, Percentual }
-        private enum statusSangria { Normal, Folga, Excesso }
+        private enum statusSangria { Normal, Folga, Excesso }       
 
         private readonly DebounceDispatcher debounceTimer = new();
         private Dictionary<string, string> oldCRT = new();
         private bool _prepesado,
             _usouOS,
             _usouOrcamento,
+            _usouKit,
             _nightmode = false,
             _usouPedido,
             erroVenda,            
@@ -162,6 +163,7 @@ namespace PDV_WPF.Telas
 
         private readonly Orcamento orcamentoAtual = new();
         private CLIPP_OS ordemDeServico = new();
+        private KIT_PROMOCIONAL kitPromocional = new();
 
         private readonly Pedido pedidoAtual = new();
 
@@ -1213,7 +1215,7 @@ namespace PDV_WPF.Telas
                 if (!orcamentoAtual.LeOrcamento(orcamento))
                 {
                     log.Debug("Erro ao ler orçamento, ou orçamento está FECHADO");
-                    MessageBox.Show("Orçamento indisponível.");
+                    MessageBox.Show("Orçamento indisponível.    ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     combobox.Text = "";
                     return true;
                 }
@@ -1227,7 +1229,7 @@ namespace PDV_WPF.Telas
                 if (orcamentoAtual.produtos.Count == 0)
                 {
                     combobox.Text = "";
-                    MessageBox.Show("Orçamento vazio.");
+                    MessageBox.Show("Orçamento vazio e/ou sem produtos.   ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return true;
                 }
 
@@ -1262,7 +1264,8 @@ namespace PDV_WPF.Telas
                     ProcessarItemNovo(item.ID_ESTOQUE,
                                  item.VALOR,
                                  item.QUANT,
-                                 item.DESCONTO);
+                                 item.DESCONTO,
+                                 orcamento.ToString());
 
                     numProximoItem += 1;
 
@@ -1292,7 +1295,7 @@ namespace PDV_WPF.Telas
                 //Contingencia();
                 orcamentoAtual.Clear();
                 int.TryParse(combobox.Text.TrimStart('%'), out int ordemServico);
-                log.Debug($"Ordem de Seriço detectado: {ordemServico}");
+                log.Debug($"Ordem de Serviço detectada: {ordemServico}");
 
                 FbConnection connection = new FbConnection(MontaStringDeConexao(SERVERNAME, SERVERCATALOG));
                 ordemDeServico = _funcoes.GetClippOsByID(connection, ordemServico);
@@ -1314,8 +1317,8 @@ namespace PDV_WPF.Telas
 
                 if (ordemDeServico is null)
                 {
-                    log.Debug("Erro ao ler orçamento, ou orçamento está FECHADO");
-                    MessageBox.Show("Orçamento indisponível.");
+                    log.Debug("Erro ao ler ordem de serviço, ou ordem de serviço está FECHADA");
+                    MessageBox.Show("Ordem de serviço indisponível.     ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     combobox.Text = "";
                     return true;
                 }
@@ -1323,7 +1326,7 @@ namespace PDV_WPF.Telas
                 if (ordemDeServico.ClippOsItems is null || ordemDeServico.ClippOsItems.Count == 0)
                 {
                     combobox.Text = "";
-                    MessageBox.Show("Orçamento vazio.");
+                    MessageBox.Show("Ordem de serviço vazia e/ou sem produtos.    ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return true;
                 }
 
@@ -1331,7 +1334,7 @@ namespace PDV_WPF.Telas
                 {
                     if (item.QTD_ITEM <= 0)
                     {
-                        DialogBox.Show(strings.ORCAMENTO,
+                        DialogBox.Show(strings.ORDEM_SERVICO,
                                        DialogBoxButtons.No, DialogBoxIcons.Warn, false,
                                        strings.A_QUANT_DO_ITEM_ERA_ZERO_OU_NEGATIVA,
                                        strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
@@ -1342,7 +1345,8 @@ namespace PDV_WPF.Telas
                     ProcessarItemNovo(item.ID_IDENTIFICADOR,
                                  item.VLR_UNIT,
                                  item.QTD_ITEM ?? 1,
-                                 item.VLR_DESC ?? 0);
+                                 item.VLR_DESC ?? 0,
+                                 ordemDeServico.ToString());
 
                     numProximoItem += 1;
 
@@ -1353,12 +1357,88 @@ namespace PDV_WPF.Telas
             }
             catch (Exception ex)
             {
-                DialogBox.Show(strings.ORCAMENTO, DialogBoxButtons.No, DialogBoxIcons.Error, true, RetornarMensagemErro(ex, false));
-                log.Error("Carregar produtos do orçamento", ex);
+                DialogBox.Show(strings.ORDEM_SERVICO, DialogBoxButtons.No, DialogBoxIcons.Error, true, RetornarMensagemErro(ex, false));
+                log.Error("Carregar produtos da ordem de serviço", ex);
             }
             return false;
         }
+        private bool CarregarProdutosKit()
+        {
+            if (!combobox.Text.StartsWith("@")) return false;
+            try
+            {                
+                kitPromocional.Clear();
+                int.TryParse(combobox.Text.TrimStart('@'), out int id_kit);
+                log.Debug($"Kit promocional detectado: {id_kit}");
 
+                string DataBase = _contingencia == false ? MontaStringDeConexao(SERVERNAME, SERVERCATALOG) : MontaStringDeConexao("localhost", localpath);
+                FbConnection connection = new FbConnection(DataBase);
+                string nomeKit;
+                if (!kitPromocional.LeKitPromocional(connection, id_kit, out nomeKit))
+                {
+                    log.Debug("Erro ao ler kit promocional, ou kit promocional não exite/está inativo.");
+                    MessageBox.Show("Kit promocional indisponível.      ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    combobox.Text = "";
+                    return true;
+                }
+                if(!kitPromocional.LeKitItens(connection, id_kit))
+                {                    
+                    log.Debug("Kit promocional sem item");
+                    MessageBox.Show("Não foi encontrado itens para este kit.  ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return true;
+                }
+                if (kitPromocional.produtos.Count == 0)
+                {
+                    combobox.Text = "";
+                    MessageBox.Show("Kit promocional vazio e/ou sem produtos.   ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return true;
+                }
+                if (_tipo == ItemChoiceType.FECHADO && _modo_consulta == false)
+                {
+                    _tipo = ItemChoiceType.ABERTO;
+
+                    if (!ChecagemPreVenda())
+                    {
+                        return false;
+                    }
+
+                    if (!PrepararCabecalhoDoCupom())
+                    {
+                        return false;
+                    }
+                }
+
+                foreach (var item in kitPromocional.produtos)
+                {
+                    if (item.QTD_ITEM <= 0)
+                    {
+                        DialogBox.Show(strings.KIT_PROMOCIONAL,
+                                       DialogBoxButtons.No, DialogBoxIcons.Warn, false,
+                                       strings.A_QUANT_DO_ITEM_ERA_ZERO_OU_NEGATIVA,
+                                       strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
+                        FinalizarVendaNovo();
+                        return true;
+                    }
+
+                    //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
+                    ProcessarItemNovo(item.ID_IDENTIFICADOR,
+                                 item.VLR_ITEM,
+                                 item.QTD_ITEM,
+                                 0,
+                                 nomeKit);
+
+                    numProximoItem += 1;
+
+                    combobox.Text = "";
+                }
+                _usouKit = true;
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
         /// <summary>
         /// Se houver uma venda pendente devido a uma falha no sistema, ela é carregada
         /// </summary>
@@ -4701,7 +4781,7 @@ namespace PDV_WPF.Telas
             }
             if (!turno_aberto)
             {
-                DialogBox.Show("ORÇAMENTO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Abra o caixa antes de importar um orçamento.");
+                DialogBox.Show("ORÇAMENTO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Abra o caixa antes de importar um ORÇAMENTO.");
                 return;
             }
             if (_modoDevolucao || _emTransacao)
@@ -4726,7 +4806,6 @@ namespace PDV_WPF.Telas
                 default:
                     break;
             }
-
         }
 
         /// <summary>
@@ -4740,7 +4819,7 @@ namespace PDV_WPF.Telas
             }
             if (!turno_aberto)
             {
-                DialogBox.Show("Ordem de Serviço", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Abra o caixa antes de importar um orçamento.");
+                DialogBox.Show("ORDEM DE SERVIÇO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Abra o caixa antes de importar uma O.S.");
                 return;
             }
             if (_modoDevolucao || _emTransacao)
@@ -4765,9 +4844,30 @@ namespace PDV_WPF.Telas
                 default:
                     break;
             }
-
         }
-
+        private void PerguntarKitPromocional()
+        {
+            if (_modo_consulta)
+            {
+                AlternarModoDeConsulta();
+            }
+            if (!turno_aberto)
+            {
+                DialogBox.Show("KIT PROMOCIONAL", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Abra o caixa antes de importar um KIT.");
+                return;
+            }           
+            var po = new PerguntaOrcamento(PerguntaOrcamento.EnmTipo.kitPromocional);
+            switch (po.ShowDialog())
+            {
+                case true:                                  
+                    combobox.Text = "@" + po.numeroInformado.ToString();                    
+                    CarregarProdutosKit();
+                    combobox.Text = "";
+                    break;
+                default:
+                    break;
+            }
+        }
         /// <summary>
         /// Pesquisa o preço do item identificado pelo código interno, sem adicionar a um cupom
         /// </summary>
@@ -5117,10 +5217,11 @@ namespace PDV_WPF.Telas
         }
         private FuncoesFirebird _funcoes = new();
 
-        private void ProcessarItemNovo(int pCodigoItem, decimal pPrecoUnitario, decimal pQuant, decimal pDesconto)
+        private void ProcessarItemNovo(int pCodigoItem, decimal pPrecoUnitario, decimal pQuant, decimal pDesconto, string nomeKit = null)
         {
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
+            bool importadoKit = nomeKit is not null ? true : false;
 
             var dadosDoItem = _funcoes.ObtemDadosDoItem(pCodigoItem, LOCAL_FB_CONN);
             if (dadosDoItem is null)
@@ -5172,7 +5273,7 @@ namespace PDV_WPF.Telas
             log.Debug("csosnCfe obtido");
             lbl_Marquee.Visibility = Visibility.Hidden;
             log.Debug("obtendo descrição");
-            lbl_Cortesia.Content = dadosDoItem.DESCRICAO;
+            lbl_Cortesia.Content = nomeKit != null ? nomeKit : dadosDoItem.DESCRICAO;   
             log.Debug("descrição obtida");
             combobox.Text = "";
             txb_Qtde.Clear();
@@ -5224,8 +5325,8 @@ namespace PDV_WPF.Telas
                                         dadosDoItem.UNI_MEDIDA,
                                         pQuant,
                                         dadosDoItem.COD_BARRA,
-                                        famiglia
-                                        );
+                                        famiglia,
+                                        importadoKit);
                 log.Debug("vendaAtual.RecebeNovoProduto concluído");
                 switch (dadosDoItem.RID_TIPOITEM == "9")
                 {
@@ -5319,6 +5420,7 @@ namespace PDV_WPF.Telas
             else { ImprimirCupomVirtual($"{numAtual} {barcode.PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27)}"); }
             ImprimirCupomVirtual($"{pQuant.RoundABNT(3).ToString("0.000").Trunca(5),8} {dadosDoItem.UNI_MEDIDA} {pPrecoUnitario.RoundABNT(),10:0.00} {(pPrecoUnitario * pQuant).RoundABNT(),20:0.00}");
             if (pDesconto > 0) ImprimirCupomVirtual($"---Desconto no item: {pDesconto:C2}");
+            if (nomeKit is not null) ImprimirCupomVirtual($"Item importado de: {nomeKit}");
         }
 
 
@@ -6341,16 +6443,23 @@ namespace PDV_WPF.Telas
                     PerguntarNumeroDaOS();
                     //if (!ECF.EfetuaReducaoZ()) { return; }
                 });
-            } //Extração de relatório de impressora fiscal
+            } //Pergunta numero da Ordem de serviço
             /* ---------------*/
+            else if(e.Key == Key.K && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+                {
+                    e.Handled = true;
+                    PerguntarKitPromocional();
+                });
+            }//Pergunta numero do Kit Promocional
             else if (e.Key == Key.W && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 if (File.Exists(@".\logo.png"))
                 {
                     log.Debug("Logo encontrado. Carregando novo logo...");
 
-                    logoplaceholder.Visibility = Visibility.Collapsed;
-
+                    logoplaceholder.Visibility = Visibility.Collapsed;                    
                     // Create Image and set its width and height  
                     Image dynamicImage = new Image();
                     //dynamicImage.Width = 500;
@@ -6360,7 +6469,7 @@ namespace PDV_WPF.Telas
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(@"logo.png", UriKind.RelativeOrAbsolute);
-                    bitmap.EndInit();
+                    bitmap.EndInit();                    
 
                     // Set Image.Source  
                     dynamicImage.Source = bitmap;
