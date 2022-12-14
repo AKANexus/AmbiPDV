@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FirebirdSql.Data.FirebirdClient;
 using DateTime = System.DateTime;
+using PDV_WPF.DataSets;
 
 namespace PDV_WPF.REMENDOOOOO
 {
     public class FuncoesFirebird
-    {
+    {       
         //public async Task<decimal> SomaDeValoresAsync(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
         //    System.DateTime DT_FECHAMENTO, FbConnection connection)
         //{
@@ -475,8 +474,96 @@ namespace PDV_WPF.REMENDOOOOO
         public decimal? POR_COMISSAO { get; set; }
     }
 
+    public class KIT_PROMOCIONAL
+    {       
+        public List<KIT_PROMOCIONAL_ITEM> produtos { get; set; }
+        public int ID_KIT { get; set; }
+        public string DESCRICAO { get; set; }
+        public char STATUS { get; set; }
+        public DateTime DATA { get; set; }
 
-
+        public KIT_PROMOCIONAL()
+        {
+            //ESTE ABSURDO DEVE-SE.... (FODA NÉ MAS FAZER OQ BY.. LUCAS G.)   // NORRRRRRRRMAAAAAL
+            produtos = new List<KIT_PROMOCIONAL_ITEM>();// Instância uma nova lista da classe KIT_PROMOCIONAL_ITEM (SÓ MANTENDO NO PADRÃO QUE JÁ ACONTECIA NO ORÇAMENTO BY. LUCAS G.)
+        }
+        public void Clear()
+        {
+            try
+            {
+                produtos.Clear();
+            }
+            catch
+            {
+                Console.WriteLine("Erro ao limpar lista de produtos.");
+            }
+        }
+        public bool LeKitPromocional(FbConnection connection, int idkit, out string nomeKit)
+        {
+            try
+            {
+                using (var KIT_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_KITTableAdapter())
+                using (var KIT_TB = new FDBDataSetOperSeed.TB_EST_KITDataTable())
+                {                    
+                    KIT_TA.Connection = connection;
+                    KIT_TA.FillByIdStatus(KIT_TB, idkit);
+                    if (KIT_TB.Rows.Count <= 0) { nomeKit = null; return false; }
+                    nomeKit = (string)KIT_TB.Rows[0][1];
+                    return true;
+                }
+            }
+            catch(Exception ex)
+            {                
+               Console.WriteLine("Erro ao tentar verificar numero do kit, segue erro: " + ex);
+               nomeKit = null;
+               return false;                              
+            }
+        }
+        public bool LeKitItens(FbConnection connection, int kit)
+        {
+            try
+            {
+                using(var KITITEM_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_KIT_ITEMTableAdapter())
+                using(var KITITEM_TB = new FDBDataSetOperSeed.TB_EST_KIT_ITEMDataTable())
+                {
+                    KITITEM_TA.Connection = connection;
+                    KITITEM_TA.FillByEstKitStatus(KITITEM_TB, kit);
+                    if (KITITEM_TB.Rows.Count > 0)
+                    {
+                        foreach(var rows in KITITEM_TB)
+                        {
+                            var Produtos = new KIT_PROMOCIONAL_ITEM
+                            {
+                                ID_IDENTIFICADOR = rows.ID_IDENTIFICADOR,
+                                ID_KIT = rows.ID_KIT,
+                                QTD_ITEM = rows.QTD_ITEM,
+                                STATUS = rows.STATUS,
+                                VLR_ITEM = rows.VLR_ITEM,
+                                ID_ESTKIT = rows.ID_ESTKIT
+                            };
+                            produtos.Add(Produtos);
+                        }                       
+                    }
+                    else { return false; }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Erro ao tentar verificar itens do kit, segue erro:" + ex);
+                return false;
+            }
+            return true;
+        }
+    }
+    public class KIT_PROMOCIONAL_ITEM
+    {
+        public int ID_IDENTIFICADOR { get; set; }
+        public int ID_KIT { get; set; }
+        public decimal QTD_ITEM { get; set; }
+        public string STATUS { get; set; }
+        public decimal VLR_ITEM { get; set; }
+        public int ID_ESTKIT { get; set; }
+    }
     //public bool CheckIfDeletionExists(FbConnection connection)
     //{
     //    try

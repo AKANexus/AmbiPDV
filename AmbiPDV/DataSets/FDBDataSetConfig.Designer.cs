@@ -6194,8 +6194,82 @@ END;";
                 "M TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_" +
                 "AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PD" +
                 "V_AUX_SYNC_SEQ,1), old.ID_IDENTIFICADOR, \'\'TB_ESTOQUE_PRECOS\'\', \'\'D\'\', :VNUMCAIX" +
-                "A, CURRENT_TIMESTAMP); END END;\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r" +
-                "\nBEGIN\r\n\r\nEND\r\nEND;";
+                "A, CURRENT_TIMESTAMP); END END;\';\r\n\r\nerro = \'drop tb_est_kit_sync_ins\';         " +
+                "  \r\n                                                                            " +
+                "                                    if (exists(select 1 from RDB$TRIGGERS where " +
+                "RDB$TRIGGER_NAME = \'TB_EST_KIT_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT " +
+                "\'DROP TRIGGER TB_EST_KIT_SYNC_INS\';\r\n\t\t\t\t\t\terro = \'create tb_est_kit_sync_ins\';\r" +
+                "\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_EST_KIT_SYNC_INS FOR TB_EST_KIT BEFO" +
+                "RE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR" +
+                " SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN " +
+                "INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_O" +
+                "PER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , NEW.ID_KIT , \'\'TB_EST_KIT\'\' , \'\'I" +
+                "\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';                                " +
+                "                                                                    \r\n\r\nerro = \'" +
+                "drop tb_est_kit_sync_upd\';           \r\n                                         " +
+                "                                                                       if (exist" +
+                "s(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_EST_KIT_SYNC_UPD\'))\r\n\t" +
+                "\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_EST_KIT_SYNC_UPD\';\r\n\t\t\t\t\t\ter" +
+                "ro = \'create tb_est_kit_sync_upd\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_E" +
+                "ST_KIT_SYNC_UPD FOR TB_EST_KIT BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN" +
+                " TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OLD.ID_KIT IS DISTINCT FROM new.ID_KIT OR o" +
+                "ld.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.STATUS IS DISTINCT FROM new.S" +
+                "TATUS) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO" +
+                " :VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = o" +
+                "ld.ID_KIT AND TABELA = \'\'TB_EST_KIT\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\')" +
+                " AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , " +
+                "ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC" +
+                "_SEQ, 1) , old.ID_KIT , \'\'TB_EST_KIT\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP)" +
+                " ; END END END END;\';    \r\n\r\nerro = \'drop tb_est_kit_sync_del\';           \r\n    " +
+                "                                                                                " +
+                "                            if (exists(select 1 from RDB$TRIGGERS where RDB$TRIG" +
+                "GER_NAME = \'TB_EST_KIT_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TR" +
+                "IGGER TB_EST_KIT_SYNC_DEL\';\r\n\t\t\t\t\t\terro = \'create tb_est_kit_sync_del\';\r\n\t\t\t\t\t\tE" +
+                "XECUTE STATEMENT \'CREATE TRIGGER TB_EST_KIT_SYNC_DEL FOR TB_EST_KIT BEFORE DELET" +
+                "E AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT" +
+                " NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT " +
+                "INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VA" +
+                "LUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_KIT , \'\'TB_EST_KIT\'\' , \'\'D\'\' , :V" +
+                "NUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';    \r\n\r\nerro = \'drop tb_est_kit_item_s" +
+                "ync_ins\';           \r\n                                                          " +
+                "                                                      if (exists(select 1 from R" +
+                "DB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_EST_KIT_ITEM_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t" +
+                "\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_EST_KIT_ITEM_SYNC_INS\';\r\n\t\t\t\t\t\terro = \'c" +
+                "reate tb_est_kit_item_sync_ins\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_EST" +
+                "_KIT_ITEM_SYNC_INS FOR TB_EST_KIT_ITEM BEFORE INSERT AS DECLARE VNUMCAIXA TYPE O" +
+                "F COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG " +
+                "ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , I" +
+                "D_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_" +
+                "SEQ, 1) , NEW.ID_ESTKIT , \'\'TB_EST_KIT_ITEM\'\' , \'\'I\'\' ,:VNUMCAIXA , CURRENT_TIME" +
+                "STAMP); END END;\';   \r\n\r\nerro = \'drop tb_est_kit_item_sync_upd\';           \r\n   " +
+                "                                                                                " +
+                "                             if (exists(select 1 from RDB$TRIGGERS where RDB$TRI" +
+                "GGER_NAME = \'TB_EST_KIT_ITEM_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'D" +
+                "ROP TRIGGER TB_EST_KIT_ITEM_SYNC_UPD\';\r\n\t\t\t\t\t\terro = \'create tb_est_kit_item_syn" +
+                "c_upd\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_EST_KIT_ITEM_SYNC_UPD FOR TB" +
+                "_EST_KIT_ITEM BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.N" +
+                "O_CAIXA ; BEGIN IF (OLD.ID_IDENTIFICADOR IS DISTINCT FROM new.ID_IDENTIFICADOR O" +
+                "R old.ID_KIT IS DISTINCT FROM new.ID_KIT OR old.QTD_ITEM IS DISTINCT FROM new.QT" +
+                "D_ITEM OR OLD.STATUS IS DISTINCT FROM NEW.STATUS OR OLD.VLR_ITEM IS DISTINCT FRO" +
+                "M NEW.VLR_ITEM OR OLD.ID_ESTKIT IS DISTINCT FROM NEW.ID_ESTKIT) THEN BEGIN FOR S" +
+                "ELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF" +
+                " ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_ESTKIT AND TABELA" +
+                " = \'\'TB_EST_KIT_ITEM\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA =" +
+                " :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA" +
+                " , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old." +
+                "ID_ESTKIT , \'\'TB_EST_KIT_ITEM\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END " +
+                "END END END;\';          \r\n\r\nerro = \'drop tb_est_kit_item_sync_del\';           \r\n" +
+                "                                                                                " +
+                "                                if (exists(select 1 from RDB$TRIGGERS where RDB$" +
+                "TRIGGER_NAME = \'TB_EST_KIT_ITEM_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT" +
+                " \'DROP TRIGGER TB_EST_KIT_ITEM_SYNC_DEL\';\r\n\t\t\t\t\t\terro = \'create tb_est_kit_item_" +
+                "sync_del\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_EST_KIT_ITEM_SYNC_DEL FOR" +
+                " TB_EST_KIT_ITEM BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFI" +
+                "G.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INT" +
+                "O :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPER" +
+                "ACAO , NO_CAIXA , TS_OPER ) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_EST" +
+                "KIT , \'\'TB_EST_KIT_ITEM\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';" +
+                "       \r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[11].Connection = this.Connection;

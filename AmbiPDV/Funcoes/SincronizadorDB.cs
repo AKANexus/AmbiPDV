@@ -3778,7 +3778,15 @@ namespace PDV_WPF.Funcoes
                                                 taAdminsPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow AdminsServ in tblAdminsServ)
                                                 {
-                                                    taAdminsPdv.Insert(AdminsServ.ID_ADMINISTRADORA, AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO);                                                   
+                                                    switch(operacao)
+                                                    {
+                                                        case "I":
+                                                            taAdminsPdv.Insert(AdminsServ.ID_ADMINISTRADORA, AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO);
+                                                            break;
+                                                        case "U":
+                                                            taAdminsPdv.UpdateQuery(AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO, AdminsServ.ID_ADMINISTRADORA);
+                                                            break;
+                                                    }                                                                                                     
                                                 }
                                                 ConfirmarAuxSync(idAdministradora, "TB_CARTAO_ADMINISTRADORA", operacao, NO_CAIXA);
                                             }
@@ -3847,8 +3855,16 @@ namespace PDV_WPF.Funcoes
                                                 taPromoPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_ESTOQUE_PRECOSRow PromoServ in tblPromoServ)
                                                 {
-                                                    taPromoPdv.Insert(PromoServ.ID_IDENTIFICADOR, PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA);
-                                                }
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taPromoPdv.Insert(PromoServ.ID_IDENTIFICADOR, PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA);
+                                                            break;
+                                                        case "U":
+                                                            taPromoPdv.UpdateQuery(PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA, PromoServ.ID_IDENTIFICADOR);
+                                                            break;
+                                                    }
+                                                 }
                                                 ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
                                             }
                                             catch (Exception ex)
@@ -3898,6 +3914,8 @@ namespace PDV_WPF.Funcoes
                             var operacao = pendentesConfig[i]["OPERACAO"].Safestring();
                             var NO_CAIXA = pendentesConfig[i]["NO_CAIXA"].Safeshort();
 
+                            if (operacao == "D") Sync_TB_EST_KIT_ITEM(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+
                             // Verificar o que deve ser feito com o registro (insert, update ou delete)
                             if (operacao.Equals("I") || operacao.Equals("U"))
                             {
@@ -3916,7 +3934,15 @@ namespace PDV_WPF.Funcoes
                                                 taKitPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_EST_KITRow KitServ in tblKitServ)
                                                 {
-                                                    taKitPdv.Insert(KitServ.ID_KIT, KitServ.DESCRICAO, KitServ.STATUS, KitServ.DATA);
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taKitPdv.Insert(KitServ.ID_KIT, KitServ.DESCRICAO, KitServ.STATUS, KitServ.DATA);
+                                                            break;
+                                                        case "U":
+                                                            taKitPdv.UpdateQuery(KitServ.DESCRICAO, KitServ.STATUS, KitServ.DATA, KitServ.ID_KIT);
+                                                            break;
+                                                    }
                                                 }
                                                 ConfirmarAuxSync(id_kit, "TB_EST_KIT", operacao, NO_CAIXA);
                                             }
@@ -3985,7 +4011,15 @@ namespace PDV_WPF.Funcoes
                                                 taKitItemPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_EST_KIT_ITEMRow KitItemServ in tblKitItemServ)
                                                 {                                                    
-                                                    taKitItemPdv.Insert(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);                                                                                                                                                         
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taKitItemPdv.Insert(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);
+                                                            break;
+                                                        case "U":
+                                                            taKitItemPdv.UpdateQuery(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);
+                                                            break;
+                                                    }                                                                                                                                                         
                                                 }
                                                 ConfirmarAuxSync(id_est_kit, "TB_EST_KIT_ITEM", operacao, NO_CAIXA);
                                             }
@@ -7787,6 +7821,16 @@ namespace PDV_WPF.Funcoes
                     }
                     try
                     {
+                        Sync_TB_EST_KIT(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_EST_KIT sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_EST_KIT", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_EST_KIT", ex);
+                    }
+                    try
+                    {
                         Sync_TB_EST_KIT_ITEM(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
                         log.Debug("Sync_TB_EST_KIT_ITEM sincronizados");
                     }
@@ -7794,17 +7838,7 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar Sync_TB_EST_KIT_ITEM", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_EST_KIT_ITEM", ex);
-                    }
-                    try
-                    {                        
-                        Sync_TB_EST_KIT(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
-                        log.Debug("Sync_TB_EST_KIT sincronizados");                        
-                    }
-                    catch(Exception ex)
-                    {
-                        log.Error("Falha ao sincronizar Sync_TB_EST_KIT", ex);
-                        throw new SynchException("Erro ao sincronizar Sync_TB_EST_KIT", ex);
-                    }                    
+                    }                                      
                     #region Função Desativada
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 
                     #region TRI_PDV_METODOS

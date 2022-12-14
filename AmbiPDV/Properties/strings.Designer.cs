@@ -896,10 +896,23 @@ namespace PDV_WPF.Properties {
         /// </summary>
         internal static string ORCAMENTO {
             get {
-                return ResourceManager.GetString("ORCAMENTO", resourceCulture);
+                return ResourceManager.GetString("ORÇAMENTO", resourceCulture);
             }
         }
-        
+        internal static string ORDEM_SERVICO
+        {
+            get
+            {
+                return ResourceManager.GetString("ORDEM DE SERVIÇO", resourceCulture);
+            }
+        }
+        internal static string KIT_PROMOCIONAL
+        {
+            get
+            {
+                return ResourceManager.GetString("KIT PROMOCIONAL", resourceCulture);
+            }
+        }
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Para iniciar o programa em modo de contingência, abra-o novamente e selecione \&quot;CONFIRMAR\&quot;.
         /// </summary>
