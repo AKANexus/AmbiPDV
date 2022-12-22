@@ -2288,7 +2288,7 @@ namespace PDV_WPF
                     }
                     if (existeDetalhamento) LinhaHorizontal();
                 }
-                RecebePrint((TsOperacao ?? DateTime.Now).ToShortDateString(), corpo, esquerda, 1);
+                RecebePrint((TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {
