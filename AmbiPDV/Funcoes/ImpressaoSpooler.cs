@@ -1,16 +1,7 @@
-﻿using Clearcove.Logging;
-using FirebirdSql.Data.FirebirdClient;
-using MessagingToolkit.QRCode.Codec;
-using PDV_WPF.DataSets;
-using PDV_WPF.DataSets.FDBDataSetVendaTableAdapters;
-using PDV_WPF.FDBDataSetTableAdapters;
-using PDV_WPF.Objetos;
-using PDV_WPF.Properties;
-using PDV_WPF.Telas;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
 using System.Drawing;
 using System.Drawing.Printing;
 using System.Linq;
@@ -19,13 +10,23 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Clearcove.Logging;
+using FirebirdSql.Data.FirebirdClient;
+using MessagingToolkit.QRCode.Codec;
+using PDV_WPF.DataSets;
+using PDV_WPF.DataSets.FDBDataSetVendaTableAdapters;
+using PDV_WPF.FDBDataSetTableAdapters;
 using PDV_WPF.Funcoes;
+using PDV_WPF.Objetos;
+using PDV_WPF.Properties;
+using PDV_WPF.REMENDOOOOO;
+using PDV_WPF.Telas;
 using Zen.Barcode;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.PrintFunc;
 using DarumaDLL = LocalDarumaFrameworkDLL.UnsafeNativeMethods;
+using TB_CUPOMTableAdapter = PDV_WPF.DataSets.FDBDataSetVendaTableAdapters.TB_CUPOMTableAdapter;
 
 namespace PDV_WPF
 {
@@ -63,7 +64,7 @@ namespace PDV_WPF
         public static void RecebePrint(string texto, Fonte font, Alinhamento alignment, int breakline, bool retransmissao = false)
         {
             //audit("PRINTFUNC>> Recebe print: " + texto + " Breakline: " + breakline);
-            Linha line = new Linha()
+            Linha line = new Linha
             {
                 linha = texto,
                 fonte = font.tipo,
@@ -261,7 +262,7 @@ namespace PDV_WPF
             printDoc.DocumentName = "Cupom";
             if (!printDoc.PrinterSettings.IsValid && !IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
                 throw new Exception("Não foi possível localizar a impressora");
-            printDoc.PrintPage += new PrintPageEventHandler(GeraTransmissao);
+            printDoc.PrintPage += GeraTransmissao;
             if (!IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
             {
                 {
@@ -274,7 +275,7 @@ namespace PDV_WPF
                         //LimpaSpooler();
                         return printDoc;
                     }
-                    catch (System.ComponentModel.Win32Exception ex)
+                    catch (Win32Exception ex)
                     {
                         logErroAntigo(RetornarMensagemErro(ex, true));
                         MessageBox.Show("Erro ao imprimir. Certifique-se de não ter selecionado um \"Impressor de PDF\", pois o sistema não oferece suporte a tais programas");
@@ -406,7 +407,7 @@ namespace PDV_WPF
                 RecebePrint("", negrito, esquerda, 1);
             }
             if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
-            RecebePrint("SAT No. " + numerosat.ToString(), negrito, centro, 1);
+            RecebePrint("SAT No. " + numerosat, negrito, centro, 1);
             RecebePrint(DateTime.Now.ToString(), negrito, centro, 1);
             RecebePrint("", negrito, esquerda, 1);
             RecebePrint(Regex.Replace(chavenfe, " {4}", "$0,"), corpo, centro, 1);
@@ -417,7 +418,7 @@ namespace PDV_WPF
             if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             PrintaSpooler();
         }
     }
@@ -432,63 +433,64 @@ namespace PDV_WPF
         {
             if (IMPRESSORA_USB != "Nenhuma")
             { return IMPRIME_SPOOLER(); }
-            else if (ECF_ATIVA == true)
+
+            if (ECF_ATIVA)
             {
-                try
-                {
-                    #region Checa se a impressora está pronta para imprimir relatórios gerenciais
-                    int resposta = 0;
-                    resposta = DarumaDLL.confCadastrar_ECF_Daruma("RG", "TROCA DE TURNO", "");
-                    resposta = DarumaDLL.iRGAbrir_ECF_Daruma("TROCA DE TURNO"); // Convertido diretamente do AmbisoftPDV (VB6)
-                    if (resposta == 1)
-                    {
-                        int erro = 0;
-                        erro = DarumaDLL.eRetornarErro_ECF_Daruma();
-                        switch (erro)
-                        {
-                            case 0:
-                                break;
-                            case 78:
-                                DarumaDLL.iCFCancelar_ECF_Daruma();
-                                DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Havia um cupom aberto, que foi cancelado");
-                                break;
-                            case 88:
-                                DarumaDLL.iCFCancelar_ECF_Daruma();
-                                DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Redução Z pendente");
-                                return false;
-                            case 89:
-                                DarumaDLL.iCFCancelar_ECF_Daruma();
-                                DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Redução Z já foi feita.");
-                                return false;
-                            default:
-                                DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, $"Erro: {erro}.");
-                                return false;
-                        }
-                    }
-                    #endregion
-                    PrintRELATORIOECF rELATORIOECF = new PrintRELATORIOECF();
-                    rELATORIOECF.CentraECF("<b>" + "Comprovante de ".ToUpper() + operacao + "</b>");
-                    rELATORIOECF.CentraECF("Caixa Nº  " + numcaixa);
-                    rELATORIOECF.DivisorECF();
-                    rELATORIOECF.CentraECF(DateTime.Now.ToShortDateString() + ", " + DateTime.Now.ToLongTimeString());
-                    rELATORIOECF.TextoECF("<e>Valor: " + valor.ToString("c2") + "</e>");
-                    rELATORIOECF.TextoECF("<b>Operador: " + operador + "</b>");
-                    rELATORIOECF.TextoECF("<e>Recebido por: ________________________</e>");
-                    rELATORIOECF.DivisorECF();
-                    rELATORIOECF.CentraECF("<c>" + "Trilha Informática - Soluções e Tecnologia</c>".ToUpper());
-                    rELATORIOECF.CentraECF(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO);
-                    rELATORIOECF.ImprimeTextoGuardado();
-                    DarumaDLL.eAbrirGaveta_ECF_Daruma();
-                    return true;
-                }
-                catch (Exception ex)
-                {
-                    throw ex;
-                }
-                finally
-                {
-                    DarumaDLL.iRGFechar_ECF_Daruma();
-                }
+	            try
+	            {
+		            #region Checa se a impressora está pronta para imprimir relatórios gerenciais
+		            int resposta = 0;
+		            resposta = DarumaDLL.confCadastrar_ECF_Daruma("RG", "TROCA DE TURNO", "");
+		            resposta = DarumaDLL.iRGAbrir_ECF_Daruma("TROCA DE TURNO"); // Convertido diretamente do AmbisoftPDV (VB6)
+		            if (resposta == 1)
+		            {
+			            int erro = 0;
+			            erro = DarumaDLL.eRetornarErro_ECF_Daruma();
+			            switch (erro)
+			            {
+				            case 0:
+					            break;
+				            case 78:
+					            DarumaDLL.iCFCancelar_ECF_Daruma();
+					            DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Havia um cupom aberto, que foi cancelado");
+					            break;
+				            case 88:
+					            DarumaDLL.iCFCancelar_ECF_Daruma();
+					            DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Redução Z pendente");
+					            return false;
+				            case 89:
+					            DarumaDLL.iCFCancelar_ECF_Daruma();
+					            DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, "Redução Z já foi feita.");
+					            return false;
+				            default:
+					            DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.No, DialogBoxIcons.Info, false, $"Erro: {erro}.");
+					            return false;
+			            }
+		            }
+		            #endregion
+		            PrintRELATORIOECF rELATORIOECF = new PrintRELATORIOECF();
+		            rELATORIOECF.CentraECF("<b>" + "Comprovante de ".ToUpper() + operacao + "</b>");
+		            rELATORIOECF.CentraECF("Caixa Nº  " + numcaixa);
+		            rELATORIOECF.DivisorECF();
+		            rELATORIOECF.CentraECF(DateTime.Now.ToShortDateString() + ", " + DateTime.Now.ToLongTimeString());
+		            rELATORIOECF.TextoECF("<e>Valor: " + valor.ToString("c2") + "</e>");
+		            rELATORIOECF.TextoECF("<b>Operador: " + operador + "</b>");
+		            rELATORIOECF.TextoECF("<e>Recebido por: ________________________</e>");
+		            rELATORIOECF.DivisorECF();
+		            rELATORIOECF.CentraECF("<c>" + "Trilha Informática - Soluções e Tecnologia</c>".ToUpper());
+		            rELATORIOECF.CentraECF(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO);
+		            rELATORIOECF.ImprimeTextoGuardado();
+		            DarumaDLL.eAbrirGaveta_ECF_Daruma();
+		            return true;
+	            }
+	            catch (Exception ex)
+	            {
+		            throw ex;
+	            }
+	            finally
+	            {
+		            DarumaDLL.iRGFechar_ECF_Daruma();
+	            }
             }
             return false;
         }
@@ -513,7 +515,7 @@ namespace PDV_WPF
             if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
             RecebePrint(new string('-', 81), corpo, esquerda, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
 
             PrintaSpooler();
@@ -541,9 +543,9 @@ namespace PDV_WPF
         public decimal cups_cancelados;
         public decimal qte_estornado;
         public decimal val_estornado;
-        public decimal tot_vendas = 0;
+        public decimal tot_vendas;
         public decimal tot_informado;
-        public decimal med_vendas = 0;
+        public decimal med_vendas;
         public decimal tot_itens = 0;
         public decimal totaissistema { get; set; }
         public decimal totalMovdiario { get; set; }
@@ -594,23 +596,24 @@ namespace PDV_WPF
                     return false;
                 }
             }
-            if (ECF_ATIVA)
-            {
-                try
-                {
-                    return IMPRIME_ECF(dtmFechado, METODOS_DT, intIdCaixa, blnFazerFechamento);
-                }
+            //if (ECF_ATIVA)
+            //{
+            //    try
+            //    {
+            //        return IMPRIME_ECF(dtmFechado, METODOS_DT, intIdCaixa, blnFazerFechamento);
+            //    }
 
-                catch (Exception ex)
-                {
-                    logErroAntigo(RetornarMensagemErro(ex, true));
-                    MessageBox.Show("Erro ao imprimir pela ECF. \n\nO aplicativo deve ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                    Environment.Exit(0); // DEURUIM();
-                    return false;
-                }
-            }
+            //    catch (Exception ex)
+            //    {
+            //        logErroAntigo(RetornarMensagemErro(ex, true));
+            //        MessageBox.Show("Erro ao imprimir pela ECF. \n\nO aplicativo deve ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+            //        Environment.Exit(0); // DEURUIM();
+            //        return false;
+            //    }
+            //}
             return false;
         }
+        /*
         private bool IMPRIME_ECF(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa = 0, bool blnFazerFechamento = true)
         {
             Logger log = new Logger("Imprime ECF");
@@ -619,7 +622,7 @@ namespace PDV_WPF
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             using var FMPGTO_TA = new SP_TRI_CONTAFMPGTOTableAdapter();
             using var Oper = new TRI_PDV_OPERTableAdapter();
-            using var taCupomPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_CUPOMTableAdapter();
+            using var taCupomPdv = new TB_CUPOMTableAdapter();
             FMPGTO_TA.Connection = LOCAL_FB_CONN;
             Oper.Connection = LOCAL_FB_CONN;
             taCupomPdv.Connection = LOCAL_FB_CONN;
@@ -646,9 +649,9 @@ namespace PDV_WPF
             using (var ContaFormasPagto = new SP_TRI_CONTANFVPAGTOTableAdapter())
             {
                 ContaFormasPagto.Connection = LOCAL_FB_CONN;
-                if (ECF_ATIVA) ContaFormasPagto.Fill(contagemFiscal, "E" + NO_CAIXA.ToString(), abertura, fechamento, "I");
+                if (ECF_ATIVA) ContaFormasPagto.Fill(contagemFiscal, "E" + NO_CAIXA, abertura, fechamento, "I");
                 if (SAT_USADO) ContaFormasPagto.Fill(contagemFiscal, NO_CAIXA.ToString(), abertura, fechamento, "I");
-                ContaFormasPagto.Fill(contagemNaoFiscal, "N" + NO_CAIXA.ToString(), abertura, fechamento, "I");
+                ContaFormasPagto.Fill(contagemNaoFiscal, "N" + NO_CAIXA, abertura, fechamento, "I");
             }
 
             rELATORIOECF.CentraECF($"<b>{nomefantasia}</b>");
@@ -659,7 +662,7 @@ namespace PDV_WPF
             rELATORIOECF.CentraECF($"Abertura: {abertura}");
             if (!blnFazerFechamento)
             {
-                rELATORIOECF.CentraECF($"<e>-- Reimpressão --</e>");
+                rELATORIOECF.CentraECF("<e>-- Reimpressão --</e>");
             }
             rELATORIOECF.DivisorECF();
             decimal sangrias = 0, suprimentos = 0;
@@ -672,8 +675,8 @@ namespace PDV_WPF
                     SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
                     decimal valorSomado, valorSAT, valorNAOFISCAL, valorECF;
                     valorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, NO_CAIXA.ToString(), fechamento) ?? 0M;
-                    valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + NO_CAIXA.ToString(), fechamento) ?? 0M;
-                    valorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + NO_CAIXA.ToString(), fechamento) ?? 0M;
+                    valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + NO_CAIXA, fechamento) ?? 0M;
+                    valorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + NO_CAIXA, fechamento) ?? 0M;
                     log.Debug($"SAT: {valorSAT} - NAOFISCAL: {valorNAOFISCAL} - ECF: {valorECF}");
                     valorSomado = valorSAT + valorNAOFISCAL + valorECF;
                     log.Debug($"valorSomado: {valorSomado}");
@@ -828,7 +831,7 @@ namespace PDV_WPF
 
             rELATORIOECF.DivisorECF();
             rELATORIOECF.CentraECF("Trilha Informática - Soluções e Tecnologia".ToUpper());
-            rELATORIOECF.CentraECF(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO);
+            rELATORIOECF.CentraECF(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO);
             #endregion
             try
             {
@@ -849,12 +852,14 @@ namespace PDV_WPF
             }
             return true;
         }
+        */
         private void LinhaHorizontal()
         {
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
         private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
         {
+	        FuncoesFirebird ff = new();
 
             Logger log = new Logger("Imprime Spooler");
             int numcupons = 0;
@@ -864,7 +869,7 @@ namespace PDV_WPF
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             using var FMPGTO_TA = new SP_TRI_CONTAFMPGTOTableAdapter();
             using var Oper = new TRI_PDV_OPERTableAdapter();
-            using var taCupomPdv = new DataSets.FDBDataSetVendaTableAdapters.TB_CUPOMTableAdapter();
+            using var taCupomPdv = new TB_CUPOMTableAdapter();
             FMPGTO_TA.Connection = LOCAL_FB_CONN;
             Oper.Connection = LOCAL_FB_CONN;
             taCupomPdv.Connection = LOCAL_FB_CONN;
@@ -906,18 +911,18 @@ namespace PDV_WPF
             using (var ContaFormasPagto = new SP_TRI_CONTANFVPAGTOTableAdapter())
             {
                 ContaFormasPagto.Connection = LOCAL_FB_CONN;
-                if (ECF_ATIVA) ContaFormasPagto.Fill(contagemFiscal, "E" + intIdCaixa.ToString(), abertura, fechamento, "I");
+                if (ECF_ATIVA) ContaFormasPagto.Fill(contagemFiscal, "E" + intIdCaixa, abertura, fechamento, "I");
                 if (SAT_USADO) ContaFormasPagto.Fill(contagemFiscal, intIdCaixa.ToString(), abertura, fechamento, "I");
-                ContaFormasPagto.Fill(contagemNaoFiscal, "N" + intIdCaixa.ToString(), abertura, fechamento, "I");
+                ContaFormasPagto.Fill(contagemNaoFiscal, "N" + intIdCaixa, abertura, fechamento, "I");
             }
 
             log.Debug("Novo fechamento de caixa ====================");
             RecebePrint(nomefantasia, negrito, centro, 1);
             RecebePrint(enderecodaempresa, corpo, centro, 1);
-            RecebePrint("CNPJ: " + cnpjempresa.ToString().Substring(0, 2) + "." + cnpjempresa.ToString().Substring(2, 3) + "." + cnpjempresa.ToString().Substring(5, 3) + "/" + cnpjempresa.ToString().Substring(8, 4) + "-" + cnpjempresa.ToString().Substring(12, 2), corpo, centro, 1);
+            RecebePrint("CNPJ: " + cnpjempresa.Substring(0, 2) + "." + cnpjempresa.Substring(2, 3) + "." + cnpjempresa.Substring(5, 3) + "/" + cnpjempresa.Substring(8, 4) + "-" + cnpjempresa.Substring(12, 2), corpo, centro, 1);
             LinhaHorizontal();
             RecebePrint("FECHAMENTO DO CAIXA Nº " + intIdCaixa.ToString("000"), titulo, centro, 1);
-            RecebePrint("Abertura: " + abertura.ToString(), corpo, centro, 1);
+            RecebePrint("Abertura: " + abertura, corpo, centro, 1);
             if (!blnFazerFechamento)
             {
                 RecebePrint("-- Reimpressão --", titulo, centro, 1);
@@ -948,9 +953,13 @@ namespace PDV_WPF
                     log.Debug("Processando método de pagamento====================");
                     decimal valorSomado, valorSAT, valorNAOFISCAL, valorECF;
                     //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                    valorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
-                    valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                    valorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    valorSAT = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);
+                    valorNAOFISCAL = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, "N"+intIdCaixa, fechamento, LOCAL_FB_CONN);
+                    valorECF = 0;
+
+                    //valorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
+                    //valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    //valorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
                     log.Debug($"SAT: {valorSAT} - NAOFISCAL: {valorNAOFISCAL} - ECF: {valorECF}");
                     #region Total Venda editado por vinícius  
                     //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
@@ -973,9 +982,9 @@ namespace PDV_WPF
                     }
                     decimal somaABC, a, b, c;
                     //Soma das vendas no começo do mês até o presente.
-                    a = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
-                    b = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                    c = (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                    a = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN) ?? 0M;
+                    b = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa, fechamento, LOCAL_FB_CONN) ?? 0M;
+                    c = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa, fechamento, LOCAL_FB_CONN) ?? 0M;
                     somaABC = a + b + c;
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
                     valoresOperacionais.Add((metodo.COD_CFE, valorSomado, metodo.ID_FMANFCE, metodo.DESCRICAO));
@@ -1030,7 +1039,7 @@ namespace PDV_WPF
 
 
 
-                    FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                    FBCOMMAND.CommandText = "SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
                     FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                     FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                     FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
@@ -1051,7 +1060,7 @@ namespace PDV_WPF
 
 
 
-                    FBCOMMAND.CommandText = $"SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                    FBCOMMAND.CommandText = "SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
                     FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                     FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", abertura.Date);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
                     FBCOMMAND.Parameters.AddWithValue("@datahoraatual", fechamento);
@@ -1104,9 +1113,9 @@ namespace PDV_WPF
                                 log.Debug("Processando método de pagamento====================");
                                 decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
                                 //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                                valorSATAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                                valorNAOFISCALAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-                                valorECFAlternativo = (decimal?)SomaValoresFmapagto.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+                                valorSATAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
+                                valorNAOFISCALAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa, FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
+                                valorECFAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa, FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
                                 log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
                                 #region Total Venda editado por vinícius  
                                 //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
@@ -1142,13 +1151,9 @@ namespace PDV_WPF
                         TotalVendasAlternativo -= suprimentosAlternativo;
 
                     }
-                    if (blnFazerFechamento == true)
+                    if (blnFazerFechamento)
                     {
                         TotalVendasAlternativo += tot_vendas;
-                    }
-                    else
-                    {
-
                     }
                 }
                 FBCOMMAND.Connection.Close();
@@ -1223,7 +1228,7 @@ namespace PDV_WPF
                     contador += (from linha in contagemNaoFiscal.AsEnumerable() where linha.RID_FMANCFE == metodo.ID_FMANFCE select linha.RCOUNT_FMANCE).FirstOrDefault();
                 if (!(contagemFiscal.Count == 0 || contagemFiscal[0][0] is DBNull))
                     contador += (from linha in contagemFiscal.AsEnumerable() where linha.RID_FMANCFE == metodo.ID_FMANFCE select linha.RCOUNT_FMANCE).FirstOrDefault();
-                RecebePrint("\t\t:" + contador.ToString() + "\tR$", corpo, esquerda, 0);
+                RecebePrint("\t\t:" + contador + "\tR$", corpo, esquerda, 0);
                 numcupons += contador;
 
                 RecebePrint(metodo.DESCRICAO + "\t", corpo, esquerda, 0);
@@ -1447,7 +1452,7 @@ namespace PDV_WPF
 
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia".ToUpper(), corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             try
             {
@@ -1508,9 +1513,7 @@ namespace PDV_WPF
                 case 16:
                     retorno = Convert.ToDecimal(tRI_PDV_OPERRow["EXTRA_1"]);
                     break;
-                default:
-                    break;
-                    //throw new NotImplementedException("ID do método de pagamento inválido: " + key.ToString());
+                //throw new NotImplementedException("ID do método de pagamento inválido: " + key.ToString());
             }
 
             return retorno;
@@ -1531,7 +1534,7 @@ namespace PDV_WPF
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = Xqtde * (Xvalorunit - Xdesconto).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = Xqtde * (Xvalorunit - Xdesconto).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed };
             produtos.Add(prod);
         }
         public static bool IMPRIME()
@@ -1568,7 +1571,7 @@ namespace PDV_WPF
             RecebePrint("Operador: " + operador, corpo, esquerda, 1);
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintaSpooler();
             produtos.Clear();
@@ -1605,7 +1608,7 @@ namespace PDV_WPF
             RecebePrint("Operador: " + operador, corpo, esquerda, 1);
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintaSpooler();
             return true;
@@ -1621,7 +1624,7 @@ namespace PDV_WPF
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, decimal Xvalorunit)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), valorunit = Xvalorunit };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), valorunit = Xvalorunit };
             produtos.Add(prod);
         }
         public static bool IMPRIME()
@@ -1654,7 +1657,7 @@ namespace PDV_WPF
             RecebePrint(produtos.Count.ToString(), titulo, direita, 1);
             RecebePrint(new string('-', 91), corpo, centro, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintaSpooler();
             pagamentos.Clear();
@@ -1684,7 +1687,7 @@ namespace PDV_WPF
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri };
             produtos.Add(prod);
         }
 
@@ -1722,11 +1725,11 @@ namespace PDV_WPF
                                                                            cFeDeRetorno.infCFe.emit.enderEmit.xMun);
                 RecebePrint(enderecodaempresa, corpo, centro, 1);
                 string cnpjempresa = cFeDeRetorno.infCFe.emit.CNPJ;
-                RecebePrint("CNPJ: " + cnpjempresa.ToString().Substring(0, 2) + "."
-                                     + cnpjempresa.ToString().Substring(2, 3) + "."
-                                     + cnpjempresa.ToString().Substring(5, 3) + "/"
-                                     + cnpjempresa.ToString().Substring(8, 4) + "-"
-                                     + cnpjempresa.ToString().Substring(12, 2) + "  IE: "
+                RecebePrint("CNPJ: " + cnpjempresa.Substring(0, 2) + "."
+                                     + cnpjempresa.Substring(2, 3) + "."
+                                     + cnpjempresa.Substring(5, 3) + "/"
+                                     + cnpjempresa.Substring(8, 4) + "-"
+                                     + cnpjempresa.Substring(12, 2) + "  IE: "
                                      + cFeDeRetorno.infCFe.emit.IE + "  IM: "
                                      + cFeDeRetorno.infCFe.emit.IM, corpo, centro, 1);
                 LinhaHorizontal();
@@ -1839,7 +1842,7 @@ namespace PDV_WPF
                 LinhaHorizontal();
                 if (FechamentoCupom.ObtemDesc > 0)
                 {
-                    RecebePrint($"NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);
+                    RecebePrint("NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);
                     RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
                     RecebePrint(" ", corpo, esquerda, 1);
                     LinhaHorizontal();
@@ -1885,7 +1888,7 @@ namespace PDV_WPF
                 RecebePrint("Operador: " + operador, corpo, esquerda, 1);
                 LinhaHorizontal();
                 if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
-                RecebePrint("SAT No. " + numerosat.ToString(), titulo, centro, 1);
+                RecebePrint("SAT No. " + numerosat, titulo, centro, 1);
                 string dEmi = cFeDeRetorno.infCFe.ide.dEmi;
                 string hEmi = cFeDeRetorno.infCFe.ide.hEmi;
                 string tsEmi = $"{dEmi.Substring(6, 2)}/{dEmi.Substring(4, 2)}/{dEmi.Substring(0, 4)} {hEmi.Substring(0, 2)}:{hEmi.Substring(2, 2)}:{hEmi.Substring(4, 2)}";
@@ -1899,7 +1902,7 @@ namespace PDV_WPF
                 if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
                 LinhaHorizontal();
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
                 #endregion
             }
 
@@ -2082,7 +2085,7 @@ namespace PDV_WPF
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = Xqtde * (Xvalorunit - Xdesconto), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = Xqtde * (Xvalorunit - Xdesconto), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun };
             produtos.Add(prod);
         }
 
@@ -2096,7 +2099,7 @@ namespace PDV_WPF
             RecebePrint(nomefantasia, negrito, centro, 1);
             RecebePrint(nomedaempresa, corpo, centro, 1);
             RecebePrint(enderecodaempresa, corpo, centro, 1);
-            RecebePrint("CNPJ: " + cnpjempresa.ToString().Substring(0, 2) + "." + cnpjempresa.ToString().Substring(2, 3) + "." + cnpjempresa.ToString().Substring(5, 3) + "/" + cnpjempresa.ToString().Substring(8, 4) + "-" + cnpjempresa.ToString().Substring(12, 2) + "  IE: " + ieempresa + "  IM: " + imempresa, corpo, centro, 1);
+            RecebePrint("CNPJ: " + cnpjempresa.Substring(0, 2) + "." + cnpjempresa.Substring(2, 3) + "." + cnpjempresa.Substring(5, 3) + "/" + cnpjempresa.Substring(8, 4) + "-" + cnpjempresa.Substring(12, 2) + "  IE: " + ieempresa + "  IM: " + imempresa, corpo, centro, 1);
             RecebePrint(new string('-', 91), negrito, centro, 1);
             RecebePrint("Pedido de Fabricação", titulo, centro, 1);
             RecebePrint("Pedido nº: " + no_pedido.ToString("D3"), titulo, centro, 1);
@@ -2115,7 +2118,7 @@ namespace PDV_WPF
             RecebePrint(DateTime.Now.ToString(), titulo, centro, 1);
             RecebePrint(new string('-', 91), corpo, centro, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
 
 
@@ -2164,7 +2167,7 @@ namespace PDV_WPF
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri };
             produtos.Add(prod);
         }
 
@@ -2268,7 +2271,7 @@ namespace PDV_WPF
                 LinhaHorizontal();
                 if(FechamentoCupom.ObtemDesc > 0)
                 {
-                    RecebePrint($"NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);                    
+                    RecebePrint("NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);                    
                     RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
                     RecebePrint(" ", corpo, esquerda, 1);
                     LinhaHorizontal();
@@ -2298,7 +2301,7 @@ namespace PDV_WPF
                 RecebePrint("Caixa: " + num_caixa.ToString("000"), corpo, direita, 1);
                 LinhaHorizontal();
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
                 #endregion
             }
 
@@ -2374,7 +2377,7 @@ namespace PDV_WPF
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal valorOriginal = 0)
         {
-            Produto prod = new Produto() { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde };
             produtos.Add(prod);
         }
 
@@ -2420,7 +2423,7 @@ namespace PDV_WPF
                 LinhaHorizontal();
                 LinhaHorizontal();
                 RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
                 #endregion
             }
 
@@ -2467,7 +2470,7 @@ namespace PDV_WPF
             LinhaHorizontal();
             LinhaHorizontal();
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO, corpo, centro, 1);
+            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion
             PrintDocument retorno = new PrintDocument();
             try
@@ -2541,7 +2544,7 @@ namespace PDV_WPF
                 RecebePrint("Exija o cancelamento da cobrança em seu cartão", negrito, centro, 1);
                 RecebePrint("", negrito, esquerda, 1);
             }
-            RecebePrint(System.DateTime.Now.ToString(), negrito, centro, 1);
+            RecebePrint(DateTime.Now.ToString(), negrito, centro, 1);
             if (modelo == 1)
             {
                 RecebePrint("COD_BARRAS>>" + chavenfe, corpo, centro, 1);
