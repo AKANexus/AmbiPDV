@@ -72,7 +72,7 @@ namespace PDV_WPF.REMENDOOOOO
             string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd");
             string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
 
-            command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN {DT_ABERTURA:yyyy-MM-dd HH-mm-ss} AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
+            command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
 
             decimal resultado;
             try
