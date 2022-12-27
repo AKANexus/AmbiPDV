@@ -119,9 +119,9 @@ namespace PDV_WPF.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("charset=WIN1252;initial catalog=\"C:\\Users\\TRILHA SISTEMA\\Desktop\\BANCO TESTE TRIL" +
-            "HA LOJA 01\\COPIA DB\\InfoPad.FDB\";data source=localhost;user id=SYSDBA;password=m" +
-            "asterkey")]
+        [global::System.Configuration.DefaultSettingValueAttribute("charset=WIN1252;initial catalog=\"C:\\Users\\TRILHA SISTEMA\\Documents\\AmbiPDV\\AmbiPA" +
+            "D\\Bancos teste\\InfoPad.FDB\";data source=localhost;user id=SYSDBA;password=master" +
+            "key")]
         public string ComandasCS {
             get {
                 return ((string)(this["ComandasCS"]));
