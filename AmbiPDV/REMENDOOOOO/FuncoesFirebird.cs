@@ -157,10 +157,11 @@ namespace PDV_WPF.REMENDOOOOO
                 $"SELECT A.DESCRICAO, A.CFOP, A.UNI_MEDIDA, C.COD_NCM, C.COD_BARRA, C.CSOSN_CFE, " +
                 $"C.CST_CFE, A.CST_PIS, A.CST_COFINS, A.PIS, A.COFINS, COALESCE(D.UF_SP, 0) AS RUF_SP, " +
                 $"COALESCE(D.BASE_ICMS, 0)AS RBASE_ICMS, COALESCE(E.ISS_ALIQ, 0) AS RALIQ_ISS, " +
-                $"A.ID_TIPOITEM, C.COD_CEST, A.OBSERVACAO FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR B ON " +
+                $"A.ID_TIPOITEM, C.COD_CEST, A.OBSERVACAO, F.DESCRICAO AS COR, G.DESCRICAO AS TAMANHO FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR B ON " +
                 $"(A.ID_ESTOQUE = B.ID_ESTOQUE) LEFT JOIN TB_TAXA_UF D ON A.ID_CTI_CFE = D.ID_CTI " +
                 $"LEFT JOIN TB_EST_PRODUTO C ON B.ID_IDENTIFICADOR = C.ID_IDENTIFICADOR LEFT JOIN " +
-                $"TB_EST_SERVICO E ON E.ID_IDENTIFICADOR = B.ID_IDENTIFICADOR WHERE B.ID_IDENTIFICADOR = {codigoitem}";
+                $"TB_EST_SERVICO E ON E.ID_IDENTIFICADOR = B.ID_IDENTIFICADOR LEFT JOIN TB_EST_PROD_NIVEL1 F ON " +
+                $"C.ID_NIVEL1 = F.ID_NIVEL1 LEFT JOIN TB_EST_PROD_NIVEL2 G ON C.ID_NIVEL2 = G.ID_NIVEL2 WHERE B.ID_IDENTIFICADOR = {codigoitem}";
 
             DataTable infoDoItem = new();
 
@@ -198,7 +199,9 @@ namespace PDV_WPF.REMENDOOOOO
                     RALIQ_ISS = row["RALIQ_ISS"] is DBNull ? 0 : row["RALIQ_ISS"] as decimal? ?? 0,
                     RID_TIPOITEM = row["ID_TIPOITEM"] is DBNull ? "0" : row["ID_TIPOITEM"] as string ?? "0",
                     RSTR_CEST = row["COD_CEST"] is DBNull ? string.Empty : row["COD_CEST"] as string ?? string.Empty,
-                    OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty
+                    OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty,
+                    COR = row["COR"] is DBNull ? string.Empty : " - " + row["COR"] ?? string.Empty,
+                    TAMANHO = row["TAMANHO"] is DBNull ? string.Empty : " / " + row["TAMANHO"] ?? string.Empty
                 };
             }
         }
@@ -611,5 +614,7 @@ public class DadosDoItem
     public string RID_TIPOITEM { get; set; }
     public string RSTR_CEST { get; set; }
     public string OBSERVACAO { get; set; }
+    public string COR { get; set; }
+    public string TAMANHO { get; set; }
 }
 
