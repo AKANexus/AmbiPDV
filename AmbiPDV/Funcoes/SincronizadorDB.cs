@@ -2045,6 +2045,160 @@ namespace PDV_WPF.Funcoes
             }
         }
 
+        public void Sync_TB_EST_PROD_NIVEL1(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblNivel1 = new FDBDataSetOperSeed.TB_EST_PROD_NIVEL1DataTable())
+            {
+                try
+                {
+                    {
+                        DataRow[] pendentesNivel1 = dtAuxSyncPendentes.Select($"TABELA = 'TB_EST_PROD_NIVEL1'");
+                        for (int i = 0; i < pendentesNivel1.Length; i++)
+                        {
+                            var id = pendentesNivel1[i]["ID_REG"].Safestring();
+                            var operacao = pendentesNivel1[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesNivel1[i]["NO_CAIXA"].Safeshort();
+
+                            // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                            if (operacao.Equals("I") || operacao.Equals("U"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taNivel1 = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_PROD_NIVEL1TableAdapter())
+                                {
+                                    taNivel1.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                    int.TryParse(id, out int idNivel1);
+                                    taNivel1.FillByNivel1(tblNivel1, idNivel1);
+                                    if (tblNivel1 != null && tblNivel1.Rows.Count > 0)
+                                    {
+                                        using (var taNivel1Pdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_PROD_NIVEL1TableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taNivel1Pdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_EST_PROD_NIVEL1Row Nivel1Serv in tblNivel1)
+                                                {
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taNivel1Pdv.Insert(Nivel1Serv.ID_NIVEL1, Nivel1Serv.DESCRICAO, Nivel1Serv.STATUS);
+                                                            break;
+                                                        case "U":
+                                                            taNivel1Pdv.UpdateQuery(Nivel1Serv.DESCRICAO, Nivel1Serv.STATUS, Nivel1Serv.ID_NIVEL1);
+                                                            break;
+                                                    }
+                                                }
+                                                ConfirmarAuxSync(idNivel1, "TB_EST_PROD_NIVEL1", operacao, NO_CAIXA);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("erro ao tentar sincronizar insert ou update da TB_EST_PROD_NIVEL1 para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (operacao.Equals("D"))
+                            {
+                                try
+                                {
+                                    int.TryParse(id, out int idNivel1);
+                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand($"DELETE FROM TB_EST_PROD_NIVEL1 WHERE ID_NIVEL1 = {idNivel1}", fbConnPdv);
+                                    comand.ExecuteNonQuery();
+                                    ConfirmarAuxSync(idNivel1, "TB_EST_PROD_NIVEL1", operacao, NO_CAIXA);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("erro ao tentar sincronizar delete da TB_EST_PROD_NIVEL1 para base local, segue erro: " + ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar TB_EST_PROD_NIVEL1, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_EST_PROD_NIVEL2(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblNivel2 = new FDBDataSetOperSeed.TB_EST_PROD_NIVEL2DataTable())
+            {
+                try
+                {
+                    {
+                        DataRow[] pendentesNivel2 = dtAuxSyncPendentes.Select($"TABELA = 'TB_EST_PROD_NIVEL2'");
+                        for (int i = 0; i < pendentesNivel2.Length; i++)
+                        {
+                            var id = pendentesNivel2[i]["ID_REG"].Safestring();
+                            var operacao = pendentesNivel2[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesNivel2[i]["NO_CAIXA"].Safeshort();
+
+                            // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                            if (operacao.Equals("I") || operacao.Equals("U"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taNivel2 = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_PROD_NIVEL2TableAdapter())
+                                {
+                                    taNivel2.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                    int.TryParse(id, out int idNivel2);
+                                    taNivel2.FillByNivel2(tblNivel2, idNivel2);
+                                    if (tblNivel2 != null && tblNivel2.Rows.Count > 0)
+                                    {
+                                        using (var taNivel2Pdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EST_PROD_NIVEL2TableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taNivel2Pdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_EST_PROD_NIVEL2Row Nivel2Serv in tblNivel2)
+                                                {
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            taNivel2Pdv.Insert(Nivel2Serv.ID_NIVEL2, Nivel2Serv.DESCRICAO, Nivel2Serv.STATUS);
+                                                            break;
+                                                        case "U":
+                                                            taNivel2Pdv.UpdateQuery(Nivel2Serv.DESCRICAO, Nivel2Serv.STATUS, Nivel2Serv.ID_NIVEL2);
+                                                            break;
+                                                    }
+                                                }
+                                                ConfirmarAuxSync(idNivel2, "TB_EST_PROD_NIVEL2", operacao, NO_CAIXA);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("erro ao tentar sincronizar insert ou update da TB_EST_PROD_NIVEL2 para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (operacao.Equals("D"))
+                            {
+                                try
+                                {
+                                    int.TryParse(id, out int idNivel2);
+                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    FbCommand comand = new FbCommand($"DELETE FROM TB_EST_PROD_NIVEL2 WHERE ID_NIVEL2 = {idNivel2}", fbConnPdv);
+                                    comand.ExecuteNonQuery();
+                                    ConfirmarAuxSync(idNivel2, "TB_EST_PROD_NIVEL2", operacao, NO_CAIXA);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Debug("erro ao tentar sincronizar delete da TB_EST_PROD_NIVEL2 para base local, segue erro: " + ex);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar TB_EST_PROD_NIVEL2, erro: " + ex);
+                }
+            }
+        }
+
         public void Sync_TB_EST_PRODUTO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa, ref List<ComboBoxBindingDTO_Produto_Sync> retornoProdutosAlterados)
         {
             using (var tblEstProdutoPdv = new FDBDataSetOperSeed.TB_EST_PRODUTODataTable())
@@ -7717,6 +7871,26 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar EstIdent", ex);
                         throw new SynchException("Erro ao sincronizar EstIdent", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_PROD_NIVEL1(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_EST_PROD_NIVEL1 sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar TB_EST_PROD_NIVEL1 ", ex);
+                        throw new SynchException("Erro ao sincronizar TB_EST_PROD_NIVEL1", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_PROD_NIVEL2(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_EST_PROD_NIVEL2 sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar TB_EST_PROD_NIVEL2 ", ex);
+                        throw new SynchException("Erro ao sincronizar TB_EST_PROD_NIVEL2", ex);
                     }
                     try
                     {

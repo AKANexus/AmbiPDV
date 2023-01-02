@@ -5272,8 +5272,8 @@ namespace PDV_WPF.Telas
             string csosnCfe = dadosDoItem.RCSOSN_CFE.Safestring().Trim();
             log.Debug("csosnCfe obtido");
             lbl_Marquee.Visibility = Visibility.Hidden;
-            log.Debug("obtendo descrição");
-            lbl_Cortesia.Content = nomeKit != null ? nomeKit : dadosDoItem.DESCRICAO;   
+            log.Debug("obtendo descrição");            
+            lbl_Cortesia.Content = nomeKit != null ? nomeKit : dadosDoItem.DESCRICAO + dadosDoItem.COR + dadosDoItem.TAMANHO;   
             log.Debug("descrição obtida");
             combobox.Text = "";
             txb_Qtde.Clear();
@@ -5302,7 +5302,7 @@ namespace PDV_WPF.Telas
             {
                 devolAtual.RecebeNovoProduto(
                                         pCodigoItem,
-                                        dadosDoItem.DESCRICAO,
+                                        dadosDoItem.DESCRICAO + dadosDoItem.COR + dadosDoItem.TAMANHO,
                                         dadosDoItem.COD_NCM,
                                         pPrecoUnitario,
                                         0, pDesconto, dadosDoItem.UNI_MEDIDA, pQuant, dadosDoItem.COD_BARRA
@@ -5315,7 +5315,7 @@ namespace PDV_WPF.Telas
 
                 vendaAtual.RecebeNovoProduto(
                                         pCodigoItem,
-                                        dadosDoItem.DESCRICAO,
+                                        dadosDoItem.DESCRICAO + dadosDoItem.COR + dadosDoItem.TAMANHO,
                                         dadosDoItem.COD_NCM,
                                         dadosDoItem.CFOP,
                                         pPrecoUnitario,
@@ -5415,9 +5415,9 @@ namespace PDV_WPF.Telas
                     numAtual = (vendaAtual.nItemCupom - 1).ToString().PadLeft(3, '0');
                     break;
             }
-            if (barcode == null) { ImprimirCupomVirtual($@"{numAtual} {pCodigoItem.ToString().PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27)}"); }
+            if (barcode == null) { ImprimirCupomVirtual($@"{numAtual} {pCodigoItem.ToString().PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27) + dadosDoItem.COR + dadosDoItem.TAMANHO}"); }
 
-            else { ImprimirCupomVirtual($"{numAtual} {barcode.PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27)}"); }
+            else { ImprimirCupomVirtual($"{numAtual} {barcode.PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27) + dadosDoItem.COR + dadosDoItem.TAMANHO}"); }
             ImprimirCupomVirtual($"{pQuant.RoundABNT(3).ToString("0.000").Trunca(5),8} {dadosDoItem.UNI_MEDIDA} {pPrecoUnitario.RoundABNT(),10:0.00} {(pPrecoUnitario * pQuant).RoundABNT(),20:0.00}");
             if (pDesconto > 0) ImprimirCupomVirtual($"---Desconto no item: {pDesconto:C2}");
             if (nomeKit is not null) ImprimirCupomVirtual($"Item importado de: {nomeKit}");

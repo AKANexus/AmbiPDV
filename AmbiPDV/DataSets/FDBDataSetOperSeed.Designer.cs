@@ -7028,6 +7028,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnDESCRICAO;
             
+            private global::System.Data.DataColumn columnSTATUS;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_EST_PROD_NIVEL1DataTable() {
@@ -7079,6 +7081,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn STATUSColumn {
+                get {
+                    return this.columnSTATUS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -7114,11 +7124,12 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TB_EST_PROD_NIVEL1Row AddTB_EST_PROD_NIVEL1Row(short ID_NIVEL1, string DESCRICAO) {
+            public TB_EST_PROD_NIVEL1Row AddTB_EST_PROD_NIVEL1Row(short ID_NIVEL1, string DESCRICAO, string STATUS) {
                 TB_EST_PROD_NIVEL1Row rowTB_EST_PROD_NIVEL1Row = ((TB_EST_PROD_NIVEL1Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_NIVEL1,
-                        DESCRICAO};
+                        DESCRICAO,
+                        STATUS};
                 rowTB_EST_PROD_NIVEL1Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTB_EST_PROD_NIVEL1Row);
                 return rowTB_EST_PROD_NIVEL1Row;
@@ -7150,6 +7161,7 @@ namespace PDV_WPF.DataSets {
             internal void InitVars() {
                 this.columnID_NIVEL1 = base.Columns["ID_NIVEL1"];
                 this.columnDESCRICAO = base.Columns["DESCRICAO"];
+                this.columnSTATUS = base.Columns["STATUS"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7159,6 +7171,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnID_NIVEL1);
                 this.columnDESCRICAO = new global::System.Data.DataColumn("DESCRICAO", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDESCRICAO);
+                this.columnSTATUS = new global::System.Data.DataColumn("STATUS", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSTATUS);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_NIVEL1}, true));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
@@ -7168,6 +7182,7 @@ namespace PDV_WPF.DataSets {
                 this.columnDESCRICAO.AllowDBNull = false;
                 this.columnDESCRICAO.Unique = true;
                 this.columnDESCRICAO.MaxLength = 30;
+                this.columnSTATUS.MaxLength = 1;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7305,6 +7320,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnDESCRICAO;
             
+            private global::System.Data.DataColumn columnSTATUS;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_EST_PROD_NIVEL2DataTable() {
@@ -7356,6 +7373,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public global::System.Data.DataColumn STATUSColumn {
+                get {
+                    return this.columnSTATUS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -7391,11 +7416,12 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public TB_EST_PROD_NIVEL2Row AddTB_EST_PROD_NIVEL2Row(short ID_NIVEL2, string DESCRICAO) {
+            public TB_EST_PROD_NIVEL2Row AddTB_EST_PROD_NIVEL2Row(short ID_NIVEL2, string DESCRICAO, string STATUS) {
                 TB_EST_PROD_NIVEL2Row rowTB_EST_PROD_NIVEL2Row = ((TB_EST_PROD_NIVEL2Row)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_NIVEL2,
-                        DESCRICAO};
+                        DESCRICAO,
+                        STATUS};
                 rowTB_EST_PROD_NIVEL2Row.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTB_EST_PROD_NIVEL2Row);
                 return rowTB_EST_PROD_NIVEL2Row;
@@ -7427,6 +7453,7 @@ namespace PDV_WPF.DataSets {
             internal void InitVars() {
                 this.columnID_NIVEL2 = base.Columns["ID_NIVEL2"];
                 this.columnDESCRICAO = base.Columns["DESCRICAO"];
+                this.columnSTATUS = base.Columns["STATUS"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -7436,6 +7463,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnID_NIVEL2);
                 this.columnDESCRICAO = new global::System.Data.DataColumn("DESCRICAO", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnDESCRICAO);
+                this.columnSTATUS = new global::System.Data.DataColumn("STATUS", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSTATUS);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_NIVEL2}, true));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
@@ -7445,6 +7474,7 @@ namespace PDV_WPF.DataSets {
                 this.columnDESCRICAO.AllowDBNull = false;
                 this.columnDESCRICAO.Unique = true;
                 this.columnDESCRICAO.MaxLength = 30;
+                this.columnSTATUS.MaxLength = 1;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -21771,6 +21801,34 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string STATUS {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_EST_PROD_NIVEL1.STATUSColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'STATUS\' na tabela \'TB_EST_PROD_NIVEL1\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_EST_PROD_NIVEL1.STATUSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSTATUSNull() {
+                return this.IsNull(this.tableTB_EST_PROD_NIVEL1.STATUSColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSTATUSNull() {
+                this[this.tableTB_EST_PROD_NIVEL1.STATUSColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
             public TB_EST_PRODUTORow[] GetTB_EST_PRODUTORows() {
                 if ((this.Table.ChildRelations["FK_EST_PROD_NIVEL1"] == null)) {
                     return new TB_EST_PRODUTORow[0];
@@ -21815,6 +21873,34 @@ namespace PDV_WPF.DataSets {
                 set {
                     this[this.tableTB_EST_PROD_NIVEL2.DESCRICAOColumn] = value;
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public string STATUS {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_EST_PROD_NIVEL2.STATUSColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'STATUS\' na tabela \'TB_EST_PROD_NIVEL2\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_EST_PROD_NIVEL2.STATUSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public bool IsSTATUSNull() {
+                return this.IsNull(this.tableTB_EST_PROD_NIVEL2.STATUSColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            public void SetSTATUSNull() {
+                this[this.tableTB_EST_PROD_NIVEL2.STATUSColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42454,11 +42540,13 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             tableMapping.DataSetTable = "TB_EST_PROD_NIVEL1";
             tableMapping.ColumnMappings.Add("ID_NIVEL1", "ID_NIVEL1");
             tableMapping.ColumnMappings.Add("DESCRICAO", "DESCRICAO");
+            tableMapping.ColumnMappings.Add("STATUS", "STATUS");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM \"TB_EST_PROD_NIVEL1\" WHERE ((\"ID_NIVEL1\" = @Original_ID_NIVEL1) AND (" +
-                "\"DESCRICAO\" = @Original_DESCRICAO))";
+                "\"DESCRICAO\" = @Original_DESCRICAO) AND ((@IsNull_STATUS = 1 AND \"STATUS\" IS NULL" +
+                ") OR (\"STATUS\" = @Original_STATUS)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NIVEL1";
@@ -42475,10 +42563,26 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.SourceColumn = "DESCRICAO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_STATUS";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_EST_PROD_NIVEL1\" (\"ID_NIVEL1\", \"DESCRICAO\") VALUES (@ID_NIVEL1, @" +
-                "DESCRICAO)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_EST_PROD_NIVEL1\" (\"ID_NIVEL1\", \"DESCRICAO\", \"STATUS\") VALUES (@ID" +
+                "_NIVEL1, @DESCRICAO, @STATUS)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NIVEL1";
@@ -42493,11 +42597,15 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.IsNullable = true;
             param.SourceColumn = "DESCRICAO";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE \"TB_EST_PROD_NIVEL1\" SET \"ID_NIVEL1\" = @ID_NIVEL1, \"DESCRICAO\" = @DESCRICA" +
-                "O WHERE ((\"ID_NIVEL1\" = @Original_ID_NIVEL1) AND (\"DESCRICAO\" = @Original_DESCRI" +
-                "CAO))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_EST_PROD_NIVEL1"" SET ""ID_NIVEL1"" = @ID_NIVEL1, ""DESCRICAO"" = @DESCRICAO, ""STATUS"" = @STATUS WHERE ((""ID_NIVEL1"" = @Original_ID_NIVEL1) AND (""DESCRICAO"" = @Original_DESCRICAO) AND ((@IsNull_STATUS = 1 AND ""STATUS"" IS NULL) OR (""STATUS"" = @Original_STATUS)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NIVEL1";
@@ -42511,6 +42619,12 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.Size = 30;
             param.IsNullable = true;
             param.SourceColumn = "DESCRICAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NIVEL1";
@@ -42527,6 +42641,22 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.SourceColumn = "DESCRICAO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_STATUS";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42539,11 +42669,48 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[3];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "select * from TB_EST_PROD_NIVEL1";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT ID_NIVEL1, DESCRICAO, STATUS FROM TB_EST_PROD_NIVEL1 WHERE (ID_NIVEL1 = @p" +
+                "aram)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@param";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NIVEL1";
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "UPDATE TB_EST_PROD_NIVEL1 \r\nSET DESCRICAO = @DESCRICAO, STATUS = @STATUS\r\nWHERE (" +
+                "ID_NIVEL1 = @ID_NIVEL1)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_NIVEL1";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NIVEL1";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[2].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42562,12 +42729,15 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual FDBDataSetOperSeed.TB_EST_PROD_NIVEL1DataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            FDBDataSetOperSeed.TB_EST_PROD_NIVEL1DataTable dataTable = new FDBDataSetOperSeed.TB_EST_PROD_NIVEL1DataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByNivel1(FDBDataSetOperSeed.TB_EST_PROD_NIVEL1DataTable dataTable, int param) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(param));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42603,13 +42773,21 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(short Original_ID_NIVEL1, string Original_DESCRICAO) {
+        public virtual int Delete(short Original_ID_NIVEL1, string Original_DESCRICAO, string Original_STATUS) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((short)(Original_ID_NIVEL1));
             if ((Original_DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("Original_DESCRICAO");
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_DESCRICAO));
+            }
+            if ((Original_STATUS == null)) {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_STATUS));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -42631,13 +42809,19 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(short ID_NIVEL1, string DESCRICAO) {
+        public virtual int Insert(short ID_NIVEL1, string DESCRICAO, string STATUS) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((short)(ID_NIVEL1));
             if ((DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("DESCRICAO");
             }
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(DESCRICAO));
+            }
+            if ((STATUS == null)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(STATUS));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -42659,7 +42843,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(short ID_NIVEL1, string DESCRICAO, short Original_ID_NIVEL1, string Original_DESCRICAO) {
+        public virtual int Update(short ID_NIVEL1, string DESCRICAO, string STATUS, short Original_ID_NIVEL1, string Original_DESCRICAO, string Original_STATUS) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((short)(ID_NIVEL1));
             if ((DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("DESCRICAO");
@@ -42667,12 +42851,26 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(DESCRICAO));
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((short)(Original_ID_NIVEL1));
+            if ((STATUS == null)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(STATUS));
+            }
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((short)(Original_ID_NIVEL1));
             if ((Original_DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("Original_DESCRICAO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_DESCRICAO));
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Original_DESCRICAO));
+            }
+            if ((Original_STATUS == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_STATUS));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -42694,8 +42892,44 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string DESCRICAO, short Original_ID_NIVEL1, string Original_DESCRICAO) {
-            return this.Update(Original_ID_NIVEL1, DESCRICAO, Original_ID_NIVEL1, Original_DESCRICAO);
+        public virtual int Update(string DESCRICAO, string STATUS, short Original_ID_NIVEL1, string Original_DESCRICAO, string Original_STATUS) {
+            return this.Update(Original_ID_NIVEL1, DESCRICAO, STATUS, Original_ID_NIVEL1, Original_DESCRICAO, Original_STATUS);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateQuery(string DESCRICAO, string STATUS, int ID_NIVEL1) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
+            if ((DESCRICAO == null)) {
+                throw new global::System.ArgumentNullException("DESCRICAO");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(DESCRICAO));
+            }
+            if ((STATUS == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(STATUS));
+            }
+            command.Parameters[2].Value = ((int)(ID_NIVEL1));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     
@@ -42822,11 +43056,13 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             tableMapping.DataSetTable = "TB_EST_PROD_NIVEL2";
             tableMapping.ColumnMappings.Add("ID_NIVEL2", "ID_NIVEL2");
             tableMapping.ColumnMappings.Add("DESCRICAO", "DESCRICAO");
+            tableMapping.ColumnMappings.Add("STATUS", "STATUS");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM \"TB_EST_PROD_NIVEL2\" WHERE ((\"ID_NIVEL2\" = @Original_ID_NIVEL2) AND (" +
-                "\"DESCRICAO\" = @Original_DESCRICAO))";
+                "\"DESCRICAO\" = @Original_DESCRICAO) AND ((@IsNull_STATUS = 1 AND \"STATUS\" IS NULL" +
+                ") OR (\"STATUS\" = @Original_STATUS)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NIVEL2";
@@ -42843,10 +43079,26 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.SourceColumn = "DESCRICAO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_STATUS";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_EST_PROD_NIVEL2\" (\"ID_NIVEL2\", \"DESCRICAO\") VALUES (@ID_NIVEL2, @" +
-                "DESCRICAO)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_EST_PROD_NIVEL2\" (\"ID_NIVEL2\", \"DESCRICAO\", \"STATUS\") VALUES (@ID" +
+                "_NIVEL2, @DESCRICAO, @STATUS)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NIVEL2";
@@ -42861,11 +43113,15 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.IsNullable = true;
             param.SourceColumn = "DESCRICAO";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE \"TB_EST_PROD_NIVEL2\" SET \"ID_NIVEL2\" = @ID_NIVEL2, \"DESCRICAO\" = @DESCRICA" +
-                "O WHERE ((\"ID_NIVEL2\" = @Original_ID_NIVEL2) AND (\"DESCRICAO\" = @Original_DESCRI" +
-                "CAO))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_EST_PROD_NIVEL2"" SET ""ID_NIVEL2"" = @ID_NIVEL2, ""DESCRICAO"" = @DESCRICAO, ""STATUS"" = @STATUS WHERE ((""ID_NIVEL2"" = @Original_ID_NIVEL2) AND (""DESCRICAO"" = @Original_DESCRICAO) AND ((@IsNull_STATUS = 1 AND ""STATUS"" IS NULL) OR (""STATUS"" = @Original_STATUS)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NIVEL2";
@@ -42879,6 +43135,12 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.Size = 30;
             param.IsNullable = true;
             param.SourceColumn = "DESCRICAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NIVEL2";
@@ -42895,6 +43157,22 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             param.SourceColumn = "DESCRICAO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_STATUS";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42907,11 +43185,48 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[3];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "select * from TB_EST_PROD_NIVEL2";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT ID_NIVEL2, DESCRICAO, STATUS FROM TB_EST_PROD_NIVEL2 WHERE (ID_NIVEL2 = @p" +
+                "aram)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@param";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NIVEL2";
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "UPDATE TB_EST_PROD_NIVEL2\r\nSET DESCRICAO = @DESCRICAO, STATUS = @STATUS\r\nWHERE (I" +
+                "D_NIVEL2 = @ID_NIVEL2)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_NIVEL2";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NIVEL2";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[2].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42930,12 +43245,15 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual FDBDataSetOperSeed.TB_EST_PROD_NIVEL2DataTable GetData() {
-            this.Adapter.SelectCommand = this.CommandCollection[0];
-            FDBDataSetOperSeed.TB_EST_PROD_NIVEL2DataTable dataTable = new FDBDataSetOperSeed.TB_EST_PROD_NIVEL2DataTable();
-            this.Adapter.Fill(dataTable);
-            return dataTable;
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByNivel2(FDBDataSetOperSeed.TB_EST_PROD_NIVEL2DataTable dataTable, int param) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(param));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -42971,13 +43289,21 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(short Original_ID_NIVEL2, string Original_DESCRICAO) {
+        public virtual int Delete(short Original_ID_NIVEL2, string Original_DESCRICAO, string Original_STATUS) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((short)(Original_ID_NIVEL2));
             if ((Original_DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("Original_DESCRICAO");
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_DESCRICAO));
+            }
+            if ((Original_STATUS == null)) {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[2].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[3].Value = ((string)(Original_STATUS));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -42999,13 +43325,19 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(short ID_NIVEL2, string DESCRICAO) {
+        public virtual int Insert(short ID_NIVEL2, string DESCRICAO, string STATUS) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((short)(ID_NIVEL2));
             if ((DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("DESCRICAO");
             }
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(DESCRICAO));
+            }
+            if ((STATUS == null)) {
+                this.Adapter.InsertCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(STATUS));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -43027,7 +43359,7 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(short ID_NIVEL2, string DESCRICAO, short Original_ID_NIVEL2, string Original_DESCRICAO) {
+        public virtual int Update(short ID_NIVEL2, string DESCRICAO, string STATUS, short Original_ID_NIVEL2, string Original_DESCRICAO, string Original_STATUS) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((short)(ID_NIVEL2));
             if ((DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("DESCRICAO");
@@ -43035,12 +43367,26 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(DESCRICAO));
             }
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((short)(Original_ID_NIVEL2));
+            if ((STATUS == null)) {
+                this.Adapter.UpdateCommand.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(STATUS));
+            }
+            this.Adapter.UpdateCommand.Parameters[3].Value = ((short)(Original_ID_NIVEL2));
             if ((Original_DESCRICAO == null)) {
                 throw new global::System.ArgumentNullException("Original_DESCRICAO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_DESCRICAO));
+                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Original_DESCRICAO));
+            }
+            if ((Original_STATUS == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[6].Value = ((string)(Original_STATUS));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -43062,8 +43408,44 @@ WHERE        (ID_ESTOQUE = @idEstoque)";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string DESCRICAO, short Original_ID_NIVEL2, string Original_DESCRICAO) {
-            return this.Update(Original_ID_NIVEL2, DESCRICAO, Original_ID_NIVEL2, Original_DESCRICAO);
+        public virtual int Update(string DESCRICAO, string STATUS, short Original_ID_NIVEL2, string Original_DESCRICAO, string Original_STATUS) {
+            return this.Update(Original_ID_NIVEL2, DESCRICAO, STATUS, Original_ID_NIVEL2, Original_DESCRICAO, Original_STATUS);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateQuery(string DESCRICAO, string STATUS, int ID_NIVEL2) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
+            if ((DESCRICAO == null)) {
+                throw new global::System.ArgumentNullException("DESCRICAO");
+            }
+            else {
+                command.Parameters[0].Value = ((string)(DESCRICAO));
+            }
+            if ((STATUS == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(STATUS));
+            }
+            command.Parameters[2].Value = ((int)(ID_NIVEL2));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
         }
     }
     
@@ -59003,9 +59385,9 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE TB_CARTAO_ADMINISTRADORA \nSET ID_CLIENTE = @ID_CLIENTE, DESCRICAO = @DESCR" +
-                "ICAO, TAXA_CREDITO = @TAXA_CREDITO, TAXA_DEBITO = @TAXA_DEBITO\n WHERE (ID_ADMINI" +
-                "STRADORA = @ID_ADMINISTRADORA)";
+            this._commandCollection[4].CommandText = "UPDATE TB_CARTAO_ADMINISTRADORA \r\nSET ID_CLIENTE = @ID_CLIENTE, DESCRICAO = @DESC" +
+                "RICAO, TAXA_CREDITO = @TAXA_CREDITO, TAXA_DEBITO = @TAXA_DEBITO\r\n WHERE (ID_ADMI" +
+                "NISTRADORA = @ID_ADMINISTRADORA)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_CLIENTE";
@@ -59775,9 +60157,9 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             this._commandCollection[1].Parameters.Add(param);
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "UPDATE TB_ESTOQUE_PRECOS \nSET PRC_VENDA = @PRC_VENDA, DT_INICIO = @DT_INICIO, DT_" +
-                "FIM = @DT_FIM, PERIODO = @PERIODO, DIAS_SEMANA = @DIAS_SEMANA\n WHERE (ID_IDENTIF" +
-                "ICADOR = @ID_IDENTIFICADOR)";
+            this._commandCollection[2].CommandText = "UPDATE TB_ESTOQUE_PRECOS \r\nSET PRC_VENDA = @PRC_VENDA, DT_INICIO = @DT_INICIO, DT" +
+                "_FIM = @DT_FIM, PERIODO = @PERIODO, DIAS_SEMANA = @DIAS_SEMANA\r\n WHERE (ID_IDENT" +
+                "IFICADOR = @ID_IDENTIFICADOR)";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@PRC_VENDA";
@@ -60419,8 +60801,8 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "UPDATE TB_EST_KIT \nSET DESCRICAO = @DESCRICAO, STATUS = @STATUS, DATA = @DATA\nWHE" +
-                "RE (ID_KIT = @ID_KIT)";
+            this._commandCollection[3].CommandText = "UPDATE TB_EST_KIT \r\nSET DESCRICAO = @DESCRICAO, STATUS = @STATUS, DATA = @DATA\r\nW" +
+                "HERE (ID_KIT = @ID_KIT)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DESCRICAO";
@@ -61151,9 +61533,9 @@ WHERE        (TB_FUNC_PAPEL.ID_PAPEL = 1 OR
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "UPDATE TB_EST_KIT_ITEM \nSET ID_IDENTIFICADOR = @ID_IDENTIFICADOR, ID_KIT = @ID_KI" +
-                "T, QTD_ITEM = @QTD_ITEM, STATUS = @STATUS, VLR_ITEM = @VLR_ITEM\n WHERE (ID_ESTKI" +
-                "T = @ID_ESTKIT)";
+            this._commandCollection[3].CommandText = "UPDATE TB_EST_KIT_ITEM \r\nSET ID_IDENTIFICADOR = @ID_IDENTIFICADOR, ID_KIT = @ID_K" +
+                "IT, QTD_ITEM = @QTD_ITEM, STATUS = @STATUS, VLR_ITEM = @VLR_ITEM\r\n WHERE (ID_EST" +
+                "KIT = @ID_ESTKIT)";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_IDENTIFICADOR";
