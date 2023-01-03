@@ -248,7 +248,7 @@ namespace PDV_WPF
             #endregion AmbiMAITRE
             else
             {
-                printDoc.PrinterSettings.PrinterName = IMPRESSORA_USB;
+                printDoc.PrinterSettings.PrinterName = IMPRESSORA_USB;                 
             }
             var server = new LocalPrintServer();
             if (!IMPRESSORA_USB.StartsWith(@"\\"))
@@ -1936,13 +1936,26 @@ namespace PDV_WPF
 
             try
             {
-
                 return PrintaSpooler();
             }
             catch (Exception ex)
             {
                 logErroAntigo(RetornarMensagemErro(ex, true));
-                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                using (PrintServer ps = new PrintServer())
+                {
+                    try
+                    {
+                        using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
+                        {
+                            pq.Purge(); //deu erro, vamos limpar a fila de impressão pra começar do zero.                            
+                        }
+                    }
+                    catch (Exception exFila)
+                    {
+                        logErroAntigo(exFila.Message);
+                    }
+                }
                 return null;
             }
             finally
@@ -2340,7 +2353,21 @@ namespace PDV_WPF
             catch (Exception ex)
             {
                 logErroAntigo(RetornarMensagemErro(ex, true));
-                System.Windows.MessageBox.Show(ex.Message);
+                System.Windows.MessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+                using(PrintServer ps = new PrintServer())
+                {
+                    try
+                    {
+                        using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
+                        {
+                            pq.Purge(); //deu erro, vamos limpar a fila de impressão pra começar do zero.                            
+                        }
+                    }
+                    catch(Exception exFila)
+                    {
+                        logErroAntigo(exFila.Message);
+                    }
+                }
                 return null;
             }
             finally
