@@ -662,8 +662,16 @@ namespace PDV_WPF.Funcoes
         /// </summary>
         public static void AbreGaveta()
         {
-            PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
-            PrintFunc.PrintaSpooler();
+            try
+            {
+                PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
+                PrintFunc.PrintaSpooler();
+            }
+            catch (Exception ex)
+            {
+                DialogBox.Show("ABERTURA DE GAVETA", DialogBoxButtons.No, DialogBoxIcons.Error, true, $"Não foi possivel abrir a gaveta pois\n{ex.Message}");
+                logErroAntigo(ex.Message);                
+            }
         }
 
         readonly static object errorObj = new object();

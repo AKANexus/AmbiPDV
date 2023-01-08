@@ -10,6 +10,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Management;
 using Clearcove.Logging;
 using FirebirdSql.Data.FirebirdClient;
 using MessagingToolkit.QRCode.Codec;
@@ -218,7 +219,7 @@ namespace PDV_WPF
                 }
                 else if (line.quebralinha == 0)
                 {
-
+                    
                 }
             }
         }
@@ -254,10 +255,10 @@ namespace PDV_WPF
             if (!IMPRESSORA_USB.StartsWith(@"\\"))
             {
                 PrintQueue queue = server.GetPrintQueue(IMPRESSORA_USB, new string[0] { });
-                if (queue.IsInError) throw new Exception("A impressora está em estado de erro.");
-                if (queue.IsOutOfPaper) throw new Exception("A impressora está sem papel.");
-                if (queue.IsOffline) throw new Exception("A impressora está desligada.");
-                if (queue.IsBusy) throw new Exception("A impressora está de boca cheia.");
+                if (queue.IsInError) { LimpaFilaImpressao(); throw new Exception("A impressora está em estado de erro."); }
+                if (queue.IsOutOfPaper) { LimpaFilaImpressao(); throw new Exception("A impressora está sem papel."); }
+                if (queue.IsOffline) { LimpaFilaImpressao(); throw new Exception("A impressora está desligada."); }
+                if (queue.IsBusy) { LimpaFilaImpressao(); throw new Exception("A impressora está de boca cheia."); }
             }
             printDoc.DocumentName = "Cupom";
             if (!printDoc.PrinterSettings.IsValid && !IMPRESSORA_USB.Equals("nenhuma", StringComparison.InvariantCultureIgnoreCase))
@@ -284,6 +285,23 @@ namespace PDV_WPF
                 }
             }
             return null;
+        }
+        public static void LimpaFilaImpressao()
+        {
+            try
+            {
+                using (PrintServer ps = new PrintServer())
+                {                    
+                    using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
+                    {
+                        pq.Purge(); //impressora em estado de erro, então vamos zerar a fila pra tentar novamente.                        
+                    }                    
+                }               
+            }
+            catch (Exception exFila)
+            {
+                logErroAntigo(exFila.Message); //se caso der erro ao tentar limpar fila de impressão.
+            }
         }
         //public static void RePrinta()
         //{
@@ -497,29 +515,36 @@ namespace PDV_WPF
 
         private bool IMPRIME_SPOOLER()
         {
+            try
+            {
+                float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
+                esquerda.align.SetTabStops(10f, tabstops);
+                direita.align.SetTabStops(10f, tabstops);
+                #region Region1
+                RecebePrint("Comprovante de ".ToUpper() + operacao, titulo, centro, 1);
+                RecebePrint("Caixa Nº  " + numcaixa, titulo, centro, 1);
+                if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
+                RecebePrint(new string('-', 81), negrito, centro, 1);
+                RecebePrint(DateTime.Now.ToShortDateString() + ", " + DateTime.Now.ToLongTimeString(), negrito, centro, 1);
+                //PrintFunc.RecebePrint(" ", Titulo, centro, true);
+                RecebePrint("Valor: " + valor.ToString("c2"), titulo, esquerda, 1);
+                //PrintFunc.RecebePrint("Operação: " + operacao, negrito, esquerda, true);
+                RecebePrint("Operador: " + operador, negrito, esquerda, 1);
+                if (!reimpressao) RecebePrint("Recebido por: ________________________", titulo, esquerda, 1);
+                if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
+                RecebePrint(new string('-', 81), corpo, esquerda, 1);
+                RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
+                RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
+                #endregion
 
-            float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
-            esquerda.align.SetTabStops(10f, tabstops);
-            direita.align.SetTabStops(10f, tabstops);
-            #region Region1
-            RecebePrint("Comprovante de ".ToUpper() + operacao, titulo, centro, 1);
-            RecebePrint("Caixa Nº  " + numcaixa, titulo, centro, 1);
-            if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
-            RecebePrint(new string('-', 81), negrito, centro, 1);
-            RecebePrint(DateTime.Now.ToShortDateString() + ", " + DateTime.Now.ToLongTimeString(), negrito, centro, 1);
-            //PrintFunc.RecebePrint(" ", Titulo, centro, true);
-            RecebePrint("Valor: " + valor.ToString("c2"), titulo, esquerda, 1);
-            //PrintFunc.RecebePrint("Operação: " + operacao, negrito, esquerda, true);
-            RecebePrint("Operador: " + operador, negrito, esquerda, 1);
-            if (!reimpressao) RecebePrint("Recebido por: ________________________", titulo, esquerda, 1);
-            if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
-            RecebePrint(new string('-', 81), corpo, esquerda, 1);
-            RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
-            RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
-            #endregion
-
-            PrintaSpooler();
-            return true;
+                PrintaSpooler();
+                return true;
+            }
+            catch(Exception ex)
+            {                   
+                logErroAntigo(ex.Message); // erro ao tentar imprimir                    
+                return false;                            
+            }
         }
     }
     internal class PrintFECHA : IDisposable
@@ -1941,21 +1966,7 @@ namespace PDV_WPF
             catch (Exception ex)
             {
                 logErroAntigo(RetornarMensagemErro(ex, true));
-                System.Windows.MessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                using (PrintServer ps = new PrintServer())
-                {
-                    try
-                    {
-                        using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
-                        {
-                            pq.Purge(); //deu erro, vamos limpar a fila de impressão pra começar do zero.                            
-                        }
-                    }
-                    catch (Exception exFila)
-                    {
-                        logErroAntigo(exFila.Message);
-                    }
-                }
+                System.Windows.MessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);             
                 return null;
             }
             finally
@@ -2354,20 +2365,6 @@ namespace PDV_WPF
             {
                 logErroAntigo(RetornarMensagemErro(ex, true));
                 System.Windows.MessageBox.Show(ex.Message, "Error", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
-                using(PrintServer ps = new PrintServer())
-                {
-                    try
-                    {
-                        using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
-                        {
-                            pq.Purge(); //deu erro, vamos limpar a fila de impressão pra começar do zero.                            
-                        }
-                    }
-                    catch(Exception exFila)
-                    {
-                        logErroAntigo(exFila.Message);
-                    }
-                }
                 return null;
             }
             finally
@@ -2673,7 +2670,7 @@ namespace PDV_WPF
             DarumaDLL.iRGFechar_ECF_Daruma();
             //RelatorioAberto = false;
             texto_noob_pra_sair_na_ecf.Clear();
-        }
+        }        
     }
 
 }
