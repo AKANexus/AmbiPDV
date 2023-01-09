@@ -6269,7 +6269,80 @@ END;";
                 "O :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPER" +
                 "ACAO , NO_CAIXA , TS_OPER ) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_EST" +
                 "KIT , \'\'TB_EST_KIT_ITEM\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';" +
-                "       \r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "       \r\n\r\nerro = \'drop tb_nivel1_aux_sync_ins\';           \r\n                   " +
+                "                                                                                " +
+                "             if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_" +
+                "NIVEL1_AUX_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_NIV" +
+                "EL1_AUX_SYNC_INS\';\r\n\t\t\t\t\t\terro = \'create tb_nivel1_aux_sync_ins\';\r\n\t\t\t\t\t\tEXECUTE" +
+                " STATEMENT \'CREATE TRIGGER TB_NIVEL1_AUX_SYNC_INS FOR TB_EST_PROD_NIVEL1 AFTER I" +
+                "NSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SEL" +
+                "ECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSE" +
+                "RT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER)" +
+                " VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , NEW.ID_NIVEL1 , \'\'TB_EST_PROD_NIVEL1\'" +
+                "\' , \'\'I\'\' ,:VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';   \r\n\r\nerro = \'drop tb_niv" +
+                "el1_aux_sync_upd\';           \r\n                                                 " +
+                "                                                               if (exists(select" +
+                " 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_NIVEL1_AUX_SYNC_UPD\'))\r\n\t\t\t\t\t\t" +
+                "then\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_NIVEL1_AUX_SYNC_UPD\';\r\n\t\t\t\t\t\terro" +
+                " = \'create tb_nivel1_aux_sync_upd\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_" +
+                "NIVEL1_AUX_SYNC_UPD FOR TB_EST_PROD_NIVEL1 BEFORE UPDATE AS DECLARE VNUMCAIXA TY" +
+                "PE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OLD.ID_NIVEL1 IS DISTINCT FROM " +
+                "new.ID_NIVEL1 OR old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.STATUS IS D" +
+                "ISTINCT FROM new.STATUS) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDE" +
+                "R BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT(1) FROM TRI_PDV_AUX_SY" +
+                "NC WHERE ID_REG = old.ID_NIVEL1 AND TABELA = \'\'TB_EST_PROD_NIVEL1\'\' AND (OPERACA" +
+                "O = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT" +
+                " INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) V" +
+                "ALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_NIVEL1 , \'\'TB_EST_PROD_NIVEL1\'\' " +
+                ", \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END END END;\';     \r\n\r\nerro = \'d" +
+                "rop tb_nivel1_aux_sync_del\';           \r\n                                       " +
+                "                                                                         if (exi" +
+                "sts(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_NIVEL1_AUX_SYNC_DEL\'" +
+                "))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_NIVEL1_AUX_SYNC_DEL\';\r\n" +
+                "\t\t\t\t\t\terro = \'create tb_nivel1_aux_sync_del\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE T" +
+                "RIGGER TB_NIVEL1_AUX_SYNC_DEL FOR TB_EST_PROD_NIVEL1 BEFORE DELETE AS DECLARE VN" +
+                "UMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM " +
+                "TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AU" +
+                "X_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GE" +
+                "N_PDV_AUX_SYNC_SEQ, 1) , old.ID_NIVEL1 , \'\'TB_EST_PROD_NIVEL1\'\' , \'\'D\'\' , :VNUMC" +
+                "AIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\nerro = \'drop tb_nivel2_aux_sync_ins\'; " +
+                "          \r\n                                                                    " +
+                "                                            if (exists(select 1 from RDB$TRIGGER" +
+                "S where RDB$TRIGGER_NAME = \'TB_NIVEL2_AUX_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE" +
+                " STATEMENT \'DROP TRIGGER TB_NIVEL2_AUX_SYNC_INS\';\r\n\t\t\t\t\t\terro = \'create tb_nivel" +
+                "2_aux_sync_ins\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_NIVEL2_AUX_SYNC_INS" +
+                " FOR TB_EST_PROD_NIVEL2 AFTER INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV" +
+                "_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIX" +
+                "A INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA ," +
+                " OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , NEW.ID" +
+                "_NIVEL2 , \'\'TB_EST_PROD_NIVEL2\'\' , \'\'I\'\' ,:VNUMCAIXA , CURRENT_TIMESTAMP); END E" +
+                "ND;\'; \r\n\r\nerro = \'drop tb_nivel2_aux_sync_upd\';           \r\n                    " +
+                "                                                                                " +
+                "            if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_N" +
+                "IVEL2_AUX_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_NIVE" +
+                "L2_AUX_SYNC_UPD\';\r\n\t\t\t\t\t\terro = \'create tb_nivel2_aux_sync_upd\';\r\n\t\t\t\t\t\tEXECUTE " +
+                "STATEMENT \'CREATE TRIGGER TB_NIVEL2_AUX_SYNC_UPD FOR TB_EST_PROD_NIVEL2 BEFORE U" +
+                "PDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OL" +
+                "D.ID_NIVEL2 IS DISTINCT FROM new.ID_NIVEL2 OR old.DESCRICAO IS DISTINCT FROM new" +
+                ".DESCRICAO OR old.STATUS IS DISTINCT FROM new.STATUS) THEN BEGIN FOR SELECT NO_C" +
+                "AIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT" +
+                " COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_NIVEL2 AND TABELA = \'\'TB_E" +
+                "ST_PROD_NIVEL2\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUM" +
+                "CAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPE" +
+                "RACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_NIV" +
+                "EL2 , \'\'TB_EST_PROD_NIVEL2\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END" +
+                " END END;\';\r\n\r\nerro = \'drop tb_nivel2_aux_sync_del\';           \r\n               " +
+                "                                                                                " +
+                "                 if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = " +
+                "\'TB_NIVEL2_AUX_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB" +
+                "_NIVEL2_AUX_SYNC_DEL\';\r\n\t\t\t\t\t\terro = \'create tb_nivel2_aux_sync_del\';\r\n\t\t\t\t\t\tEXE" +
+                "CUTE STATEMENT \'CREATE TRIGGER TB_NIVEL2_AUX_SYNC_DEL FOR TB_EST_PROD_NIVEL2 BEF" +
+                "ORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN F" +
+                "OR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGI" +
+                "N INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS" +
+                "_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_NIVEL2 , \'\'TB_EST_PROD_N" +
+                "IVEL2\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\nerro = \'deu ce" +
+                "rto\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[11].Connection = this.Connection;
