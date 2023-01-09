@@ -1624,7 +1624,7 @@ namespace PDV_WPF.Telas
                 try
                 {
                     log.Debug("Procurando por referência");
-                    object objItemEncontrado_with_ref = mvm.LstProdutos.First(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
+                    object objItemEncontrado_with_ref = mvm.LstProdutos.FirstOrDefault(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
                     if (objItemEncontrado_with_ref != null)
                     {
                         log.Debug("Encontrou um item pela referência");
