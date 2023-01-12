@@ -57,6 +57,7 @@ namespace PDV_WPF.Telas
         private static extern bool IsIconic(IntPtr handle);
 
         private const int SW_RESTORE = 9;
+        private const bool V = false;
 
         #region Block System Keys
         private static bool allowkeys;
@@ -693,7 +694,7 @@ namespace PDV_WPF.Telas
                 {
                     return;
                 }
-
+                AbreGavetaDLL();
                 var ss = new SangSupr();
                 ss.ShowDialog();
                 using var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter();
@@ -1973,8 +1974,7 @@ namespace PDV_WPF.Telas
                 {
                     if (IMPRESSORA_USB != "Nenhuma")
                     {
-                        PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
-                        PrintFunc.PrintaSpooler();
+                        AbreGavetaDLL();
                     }
                     log.Debug($"Abrindo novo FechamentoCaixa" + udx_pdv_oper.timestamp.ToString());
                     var fc = new FechamentoCaixa(udx_pdv_oper.timestamp);
@@ -2496,10 +2496,13 @@ namespace PDV_WPF.Telas
                         if (metodo.strCfePgto == "05")
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.vencimento, fechamento.id_cliente);
                         else if (metodo.strCfePgto == "01")
+                        {
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.troco);
+                            AbreGavetaDLL();
+                        }
                         else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && USATEF)
                         {
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'),  metodo.vlrPgto, metodo.idAdm);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
                         }
                         else
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
@@ -2887,13 +2890,13 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
-                    if (FORÇA_GAVETA) AbreGaveta();
+                    if (FORÇA_GAVETA) AbreGavetaSPOOLER();
                     break;
 
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
-                        ultimaImpressao = VendaDEMO.IMPRIME(venda_prazo, cFeDeRetorno);
+                        ultimaImpressao = VendaDEMO.IMPRIME(venda_prazo, cFeDeRetorno);                        
                         if (vendaAtual.imprimeViaAssinar)
                         {
                             VendaDEMO.IMPRIME(1);
@@ -4092,7 +4095,7 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
-                    if (FORÇA_GAVETA) AbreGaveta();
+                    if (FORÇA_GAVETA) AbreGavetaSPOOLER();
                     break;
 
                 case DecisaoWhats.ImpressaoNormal:
@@ -6411,7 +6414,7 @@ namespace PDV_WPF.Telas
                     {
                         if (IMPRESSORA_USB != "Nenhuma")
                         {
-                            AbreGaveta();
+                            AbreGavetaDLL();                              
                         }
                         else if (ECF_ATIVA)
                         {
