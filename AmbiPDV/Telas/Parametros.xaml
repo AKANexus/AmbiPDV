@@ -114,12 +114,19 @@
 
 
         </GroupBox>
-        <GroupBox Header="Cadastros" Margin="10,0" Height="61" Visibility="Visible">
+        <GroupBox Header="Cadastros" Margin="10,0" Height="61" Visibility="Collapsed">
             <StackPanel Orientation="Horizontal">
                 <Button Name="but_Metodos" Content="Métodos de Pagamento" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0" Click="MetodosPgto_click" Height="23"/>
             </StackPanel>
-
         </GroupBox>
+
+        <GroupBox Header="Gaveta $" Margin="10,0" Height="61" Visibility="Visible">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Abertura de gaveta via DLL?" Margin="10,12,0,0"/>
+                <RadioButton Content="Abertura de gaveta via SPOOLER?" Margin="100,12,0,0" Click="AbreGaveta_spooler"/>
+            </StackPanel>
+        </GroupBox>
+
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="68,10,67,10" Height="41">
             <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
                 <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>

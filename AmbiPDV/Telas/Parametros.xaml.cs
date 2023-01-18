@@ -89,7 +89,10 @@ namespace PDV_WPF
                 DialogBox.Show("Configurações do sistema", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "O caixa está aberto e/ou em contingência. Não será possível alterar métodos de pagamento agora.");
             }
         }
-
+        private void AbreGaveta_spooler(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Confira nas configurações da impressora se a opção\n 'Abre gaveta' está devidamente habilitada!", "Aviso", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
         private void chk_Bloqueia_Limite_Checked(object sender, RoutedEventArgs e)
         {
             txb_Valor_Folga.IsEnabled = true;

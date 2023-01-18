@@ -255,7 +255,6 @@ namespace PDV_WPF.Telas
         }
 
         private void ProcessarMetodoDePagamento()
-
         {
             int.TryParse(txb_parcelas.Text, out int parcelas);
             if (parcelas <= 0) parcelas = 1;

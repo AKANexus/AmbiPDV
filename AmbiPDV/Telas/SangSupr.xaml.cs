@@ -185,8 +185,13 @@ namespace PDV_WPF.Telas
                             MessageBox.Show(ex.Message);
                             return;
                         }
-                        SANSUP.IMPRIME();//Imprime a primeira via,
-                        SANSUP.IMPRIME();//e a segunda.
+                        var via = SANSUP.IMPRIME();//Imprime a primeira via,
+                        var viadois = SANSUP.IMPRIME();//e a segunda.
+
+                        if (!via || !viadois)
+                        {
+                            DialogBox.Show("Sangria/Suprimento", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "A impressão falhou, porém o suprimento FOI contabilizado.", "Sr(a). Operador(a), favor anotar o valor do suprimento efetuado.", $"Suprimento: {SANSUP.valor:C2}.");
+                        }
                         this.Close();
                         break;
                     }
