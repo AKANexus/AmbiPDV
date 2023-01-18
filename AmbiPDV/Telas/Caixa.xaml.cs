@@ -694,7 +694,18 @@ namespace PDV_WPF.Telas
                 {
                     return;
                 }
-                AbreGavetaDLL();
+                switch(ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
+                {
+                    case 0:
+                        AbreGavetaSPOOLER();
+                        break;
+                    case 1:
+                        AbreGavetaDLL();
+                        break;
+                    default:
+                        AbreGavetaSPOOLER();
+                        break;
+                }
                 var ss = new SangSupr();
                 ss.ShowDialog();
                 using var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter();
@@ -1974,7 +1985,18 @@ namespace PDV_WPF.Telas
                 {
                     if (IMPRESSORA_USB != "Nenhuma")
                     {
-                        AbreGavetaDLL();
+                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
+                        {
+                            case 0:
+                                AbreGavetaSPOOLER();
+                                break;
+                            case 1:
+                                AbreGavetaDLL();
+                                break;
+                            default:
+                                AbreGavetaSPOOLER();
+                                break;
+                        }
                     }
                     log.Debug($"Abrindo novo FechamentoCaixa" + udx_pdv_oper.timestamp.ToString());
                     var fc = new FechamentoCaixa(udx_pdv_oper.timestamp);
@@ -2498,7 +2520,7 @@ namespace PDV_WPF.Telas
                         else if (metodo.strCfePgto == "01")
                         {
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.troco);
-                            AbreGavetaDLL();
+                            if(ACFILLPREFIX == 1) AbreGavetaDLL();
                         }
                         else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && USATEF)
                         {
@@ -2890,7 +2912,21 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
-                    if (FORÇA_GAVETA) AbreGavetaSPOOLER();
+                    if (FORÇA_GAVETA)
+                    {
+                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
+                        {
+                            case 0:
+                                AbreGavetaSPOOLER();
+                                break;
+                            case 1:
+                                AbreGavetaDLL();
+                                break;
+                            default:
+                                AbreGavetaSPOOLER();
+                                break;
+                        }
+                    }
                     break;
 
                 case DecisaoWhats.ImpressaoNormal:
@@ -4095,9 +4131,22 @@ namespace PDV_WPF.Telas
                     break;
                 case DecisaoWhats.NaoImprime:
                     vendaAtual.imprimeViaCliente = false;
-                    if (FORÇA_GAVETA) AbreGavetaSPOOLER();
+                    if (FORÇA_GAVETA)
+                    {
+                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
+                        {
+                            case 0:
+                                AbreGavetaSPOOLER();
+                                break;
+                            case 1:
+                                AbreGavetaDLL();
+                                break;
+                            default:
+                                AbreGavetaSPOOLER();
+                                break;
+                        }
+                    }
                     break;
-
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
@@ -6414,7 +6463,18 @@ namespace PDV_WPF.Telas
                     {
                         if (IMPRESSORA_USB != "Nenhuma")
                         {
-                            AbreGavetaDLL();                              
+                            switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
+                            {
+                                case 0:
+                                    AbreGavetaSPOOLER();
+                                    break;
+                                case 1:
+                                    AbreGavetaDLL();
+                                    break;
+                                default:
+                                    AbreGavetaSPOOLER();
+                                    break;
+                            }
                         }
                         else if (ECF_ATIVA)
                         {

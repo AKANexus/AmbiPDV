@@ -731,5 +731,4 @@ namespace PDV_WPF.Funcoes
         [DllImport(@"DLL_PRINTERS\InterfaceEpsonNF.dll", CallingConvention = CallingConvention.StdCall)]
         internal static extern int FechaPorta();       
     }
-
 }
