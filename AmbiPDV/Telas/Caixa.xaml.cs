@@ -41,6 +41,7 @@ using static PDV_WPF.Funcoes.SiTEFDLL;
 using static PDV_WPF.Funcoes.Statics;
 using ECF = PDV_WPF.FuncoesECF;
 using WinForms = System.Windows.Forms;
+using PDV_WPF.DataSets;
 
 namespace PDV_WPF.Telas
 {
@@ -5213,6 +5214,7 @@ namespace PDV_WPF.Telas
                 {
                     PedirVendedor();
                 }
+                vendaAtual.VerificaScannTech();
                 vendaAtual.AplicaPrecoAtacado();
                 FinalizarVendaNovo();
             }
@@ -5257,6 +5259,7 @@ namespace PDV_WPF.Telas
             }
             try
             {
+                vendaAtual.VerificaScannTech();
                 vendaAtual.AplicaPrecoAtacado();
                 FinalizarVendaNovo();
             }
@@ -5279,8 +5282,8 @@ namespace PDV_WPF.Telas
             if (dadosDoItem is null)
             {
                 throw new Exception("dadosDoItem era vazio");
-            }
-
+            }           
+            
             //using var dadosDoItem = new DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMDataTable();
             //log.Debug("Executando obtemDadosdoItem.Fill");
             //using (var obtemdadosdoitem = new SP_TRI_OBTEMDADOSDOITEMTableAdapter())
@@ -5378,7 +5381,8 @@ namespace PDV_WPF.Telas
                                         pQuant,
                                         dadosDoItem.COD_BARRA,
                                         famiglia,
-                                        importadoKit);
+                                        importadoKit,
+                                        dadosDoItem.ID_SCANNTECH);
                 log.Debug("vendaAtual.RecebeNovoProduto concluído");
                 switch (dadosDoItem.RID_TIPOITEM == "9")
                 {

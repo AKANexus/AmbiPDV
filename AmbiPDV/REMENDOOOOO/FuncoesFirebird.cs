@@ -5,6 +5,7 @@ using System.Linq;
 using FirebirdSql.Data.FirebirdClient;
 using DateTime = System.DateTime;
 using PDV_WPF.DataSets;
+using static PDV_WPF.Funcoes.Statics;
 
 namespace PDV_WPF.REMENDOOOOO
 {
@@ -167,7 +168,7 @@ namespace PDV_WPF.REMENDOOOOO
 
             try
             {
-                infoDoItem.Load(command.ExecuteReader());
+                infoDoItem.Load(command.ExecuteReader());                
             }
             finally
             {
@@ -180,29 +181,38 @@ namespace PDV_WPF.REMENDOOOOO
             }
             else
             {
-                var row = infoDoItem.Rows[0];
-                return new DadosDoItem
+                using (var taPromoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOES_ITENSTableAdapter())
                 {
-                    DESCRICAO = row["DESCRICAO"] is DBNull ? "ITEM AVULSO" : row["DESCRICAO"] as string ?? "ITEM AVULSO",
-                    CFOP = row["CFOP"] is DBNull ? "5102" : row["CFOP"] as string ?? "5102",
-                    UNI_MEDIDA = row["UNI_MEDIDA"] is DBNull ? "UN" : row["UNI_MEDIDA"] as string ?? "UN",
-                    COD_NCM = row["COD_NCM"] is DBNull ? "00" : row["COD_NCM"] as string ?? "00",
-                    COD_BARRA = row["COD_BARRA"] is DBNull ? string.Empty : row["COD_BARRA"] as string ?? string.Empty,
-                    RCSOSN_CFE = row["CSOSN_CFE"] is DBNull ? string.Empty : row["CSOSN_CFE"] as string ?? string.Empty,
-                    RCST_CFE = row["CST_CFE"] is DBNull ? string.Empty : row["CST_CFE"] as string ?? string.Empty,
-                    RCST_PIS = row["CST_PIS"] is DBNull ? string.Empty : row["CST_PIS"] as string ?? string.Empty,
-                    RCST_COFINS = row["CST_COFINS"] is DBNull ? string.Empty : row["CST_COFINS"] as string ?? string.Empty,
-                    RPIS = row["PIS"] is DBNull ? 0 : row["PIS"] as decimal? ?? 0,
-                    RCOFINS = row["COFINS"] is DBNull ? 0 : row["COFINS"] as decimal? ?? 0,
-                    RUF_SP = row["RUF_SP"] is DBNull ? 0 : row["RUF_SP"] as decimal? ?? 0,
-                    RBASE_ICMS = row["RBASE_ICMS"] is DBNull ? 0 : row["RBASE_ICMS"] as decimal? ?? 0,
-                    RALIQ_ISS = row["RALIQ_ISS"] is DBNull ? 0 : row["RALIQ_ISS"] as decimal? ?? 0,
-                    RID_TIPOITEM = row["ID_TIPOITEM"] is DBNull ? "0" : row["ID_TIPOITEM"] as string ?? "0",
-                    RSTR_CEST = row["COD_CEST"] is DBNull ? string.Empty : row["COD_CEST"] as string ?? string.Empty,
-                    OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty,
-                    COR = row["COR"] is DBNull ? string.Empty : " - " + row["COR"] ?? string.Empty,
-                    TAMANHO = row["TAMANHO"] is DBNull ? string.Empty : " / " + row["TAMANHO"] ?? string.Empty
-                };
+                    var row = infoDoItem.Rows[0];
+
+                    taPromoServ.Connection = connection;
+                    string parametro = row["COD_BARRA"].ToString();
+                    int? idScannTech = (int?)taPromoServ.ScalarByCod(parametro); //gambiarraa da poha mas fodace                    
+                                                                                             
+                    return new DadosDoItem
+                    {
+                        DESCRICAO = row["DESCRICAO"] is DBNull ? "ITEM AVULSO" : row["DESCRICAO"] as string ?? "ITEM AVULSO",
+                        CFOP = row["CFOP"] is DBNull ? "5102" : row["CFOP"] as string ?? "5102",
+                        UNI_MEDIDA = row["UNI_MEDIDA"] is DBNull ? "UN" : row["UNI_MEDIDA"] as string ?? "UN",
+                        COD_NCM = row["COD_NCM"] is DBNull ? "00" : row["COD_NCM"] as string ?? "00",
+                        COD_BARRA = row["COD_BARRA"] is DBNull ? string.Empty : row["COD_BARRA"] as string ?? string.Empty,
+                        RCSOSN_CFE = row["CSOSN_CFE"] is DBNull ? string.Empty : row["CSOSN_CFE"] as string ?? string.Empty,
+                        RCST_CFE = row["CST_CFE"] is DBNull ? string.Empty : row["CST_CFE"] as string ?? string.Empty,
+                        RCST_PIS = row["CST_PIS"] is DBNull ? string.Empty : row["CST_PIS"] as string ?? string.Empty,
+                        RCST_COFINS = row["CST_COFINS"] is DBNull ? string.Empty : row["CST_COFINS"] as string ?? string.Empty,
+                        RPIS = row["PIS"] is DBNull ? 0 : row["PIS"] as decimal? ?? 0,
+                        RCOFINS = row["COFINS"] is DBNull ? 0 : row["COFINS"] as decimal? ?? 0,
+                        RUF_SP = row["RUF_SP"] is DBNull ? 0 : row["RUF_SP"] as decimal? ?? 0,
+                        RBASE_ICMS = row["RBASE_ICMS"] is DBNull ? 0 : row["RBASE_ICMS"] as decimal? ?? 0,
+                        RALIQ_ISS = row["RALIQ_ISS"] is DBNull ? 0 : row["RALIQ_ISS"] as decimal? ?? 0,
+                        RID_TIPOITEM = row["ID_TIPOITEM"] is DBNull ? "0" : row["ID_TIPOITEM"] as string ?? "0",
+                        RSTR_CEST = row["COD_CEST"] is DBNull ? string.Empty : row["COD_CEST"] as string ?? string.Empty,
+                        OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty,
+                        COR = row["COR"] is DBNull ? string.Empty : " - " + row["COR"] ?? string.Empty,
+                        TAMANHO = row["TAMANHO"] is DBNull ? string.Empty : " / " + row["TAMANHO"] ?? string.Empty,
+                        ID_SCANNTECH = idScannTech
+                    };
+                }
             }
         }
 
@@ -616,5 +626,6 @@ public class DadosDoItem
     public string OBSERVACAO { get; set; }
     public string COR { get; set; }
     public string TAMANHO { get; set; }
+    public int?  ID_SCANNTECH { get; set; }
 }
 

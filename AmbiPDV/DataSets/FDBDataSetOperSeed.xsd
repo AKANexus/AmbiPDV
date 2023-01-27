@@ -1686,7 +1686,7 @@ WHERE        (ID_IDENTIFICADOR = @Param2)</CommandText>
               <Mapping SourceColumn="STATUS" DataSetColumn="STATUS" />
             </Mappings>
             <Sources>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_EST_PROD_NIVEL1" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNivel1" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByNivel1" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillByNivel1">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_EST_PROD_NIVEL1" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNivel1" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByNivel1" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillByNivel1">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT ID_NIVEL1, DESCRICAO, STATUS FROM TB_EST_PROD_NIVEL1 WHERE (ID_NIVEL1 = @param)</CommandText>
@@ -1696,7 +1696,7 @@ WHERE        (ID_IDENTIFICADOR = @Param2)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateQuery" Modifier="Public" Name="UpdateQuery" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="UpdateQuery">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateQuery" Modifier="Public" Name="UpdateQuery" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="UpdateQuery">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>UPDATE TB_EST_PROD_NIVEL1 
@@ -1764,7 +1764,7 @@ WHERE (ID_NIVEL1 = @ID_NIVEL1)</CommandText>
               <Mapping SourceColumn="STATUS" DataSetColumn="STATUS" />
             </Mappings>
             <Sources>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_EST_PROD_NIVEL2" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNivel2" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByNivel2" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillByNivel2">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_EST_PROD_NIVEL2" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByNivel2" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByNivel2" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillByNivel2">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT ID_NIVEL2, DESCRICAO, STATUS FROM TB_EST_PROD_NIVEL2 WHERE (ID_NIVEL2 = @param)</CommandText>
@@ -1774,7 +1774,7 @@ WHERE (ID_NIVEL1 = @ID_NIVEL1)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateQuery" Modifier="Public" Name="UpdateQuery" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="UpdateQuery">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="UpdateQuery" Modifier="Public" Name="UpdateQuery" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="UpdateQuery">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>UPDATE TB_EST_PROD_NIVEL2
@@ -4093,6 +4093,253 @@ SET ID_IDENTIFICADOR = @ID_IDENTIFICADOR, ID_KIT = @ID_KIT, QTD_ITEM = @QTD_ITEM
               </DbSource>
             </Sources>
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TB_PROMOCOESTableAdapter" GeneratorDataComponentClassName="TB_PROMOCOESTableAdapter" Name="TB_PROMOCOES" UserDataComponentName="TB_PROMOCOESTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_PROMOCOES" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Fill" GenerateShortCommands="false" GeneratorSourceName="Fill" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "TB_PROMOCOES" WHERE (("ID" = @Original_ID) AND ((@IsNull_QTD = 1 AND "QTD" IS NULL) OR ("QTD" = @Original_QTD)) AND ((@IsNull_TIPO = 1 AND "TIPO" IS NULL) OR ("TIPO" = @Original_TIPO)) AND ((@IsNull_DET = 1 AND "DET" IS NULL) OR ("DET" = @Original_DET)) AND ((@IsNull_LIMITE = 1 AND "LIMITE" IS NULL) OR ("LIMITE" = @Original_LIMITE)) AND ((@IsNull_INICIO = 1 AND "INICIO" IS NULL) OR ("INICIO" = @Original_INICIO)) AND ((@IsNull_FIM = 1 AND "FIM" IS NULL) OR ("FIM" = @Original_FIM)) AND ((@IsNull_REJEITADA = 1 AND "REJEITADA" IS NULL) OR ("REJEITADA" = @Original_REJEITADA)) AND ((@IsNull_SCANNTECH = 1 AND "SCANNTECH" IS NULL) OR ("SCANNTECH" = @Original_SCANNTECH)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_QTD" Precision="0" Scale="0" Size="8" SourceColumn="QTD" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@Original_QTD" Precision="0" Scale="0" Size="8" SourceColumn="QTD" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_TIPO" Precision="0" Scale="0" Size="20" SourceColumn="TIPO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_TIPO" Precision="0" Scale="0" Size="20" SourceColumn="TIPO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_DET" Precision="0" Scale="0" Size="8" SourceColumn="DET" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@Original_DET" Precision="0" Scale="0" Size="8" SourceColumn="DET" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_LIMITE" Precision="0" Scale="0" Size="4" SourceColumn="LIMITE" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_LIMITE" Precision="0" Scale="0" Size="4" SourceColumn="LIMITE" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="INICIO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="INICIO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_FIM" Precision="0" Scale="0" Size="4" SourceColumn="FIM" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_FIM" Precision="0" Scale="0" Size="4" SourceColumn="FIM" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_REJEITADA" Precision="0" Scale="0" Size="4" SourceColumn="REJEITADA" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_REJEITADA" Precision="0" Scale="0" Size="4" SourceColumn="REJEITADA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumn="SCANNTECH" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumn="SCANNTECH" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO "TB_PROMOCOES" ("ID", "QTD", "TIPO", "DET", "LIMITE", "INICIO", "FIM", "REJEITADA", "SCANNTECH") VALUES (@ID, @QTD, @TIPO, @DET, @LIMITE, @INICIO, @FIM, @REJEITADA, @SCANNTECH)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@QTD" Precision="0" Scale="0" Size="8" SourceColumn="QTD" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@TIPO" Precision="0" Scale="0" Size="20" SourceColumn="TIPO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@DET" Precision="0" Scale="0" Size="8" SourceColumn="DET" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@LIMITE" Precision="0" Scale="0" Size="4" SourceColumn="LIMITE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@INICIO" Precision="0" Scale="0" Size="4" SourceColumn="INICIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@FIM" Precision="0" Scale="0" Size="4" SourceColumn="FIM" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@REJEITADA" Precision="0" Scale="0" Size="4" SourceColumn="REJEITADA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumn="SCANNTECH" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM TB_PROMOCOES</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "TB_PROMOCOES" SET "ID" = @ID, "QTD" = @QTD, "TIPO" = @TIPO, "DET" = @DET, "LIMITE" = @LIMITE, "INICIO" = @INICIO, "FIM" = @FIM, "REJEITADA" = @REJEITADA, "SCANNTECH" = @SCANNTECH WHERE (("ID" = @Original_ID) AND ((@IsNull_QTD = 1 AND "QTD" IS NULL) OR ("QTD" = @Original_QTD)) AND ((@IsNull_TIPO = 1 AND "TIPO" IS NULL) OR ("TIPO" = @Original_TIPO)) AND ((@IsNull_DET = 1 AND "DET" IS NULL) OR ("DET" = @Original_DET)) AND ((@IsNull_LIMITE = 1 AND "LIMITE" IS NULL) OR ("LIMITE" = @Original_LIMITE)) AND ((@IsNull_INICIO = 1 AND "INICIO" IS NULL) OR ("INICIO" = @Original_INICIO)) AND ((@IsNull_FIM = 1 AND "FIM" IS NULL) OR ("FIM" = @Original_FIM)) AND ((@IsNull_REJEITADA = 1 AND "REJEITADA" IS NULL) OR ("REJEITADA" = @Original_REJEITADA)) AND ((@IsNull_SCANNTECH = 1 AND "SCANNTECH" IS NULL) OR ("SCANNTECH" = @Original_SCANNTECH)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@QTD" Precision="0" Scale="0" Size="8" SourceColumn="QTD" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@TIPO" Precision="0" Scale="0" Size="20" SourceColumn="TIPO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@DET" Precision="0" Scale="0" Size="8" SourceColumn="DET" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@LIMITE" Precision="0" Scale="0" Size="4" SourceColumn="LIMITE" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@INICIO" Precision="0" Scale="0" Size="4" SourceColumn="INICIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@FIM" Precision="0" Scale="0" Size="4" SourceColumn="FIM" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@REJEITADA" Precision="0" Scale="0" Size="4" SourceColumn="REJEITADA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumn="SCANNTECH" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_QTD" Precision="0" Scale="0" Size="8" SourceColumn="QTD" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@Original_QTD" Precision="0" Scale="0" Size="8" SourceColumn="QTD" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_TIPO" Precision="0" Scale="0" Size="20" SourceColumn="TIPO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_TIPO" Precision="0" Scale="0" Size="20" SourceColumn="TIPO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_DET" Precision="0" Scale="0" Size="8" SourceColumn="DET" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="@Original_DET" Precision="0" Scale="0" Size="8" SourceColumn="DET" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_LIMITE" Precision="0" Scale="0" Size="4" SourceColumn="LIMITE" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_LIMITE" Precision="0" Scale="0" Size="4" SourceColumn="LIMITE" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="INICIO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_INICIO" Precision="0" Scale="0" Size="4" SourceColumn="INICIO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_FIM" Precision="0" Scale="0" Size="4" SourceColumn="FIM" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_FIM" Precision="0" Scale="0" Size="4" SourceColumn="FIM" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_REJEITADA" Precision="0" Scale="0" Size="4" SourceColumn="REJEITADA" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_REJEITADA" Precision="0" Scale="0" Size="4" SourceColumn="REJEITADA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumn="SCANNTECH" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumn="SCANNTECH" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="QTD" DataSetColumn="QTD" />
+              <Mapping SourceColumn="TIPO" DataSetColumn="TIPO" />
+              <Mapping SourceColumn="DET" DataSetColumn="DET" />
+              <Mapping SourceColumn="LIMITE" DataSetColumn="LIMITE" />
+              <Mapping SourceColumn="INICIO" DataSetColumn="INICIO" />
+              <Mapping SourceColumn="FIM" DataSetColumn="FIM" />
+              <Mapping SourceColumn="REJEITADA" DataSetColumn="REJEITADA" />
+              <Mapping SourceColumn="SCANNTECH" DataSetColumn="SCANNTECH" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_PROMOCOES" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT ID, QTD, TIPO, DET, LIMITE, INICIO, FIM, REJEITADA, SCANNTECH FROM TB_PROMOCOES WHERE (ID = @param)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="param" ColumnName="ID" DataSourceName="TB_PROMOCOES" DataTypeServer="DbType.Int32(4)" DbType="Int32" Direction="Input" ParameterName="@param" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_PROMOCOES_UPSERT&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_PROMOCOES_UPSERT" Modifier="Public" Name="SP_TRI_PROMOCOES_UPSERT" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="SP_TRI_PROMOCOES_UPSERT">
+                <SelectCommand>
+                  <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                    <CommandText>"SP_TRI_PROMOCOES_UPSERT"</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="PID" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="PQTD" Precision="15" Scale="2" Size="8" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="PTIPO" Precision="0" Scale="0" Size="20" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Decimal" Direction="Input" ParameterName="PDET" Precision="15" Scale="2" Size="8" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="PLIMITE" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="PINICIO" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="DateTime" Direction="Input" ParameterName="PFIM" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="P_REJEITADA" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="PSCANNTECH" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="P_EXECUTA" Precision="0" Scale="0" Size="1" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TB_PROMOCOES_ITENSTableAdapter" GeneratorDataComponentClassName="TB_PROMOCOES_ITENSTableAdapter" Name="TB_PROMOCOES_ITENS" UserDataComponentName="TB_PROMOCOES_ITENSTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_PROMOCOES_ITENS" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Fill" GenerateShortCommands="false" GeneratorSourceName="Fill" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "TB_PROMOCOES_ITENS" WHERE (("ID" = @Original_ID) AND ((@IsNull_IDPROMOCAO = 1 AND "IDPROMOCAO" IS NULL) OR ("IDPROMOCAO" = @Original_IDPROMOCAO)) AND ((@IsNull_PRODUTONOME = 1 AND "PRODUTONOME" IS NULL) OR ("PRODUTONOME" = @Original_PRODUTONOME)) AND ((@IsNull_CODIGOBARRAS = 1 AND "CODIGOBARRAS" IS NULL) OR ("CODIGOBARRAS" = @Original_CODIGOBARRAS)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_IDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumn="IDPROMOCAO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_IDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumn="IDPROMOCAO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_PRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumn="PRODUTONOME" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_PRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumn="PRODUTONOME" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_CODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_CODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO "TB_PROMOCOES_ITENS" ("ID", "IDPROMOCAO", "PRODUTONOME", "CODIGOBARRAS") VALUES (@ID, @IDPROMOCAO, @PRODUTONOME, @CODIGOBARRAS)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumn="IDPROMOCAO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@PRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumn="PRODUTONOME" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@CODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM TB_PROMOCOES_ITENS</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "TB_PROMOCOES_ITENS" SET "ID" = @ID, "IDPROMOCAO" = @IDPROMOCAO, "PRODUTONOME" = @PRODUTONOME, "CODIGOBARRAS" = @CODIGOBARRAS WHERE (("ID" = @Original_ID) AND ((@IsNull_IDPROMOCAO = 1 AND "IDPROMOCAO" IS NULL) OR ("IDPROMOCAO" = @Original_IDPROMOCAO)) AND ((@IsNull_PRODUTONOME = 1 AND "PRODUTONOME" IS NULL) OR ("PRODUTONOME" = @Original_PRODUTONOME)) AND ((@IsNull_CODIGOBARRAS = 1 AND "CODIGOBARRAS" IS NULL) OR ("CODIGOBARRAS" = @Original_CODIGOBARRAS)))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumn="IDPROMOCAO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@PRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumn="PRODUTONOME" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@CODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_IDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumn="IDPROMOCAO" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_IDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumn="IDPROMOCAO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_PRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumn="PRODUTONOME" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_PRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumn="PRODUTONOME" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@IsNull_CODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="true" SourceVersion="Original" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_CODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID" DataSetColumn="ID" />
+              <Mapping SourceColumn="IDPROMOCAO" DataSetColumn="IDPROMOCAO" />
+              <Mapping SourceColumn="PRODUTONOME" DataSetColumn="PRODUTONOME" />
+              <Mapping SourceColumn="CODIGOBARRAS" DataSetColumn="CODIGOBARRAS" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_PROMOCOES_ITENS" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillById">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT ID, IDPROMOCAO, PRODUTONOME, CODIGOBARRAS FROM TB_PROMOCOES_ITENS WHERE (ID = @param) </CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="param" ColumnName="ID" DataSourceName="TB_PROMOCOES_ITENS" DataTypeServer="DbType.Int32(4)" DbType="Int32" Direction="Input" ParameterName="@param" Precision="0" Scale="0" Size="4" SourceColumn="ID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="ScalarByCod" Modifier="Public" Name="ScalarByCod" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="ScalarByCod">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT MIN(IDPROMOCAO) FROM TB_PROMOCOES_ITENS TPI
+JOIN TB_PROMOCOES TP ON TPI.IDPROMOCAO = TP.ID 
+WHERE CURRENT_DATE BETWEEN INICIO AND FIM AND REJEITADA = 0 AND (CODIGOBARRAS = @param)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="param" ColumnName="CODIGOBARRAS" DataSourceName="TB_PROMOCOES_ITENS" DataTypeServer="DbType.String(18)" DbType="String" Direction="Input" ParameterName="@param" Precision="0" Scale="0" Size="18" SourceColumn="CODIGOBARRAS" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_PROMOCOES_ITENS_UPSERT&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_PROMOCOES_ITENS_UPSERT" Modifier="Public" Name="SP_TRI_PROMOCOES_ITENS_UPSERT" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="SP_TRI_PROMOCOES_ITENS_UPSERT">
+                <SelectCommand>
+                  <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                    <CommandText>"SP_TRI_PROMOCOES_ITENS_UPSERT"</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="PID" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="PIDPROMOCAO" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="PPRODUTONOME" Precision="0" Scale="0" Size="150" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="PCODIGOBARRAS" Precision="0" Scale="0" Size="18" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="P_EXECUTA" Precision="0" Scale="0" Size="1" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </Sources>
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="SP_TRI_OBTEMPROMOSCANNTECHTableAdapter" GeneratorDataComponentClassName="SP_TRI_OBTEMPROMOSCANNTECHTableAdapter" Name="SP_TRI_OBTEMPROMOSCANNTECH" UserDataComponentName="SP_TRI_OBTEMPROMOSCANNTECHTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_OBTEMPROMOSCANNTECH&quot;" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Fill" GenerateShortCommands="false" GeneratorSourceName="Fill" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
+                    <CommandText>"SP_TRI_OBTEMPROMOSCANNTECH"</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="ID_SCANNTECH" Precision="0" Scale="0" Size="4" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="QTD" DataSetColumn="QTD" />
+              <Mapping SourceColumn="TIPO" DataSetColumn="TIPO" />
+              <Mapping SourceColumn="DET" DataSetColumn="DET" />
+              <Mapping SourceColumn="LIMITE" DataSetColumn="LIMITE" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -6260,6 +6507,65 @@ SET ID_IDENTIFICADOR = @ID_IDENTIFICADOR, ID_KIT = @ID_KIT, QTD_ITEM = @QTD_ITEM
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TB_PROMOCOES" msprop:Generator_TableClassName="TB_PROMOCOESDataTable" msprop:Generator_TableVarName="tableTB_PROMOCOES" msprop:Generator_RowChangedName="TB_PROMOCOESRowChanged" msprop:Generator_TablePropName="TB_PROMOCOES" msprop:Generator_RowDeletingName="TB_PROMOCOESRowDeleting" msprop:Generator_RowChangingName="TB_PROMOCOESRowChanging" msprop:Generator_RowEvHandlerName="TB_PROMOCOESRowChangeEventHandler" msprop:Generator_RowDeletedName="TB_PROMOCOESRowDeleted" msprop:Generator_RowClassName="TB_PROMOCOESRow" msprop:Generator_UserTableName="TB_PROMOCOES" msprop:Generator_RowEvArgName="TB_PROMOCOESRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
+              <xs:element name="QTD" msprop:Generator_ColumnVarNameInTable="columnQTD" msprop:Generator_ColumnPropNameInRow="QTD" msprop:Generator_ColumnPropNameInTable="QTDColumn" msprop:Generator_UserColumnName="QTD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TIPO" msprop:Generator_ColumnVarNameInTable="columnTIPO" msprop:Generator_ColumnPropNameInRow="TIPO" msprop:Generator_ColumnPropNameInTable="TIPOColumn" msprop:Generator_UserColumnName="TIPO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DET" msprop:Generator_ColumnVarNameInTable="columnDET" msprop:Generator_ColumnPropNameInRow="DET" msprop:Generator_ColumnPropNameInTable="DETColumn" msprop:Generator_UserColumnName="DET" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LIMITE" msprop:Generator_ColumnVarNameInTable="columnLIMITE" msprop:Generator_ColumnPropNameInRow="LIMITE" msprop:Generator_ColumnPropNameInTable="LIMITEColumn" msprop:Generator_UserColumnName="LIMITE" type="xs:int" minOccurs="0" />
+              <xs:element name="INICIO" msprop:Generator_ColumnVarNameInTable="columnINICIO" msprop:Generator_ColumnPropNameInRow="INICIO" msprop:Generator_ColumnPropNameInTable="INICIOColumn" msprop:Generator_UserColumnName="INICIO" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="FIM" msprop:Generator_ColumnVarNameInTable="columnFIM" msprop:Generator_ColumnPropNameInRow="FIM" msprop:Generator_ColumnPropNameInTable="FIMColumn" msprop:Generator_UserColumnName="FIM" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="REJEITADA" msprop:Generator_ColumnVarNameInTable="columnREJEITADA" msprop:Generator_ColumnPropNameInRow="REJEITADA" msprop:Generator_ColumnPropNameInTable="REJEITADAColumn" msprop:Generator_UserColumnName="REJEITADA" type="xs:int" minOccurs="0" />
+              <xs:element name="SCANNTECH" msprop:Generator_ColumnVarNameInTable="columnSCANNTECH" msprop:Generator_ColumnPropNameInRow="SCANNTECH" msprop:Generator_ColumnPropNameInTable="SCANNTECHColumn" msprop:Generator_UserColumnName="SCANNTECH" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="TB_PROMOCOES_ITENS" msprop:Generator_TableClassName="TB_PROMOCOES_ITENSDataTable" msprop:Generator_TableVarName="tableTB_PROMOCOES_ITENS" msprop:Generator_RowChangedName="TB_PROMOCOES_ITENSRowChanged" msprop:Generator_TablePropName="TB_PROMOCOES_ITENS" msprop:Generator_RowDeletingName="TB_PROMOCOES_ITENSRowDeleting" msprop:Generator_RowChangingName="TB_PROMOCOES_ITENSRowChanging" msprop:Generator_RowEvHandlerName="TB_PROMOCOES_ITENSRowChangeEventHandler" msprop:Generator_RowDeletedName="TB_PROMOCOES_ITENSRowDeleted" msprop:Generator_RowClassName="TB_PROMOCOES_ITENSRow" msprop:Generator_UserTableName="TB_PROMOCOES_ITENS" msprop:Generator_RowEvArgName="TB_PROMOCOES_ITENSRowChangeEvent">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID" msprop:Generator_ColumnVarNameInTable="columnID" msprop:Generator_ColumnPropNameInRow="ID" msprop:Generator_ColumnPropNameInTable="IDColumn" msprop:Generator_UserColumnName="ID" type="xs:int" />
+              <xs:element name="IDPROMOCAO" msprop:Generator_ColumnVarNameInTable="columnIDPROMOCAO" msprop:Generator_ColumnPropNameInRow="IDPROMOCAO" msprop:Generator_ColumnPropNameInTable="IDPROMOCAOColumn" msprop:Generator_UserColumnName="IDPROMOCAO" type="xs:int" minOccurs="0" />
+              <xs:element name="PRODUTONOME" msprop:Generator_ColumnVarNameInTable="columnPRODUTONOME" msprop:Generator_ColumnPropNameInRow="PRODUTONOME" msprop:Generator_ColumnPropNameInTable="PRODUTONOMEColumn" msprop:Generator_UserColumnName="PRODUTONOME" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="150" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="CODIGOBARRAS" msprop:Generator_ColumnVarNameInTable="columnCODIGOBARRAS" msprop:Generator_ColumnPropNameInRow="CODIGOBARRAS" msprop:Generator_ColumnPropNameInTable="CODIGOBARRASColumn" msprop:Generator_UserColumnName="CODIGOBARRAS" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="18" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="SP_TRI_OBTEMPROMOSCANNTECH" msprop:Generator_TableClassName="SP_TRI_OBTEMPROMOSCANNTECHDataTable" msprop:Generator_TableVarName="tableSP_TRI_OBTEMPROMOSCANNTECH" msprop:Generator_TablePropName="SP_TRI_OBTEMPROMOSCANNTECH" msprop:Generator_RowDeletingName="SP_TRI_OBTEMPROMOSCANNTECHRowDeleting" msprop:Generator_RowChangingName="SP_TRI_OBTEMPROMOSCANNTECHRowChanging" msprop:Generator_RowEvHandlerName="SP_TRI_OBTEMPROMOSCANNTECHRowChangeEventHandler" msprop:Generator_RowDeletedName="SP_TRI_OBTEMPROMOSCANNTECHRowDeleted" msprop:Generator_UserTableName="SP_TRI_OBTEMPROMOSCANNTECH" msprop:Generator_RowChangedName="SP_TRI_OBTEMPROMOSCANNTECHRowChanged" msprop:Generator_RowEvArgName="SP_TRI_OBTEMPROMOSCANNTECHRowChangeEvent" msprop:Generator_RowClassName="SP_TRI_OBTEMPROMOSCANNTECHRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="QTD" msprop:Generator_ColumnVarNameInTable="columnQTD" msprop:Generator_ColumnPropNameInRow="QTD" msprop:Generator_ColumnPropNameInTable="QTDColumn" msprop:Generator_UserColumnName="QTD" type="xs:decimal" minOccurs="0" />
+              <xs:element name="TIPO" msprop:Generator_ColumnVarNameInTable="columnTIPO" msprop:Generator_ColumnPropNameInRow="TIPO" msprop:Generator_ColumnPropNameInTable="TIPOColumn" msprop:Generator_UserColumnName="TIPO" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="DET" msprop:Generator_ColumnVarNameInTable="columnDET" msprop:Generator_ColumnPropNameInRow="DET" msprop:Generator_ColumnPropNameInTable="DETColumn" msprop:Generator_UserColumnName="DET" type="xs:decimal" minOccurs="0" />
+              <xs:element name="LIMITE" msprop:Generator_ColumnVarNameInTable="columnLIMITE" msprop:Generator_ColumnPropNameInRow="LIMITE" msprop:Generator_ColumnPropNameInTable="LIMITEColumn" msprop:Generator_UserColumnName="LIMITE" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -6394,6 +6700,14 @@ SET ID_IDENTIFICADOR = @ID_IDENTIFICADOR, ID_KIT = @ID_KIT, QTD_ITEM = @QTD_ITEM
     <xs:unique name="TB_EST_KIT_ITEM_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
       <xs:selector xpath=".//mstns:TB_EST_KIT_ITEM" />
       <xs:field xpath="mstns:ID_ESTKIT" />
+    </xs:unique>
+    <xs:unique name="TB_PROMOCOES_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TB_PROMOCOES" />
+      <xs:field xpath="mstns:ID" />
+    </xs:unique>
+    <xs:unique name="TB_PROMOCOES_ITENS_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TB_PROMOCOES_ITENS" />
+      <xs:field xpath="mstns:ID" />
     </xs:unique>
   </xs:element>
   <xs:annotation>

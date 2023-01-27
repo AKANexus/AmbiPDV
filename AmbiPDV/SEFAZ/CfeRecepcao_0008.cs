@@ -718,7 +718,9 @@ namespace CfeRecepcao_0008
         private string nItemField;
 
         [XmlIgnoreAttribute()] public string familia;
+        [XmlIgnoreAttribute()] public int? idScannTech;
 
+        [XmlIgnoreAttribute()] public bool scannTech => idScannTech is not null;
         [XmlIgnoreAttribute()] public bool kit = false;
         [XmlIgnoreAttribute()] public bool atacado = false;
         [XmlIgnoreAttribute()] public decimal descAtacado;

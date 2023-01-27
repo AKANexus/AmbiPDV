@@ -64,6 +64,7 @@ namespace PDV_WPF.Objetos
         public bool imprimeViaAssinar = false;
         private decimal _valTroco;
         public bool imprimeViaCliente = true;
+        private enum TipoPromo { LEVA_PAGA, DESCONTO_VARIADO, PREÇO_FIXO }
 
         public void RecebeCFeDoSAT(CFe cfeDeRetorno)
         {
@@ -252,7 +253,8 @@ namespace PDV_WPF.Objetos
                                       decimal quantidade = 1,
                                       string GTIN = null,
                                       string familia = null,
-                                      bool importadoKit = false)
+                                      bool importadoKit = false,
+                                      int? idScannTechh = null)
         {
             _det = new envCFeCFeInfCFeDet();
             _produto = new envCFeCFeInfCFeDetProd
@@ -360,6 +362,7 @@ namespace PDV_WPF.Objetos
                 _produto.obsFiscoDet = _listaObsFiscoDet.ToArray();
             }
 
+            _det.idScannTech = idScannTechh;
             _det.kit = importadoKit;
             _det.familia = familia;            
             _produtoRecebido = true;
@@ -1637,7 +1640,7 @@ namespace PDV_WPF.Objetos
             using FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             var quantsCupom =
                 from det in _listaDets
-                where det.kit == false
+                where det.kit == false && det.scannTech == false
                 group det by det.prod.cProd into newGroup
                 select new
                 {
@@ -1647,7 +1650,7 @@ namespace PDV_WPF.Objetos
 
             var familiasCupom =
                 from det in _listaDets
-                where det.kit == false 
+                where det.kit == false && det.scannTech == false
                 group det by det.familia
                 into newGroup
                 select new
@@ -1662,9 +1665,8 @@ namespace PDV_WPF.Objetos
                 if (info is not null && info.PrcAtacado > 0 && item.qtdTotal >= info.QtdAtacado)
                 {
                     foreach (var det in _listaDets)
-                    {
-                        bool teste = det.kit;
-                        if (det.prod.cProd == item.cod && det.kit == false)
+                    {                        
+                        if (det.prod.cProd == item.cod && det.kit == false && det.scannTech == false)
                         {                            
                             det.prod.vUnComOri = det.prod.vUnCom;
                             det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
@@ -1694,7 +1696,7 @@ namespace PDV_WPF.Objetos
                     {
                         foreach (var det1 in _listaDets)
                         {
-                            if (det1.familia == familia && det1.kit == false)
+                            if (det1.familia == familia && det1.kit == false && det1.scannTech == false)
                             {
                                 var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
 
@@ -1707,7 +1709,92 @@ namespace PDV_WPF.Objetos
                 }
             }
         }
+        public void VerificaScannTech()
+        {
+            try
+            {
+                using (var tblPromoServ = new FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHDataTable())
+                {
+                    var prodCodBarras = from produtos in _listaDets
+                                        where produtos.idScannTech is not null
+                                        group produtos by produtos.idScannTech into newGroup
+                                        select new
+                                        {                                            
+                                            ID = newGroup.Key,                                            
+                                            QTD_COMPRADA = newGroup.Sum(x => decimal.Parse(x.prod.qCom))                                            
+                                        };
 
+                    using (var taPromoItens = new DataSets.FDBDataSetOperSeedTableAdapters.SP_TRI_OBTEMPROMOSCANNTECHTableAdapter())
+                    {
+                        taPromoItens.Connection = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };                        
+                        foreach (var itens in prodCodBarras)
+                        {                                                       
+                            taPromoItens.Fill(tblPromoServ, itens.ID);
+                            var detalhesPromo = tblPromoServ.ToArray();                            
+
+                            if (itens.QTD_COMPRADA == detalhesPromo[0].QTD)
+                            {
+                                var prodScanntech = _listaDets.Where(z => z.idScannTech == itens.ID);
+
+                                int controle = 0;                                
+                                int retorno = (int)prodScanntech.LongCount();
+
+                                foreach(var prod in prodScanntech)
+                                {                                    
+                                    switch(detalhesPromo[0].TIPO)
+                                    {                                       
+                                        case "LLEVA_PAGA":                                            
+                                            decimal qtdDesconto = detalhesPromo[0].QTD - detalhesPromo[0].DET;
+                                            decimal descProd = retorno >= qtdDesconto ? decimal.Parse(prod.prod.vUnCom) : decimal.Parse(prod.prod.vUnCom) * qtdDesconto;
+                                            prod.prod.vDesc = descProd.ToString();
+                                            controle++;
+                                            if(controle == qtdDesconto) goto finalizaDesc;
+                                            break;
+                                        case "DESCUENTO_VARIABLE":
+                                            decimal porcentagem = detalhesPromo[0].DET;
+                                            decimal descPorc = porcentagem / 100 * decimal.Parse(prod.prod.vUnCom);
+                                            prod.prod.vDesc = descPorc.ToString();
+                                            AplicaScanntech(TipoPromo.DESCONTO_VARIADO, detalhesPromo, itens.QTD_COMPRADA);
+                                            break;                                            
+                                        case "PRECIO_FIJO":
+
+                                            AplicaScanntech(TipoPromo.PREÇO_FIXO, detalhesPromo, itens.QTD_COMPRADA);
+                                            break;
+                                    }
+                                }
+                                finalizaDesc: log.Debug($"Aplicação de descontos ScannTech, código da promoção: {itens.ID}");
+                            }                            
+                        }
+                    }
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Debug("Erro ao verificar/aplicar promoções ScannTech: " + ex.Message);
+            }
+        }
+        private void AplicaScanntech(TipoPromo tipoPromo, FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHRow[] detalhesPromo, decimal qtdComprada)
+        {
+            try
+            {
+                if (tipoPromo.Equals(TipoPromo.LEVA_PAGA))
+                {
+                    if(qtdComprada == detalhesPromo[0].QTD) { }                    
+                }
+                if (tipoPromo.Equals(TipoPromo.DESCONTO_VARIADO))
+                {
+
+                }
+                if (tipoPromo.Equals(TipoPromo.PREÇO_FIXO))
+                {
+
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Debug("Erro ao aplicar promoção ScannTech: " + ex.Message);
+            }
+        }
         public decimal ValorDaVenda()
         {
             decimal valVenda = 0;
