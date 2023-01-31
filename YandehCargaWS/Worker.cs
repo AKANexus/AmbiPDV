@@ -575,7 +575,8 @@ namespace YandehCargaWS
 
                                         try
                                         {
-                                            await YandehAPI.EnviaSellin(sellinBody);
+                                            var log = await YandehAPI.EnviaSellin(sellinBody);
+                                            EventLog.WriteEntry("YandehCarga", "Resultado:: " + log.Item2);
 
                                         }
                                         catch (Exception e)

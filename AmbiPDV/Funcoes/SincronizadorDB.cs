@@ -7519,7 +7519,7 @@ namespace PDV_WPF.Funcoes
                 using (var taSetupPdv = new TRI_PDV_SETUPTableAdapter())
                 {
                     taSetupPdv.Connection.ConnectionString = _strConnContingency;
-                    dtUltimaSyncPdv = (DateTime)taSetupPdv.GetUltimaSync();
+                    dtUltimaSyncPdv = (DateTime?)taSetupPdv.GetUltimaSync() ?? DateTime.MinValue;
                 }
             }
 
