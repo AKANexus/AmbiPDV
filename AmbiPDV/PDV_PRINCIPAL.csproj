@@ -524,6 +524,12 @@
     <Content Include="DLL\SATDLL32.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="DLL_PRINTERS\mp2032.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="DLL_PRINTERS\SiUSBXp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="IBPT.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

@@ -19,7 +19,7 @@ using System.Windows.Input;
 using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.ViewModels;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-
+using System.Threading.Tasks;
 
 namespace PDV_WPF.Funcoes
 {
@@ -660,10 +660,18 @@ namespace PDV_WPF.Funcoes
         /// <summary>
         /// Abre a gaveta ao imprimir uma linha em branco.
         /// </summary>
-        public static void AbreGaveta()
+        public static void AbreGavetaSPOOLER()
         {
-            PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
-            PrintFunc.PrintaSpooler();
+            try
+            {
+                PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
+                PrintFunc.PrintaSpooler();
+            }
+            catch (Exception ex)
+            {
+                DialogBox.Show("ABERTURA DE GAVETA", DialogBoxButtons.No, DialogBoxIcons.Error, true, $"Não foi possivel abrir a gaveta pois\n{ex.Message}");
+                logErroAntigo(ex.Message);                
+            }
         }
 
         readonly static object errorObj = new object();
@@ -688,7 +696,39 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
+        
+        public async static Task AbreGavetaDLL()
+        {
+            try
+            {
+                await Task.Run(() =>
+                {
+                    try
+                    {
+                        int abriuPorta = IniciaPorta("COM3");
+                        int abriuGaveta = AcionaGaveta();
+                        int fechouPorta = FechaPorta();                      
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }                                              
+                });                
+            }
+            catch(Exception ex)
+            {
+                logErroAntigo(ex.Message);
+                AbreGavetaSPOOLER();                
+            }
+        }
 
+        [DllImport(@"DLL_PRINTERS\InterfaceEpsonNF.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int IniciaPorta(string port);
+
+        [DllImport(@"DLL_PRINTERS\InterfaceEpsonNF.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int AcionaGaveta();
+
+        [DllImport(@"DLL_PRINTERS\InterfaceEpsonNF.dll", CallingConvention = CallingConvention.StdCall)]
+        internal static extern int FechaPorta();       
     }
-
 }
