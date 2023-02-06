@@ -2,6 +2,7 @@
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -730,6 +731,12 @@ namespace CfeRecepcao_0008
         {
             get { return this.prodField; }
             set { this.prodField = value; }
+        }
+        [XmlIgnoreAttribute()]
+        public decimal QuantDec 
+        {
+            get => decimal.Parse(prod.qCom);
+            set => prod.qCom = value.ToString("N3");
         }
 
         /// <remarks/>

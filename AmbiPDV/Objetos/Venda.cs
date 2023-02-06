@@ -1729,36 +1729,73 @@ namespace PDV_WPF.Objetos
                         taPromoItens.Connection = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };                        
                         foreach (var itens in prodCodBarras)
                         {                                                       
-                            taPromoItens.Fill(tblPromoServ, itens.ID);
-                            var detalhesPromo = tblPromoServ.ToArray();                            
-
-                            if (itens.QTD_COMPRADA == detalhesPromo[0].QTD)
+                            taPromoItens.Fill(tblPromoServ, itens.ID);                                                       
+                            
+                            if (itens.QTD_COMPRADA >= tblPromoServ[0].QTD)
                             {
-                                var prodScanntech = _listaDets.Where(z => z.idScannTech == itens.ID);
+                                var prodScanntech = _listaDets.Where(z => z.idScannTech == itens.ID).ToList();                                                             
 
-                                int controle = 0;                                
-                                int retorno = (int)prodScanntech.LongCount();
+                                decimal totProdComDesc = 0;
+                                decimal qtdDescontoCadastrada = 0;
 
-                                foreach(var prod in prodScanntech)
-                                {                                    
-                                    switch(detalhesPromo[0].TIPO)
-                                    {                                       
+                                if (tblPromoServ[0].TIPO.Equals("LLEVA_PAGA")) { qtdDescontoCadastrada = tblPromoServ[0].QTD - tblPromoServ[0].DET; }
+                                if (tblPromoServ[0].TIPO.Equals("DESCUENTO_VARIABLE")) { qtdDescontoCadastrada = tblPromoServ[0].QTD; }                                
+
+                                if (itens.QTD_COMPRADA > tblPromoServ[0].QTD)
+                                {
+                                    int combosPassados = (int)(itens.QTD_COMPRADA / tblPromoServ[0].QTD);
+                                    totProdComDesc = combosPassados * qtdDescontoCadastrada;
+                                }
+                                else
+                                {
+                                    totProdComDesc = qtdDescontoCadastrada;
+                                }
+                                decimal teste = 0;
+                                foreach (var prod in prodScanntech)
+                                {
+                                    decimal qtd = decimal.Parse(prod.prod.qCom);
+                                    decimal vlrUnit = decimal.Parse(prod.prod.vUnCom);
+                                    
+
+                                    switch (tblPromoServ[0].TIPO)
+                                    {                                        
                                         case "LLEVA_PAGA":                                            
-                                            decimal qtdDesconto = detalhesPromo[0].QTD - detalhesPromo[0].DET;
-                                            decimal descProd = retorno >= qtdDesconto ? decimal.Parse(prod.prod.vUnCom) : decimal.Parse(prod.prod.vUnCom) * qtdDesconto;
-                                            prod.prod.vDesc = descProd.ToString();
-                                            controle++;
-                                            if(controle == qtdDesconto) goto finalizaDesc;
+                                            decimal vlrTotDesc = vlrUnit * totProdComDesc;
+                                            if ((vlrUnit * qtd) >= vlrTotDesc)
+                                            {
+                                                prod.prod.vDesc = vlrTotDesc.ToString();
+                                                goto finalizaDesc;
+                                            }
+                                            else
+                                            {
+                                                if (totProdComDesc != 0)
+                                                {
+                                                    prod.prod.vDesc = prod.prod.vUnCom;
+                                                    totProdComDesc--;
+                                                }
+                                                else goto finalizaDesc;
+                                            }
                                             break;
-                                        case "DESCUENTO_VARIABLE":
-                                            decimal porcentagem = detalhesPromo[0].DET;
-                                            decimal descPorc = porcentagem / 100 * decimal.Parse(prod.prod.vUnCom);
-                                            prod.prod.vDesc = descPorc.ToString();
-                                            AplicaScanntech(TipoPromo.DESCONTO_VARIADO, detalhesPromo, itens.QTD_COMPRADA);
-                                            break;                                            
+                                        case "DESCUENTO_VARIABLE":                                            
+                                            decimal porcentagem = tblPromoServ[0].DET;                                            
+                                            if(qtd >= totProdComDesc) 
+                                            {
+                                                decimal descPorc = (porcentagem / 100 * vlrUnit).RoundABNT() * totProdComDesc;
+                                                teste += descPorc;
+                                                prod.prod.vDesc = descPorc.ToString();
+                                                goto finalizaDesc; 
+                                            }
+                                            if(totProdComDesc != 0) 
+                                            {                                                
+                                                decimal descPorc = (porcentagem / 100 * vlrUnit).RoundABNT() * qtd;
+                                                teste += descPorc;
+                                                prod.prod.vDesc = descPorc.ToString();
+                                                totProdComDesc -= qtd; 
+                                            }
+                                            else goto finalizaDesc;
+                                            break;
                                         case "PRECIO_FIJO":
-
-                                            AplicaScanntech(TipoPromo.PREÇO_FIXO, detalhesPromo, itens.QTD_COMPRADA);
+                                            // PROMOÇÃO PREÇO FIXO
                                             break;
                                     }
                                 }
@@ -1772,29 +1809,7 @@ namespace PDV_WPF.Objetos
             {
                 log.Debug("Erro ao verificar/aplicar promoções ScannTech: " + ex.Message);
             }
-        }
-        private void AplicaScanntech(TipoPromo tipoPromo, FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHRow[] detalhesPromo, decimal qtdComprada)
-        {
-            try
-            {
-                if (tipoPromo.Equals(TipoPromo.LEVA_PAGA))
-                {
-                    if(qtdComprada == detalhesPromo[0].QTD) { }                    
-                }
-                if (tipoPromo.Equals(TipoPromo.DESCONTO_VARIADO))
-                {
-
-                }
-                if (tipoPromo.Equals(TipoPromo.PREÇO_FIXO))
-                {
-
-                }
-            }
-            catch(Exception ex)
-            {
-                log.Debug("Erro ao aplicar promoção ScannTech: " + ex.Message);
-            }
-        }
+        }   
         public decimal ValorDaVenda()
         {
             decimal valVenda = 0;
