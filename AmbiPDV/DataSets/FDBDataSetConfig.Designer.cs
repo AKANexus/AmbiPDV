@@ -6341,8 +6341,86 @@ END;";
                 "OR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGI" +
                 "N INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS" +
                 "_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_NIVEL2 , \'\'TB_EST_PROD_N" +
-                "IVEL2\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\nerro = \'deu ce" +
-                "rto\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "IVEL2\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\nerro = \'drop t" +
+                "b_promoscanntech_aux_sync_ins\';           \r\n                                    " +
+                "                                                                            if (" +
+                "exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_PROMOSCANNTECH_AU" +
+                "X_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_PROMOSCANNTE" +
+                "CH_AUX_SYNC_INS\';\r\n\t\t\t\t\t\terro = \'create tb_promoscanntech_aux_sync_ins\';\r\n\t\t\t\t\t\t" +
+                "EXECUTE STATEMENT \'CREATE TRIGGER TB_PROMOSCANNTECH_AUX_SYNC_INS FOR TB_PROMOCOE" +
+                "S BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEG" +
+                "IN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO " +
+                "BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA " +
+                ", TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , NEW.ID , \'\'TB_PROMOCOES\'\' ," +
+                " \'\'I\'\', :VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';\r\n\r\n erro = \'drop  tb_promosc" +
+                "anntech_aux_sync_upd\';           \r\n                                             " +
+                "                                                                   if (exists(se" +
+                "lect 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_PROMOSCANNTECH_AUX_SYNC_UP" +
+                "D\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_PROMOSCANNTECH_AUX_SY" +
+                "NC_UPD\';\r\n\t\t\t\t\t\terro = \'create tb_promoscanntech_aux_sync_upd\';\r\n\t\t\t\t\t\tEXECUTE S" +
+                "TATEMENT \'CREATE TRIGGER TB_PROMOSCANNTECH_AUX_SYNC_UPD FOR TB_PROMOCOES BEFORE " +
+                "UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN IF (OL" +
+                "D.ID IS DISTINCT FROM new.ID OR old.QTD IS DISTINCT FROM new.QTD OR old.TIPO IS " +
+                "DISTINCT FROM new.TIPO OR old.DET IS DISTINCT FROM new.DET OR old.LIMITE IS DIST" +
+                "INCT FROM NEW.LIMITE OR OLD.INICIO IS DISTINCT FROM NEW.INICIO OR OLD.FIM IS DIS" +
+                "TINCT FROM NEW.FIM OR OLD.REJEITADA IS DISTINCT FROM NEW.REJEITADA OR OLD.SCANNT" +
+                "ECH IS DISTINCT FROM NEW.SCANNTECH) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_" +
+                "CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF(( SELECT COUNT(1) FROM TRI_" +
+                "PDV_AUX_SYNC WHERE ID_REG = old.ID AND TABELA = \'\'TB_PROMOCOES\'\' AND (OPERACAO =" +
+                " \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT IN" +
+                "TO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALU" +
+                "ES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID , \'\'TB_PROMOCOES\'\' , \'\'U\'\' , :VNUMC" +
+                "AIXA , CURRENT_TIMESTAMP) ; END END END END;\';\r\n\r\nerro = \'drop tb_promoscanntech" +
+                "_aux_sync_del\';           \r\n                                                    " +
+                "                                                            if (exists(select 1 " +
+                "from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_PROMOSCANNTECH_AUX_SYNC_DEL\'))\r\n\t" +
+                "\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_PROMOSCANNTECH_AUX_SYNC_DEL\'" +
+                ";\r\n\t\t\t\t\t\terro = \'create tb_promoscanntech_aux_sync_del\';\r\n\t\t\t\t\t\tEXECUTE STATEMEN" +
+                "T \'CREATE TRIGGER TB_PROMOSCANNTECH_AUX_SYNC_DEL FOR TB_PROMOCOES BEFORE DELETE " +
+                "AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT N" +
+                "O_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT IN" +
+                "TO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALU" +
+                "ES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID , \'\'TB_PROMOCOES\'\' , \'\'D\'\' , :VNUMC" +
+                "AIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\nerro = \'drop tb_itenscanntech_aux_sync" +
+                "_ins\';           \r\n                                                             " +
+                "                                                   if (exists(select 1 from RDB$" +
+                "TRIGGERS where RDB$TRIGGER_NAME = \'TB_ITENSCANNTECH_AUX_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r" +
+                "\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ITENSCANNTECH_AUX_SYNC_INS\';\r\n\t\t\t\t\t\ter" +
+                "ro = \'create tb_itenscanntech_aux_sync_ins\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TR" +
+                "IGGER TB_ITENSCANNTECH_AUX_SYNC_INS FOR TB_PROMOCOES_ITENS BEFORE INSERT AS DECL" +
+                "ARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA " +
+                "FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_P" +
+                "DV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_" +
+                "ID(GEN_PDV_AUX_SYNC_SEQ, 1) , NEW.ID , \'\'TB_PROMOCOES_ITENS\'\' , \'\'I\'\' ,:VNUMCAIX" +
+                "A , CURRENT_TIMESTAMP); END END;\';\r\n\r\n erro = \'drop  tb_itenscanntech_aux_sync_u" +
+                "pd\';           \r\n                                                               " +
+                "                                                 if (exists(select 1 from RDB$TR" +
+                "IGGERS where RDB$TRIGGER_NAME = \'TB_ITENSCANNTECH_AUX_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t" +
+                "\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ITENSCANNTECH_AUX_SYNC_UPD\';\r\n\t\t\t\t\t\terro" +
+                " = \'create tb_itenscanntech_aux_sync_upd\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIG" +
+                "GER TB_ITENSCANNTECH_AUX_SYNC_UPD FOR TB_PROMOCOES_ITENS BEFORE UPDATE AS DECLAR" +
+                "E VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OLD.ID IS DISTINC" +
+                "T FROM new.ID OR old.IDPROMOCAO IS DISTINCT FROM new.IDPROMOCAO OR old.PRODUTONO" +
+                "ME IS DISTINCT FROM new.PRODUTONOME OR old.CODIGOBARRAS IS DISTINCT FROM new.COD" +
+                "IGOBARRAS) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA " +
+                "INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_RE" +
+                "G = old.ID AND TABELA = \'\'TB_PROMOCOES_ITENS\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO" +
+                " = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYN" +
+                "C (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV" +
+                "_AUX_SYNC_SEQ, 1) , old.ID , \'\'TB_PROMOCOES_ITENS\'\' , \'\'U\'\' , :VNUMCAIXA , CURRE" +
+                "NT_TIMESTAMP) ; END END END END;\';\r\n\r\nerro = \'drop  tb_itenscanntech_aux_sync_de" +
+                "l\';           \r\n                                                                " +
+                "                                                if (exists(select 1 from RDB$TRI" +
+                "GGERS where RDB$TRIGGER_NAME = \'TB_ITENSCANNTECH_AUX_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t" +
+                "\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ITENSCANNTECH_AUX_SYNC_DEL\';\r\n\t\t\t\t\t\terro " +
+                "= \'create  tb_itenscanntech_aux_sync_del\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIG" +
+                "GER TB_ITENSCANNTECH_AUX_SYNC_DEL FOR TB_PROMOCOES_ITENS BEFORE DELETE AS DECLAR" +
+                "E VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA F" +
+                "ROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PD" +
+                "V_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_I" +
+                "D(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID , \'\'TB_PROMOCOES_ITENS\'\' , \'\'D\'\' , :VNUMCAIX" +
+                "A , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY D" +
+                "O\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[11].Connection = this.Connection;
@@ -9035,8 +9113,34 @@ END;";
                 "OR tn.NF_SERIE = :CAIXA) AND tn.NF_MODELO = \'\'59\'\' AND tn.STATUS = \'\'I\'\' AND CAS" +
                 "T ((tn.DT_SAIDA || \'\' \'\' || tn.HR_SAIDA) AS TIMESTAMP) BETWEEN :PDATA_INICIAL AN" +
                 "D :PDATA_FINAL GROUP BY tetis.DESCRICAO INTO :RSOMA, :RDESCRICAO DO BEGIN SUSPEN" +
-                "D; END END\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n" +
-                "\t\t\t\t\t\tBEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "D; END END\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_PROMOCOES_UPSERT\';\r\n\t\t\t\t\t\texecute sta" +
+                "tement \'CREATE OR ALTER PROCEDURE SP_TRI_PROMOCOES_UPSERT (PID INTEGER, PQTD NUM" +
+                "ERIC(15,2), PTIPO VARCHAR(20), PDET NUMERIC(15,2), PLIMITE INTEGER, PINICIO DATE" +
+                ", PFIM DATE, P_REJEITADA INTEGER, PSCANNTECH INTEGER, P_EXECUTA CHAR(1)) RETURNS" +
+                " ( RROWSAFFECTED INTEGER ) AS BEGIN IF(:P_EXECUTA = \'\'U\'\' OR :P_EXECUTA = \'\'I\'\')" +
+                " THEN  BEGIN UPDATE OR INSERT INTO TB_PROMOCOES (ID , QTD , TIPO , DET , LIMITE " +
+                ", INICIO , FIM , REJEITADA , SCANNTECH) VALUES (:PID , :PQTD , :PTIPO , :PDET , " +
+                ":PLIMITE , :PINICIO , :PFIM , :P_REJEITADA , :PSCANNTECH) ; END IF(:P_EXECUTA = " +
+                "\'\'D\'\') THEN BEGIN DELETE FROM TB_PROMOCOES WHERE ID = :PID; END rRowsAffected = " +
+                "ROW_COUNT; END\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_PROMOCOES_ITENS_UPSERT\';\r\n\t\t\t\t\t\te" +
+                "xecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_PROMOCOES_ITENS_UPSERT (PID I" +
+                "NTEGER, PIDPROMOCAO INTEGER, PPRODUTONOME VARCHAR(150), PCODIGOBARRAS VARCHAR(18" +
+                "), P_EXECUTA CHAR(1)) RETURNS ( RROWSAFFECTED INTEGER ) AS BEGIN IF(:P_EXECUTA =" +
+                " \'\'U\'\' OR :P_EXECUTA = \'\'I\'\') THEN  BEGIN UPDATE OR INSERT INTO TB_PROMOCOES_ITE" +
+                "NS (ID , IDPROMOCAO , PRODUTONOME , CODIGOBARRAS) VALUES (:PID , :PIDPROMOCAO , " +
+                ":PPRODUTONOME , :PCODIGOBARRAS) ; END IF(:P_EXECUTA = \'\'D\'\') THEN BEGIN DELETE F" +
+                "ROM TB_PROMOCOES_ITENS WHERE ID = :PID; END rRowsAffected = ROW_COUNT; END\';\r\n\r\n" +
+                "\t\t\t\t\t\terro = \'sproc SP_TRI_OBTEMPROMOSCANNTECH\';\r\n\t\t\t\t\t\texecute statement \'CREAT" +
+                "E OR ALTER PROCEDURE SP_TRI_OBTEMPROMOSCANNTECH (ID_SCANNTECH INTEGER) RETURNS (" +
+                " QTD NUMERIC(15,2), TIPO VARCHAR(20), DET NUMERIC(15,2), LIMITE INTEGER ) AS DEC" +
+                "LARE VARIABLE VEXISTE_PROMO INTEGER; BEGIN SELECT COUNT(1) FROM TB_PROMOCOES TP " +
+                "INNER JOIN TB_PROMOCOES_ITENS TPI ON TPI.IDPROMOCAO = TP.ID  WHERE CURRENT_DATE " +
+                "BETWEEN TP.INICIO AND TP.FIM  AND TP.ID = :ID_SCANNTECH AND TP.REJEITADA = 0 INT" +
+                "O VEXISTE_PROMO; IF(VEXISTE_PROMO > 0) THEN BEGIN FOR SELECT FIRST (1) TP.QTD, T" +
+                "P.TIPO, TP.DET, TP.LIMITE FROM TB_PROMOCOES TP INNER JOIN TB_PROMOCOES_ITENS TPI" +
+                " ON TPI.IDPROMOCAO = TP.ID  WHERE (TP.ID = :ID_SCANNTECH) INTO :QTD, :TIPO, :DET" +
+                ", :LIMITE DO SUSPEND; END END\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n" +
+                "\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[21].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[22] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[22].Connection = this.Connection;

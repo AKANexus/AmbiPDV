@@ -87,6 +87,39 @@ namespace PDV_WPF.Telas
 
         #region Events
 
+        private void but_F1_MouseEnter(object sender, EventArgs e)
+        {
+            but_F1.FontSize = 33;
+        }
+        private void but_F1_MouseLeave(object sender, EventArgs e)
+        {
+            but_F1.FontSize = 25;
+        }
+        private void but_F4_MouseEnter(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 33;
+        }
+        private void but_F4_MouseLeave(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 25;
+        }
+        private void but_F7_MouseEnter(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 37;
+        }
+        private void but_F7_MouseLeave(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 29;
+        }
+        private void but_F8_MouseEnter(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 35;
+        }
+        private void but_F8_MouseLeave(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 27;
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 

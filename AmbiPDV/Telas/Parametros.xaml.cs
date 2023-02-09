@@ -52,6 +52,22 @@ namespace PDV_WPF
 
         #region Events
 
+        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 12;
+        }
+        private void but_Cancelar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 12;
+        }
         private void PCA_but_click(object sender, RoutedEventArgs e)
         {
             //if (txb_No_Caixa.Text.Safeint() <= 0)
@@ -318,7 +334,6 @@ namespace PDV_WPF
 
             if (!SalvaConfigsNaBase()) MessageBox.Show("Erro ao gravar dados.");
         }
-        #endregion Methods
-
+        #endregion Methods       
     }
 }

@@ -138,11 +138,11 @@
                                         <TextBox IsEnabled="False" IsReadOnly="True" x:Name="txb_Operador" Width="150" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="20" Padding="3"/>
                                     </StackPanel>
                                 </StackPanel>
-                                <Border Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="button1_Click">
-                                    <Label Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+                                <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="button1_Click" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
+                                    <Label x:Name="lbl_Confirmar" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
                                 </Border>
-                                <Border Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="button2_Click">
-                                    <Label Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+                                <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="button2_Click" MouseEnter="but_Cancelar_MouseEnter" MouseLeave="but_Cancelar_MouseLeave">
+                                    <Label x:Name="lbl_Cancelar" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
                                 </Border>
                             </UniformGrid>
                         </StackPanel>

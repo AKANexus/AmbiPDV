@@ -334,40 +334,104 @@ namespace PDV_WPF.Telas
 
         #region Botões Desativados
 
+        private void but_F3_MouseEnter(object sender, EventArgs e)
+        {
+            but_F3.FontSize = 40;           
+        }
+        private void but_F3_MouseLeave(object sender, EventArgs e)
+        {
+            but_F3.FontSize = 32;
+        }
         private void but_F3_MouseDown(object sender, MouseButtonEventArgs e)
         {
             PrepararFinalizacaoDeCupomFiscal();
             return;
+        }
+        private void but_F4_MouseEnter(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 40;
+        }
+        private void but_F4_MouseLeave(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 32;
         }
         private void but_F4_MouseDown(object sender, MouseButtonEventArgs e)
         {
             RemoverItemDaVendaNovo();
             return;
         }
+        private void but_F5_MouseEnter(object sender, EventArgs e)
+        {
+            but_F5.FontSize = 40;
+        }
+        private void but_F5_MouseLeave(object sender, EventArgs e)
+        {
+            but_F5.FontSize = 32;
+        }
         private void but_F5_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AlternarModoDeConsulta();
             return;
+        }
+        private void but_F6_MouseEnter(object sender, EventArgs e)
+        {
+            but_F6.FontSize = 40;
+        }
+        private void but_F6_MouseLeave(object sender, EventArgs e)
+        {
+            but_F6.FontSize = 32;
         }
         private void but_F6_MouseDown(object sender, MouseButtonEventArgs e)
         {
             CancelarUltimoCupom();
             return;
         }
+        private void but_F7_MouseEnter(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 40;
+        }
+        private void but_F7_MouseLeave(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 32;
+        }
         private void but_F7_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AlternarModoDevolucao();
             return;
+        }
+        private void but_F8_MouseEnter(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 40;
+        }
+        private void but_F8_MouseLeave(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 32;
         }
         private void but_F8_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AlternarDescontoNoItem();
             return;
         }
+        private void but_F11_MouseEnter(object sender, EventArgs e)
+        {
+            but_F11.FontSize = 40;
+        }
+        private void but_F11_MouseLeave(object sender, EventArgs e)
+        {
+            but_F11.FontSize = 32;
+        }
         private void but_F11_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AbrirJanelaSangriaSupr();
             return;
+        }
+        private void but_F12_MouseEnter(object sender, EventArgs e)
+        {
+            but_F12.FontSize = 40;
+        }
+        private void but_F12_MouseLeave(object sender, EventArgs e)
+        {
+            but_F12.FontSize = 32;
         }
         private void but_F12_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -5214,7 +5278,7 @@ namespace PDV_WPF.Telas
                 {
                     PedirVendedor();
                 }
-                vendaAtual.VerificaScannTech();
+                if(SCANNTECH) vendaAtual.VerificaScannTech();
                 vendaAtual.AplicaPrecoAtacado();
                 FinalizarVendaNovo();
             }
@@ -5259,7 +5323,7 @@ namespace PDV_WPF.Telas
             }
             try
             {
-                vendaAtual.VerificaScannTech();
+                if(SCANNTECH) vendaAtual.VerificaScannTech();
                 vendaAtual.AplicaPrecoAtacado();
                 FinalizarVendaNovo();
             }

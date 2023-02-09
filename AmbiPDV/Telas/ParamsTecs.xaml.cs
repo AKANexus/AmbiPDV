@@ -76,6 +76,22 @@ namespace PDV_WPF
 
         #region Events
 
+        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 12;
+        }
+        private void but_Cancelar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 12;
+        }      
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
@@ -358,8 +374,6 @@ namespace PDV_WPF
         private void tgl_usatef_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-        }
-
+        }     
     }
-
 }

@@ -236,6 +236,14 @@ namespace PDV_WPF
             //antionte fez frii 
             //antionte feez friiiiiiii
         }
+        private void but_Confirmar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Confirmar.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Confirmar.FontSize = 12;
+        }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.

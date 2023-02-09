@@ -1725,8 +1725,8 @@ namespace PDV_WPF.Objetos
                                         };
 
                     using (var taPromoItens = new DataSets.FDBDataSetOperSeedTableAdapters.SP_TRI_OBTEMPROMOSCANNTECHTableAdapter())
-                    {
-                        taPromoItens.Connection = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };                        
+                    {                     
+                        taPromoItens.Connection = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };                     
                         foreach (var itens in prodCodBarras)
                         {                                                       
                             taPromoItens.Fill(tblPromoServ, itens.ID);                                                       
@@ -1736,10 +1736,10 @@ namespace PDV_WPF.Objetos
                                 var prodScanntech = _listaDets.Where(z => z.idScannTech == itens.ID).ToList();                                                             
 
                                 decimal totProdComDesc = 0;
-                                decimal qtdDescontoCadastrada = 0;
+                                decimal qtdDescontoCadastrada = 0;                                
 
                                 if (tblPromoServ[0].TIPO.Equals("LLEVA_PAGA")) { qtdDescontoCadastrada = tblPromoServ[0].QTD - tblPromoServ[0].DET; }
-                                if (tblPromoServ[0].TIPO.Equals("DESCUENTO_VARIABLE")) { qtdDescontoCadastrada = tblPromoServ[0].QTD; }                                
+                                if (tblPromoServ[0].TIPO.Equals("DESCUENTO_VARIABLE") || tblPromoServ[0].TIPO.Equals("PRECIO_FIJO")) { qtdDescontoCadastrada = tblPromoServ[0].QTD; }                                
 
                                 if (itens.QTD_COMPRADA > tblPromoServ[0].QTD)
                                 {
@@ -1750,52 +1750,58 @@ namespace PDV_WPF.Objetos
                                 {
                                     totProdComDesc = qtdDescontoCadastrada;
                                 }
-                                decimal teste = 0;
+                                
                                 foreach (var prod in prodScanntech)
                                 {
                                     decimal qtd = decimal.Parse(prod.prod.qCom);
                                     decimal vlrUnit = decimal.Parse(prod.prod.vUnCom);
                                     
-
                                     switch (tblPromoServ[0].TIPO)
                                     {                                        
                                         case "LLEVA_PAGA":                                            
                                             decimal vlrTotDesc = vlrUnit * totProdComDesc;
-                                            if ((vlrUnit * qtd) >= vlrTotDesc)
+                                            if (qtd >= totProdComDesc)
                                             {
                                                 prod.prod.vDesc = vlrTotDesc.ToString();
                                                 goto finalizaDesc;
-                                            }
-                                            else
+                                            }                                            
+                                            if (totProdComDesc != 0)
                                             {
-                                                if (totProdComDesc != 0)
-                                                {
-                                                    prod.prod.vDesc = prod.prod.vUnCom;
-                                                    totProdComDesc--;
-                                                }
-                                                else goto finalizaDesc;
+                                                vlrTotDesc = vlrUnit * qtd;
+                                                prod.prod.vDesc = vlrTotDesc.ToString();
+                                                totProdComDesc -= qtd;
                                             }
+                                            else goto finalizaDesc;                                            
                                             break;
-                                        case "DESCUENTO_VARIABLE":                                            
-                                            decimal porcentagem = tblPromoServ[0].DET;                                            
-                                            if(qtd >= totProdComDesc) 
-                                            {
-                                                decimal descPorc = (porcentagem / 100 * vlrUnit).RoundABNT() * totProdComDesc;
-                                                teste += descPorc;
+                                        case "DESCUENTO_VARIABLE":                                                                                        
+                                            decimal descPorc = (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * totProdComDesc;
+                                            if (qtd >= totProdComDesc) 
+                                            {                                                                                                
                                                 prod.prod.vDesc = descPorc.ToString();
                                                 goto finalizaDesc; 
                                             }
                                             if(totProdComDesc != 0) 
                                             {                                                
-                                                decimal descPorc = (porcentagem / 100 * vlrUnit).RoundABNT() * qtd;
-                                                teste += descPorc;
+                                                descPorc = (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtd;                                                
                                                 prod.prod.vDesc = descPorc.ToString();
                                                 totProdComDesc -= qtd; 
                                             }
                                             else goto finalizaDesc;
                                             break;
-                                        case "PRECIO_FIJO":
-                                            // PROMOÇÃO PREÇO FIXO
+                                        case "PRECIO_FIJO":                                            
+                                            decimal vltUnitComDesc = tblPromoServ[0].DET / tblPromoServ[0].QTD;
+                                            decimal vlrDesc = vlrUnit - vltUnitComDesc;
+                                            if(qtd >= totProdComDesc)
+                                            {
+                                                prod.prod.vDesc = (totProdComDesc * vlrDesc).ToString();
+                                                goto finalizaDesc;
+                                            }
+                                            if (totProdComDesc != 0)
+                                            {
+                                                prod.prod.vDesc = (vlrDesc * qtd).ToString();
+                                                totProdComDesc -= qtd;
+                                            }
+                                            else goto finalizaDesc;
                                             break;
                                     }
                                 }

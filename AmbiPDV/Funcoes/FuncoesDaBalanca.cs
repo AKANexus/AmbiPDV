@@ -17,13 +17,13 @@ namespace Balancas
         {
             private Logger _log = new Logger(typeof(Balanca));
 
-            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Winapi)]
+            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern int AbrePorta(int porta, int velocidade, int dataBits, int paridade);
 
-            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Winapi)]
+            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern int FechaPorta();
 
-            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Winapi)]
+            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Cdecl)]
             public static extern int PegaPeso(int tipoEscrita, StringBuilder peso, string diretorio);
 
             public decimal ProcessaPeso()

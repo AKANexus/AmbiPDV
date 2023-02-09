@@ -190,6 +190,11 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            SCANNTECH = xmlLido.SCANNTECH switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {

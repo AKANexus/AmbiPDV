@@ -142,6 +142,14 @@ namespace PDV_WPF.Telas
 
         #region Events
 
+        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Da.FontSize = 12;
+        }
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
@@ -149,7 +157,14 @@ namespace PDV_WPF.Telas
                 fecha_o_caixa(); // deuruim();
             });
         }
-
+        private void but_Cancelar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Nyet.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Nyet.FontSize = 12;
+        }
         private void cancelar_Click(object sender, MouseButtonEventArgs e)
         {
             this.Close();
@@ -305,7 +320,7 @@ namespace PDV_WPF.Telas
                 DialogResult = false;
                 this.Close();
             }
-        }
+        }      
     }
 
     public class CurrencyTextBox : CurrencyTextBoxControl.CurrencyTextBox
