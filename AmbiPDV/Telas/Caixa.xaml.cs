@@ -4784,7 +4784,7 @@ namespace PDV_WPF.Telas
             }
 
             return -1;
-        }
+        }        
 
         /// <summary>
         /// Pergunta o CPF/CNPJ do cliente
@@ -6193,11 +6193,16 @@ namespace PDV_WPF.Telas
 
         #endregion Methods
 
+        private void Combobox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.PageDown) richTextBox1.PageDown();
+            if (e.Key == Key.PageUp) richTextBox1.PageUp();
+        }
         private void Combobox_OnKeyDown(object sender, KeyEventArgs e)
         {            
             if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))            
                 ProcessarTextoNoACBox();
-                //else MainWindow_KeyDown(sender, e);            
+            //else MainWindow_KeyDown(sender, e);           
         }
         private void Caixa_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {

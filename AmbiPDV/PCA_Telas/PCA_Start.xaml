@@ -19,19 +19,18 @@
                    VerticalAlignment="Top" 
                    Margin="10"
                    DockPanel.Dock="Top"><Span Foreground="Black" FontSize="14" FontFamily="Open Sans"><Run Text="Através deste assistente iremos configurar o sistema e a sua impressora, garantindo o bom funcionamento do sistema."/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span Foreground="Black" FontSize="14" FontFamily="Open Sans"><Run Text="Antes de começarmos, garanta que sua impressora esteja ligada na tomada e conectada no seu computador."/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span FontSize="16" FontFamily="Liberation Serif"><LineBreak/></Span><Span Foreground="Black" FontWeight="Bold" FontSize="14" FontFamily="Open Sans"><Run Text="Se acha que está pronto... Clique em começar!!"/></Span></TextBlock>
-        <Grid DockPanel.Dock="Bottom" Margin="10">
+        <Grid DockPanel.Dock="Bottom" Margin="10" Height="44">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown">
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown" MouseEnter="but_Prev_MouseEnter" MouseLeave="but_Prev_MouseLeave">
                 <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Cancelar" x:Name="lbl_Prev"/></TextBlock>
             </Border>
-            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="but_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Começar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="but_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" MouseEnter="but_Next_MouseEnter" MouseLeave="but_Next_MouseLeave">
+                <TextBlock x:Name="tbl_Continuar" Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Começar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
             </Border>
-
         </Grid>
     </DockPanel>
 </Page>
