@@ -43,11 +43,7 @@ namespace PDV_WPF
         Logger log = new Logger("Login");
         LoadingScreen ls = new LoadingScreen();
         public static volatile bool stateGif;
-        public static Thread t1 = new Thread(() =>
-        {
-            ExibirGif gif = new ExibirGif();
-            gif.ShowDialog();
-        });
+        public static Thread t1;
 
         #endregion Fields & Properties
 
@@ -174,8 +170,8 @@ namespace PDV_WPF
                         catch (Exception ex)
                         {
                             stateGif = false;
-                            log.Error("Erro ao abrir o caixa", ex);
-                            MessageBox.Show("Erro ao sincronizar. Verifique LogErro.txt");
+                            log.Error("Erro na abertura do caixa: ", ex);
+                            DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");                            
                             return;
                         }
                     }
@@ -248,7 +244,26 @@ namespace PDV_WPF
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
             {
-                FazLogin();
+                confirm_exit = false;
+                if (cbb_Usuario.IsFocused)
+                {
+                    txb_Senha.Focus();
+                    txb_Senha.SelectAll();
+                }
+                else if (txb_Senha.IsFocused)
+                {
+                    try
+                    {
+                        FazLogin();
+                    }
+                    catch (Exception ex)
+                    {
+                        stateGif = false;
+                        log.Error("Erro na abertura do caixa ao tentar sincronizar", ex);
+                        DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");
+                        return;
+                    }
+                }
             });
         }
         private void Run_MouseDown(object sender, MouseButtonEventArgs e)
@@ -602,6 +617,7 @@ namespace PDV_WPF
             if (ChecaHash(txb_Senha.Password, strHashDoUser) == true)
             {
                 #region Senha correta, segue o jogo.
+                t1 = new Thread(() => { ExibirGif gif = new ExibirGif(); gif.ShowDialog(); });
                 t1.SetApartmentState(ApartmentState.STA);
                 t1.Start();
                 log.Debug("Senha correta.");

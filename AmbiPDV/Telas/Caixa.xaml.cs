@@ -1029,11 +1029,17 @@ namespace PDV_WPF.Telas
         {
             if (_emTransacao || !PedeSenhaGerencial("Cancelando Último Cupom", _modoTeste)) { return; }
             new List().ShowDialog();
-            IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.vendas*/);
-            return;
-
+            try
+            {
+                ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);                
+                return;
+            }
+            catch(Exception ex)
+            {
+                lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; _contingencia = true;
+                DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte urgentemente");
+            }
         }
-
 
         /// <summary>
         /// Carrega os produtos na lista de autocomplete do ACBox
@@ -2368,8 +2374,17 @@ namespace PDV_WPF.Telas
             log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Não Fiscal(...)");
             if (_contingencia == false)
             {
-                log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
-                ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo);
+                try
+                {
+                    log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
+                    ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo);
+                }
+                catch(Exception ex)
+                {
+                    lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; _contingencia = true;
+                    log.Debug("Erro ao sincronizar: " + ex.Message);
+                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte urgentemente");
+                }
             }
             else
             {
@@ -4423,7 +4438,15 @@ namespace PDV_WPF.Telas
             _emTransacao = false;
 
             // Inicia a sync de cadastros para evitar aquele problema de senha cadastrada no servidor mas ainda não no PDV:
-            IniciarSincronizacaoDB(EnmTipoSync.cadastros, 0);
+            try
+            {
+                IniciarSincronizacaoDB(EnmTipoSync.cadastros, 0);
+            }
+            catch (Exception ex)
+            {
+                log.Debug("Erro ao sincronizar: " + ex.Message);
+                DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte.");
+            }
 
             //IniciarTestes();
             ChecarStatusTurno();
@@ -5732,8 +5755,17 @@ namespace PDV_WPF.Telas
                 log.Debug("Verificando se o caixa já está em modo de contigencia na abertura da venda(...)");
                 if (_contingencia == false)
                 {
-                    log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
-                    ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros);
+                    try
+                    {
+                        log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
+                        ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros);
+                    }
+                    catch(Exception ex)
+                    {
+                        _contingencia = true; lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible;
+                        log.Debug("Erro ao sincronizar: " + ex.Message);
+                        DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte.");
+                    }
                 }
                 else
                 {
@@ -6661,8 +6693,15 @@ namespace PDV_WPF.Telas
                     /// Exibir uma tela de aguardar.
                     if (DialogBox.Show(strings.SINCRONIZACAO, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, strings.PDV_INICIARA_ATUALIZACAO_DE_REGISTROS) == true)
                     {
-                        ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
-                        IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.CtrlS*/);
+                        try
+                        {
+                            ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);                            
+                        }
+                        catch (Exception ex)
+                        {
+                            lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; _contingencia = true;
+                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte urgentemente");
+                        }
                     }
 
                     //IniciarTestes();
