@@ -69,16 +69,15 @@ namespace PDV_WPF
                 SVF_TA.Connection = PDV_OperTA.Connection = LOCAL_FB_CONN;
                 DateTime abertura = (DateTime)PDV_OperTA.GetByCaixaAberto(NO_CAIXA)[0]["CURRENTTIME"];
 
-                decimal vendasFiscais = ff.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now, LOCAL_FB_CONN);
-                decimal vendasNaoFiscais = ff.SomaDeValores(abertura, 1, "N" + NO_CAIXA, DateTime.Now, LOCAL_FB_CONN);
-                decimal vendasECF = 0;
+                (decimal vendasNaoFiscais, decimal vendasFiscais) = ff.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now, LOCAL_FB_CONN);                
+                 decimal vendasECF = 0;
 
 
                 //decimal vendasFiscais = (decimal?)SVF_TA.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now) ?? 0M;
                 //decimal vendasNaoFiscais = (decimal?)SVF_TA.SomaDeValores(abertura, 1, "N" + NO_CAIXA, DateTime.Now) ?? 0M;
                 //decimal vendasECF = (decimal?)SVF_TA.SomaDeValores(abertura, 1, "E" + NO_CAIXA, DateTime.Now) ?? 0M;
 
-                decimal totalRecebidoEmDinheiro = (vendasFiscais + vendasNaoFiscais + vendasECF);
+                decimal totalRecebidoEmDinheiro = vendasFiscais + vendasNaoFiscais + vendasECF;
 
                 log.Debug($"totalRecebidoEmDinheiro (Fiscais + NF + ECF): ({vendasFiscais} + {vendasNaoFiscais} + {vendasECF}) = {totalRecebidoEmDinheiro}");
 

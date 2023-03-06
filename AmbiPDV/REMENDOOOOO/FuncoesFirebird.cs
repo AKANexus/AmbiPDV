@@ -52,7 +52,7 @@ namespace PDV_WPF.REMENDOOOOO
         //    return resultado;
         //}
 
-        public decimal SomaDeValores(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
+        public (decimal, decimal) SomaDeValores(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
             System.DateTime DT_FECHAMENTO, FbConnection connection)
         {
             try
@@ -66,42 +66,59 @@ namespace PDV_WPF.REMENDOOOOO
                 throw;
             }
 
-            FbCommand command = new FbCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.Text;
-            string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss");
-            string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
-            string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd");
-            string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
+            FbCommand commandNF = new FbCommand();
+            commandNF.Connection = connection;
+            commandNF.CommandType = CommandType.Text;
 
-            //command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
-           /* command.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
-                                    $"DECLARE VARIABLE DT_APLICADA DATE; DECLARE VARIABLE VLR_PAGO NUMERIC(18,4); " +
-                                    $"BEGIN DT_APLICADA = DATEADD(-4 DAY TO CURRENT_DATE); VLR_TOT = 0; " +
-                                    $"FOR SELECT A.VLR_PAGTO FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA >= :DT_APLICADA AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_PAGO DO " +
-                                    $"BEGIN VLR_TOT = VLR_TOT + VLR_PAGO; END SUSPEND; END";*/
+            string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss"); string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
+            string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd"); string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
+            string modelo = "N";
+            int iteracao = 1;
+            decimal resultNaoFiscal = 0; decimal resultFiscal = 0;
 
-            command.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
-                                  $"BEGIN WITH DT_APLICADA AS (SELECT * FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}') " +
-                                  $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";
-
-            decimal resultado;
-            try
+            while (iteracao <= 2)
             {
-                var result = command.ExecuteScalar();
-                resultado = result is DBNull ? 0 : (decimal)result;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
+                //command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
+                /*commandNF.CommandText =  $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                         $"DECLARE VARIABLE DT_APLICADA DATE; DECLARE VARIABLE VLR_PAGO NUMERIC(18,4); " +
+                                         $"BEGIN DT_APLICADA = DATEADD(-4 DAY TO CURRENT_DATE); VLR_TOT = 0; " +
+                                         $"FOR SELECT A.VLR_PAGTO FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA >= :DT_APLICADA AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_PAGO DO " +
+                                         $"BEGIN VLR_TOT = VLR_TOT + VLR_PAGO; END SUSPEND; END";*/
 
-            return resultado;
+                /*.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                        $"BEGIN WITH DT_APLICADA AS (SELECT * FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}') " +
+                                        $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/
+
+                if (iteracao == 2) modelo = null;
+
+                commandNF.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                        $"BEGIN SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND A.ID_NFVENDA >= (SELECT FIRST 1 ID_NFVENDA FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}' AND HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' ORDER BY ID_NFVENDA) INTO :VLR_TOT; SUSPEND; END";              
+                try
+                {
+                    switch(modelo)
+                    {
+                        case "N":
+                            var resultNF = commandNF.ExecuteScalar();
+                            resultNaoFiscal = resultNF is DBNull ? 0 : (decimal)resultNF;
+                            break;
+                        default:
+                            var resultF = commandNF.ExecuteScalar();
+                            resultFiscal = resultF is DBNull ? 0 : (decimal)resultF;
+                            break;
+                    }                    
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                finally
+                {
+                    iteracao++;
+                    if(iteracao > 2) connection.Close();
+                }
+            }
+            return (resultNaoFiscal, resultFiscal);
         }
 
         public InfoAtacado? GetInfoAtacado(int idIdentificador, FbConnection connection)

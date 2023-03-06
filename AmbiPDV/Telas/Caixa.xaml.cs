@@ -1826,7 +1826,7 @@ namespace PDV_WPF.Telas
                     if (aviso)
                     {
                         DialogBox.Show(strings.SANGRIA,
-                                       DialogBoxButtons.Yes, DialogBoxIcons.None,
+                                       DialogBoxButtons.Yes, DialogBoxIcons.Warn,
                                        false,
                                        strings.CAIXA_ESTA_ACIMA_DO_LIMITE,
                                        strings.PRESSIONE_ENTER_PARA_CONTINUAR);

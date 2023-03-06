@@ -724,9 +724,8 @@ namespace PDV_WPF
                     log.Debug("Processando método de pagamento====================");
                     decimal valorSomado, valorSAT, valorNAOFISCAL, valorECF;
                     //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                    valorSAT = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);
-                    valorNAOFISCAL = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, "N"+intIdCaixa, fechamento, LOCAL_FB_CONN);
-                    valorECF = 0;
+                    (valorNAOFISCAL, valorSAT) = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);                   
+                     valorECF = 0;
 
                     //valorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
                     //valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
@@ -755,9 +754,8 @@ namespace PDV_WPF
                     //Soma das vendas no começo do mês até o presente.
                     if (FECHAMENTO_EXTENDIDO)
                     {
-                        a = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN) ?? 0M;
-                        b = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa, fechamento, LOCAL_FB_CONN) ?? 0M;
-                        c = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa, fechamento, LOCAL_FB_CONN) ?? 0M;
+                        (a, b) = ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);                        
+                        c = 0;
                         somaABC = a + b + c;
                         SomatoriaMensal += somaABC;
                     }
@@ -889,9 +887,8 @@ namespace PDV_WPF
                                     log.Debug("Processando método de pagamento====================");
                                     decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
                                     //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                                    valorSATAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
-                                    valorNAOFISCALAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa, FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
-                                    valorECFAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa, FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
+                                    (valorNAOFISCALAlternativo, valorSATAlternativo) = ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo, LOCAL_FB_CONN);                                   
+                                    valorECFAlternativo = 0;
                                     log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
                                     #region Total Venda editado por vinícius  
                                     //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
