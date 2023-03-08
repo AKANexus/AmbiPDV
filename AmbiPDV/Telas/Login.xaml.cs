@@ -271,7 +271,7 @@ namespace PDV_WPF
                 using var client = new WebClient();
                 textobaixado = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/loginstring").Split('¿');
             }
-            catch (WebException)
+            catch (Exception)
             {
                 textobaixado = "BEM VINDO|Bem vindo ao AMBIPDV. Mais um produto de excelência da Trilha Informática à sua disposição. Conecte-se à internet para obter as notícias mais recentes!".Split('¿');
             }
