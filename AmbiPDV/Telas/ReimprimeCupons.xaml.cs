@@ -256,18 +256,21 @@ namespace PDV_WPF.Telas
 
 
             var Funcoes = new funcoesClass();
-            decimal _qCom, _vUnCom, _vDesc;
+            decimal _qCom = 1, _vUnCom = 1, _vDesc = 0;
             foreach (envCFeCFeInfCFeDet item in cFeDeRetorno.infCFe.det)
             {
-                _qCom = decimal.Parse(item.prod.qCom, CultureInfo.InvariantCulture);
-                _vUnCom = decimal.Parse(item.prod.vUnCom, CultureInfo.InvariantCulture);
-                _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, CultureInfo.InvariantCulture);
+                
+                decimal.TryParse(item.prod.qCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _qCom);
+                decimal.TryParse(item.prod.vUnCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnCom);
+                decimal.TryParse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vDesc);
 
                 if (!string.IsNullOrWhiteSpace(item.prod.NCM))
                 {
                     Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun);
-
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, decimal.Parse(item.prod.vUnComOri ?? "0"));
+                    decimal? _vUnComOri = null;
+                    decimal.TryParse(item.prod.vUnComOri, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture,
+	                    out _vUnCom);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, _vUnComOri ?? 0);
                 }
                 else
                 {
