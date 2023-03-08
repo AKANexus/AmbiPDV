@@ -984,7 +984,7 @@ namespace PDV_WPF
             IBPTDataTable.Columns.Clear();
             //get all lines of csv file
             string[] str;
-            string path = AppDomain.CurrentDomain.BaseDirectory + "\\IBPT.csv";
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "IBPT.csv");
             if (!File.Exists(path))
             {
                 AtualizarIBPT();
