@@ -2880,9 +2880,7 @@
                 <Paragraph>
                   <TextRuns>
                     <TextRun>
-                      <Value EvaluationMode="Constant">DOCUMENTO AUXILIAR DE VENDA - ORÇAMENTO
-NÃO É DOCUMENTO FISCAL - NÃO É VÁLIDO COMO RECIBO E COMO
-GARANTIA DE MERCADORIA - NÃO COMPROVA PAGAMENTO</Value>
+                      <Value EvaluationMode="Constant">DOCUMENTO AUXILIAR DE VENDA - PEDIDO DE VENDA</Value>
                       <Style>
                         <FontFamily>Open Sans SemiBold</FontFamily>
                         <FontSize>12pt</FontSize>

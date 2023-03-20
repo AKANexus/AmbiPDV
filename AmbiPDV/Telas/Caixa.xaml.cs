@@ -5814,7 +5814,7 @@ namespace PDV_WPF.Telas
                 log.Debug($"Aplicado desconto: R${desconto}");
                 //comdesc = vUnCom - desconto;
                 //vDescAplic = (vUnCom - desconto) * quant;
-                vDescAplic = desconto;
+                vDescAplic = desconto * quant;
                 tipoDeDesconto = tipoDesconto.Nenhum;
                 txb_Avisos.Text = "CUPOM ABERTO";
             }
@@ -5938,7 +5938,7 @@ namespace PDV_WPF.Telas
                             ImprimirCupomVirtual(string.Format("CANCELADO - " + produtoRemove.xProd.Trunca(29)));
                             ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoRemove.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)));
 
-                            subtotal -= ((precounit - desc) * quant).RoundABNT();
+                            subtotal -= ((precounit * quant) - desc).RoundABNT();
                             txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");
                             numProximoItem += 1;
                         }
