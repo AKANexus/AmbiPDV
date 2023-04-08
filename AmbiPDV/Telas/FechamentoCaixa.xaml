@@ -63,6 +63,9 @@
                     <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12"/>
                 </Border>
             </UniformGrid>
+            <Border x:Name="but_RelatorioX" Background="#000000" Height="37" Width="127" HorizontalAlignment="Center" Visibility="Hidden" MouseDown="relatorioX_Click" Margin="0,25,0,0" MouseEnter="but_RelatorioX_MouseEnter" MouseLeave="but_RelatorioX_MouseLeave">
+                <Label x:Name="lbl_RelatorioX" Content="RELATÓRIO X?" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12"/>
+            </Border>
         </StackPanel>
     </ScrollViewer>
 </Window>

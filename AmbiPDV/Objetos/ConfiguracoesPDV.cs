@@ -567,6 +567,7 @@ namespace PDV_WPF.Configuracoes
         public static bool SENHA_PRAZO { get; set; }
         public static bool SENHA_CONSULTA { get; set; }
         public static bool SCANNTECH { get; set; }
+        public static bool SENHA_REIMPRESSAO { get; set; }
 
         #endregion Propriedades
 
@@ -885,5 +886,6 @@ namespace PDV_WPF.Configuracoes
         public int SENHA_PRAZO { get; set; } = 0;
         public int SENHA_CONSULTA { get; set; } = 0;
         public int SCANNTECH { get; set; } = 0;
+        public int SENHA_REIMPRESSAO { get; set; } = 0;
     }
 }

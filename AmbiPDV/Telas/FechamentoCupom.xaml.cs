@@ -61,11 +61,12 @@ namespace PDV_WPF.Telas
 
         #endregion Fields & Properties
 
-        public static decimal vlrTotalVenda; public static decimal ObtemDesc = 0;
+        public readonly decimal _vlrTotalVenda; public decimal descNaVenda = 0;
         #region (De)Constructor
 
-        public FechamentoCupom(decimal desconto_maximo, ref Venda vendaAtual, bool modoTeste = false)
+        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false)
         {
+            _vlrTotalVenda = vlrTotalVenda;
             _desconto_maximo = desconto_maximo;
             InitializeComponent();
             this.Title = NOMESOFTWARE + " - Fechamento de cupom.";
@@ -799,10 +800,10 @@ namespace PDV_WPF.Telas
         }
         public void VerificaVlrTotal()
         {            
-            if (vlrTotalVenda > valor_a_ser_pago)
+            if (_vlrTotalVenda > valor_a_ser_pago)
             {
-                ObtemDesc = vlrTotalVenda - valor_a_ser_pago;                          
-                txt_Vlr.Text = ObtemDesc.ToString("C");
+                descNaVenda = _vlrTotalVenda - valor_a_ser_pago;                          
+                txt_Vlr.Text = descNaVenda.ToString("C");
                 txbDesc.Visibility = Visibility.Visible;
             }
         }

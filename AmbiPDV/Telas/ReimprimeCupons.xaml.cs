@@ -15,6 +15,8 @@ using PDV_WPF.Funcoes;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.DataSets;
+using System.Data;
 
 namespace PDV_WPF.Telas
 {
@@ -62,15 +64,15 @@ namespace PDV_WPF.Telas
 
         private void ReimprimeCupom(ReimpressaoVenda cupom)
         {
-            if (cupom.NF_SERIE.Contains("E") || cupom.NF_SERIE.Contains("N"))
-            {
-                using var Itens_DT = new DataSets.FDBDataSetVenda.CupomItensTableDataTable();
-                using var Pagtos_DT = new DataSets.FDBDataSetVenda.CupomPgtosTableDataTable();
-                using var Itens_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomItensTableAdapter();
-                using var Pagtos_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomPgtosTableAdapter();
-                Itens_TA.FillByNFVenda(Itens_DT, cupom.ID_NFVENDA);
-                Pagtos_TA.FillByNFVenda(Pagtos_DT, cupom.ID_NFVENDA);
+            using var Itens_DT = new DataSets.FDBDataSetVenda.CupomItensTableDataTable();
+            using var Pagtos_DT = new DataSets.FDBDataSetVenda.CupomPgtosTableDataTable();
+            using var Itens_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomItensTableAdapter();
+            using var Pagtos_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomPgtosTableAdapter();
+            Itens_TA.FillByNFVenda(Itens_DT, cupom.ID_NFVENDA);
+            Pagtos_TA.FillByNFVenda(Pagtos_DT, cupom.ID_NFVENDA);
 
+            if (cupom.NF_SERIE.Contains("E") || cupom.NF_SERIE.Contains("N"))
+            {                                               
                 #region Converte NF em F
 
                 string CNPJSH = "22141365000179";
@@ -172,6 +174,7 @@ namespace PDV_WPF.Telas
 
                 VendaDEMO.numerodocupom = cupom.Num_Cupom;
                 VendaDEMO.operadorStr = "REIMPRESSÃO";
+                VendaDEMO.TsOperacao = cupom.TS_Venda;
                 VendaDEMO.num_caixa = int.Parse(cupom.NF_SERIE.Replace("E", "").Replace("N", ""));
                 foreach (var item in Itens_DT)
                 {
@@ -211,12 +214,12 @@ namespace PDV_WPF.Telas
                     chave = SAT_DT[0].CHAVE;
                 }
                 if (File.Exists($@"SAT\Vendas\AD{chave}.xml"))
-                    ReimprimeXML(chave);
+                    ReimprimeXML(chave, Pagtos_DT, cupom);
                 return;
             }
         }
 
-        private bool ReimprimeXML(string chave)
+        private bool ReimprimeXML(string chave, FDBDataSetVenda.CupomPgtosTableDataTable pagtos_Dt, ReimpressaoVenda cupom)
         {
             var serializer = new XmlSerializer(typeof(CFe));
             var _metodos_de_pagamento = new Dictionary<string, string>
@@ -259,15 +262,17 @@ namespace PDV_WPF.Telas
             decimal _qCom, _vUnCom, _vDesc;
             foreach (envCFeCFeInfCFeDet item in cFeDeRetorno.infCFe.det)
             {
-                _qCom = decimal.Parse(item.prod.qCom, CultureInfo.InvariantCulture);
-                _vUnCom = decimal.Parse(item.prod.vUnCom, CultureInfo.InvariantCulture);
-                _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, CultureInfo.InvariantCulture);
+                decimal.TryParse(item.prod.qCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _qCom);
+                decimal.TryParse(item.prod.vUnCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnCom);
+                decimal.TryParse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vDesc);
 
                 if (!string.IsNullOrWhiteSpace(item.prod.NCM))
                 {
                     Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun);
 
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, decimal.Parse(item.prod.vUnComOri ?? "0"));
+                    decimal _vUnComOri;
+                    decimal.TryParse(item.prod.vUnComOri, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnComOri);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, _vUnComOri);
                 }
                 else
                 {
@@ -284,7 +289,7 @@ namespace PDV_WPF.Telas
                 string strMensagemLogLancaContaRec = string.Empty;
                 string strMensagemLogLancaMovDiario = string.Empty;
                 //var _vMP = 0m;
-                decimal valor_prazo = 0;
+                decimal valor_prazo = 0;                
 
                 using (var CONTAREC_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter())
                 using (var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())
@@ -299,7 +304,7 @@ namespace PDV_WPF.Telas
                         VendaImpressa.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], vMP);
                         if (item.cMP == "05")
                         {
-                            valor_prazo = item.dec_vMP;
+                            valor_prazo = item.dec_vMP;                           
                         }
                     }
                 }
@@ -325,12 +330,12 @@ namespace PDV_WPF.Telas
                 if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.obsFisco is null))
                 {
                     VendaImpressa.observacaoFisco = (cFeDeRetorno.infCFe.obsFisco[0].xCampo, cFeDeRetorno.infCFe.obsFisco[0].xTexto);
-                }
+                }                
                 //try
                 //{
                 //    if (vendaAtual.imprimeViaAssinar)
                 //    {
-                //        VendaImpressa.cliente = pFechamento.nome_cliente;
+                //        VendaImpressa.cliente =  pFechamento.nome_cliente;
                 //        VendaImpressa.vencimento = pFechamento.vencimento;
                 //        VendaImpressa.valor_prazo = valor_prazo;
                 //        venda_prazo += 1;
@@ -347,7 +352,29 @@ namespace PDV_WPF.Telas
                 //}
 
             }
-            VendaImpressa.IMPRIME(0, cFeDeRetorno);
+            bool prazo = false;
+            foreach (var item in pagtos_Dt)
+            {
+                //VendaDEMO.RecebePagamento(item.DESCRICAO, item.VLR_PAGTO);
+                if (!item.IsDT_VENCTONull())
+                {
+                    VendaImpressa.cliente = item.NOME;
+                    VendaImpressa.vencimento = item.DT_VENCTO;
+                    VendaImpressa.valor_prazo = item.VLR_PAGTO;
+                    VendaImpressa.TsOperacao = cupom.TS_Venda;
+                    prazo = true;
+                }
+            }
+            switch (prazo)
+            {
+                case true:
+                    VendaImpressa.IMPRIME(1, cFeDeRetorno); 
+                    VendaImpressa.IMPRIME(1, null);
+                    break;
+                default:
+                    VendaImpressa.IMPRIME(0, cFeDeRetorno);
+                    break;
+            }            
             return true;
         }
 

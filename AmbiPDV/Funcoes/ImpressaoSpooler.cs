@@ -28,6 +28,8 @@ using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.PrintFunc;
 using DarumaDLL = LocalDarumaFrameworkDLL.UnsafeNativeMethods;
 using TB_CUPOMTableAdapter = PDV_WPF.DataSets.FDBDataSetVendaTableAdapters.TB_CUPOMTableAdapter;
+using RestSharp;
+using System.Windows.Documents;
 
 namespace PDV_WPF
 {
@@ -446,6 +448,7 @@ namespace PDV_WPF
         public decimal valor;
         public string numcaixa;
         public bool reimpressao = false;
+        public DateTime dtOperacao;
 
         public bool IMPRIME()
         {
@@ -523,9 +526,11 @@ namespace PDV_WPF
                 #region Region1
                 RecebePrint("Comprovante de ".ToUpper() + operacao, titulo, centro, 1);
                 RecebePrint("Caixa Nº  " + numcaixa, titulo, centro, 1);
-                if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
-                RecebePrint(new string('-', 81), negrito, centro, 1);
-                RecebePrint(DateTime.Now.ToShortDateString() + ", " + DateTime.Now.ToLongTimeString(), negrito, centro, 1);
+                if (reimpressao) { RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1); RecebePrint(new string('-', 81), negrito, centro, 1);
+                                   RecebePrint("Data da operação: " + dtOperacao.ToShortDateString() + " " + dtOperacao.ToLongTimeString(), negrito, centro, 1);
+                                   RecebePrint("Data da reimpressão: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), negrito, centro, 1); }
+                else { RecebePrint(new string('-', 81), negrito, centro, 1);
+                       RecebePrint("Data da operação: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), negrito, centro, 1); }              
                 //PrintFunc.RecebePrint(" ", Titulo, centro, true);
                 RecebePrint("Valor: " + valor.ToString("c2"), titulo, esquerda, 1);
                 //PrintFunc.RecebePrint("Operação: " + operacao, negrito, esquerda, true);
@@ -605,13 +610,13 @@ namespace PDV_WPF
         /// <param name="intIdCaixa">Deve ser preenchido apenas na reimpressão</param>
         /// <param name="blnFazerFechamento">True apenas se for chamado durante um fechamento de caixa. Para reimpressão, deve ser false.</param>
         /// <returns></returns>
-        public bool IMPRIME(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
+        public bool IMPRIME(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true, bool relatorioX = false)
         {
             if (IMPRESSORA_USB != "Nenhuma")
             {
                 try
                 {
-                    return IMPRIME_SPOOLER(dtmFechado, METODOS_DT, intIdCaixa, blnFazerFechamento);
+                    return IMPRIME_SPOOLER(dtmFechado, METODOS_DT, intIdCaixa, blnFazerFechamento, relatorioX);
                 }
                 catch (Exception ex)
                 {
@@ -628,7 +633,7 @@ namespace PDV_WPF
         {
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
-        private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
+        private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true, bool relatorioX = false)
         {
 	        FuncoesFirebird ff = new();
 
@@ -661,6 +666,97 @@ namespace PDV_WPF
             DateTime abertura = new DateTime();
             DateTime aberturaAnterior = new DateTime();
             DateTime fechamento = new DateTime();
+            
+            if(relatorioX)
+            {
+                try
+                {
+                    log.Debug("RelatóioX acionado");
+
+                    fecha_oper_dt = Oper.GetByCaixaAberto(intIdCaixa);
+                    var metodosAtiv = METODOS_DT.Select(x => new { COD_CFE = x.ID_NFCE, x.STATUS, x.DESCRICAO, x.ID_FMANFCE });
+                    List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresPorMet = new();
+                    decimal san = 0, sup = 0; 
+                    abertura = Oper.GetByCaixaAberto(intIdCaixa)[0].CURRENTTIME;
+                    fechamento = DateTime.Now;
+
+                    foreach (var ativos in metodosAtiv)
+                    {
+                        decimal valorSomado, valorSAT, valorNAOFISCAL, valorECF;
+                        (valorNAOFISCAL, valorSAT) = ff.SomaDeValores(abertura, ativos.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);
+                        valorECF = 0;
+                        valorSomado = valorNAOFISCAL + valorSAT + valorECF;
+                        if (ativos.COD_CFE == "01")
+                        {
+                            using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
+                            {
+                                SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
+                                san = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                                sup = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                                log.Debug($"Sangrias: {san} - Suprimentos: {sup}");
+                                valorSomado -= san;
+                                valorSomado += sup;
+                            }
+                        }
+                        valoresPorMet.Add((ativos.COD_CFE, valorSomado, ativos.ID_FMANFCE, ativos.DESCRICAO));
+                        totaissistema += valorSomado;
+                    }
+
+                    RecebePrint(nomefantasia, negrito, centro, 1);
+                    RecebePrint(enderecodaempresa, corpo, centro, 1);
+                    RecebePrint("CNPJ: " + cnpjempresa.Substring(0, 2) + "." + cnpjempresa.Substring(2, 3) + "." + cnpjempresa.Substring(5, 3) + "/" + cnpjempresa.Substring(8, 4) + "-" + cnpjempresa.Substring(12, 2), corpo, centro, 1);
+                    LinhaHorizontal();
+                    RecebePrint(new string('>', 15), negrito, esquerda, 0);
+                    RecebePrint(new string('<', 15), negrito, direita, 0);
+                    RecebePrint("RELATÓRIO X", negrito, centro, 1);
+
+                    using (var ContaFormasPagto = new SP_TRI_CONTANFVPAGTOTableAdapter())
+                    {
+                        ContaFormasPagto.Connection = LOCAL_FB_CONN;
+                        if (ECF_ATIVA) ContaFormasPagto.Fill(contagemFiscal, "E" + intIdCaixa, abertura, fechamento, "I");
+                        if (SAT_USADO) ContaFormasPagto.Fill(contagemFiscal, intIdCaixa.ToString(), abertura, fechamento, "I");
+                        ContaFormasPagto.Fill(contagemNaoFiscal, "N" + intIdCaixa, abertura, fechamento, "I");
+                    }
+
+                    foreach (var metodo in valoresPorMet)
+                    {
+                        log.Debug($"metodo{metodo},valoresOperacinais: {valoresPorMet}");
+                        //CALCULA NÚMERO DE OPERAÇÕES
+                        int contador = 0;
+                        if (!(contagemNaoFiscal.Count == 0 || contagemNaoFiscal[0][0] is DBNull))
+                            contador += (from linha in contagemNaoFiscal.AsEnumerable() where linha.RID_FMANCFE == metodo.ID_FMANFCE select linha.RCOUNT_FMANCE).FirstOrDefault();
+                        if (!(contagemFiscal.Count == 0 || contagemFiscal[0][0] is DBNull))
+                            contador += (from linha in contagemFiscal.AsEnumerable() where linha.RID_FMANCFE == metodo.ID_FMANFCE select linha.RCOUNT_FMANCE).FirstOrDefault();
+                        RecebePrint("\t\t:" + contador + "\tR$", corpo, esquerda, 0);
+                        numcupons += contador;
+                        RecebePrint(metodo.DESCRICAO + "\t", corpo, esquerda, 0);
+                        RecebePrint(String.Format("\t{0}", (metodo.VALOR).ToString("0.00")), corpo, rtl, 1);
+                    }
+
+                    RecebePrint("TOTAL\t\t:\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + totaissistema.ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint(" ", mini, esquerda, 1);
+                    RecebePrint("TROCAS\t\t:   " + "" + "\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + ((decimal)fecha_oper_dt[0]["TROCAS"]).ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint("SUPRIMENTOS\t:   " + "" + "\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + sup.ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint("SANGRIA\t\t:   " + "" + "\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + san.ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint(" ", mini, esquerda, 1);
+                    RecebePrint("\tData do relatório: " + fechamento.ToString("dd/MM/yyyy HH:mm:ss"), corpo, esquerda, 1);
+                    LinhaHorizontal();
+                    RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
+                    RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
+
+                    PrintaSpooler();
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    log.Debug("Erro ao imprimir relatório X: " + ex.Message);
+                    return false;
+                }
+            }
             if (blnFazerFechamento)
             {
                 fecha_oper_dt = Oper.GetByCaixaAberto(intIdCaixa);
@@ -765,7 +861,7 @@ namespace PDV_WPF
                 }
             }
             FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
-
+            
             #region Rendimento Produto/Servico
             if (FECHAMENTO_EXTENDIDO)
             {
@@ -783,10 +879,7 @@ namespace PDV_WPF
                     MessageBox.Show(ex.Message);
                 }
             }
-            #endregion
-
-
-
+            #endregion            
 
             #region Fluxo Turno Anterior
             if (FECHAMENTO_EXTENDIDO)
@@ -1468,7 +1561,7 @@ namespace PDV_WPF
             //else RecebePrint(new string('-', 91), negrito, centro, 1);
         }
 
-        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null)
+        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null, decimal vlrTotAtacado = 0)
         {
             float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
             esquerda.align.SetTabStops(10f, tabstops);
@@ -1604,13 +1697,12 @@ namespace PDV_WPF
                 }
                 //RecebePrint(" ", corpo, esquerda, 1);
                 LinhaHorizontal();
-                if (FechamentoCupom.ObtemDesc > 0)
+                if (vlrTotAtacado > 0)
                 {
                     RecebePrint("NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);
-                    RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
+                    RecebePrint($"{vlrTotAtacado:C2}", titulo, centro, 0);
                     RecebePrint(" ", corpo, esquerda, 1);
-                    LinhaHorizontal();
-                    FechamentoCupom.ObtemDesc = 0;
+                    LinhaHorizontal();                    
                 }
                 if (DETALHADESCONTO)
                 {
@@ -1945,7 +2037,7 @@ namespace PDV_WPF
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
 
-        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null)
+        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null, decimal vlrTotAtacado = 0)
         {
             float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
             esquerda.align.SetTabStops(10f, tabstops);
@@ -1995,7 +2087,6 @@ namespace PDV_WPF
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
                         RecebePrint(prod.valorunit.ToString("C"), italico, direita, 1);
-
                     }
                     subtotal += prod.valortotal - prod.desconto;
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
@@ -2032,13 +2123,12 @@ namespace PDV_WPF
                 }
                 //RecebePrint(" ", corpo, esquerda, 1);
                 LinhaHorizontal();
-                if(FechamentoCupom.ObtemDesc > 0)
+                if(vlrTotAtacado > 0)
                 {
                     RecebePrint("NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);                    
-                    RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
+                    RecebePrint($"{vlrTotAtacado:C2}", titulo, centro, 0);
                     RecebePrint(" ", corpo, esquerda, 1);
-                    LinhaHorizontal();
-                    FechamentoCupom.ObtemDesc = 0;
+                    LinhaHorizontal();                    
                 }                
                 if (DETALHADESCONTO)
                 {
@@ -2054,7 +2144,9 @@ namespace PDV_WPF
                     }
                     if (existeDetalhamento) LinhaHorizontal();
                 }
-                RecebePrint((TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
+                if (operadorStr.Equals("REIMPRESSÃO")) { RecebePrint("Data da operação: " + (TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
+                                                         RecebePrint("Data da reimpressão: " + DateTime.Now.ToString(), corpo, esquerda, 2); }
+                else { RecebePrint((TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1); }
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {

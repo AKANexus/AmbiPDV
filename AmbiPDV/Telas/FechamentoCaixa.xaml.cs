@@ -9,8 +9,7 @@ using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using System.Threading;
-
-
+using System.Threading.Tasks;
 
 namespace PDV_WPF.Telas
 {
@@ -42,11 +41,7 @@ namespace PDV_WPF.Telas
         DataSets.FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT = new DataSets.FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable();
         private DateTime _abertura;
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
-        Thread t1 = new Thread(() =>
-        {
-            ExibirGif exibirGif = new ExibirGif();
-            exibirGif.ShowDialog();
-        });
+        public bool ImpRelX = false;
         #endregion Fields & Properties
 
         #region (De)Constructor
@@ -141,7 +136,28 @@ namespace PDV_WPF.Telas
         #endregion (De)Constructor
 
         #region Events
-
+        private void confirmar_Click(object sender, MouseButtonEventArgs e)
+        {
+            debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+            {
+                fecha_o_caixa();
+            });
+        }
+        private void cancelar_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (DialogBox.Show("Fechamento de Caixa", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja cancelar o fechamento? Será necessário digitar a senha novamente.") == true)
+            {
+                DialogResult = false;
+                this.Close();
+            }
+        }
+        private void relatorioX_Click(object sender, MouseButtonEventArgs e)
+        {
+            debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+            {
+                relatorio_x();
+            });
+        }
         private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
         {
             lbl_Da.FontSize = 15;
@@ -149,14 +165,7 @@ namespace PDV_WPF.Telas
         private void but_Confirmar_MouseLeave(object sender, EventArgs e)
         {
             lbl_Da.FontSize = 12;
-        }
-        private void confirmar_Click(object sender, MouseButtonEventArgs e)
-        {
-            debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-            {                
-                fecha_o_caixa(); // deuruim();
-            });
-        }
+        }       
         private void but_Cancelar_MouseEnter(object sender, EventArgs e)
         {
             lbl_Nyet.FontSize = 15;
@@ -165,11 +174,15 @@ namespace PDV_WPF.Telas
         {
             lbl_Nyet.FontSize = 12;
         }
-        private void cancelar_Click(object sender, MouseButtonEventArgs e)
+        private void but_RelatorioX_MouseEnter(object sender, MouseEventArgs e)
         {
-            this.Close();
-            return;
+            lbl_RelatorioX.FontSize = 15;
         }
+
+        private void but_RelatorioX_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_RelatorioX.FontSize = 12;
+        }      
         private void txb_Total_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -192,7 +205,7 @@ namespace PDV_WPF.Telas
 
         /// <summary>
         /// Atualiza as caixas de textos com os valores das variáveis
-        /// </summary>
+        /// </summary>       
         private void atualiza_valores()
         {
             _dinheiro = txb_Dinheiro.Value;
@@ -221,8 +234,8 @@ namespace PDV_WPF.Telas
                 switch (DialogBox.Show("Fechamento do caixa", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja executar o fechamento do caixa?"))
                 {
                     case true:
-                        t1.SetApartmentState(ApartmentState.STA);
-                        t1.Start();
+                        TimedBox dialog = new TimedBox("Fechamento", "Realizando a contagem dos valores em caixa, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                        dialog.Show();
                         DataRow metodo_pgto_col;
                         metodo_pgto_col = Impressao.fecha_infor_dt.NewRow();
                         metodo_pgto_col[0] = -1;
@@ -286,6 +299,7 @@ namespace PDV_WPF.Telas
                             log.Debug($"ImprimeFechamento() {_abertura}");
                             if (!Impressao.IMPRIME(DateTime.MinValue, METODOS_DT, NO_CAIXA)) // deuruim()
                             {
+                                dialog.Close();
                                 DialogResult = false;
                                 this.Close();
                                 return false;
@@ -295,9 +309,9 @@ namespace PDV_WPF.Telas
                                                    _dinheiro, _cheque, _credito, _debito, _valeloja, _alimentacao, _refeicao, _presente, _combustivel, _outros, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                    _TROCA, _SUP, _SANG, userid, _abertura);
                             log.Debug($"Foi registrado o fechamento do caixa {NO_CAIXA} pelo operador {operador}");
-                        }                        
-                        DialogResult = true;
-                        Login.stateGif = false;
+                        }
+                        dialog.Close();
+                        DialogResult = true;                        
                         this.Close();
                         return true;
                     case false:
@@ -309,10 +323,40 @@ namespace PDV_WPF.Telas
             }
             return false;
         }
+        private void relatorio_x()
+        {
+            if ((DialogBox.Show("Relatório X", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja realizar a impressão do Relatório X?\n Obs:. o turno não será fechado.") == true))
+            {
+                TimedBox dialog = new TimedBox("Relatório X", "Realizando a contagem dos valores em caixa, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                dialog.Show();
+
+                using (var EMIT_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EMITENTETableAdapter())
+                using (var EMIT_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable())
+                using (var Impressao = new PrintFECHA())
+                {
+                    EMIT_TA.Fill(EMIT_DT);
+                    Impressao.cnpjempresa = EMIT_DT[0].CNPJ.TiraPont();
+                    Impressao.nomefantasia = EMIT_DT[0].NOME_FANTA.Safestring();
+                    Impressao.enderecodaempresa = string.Format("{0} {1}, {2} - {3}, {4}",
+                                                                EMIT_DT[0].END_TIPO,
+                                                                EMIT_DT[0].END_LOGRAD,
+                                                                EMIT_DT[0].END_NUMERO,
+                                                                EMIT_DT[0].END_BAIRRO,
+                                                                "São Paulo");
+                    if (!Impressao.IMPRIME(DateTime.MinValue, METODOS_DT, NO_CAIXA, false, true))
+                    {
+                        DialogBox.Show("Relatório X", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Erro ao calcular e/ou imprimir relatório X\n" +
+                                       "Se o problema persistir entre em contato com o suporte técnico.");
+                    }
+                    dialog.Close();
+                    ImpRelX = true;
+                    DialogResult = true;                    
+                    this.Close();
+                }
+            }
+        }
 
         #endregion Methods
-
-
         private void Frm_FechamentoCaixa_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape && (DialogBox.Show("Fechamento de Caixa", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja cancelar o fechamento? Será necessário digitar a senha novamente.") == true))
@@ -320,7 +364,11 @@ namespace PDV_WPF.Telas
                 DialogResult = false;
                 this.Close();
             }
-        }      
+            else if(e.Key == Key.R && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                but_RelatorioX.Visibility = Visibility.Visible;
+            }
+        }       
     }
 
     public class CurrencyTextBox : CurrencyTextBoxControl.CurrencyTextBox

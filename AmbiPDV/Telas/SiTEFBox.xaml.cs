@@ -728,11 +728,9 @@ namespace PDV_WPF.Telas
                     estadoTEF = StateTEF.CancelamentoRequisitado;
                     ComunicaComTEFAsync(progressIndicator);
                 }
-                else if (PermiteCancelar)
-                {
+                ///else if (PermiteCancelar) { }
                     log.Debug("Cancelamento solicitado");
-                    estadoTEF = StateTEF.CancelamentoRequisitado;
-                }
+                    estadoTEF = StateTEF.CancelamentoRequisitado;                
                 return;
             }
             if ((new[] { StateTEF.AguardaEnter }.Contains(estadoTEF)) && e.Key == Key.Enter)

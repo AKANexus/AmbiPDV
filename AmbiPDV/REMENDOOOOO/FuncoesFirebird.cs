@@ -72,10 +72,10 @@ namespace PDV_WPF.REMENDOOOOO
 
             string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss"); string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
             string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd"); string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
-            string modelo = "N";
+            string modelo;
             int iteracao = 1;
             decimal resultNaoFiscal = 0; decimal resultFiscal = 0;
-
+                        
             while (iteracao <= 2)
             {
                 //command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
@@ -87,12 +87,13 @@ namespace PDV_WPF.REMENDOOOOO
 
                 /*.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
                                         $"BEGIN WITH DT_APLICADA AS (SELECT * FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}') " +
-                                        $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/
+                                        $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/                
+                modelo = iteracao == 2 ? null : "N";
 
-                if (iteracao == 2) modelo = null;
+                if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
+                else commandNF.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                             $"BEGIN SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND A.ID_NFVENDA >= (SELECT FIRST 1 ID_NFVENDA FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}' AND HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' ORDER BY ID_NFVENDA) INTO :VLR_TOT; SUSPEND; END";
 
-                commandNF.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
-                                        $"BEGIN SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND A.ID_NFVENDA >= (SELECT FIRST 1 ID_NFVENDA FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}' AND HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' ORDER BY ID_NFVENDA) INTO :VLR_TOT; SUSPEND; END";              
                 try
                 {
                     switch(modelo)
@@ -114,7 +115,7 @@ namespace PDV_WPF.REMENDOOOOO
                 }
                 finally
                 {
-                    iteracao++;
+                    iteracao++;                    
                     if(iteracao > 2) connection.Close();
                 }
             }

@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf" x:Class="PDV_WPF.Telas.BalancaBox"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="True" AllowsTransparency="True" KeyDown="window_KeyDown"
+        WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="True" AllowsTransparency="True" KeyDown="window_KeyDown" Loaded="Window_Loaded"
         Title="DialogBox" Height="450" Width="470" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
 
     <Border Margin="10,0" Background="#FFF9F9F9" CornerRadius="10" VerticalAlignment="Center" Padding="13">

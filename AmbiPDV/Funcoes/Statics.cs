@@ -195,6 +195,11 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            SENHA_REIMPRESSAO = xmlLido.SENHA_REIMPRESSAO switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {

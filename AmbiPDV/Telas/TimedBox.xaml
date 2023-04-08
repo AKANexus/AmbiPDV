@@ -45,8 +45,7 @@
                 </Canvas>
             </Viewbox>
             <Image Name="icn_dolan" Visibility="Collapsed" Source="/Resources/gooby.jpg" Width="123" Height="123" />
-
-            <TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="tbl_Body" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" FontSize="24" Foreground="#FF757575" MaxWidth="430" TextAlignment="Center" FontWeight="Bold"><Run x:Name="run_Linha1"  Text="Primeira linha da mensagem da caixa de diálogo"/><LineBreak/><Run x:Name="run_Linha2" Text="Segunda linha de mensagem da caixa de diálogo"/><LineBreak/><Run x:Name="run_Linha3" Text="Terceira linha de mensagem da caixa d"/><Run Text="e "/><Run Text="diálogo"/></TextBlock>
+            <TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="tbl_Body" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontFamily="Open Sans SemiBold" FontSize="14" Foreground="#FF757575" MaxWidth="430" TextAlignment="Center"><Run x:Name="run_Linha1"  Text="Primeira linha da mensagem da caixa de diálogo"/><LineBreak/><Run x:Name="run_Linha2" Text="Segunda linha de mensagem da caixa de diálogo"/><LineBreak/><Run x:Name="run_Linha3" Text="Terceira linha de mensagem da caixa d"/><Run Text="e "/><Run Text="diálogo"/></TextBlock>
             <StackPanel Visibility="Collapsed" Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,31">
                 <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
                     <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
