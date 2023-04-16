@@ -354,6 +354,8 @@ namespace PDV_WPF.Telas
         }
         private void but_F4_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!_emTransacao) { DialogBox.Show("Remover item", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Nenhuma venda está aberta, não será possivel estornar item."); return; }
+            if (!turno_aberto) { DialogBox.Show("Remover item", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Turno não está aberta, não será possivel estornar item."); return; }
             RemoverItemDaVendaNovo();
             return;
         }
@@ -380,7 +382,17 @@ namespace PDV_WPF.Telas
         }
         private void but_F6_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CancelarUltimoCupom();
+            if (!turno_aberto) { DialogBox.Show("Cancelamento de cupom", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel cancelar um cupom com o caixa fechado, abra um turno e tente novamente."); return; }
+            switch(_emTransacao)
+            {
+                case false:
+                    CancelarUltimoCupom();
+                    break;
+                case true:
+                    if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false)) return;                   
+                    CancelarVendaAtual();
+                    break;
+            }           
             return;
         }
         private void but_F7_MouseEnter(object sender, EventArgs e)
@@ -393,6 +405,8 @@ namespace PDV_WPF.Telas
         }
         private void but_F7_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (_emTransacao) { DialogBox.Show("Devolução", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel fazer devolução com venda aberta, finalize e tente novamente."); return; }
+            if (!turno_aberto) { DialogBox.Show("Devolução", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel fazer devolução com o caixa fechado, abra um turno e tente novamente."); return; }
             AlternarModoDevolucao();
             return;
         }
@@ -406,6 +420,7 @@ namespace PDV_WPF.Telas
         }
         private void but_F8_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!turno_aberto) { DialogBox.Show("Desconto", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel aplicar desconto com o caixa fechado, abra um turno e tente novamente."); return; }
             AlternarDescontoNoItem();
             return;
         }
@@ -1821,11 +1836,8 @@ namespace PDV_WPF.Telas
                 return statusSangria.Normal;
             }                      
             var funcoes = new funcoesClass();
-            decimal valoremgaveta = 0;
-            Task<decimal> calculandoValor = Task.Run(() => funcoes.CalculaValorEmCaixa(NO_CAIXA));
-            calculandoValor.ContinueWith((antecedent) => { valoremgaveta = antecedent.Result; });
-
-            //decimal valoremgaveta = funcoes.CalculaValorEmCaixa(NO_CAIXA);
+            decimal valoremgaveta = funcoes.CalculaValorEmCaixa(NO_CAIXA);            
+            
             //using (var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())
             //using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             //{
@@ -2124,7 +2136,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                     relatorioX = fc.ImpRelX;
-                    if (!relatorioX) txb_Avisos.Text = "CAIXA FECHADO";
+                    if (!relatorioX) txb_Avisos.Text = "CAIXA FECHADO";                   
                     try
                     {
                         log.Debug("Iniciando checagem por conexão e sincronização de tudo no fechamento de turno.");
@@ -2164,11 +2176,7 @@ namespace PDV_WPF.Telas
                     return false;
 
                 }
-                if (!relatorioX) turno_aberto = false;
-                if (txb_Avisos.Text == "FAZER SANGRIA")
-                {
-                    txb_Avisos.Text = "CAIXA LIVRE";
-                }
+                if (!relatorioX) turno_aberto = false;               
                 return true;
             }
             else
@@ -6553,6 +6561,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
+                    if (!_emTransacao) { DialogBox.Show("Remover item", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Nenhuma venda está aberta, não será possivel estornar item."); return; }
                     RemoverItemDaVendaNovo();
                 });
             } //Ativa modo de cancelamento de item (Tecla F4 com venda ativa)
@@ -6566,7 +6575,7 @@ namespace PDV_WPF.Telas
                 });
             } // Ativa modo de consulta avançado (Tecla F5)
             /* ---------------*/
-            else if (e.Key == Key.F6 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
+            else if (e.Key == Key.F6 && e.KeyboardDevice.Modifiers == ModifierKeys.None && turno_aberto)
             {
                 //cancelamentoAtual.CancelaCupomFiscal(new CupomSAT());
                 //return;
@@ -6588,7 +6597,7 @@ namespace PDV_WPF.Telas
                 });
             } //Ativa o cancelamento de compras (Tecla F6)
             /* ---------------*/
-            else if (e.Key == Key.F7)
+            else if (e.Key == Key.F7 && !_emTransacao && turno_aberto)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
@@ -6602,7 +6611,7 @@ namespace PDV_WPF.Telas
                 });
             } // Ativa o modo de devolução (Tecla F7)
             /* ---------------*/
-            else if (e.Key == Key.F8)
+            else if (e.Key == Key.F8 && turno_aberto)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {

@@ -20,6 +20,7 @@ using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.ViewModels;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using System.Threading.Tasks;
+using System.Printing;
 
 namespace PDV_WPF.Funcoes
 {
@@ -715,9 +716,18 @@ namespace PDV_WPF.Funcoes
                 {
                     try
                     {
-                        int abriuPorta = IniciaPorta("COM3");
-                        int abriuGaveta = AcionaGaveta();
-                        int fechouPorta = FechaPorta();                      
+                        using (PrintServer ps = new PrintServer())
+                        {
+                            using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
+                            {
+                                int index = pq.QueuePort.Name.Contains("COM") ? pq.QueuePort.Name.IndexOf("COM") : pq.QueuePort.Name.IndexOf("USB");
+                                string portaCOM = pq.QueuePort.Name.Substring(index).Replace(":", "");
+
+                                int abriuPorta = IniciaPorta(portaCOM);
+                                int abriuGaveta = AcionaGaveta();
+                                int fechouPorta = FechaPorta();
+                            }
+                        }                                          
                     }
                     catch (Exception)
                     {

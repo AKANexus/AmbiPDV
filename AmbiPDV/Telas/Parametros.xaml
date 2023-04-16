@@ -122,8 +122,12 @@
 
         <GroupBox Header="Gaveta $" Margin="10,0" Height="61" Visibility="Visible">
             <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Abertura de gaveta via DLL?" Margin="10,12,0,0"/>
-                <RadioButton Content="Abertura de gaveta via SPOOLER?" Margin="100,12,0,0" Click="AbreGaveta_spooler"/>
+                <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" Click="AbreGaveta_dll"/>
+                <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" Click="AbreGaveta_spooler"/>
+                <Label Content="Mod impressora:" Margin="13,8,0,5" FontSize="10"/>
+                <ComboBox Name="cbb_ModImpressora" Width="120" DockPanel.Dock="Top" Margin="-2,0,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">
+                    <ComboBoxItem Content="EPSON"/>
+                </ComboBox>
             </StackPanel>
         </GroupBox>
 

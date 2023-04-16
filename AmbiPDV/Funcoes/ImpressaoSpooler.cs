@@ -296,7 +296,7 @@ namespace PDV_WPF
                 {                    
                     using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
                     {
-                        pq.Purge(); //impressora em estado de erro, então vamos zerar a fila pra tentar novamente.                        
+                        pq.Purge(); //limpando fila de impressão                      
                     }                    
                 }               
             }
@@ -621,8 +621,9 @@ namespace PDV_WPF
                 catch (Exception ex)
                 {
                     logErroAntigo(RetornarMensagemErro(ex, true));
-                    MessageBox.Show("Erro ao imprimir pelo spooler. \n\nO aplicativo deve ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                    Environment.Exit(0); // DEURUIM();
+                    MessageBox.Show("Erro ao fechar o turno e/ou imprimir pelo spooler. \n\nTente novamente. \nMas se o problema persistir não será possivel fechar o turno e será necessario entrar em contato com a equipe de suporte.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Environment.Exit(0); // DEURUIM();
+                    LimpaFilaImpressao();
                     return false;
                 }
             }
@@ -1325,7 +1326,7 @@ namespace PDV_WPF
             catch (Exception ex)
             {
                 logErroAntigo(RetornarMensagemErro(ex, true));
-                MessageBox.Show("Erro ao finalizar cupom: " + RetornarMensagemErro(ex, false));
+                MessageBox.Show("Foi realizado a tentativa de impressão porem a impressora falhou.\n\nFalha: " + RetornarMensagemErro(ex, false), "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 throw ex;
             }
             return true;

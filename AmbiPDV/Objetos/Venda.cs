@@ -1762,13 +1762,13 @@ namespace PDV_WPF.Objetos
                                             decimal vlrTotDesc = vlrUnit * totProdComDesc;
                                             if (qtd >= totProdComDesc)
                                             {
-                                                prod.prod.vDesc = vlrTotDesc.ToString();
+                                                prod.prod.vDesc = vlrTotDesc.ToString("N2");
                                                 goto finalizaDesc;
                                             }                                            
                                             if (totProdComDesc != 0)
                                             {
                                                 vlrTotDesc = vlrUnit * qtd;
-                                                prod.prod.vDesc = vlrTotDesc.ToString();
+                                                prod.prod.vDesc = vlrTotDesc.ToString("N2");
                                                 totProdComDesc -= qtd;
                                             }
                                             else goto finalizaDesc;                                            
@@ -1777,28 +1777,28 @@ namespace PDV_WPF.Objetos
                                             decimal descPorc = (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * totProdComDesc;
                                             if (qtd >= totProdComDesc) 
                                             {                                                                                                
-                                                prod.prod.vDesc = descPorc.ToString();
+                                                prod.prod.vDesc = descPorc.ToString("N2");
                                                 goto finalizaDesc; 
                                             }
                                             if(totProdComDesc != 0) 
                                             {                                                
                                                 descPorc = (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtd;                                                
-                                                prod.prod.vDesc = descPorc.ToString();
+                                                prod.prod.vDesc = descPorc.ToString("N2");
                                                 totProdComDesc -= qtd; 
                                             }
                                             else goto finalizaDesc;
                                             break;
                                         case "PRECIO_FIJO":                                            
-                                            decimal vltUnitComDesc = tblPromoServ[0].DET / tblPromoServ[0].QTD;
+                                            decimal vltUnitComDesc = tblPromoServ[0].DET;
                                             decimal vlrDesc = vlrUnit - vltUnitComDesc;
                                             if(qtd >= totProdComDesc)
                                             {
-                                                prod.prod.vDesc = (totProdComDesc * vlrDesc).ToString();
+                                                prod.prod.vDesc = (totProdComDesc * vlrDesc).ToString("N2");
                                                 goto finalizaDesc;
                                             }
                                             if (totProdComDesc != 0)
                                             {
-                                                prod.prod.vDesc = (vlrDesc * qtd).ToString();
+                                                prod.prod.vDesc = (vlrDesc * qtd).ToString("N2");
                                                 totProdComDesc -= qtd;
                                             }
                                             else goto finalizaDesc;

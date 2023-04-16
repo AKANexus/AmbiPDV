@@ -26,6 +26,7 @@ using System.Windows.Threading;
 using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
+using System.Security.Cryptography.X509Certificates;
 
 namespace PDV_WPF
 {
@@ -61,39 +62,63 @@ namespace PDV_WPF
         {
             decimal _valor = 0;
 
-            using (var SVF_TA = new SomaValoresFmapagtoTableAdapter())
             using (var PDV_OperTA = new TRI_PDV_OPERTableAdapter())
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             {
-
-                SVF_TA.Connection = PDV_OperTA.Connection = LOCAL_FB_CONN;
+                PDV_OperTA.Connection = LOCAL_FB_CONN;
                 DateTime abertura = (DateTime)PDV_OperTA.GetByCaixaAberto(NO_CAIXA)[0]["CURRENTTIME"];
 
-                (decimal vendasNaoFiscais, decimal vendasFiscais) = ff.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now, LOCAL_FB_CONN);                
-                 decimal vendasECF = 0;
+                Task<(decimal, decimal)> getSomaDeValores = Task<(decimal, decimal)>.Run(() =>
+                {
+                    using (var LOCAL_FB_CONNTASk = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+                    {
+                        return ff.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now, LOCAL_FB_CONNTASk);
+                    }
+                });                
+                Task<decimal> getSuprimentos = Task<decimal>.Run(() =>
+                {
+                    using (var SVF_TA = new SomaValoresFmapagtoTableAdapter())
+                    using (var LOCAL_FB_CONNPARALLEl = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+                    {
+                        SVF_TA.Connection = LOCAL_FB_CONNPARALLEl;
+                        return (decimal?)SVF_TA.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                    }
+                }); 
+                Task<decimal> getSangrias = Task<decimal>.Run(() =>
+                {
+                    using (var SVF_TA = new SomaValoresFmapagtoTableAdapter())
+                    using (var LOCAL_FB_CONNPARALLEl = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+                    {
+                        SVF_TA.Connection = LOCAL_FB_CONNPARALLEl;
+                        return (decimal?)SVF_TA.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                    }
+                });
+                Task.WaitAll(getSomaDeValores, getSuprimentos, getSangrias);
 
+                (decimal vendasNaoFiscais, decimal vendasFiscais) = getSomaDeValores.Result;
+                decimal suprimentos = getSuprimentos.Result;
+                decimal sangrias = getSangrias.Result;
+                decimal vendasECF = 0;
 
                 //decimal vendasFiscais = (decimal?)SVF_TA.SomaDeValores(abertura, 1, NO_CAIXA.ToString(), DateTime.Now) ?? 0M;
                 //decimal vendasNaoFiscais = (decimal?)SVF_TA.SomaDeValores(abertura, 1, "N" + NO_CAIXA, DateTime.Now) ?? 0M;
                 //decimal vendasECF = (decimal?)SVF_TA.SomaDeValores(abertura, 1, "E" + NO_CAIXA, DateTime.Now) ?? 0M;
-
+                
                 decimal totalRecebidoEmDinheiro = vendasFiscais + vendasNaoFiscais + vendasECF;
 
                 log.Debug($"totalRecebidoEmDinheiro (Fiscais + NF + ECF): ({vendasFiscais} + {vendasNaoFiscais} + {vendasECF}) = {totalRecebidoEmDinheiro}");
-
+                
                 //decimal totalDadoEmTroco = (SVF_TA.SomaDeTrocos(abertura, 1, NO_CAIXA.ToString(), fechamento) ?? 0M +
                 //SVF_TA.SomaDeTrocos(abertura, 1, "N" + NO_CAIXA.ToString(), fechamento) ?? 0M +
                 //SVF_TA.SomaDeTrocos(abertura, 1, "E" + NO_CAIXA.ToString(), fechamento) ?? 0M);
-
-                decimal suprimentos = (decimal?)SVF_TA.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
-                decimal sangrias = (decimal?)SVF_TA.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
 
                 log.Debug($"suprimentos: {suprimentos}");
                 log.Debug($"sangrias: {sangrias}");
 
                 _valor = totalRecebidoEmDinheiro /*- totalDadoEmTroco*/ + suprimentos - sangrias;
+                log.Debug($"totalLiquido(+Suprimento -Sangria): {_valor}");
+                return _valor;
             }
-            return _valor;
         }
 
         //public DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable dt_cli = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable();

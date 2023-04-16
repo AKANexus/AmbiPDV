@@ -358,9 +358,9 @@
                         </TextBox.BorderBrush>
                     </TextBox>
                     <Label Visibility="Hidden" x:Name="label2" Content="VALOR UNIT." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Grid.Row="1" Grid.RowSpan="2"/>
-                    <Canvas Margin="10,13,33,106" Grid.Row="1" Grid.RowSpan="2">
+                    <Canvas Margin="10,-3,33,106" Grid.Row="2">
                         <Label Content="V" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" Width="90" Padding="5,0" FontFamily="Open Sans"/>
-                        <Label Content="ALOR UNITÁRIO" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Canvas.Left="14" Canvas.Top="6" FontFamily="Open Sans" />
+                        <Label Content="ALOR UNITÀRIO" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Canvas.Left="14" Canvas.Top="6" FontFamily="Open Sans"/>
                     </Canvas>
 
                     <TextBox x:Name="txb_ValorUnit" Margin="10,33,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Style="{DynamicResource RoundedCorners}" Background="#E5FFFFFF" FontSize="40"  Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF333333" FontWeight="Bold" IsReadOnly="true" RenderTransformOrigin="0.52,2.169">
