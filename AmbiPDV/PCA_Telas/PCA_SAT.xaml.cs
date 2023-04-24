@@ -37,6 +37,8 @@ namespace PDV_WPF.PCA_Telas
             txb_CodAtiv.Text = SAT_CODATIV;
             if (MODELO_SAT != ModeloSAT.NENHUM) { cbb_ModSat.SelectedIndex = MODELO_SAT.Safeint(); }
             chk_SATSERVIDOR.IsChecked = SATSERVIDOR;
+            rb_Layout07.IsChecked = LAYOUT_SAT is "007" ? true : false;
+            rb_Layout08.IsChecked = LAYOUT_SAT is "008" ? true : false;
         }
 
         private void But_Next_MouseDown(object sender, MouseButtonEventArgs e)
@@ -56,6 +58,7 @@ namespace PDV_WPF.PCA_Telas
                     SIGN_AC = txb_signAC.Text;
                     SAT_USADO = false;
                     ECF_ATIVA = false;
+                    LAYOUT_SAT = "000";
                     break;
                 default:
                 case false:
@@ -65,6 +68,8 @@ namespace PDV_WPF.PCA_Telas
                     SIGN_AC = txb_signAC.Text;
                     SAT_USADO = true;
                     ECF_ATIVA = false;
+                    if (rb_Layout07.IsChecked is false && rb_Layout08.IsChecked is false) { MessageBox.Show("Por favor\n\nPreencha qual layout do sat será utilizado neste terminal.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+                    LAYOUT_SAT = rb_Layout07.IsChecked is true ? "007" : "008";                                          
                     break;
             }
             SalvaConfigsNaBase();
@@ -89,6 +94,8 @@ namespace PDV_WPF.PCA_Telas
                 txb_signAC.Text = "O representante dessa empresa se responsabiliza por não utilizar um equipamento emissor de CFe. Pressione \"Finalizar\" para confirmar.";
                 _configurado = true;
                 tbl_Continuar.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF09CAAA"));
+                rb_Layout07.IsChecked = false;
+                rb_Layout08.IsChecked = false;
                 return;
 
             }

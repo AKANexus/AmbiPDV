@@ -50,7 +50,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\AnyCPU\Debug\</OutputPath>
-    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF HOMOLOGASAT ANYCPU</DefineConstants>
+    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF HOMOLOGASAT ANYCPU;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>9</LangVersion>
@@ -567,6 +567,19 @@
       <DependentUpon>strings.resx</DependentUpon>
     </Compile>
     <Compile Include="REMENDOOOOO\FuncoesFirebird.cs" />
+    <Compile Include="SEFAZ007\CfeAtivacao_0007.cs" />
+    <Compile Include="SEFAZ007\CfeAtualizacao_0007.cs" />
+    <Compile Include="SEFAZ007\CfeCancelamento_0007.cs" />
+    <Compile Include="SEFAZ007\CfeCertificacao_0007.cs" />
+    <Compile Include="SEFAZ007\CfeComandos_0007.cs" />
+    <Compile Include="SEFAZ007\CfeLogs_0007.cs" />
+    <Compile Include="SEFAZ007\CfeParametrizacao_0007.cs" />
+    <Compile Include="SEFAZ007\CfeRecepcao_0007.cs" />
+    <Compile Include="SEFAZ007\CfeRetRecepcao_0007.cs" />
+    <Compile Include="SEFAZ007\CfeServicoNacional_0007.cs" />
+    <Compile Include="SEFAZ007\CfeSignAC_0007.cs" />
+    <Compile Include="SEFAZ007\CfeStatus_0007.cs" />
+    <Compile Include="SEFAZ007\CfeTeste_0007.cs" />
     <Compile Include="SEFAZ\CfeAtivacao_0008.cs" />
     <Compile Include="SEFAZ\CfeAtualizacao_0008.cs" />
     <Compile Include="SEFAZ\CfeCancelamento_0008.cs" />

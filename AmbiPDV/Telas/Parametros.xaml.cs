@@ -107,13 +107,13 @@ namespace PDV_WPF
         }
         private void AbreGaveta_spooler(object sender, RoutedEventArgs e)
         {
-            cbb_ModImpressora.SelectedIndex = -1;
+            ACFILLDELAY = cbb_ModImpressora.SelectedIndex = -1;
             cbb_ModImpressora.IsEnabled = false;
             MessageBox.Show("Não esqueça de habilitar a opção de abertura automatica (OpenCash) nas configurações da impressora.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
         }   
         private void AbreGaveta_dll(object sender, RoutedEventArgs e)
         {
-            cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
+            ACFILLDELAY = cbb_ModImpressora.SelectedIndex = 0;
             cbb_ModImpressora.IsEnabled = true;
             MessageBox.Show("Por favor\nSelecione o modelo da impressora em 'Mod Impressora:'\n\nObs:. Não esqueça de desabilitar a opção de abertura automatica (OpenCash) nas configurações da impressora.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
             cbb_ModImpressora.Focus();

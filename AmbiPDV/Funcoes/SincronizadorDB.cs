@@ -4460,7 +4460,8 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.BALPORTA, configServ.BALBITS, configServ.BALBAUD, configServ.BALPARITY,
                                                                                                             configServ.BALMODELO, configServ.ACFILLPREFIX, configServ.ACFILLMODE, configServ.ACREFERENCIA,
                                                                                                             configServ.SYSCOMISSAO, configServ.SATSERVTIMEOUT, configServ.SATLIFESIGNINTERVAL,
-                                                                                                            configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA, configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA);                                                                                                           
+                                                                                                            configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA,
+                                                                                                            configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA, configServ.LAYOUT_SAT);                                                                                                           
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))

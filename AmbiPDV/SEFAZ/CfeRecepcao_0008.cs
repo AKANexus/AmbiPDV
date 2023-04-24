@@ -718,13 +718,22 @@ namespace CfeRecepcao_0008
 
         private string nItemField;
 
+        //Campos ignorados no XML 
+        //---------------------------------//-------------------------------------
+        [XmlIgnoreAttribute()] public decimal descAtacado;
+        [XmlIgnoreAttribute()] public bool atacado = false;
         [XmlIgnoreAttribute()] public string familia;
         [XmlIgnoreAttribute()] public int? idScannTech;
-
         [XmlIgnoreAttribute()] public bool scannTech => idScannTech is not null;
         [XmlIgnoreAttribute()] public bool kit = false;
-        [XmlIgnoreAttribute()] public bool atacado = false;
-        [XmlIgnoreAttribute()] public decimal descAtacado;
+        [XmlIgnoreAttribute()]
+        public decimal QuantDec
+        {
+            get => decimal.Parse(prod.qCom);
+            set => prod.qCom = value.ToString("N3");
+        }
+        //---------------------------------//-------------------------------------
+        //Fim dos campos ignorados.
 
         /// <remarks/>
         public envCFeCFeInfCFeDetProd prod
@@ -732,13 +741,6 @@ namespace CfeRecepcao_0008
             get { return this.prodField; }
             set { this.prodField = value; }
         }
-        [XmlIgnoreAttribute()]
-        public decimal QuantDec 
-        {
-            get => decimal.Parse(prod.qCom);
-            set => prod.qCom = value.ToString("N3");
-        }
-
         /// <remarks/>
         public envCFeCFeInfCFeDetImposto imposto
         {

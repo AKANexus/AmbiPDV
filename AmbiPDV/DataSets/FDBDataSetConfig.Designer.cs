@@ -29,7 +29,7 @@ namespace PDV_WPF.DataSets {
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public FDBDataSetConfig() {
             this.BeginInit();
             this.InitClass();
@@ -40,7 +40,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected FDBDataSetConfig(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
@@ -76,7 +76,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
         public TRI_PDV_CONFIGDataTable TRI_PDV_CONFIG {
@@ -86,7 +86,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -99,7 +99,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public new global::System.Data.DataTableCollection Tables {
             get {
@@ -108,7 +108,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Hidden)]
         public new global::System.Data.DataRelationCollection Relations {
             get {
@@ -117,7 +117,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected override void InitializeDerivedDataSet() {
             this.BeginInit();
             this.InitClass();
@@ -125,7 +125,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public override global::System.Data.DataSet Clone() {
             FDBDataSetConfig cln = ((FDBDataSetConfig)(base.Clone()));
             cln.InitVars();
@@ -134,19 +134,19 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected override bool ShouldSerializeTables() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected override bool ShouldSerializeRelations() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected override void ReadXmlSerializable(global::System.Xml.XmlReader reader) {
             if ((this.DetermineSchemaSerializationMode(reader) == global::System.Data.SchemaSerializationMode.IncludeSchema)) {
                 this.Reset();
@@ -171,7 +171,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected override global::System.Xml.Schema.XmlSchema GetSchemaSerializable() {
             global::System.IO.MemoryStream stream = new global::System.IO.MemoryStream();
             this.WriteXmlSchema(new global::System.Xml.XmlTextWriter(stream, null));
@@ -180,13 +180,13 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         internal void InitVars() {
             this.InitVars(true);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         internal void InitVars(bool initTable) {
             this.tableTRI_PDV_CONFIG = ((TRI_PDV_CONFIGDataTable)(base.Tables["TRI_PDV_CONFIG"]));
             if ((initTable == true)) {
@@ -197,7 +197,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitClass() {
             this.DataSetName = "FDBDataSetConfig";
             this.Prefix = "";
@@ -209,13 +209,13 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private bool ShouldSerializeTRI_PDV_CONFIG() {
             return false;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -223,7 +223,7 @@ namespace PDV_WPF.DataSets {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
             FDBDataSetConfig ds = new FDBDataSetConfig();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
@@ -269,7 +269,7 @@ namespace PDV_WPF.DataSets {
             return type;
         }
         
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void TRI_PDV_CONFIGRowChangeEventHandler(object sender, TRI_PDV_CONFIGRowChangeEvent e);
         
         /// <summary>
@@ -373,8 +373,10 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnINFORMA_MAQUININHA;
             
+            private global::System.Data.DataColumn columnLAYOUT_SAT;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGDataTable() {
                 this.TableName = "TRI_PDV_CONFIG";
                 this.BeginInit();
@@ -383,7 +385,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal TRI_PDV_CONFIGDataTable(global::System.Data.DataTable table) {
                 this.TableName = table.TableName;
                 if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
@@ -400,14 +402,14 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected TRI_PDV_CONFIGDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                     base(info, context) {
                 this.InitVars();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ID_MACColumn {
                 get {
                     return this.columnID_MAC;
@@ -415,7 +417,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn NO_CAIXAColumn {
                 get {
                     return this.columnNO_CAIXA;
@@ -423,7 +425,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn EXIGE_SANGRIAColumn {
                 get {
                     return this.columnEXIGE_SANGRIA;
@@ -431,7 +433,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn VALOR_MAX_CAIXAColumn {
                 get {
                     return this.columnVALOR_MAX_CAIXA;
@@ -439,7 +441,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn BLOQUEIA_NO_LIMITEColumn {
                 get {
                     return this.columnBLOQUEIA_NO_LIMITE;
@@ -447,7 +449,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn VALOR_DE_FOLGAColumn {
                 get {
                     return this.columnVALOR_DE_FOLGA;
@@ -455,7 +457,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn PERMITE_FOLGA_SANGRIAColumn {
                 get {
                     return this.columnPERMITE_FOLGA_SANGRIA;
@@ -463,7 +465,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn INTERROMPE_NAO_ENCONTRADOColumn {
                 get {
                     return this.columnINTERROMPE_NAO_ENCONTRADO;
@@ -471,7 +473,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn MENSAGEM_CORTESIAColumn {
                 get {
                     return this.columnMENSAGEM_CORTESIA;
@@ -479,7 +481,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ICMS_CONTColumn {
                 get {
                     return this.columnICMS_CONT;
@@ -487,7 +489,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn CSOSN_CONTColumn {
                 get {
                     return this.columnCSOSN_CONT;
@@ -495,7 +497,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn PEDE_CPFColumn {
                 get {
                     return this.columnPEDE_CPF;
@@ -503,7 +505,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn PERMITE_ESTOQUE_NEGATIVOColumn {
                 get {
                     return this.columnPERMITE_ESTOQUE_NEGATIVO;
@@ -511,7 +513,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn MODELO_CUPOMColumn {
                 get {
                     return this.columnMODELO_CUPOM;
@@ -519,7 +521,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn MENSAGEM_RODAPEColumn {
                 get {
                     return this.columnMENSAGEM_RODAPE;
@@ -527,7 +529,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn TRI_PDV_DT_UPDColumn {
                 get {
                     return this.columnTRI_PDV_DT_UPD;
@@ -535,7 +537,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn MODELO_SATColumn {
                 get {
                     return this.columnMODELO_SAT;
@@ -543,7 +545,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SATSERVIDORColumn {
                 get {
                     return this.columnSATSERVIDOR;
@@ -551,7 +553,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SAT_CODATIVColumn {
                 get {
                     return this.columnSAT_CODATIV;
@@ -559,7 +561,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SIGN_ACColumn {
                 get {
                     return this.columnSIGN_AC;
@@ -567,7 +569,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SAT_USADOColumn {
                 get {
                     return this.columnSAT_USADO;
@@ -575,7 +577,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ECF_ATIVAColumn {
                 get {
                     return this.columnECF_ATIVA;
@@ -583,7 +585,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ECF_PORTAColumn {
                 get {
                     return this.columnECF_PORTA;
@@ -591,7 +593,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn IMPRESSORA_USBColumn {
                 get {
                     return this.columnIMPRESSORA_USB;
@@ -599,7 +601,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn IMPRESSORA_USB_PEDColumn {
                 get {
                     return this.columnIMPRESSORA_USB_PED;
@@ -607,7 +609,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn PERGUNTA_WHATSColumn {
                 get {
                     return this.columnPERGUNTA_WHATS;
@@ -615,7 +617,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn USATEFColumn {
                 get {
                     return this.columnUSATEF;
@@ -623,7 +625,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn TEFIPColumn {
                 get {
                     return this.columnTEFIP;
@@ -631,7 +633,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn TEFNUMLOJAColumn {
                 get {
                     return this.columnTEFNUMLOJA;
@@ -639,7 +641,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn TEFNUMTERMINALColumn {
                 get {
                     return this.columnTEFNUMTERMINAL;
@@ -647,7 +649,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn TEFPEDECPFPELOPINPADColumn {
                 get {
                     return this.columnTEFPEDECPFPELOPINPAD;
@@ -655,7 +657,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn BALPORTAColumn {
                 get {
                     return this.columnBALPORTA;
@@ -663,7 +665,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn BALBITSColumn {
                 get {
                     return this.columnBALBITS;
@@ -671,7 +673,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn BALBAUDColumn {
                 get {
                     return this.columnBALBAUD;
@@ -679,7 +681,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn BALPARITYColumn {
                 get {
                     return this.columnBALPARITY;
@@ -687,7 +689,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn BALMODELOColumn {
                 get {
                     return this.columnBALMODELO;
@@ -695,7 +697,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ACFILLPREFIXColumn {
                 get {
                     return this.columnACFILLPREFIX;
@@ -703,7 +705,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ACFILLMODEColumn {
                 get {
                     return this.columnACFILLMODE;
@@ -711,7 +713,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ACREFERENCIAColumn {
                 get {
                     return this.columnACREFERENCIA;
@@ -719,7 +721,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SYSCOMISSAOColumn {
                 get {
                     return this.columnSYSCOMISSAO;
@@ -727,7 +729,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SATSERVTIMEOUTColumn {
                 get {
                     return this.columnSATSERVTIMEOUT;
@@ -735,7 +737,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SATLIFESIGNINTERVALColumn {
                 get {
                     return this.columnSATLIFESIGNINTERVAL;
@@ -743,7 +745,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn ACFILLDELAYColumn {
                 get {
                     return this.columnACFILLDELAY;
@@ -751,7 +753,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SYSPERGUNTAWHATSColumn {
                 get {
                     return this.columnSYSPERGUNTAWHATS;
@@ -759,7 +761,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SYSPARCELAColumn {
                 get {
                     return this.columnSYSPARCELA;
@@ -767,7 +769,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn SYSEMITECOMPROVANTEColumn {
                 get {
                     return this.columnSYSEMITECOMPROVANTE;
@@ -775,7 +777,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataColumn INFORMA_MAQUININHAColumn {
                 get {
                     return this.columnINFORMA_MAQUININHA;
@@ -783,7 +785,15 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn LAYOUT_SATColumn {
+                get {
+                    return this.columnLAYOUT_SAT;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -792,33 +802,33 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGRow this[int index] {
                 get {
                     return ((TRI_PDV_CONFIGRow)(this.Rows[index]));
                 }
             }
             
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public event TRI_PDV_CONFIGRowChangeEventHandler TRI_PDV_CONFIGRowChanging;
             
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public event TRI_PDV_CONFIGRowChangeEventHandler TRI_PDV_CONFIGRowChanged;
             
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public event TRI_PDV_CONFIGRowChangeEventHandler TRI_PDV_CONFIGRowDeleting;
             
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public event TRI_PDV_CONFIGRowChangeEventHandler TRI_PDV_CONFIGRowDeleted;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void AddTRI_PDV_CONFIGRow(TRI_PDV_CONFIGRow row) {
                 this.Rows.Add(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGRow AddTRI_PDV_CONFIGRow(
                         string ID_MAC, 
                         short NO_CAIXA, 
@@ -866,7 +876,8 @@ namespace PDV_WPF.DataSets {
                         short SYSPERGUNTAWHATS, 
                         short SYSPARCELA, 
                         short SYSEMITECOMPROVANTE, 
-                        string INFORMA_MAQUININHA) {
+                        string INFORMA_MAQUININHA, 
+                        string LAYOUT_SAT) {
                 TRI_PDV_CONFIGRow rowTRI_PDV_CONFIGRow = ((TRI_PDV_CONFIGRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_MAC,
@@ -915,21 +926,22 @@ namespace PDV_WPF.DataSets {
                         SYSPERGUNTAWHATS,
                         SYSPARCELA,
                         SYSEMITECOMPROVANTE,
-                        INFORMA_MAQUININHA};
+                        INFORMA_MAQUININHA,
+                        LAYOUT_SAT};
                 rowTRI_PDV_CONFIGRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTRI_PDV_CONFIGRow);
                 return rowTRI_PDV_CONFIGRow;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGRow FindByID_MAC(string ID_MAC) {
                 return ((TRI_PDV_CONFIGRow)(this.Rows.Find(new object[] {
                             ID_MAC})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public override global::System.Data.DataTable Clone() {
                 TRI_PDV_CONFIGDataTable cln = ((TRI_PDV_CONFIGDataTable)(base.Clone()));
                 cln.InitVars();
@@ -937,13 +949,13 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataTable CreateInstance() {
                 return new TRI_PDV_CONFIGDataTable();
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal void InitVars() {
                 this.columnID_MAC = base.Columns["ID_MAC"];
                 this.columnNO_CAIXA = base.Columns["NO_CAIXA"];
@@ -992,10 +1004,11 @@ namespace PDV_WPF.DataSets {
                 this.columnSYSPARCELA = base.Columns["SYSPARCELA"];
                 this.columnSYSEMITECOMPROVANTE = base.Columns["SYSEMITECOMPROVANTE"];
                 this.columnINFORMA_MAQUININHA = base.Columns["INFORMA_MAQUININHA"];
+                this.columnLAYOUT_SAT = base.Columns["LAYOUT_SAT"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private void InitClass() {
                 this.columnID_MAC = new global::System.Data.DataColumn("ID_MAC", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_MAC);
@@ -1091,6 +1104,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnSYSEMITECOMPROVANTE);
                 this.columnINFORMA_MAQUININHA = new global::System.Data.DataColumn("INFORMA_MAQUININHA", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnINFORMA_MAQUININHA);
+                this.columnLAYOUT_SAT = new global::System.Data.DataColumn("LAYOUT_SAT", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnLAYOUT_SAT);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_MAC}, true));
                 this.columnID_MAC.AllowDBNull = false;
@@ -1142,29 +1157,32 @@ namespace PDV_WPF.DataSets {
                 this.columnSYSPERGUNTAWHATS.AllowDBNull = false;
                 this.columnSYSPARCELA.AllowDBNull = false;
                 this.columnSYSEMITECOMPROVANTE.AllowDBNull = false;
+                this.columnINFORMA_MAQUININHA.AllowDBNull = false;
                 this.columnINFORMA_MAQUININHA.MaxLength = 1;
+                this.columnLAYOUT_SAT.AllowDBNull = false;
+                this.columnLAYOUT_SAT.MaxLength = 3;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGRow NewTRI_PDV_CONFIGRow() {
                 return ((TRI_PDV_CONFIGRow)(this.NewRow()));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
                 return new TRI_PDV_CONFIGRow(builder);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override global::System.Type GetRowType() {
                 return typeof(TRI_PDV_CONFIGRow);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanged(e);
                 if ((this.TRI_PDV_CONFIGRowChanged != null)) {
@@ -1173,7 +1191,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowChanging(e);
                 if ((this.TRI_PDV_CONFIGRowChanging != null)) {
@@ -1182,7 +1200,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleted(e);
                 if ((this.TRI_PDV_CONFIGRowDeleted != null)) {
@@ -1191,7 +1209,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
                 base.OnRowDeleting(e);
                 if ((this.TRI_PDV_CONFIGRowDeleting != null)) {
@@ -1200,13 +1218,13 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void RemoveTRI_PDV_CONFIGRow(TRI_PDV_CONFIGRow row) {
                 this.Rows.Remove(row);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
@@ -1277,14 +1295,14 @@ namespace PDV_WPF.DataSets {
             private TRI_PDV_CONFIGDataTable tableTRI_PDV_CONFIG;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal TRI_PDV_CONFIGRow(global::System.Data.DataRowBuilder rb) : 
                     base(rb) {
                 this.tableTRI_PDV_CONFIG = ((TRI_PDV_CONFIGDataTable)(this.Table));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string ID_MAC {
                 get {
                     return ((string)(this[this.tableTRI_PDV_CONFIG.ID_MACColumn]));
@@ -1295,7 +1313,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short NO_CAIXA {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.NO_CAIXAColumn]));
@@ -1306,7 +1324,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string EXIGE_SANGRIA {
                 get {
                     return ((string)(this[this.tableTRI_PDV_CONFIG.EXIGE_SANGRIAColumn]));
@@ -1317,7 +1335,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public double VALOR_MAX_CAIXA {
                 get {
                     return ((double)(this[this.tableTRI_PDV_CONFIG.VALOR_MAX_CAIXAColumn]));
@@ -1328,7 +1346,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string BLOQUEIA_NO_LIMITE {
                 get {
                     return ((string)(this[this.tableTRI_PDV_CONFIG.BLOQUEIA_NO_LIMITEColumn]));
@@ -1339,7 +1357,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public double VALOR_DE_FOLGA {
                 get {
                     return ((double)(this[this.tableTRI_PDV_CONFIG.VALOR_DE_FOLGAColumn]));
@@ -1350,7 +1368,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string PERMITE_FOLGA_SANGRIA {
                 get {
                     return ((string)(this[this.tableTRI_PDV_CONFIG.PERMITE_FOLGA_SANGRIAColumn]));
@@ -1361,7 +1379,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string INTERROMPE_NAO_ENCONTRADO {
                 get {
                     return ((string)(this[this.tableTRI_PDV_CONFIG.INTERROMPE_NAO_ENCONTRADOColumn]));
@@ -1372,7 +1390,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string MENSAGEM_CORTESIA {
                 get {
                     try {
@@ -1388,7 +1406,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public float ICMS_CONT {
                 get {
                     try {
@@ -1404,7 +1422,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public float CSOSN_CONT {
                 get {
                     try {
@@ -1420,7 +1438,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int PEDE_CPF {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.PEDE_CPFColumn]));
@@ -1431,7 +1449,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int PERMITE_ESTOQUE_NEGATIVO {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.PERMITE_ESTOQUE_NEGATIVOColumn]));
@@ -1442,7 +1460,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short MODELO_CUPOM {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.MODELO_CUPOMColumn]));
@@ -1453,7 +1471,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string MENSAGEM_RODAPE {
                 get {
                     try {
@@ -1469,7 +1487,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public System.DateTime TRI_PDV_DT_UPD {
                 get {
                     try {
@@ -1485,7 +1503,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int MODELO_SAT {
                 get {
                     try {
@@ -1501,7 +1519,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string SATSERVIDOR {
                 get {
                     try {
@@ -1517,7 +1535,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string SAT_CODATIV {
                 get {
                     try {
@@ -1533,7 +1551,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string SIGN_AC {
                 get {
                     try {
@@ -1549,7 +1567,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string SAT_USADO {
                 get {
                     try {
@@ -1565,7 +1583,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string ECF_ATIVA {
                 get {
                     try {
@@ -1581,7 +1599,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string ECF_PORTA {
                 get {
                     try {
@@ -1597,7 +1615,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string IMPRESSORA_USB {
                 get {
                     try {
@@ -1613,7 +1631,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string IMPRESSORA_USB_PED {
                 get {
                     try {
@@ -1629,7 +1647,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int PERGUNTA_WHATS {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.PERGUNTA_WHATSColumn]));
@@ -1640,7 +1658,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string USATEF {
                 get {
                     return ((string)(this[this.tableTRI_PDV_CONFIG.USATEFColumn]));
@@ -1651,7 +1669,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string TEFIP {
                 get {
                     try {
@@ -1667,7 +1685,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string TEFNUMLOJA {
                 get {
                     try {
@@ -1683,7 +1701,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string TEFNUMTERMINAL {
                 get {
                     try {
@@ -1699,7 +1717,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string TEFPEDECPFPELOPINPAD {
                 get {
                     try {
@@ -1715,7 +1733,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short BALPORTA {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.BALPORTAColumn]));
@@ -1726,7 +1744,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short BALBITS {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.BALBITSColumn]));
@@ -1737,7 +1755,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int BALBAUD {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.BALBAUDColumn]));
@@ -1748,7 +1766,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short BALPARITY {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.BALPARITYColumn]));
@@ -1759,7 +1777,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short BALMODELO {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.BALMODELOColumn]));
@@ -1770,7 +1788,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short ACFILLPREFIX {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.ACFILLPREFIXColumn]));
@@ -1781,7 +1799,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short ACFILLMODE {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.ACFILLMODEColumn]));
@@ -1792,7 +1810,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short ACREFERENCIA {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.ACREFERENCIAColumn]));
@@ -1803,7 +1821,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short SYSCOMISSAO {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.SYSCOMISSAOColumn]));
@@ -1814,7 +1832,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int SATSERVTIMEOUT {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.SATSERVTIMEOUTColumn]));
@@ -1825,7 +1843,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int SATLIFESIGNINTERVAL {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.SATLIFESIGNINTERVALColumn]));
@@ -1836,7 +1854,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int ACFILLDELAY {
                 get {
                     return ((int)(this[this.tableTRI_PDV_CONFIG.ACFILLDELAYColumn]));
@@ -1847,7 +1865,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short SYSPERGUNTAWHATS {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.SYSPERGUNTAWHATSColumn]));
@@ -1858,7 +1876,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short SYSPARCELA {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.SYSPARCELAColumn]));
@@ -1869,7 +1887,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public short SYSEMITECOMPROVANTE {
                 get {
                     return ((short)(this[this.tableTRI_PDV_CONFIG.SYSEMITECOMPROVANTEColumn]));
@@ -1880,15 +1898,10 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string INFORMA_MAQUININHA {
                 get {
-                    try {
-                        return ((string)(this[this.tableTRI_PDV_CONFIG.INFORMA_MAQUININHAColumn]));
-                    }
-                    catch (global::System.InvalidCastException e) {
-                        throw new global::System.Data.StrongTypingException("O valor da coluna \'INFORMA_MAQUININHA\' na tabela \'TRI_PDV_CONFIG\' é DBNull.", e);
-                    }
+                    return ((string)(this[this.tableTRI_PDV_CONFIG.INFORMA_MAQUININHAColumn]));
                 }
                 set {
                     this[this.tableTRI_PDV_CONFIG.INFORMA_MAQUININHAColumn] = value;
@@ -1896,238 +1909,237 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string LAYOUT_SAT {
+                get {
+                    return ((string)(this[this.tableTRI_PDV_CONFIG.LAYOUT_SATColumn]));
+                }
+                set {
+                    this[this.tableTRI_PDV_CONFIG.LAYOUT_SATColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsMENSAGEM_CORTESIANull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.MENSAGEM_CORTESIAColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMENSAGEM_CORTESIANull() {
                 this[this.tableTRI_PDV_CONFIG.MENSAGEM_CORTESIAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsICMS_CONTNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.ICMS_CONTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetICMS_CONTNull() {
                 this[this.tableTRI_PDV_CONFIG.ICMS_CONTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsCSOSN_CONTNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.CSOSN_CONTColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetCSOSN_CONTNull() {
                 this[this.tableTRI_PDV_CONFIG.CSOSN_CONTColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsMENSAGEM_RODAPENull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.MENSAGEM_RODAPEColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMENSAGEM_RODAPENull() {
                 this[this.tableTRI_PDV_CONFIG.MENSAGEM_RODAPEColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTRI_PDV_DT_UPDNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.TRI_PDV_DT_UPDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTRI_PDV_DT_UPDNull() {
                 this[this.tableTRI_PDV_CONFIG.TRI_PDV_DT_UPDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsMODELO_SATNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.MODELO_SATColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetMODELO_SATNull() {
                 this[this.tableTRI_PDV_CONFIG.MODELO_SATColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSATSERVIDORNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.SATSERVIDORColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSATSERVIDORNull() {
                 this[this.tableTRI_PDV_CONFIG.SATSERVIDORColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSAT_CODATIVNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.SAT_CODATIVColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSAT_CODATIVNull() {
                 this[this.tableTRI_PDV_CONFIG.SAT_CODATIVColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSIGN_ACNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.SIGN_ACColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSIGN_ACNull() {
                 this[this.tableTRI_PDV_CONFIG.SIGN_ACColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsSAT_USADONull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.SAT_USADOColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetSAT_USADONull() {
                 this[this.tableTRI_PDV_CONFIG.SAT_USADOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsECF_ATIVANull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.ECF_ATIVAColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetECF_ATIVANull() {
                 this[this.tableTRI_PDV_CONFIG.ECF_ATIVAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsECF_PORTANull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.ECF_PORTAColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetECF_PORTANull() {
                 this[this.tableTRI_PDV_CONFIG.ECF_PORTAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsIMPRESSORA_USBNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.IMPRESSORA_USBColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetIMPRESSORA_USBNull() {
                 this[this.tableTRI_PDV_CONFIG.IMPRESSORA_USBColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsIMPRESSORA_USB_PEDNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.IMPRESSORA_USB_PEDColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetIMPRESSORA_USB_PEDNull() {
                 this[this.tableTRI_PDV_CONFIG.IMPRESSORA_USB_PEDColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTEFIPNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.TEFIPColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTEFIPNull() {
                 this[this.tableTRI_PDV_CONFIG.TEFIPColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTEFNUMLOJANull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.TEFNUMLOJAColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTEFNUMLOJANull() {
                 this[this.tableTRI_PDV_CONFIG.TEFNUMLOJAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTEFNUMTERMINALNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.TEFNUMTERMINALColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTEFNUMTERMINALNull() {
                 this[this.tableTRI_PDV_CONFIG.TEFNUMTERMINALColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsTEFPEDECPFPELOPINPADNull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.TEFPEDECPFPELOPINPADColumn);
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetTEFPEDECPFPELOPINPADNull() {
                 this[this.tableTRI_PDV_CONFIG.TEFPEDECPFPELOPINPADColumn] = global::System.Convert.DBNull;
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public bool IsINFORMA_MAQUININHANull() {
-                return this.IsNull(this.tableTRI_PDV_CONFIG.INFORMA_MAQUININHAColumn);
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public void SetINFORMA_MAQUININHANull() {
-                this[this.tableTRI_PDV_CONFIG.INFORMA_MAQUININHAColumn] = global::System.Convert.DBNull;
             }
         }
         
         /// <summary>
         ///Row event argument class
         ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public class TRI_PDV_CONFIGRowChangeEvent : global::System.EventArgs {
             
             private TRI_PDV_CONFIGRow eventRow;
@@ -2135,14 +2147,14 @@ namespace PDV_WPF.DataSets {
             private global::System.Data.DataRowAction eventAction;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGRowChangeEvent(TRI_PDV_CONFIGRow row, global::System.Data.DataRowAction action) {
                 this.eventRow = row;
                 this.eventAction = action;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGRow Row {
                 get {
                     return this.eventRow;
@@ -2150,7 +2162,7 @@ namespace PDV_WPF.DataSets {
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public global::System.Data.DataRowAction Action {
                 get {
                     return this.eventAction;
@@ -2184,13 +2196,13 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
         private bool _clearBeforeFill;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public TRI_PDV_CONFIGTableAdapter() {
             this.ClearBeforeFill = true;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected internal global::FirebirdSql.Data.FirebirdClient.FbDataAdapter Adapter {
             get {
                 if ((this._adapter == null)) {
@@ -2201,7 +2213,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         internal global::FirebirdSql.Data.FirebirdClient.FbConnection Connection {
             get {
                 if ((this._connection == null)) {
@@ -2229,7 +2241,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         internal global::FirebirdSql.Data.FirebirdClient.FbTransaction Transaction {
             get {
                 return this._transaction;
@@ -2255,7 +2267,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected global::FirebirdSql.Data.FirebirdClient.FbCommand[] CommandCollection {
             get {
                 if ((this._commandCollection == null)) {
@@ -2266,7 +2278,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public bool ClearBeforeFill {
             get {
                 return this._clearBeforeFill;
@@ -2277,7 +2289,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitAdapter() {
             this._adapter = new global::FirebirdSql.Data.FirebirdClient.FbDataAdapter();
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
@@ -2330,6 +2342,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             tableMapping.ColumnMappings.Add("SYSPARCELA", "SYSPARCELA");
             tableMapping.ColumnMappings.Add("SYSEMITECOMPROVANTE", "SYSEMITECOMPROVANTE");
             tableMapping.ColumnMappings.Add("INFORMA_MAQUININHA", "INFORMA_MAQUININHA");
+            tableMapping.ColumnMappings.Add("LAYOUT_SAT", "LAYOUT_SAT");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -2372,9 +2385,8 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "ERVTIMEOUT) AND (\"SATLIFESIGNINTERVAL\" = @Original_SATLIFESIGNINTERVAL) AND (\"AC" +
                 "FILLDELAY\" = @Original_ACFILLDELAY) AND (\"SYSPERGUNTAWHATS\" = @Original_SYSPERGU" +
                 "NTAWHATS) AND (\"SYSPARCELA\" = @Original_SYSPARCELA) AND (\"SYSEMITECOMPROVANTE\" =" +
-                " @Original_SYSEMITECOMPROVANTE) AND ((@IsNull_INFORMA_MAQUININHA = 1 AND \"INFORM" +
-                "A_MAQUININHA\" IS NULL) OR (\"INFORMA_MAQUININHA\" = @Original_INFORMA_MAQUININHA))" +
-                ")";
+                " @Original_SYSEMITECOMPROVANTE) AND (\"INFORMA_MAQUININHA\" = @Original_INFORMA_MA" +
+                "QUININHA) AND (\"LAYOUT_SAT\" = @Original_LAYOUT_SAT))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_MAC";
@@ -2871,19 +2883,17 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_INFORMA_MAQUININHA";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "INFORMA_MAQUININHA";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.DeleteCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_INFORMA_MAQUININHA";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = "INFORMA_MAQUININHA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_LAYOUT_SAT";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "LAYOUT_SAT";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
@@ -2898,16 +2908,16 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 " \"BALBITS\", \"BALBAUD\", \"BALPARITY\", \"BALMODELO\", \"ACFILLPREFIX\", \"ACFILLMODE\", \"" +
                 "ACREFERENCIA\", \"SYSCOMISSAO\", \"SATSERVTIMEOUT\", \"SATLIFESIGNINTERVAL\", \"ACFILLDE" +
                 "LAY\", \"SYSPERGUNTAWHATS\", \"SYSPARCELA\", \"SYSEMITECOMPROVANTE\", \"INFORMA_MAQUININ" +
-                "HA\") VALUES (@ID_MAC, @NO_CAIXA, @EXIGE_SANGRIA, @VALOR_MAX_CAIXA, @BLOQUEIA_NO_" +
-                "LIMITE, @VALOR_DE_FOLGA, @PERMITE_FOLGA_SANGRIA, @INTERROMPE_NAO_ENCONTRADO, @ME" +
-                "NSAGEM_CORTESIA, @ICMS_CONT, @CSOSN_CONT, @PEDE_CPF, @PERMITE_ESTOQUE_NEGATIVO, " +
-                "@MODELO_CUPOM, @MENSAGEM_RODAPE, @TRI_PDV_DT_UPD, @MODELO_SAT, @SATSERVIDOR, @SA" +
-                "T_CODATIV, @SIGN_AC, @SAT_USADO, @ECF_ATIVA, @ECF_PORTA, @IMPRESSORA_USB, @IMPRE" +
-                "SSORA_USB_PED, @PERGUNTA_WHATS, @USATEF, @TEFIP, @TEFNUMLOJA, @TEFNUMTERMINAL, @" +
-                "TEFPEDECPFPELOPINPAD, @BALPORTA, @BALBITS, @BALBAUD, @BALPARITY, @BALMODELO, @AC" +
-                "FILLPREFIX, @ACFILLMODE, @ACREFERENCIA, @SYSCOMISSAO, @SATSERVTIMEOUT, @SATLIFES" +
-                "IGNINTERVAL, @ACFILLDELAY, @SYSPERGUNTAWHATS, @SYSPARCELA, @SYSEMITECOMPROVANTE," +
-                " @INFORMA_MAQUININHA)";
+                "HA\", \"LAYOUT_SAT\") VALUES (@ID_MAC, @NO_CAIXA, @EXIGE_SANGRIA, @VALOR_MAX_CAIXA," +
+                " @BLOQUEIA_NO_LIMITE, @VALOR_DE_FOLGA, @PERMITE_FOLGA_SANGRIA, @INTERROMPE_NAO_E" +
+                "NCONTRADO, @MENSAGEM_CORTESIA, @ICMS_CONT, @CSOSN_CONT, @PEDE_CPF, @PERMITE_ESTO" +
+                "QUE_NEGATIVO, @MODELO_CUPOM, @MENSAGEM_RODAPE, @TRI_PDV_DT_UPD, @MODELO_SAT, @SA" +
+                "TSERVIDOR, @SAT_CODATIV, @SIGN_AC, @SAT_USADO, @ECF_ATIVA, @ECF_PORTA, @IMPRESSO" +
+                "RA_USB, @IMPRESSORA_USB_PED, @PERGUNTA_WHATS, @USATEF, @TEFIP, @TEFNUMLOJA, @TEF" +
+                "NUMTERMINAL, @TEFPEDECPFPELOPINPAD, @BALPORTA, @BALBITS, @BALBAUD, @BALPARITY, @" +
+                "BALMODELO, @ACFILLPREFIX, @ACFILLMODE, @ACREFERENCIA, @SYSCOMISSAO, @SATSERVTIME" +
+                "OUT, @SATLIFESIGNINTERVAL, @ACFILLDELAY, @SYSPERGUNTAWHATS, @SYSPARCELA, @SYSEMI" +
+                "TECOMPROVANTE, @INFORMA_MAQUININHA, @LAYOUT_SAT)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_MAC";
@@ -3217,6 +3227,12 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.IsNullable = true;
             param.SourceColumn = "INFORMA_MAQUININHA";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@LAYOUT_SAT";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "LAYOUT_SAT";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = "UPDATE \"TRI_PDV_CONFIG\" SET \"ID_MAC\" = @ID_MAC, \"NO_CAIXA\" = @NO_CAIXA, \"EXIGE_SA" +
@@ -3238,48 +3254,48 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "SYSCOMISSAO\" = @SYSCOMISSAO, \"SATSERVTIMEOUT\" = @SATSERVTIMEOUT, \"SATLIFESIGNINT" +
                 "ERVAL\" = @SATLIFESIGNINTERVAL, \"ACFILLDELAY\" = @ACFILLDELAY, \"SYSPERGUNTAWHATS\" " +
                 "= @SYSPERGUNTAWHATS, \"SYSPARCELA\" = @SYSPARCELA, \"SYSEMITECOMPROVANTE\" = @SYSEMI" +
-                "TECOMPROVANTE, \"INFORMA_MAQUININHA\" = @INFORMA_MAQUININHA WHERE ((\"ID_MAC\" = @Or" +
-                "iginal_ID_MAC) AND (\"NO_CAIXA\" = @Original_NO_CAIXA) AND (\"EXIGE_SANGRIA\" = @Ori" +
-                "ginal_EXIGE_SANGRIA) AND (\"VALOR_MAX_CAIXA\" = @Original_VALOR_MAX_CAIXA) AND (\"B" +
-                "LOQUEIA_NO_LIMITE\" = @Original_BLOQUEIA_NO_LIMITE) AND (\"VALOR_DE_FOLGA\" = @Orig" +
-                "inal_VALOR_DE_FOLGA) AND (\"PERMITE_FOLGA_SANGRIA\" = @Original_PERMITE_FOLGA_SANG" +
-                "RIA) AND (\"INTERROMPE_NAO_ENCONTRADO\" = @Original_INTERROMPE_NAO_ENCONTRADO) AND" +
-                " ((@IsNull_MENSAGEM_CORTESIA = 1 AND \"MENSAGEM_CORTESIA\" IS NULL) OR (\"MENSAGEM_" +
-                "CORTESIA\" = @Original_MENSAGEM_CORTESIA)) AND ((@IsNull_ICMS_CONT = 1 AND \"ICMS_" +
-                "CONT\" IS NULL) OR (\"ICMS_CONT\" = @Original_ICMS_CONT)) AND ((@IsNull_CSOSN_CONT " +
-                "= 1 AND \"CSOSN_CONT\" IS NULL) OR (\"CSOSN_CONT\" = @Original_CSOSN_CONT)) AND (\"PE" +
-                "DE_CPF\" = @Original_PEDE_CPF) AND (\"PERMITE_ESTOQUE_NEGATIVO\" = @Original_PERMIT" +
-                "E_ESTOQUE_NEGATIVO) AND (\"MODELO_CUPOM\" = @Original_MODELO_CUPOM) AND ((@IsNull_" +
-                "MENSAGEM_RODAPE = 1 AND \"MENSAGEM_RODAPE\" IS NULL) OR (\"MENSAGEM_RODAPE\" = @Orig" +
-                "inal_MENSAGEM_RODAPE)) AND ((@IsNull_TRI_PDV_DT_UPD = 1 AND \"TRI_PDV_DT_UPD\" IS " +
-                "NULL) OR (\"TRI_PDV_DT_UPD\" = @Original_TRI_PDV_DT_UPD)) AND ((@IsNull_MODELO_SAT" +
-                " = 1 AND \"MODELO_SAT\" IS NULL) OR (\"MODELO_SAT\" = @Original_MODELO_SAT)) AND ((@" +
-                "IsNull_SATSERVIDOR = 1 AND \"SATSERVIDOR\" IS NULL) OR (\"SATSERVIDOR\" = @Original_" +
-                "SATSERVIDOR)) AND ((@IsNull_SAT_CODATIV = 1 AND \"SAT_CODATIV\" IS NULL) OR (\"SAT_" +
-                "CODATIV\" = @Original_SAT_CODATIV)) AND ((@IsNull_SAT_USADO = 1 AND \"SAT_USADO\" I" +
-                "S NULL) OR (\"SAT_USADO\" = @Original_SAT_USADO)) AND ((@IsNull_ECF_ATIVA = 1 AND " +
-                "\"ECF_ATIVA\" IS NULL) OR (\"ECF_ATIVA\" = @Original_ECF_ATIVA)) AND ((@IsNull_ECF_P" +
-                "ORTA = 1 AND \"ECF_PORTA\" IS NULL) OR (\"ECF_PORTA\" = @Original_ECF_PORTA)) AND ((" +
-                "@IsNull_IMPRESSORA_USB = 1 AND \"IMPRESSORA_USB\" IS NULL) OR (\"IMPRESSORA_USB\" = " +
-                "@Original_IMPRESSORA_USB)) AND ((@IsNull_IMPRESSORA_USB_PED = 1 AND \"IMPRESSORA_" +
-                "USB_PED\" IS NULL) OR (\"IMPRESSORA_USB_PED\" = @Original_IMPRESSORA_USB_PED)) AND " +
-                "(\"PERGUNTA_WHATS\" = @Original_PERGUNTA_WHATS) AND (\"USATEF\" = @Original_USATEF) " +
-                "AND ((@IsNull_TEFIP = 1 AND \"TEFIP\" IS NULL) OR (\"TEFIP\" = @Original_TEFIP)) AND" +
-                " ((@IsNull_TEFNUMLOJA = 1 AND \"TEFNUMLOJA\" IS NULL) OR (\"TEFNUMLOJA\" = @Original" +
-                "_TEFNUMLOJA)) AND ((@IsNull_TEFNUMTERMINAL = 1 AND \"TEFNUMTERMINAL\" IS NULL) OR " +
-                "(\"TEFNUMTERMINAL\" = @Original_TEFNUMTERMINAL)) AND ((@IsNull_TEFPEDECPFPELOPINPA" +
-                "D = 1 AND \"TEFPEDECPFPELOPINPAD\" IS NULL) OR (\"TEFPEDECPFPELOPINPAD\" = @Original" +
-                "_TEFPEDECPFPELOPINPAD)) AND (\"BALPORTA\" = @Original_BALPORTA) AND (\"BALBITS\" = @" +
-                "Original_BALBITS) AND (\"BALBAUD\" = @Original_BALBAUD) AND (\"BALPARITY\" = @Origin" +
-                "al_BALPARITY) AND (\"BALMODELO\" = @Original_BALMODELO) AND (\"ACFILLPREFIX\" = @Ori" +
-                "ginal_ACFILLPREFIX) AND (\"ACFILLMODE\" = @Original_ACFILLMODE) AND (\"ACREFERENCIA" +
-                "\" = @Original_ACREFERENCIA) AND (\"SYSCOMISSAO\" = @Original_SYSCOMISSAO) AND (\"SA" +
-                "TSERVTIMEOUT\" = @Original_SATSERVTIMEOUT) AND (\"SATLIFESIGNINTERVAL\" = @Original" +
-                "_SATLIFESIGNINTERVAL) AND (\"ACFILLDELAY\" = @Original_ACFILLDELAY) AND (\"SYSPERGU" +
-                "NTAWHATS\" = @Original_SYSPERGUNTAWHATS) AND (\"SYSPARCELA\" = @Original_SYSPARCELA" +
-                ") AND (\"SYSEMITECOMPROVANTE\" = @Original_SYSEMITECOMPROVANTE) AND ((@IsNull_INFO" +
-                "RMA_MAQUININHA = 1 AND \"INFORMA_MAQUININHA\" IS NULL) OR (\"INFORMA_MAQUININHA\" = " +
-                "@Original_INFORMA_MAQUININHA)))";
+                "TECOMPROVANTE, \"INFORMA_MAQUININHA\" = @INFORMA_MAQUININHA, \"LAYOUT_SAT\" = @LAYOU" +
+                "T_SAT WHERE ((\"ID_MAC\" = @Original_ID_MAC) AND (\"NO_CAIXA\" = @Original_NO_CAIXA)" +
+                " AND (\"EXIGE_SANGRIA\" = @Original_EXIGE_SANGRIA) AND (\"VALOR_MAX_CAIXA\" = @Origi" +
+                "nal_VALOR_MAX_CAIXA) AND (\"BLOQUEIA_NO_LIMITE\" = @Original_BLOQUEIA_NO_LIMITE) A" +
+                "ND (\"VALOR_DE_FOLGA\" = @Original_VALOR_DE_FOLGA) AND (\"PERMITE_FOLGA_SANGRIA\" = " +
+                "@Original_PERMITE_FOLGA_SANGRIA) AND (\"INTERROMPE_NAO_ENCONTRADO\" = @Original_IN" +
+                "TERROMPE_NAO_ENCONTRADO) AND ((@IsNull_MENSAGEM_CORTESIA = 1 AND \"MENSAGEM_CORTE" +
+                "SIA\" IS NULL) OR (\"MENSAGEM_CORTESIA\" = @Original_MENSAGEM_CORTESIA)) AND ((@IsN" +
+                "ull_ICMS_CONT = 1 AND \"ICMS_CONT\" IS NULL) OR (\"ICMS_CONT\" = @Original_ICMS_CONT" +
+                ")) AND ((@IsNull_CSOSN_CONT = 1 AND \"CSOSN_CONT\" IS NULL) OR (\"CSOSN_CONT\" = @Or" +
+                "iginal_CSOSN_CONT)) AND (\"PEDE_CPF\" = @Original_PEDE_CPF) AND (\"PERMITE_ESTOQUE_" +
+                "NEGATIVO\" = @Original_PERMITE_ESTOQUE_NEGATIVO) AND (\"MODELO_CUPOM\" = @Original_" +
+                "MODELO_CUPOM) AND ((@IsNull_MENSAGEM_RODAPE = 1 AND \"MENSAGEM_RODAPE\" IS NULL) O" +
+                "R (\"MENSAGEM_RODAPE\" = @Original_MENSAGEM_RODAPE)) AND ((@IsNull_TRI_PDV_DT_UPD " +
+                "= 1 AND \"TRI_PDV_DT_UPD\" IS NULL) OR (\"TRI_PDV_DT_UPD\" = @Original_TRI_PDV_DT_UP" +
+                "D)) AND ((@IsNull_MODELO_SAT = 1 AND \"MODELO_SAT\" IS NULL) OR (\"MODELO_SAT\" = @O" +
+                "riginal_MODELO_SAT)) AND ((@IsNull_SATSERVIDOR = 1 AND \"SATSERVIDOR\" IS NULL) OR" +
+                " (\"SATSERVIDOR\" = @Original_SATSERVIDOR)) AND ((@IsNull_SAT_CODATIV = 1 AND \"SAT" +
+                "_CODATIV\" IS NULL) OR (\"SAT_CODATIV\" = @Original_SAT_CODATIV)) AND ((@IsNull_SAT" +
+                "_USADO = 1 AND \"SAT_USADO\" IS NULL) OR (\"SAT_USADO\" = @Original_SAT_USADO)) AND " +
+                "((@IsNull_ECF_ATIVA = 1 AND \"ECF_ATIVA\" IS NULL) OR (\"ECF_ATIVA\" = @Original_ECF" +
+                "_ATIVA)) AND ((@IsNull_ECF_PORTA = 1 AND \"ECF_PORTA\" IS NULL) OR (\"ECF_PORTA\" = " +
+                "@Original_ECF_PORTA)) AND ((@IsNull_IMPRESSORA_USB = 1 AND \"IMPRESSORA_USB\" IS N" +
+                "ULL) OR (\"IMPRESSORA_USB\" = @Original_IMPRESSORA_USB)) AND ((@IsNull_IMPRESSORA_" +
+                "USB_PED = 1 AND \"IMPRESSORA_USB_PED\" IS NULL) OR (\"IMPRESSORA_USB_PED\" = @Origin" +
+                "al_IMPRESSORA_USB_PED)) AND (\"PERGUNTA_WHATS\" = @Original_PERGUNTA_WHATS) AND (\"" +
+                "USATEF\" = @Original_USATEF) AND ((@IsNull_TEFIP = 1 AND \"TEFIP\" IS NULL) OR (\"TE" +
+                "FIP\" = @Original_TEFIP)) AND ((@IsNull_TEFNUMLOJA = 1 AND \"TEFNUMLOJA\" IS NULL) " +
+                "OR (\"TEFNUMLOJA\" = @Original_TEFNUMLOJA)) AND ((@IsNull_TEFNUMTERMINAL = 1 AND \"" +
+                "TEFNUMTERMINAL\" IS NULL) OR (\"TEFNUMTERMINAL\" = @Original_TEFNUMTERMINAL)) AND (" +
+                "(@IsNull_TEFPEDECPFPELOPINPAD = 1 AND \"TEFPEDECPFPELOPINPAD\" IS NULL) OR (\"TEFPE" +
+                "DECPFPELOPINPAD\" = @Original_TEFPEDECPFPELOPINPAD)) AND (\"BALPORTA\" = @Original_" +
+                "BALPORTA) AND (\"BALBITS\" = @Original_BALBITS) AND (\"BALBAUD\" = @Original_BALBAUD" +
+                ") AND (\"BALPARITY\" = @Original_BALPARITY) AND (\"BALMODELO\" = @Original_BALMODELO" +
+                ") AND (\"ACFILLPREFIX\" = @Original_ACFILLPREFIX) AND (\"ACFILLMODE\" = @Original_AC" +
+                "FILLMODE) AND (\"ACREFERENCIA\" = @Original_ACREFERENCIA) AND (\"SYSCOMISSAO\" = @Or" +
+                "iginal_SYSCOMISSAO) AND (\"SATSERVTIMEOUT\" = @Original_SATSERVTIMEOUT) AND (\"SATL" +
+                "IFESIGNINTERVAL\" = @Original_SATLIFESIGNINTERVAL) AND (\"ACFILLDELAY\" = @Original" +
+                "_ACFILLDELAY) AND (\"SYSPERGUNTAWHATS\" = @Original_SYSPERGUNTAWHATS) AND (\"SYSPAR" +
+                "CELA\" = @Original_SYSPARCELA) AND (\"SYSEMITECOMPROVANTE\" = @Original_SYSEMITECOM" +
+                "PROVANTE) AND (\"INFORMA_MAQUININHA\" = @Original_INFORMA_MAQUININHA) AND (\"LAYOUT" +
+                "_SAT\" = @Original_LAYOUT_SAT))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_MAC";
@@ -3588,6 +3604,12 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = "INFORMA_MAQUININHA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@LAYOUT_SAT";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "LAYOUT_SAT";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_MAC";
@@ -4084,37 +4106,35 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@IsNull_INFORMA_MAQUININHA";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 1;
-            param.IsNullable = true;
-            param.SourceColumn = "INFORMA_MAQUININHA";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            param.SourceColumnNullMapping = true;
-            this._adapter.UpdateCommand.Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_INFORMA_MAQUININHA";
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = "INFORMA_MAQUININHA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_LAYOUT_SAT";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "LAYOUT_SAT";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitConnection() {
             this._connection = new global::FirebirdSql.Data.FirebirdClient.FbConnection();
             this._connection.ConnectionString = global::PDV_WPF.Properties.Settings.Default.FDBConnString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[49];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT ""ID_MAC"", ""NO_CAIXA"", ""EXIGE_SANGRIA"", ""VALOR_MAX_CAIXA"", ""BLOQUEIA_NO_LIMITE"", ""VALOR_DE_FOLGA"", ""PERMITE_FOLGA_SANGRIA"", ""INTERROMPE_NAO_ENCONTRADO"", ""MENSAGEM_CORTESIA"", ""ICMS_CONT"", ""CSOSN_CONT"", ""PEDE_CPF"", ""PERMITE_ESTOQUE_NEGATIVO"", ""MODELO_CUPOM"", ""MENSAGEM_RODAPE"", ""TRI_PDV_DT_UPD"", ""MODELO_SAT"", ""SATSERVIDOR"", ""SAT_CODATIV"", ""SIGN_AC"", ""SAT_USADO"", ""ECF_ATIVA"", ""ECF_PORTA"", ""IMPRESSORA_USB"", ""IMPRESSORA_USB_PED"", ""PERGUNTA_WHATS"", ""USATEF"", ""TEFIP"", ""TEFNUMLOJA"", ""TEFNUMTERMINAL"", ""TEFPEDECPFPELOPINPAD"", ""BALPORTA"", ""BALBITS"", ""BALBAUD"", ""BALPARITY"", ""BALMODELO"", ""ACFILLPREFIX"", ""ACFILLMODE"", ""ACREFERENCIA"", ""SYSCOMISSAO"", ""SATSERVTIMEOUT"", ""SATLIFESIGNINTERVAL"", ""ACFILLDELAY"", ""SYSPERGUNTAWHATS"", ""SYSPARCELA"", ""SYSEMITECOMPROVANTE"", ""INFORMA_MAQUININHA"" FROM ""TRI_PDV_CONFIG""";
+            this._commandCollection[0].CommandText = @"SELECT ""ID_MAC"", ""NO_CAIXA"", ""EXIGE_SANGRIA"", ""VALOR_MAX_CAIXA"", ""BLOQUEIA_NO_LIMITE"", ""VALOR_DE_FOLGA"", ""PERMITE_FOLGA_SANGRIA"", ""INTERROMPE_NAO_ENCONTRADO"", ""MENSAGEM_CORTESIA"", ""ICMS_CONT"", ""CSOSN_CONT"", ""PEDE_CPF"", ""PERMITE_ESTOQUE_NEGATIVO"", ""MODELO_CUPOM"", ""MENSAGEM_RODAPE"", ""TRI_PDV_DT_UPD"", ""MODELO_SAT"", ""SATSERVIDOR"", ""SAT_CODATIV"", ""SIGN_AC"", ""SAT_USADO"", ""ECF_ATIVA"", ""ECF_PORTA"", ""IMPRESSORA_USB"", ""IMPRESSORA_USB_PED"", ""PERGUNTA_WHATS"", ""USATEF"", ""TEFIP"", ""TEFNUMLOJA"", ""TEFNUMTERMINAL"", ""TEFPEDECPFPELOPINPAD"", ""BALPORTA"", ""BALBITS"", ""BALBAUD"", ""BALPARITY"", ""BALMODELO"", ""ACFILLPREFIX"", ""ACFILLMODE"", ""ACREFERENCIA"", ""SYSCOMISSAO"", ""SATSERVTIMEOUT"", ""SATLIFESIGNINTERVAL"", ""ACFILLDELAY"", ""SYSPERGUNTAWHATS"", ""SYSPARCELA"", ""SYSEMITECOMPROVANTE"", ""INFORMA_MAQUININHA"", ""LAYOUT_SAT"" FROM ""TRI_PDV_CONFIG""";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -9161,7 +9181,7 @@ END;";
             this._commandCollection[23].Parameters.Add(param);
             this._commandCollection[24] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[24].Connection = this.Connection;
-            this._commandCollection[24].CommandText = @"SELECT ACFILLDELAY, ACFILLMODE, ACFILLPREFIX, ACREFERENCIA, BALBAUD, BALBITS, BALMODELO, BALPARITY, BALPORTA, BLOQUEIA_NO_LIMITE, CSOSN_CONT, ECF_ATIVA, ECF_PORTA, EXIGE_SANGRIA, ICMS_CONT, ID_MAC, IMPRESSORA_USB, IMPRESSORA_USB_PED, INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, MENSAGEM_RODAPE, MODELO_CUPOM, MODELO_SAT, NO_CAIXA, PEDE_CPF, PERGUNTA_WHATS, PERMITE_ESTOQUE_NEGATIVO, PERMITE_FOLGA_SANGRIA, SATLIFESIGNINTERVAL, SATSERVIDOR, SATSERVTIMEOUT, SAT_CODATIV, SAT_USADO, SIGN_AC, SYSCOMISSAO, SYSEMITECOMPROVANTE, SYSPARCELA, SYSPERGUNTAWHATS, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, TRI_PDV_DT_UPD, USATEF, VALOR_DE_FOLGA, VALOR_MAX_CAIXA FROM TRI_PDV_CONFIG WHERE (ID_MAC = @param)";
+            this._commandCollection[24].CommandText = @"SELECT ACFILLDELAY, ACFILLMODE, ACFILLPREFIX, ACREFERENCIA, BALBAUD, BALBITS, BALMODELO, BALPARITY, BALPORTA, BLOQUEIA_NO_LIMITE, CSOSN_CONT, ECF_ATIVA, ECF_PORTA, EXIGE_SANGRIA, ICMS_CONT, ID_MAC, IMPRESSORA_USB, IMPRESSORA_USB_PED, INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, LAYOUT_SAT, MENSAGEM_CORTESIA, MENSAGEM_RODAPE, MODELO_CUPOM, MODELO_SAT, NO_CAIXA, PEDE_CPF, PERGUNTA_WHATS, PERMITE_ESTOQUE_NEGATIVO, PERMITE_FOLGA_SANGRIA, SATLIFESIGNINTERVAL, SATSERVIDOR, SATSERVTIMEOUT, SAT_CODATIV, SAT_USADO, SIGN_AC, SYSCOMISSAO, SYSEMITECOMPROVANTE, SYSPARCELA, SYSPERGUNTAWHATS, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, TRI_PDV_DT_UPD, USATEF, VALOR_DE_FOLGA, VALOR_MAX_CAIXA FROM TRI_PDV_CONFIG WHERE (ID_MAC = @param)";
             this._commandCollection[24].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@param";
@@ -9521,6 +9541,12 @@ END;";
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[30].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PLAYOUT_SAT";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[30].Parameters.Add(param);
             this._commandCollection[31] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[31].Connection = this.Connection;
             this._commandCollection[31].CommandText = "\"SP_TRI_CRIATABELAS\"";
@@ -9596,7 +9622,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
         public virtual int Fill(FDBDataSetConfig.TRI_PDV_CONFIGDataTable dataTable) {
@@ -9609,7 +9635,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
         public virtual FDBDataSetConfig.TRI_PDV_CONFIGDataTable GetData() {
@@ -9620,7 +9646,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
         public virtual int CaixaExistente(FDBDataSetConfig.TRI_PDV_CONFIGDataTable dataTable) {
@@ -9633,7 +9659,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
         public virtual int FillById(FDBDataSetConfig.TRI_PDV_CONFIGDataTable dataTable, string param) {
@@ -9652,7 +9678,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
         public virtual int FillByMacAdress(FDBDataSetConfig.TRI_PDV_CONFIGDataTable dataTable, string PID_MAC) {
@@ -9671,7 +9697,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
         public virtual int FillByUpdateDate(FDBDataSetConfig.TRI_PDV_CONFIGDataTable dataTable, global::System.Nullable<global::System.DateTime> PULTIMASYNC, global::System.Nullable<int> PNOCAIXA) {
@@ -9696,21 +9722,21 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int Update(FDBDataSetConfig.TRI_PDV_CONFIGDataTable dataTable) {
             return this.Adapter.Update(dataTable);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int Update(FDBDataSetConfig dataSet) {
             return this.Adapter.Update(dataSet, "TRI_PDV_CONFIG");
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int Update(global::System.Data.DataRow dataRow) {
             return this.Adapter.Update(new global::System.Data.DataRow[] {
@@ -9718,14 +9744,14 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual int Update(global::System.Data.DataRow[] dataRows) {
             return this.Adapter.Update(dataRows);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
         public virtual int Delete(
@@ -9774,7 +9800,8 @@ END;";
                     short Original_SYSPERGUNTAWHATS, 
                     short Original_SYSPARCELA, 
                     short Original_SYSEMITECOMPROVANTE, 
-                    string Original_INFORMA_MAQUININHA) {
+                    string Original_INFORMA_MAQUININHA, 
+                    string Original_LAYOUT_SAT) {
             if ((Original_ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("Original_ID_MAC");
             }
@@ -9970,12 +9997,16 @@ END;";
             this.Adapter.DeleteCommand.Parameters[60].Value = ((short)(Original_SYSPARCELA));
             this.Adapter.DeleteCommand.Parameters[61].Value = ((short)(Original_SYSEMITECOMPROVANTE));
             if ((Original_INFORMA_MAQUININHA == null)) {
-                this.Adapter.DeleteCommand.Parameters[62].Value = ((object)(1));
-                this.Adapter.DeleteCommand.Parameters[63].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("Original_INFORMA_MAQUININHA");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[62].Value = ((object)(0));
-                this.Adapter.DeleteCommand.Parameters[63].Value = ((string)(Original_INFORMA_MAQUININHA));
+                this.Adapter.DeleteCommand.Parameters[62].Value = ((string)(Original_INFORMA_MAQUININHA));
+            }
+            if ((Original_LAYOUT_SAT == null)) {
+                throw new global::System.ArgumentNullException("Original_LAYOUT_SAT");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[63].Value = ((string)(Original_LAYOUT_SAT));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -9994,7 +10025,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
         public virtual int Insert(
@@ -10044,7 +10075,8 @@ END;";
                     short SYSPERGUNTAWHATS, 
                     short SYSPARCELA, 
                     short SYSEMITECOMPROVANTE, 
-                    string INFORMA_MAQUININHA) {
+                    string INFORMA_MAQUININHA, 
+                    string LAYOUT_SAT) {
             if ((ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("ID_MAC");
             }
@@ -10212,10 +10244,16 @@ END;";
             this.Adapter.InsertCommand.Parameters[44].Value = ((short)(SYSPARCELA));
             this.Adapter.InsertCommand.Parameters[45].Value = ((short)(SYSEMITECOMPROVANTE));
             if ((INFORMA_MAQUININHA == null)) {
-                this.Adapter.InsertCommand.Parameters[46].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("INFORMA_MAQUININHA");
             }
             else {
                 this.Adapter.InsertCommand.Parameters[46].Value = ((string)(INFORMA_MAQUININHA));
+            }
+            if ((LAYOUT_SAT == null)) {
+                throw new global::System.ArgumentNullException("LAYOUT_SAT");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[47].Value = ((string)(LAYOUT_SAT));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -10234,7 +10272,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
         public virtual int Update(
@@ -10285,6 +10323,7 @@ END;";
                     short SYSPARCELA, 
                     short SYSEMITECOMPROVANTE, 
                     string INFORMA_MAQUININHA, 
+                    string LAYOUT_SAT, 
                     string Original_ID_MAC, 
                     short Original_NO_CAIXA, 
                     string Original_EXIGE_SANGRIA, 
@@ -10330,7 +10369,8 @@ END;";
                     short Original_SYSPERGUNTAWHATS, 
                     short Original_SYSPARCELA, 
                     short Original_SYSEMITECOMPROVANTE, 
-                    string Original_INFORMA_MAQUININHA) {
+                    string Original_INFORMA_MAQUININHA, 
+                    string Original_LAYOUT_SAT) {
             if ((ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("ID_MAC");
             }
@@ -10498,212 +10538,222 @@ END;";
             this.Adapter.UpdateCommand.Parameters[44].Value = ((short)(SYSPARCELA));
             this.Adapter.UpdateCommand.Parameters[45].Value = ((short)(SYSEMITECOMPROVANTE));
             if ((INFORMA_MAQUININHA == null)) {
-                this.Adapter.UpdateCommand.Parameters[46].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("INFORMA_MAQUININHA");
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[46].Value = ((string)(INFORMA_MAQUININHA));
+            }
+            if ((LAYOUT_SAT == null)) {
+                throw new global::System.ArgumentNullException("LAYOUT_SAT");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[47].Value = ((string)(LAYOUT_SAT));
             }
             if ((Original_ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("Original_ID_MAC");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[47].Value = ((string)(Original_ID_MAC));
+                this.Adapter.UpdateCommand.Parameters[48].Value = ((string)(Original_ID_MAC));
             }
-            this.Adapter.UpdateCommand.Parameters[48].Value = ((short)(Original_NO_CAIXA));
+            this.Adapter.UpdateCommand.Parameters[49].Value = ((short)(Original_NO_CAIXA));
             if ((Original_EXIGE_SANGRIA == null)) {
                 throw new global::System.ArgumentNullException("Original_EXIGE_SANGRIA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((string)(Original_EXIGE_SANGRIA));
+                this.Adapter.UpdateCommand.Parameters[50].Value = ((string)(Original_EXIGE_SANGRIA));
             }
-            this.Adapter.UpdateCommand.Parameters[50].Value = ((double)(Original_VALOR_MAX_CAIXA));
+            this.Adapter.UpdateCommand.Parameters[51].Value = ((double)(Original_VALOR_MAX_CAIXA));
             if ((Original_BLOQUEIA_NO_LIMITE == null)) {
                 throw new global::System.ArgumentNullException("Original_BLOQUEIA_NO_LIMITE");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((string)(Original_BLOQUEIA_NO_LIMITE));
+                this.Adapter.UpdateCommand.Parameters[52].Value = ((string)(Original_BLOQUEIA_NO_LIMITE));
             }
-            this.Adapter.UpdateCommand.Parameters[52].Value = ((double)(Original_VALOR_DE_FOLGA));
+            this.Adapter.UpdateCommand.Parameters[53].Value = ((double)(Original_VALOR_DE_FOLGA));
             if ((Original_PERMITE_FOLGA_SANGRIA == null)) {
                 throw new global::System.ArgumentNullException("Original_PERMITE_FOLGA_SANGRIA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((string)(Original_PERMITE_FOLGA_SANGRIA));
+                this.Adapter.UpdateCommand.Parameters[54].Value = ((string)(Original_PERMITE_FOLGA_SANGRIA));
             }
             if ((Original_INTERROMPE_NAO_ENCONTRADO == null)) {
                 throw new global::System.ArgumentNullException("Original_INTERROMPE_NAO_ENCONTRADO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[54].Value = ((string)(Original_INTERROMPE_NAO_ENCONTRADO));
+                this.Adapter.UpdateCommand.Parameters[55].Value = ((string)(Original_INTERROMPE_NAO_ENCONTRADO));
             }
             if ((Original_MENSAGEM_CORTESIA == null)) {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[56].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[56].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[57].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((string)(Original_MENSAGEM_CORTESIA));
+                this.Adapter.UpdateCommand.Parameters[56].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((string)(Original_MENSAGEM_CORTESIA));
             }
             if ((Original_ICMS_CONT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((float)(Original_ICMS_CONT.Value));
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[59].Value = ((float)(Original_ICMS_CONT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[58].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[59].Value = global::System.DBNull.Value;
             }
             if ((Original_CSOSN_CONT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[60].Value = ((float)(Original_CSOSN_CONT.Value));
+                this.Adapter.UpdateCommand.Parameters[60].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[61].Value = ((float)(Original_CSOSN_CONT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[60].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[60].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[61].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[61].Value = ((int)(Original_PEDE_CPF));
-            this.Adapter.UpdateCommand.Parameters[62].Value = ((int)(Original_PERMITE_ESTOQUE_NEGATIVO));
-            this.Adapter.UpdateCommand.Parameters[63].Value = ((short)(Original_MODELO_CUPOM));
+            this.Adapter.UpdateCommand.Parameters[62].Value = ((int)(Original_PEDE_CPF));
+            this.Adapter.UpdateCommand.Parameters[63].Value = ((int)(Original_PERMITE_ESTOQUE_NEGATIVO));
+            this.Adapter.UpdateCommand.Parameters[64].Value = ((short)(Original_MODELO_CUPOM));
             if ((Original_MENSAGEM_RODAPE == null)) {
-                this.Adapter.UpdateCommand.Parameters[64].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[65].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[65].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[66].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[64].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[65].Value = ((string)(Original_MENSAGEM_RODAPE));
+                this.Adapter.UpdateCommand.Parameters[65].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[66].Value = ((string)(Original_MENSAGEM_RODAPE));
             }
             if ((Original_TRI_PDV_DT_UPD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[67].Value = ((System.DateTime)(Original_TRI_PDV_DT_UPD.Value));
+                this.Adapter.UpdateCommand.Parameters[67].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[68].Value = ((System.DateTime)(Original_TRI_PDV_DT_UPD.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[67].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[67].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[68].Value = global::System.DBNull.Value;
             }
             if ((Original_MODELO_SAT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[69].Value = ((int)(Original_MODELO_SAT.Value));
+                this.Adapter.UpdateCommand.Parameters[69].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[70].Value = ((int)(Original_MODELO_SAT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[69].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[69].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[70].Value = global::System.DBNull.Value;
             }
             if ((Original_SATSERVIDOR == null)) {
-                this.Adapter.UpdateCommand.Parameters[70].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[71].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[71].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[72].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[70].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[71].Value = ((string)(Original_SATSERVIDOR));
+                this.Adapter.UpdateCommand.Parameters[71].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[72].Value = ((string)(Original_SATSERVIDOR));
             }
             if ((Original_SAT_CODATIV == null)) {
-                this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[73].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[73].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[74].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[73].Value = ((string)(Original_SAT_CODATIV));
+                this.Adapter.UpdateCommand.Parameters[73].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[74].Value = ((string)(Original_SAT_CODATIV));
             }
             if ((Original_SAT_USADO == null)) {
-                this.Adapter.UpdateCommand.Parameters[74].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[75].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[75].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[76].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[74].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[75].Value = ((string)(Original_SAT_USADO));
+                this.Adapter.UpdateCommand.Parameters[75].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[76].Value = ((string)(Original_SAT_USADO));
             }
             if ((Original_ECF_ATIVA == null)) {
-                this.Adapter.UpdateCommand.Parameters[76].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[77].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[77].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[78].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[76].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[77].Value = ((string)(Original_ECF_ATIVA));
+                this.Adapter.UpdateCommand.Parameters[77].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[78].Value = ((string)(Original_ECF_ATIVA));
             }
             if ((Original_ECF_PORTA == null)) {
-                this.Adapter.UpdateCommand.Parameters[78].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[79].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[79].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[80].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[78].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[79].Value = ((string)(Original_ECF_PORTA));
+                this.Adapter.UpdateCommand.Parameters[79].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[80].Value = ((string)(Original_ECF_PORTA));
             }
             if ((Original_IMPRESSORA_USB == null)) {
-                this.Adapter.UpdateCommand.Parameters[80].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[81].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[81].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[82].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[80].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[81].Value = ((string)(Original_IMPRESSORA_USB));
+                this.Adapter.UpdateCommand.Parameters[81].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[82].Value = ((string)(Original_IMPRESSORA_USB));
             }
             if ((Original_IMPRESSORA_USB_PED == null)) {
-                this.Adapter.UpdateCommand.Parameters[82].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[83].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[83].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[84].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[82].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[83].Value = ((string)(Original_IMPRESSORA_USB_PED));
+                this.Adapter.UpdateCommand.Parameters[83].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[84].Value = ((string)(Original_IMPRESSORA_USB_PED));
             }
-            this.Adapter.UpdateCommand.Parameters[84].Value = ((int)(Original_PERGUNTA_WHATS));
+            this.Adapter.UpdateCommand.Parameters[85].Value = ((int)(Original_PERGUNTA_WHATS));
             if ((Original_USATEF == null)) {
                 throw new global::System.ArgumentNullException("Original_USATEF");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[85].Value = ((string)(Original_USATEF));
+                this.Adapter.UpdateCommand.Parameters[86].Value = ((string)(Original_USATEF));
             }
             if ((Original_TEFIP == null)) {
-                this.Adapter.UpdateCommand.Parameters[86].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[87].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[87].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[88].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[86].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[87].Value = ((string)(Original_TEFIP));
+                this.Adapter.UpdateCommand.Parameters[87].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[88].Value = ((string)(Original_TEFIP));
             }
             if ((Original_TEFNUMLOJA == null)) {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[89].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[89].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[90].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[89].Value = ((string)(Original_TEFNUMLOJA));
+                this.Adapter.UpdateCommand.Parameters[89].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[90].Value = ((string)(Original_TEFNUMLOJA));
             }
             if ((Original_TEFNUMTERMINAL == null)) {
-                this.Adapter.UpdateCommand.Parameters[90].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[91].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[91].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[92].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[90].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[91].Value = ((string)(Original_TEFNUMTERMINAL));
+                this.Adapter.UpdateCommand.Parameters[91].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[92].Value = ((string)(Original_TEFNUMTERMINAL));
             }
             if ((Original_TEFPEDECPFPELOPINPAD == null)) {
-                this.Adapter.UpdateCommand.Parameters[92].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[93].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[93].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[94].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[92].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[93].Value = ((string)(Original_TEFPEDECPFPELOPINPAD));
+                this.Adapter.UpdateCommand.Parameters[93].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[94].Value = ((string)(Original_TEFPEDECPFPELOPINPAD));
             }
-            this.Adapter.UpdateCommand.Parameters[94].Value = ((short)(Original_BALPORTA));
-            this.Adapter.UpdateCommand.Parameters[95].Value = ((short)(Original_BALBITS));
-            this.Adapter.UpdateCommand.Parameters[96].Value = ((int)(Original_BALBAUD));
-            this.Adapter.UpdateCommand.Parameters[97].Value = ((short)(Original_BALPARITY));
-            this.Adapter.UpdateCommand.Parameters[98].Value = ((short)(Original_BALMODELO));
-            this.Adapter.UpdateCommand.Parameters[99].Value = ((short)(Original_ACFILLPREFIX));
-            this.Adapter.UpdateCommand.Parameters[100].Value = ((short)(Original_ACFILLMODE));
-            this.Adapter.UpdateCommand.Parameters[101].Value = ((short)(Original_ACREFERENCIA));
-            this.Adapter.UpdateCommand.Parameters[102].Value = ((short)(Original_SYSCOMISSAO));
-            this.Adapter.UpdateCommand.Parameters[103].Value = ((int)(Original_SATSERVTIMEOUT));
-            this.Adapter.UpdateCommand.Parameters[104].Value = ((int)(Original_SATLIFESIGNINTERVAL));
-            this.Adapter.UpdateCommand.Parameters[105].Value = ((int)(Original_ACFILLDELAY));
-            this.Adapter.UpdateCommand.Parameters[106].Value = ((short)(Original_SYSPERGUNTAWHATS));
-            this.Adapter.UpdateCommand.Parameters[107].Value = ((short)(Original_SYSPARCELA));
-            this.Adapter.UpdateCommand.Parameters[108].Value = ((short)(Original_SYSEMITECOMPROVANTE));
+            this.Adapter.UpdateCommand.Parameters[95].Value = ((short)(Original_BALPORTA));
+            this.Adapter.UpdateCommand.Parameters[96].Value = ((short)(Original_BALBITS));
+            this.Adapter.UpdateCommand.Parameters[97].Value = ((int)(Original_BALBAUD));
+            this.Adapter.UpdateCommand.Parameters[98].Value = ((short)(Original_BALPARITY));
+            this.Adapter.UpdateCommand.Parameters[99].Value = ((short)(Original_BALMODELO));
+            this.Adapter.UpdateCommand.Parameters[100].Value = ((short)(Original_ACFILLPREFIX));
+            this.Adapter.UpdateCommand.Parameters[101].Value = ((short)(Original_ACFILLMODE));
+            this.Adapter.UpdateCommand.Parameters[102].Value = ((short)(Original_ACREFERENCIA));
+            this.Adapter.UpdateCommand.Parameters[103].Value = ((short)(Original_SYSCOMISSAO));
+            this.Adapter.UpdateCommand.Parameters[104].Value = ((int)(Original_SATSERVTIMEOUT));
+            this.Adapter.UpdateCommand.Parameters[105].Value = ((int)(Original_SATLIFESIGNINTERVAL));
+            this.Adapter.UpdateCommand.Parameters[106].Value = ((int)(Original_ACFILLDELAY));
+            this.Adapter.UpdateCommand.Parameters[107].Value = ((short)(Original_SYSPERGUNTAWHATS));
+            this.Adapter.UpdateCommand.Parameters[108].Value = ((short)(Original_SYSPARCELA));
+            this.Adapter.UpdateCommand.Parameters[109].Value = ((short)(Original_SYSEMITECOMPROVANTE));
             if ((Original_INFORMA_MAQUININHA == null)) {
-                this.Adapter.UpdateCommand.Parameters[109].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[110].Value = global::System.DBNull.Value;
+                throw new global::System.ArgumentNullException("Original_INFORMA_MAQUININHA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[109].Value = ((object)(0));
                 this.Adapter.UpdateCommand.Parameters[110].Value = ((string)(Original_INFORMA_MAQUININHA));
+            }
+            if ((Original_LAYOUT_SAT == null)) {
+                throw new global::System.ArgumentNullException("Original_LAYOUT_SAT");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[111].Value = ((string)(Original_LAYOUT_SAT));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -10722,7 +10772,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
         public virtual int Update(
@@ -10772,6 +10822,7 @@ END;";
                     short SYSPARCELA, 
                     short SYSEMITECOMPROVANTE, 
                     string INFORMA_MAQUININHA, 
+                    string LAYOUT_SAT, 
                     string Original_ID_MAC, 
                     short Original_NO_CAIXA, 
                     string Original_EXIGE_SANGRIA, 
@@ -10817,12 +10868,13 @@ END;";
                     short Original_SYSPERGUNTAWHATS, 
                     short Original_SYSPARCELA, 
                     short Original_SYSEMITECOMPROVANTE, 
-                    string Original_INFORMA_MAQUININHA) {
-            return this.Update(Original_ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, Original_ID_MAC, Original_NO_CAIXA, Original_EXIGE_SANGRIA, Original_VALOR_MAX_CAIXA, Original_BLOQUEIA_NO_LIMITE, Original_VALOR_DE_FOLGA, Original_PERMITE_FOLGA_SANGRIA, Original_INTERROMPE_NAO_ENCONTRADO, Original_MENSAGEM_CORTESIA, Original_ICMS_CONT, Original_CSOSN_CONT, Original_PEDE_CPF, Original_PERMITE_ESTOQUE_NEGATIVO, Original_MODELO_CUPOM, Original_MENSAGEM_RODAPE, Original_TRI_PDV_DT_UPD, Original_MODELO_SAT, Original_SATSERVIDOR, Original_SAT_CODATIV, Original_SAT_USADO, Original_ECF_ATIVA, Original_ECF_PORTA, Original_IMPRESSORA_USB, Original_IMPRESSORA_USB_PED, Original_PERGUNTA_WHATS, Original_USATEF, Original_TEFIP, Original_TEFNUMLOJA, Original_TEFNUMTERMINAL, Original_TEFPEDECPFPELOPINPAD, Original_BALPORTA, Original_BALBITS, Original_BALBAUD, Original_BALPARITY, Original_BALMODELO, Original_ACFILLPREFIX, Original_ACFILLMODE, Original_ACREFERENCIA, Original_SYSCOMISSAO, Original_SATSERVTIMEOUT, Original_SATLIFESIGNINTERVAL, Original_ACFILLDELAY, Original_SYSPERGUNTAWHATS, Original_SYSPARCELA, Original_SYSEMITECOMPROVANTE, Original_INFORMA_MAQUININHA);
+                    string Original_INFORMA_MAQUININHA, 
+                    string Original_LAYOUT_SAT) {
+            return this.Update(Original_ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYOUT_SAT, Original_ID_MAC, Original_NO_CAIXA, Original_EXIGE_SANGRIA, Original_VALOR_MAX_CAIXA, Original_BLOQUEIA_NO_LIMITE, Original_VALOR_DE_FOLGA, Original_PERMITE_FOLGA_SANGRIA, Original_INTERROMPE_NAO_ENCONTRADO, Original_MENSAGEM_CORTESIA, Original_ICMS_CONT, Original_CSOSN_CONT, Original_PEDE_CPF, Original_PERMITE_ESTOQUE_NEGATIVO, Original_MODELO_CUPOM, Original_MENSAGEM_RODAPE, Original_TRI_PDV_DT_UPD, Original_MODELO_SAT, Original_SATSERVIDOR, Original_SAT_CODATIV, Original_SAT_USADO, Original_ECF_ATIVA, Original_ECF_PORTA, Original_IMPRESSORA_USB, Original_IMPRESSORA_USB_PED, Original_PERGUNTA_WHATS, Original_USATEF, Original_TEFIP, Original_TEFNUMLOJA, Original_TEFNUMTERMINAL, Original_TEFPEDECPFPELOPINPAD, Original_BALPORTA, Original_BALBITS, Original_BALBAUD, Original_BALPARITY, Original_BALMODELO, Original_ACFILLPREFIX, Original_ACFILLMODE, Original_ACREFERENCIA, Original_SYSCOMISSAO, Original_SATSERVTIMEOUT, Original_SATLIFESIGNINTERVAL, Original_ACFILLDELAY, Original_SYSPERGUNTAWHATS, Original_SYSPARCELA, Original_SYSEMITECOMPROVANTE, Original_INFORMA_MAQUININHA, Original_LAYOUT_SAT);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object A_CRIATABELAS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
@@ -10850,7 +10902,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object A_CRIATABELAS_AUX_SYNC() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
@@ -10878,7 +10930,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_ATUALIZA_TB_AUX_SYNC() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[3];
@@ -10906,7 +10958,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_ATUALIZATABELAS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
@@ -10934,7 +10986,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_ATUALIZATABELAS2() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
@@ -10962,7 +11014,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_DSBL_SERV_TRGGR_ON_PDV() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[6];
@@ -10990,7 +11042,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_ENABLE_SERV_TRIGGERS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
@@ -11018,7 +11070,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_GERATRIGGERS_AUX_SYNC() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[8];
@@ -11046,7 +11098,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_GERATRIGGERS_AUX_SYNC2() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[9];
@@ -11074,7 +11126,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object B_GERATRIGGERS_AUX_SYNC3() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[10];
@@ -11102,7 +11154,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object C_DADOSINICIAIS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[11];
@@ -11130,7 +11182,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object ChecaPorNoCaixa(global::System.Nullable<short> PNO_CAIXA, string PID_MAC) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[13];
@@ -11170,7 +11222,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[14];
@@ -11198,7 +11250,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES2() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[15];
@@ -11226,7 +11278,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES3() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[16];
@@ -11254,7 +11306,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES4() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[17];
@@ -11282,7 +11334,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES5() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[18];
@@ -11310,7 +11362,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES6() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[19];
@@ -11338,7 +11390,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES7() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[20];
@@ -11366,7 +11418,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object D_PROCEDURES8() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[21];
@@ -11394,7 +11446,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object E_ULTIMOPASSO() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[22];
@@ -11422,7 +11474,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object FillByCaixa(global::System.Nullable<short> PNO_CAIXA) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[23];
@@ -11456,7 +11508,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_ATUALIZA_TB_AUX_SYNC() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[27];
@@ -11484,7 +11536,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_ATUALIZATABELAS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[28];
@@ -11512,7 +11564,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_ATUALIZATABELAS2() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[29];
@@ -11540,7 +11592,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_CONFIG_UPSERT(
                     string PID_MAC, 
@@ -11589,7 +11641,8 @@ END;";
                     global::System.Nullable<short> PSYSPERGUNTAWHATS, 
                     global::System.Nullable<short> PSYSPARCELA, 
                     global::System.Nullable<short> PSYSEMITECOMPROVANTE, 
-                    string PINFORMA_MAQUININHA) {
+                    string PINFORMA_MAQUININHA, 
+                    string PLAYOUT_SAT) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[30];
             if ((PID_MAC == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
@@ -11873,6 +11926,12 @@ END;";
             else {
                 command.Parameters[46].Value = ((string)(PINFORMA_MAQUININHA));
             }
+            if ((PLAYOUT_SAT == null)) {
+                command.Parameters[47].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[47].Value = ((string)(PLAYOUT_SAT));
+            }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -11897,7 +11956,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_CRIATABELAS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[31];
@@ -11925,7 +11984,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_CRIATABELAS_AUX_SYNC() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[32];
@@ -11953,7 +12012,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_CRIATABELAS_SERV() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[33];
@@ -11981,7 +12040,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_DADOSINICIAIS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[34];
@@ -12009,7 +12068,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_DSBL_SERV_TRGGR_ON_PDV() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[35];
@@ -12037,7 +12096,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_ENABLE_SERV_TRIGGERS() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[36];
@@ -12065,7 +12124,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_GERATRIGGERS_AUX_SYNC() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[37];
@@ -12093,7 +12152,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_GERATRIGGERS_AUX_SYNC2() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[38];
@@ -12121,7 +12180,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_GERATRIGGERS_AUX_SYNC3() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[39];
@@ -12149,7 +12208,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[40];
@@ -12177,7 +12236,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES2() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[41];
@@ -12205,7 +12264,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES3() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[42];
@@ -12233,7 +12292,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES4() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[43];
@@ -12261,7 +12320,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES5() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[44];
@@ -12289,7 +12348,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES6() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[45];
@@ -12317,7 +12376,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES7() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[46];
@@ -12345,7 +12404,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_PROCEDURES8() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[47];
@@ -12373,7 +12432,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_TERMARIO_CHECKSEQ() {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[48];
@@ -12420,7 +12479,7 @@ END;";
         private global::System.Data.IDbConnection _connection;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public UpdateOrderOption UpdateOrder {
             get {
                 return this._updateOrder;
@@ -12431,7 +12490,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
             "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
             "a", "System.Drawing.Design.UITypeEditor")]
@@ -12445,7 +12504,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -12456,7 +12515,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         public global::System.Data.IDbConnection Connection {
             get {
@@ -12475,7 +12534,7 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Browsable(false)]
         public int TableAdapterInstanceCount {
             get {
@@ -12491,7 +12550,7 @@ END;";
         ///Update rows in top-down order.
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateUpdatedRows(FDBDataSetConfig dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._tRI_PDV_CONFIGTableAdapter != null)) {
@@ -12510,7 +12569,7 @@ END;";
         ///Insert rows in top-down order.
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateInsertedRows(FDBDataSetConfig dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             if ((this._tRI_PDV_CONFIGTableAdapter != null)) {
@@ -12528,7 +12587,7 @@ END;";
         ///Delete rows in bottom-up order.
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateDeletedRows(FDBDataSetConfig dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             if ((this._tRI_PDV_CONFIGTableAdapter != null)) {
@@ -12546,7 +12605,7 @@ END;";
         ///Remove inserted rows that become updated rows after calling TableAdapter.Update(inserted rows) first
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private global::System.Data.DataRow[] GetRealUpdatedRows(global::System.Data.DataRow[] updatedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             if (((updatedRows == null) 
                         || (updatedRows.Length < 1))) {
@@ -12570,7 +12629,7 @@ END;";
         ///Update all changes to the dataset.
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public virtual int UpdateAll(FDBDataSetConfig dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
@@ -12699,13 +12758,13 @@ END;";
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected virtual void SortSelfReferenceRows(global::System.Data.DataRow[] rows, global::System.Data.DataRelation relation, bool childFirst) {
             global::System.Array.Sort<global::System.Data.DataRow>(rows, new SelfReferenceComparer(relation, childFirst));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         protected virtual bool MatchTableAdapterConnection(global::System.Data.IDbConnection inputConnection) {
             if ((this._connection != null)) {
                 return true;
@@ -12723,7 +12782,7 @@ END;";
         /// <summary>
         ///Update Order Option
         ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public enum UpdateOrderOption {
             
             InsertUpdateDelete = 0,
@@ -12734,7 +12793,7 @@ END;";
         /// <summary>
         ///Used to sort self-referenced table's rows
         ///</summary>
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private class SelfReferenceComparer : object, global::System.Collections.Generic.IComparer<global::System.Data.DataRow> {
             
             private global::System.Data.DataRelation _relation;
@@ -12742,7 +12801,7 @@ END;";
             private int _childFirst;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             internal SelfReferenceComparer(global::System.Data.DataRelation relation, bool childFirst) {
                 this._relation = relation;
                 if (childFirst) {
@@ -12754,7 +12813,7 @@ END;";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             private global::System.Data.DataRow GetRoot(global::System.Data.DataRow row, out int distance) {
                 global::System.Diagnostics.Debug.Assert((row != null));
                 global::System.Data.DataRow root = row;
@@ -12793,7 +12852,7 @@ END;";
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public int Compare(global::System.Data.DataRow row1, global::System.Data.DataRow row2) {
                 if (object.ReferenceEquals(row1, row2)) {
                     return 0;
