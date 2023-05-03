@@ -223,7 +223,7 @@ namespace PDV_WPF.Telas
             try
             {
                 InicializarCaixa(_contingencia);
-                combobox.MultiplyAdded += Combobox_MultiplyAdded;
+                //combobox.MultiplyAdded += Combobox_MultiplyAdded;
             }
             catch (Exception ex)
             {
@@ -2757,12 +2757,8 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                #endregion AmbiMAITRE
-                //Pega valor do textBox Total Geral fiquei com preguiça de procurar a variavel que armazena esse valor então peguei do textbox.
-                string tot = txb_TotGer.Text;
-                string[] totConvert = tot.Split(' ');
-                decimal.TryParse(totConvert[1], out decimal totConvertido);
-                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, totConvertido, ref vendaAtual, _modoTeste)
+                #endregion AmbiMAITRE                
+                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, subtotal, ref vendaAtual, _modoTeste)
                 {
                     //valor_venda = subtotal,
                     _info_int = infoStr,
@@ -7078,6 +7074,29 @@ namespace PDV_WPF.Telas
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
     }
+    public class FocusableAutoCompleteBox : AutoCompleteBox
+    {
+        public new void Focus()
+        {
+            if (Template.FindName("Text", this) is TextBox textbox) textbox.Focus();
+        }
+        //protected override void OnKeyDown(KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.F4)
+        //    {
+        //        return;
+        //    }
+        //    else if (e.Key == Key.Escape && (Text != "" || Text != String.Empty))
+        //    {
+        //        Text = "";
+        //        e.Handled = true;
+        //    }
+        //    else
+        //    {
+        //        base.OnKeyDown(e);
+        //    }
+        //}
+    }//Controle da caixa autocompletável.
 
     #endregion Classes Auxiliares
 

@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:PDV_WPF.Controls"
-        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:telas="clr-namespace:PDV_WPF.Telas"
+        xmlns:controls="clr-namespace:PDV_WPF.Controls"        
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"         
         xmlns:viewModels="clr-namespace:PDV_WPF.ViewModels"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
         x:Name="MainWindow" 
         mc:Ignorable="d"
         Focusable="False"
@@ -305,16 +304,28 @@
             <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="10,8,10,10" 
                                   MarqueeContent="I was gonna write this text, but then I got high. I was gonna code everything up, but then I got high. Now I have written nothing, and I know why. Because I got high, because I got high, because I got high." MarqueeType="RightToLeft"  Grid.ColumnSpan="4" Grid.Row="1" RenderTransformOrigin="0.5,0.5"/>
 
-            <controls:FastEditComboBox x:Name="combobox" controls:ComboBoxHelper.DisableF4HotKey="True" Margin="9,23,11,6" Grid.Row="2" FontSize="27" Grid.ColumnSpan="4" Grid.Column="0" Foreground="#FF333333" Background="#E5FFFFFF"
-                                 BorderThickness="2" IsEditable="True" IsTextSearchEnabled="True" Focusable="True" RenderTransformOrigin="0.5,0.5" Padding="0"
-                                 KeyDown="Combobox_OnKeyDown" PreviewKeyDown="Combobox_OnPreviewKeyDown" DisplayMemberPath="DESCRICAO" SelectedValuePath="ID_IDENTIFICADOR"
-                                 >
-                <controls:FastEditComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </controls:FastEditComboBox.ItemsPanel>
-            </controls:FastEditComboBox>
+            <local:FocusableAutoCompleteBox x:Name="combobox" Grid.Row="2"
+														PreviewKeyDown="ACBox_KeyDown" SelectionChanged="ACBox_SelectionChanged" 
+														FontSize="26" Foreground="#000000" Background="#FFF9F9F9" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+														BorderThickness="1" Padding="2,3" ItemContainerStyle="{DynamicResource ResourceKey=myLBStyle}"
+														Focusable="True" MinimumPopulateDelay="1500" MinimumPrefixLength="3" FilterMode="StartsWithOrdinal" RenderTransformOrigin="0.5,0.5"
+														Margin="10,25,10,10" 
+														ValueMemberPath="DESCRICAO" Grid.ColumnSpan="4" >
+                <local:FocusableAutoCompleteBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DESCRICAO}" />
+                    </DataTemplate>
+                </local:FocusableAutoCompleteBox.ItemTemplate>
+                <local:FocusableAutoCompleteBox.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF33CCCC" Offset="0"/>
+                        <GradientStop Color="#FF30B8B8" Offset="0.375"/>
+                        <GradientStop Color="#FF41EAEA" Offset="0.426"/>
+                        <GradientStop Color="#FF228D8D" Offset="1"/>
+                    </LinearGradientBrush>                      
+                </local:FocusableAutoCompleteBox.BorderBrush>
+            </local:FocusableAutoCompleteBox>
+
             <TextBlock Margin="10,0,0,59" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" Grid.ColumnSpan="2" Width="137" RenderTransformOrigin="0.5,0.5">
                 <TextBlock.RenderTransform>
                     <TransformGroup>

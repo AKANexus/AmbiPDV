@@ -171,7 +171,7 @@ namespace PDV_WPF.Objetos
             if (string.IsNullOrWhiteSpace(numeroCaixa) || !int.TryParse(numeroCaixa, out int _x) || _x <= 0) throw new ErroDeValidacaoDeConteudo("Número do caixa inválido. Deve ser um número inteiro e maior que zero");
             if (string.IsNullOrWhiteSpace(cNPJEmit) || cNPJEmit.Length != 14) throw new ErroDeValidacaoDeConteudo("CNPJ do Emitente inválido. Não deve conter pontuação.");
             if (string.IsNullOrWhiteSpace(iEEmit)) throw new ErroDeValidacaoDeConteudo("Inscrição Estadual do Emitente Inválida.");
-            _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = "0.08" };
+            _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = LAYOUT_SAT switch { "007" => "0.07", "008" => "0.08", _ => "0.08" } };
             _infCfe.ide = new envCFeCFeInfCFeIde() { CNPJ = cNPJSH, signAC = assinatura, numeroCaixa = numeroCaixa.PadLeft(3, '0') };
             if (string.IsNullOrWhiteSpace(iMEmit))
             {
