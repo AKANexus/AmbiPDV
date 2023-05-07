@@ -320,7 +320,21 @@ namespace PDV_WPF.Funcoes
 
                         if (tblSetup != null && tblSetup.Rows.Count > 0)
                         {
-                            log.Debug("taSetupPdv.UpdateUltimaSync(): " + taSetup.UpdateUltimaSync(tsUltimaSync).ToString());
+                           log.Debug("taSetupPdv.UpdateUltimaSync(): " + taSetup.UpdateUltimaSync(tsUltimaSync).ToString());
+                            try
+                            {
+                                log.Debug("Incluido ultima SYNC na base local, iniciando sincronização para o servidor...");
+                                using (var taSetupServ = new TRI_PDV_SETUPTableAdapter())
+                                {
+                                    taSetupServ.Connection.ConnectionString = _strConnNetwork;
+                                    taSetupServ.UpdateSetup(tblSetup[0].ID_DUMMY, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_SYNC, Convert.ToDecimal(tblSetup[0].DESC_MAX_OP), tblSetup[0].USA_RECARGAS, tblSetup[0].DETALHADESCONTO,
+                                                            tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                log.Debug($"Erro ao sincronizar TRI_PDV_SETUP para o servidor, erro: {ex.InnerException.Message ?? ex.Message}");
+                            }
                         }
                         else
                         {

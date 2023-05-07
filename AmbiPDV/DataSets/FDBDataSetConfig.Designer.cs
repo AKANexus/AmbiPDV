@@ -4918,20 +4918,26 @@ END;";
                 "CONFIG\' AND RDB$FIELD_NAME = \'INFORMA_MAQUININHA\'))\r\n\t\t\t\t\t\tthen begin\r\n         " +
                 "                                                                                " +
                 "                       execute statement \'ALTER TABLE TRI_PDV_CONFIG ADD INFORMA" +
-                "_MAQUININHA CHAR(1) DEFAULT \'\'N\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n                      " +
+                "_MAQUININHA CHAR(1) DEFAULT \'\'N\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n                    " +
                 "                                                                                " +
-                "        \r\n\t\t\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1" +
-                " from RDB$INDICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t" +
-                "\texecute statement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';" +
-                "\r\n\r\n\t\t\t\t\t\terro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 F" +
-                "ROM RDB$GENERATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t" +
-                "\t\t\t\t\tEXECUTE STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'cr" +
-                "eate trigger DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS whe" +
-                "re RDB$TRIGGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CRE" +
-                "ATE TRIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEV" +
-                "OLUCAO = -1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\r\n\t\t\t\t" +
-                "\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t" +
-                "\t\t\tEND;";
+                "            erro = \'alter table TRI_PDV_CONFIG add CONFIGS LAYOUT SAT\';\r\n       " +
+                "                                                                                " +
+                "                         IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHER" +
+                "E RDB$RELATION_NAME = \'TRI_PDV_CONFIG\' AND RDB$FIELD_NAME = \'LAYOUT_SAT\'))\r\n\t\t\t\t" +
+                "\t\tthen begin\r\n                                                                  " +
+                "                                              execute statement \'ALTER TABLE TRI" +
+                "_PDV_CONFIG ADD LAYOUT_SAT VARCHAR(4) DEFAULT \'\'008\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n" +
+                "\t\t\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$" +
+                "INDICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute s" +
+                "tatement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\t" +
+                "erro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GE" +
+                "NERATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECU" +
+                "TE STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigg" +
+                "er DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RDB$TRI" +
+                "GGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGE" +
+                "R DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -" +
+                "1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\r\n\t\t\t\t\t\terro = \'" +
+                "deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;
@@ -7301,136 +7307,137 @@ END;";
                 "LLMODE SMALLINT, PACREFERENCIA SMALLINT, PSYSCOMISSAO SMALLINT, PSATSERVTIMEOUT " +
                 "INTEGER, PSATLIFESIGNINTERVAL INTEGER, PACFILLDELAY INTEGER, PSYSPERGUNTAWHATS S" +
                 "MALLINT, PSYSPARCELA SMALLINT, PSYSEMITECOMPROVANTE SMALLINT, PINFORMA_MAQUININH" +
-                "A CHAR(1)) RETURNS (RROWSAFFECTED INTEGER) AS BEGIN UPDATE OR INSERT INTO TRI_PD" +
-                "V_CONFIG (ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, " +
-                "VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTE" +
-                "SIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, ME" +
-                "NSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SA" +
-                "T_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHAT" +
-                "S, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BA" +
-                "LBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SY" +
-                "SCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, S" +
-                "YSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA) VALUES (:pID_MAC, :pNO_CAIXA" +
-                ", :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQUEIA_NO_LIMITE, :pVALOR_DE_FOLGA, :p" +
-                "PERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCONTRADO, :pMENSAGEM_CORTESIA, :pICMS_" +
-                "CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ESTOQUE_NEGATIVO, :pMODELO_CUPOM, :pME" +
-                "NSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SAT, :pSATSERVIDOR, :pSAT_CODATIV, :pS" +
-                "IGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORTA, :pIMPRESSORA_USB, :pIMPRESSORA_US" +
-                "B_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, :pTEFNUMLOJA, :pTEFNUMTERMINAL, :pTE" +
-                "FPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :pBALBAUD, :pBALPARITY, :pBALMODELO, " +
-                ":pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA, :pSYSCOMISSAO, :pSATSERVTIMEOUT, :" +
-                "pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPERGUNTAWHATS, :pSYSPARCELA, :pSYSEMIT" +
-                "ECOMPROVANTE, :pINFORMA_MAQUININHA) MATCHING (ID_MAC); rRowsAffected = ROW_COUNT" +
-                "; END\';\r\n\r\n\t\t\t\t\t\terro = \'sproc cfopsis get by dt upd\';\r\n\t\t\t\t\t\texecute statement " +
-                "\'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_GETBY_DTUPD (pUltimaSync TIMESTAMP) RE" +
-                "TURNS (CFOP VARCHAR(4), DESCRICAO VARCHAR(330), RESUMO VARCHAR(60), OBSERVACAO V" +
-                "ARCHAR(50), EST_BX CHAR(1), EST_BX_AMBOS CHAR(1), DEV_RET CHAR(1), TRI_PDV_DT_UP" +
-                "D TIMESTAMP) AS BEGIN FOR SELECT CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, ES" +
-                "T_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD FROM TB_CFOP_SIS WHERE TRI_PDV_DT_UPD > :pUl" +
-                "timaSync INTO :CFOP, :DESCRICAO, :RESUMO, :OBSERVACAO, :EST_BX, :EST_BX_AMBOS, :" +
-                "DEV_RET, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc cfopsis s" +
-                "ync upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_UPSER" +
-                "T (pCFOP VARCHAR(4), pDESCRICAO VARCHAR(330), pRESUMO VARCHAR(60), pOBSERVACAO V" +
-                "ARCHAR(50), pEST_BX CHAR(1), pEST_BX_AMBOS CHAR(1), pDEV_RET CHAR(1), pTRI_PDV_D" +
-                "T_UPD TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO " +
-                "TB_CFOP_SIS (CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET," +
-                " TRI_PDV_DT_UPD) VALUES (:pCFOP, :pDESCRICAO, :pRESUMO, :pOBSERVACAO, :pEST_BX, " +
-                ":pEST_BX_AMBOS, :pDEV_RET, :pTRI_PDV_DT_UPD) MATCHING (CFOP) ; rRowsAffected = R" +
-                "OW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc fornecedor get by dt upd\';\r\n\texecute stateme" +
-                "nt \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_GETBY_DTUPD (pUltimaSync TIMESTAMP) " +
-                "RETURNS (ID_FORNEC INTEGER, NOME VARCHAR(60), NOME_FANTA VARCHAR(40), CNPJ VARCH" +
-                "AR(18), INSC_ESTAD VARCHAR(16), INSC_MUNIC VARCHAR(16), END_CEP VARCHAR(9), END_" +
-                "TIPO VARCHAR(15), END_LOGRAD VARCHAR(40), END_BAIRRO VARCHAR(35), END_NUMERO VAR" +
-                "CHAR(5), END_COMPLE VARCHAR(15), DDD_COMER CHAR(2), FONE_COMER VARCHAR(13), FONE" +
-                "_0800 VARCHAR(13), DDD_CELUL CHAR(2), FONE_CELUL VARCHAR(13), DDD_FAX CHAR(2), F" +
-                "ONE_FAX VARCHAR(13), EMAIL_CONT VARCHAR(50), EMAIL_NFE VARCHAR(50), SITE VARCHAR" +
-                "(50), STATUS VARCHAR(1), DT_PRICOMP DATE, DT_ULTCOMP DATE, ID_CIDADE CHAR(7), LI" +
-                "MITE TYPE OF COLUMN TRI_PDV_OPER.DIN, ID_RAMO SMALLINT, ID_PAIS CHAR(4), OBSERVA" +
-                "CAO BLOB SUB_TYPE 1, CONTATO VARCHAR(35), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR" +
-                " SELECT ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_" +
-                "TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FON" +
-                "E_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, S" +
-                "TATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, " +
-                "CONTATO, TRI_PDV_DT_UPD FROM TB_FORNECEDOR WHERE TRI_PDV_DT_UPD > :pUltimaSync I" +
-                "NTO :ID_FORNEC, :NOME, :NOME_FANTA, :CNPJ, :INSC_ESTAD, :INSC_MUNIC, :END_CEP, :" +
-                "END_TIPO, :END_LOGRAD, :END_BAIRRO, :END_NUMERO, :END_COMPLE, :DDD_COMER, :FONE_" +
-                "COMER, :FONE_0800, :DDD_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :E" +
-                "MAIL_NFE, :SITE, :STATUS, :DT_PRICOMP, :DT_ULTCOMP, :ID_CIDADE, :LIMITE, :ID_RAM" +
-                "O, :ID_PAIS, :OBSERVACAO, :CONTATO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\'" +
-                ";\r\n\terro = \'sproc fornecedor sync upsert\';\r\n\texecute statement \'CREATE OR ALTER " +
-                "PROCEDURE SP_TRI_FORNEC_UPSERT (pID_FORNEC INTEGER, pNOME VARCHAR(60), pNOME_FAN" +
-                "TA VARCHAR(40), pCNPJ VARCHAR(18), pINSC_ESTAD VARCHAR(16), pINSC_MUNIC VARCHAR(" +
-                "16), pEND_CEP VARCHAR(9), pEND_TIPO VARCHAR(15), pEND_LOGRAD VARCHAR(40), pEND_B" +
-                "AIRRO VARCHAR(35), pEND_NUMERO VARCHAR(5), pEND_COMPLE VARCHAR(15), pDDD_COMER C" +
-                "HAR(2), pFONE_COMER VARCHAR(13), pFONE_0800 VARCHAR(13), pDDD_CELUL CHAR(2), pFO" +
-                "NE_CELUL VARCHAR(13), pDDD_FAX CHAR(2), pFONE_FAX VARCHAR(13), pEMAIL_CONT VARCH" +
-                "AR(50), pEMAIL_NFE VARCHAR(50), pSITE VARCHAR(50), pSTATUS VARCHAR(1), pDT_PRICO" +
-                "MP DATE, pDT_ULTCOMP DATE, pID_CIDADE CHAR(7), pLIMITE TYPE OF COLUMN TRI_PDV_OP" +
-                "ER.DIN, pID_RAMO SMALLINT, pID_PAIS CHAR(4), pOBSERVACAO BLOB SUB_TYPE 1, pCONTA" +
-                "TO VARCHAR(35), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS BE" +
-                "GIN UPDATE OR INSERT INTO TB_FORNECEDOR (ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC" +
-                "_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_C" +
-                "OMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FA" +
-                "X, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMIT" +
-                "E, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD) VALUES (:pID_FORNEC, :" +
-                "pNOME, :pNOME_FANTA, :pCNPJ, :pINSC_ESTAD, :pINSC_MUNIC, :pEND_CEP, :pEND_TIPO, " +
-                ":pEND_LOGRAD, :pEND_BAIRRO, :pEND_NUMERO, :pEND_COMPLE, :pDDD_COMER, :pFONE_COME" +
-                "R, :pFONE_0800, :pDDD_CELUL, :pFONE_CELUL, :pDDD_FAX, :pFONE_FAX, :pEMAIL_CONT, " +
-                ":pEMAIL_NFE, :pSITE, :pSTATUS, :pDT_PRICOMP, :pDT_ULTCOMP, :pID_CIDADE, :pLIMITE" +
-                ", :pID_RAMO, :pID_PAIS, :pOBSERVACAO, :pCONTATO, :pTRI_PDV_DT_UPD) MATCHING (ID_" +
-                "FORNEC); rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc ctarec set inv_ref" +
-                "erencia filthy rows\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAR" +
-                "EC_SET_INVREF_N AS BEGIN UPDATE TB_CONTA_RECEBER a SET a.INV_REFERENCIA = (\'\'D\'\'" +
-                " || LPAD(CAST(a.ID_CTAREC AS VARCHAR(10)), 5, \'\'0\'\') || LPAD(a.DOCUMENTO, 12, \'\'" +
-                "0\'\')) WHERE a.INV_REFERENCIA IS null ; END;\';\r\n\t\r\n\terro = \'sproc triusers get by" +
-                " dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_GETBY_D" +
-                "TUPD (pUltimaSync TIMESTAMP) RETURNS (ID_USER SMALLINT, USERNAME VARCHAR(64), \"P" +
-                "ASSWORD\" VARCHAR(32), GERENCIA VARCHAR(8), ATIVO VARCHAR(8), TRI_PDV_DT_UPD TIME" +
-                "STAMP) AS BEGIN FOR SELECT ID_USER, USERNAME, \"PASSWORD\", GERENCIA, ATIVO, TRI_P" +
-                "DV_DT_UPD FROM TRI_PDV_USERS WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_USER, " +
-                ":USERNAME, :\"PASSWORD\", :GERENCIA, :ATIVO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; EN" +
-                "D END;\';\r\n\terro = \'sproc triusers sync upsert\';\r\n\texecute statement \'CREATE OR A" +
-                "LTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (pID_USER SMALLINT, pUSERNAME VARCHAR(64)," +
-                " pPASSWORD VARCHAR(32), pGERENCIA VARCHAR(8), pATIVO VARCHAR(8), pTRI_PDV_DT_UPD" +
-                " TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TRI_P" +
-                "DV_USERS (ID_USER, USERNAME, \"PASSWORD\", GERENCIA, ATIVO, TRI_PDV_DT_UPD) VALUES" +
-                " (:pID_USER, :pUSERNAME, :pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD) MATC" +
-                "HING (ID_USER) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc cliente ge" +
-                "t by dt upd\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDURE SP_TRI_CLIENTE_GETB" +
-                "Y_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF COLUMN TB_CLIENTE.ID" +
-                "_CLIENTE, ID_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO, DT_CADASTRO TYPE OF" +
-                " COLUMN TB_CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIENTE.NOME, END_CEP TYP" +
-                "E OF COLUMN TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_CLIENTE.END_TIPO, END" +
-                "_NUMERO TYPE OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TYPE OF COLUMN TB_CLIEN" +
-                "TE.END_LOGRAD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAIRRO, END_COMPLE TYPE " +
-                "OF COLUMN TB_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN TB_CLIENTE.DT_PRICOMP" +
-                ", DT_ULTCOMP TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO TYPE OF COLUMN TB_CLI" +
-                "ENTE.CONTATO, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMITE TYPE OF COLUMN TB_" +
-                "CLIENTE.LIMITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RESID, FONE_RESID TYPE O" +
-                "F COLUMN TB_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB_CLIENTE.DDD_COMER, F" +
-                "ONE_COMER TYPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL TYPE OF COLUMN TB_CLIE" +
-                "NTE.DDD_CELUL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CELUL, DDD_FAX TYPE OF " +
-                "COLUMN TB_CLIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIENTE.FONE_FAX, EMAIL_CO" +
-                "NT TYPE OF COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF COLUMN TB_CLIENTE.EMA" +
-                "IL_NFE, ID_CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_TIPO TYPE OF COLUMN TB" +
-                "_CLIENTE.ID_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE.ID_FUNCIONARIO, ID_PA" +
-                "IS TYPE OF COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLUMN TB_CLIENTE.MENSAGE" +
-                "M, ID_RAMO TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TYPE OF COLUMN TB_CLIEN" +
-                "TE.EMAIL_ADIC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVACAO, DT_MELHOR_VENCTO" +
-                " TYPE OF COLUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD TYPE OF COLUMN TB_CL" +
-                "IENTE.TRI_PDV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CONVENIO, DT_CADASTRO, " +
-                "NOME, END_CEP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO, END_COMPLE, DT_PRIC" +
-                "OMP, DT_ULTCOMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_RESID, DDD_COMER, FONE" +
-                "_COMER, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, ID_CIDA" +
-                "DE, ID_TIPO, ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EMAIL_ADIC, OBSERVACAO," +
-                " DT_MELHOR_VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI_PDV_DT_UPD > :pUltim" +
-                "aSync INTO :ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, :END_CEP, :END_TIPO, " +
-                ":END_NUMERO, :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRICOMP, :DT_ULTCOMP, :C" +
-                "ONTATO, :STATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COMER, :FONE_COMER, :DDD" +
-                "_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :ID_CIDADE, :" +
-                "ID_TIPO, :ID_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :EMAIL_ADIC, :OBSERVACA" +
-                "O, :DT_MELHOR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END END\';\r\n\terro = \'deu " +
-                "certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
+                "A CHAR(1), PLAYOUT_SAT VARCHAR(4)) RETURNS (RROWSAFFECTED INTEGER) AS BEGIN UPDA" +
+                "TE OR INSERT INTO TRI_PDV_CONFIG (ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAI" +
+                "XA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_EN" +
+                "CONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NE" +
+                "GATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, " +
+                "SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSOR" +
+                "A_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPF" +
+                "PELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFI" +
+                "LLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDE" +
+                "LAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYO" +
+                "UT_SAT) VALUES (:pID_MAC, :pNO_CAIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQ" +
+                "UEIA_NO_LIMITE, :pVALOR_DE_FOLGA, :pPERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCO" +
+                "NTRADO, :pMENSAGEM_CORTESIA, :pICMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ES" +
+                "TOQUE_NEGATIVO, :pMODELO_CUPOM, :pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SA" +
+                "T, :pSATSERVIDOR, :pSAT_CODATIV, :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORT" +
+                "A, :pIMPRESSORA_USB, :pIMPRESSORA_USB_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, " +
+                ":pTEFNUMLOJA, :pTEFNUMTERMINAL, :pTEFPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :" +
+                "pBALBAUD, :pBALPARITY, :pBALMODELO, :pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA" +
+                ", :pSYSCOMISSAO, :pSATSERVTIMEOUT, :pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPE" +
+                "RGUNTAWHATS, :pSYSPARCELA, :pSYSEMITECOMPROVANTE, :pINFORMA_MAQUININHA, :pLAYOUT" +
+                "_SAT) MATCHING (ID_MAC); rRowsAffected = ROW_COUNT; END\';\r\n\r\n\t\t\t\t\t\terro = \'sproc" +
+                " cfopsis get by dt upd\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_" +
+                "TRI_CFOPSIS_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRI" +
+                "CAO VARCHAR(330), RESUMO VARCHAR(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), ES" +
+                "T_BX_AMBOS CHAR(1), DEV_RET CHAR(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELE" +
+                "CT CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_D" +
+                "T_UPD FROM TB_CFOP_SIS WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICA" +
+                "O, :RESUMO, :OBSERVACAO, :EST_BX, :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BE" +
+                "GIN SUSPEND ; END END;\';\r\n\terro = \'sproc cfopsis sync upsert\';\r\n\texecute stateme" +
+                "nt \'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICA" +
+                "O VARCHAR(330), pRESUMO VARCHAR(60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), p" +
+                "EST_BX_AMBOS CHAR(1), pDEV_RET CHAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRow" +
+                "sAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, " +
+                "RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFO" +
+                "P, :pDESCRICAO, :pRESUMO, :pOBSERVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pT" +
+                "RI_PDV_DT_UPD) MATCHING (CFOP) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'" +
+                "sproc fornecedor get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE " +
+                "SP_TRI_FORNEC_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NO" +
+                "ME VARCHAR(60), NOME_FANTA VARCHAR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16)" +
+                ", INSC_MUNIC VARCHAR(16), END_CEP VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD V" +
+                "ARCHAR(40), END_BAIRRO VARCHAR(35), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15" +
+                "), DDD_COMER CHAR(2), FONE_COMER VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL C" +
+                "HAR(2), FONE_CELUL VARCHAR(13), DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CON" +
+                "T VARCHAR(50), EMAIL_NFE VARCHAR(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PR" +
+                "ICOMP DATE, DT_ULTCOMP DATE, ID_CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OP" +
+                "ER.DIN, ID_RAMO SMALLINT, ID_PAIS CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO V" +
+                "ARCHAR(35), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_" +
+                "FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, " +
+                "END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL," +
+                " DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP," +
+                " ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM T" +
+                "B_FORNECEDOR WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_F" +
+                "ANTA, :CNPJ, :INSC_ESTAD, :INSC_MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BA" +
+                "IRRO, :END_NUMERO, :END_COMPLE, :DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL," +
+                " :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_" +
+                "PRICOMP, :DT_ULTCOMP, :ID_CIDADE, :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CON" +
+                "TATO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc fornecedor s" +
+                "ync upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT" +
+                " (pID_FORNEC INTEGER, pNOME VARCHAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(" +
+                "18), pINSC_ESTAD VARCHAR(16), pINSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND" +
+                "_TIPO VARCHAR(15), pEND_LOGRAD VARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO" +
+                " VARCHAR(5), pEND_COMPLE VARCHAR(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13" +
+                "), pFONE_0800 VARCHAR(13), pDDD_CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX" +
+                " CHAR(2), pFONE_FAX VARCHAR(13), pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50)" +
+                ", pSITE VARCHAR(50), pSTATUS VARCHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID" +
+                "_CIDADE CHAR(7), pLIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID" +
+                "_PAIS CHAR(4), pOBSERVACAO BLOB SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UP" +
+                "D TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_F" +
+                "ORNECEDOR (ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, E" +
+                "ND_TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, " +
+                "FONE_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE" +
+                ", STATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACA" +
+                "O, CONTATO, TRI_PDV_DT_UPD) VALUES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :" +
+                "pINSC_ESTAD, :pINSC_MUNIC, :pEND_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :p" +
+                "END_NUMERO, :pEND_COMPLE, :pDDD_COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :" +
+                "pFONE_CELUL, :pDDD_FAX, :pFONE_FAX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS," +
+                " :pDT_PRICOMP, :pDT_ULTCOMP, :pID_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSE" +
+                "RVACAO, :pCONTATO, :pTRI_PDV_DT_UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_C" +
+                "OUNT; END;\';\r\n\t\r\n\terro = \'sproc ctarec set inv_referencia filthy rows\';\r\n\texecut" +
+                "e statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDAT" +
+                "E TB_CONTA_RECEBER a SET a.INV_REFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS V" +
+                "ARCHAR(10)), 5, \'\'0\'\') || LPAD(a.DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA I" +
+                "S null ; END;\';\r\n\t\r\n\terro = \'sproc triusers get by dt upd\';\r\n\texecute statement " +
+                "\'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_GETBY_DTUPD (pUltimaSync TIMESTAMP) R" +
+                "ETURNS (ID_USER SMALLINT, USERNAME VARCHAR(64), \"PASSWORD\" VARCHAR(32), GERENCIA" +
+                " VARCHAR(8), ATIVO VARCHAR(8), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT ID_" +
+                "USER, USERNAME, \"PASSWORD\", GERENCIA, ATIVO, TRI_PDV_DT_UPD FROM TRI_PDV_USERS W" +
+                "HERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_USER, :USERNAME, :\"PASSWORD\", :GEREN" +
+                "CIA, :ATIVO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc trius" +
+                "ers sync upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS" +
+                "_UPSERT (pID_USER SMALLINT, pUSERNAME VARCHAR(64), pPASSWORD VARCHAR(32), pGEREN" +
+                "CIA VARCHAR(8), pATIVO VARCHAR(8), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAffe" +
+                "cted INTEGER) AS BEGIN UPDATE OR INSERT INTO TRI_PDV_USERS (ID_USER, USERNAME, \"" +
+                "PASSWORD\", GERENCIA, ATIVO, TRI_PDV_DT_UPD) VALUES (:pID_USER, :pUSERNAME, :pPAS" +
+                "SWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD) MATCHING (ID_USER) ; rRowsAffected" +
+                " = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc cliente get by dt upd\';\r\n\texecute STATEM" +
+                "ENT \'CREATE OR ALTER PROCEDURE SP_TRI_CLIENTE_GETBY_DTUPD (PULTIMASYNC TIMESTAMP" +
+                ") RETURNS (ID_CLIENTE TYPE OF COLUMN TB_CLIENTE.ID_CLIENTE, ID_CONVENIO TYPE OF " +
+                "COLUMN TB_CLIENTE.ID_CONVENIO, DT_CADASTRO TYPE OF COLUMN TB_CLIENTE.DT_CADASTRO" +
+                ", NOME TYPE OF COLUMN TB_CLIENTE.NOME, END_CEP TYPE OF COLUMN TB_CLIENTE.END_CEP" +
+                ", END_TIPO TYPE OF COLUMN TB_CLIENTE.END_TIPO, END_NUMERO TYPE OF COLUMN TB_CLIE" +
+                "NTE.END_NUMERO, END_LOGRAD TYPE OF COLUMN TB_CLIENTE.END_LOGRAD, END_BAIRRO TYPE" +
+                " OF COLUMN TB_CLIENTE.END_BAIRRO, END_COMPLE TYPE OF COLUMN TB_CLIENTE.END_COMPL" +
+                "E, DT_PRICOMP TYPE OF COLUMN TB_CLIENTE.DT_PRICOMP, DT_ULTCOMP TYPE OF COLUMN TB" +
+                "_CLIENTE.DT_ULTCOMP, CONTATO TYPE OF COLUMN TB_CLIENTE.CONTATO, STATUS TYPE OF C" +
+                "OLUMN TB_CLIENTE.STATUS, LIMITE TYPE OF COLUMN TB_CLIENTE.LIMITE, DDD_RESID TYPE" +
+                " OF COLUMN TB_CLIENTE.DDD_RESID, FONE_RESID TYPE OF COLUMN TB_CLIENTE.FONE_RESID" +
+                ", DDD_COMER TYPE OF COLUMN TB_CLIENTE.DDD_COMER, FONE_COMER TYPE OF COLUMN TB_CL" +
+                "IENTE.FONE_COMER, DDD_CELUL TYPE OF COLUMN TB_CLIENTE.DDD_CELUL, FONE_CELUL TYPE" +
+                " OF COLUMN TB_CLIENTE.FONE_CELUL, DDD_FAX TYPE OF COLUMN TB_CLIENTE.DDD_FAX, FON" +
+                "E_FAX TYPE OF COLUMN TB_CLIENTE.FONE_FAX, EMAIL_CONT TYPE OF COLUMN TB_CLIENTE.E" +
+                "MAIL_CONT, EMAIL_NFE TYPE OF COLUMN TB_CLIENTE.EMAIL_NFE, ID_CIDADE TYPE OF COLU" +
+                "MN TB_CLIENTE.ID_CIDADE, ID_TIPO TYPE OF COLUMN TB_CLIENTE.ID_TIPO, ID_FUNCIONAR" +
+                "IO TYPE OF COLUMN TB_CLIENTE.ID_FUNCIONARIO, ID_PAIS TYPE OF COLUMN TB_CLIENTE.I" +
+                "D_PAIS, MENSAGEM TYPE OF COLUMN TB_CLIENTE.MENSAGEM, ID_RAMO TYPE OF COLUMN TB_C" +
+                "LIENTE.ID_RAMO, EMAIL_ADIC TYPE OF COLUMN TB_CLIENTE.EMAIL_ADIC, OBSERVACAO TYPE" +
+                " OF COLUMN TB_CLIENTE.OBSERVACAO, DT_MELHOR_VENCTO TYPE OF COLUMN TB_CLIENTE.DT_" +
+                "MELHOR_VENCTO, TRI_PDV_DT_UPD TYPE OF COLUMN TB_CLIENTE.TRI_PDV_DT_UPD) AS BEGIN" +
+                " FOR SELECT ID_CLIENTE, ID_CONVENIO, DT_CADASTRO, NOME, END_CEP, END_TIPO, END_N" +
+                "UMERO, END_LOGRAD, END_BAIRRO, END_COMPLE, DT_PRICOMP, DT_ULTCOMP, CONTATO, STAT" +
+                "US, LIMITE, DDD_RESID, FONE_RESID, DDD_COMER, FONE_COMER, DDD_CELUL, FONE_CELUL," +
+                " DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, ID_CIDADE, ID_TIPO, ID_FUNCIONARIO, I" +
+                "D_PAIS, MENSAGEM, ID_RAMO, EMAIL_ADIC, OBSERVACAO, DT_MELHOR_VENCTO, TRI_PDV_DT_" +
+                "UPD FROM TB_CLIENTE WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_CLIENTE, :ID_CO" +
+                "NVENIO, :DT_CADASTRO, :NOME, :END_CEP, :END_TIPO, :END_NUMERO, :END_LOGRAD, :END" +
+                "_BAIRRO, :END_COMPLE, :DT_PRICOMP, :DT_ULTCOMP, :CONTATO, :STATUS, :LIMITE, :DDD" +
+                "_RESID, :FONE_RESID, :DDD_COMER, :FONE_COMER, :DDD_CELUL, :FONE_CELUL, :DDD_FAX," +
+                " :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :ID_CIDADE, :ID_TIPO, :ID_FUNCIONARIO, :ID_" +
+                "PAIS, :MENSAGEM, :ID_RAMO, :EMAIL_ADIC, :OBSERVACAO, :DT_MELHOR_VENCTO, :TRI_PDV" +
+                "_DT_UPD DO BEGIN SUSPEND; END END\';\r\n\terro = \'deu certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN A" +
+                "NY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
             this._commandCollection[16].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[17] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[17].Connection = this.Connection;

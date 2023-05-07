@@ -132,7 +132,8 @@ namespace PDV_WPF.Telas
         #region Fields & Properties
         private readonly List<Key> konami = new();
         private readonly List<Key> nghtmd = new() { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.B, Key.A, Key.A };
-        private readonly Regex rgx = new(@"(\d+\*)");
+        private readonly Regex rgxQtd = new(@"(\d+\*)");
+        private readonly Regex rgxNumberAcBox = new(@"[0-9]");
         public string numeroWhats;//HACK
         private enum tipoDesconto { Nenhum, Absoluto, Percentual }
         private enum statusSangria { Normal, Folga, Excesso }
@@ -275,6 +276,15 @@ namespace PDV_WPF.Telas
             //    e.Handled = true;
             //    return;
             //}
+        }
+        private void ACBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (combobox.Text.Length > 0)
+            {                
+                if (rgxNumberAcBox.IsMatch(combobox.Text.Substring(0))) combobox.MinimumPrefixLength = 50;
+                else combobox.MinimumPrefixLength = PREFIX_LISTBOX;
+                AplicarSelecaoDeQuantidade();
+            }
         }
         private void MainWindows_KeyDown(object sender, KeyEventArgs e)
         {
@@ -499,7 +509,7 @@ namespace PDV_WPF.Telas
             }
 
 
-
+            combobox.MinimumPrefixLength = PREFIX_LISTBOX;
             combobox.Focus();
         }
 
@@ -1016,7 +1026,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AplicarSelecaoDeQuantidade()
         {
-            if (!string.IsNullOrWhiteSpace(combobox.Text) && rgx.IsMatch(combobox.Text) && decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade))
+            if (!string.IsNullOrWhiteSpace(combobox.Text) && rgxQtd.IsMatch(combobox.Text) && decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade))
             {
                 txb_Qtde.Text = quantidade.ToString();
                 combobox.Text = "";
@@ -1763,12 +1773,15 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
-                    log.Debug("Procurando por referência");
-                    object objItemEncontrado_with_ref = mvm.LstProdutos.FirstOrDefault(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
-                    if (objItemEncontrado_with_ref != null)
+                    if (ACREFERENCIA is 1)
                     {
-                        log.Debug("Encontrou um item pela referência");
-                        combobox.SelectedItem = objItemEncontrado_with_ref;
+                        log.Debug("Procurando por referência");
+                        object objItemEncontrado_with_ref = mvm.LstProdutos.FirstOrDefault(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
+                        if (objItemEncontrado_with_ref != null)
+                        {
+                            log.Debug("Encontrou um item pela referência");
+                            combobox.SelectedItem = objItemEncontrado_with_ref;                            
+                        }
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
                     if (combobox.SelectedItem == null)

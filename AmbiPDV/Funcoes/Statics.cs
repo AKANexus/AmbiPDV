@@ -201,6 +201,7 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            PREFIX_LISTBOX = xmlLido.PREFIX_LISTBOX;
         }
         public static bool ContemSoNumeros(string texto)
         {

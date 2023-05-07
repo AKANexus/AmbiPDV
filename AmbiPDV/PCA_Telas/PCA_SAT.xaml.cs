@@ -54,7 +54,7 @@ namespace PDV_WPF.PCA_Telas
                 case true:
                     MODELO_SAT = ModeloSAT.NENHUM;
                     SATSERVIDOR = false;
-                    SAT_CODATIV = txb_CodAtiv.Text;
+                    SAT_CODATIV = txb_CodAtiv.Text is "" ? null : txb_CodAtiv.Text;
                     SIGN_AC = txb_signAC.Text;
                     SAT_USADO = false;
                     ECF_ATIVA = false;
@@ -64,7 +64,7 @@ namespace PDV_WPF.PCA_Telas
                 case false:
                     MODELO_SAT = (ModeloSAT)cbb_ModSat.SelectedIndex;
                     SATSERVIDOR = (bool)chk_SATSERVIDOR.IsChecked;
-                    SAT_CODATIV = txb_CodAtiv.Text;
+                    SAT_CODATIV = txb_CodAtiv.Text is "" ? null : txb_CodAtiv.Text;
                     SIGN_AC = txb_signAC.Text;
                     SAT_USADO = true;
                     ECF_ATIVA = false;
@@ -92,6 +92,7 @@ namespace PDV_WPF.PCA_Telas
             {
                 _semsat = true;
                 txb_signAC.Text = "O representante dessa empresa se responsabiliza por não utilizar um equipamento emissor de CFe. Pressione \"Finalizar\" para confirmar.";
+                txb_CodAtiv.Text = null;
                 _configurado = true;
                 tbl_Continuar.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF09CAAA"));
                 rb_Layout07.IsChecked = false;

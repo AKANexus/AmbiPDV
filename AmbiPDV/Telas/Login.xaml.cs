@@ -130,12 +130,14 @@ namespace PDV_WPF
                 log.Debug($"AplicarControleLicenca successful");
                 //ss.Close(TimeSpan.FromMilliseconds(1));
                 ls.Close();
+                TimedBox.stateDialog = false;
             }
             catch (Exception ex)
             {
                 stateGif = false;
+                TimedBox.stateDialog = false;
                 log.Error("Erro ao abrir o caixa", ex);
-                MessageBox.Show("Falha ao iniciar o caixa. Verifique Logerro.txt");
+                MessageBox.Show("Falha ao iniciar o caixa. Verifique Logerro.txt", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
                 return;
             }

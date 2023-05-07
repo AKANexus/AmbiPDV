@@ -69,6 +69,7 @@ namespace PDV_WPF
             #endregion AmbiMAITRE
             cbb_Marca.SelectedIndex = BALMODELO;
             cbb_Ports.SelectedIndex = ports.FindIndex(a => a == "COM" + BALPORTA);
+            tgl_Referencia.IsChecked = ACREFERENCIA.ToBool();
             PreencherTipoLicenca();
         }
 
@@ -356,7 +357,7 @@ namespace PDV_WPF
                 ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
                 configuracoesXML.Serializa();
                 SalvaConfigsNaBase();
-                MessageBox.Show("Configurações Salvas.");
+                MessageBox.Show("Configurações/parametros técnicos salvo com sucesso.       ", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }
         }

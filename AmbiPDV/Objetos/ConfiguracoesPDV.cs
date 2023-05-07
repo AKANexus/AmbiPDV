@@ -134,7 +134,7 @@ namespace PDV_WPF.Configuracoes
 
         }
 
-        public static string LAYOUT_SAT { get; set; }
+        public static string LAYOUT_SAT { get; set; } = "000";
 
         private static string _iNTERROMPE_NAO_ENCONTRADO;
         public static bool INTERROMPE_NAO_ENCONTRADO
@@ -570,6 +570,7 @@ namespace PDV_WPF.Configuracoes
         public static bool SENHA_CONSULTA { get; set; }
         public static bool SCANNTECH { get; set; }
         public static bool SENHA_REIMPRESSAO { get; set; }
+        public static int PREFIX_LISTBOX { get; set; }
 
         #endregion Propriedades
 
@@ -678,11 +679,11 @@ namespace PDV_WPF.Configuracoes
                         if (SETUP_TA.GetData().Rows.Count < 1)
                         {
                             SETUP_TA.Insert(1, null, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DateTime.Now,
-                                DateTime.Now, DateTime.Now, null, (double)DESCONTO_MAXIMO, null, _uSARECARGAS, "0.0.0.0", "N", COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
+                            DateTime.Now, DateTime.Now, null, (double)DESCONTO_MAXIMO, null, _uSARECARGAS, "0.0.0.0", "N", COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
                         }
                         else
                         {
-                            SETUP_TA.UpdateSetup(1, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DESCONTO_MAXIMO, _uSARECARGAS, DETALHADESCONTO.ToInt().ToString(), COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
+                            SETUP_TA.UpdateSetup(1, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DateTime.Now, DESCONTO_MAXIMO, _uSARECARGAS, DETALHADESCONTO.ToInt().ToString(), COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
                         }
                     }
                     using (var fbCommGetNoCaixaAuxConfigLocal = new FbCommand())
@@ -832,6 +833,7 @@ namespace PDV_WPF.Configuracoes
                 DESCONTO_MAXIMO = infoDoSetup.DESC_MAX_OP.Safedecimal();
                 _uSARECARGAS = infoDoSetup.USA_RECARGAS;
                 _uSA_COMANDA = infoDoSetup.USA_COMANDA;
+                DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true: false;
             }
             catch (Exception ex)
             {
@@ -852,7 +854,13 @@ namespace PDV_WPF.Configuracoes
 
         public void Serializa()
         {
-            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML() { FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT, LOGO = ConfiguracoesPDV.LOGO, NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE, SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG, SERVERNAME = ConfiguracoesPDV.SERVERNAME };
+            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML() { FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT, LOGO = ConfiguracoesPDV.LOGO, NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE,
+                                                                         SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG, SERVERNAME = ConfiguracoesPDV.SERVERNAME, 
+                                                                         AUTORIZADO = ConfiguracoesPDV.PERMITE_CANCELAR_VENDA_EM_CURSO.ToInt(), FECHAMENTO_EXTENDIDO = ConfiguracoesPDV.FECHAMENTO_EXTENDIDO.ToInt(),
+                                                                         FORCA_GAVETA = ConfiguracoesPDV.FORÇA_GAVETA.ToInt(), USAORCAMENTO = ConfiguracoesPDV.USA_ORÇAMENTO.ToInt(), SATTIMEOUT = ConfiguracoesPDV.SATTIMEOUT,
+                                                                         EXIBEFOTO = ConfiguracoesPDV.EXIBEFOTO.ToInt(), SENHA_PRAZO = ConfiguracoesPDV.SENHA_PRAZO.ToInt(), SENHA_CONSULTA = ConfiguracoesPDV.SENHA_CONSULTA.ToInt(),
+                                                                         SCANNTECH = ConfiguracoesPDV.SCANNTECH.ToInt(), SENHA_REIMPRESSAO = ConfiguracoesPDV.SENHA_REIMPRESSAO.ToInt(), PREFIX_LISTBOX = ConfiguracoesPDV.PREFIX_LISTBOX };
+
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = true, Indent = true };
             var XMLPendFinal = new StringBuilder();
 
@@ -891,5 +899,6 @@ namespace PDV_WPF.Configuracoes
         public int SENHA_CONSULTA { get; set; } = 0;
         public int SCANNTECH { get; set; } = 0;
         public int SENHA_REIMPRESSAO { get; set; } = 0;
+        public int PREFIX_LISTBOX { get; set; } = 3;
     }
 }

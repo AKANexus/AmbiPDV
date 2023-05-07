@@ -572,7 +572,7 @@ namespace PDV_WPF.Telas
                     //}
                     if (_vendaAtual.DescontoAplicado() > 0)
                     {
-                        System.Windows.Forms.MessageBox.Show("Removendo desconto.");
+                        System.Windows.Forms.MessageBox.Show("Desconto total da venda removido com sucesso.", "Removendo desconto", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
                         _vendaAtual.LimpaAjuste();
                         desconto = 0;
                         valor_a_ser_pago = (_vendaAtual.ValorDaVenda().RoundABNT() - valor_pago);
