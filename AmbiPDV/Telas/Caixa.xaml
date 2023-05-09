@@ -232,6 +232,12 @@
         <Storyboard x:Key="Canvas_Close">
             <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,0,0,0" To="-209,0,0,0" Duration="0:0:0.3" />
         </Storyboard>
+        <Storyboard x:Key="Canvas_DescontoOpen">
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Desconto" Storyboard.TargetProperty="Margin" From="-0,-58,0,0" To="-0,0,0,0" Duration="0:0:0.500" />
+        </Storyboard>
+        <Storyboard x:Key="Canvas_DescontoClose">
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Desconto" Storyboard.TargetProperty="Margin" From="-0,0,0,0" To="-0,-58,0,0" Duration="0:0:0.500"/>
+        </Storyboard>
         <Style  x:Key="myLBStyle" TargetType="ListBoxItem">
             <Setter Property="Background" Value="#E5FFFFFF" />
             <Setter Property="Foreground" Value="#FF4D4D4D" />
@@ -301,14 +307,14 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label x:Name="lbl_Cortesia" Content="" Margin="10,8,10,10" FontFamily="Open Sans SemiBold" Background="{x:Null}" Foreground="#FF09CAAA" HorizontalContentAlignment="Center" FontSize="37" VerticalContentAlignment="Center" Grid.ColumnSpan="4" Grid.Row="1"/>
-            <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="10,8,10,10" 
+            <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="-10,8,-10,10" 
                                   MarqueeContent="I was gonna write this text, but then I got high. I was gonna code everything up, but then I got high. Now I have written nothing, and I know why. Because I got high, because I got high, because I got high." MarqueeType="RightToLeft"  Grid.ColumnSpan="4" Grid.Row="1" RenderTransformOrigin="0.5,0.5"/>
 
             <local:FocusableAutoCompleteBox x:Name="combobox" Grid.Row="2"
 														TextChanged="ACBox_TextChanged" PreviewKeyDown="ACBox_KeyDown" SelectionChanged="ACBox_SelectionChanged" 
 														FontSize="26" Foreground="#000000" Background="#FFF9F9F9" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-														BorderThickness="1" Padding="2,3" ItemContainerStyle="{DynamicResource ResourceKey=myLBStyle}"
-														Focusable="True" MinimumPopulateDelay="1500" FilterMode="StartsWithOrdinal" RenderTransformOrigin="0.5,0.5"
+														BorderThickness="2" Padding="2,3" ItemContainerStyle="{DynamicResource ResourceKey=myLBStyle}"
+														Focusable="True" MinimumPopulateDelay="1000" FilterMode="StartsWithOrdinal" RenderTransformOrigin="0.5,0.5"
 														Margin="10,25,10,10" 
 														ValueMemberPath="DESCRICAO" Grid.ColumnSpan="4" >
                 <local:FocusableAutoCompleteBox.ItemTemplate>
@@ -322,7 +328,7 @@
                         <GradientStop Color="#FF30B8B8" Offset="0.375"/>
                         <GradientStop Color="#FF41EAEA" Offset="0.426"/>
                         <GradientStop Color="#FF228D8D" Offset="1"/>
-                    </LinearGradientBrush>                      
+                    </LinearGradientBrush>
                 </local:FocusableAutoCompleteBox.BorderBrush>
             </local:FocusableAutoCompleteBox>
 
@@ -528,6 +534,17 @@
                     <Label x:Name="lbl_Carga" Content="ÚLTIMA CARGA: 16:31" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
                 </StackPanel>
             </Grid>
+        </Grid>
+        <Grid x:Name="Canvas_Desconto" Visibility="Collapsed" HorizontalAlignment="Center" Background="#FF09CAAA" RenderTransformOrigin="0.5,0.5" Height="54" VerticalAlignment="Top" Width="1920" Margin="0,-58,0,0">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <TextBlock Visibility="Visible" TextAlignment="Center" HorizontalAlignment="Center" FontSize="4" FontFamily="Open Sans" FontStretch="Expanded" Margin="0,0,0,1"><LineBreak/><Run Text="NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: " FontSize="28" FontStretch="Expanded" Foreground="White"/><Run x:Name="txt_DescAtacado" Text="R$ 0,00" Foreground="White" FontWeight="Bold" FontStretch="Expanded" FontSize="32"/></TextBlock>
         </Grid>
     </Grid>
 </Window>

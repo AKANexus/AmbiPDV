@@ -97,7 +97,7 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <TextBlock TextAlignment="Left" FontSize="13" Margin="0,395,0,-62" Grid.RowSpan="3" Grid.ColumnSpan="3"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="Atenção" Foreground="Red"/><LineBreak/><Run Text="À vista deve ser a última forma de pgto." Foreground="Red" FontStyle="Italic" /></TextBlock>
-                    <TextBlock x:Name="txbDesc" Visibility="Hidden" TextAlignment="Left" FontSize="13" Margin="-2,29,2,-29" Grid.ColumnSpan="3" Grid.Row="2"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run x:Name="txt_Msg" Text="VOCÊ ESTÁ ECONOMIZANDO: " FontSize="17"/><Run x:Name="txt_Vlr" Text="R$ 0,00" Foreground="Green" FontStyle="Italic" FontSize="22"/></TextBlock>
+                    <TextBlock Visibility="Visible" FontSize="12" TextAlignment="Left" VerticalAlignment="Top" Margin="0,22,2,-29" Grid.ColumnSpan="3" Grid.Row="2"><!--<Run Text="F7 - Usar crédito de devolução"/>--><LineBreak/><Run Text="Pressione a tecla " FontSize="13" TextDecorations="Underline"/><Run Text="'F1' " FontWeight="Bold" FontSize="15" TextDecorations="Underline"/><Run Text="para exibir atalhos." FontSize="13" TextDecorations="Underline" /></TextBlock>
                 </Grid>
                 <Label Content="Cód" Foreground="Gray" FontSize="18" FontFamily="Century Gothic" FontStyle="Italic" VerticalAlignment="Top" Grid.ColumnSpan="2" Margin="15,15,470,0"/>
                 <Label Content="Método" Foreground="Gray" FontSize="18" FontFamily="Century Gothic" FontStyle="Italic" VerticalAlignment="Top" Margin="80,15,258,0"/>

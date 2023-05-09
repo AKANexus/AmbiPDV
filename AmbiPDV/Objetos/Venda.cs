@@ -1635,8 +1635,9 @@ namespace PDV_WPF.Objetos
 
         private FuncoesFirebird _funcoes = new();
 
-        public void AplicaPrecoAtacado()
-        {            
+        public decimal AplicaPrecoAtacado()
+        {
+            decimal vlrTotalDescAtacado = 0;
             using FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             var quantsCupom =
                 from det in _listaDets
@@ -1667,9 +1668,10 @@ namespace PDV_WPF.Objetos
                     foreach (var det in _listaDets)
                     {                        
                         if (det.prod.cProd == item.cod && det.kit == false && det.scannTech == false)
-                        {                            
-                            det.prod.vUnComOri = det.prod.vUnCom;
+                        {
+                            if (det.prod.vUnComOri is null or "" or "0.000") det.prod.vUnComOri = det.prod.vUnCom;
                             det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
+                            vlrTotalDescAtacado += Convert.ToDecimal(det.prod.qCom) * (Convert.ToDecimal(det.prod.vUnComOri) - Convert.ToDecimal(det.prod.vUnCom));
                             det.atacado = true;
                         }
                     }
@@ -1699,15 +1701,16 @@ namespace PDV_WPF.Objetos
                             if (det1.familia == familia && det1.kit == false && det1.scannTech == false)
                             {
                                 var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
-
-                                //det1.prod.vUnComOri = det1.prod.vUnCom;
+                                if(det1.prod.vUnComOri is null or "" or "0.000") det1.prod.vUnComOri = det1.prod.vUnCom;
                                 det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
+                                vlrTotalDescAtacado += Convert.ToDecimal(det1.prod.qCom) * (Convert.ToDecimal(det1.prod.vUnComOri) - Convert.ToDecimal(det1.prod.vUnCom));
                                 det1.atacado = true;
                             }
                         }
                     }
                 }
             }
+            return vlrTotalDescAtacado;
         }
         public void VerificaScannTech()
         {

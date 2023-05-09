@@ -1064,6 +1064,8 @@ namespace PDV_WPF.Telas
                 try
                 {
                     log.Debug("Caixa não está em contigencia, iniciando a checagem por conexão e sincronização de tudo após cancelamento de cupom.");
+                    if (DeterminarStatusDeSangria(false) != statusSangria.Normal) txb_Avisos.Text = "FAZER SANGRIA";
+                    else txb_Avisos.Text = "CAIXA LIVRE";
                     Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
                     bool waitTime = executeSyncAsync.Wait(3000);
                     if (!waitTime)
@@ -2735,7 +2737,11 @@ namespace PDV_WPF.Telas
                 _usouOrcamento = _usouPedido = _usouOS = false; // Independentemente do resultado deste método, deve indicar o término do uso do orçamento na venda, para não comprometer o funcionamento subsequente.
             }
         }
-
+        private void Completed_StoryBoard(object sender, EventArgs a)
+        {
+            txt_DescAtacado.Text = "R$ 0,00";
+            Canvas_Desconto.Visibility = Visibility.Collapsed;
+        }
         /// <summary>
         /// Determina se o cupom é fiscal ou não ou se é uma devolução
         /// </summary>
@@ -2779,9 +2785,12 @@ namespace PDV_WPF.Telas
                 };
 
                 log.Debug("Cupom sem ser devolução a ser finalizado");
+                string descUltimoItem;
                 try
                 {
-                    fechamento.ShowDialog();
+                    descUltimoItem = lbl_Cortesia.Content.ToString();
+                    lbl_Cortesia.Content = "Finalizando ...";
+                    fechamento.ShowDialog();                    
                     //vendaAtual = fechamento._vendaAtual;
                 }
                 catch (Exception ex)
@@ -2792,13 +2801,21 @@ namespace PDV_WPF.Telas
 
                 if (fechamento.DialogResult == false)
                 {
+                    if (Canvas_Desconto.Visibility == Visibility.Visible)
+                    {
+                        Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
+                        fecha.Begin();
+                        fecha.Completed += new EventHandler(Completed_StoryBoard);
+                    }
                     log.Debug("Finaliza cupom. Fechamento cancelado");
+                    lbl_Cortesia.Content = descUltimoItem;
                     _tipo = ItemChoiceType.ABERTO;
                     return;
                 }
                 else if (fechamento.DialogResult == true) //Caso o fechamento tenha sido bem sucedido ou é um processo de devolução:
                 {
                     //oldCRT = fechamento.respCRT;
+                    combobox.IsEnabled = false;
                     foreach ((string strCfePgto, decimal vlrPgto, int idAdm) metodo in fechamento.metodosnew)
                     {
                         if (metodo.strCfePgto == "05")
@@ -2815,8 +2832,13 @@ namespace PDV_WPF.Telas
                         else
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
 
+                    }                    
+                    if (Canvas_Desconto.Visibility == Visibility.Visible)
+                    {
+                        Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
+                        fecha.Begin();
+                        fecha.Completed += new EventHandler(Completed_StoryBoard);
                     }
-
                     if (!vendaAtual.TotalizaCupom())
                     {
                         _tipo = ItemChoiceType.ABERTO;
@@ -4882,12 +4904,12 @@ namespace PDV_WPF.Telas
             if (!_emTransacao) { richTextBox1.Document.Blocks.Clear(); }
             //mostratroco = false;
             if (!ChecarPorSangria())
-            {
-                txb_Avisos.Text = "CAIXA LIVRE";
+            {                
+                txb_Avisos.Text = "CAIXA LIVRE";                
             }
-
             if (_modo_consulta == false)
             {
+                combobox.IsEnabled = true; combobox.Focus();
                 lbl_Cortesia.Content = null;
                 lbl_Marquee.Visibility = Visibility.Visible;
             }
@@ -5508,7 +5530,14 @@ namespace PDV_WPF.Telas
                     PedirVendedor();
                 }
                 if (SCANNTECH) vendaAtual.VerificaScannTech();
-                vendaAtual.AplicaPrecoAtacado();
+                decimal vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
+                if (vlrTotalDescAtacado > 0)
+                {
+                    txt_DescAtacado.Text = vlrTotalDescAtacado.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }                
                 FinalizarVendaNovo();
             }
             catch (Exception ex)
@@ -5553,7 +5582,14 @@ namespace PDV_WPF.Telas
             try
             {
                 if (SCANNTECH) vendaAtual.VerificaScannTech();
-                vendaAtual.AplicaPrecoAtacado();
+                decimal vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
+                if (vlrTotalDescAtacado > 0)
+                {
+                    txt_DescAtacado.Text = vlrTotalDescAtacado.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }                
                 FinalizarVendaNovo();
             }
             catch (Exception ex)

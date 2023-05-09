@@ -803,8 +803,8 @@ namespace PDV_WPF.Telas
             if (_vlrTotalVenda > valor_a_ser_pago)
             {
                 descNaVenda = _vlrTotalVenda - valor_a_ser_pago;                          
-                txt_Vlr.Text = descNaVenda.ToString("C");
-                txbDesc.Visibility = Visibility.Visible;
+                //txt_Vlr.Text = descNaVenda.ToString("C");
+                //txbDesc.Visibility = Visibility.Visible;
             }
         }
     }
