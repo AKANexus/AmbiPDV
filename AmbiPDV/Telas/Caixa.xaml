@@ -227,10 +227,10 @@
             </Style.Triggers>
         </Style>
         <Storyboard x:Key="Canvas_Open">
-            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-209,0,0,0" To="-10,0,0,0" Duration="0:0:0.3" />
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-209,-2,0,0" To="-10,-2,0,0" Duration="0:0:0.3" />
         </Storyboard>
         <Storyboard x:Key="Canvas_Close">
-            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,0,0,0" To="-209,0,0,0" Duration="0:0:0.3" />
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,-2,0,0" To="-209,-2,0,0" Duration="0:0:0.3" />
         </Storyboard>
         <Storyboard x:Key="Canvas_DescontoOpen">
             <ThicknessAnimation Storyboard.TargetName="Canvas_Desconto" Storyboard.TargetProperty="Margin" From="-0,-58,0,0" To="-0,0,0,0" Duration="0:0:0.500" />
@@ -314,8 +314,8 @@
 														TextChanged="ACBox_TextChanged" PreviewKeyDown="ACBox_KeyDown" SelectionChanged="ACBox_SelectionChanged" 
 														FontSize="26" Foreground="#000000" Background="#FFF9F9F9" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
 														BorderThickness="2" Padding="2,3" ItemContainerStyle="{DynamicResource ResourceKey=myLBStyle}"
-														Focusable="True" MinimumPopulateDelay="1000" FilterMode="StartsWithOrdinal" RenderTransformOrigin="0.5,0.5"
-														Margin="10,25,10,10" 
+														Focusable="True" MinimumPopulateDelay="1000" RenderTransformOrigin="0.5,0.5"
+														Margin="10,25,10,10"
 														ValueMemberPath="DESCRICAO" Grid.ColumnSpan="4" >
                 <local:FocusableAutoCompleteBox.ItemTemplate>
                     <DataTemplate>

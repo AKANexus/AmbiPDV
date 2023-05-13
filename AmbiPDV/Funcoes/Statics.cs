@@ -573,6 +573,7 @@ namespace PDV_WPF.Funcoes
             }
             try
             {
+                ExibirGif.stateGif = false;
                 var sb = new SATBox("Operação no SAT", "Aguarde a resposta do SAT.");
                 sb.ShowDialog();
                 if (sb.DialogResult is null)
@@ -587,11 +588,12 @@ namespace PDV_WPF.Funcoes
             }
             catch (Exception ex)
             {
+                ExibirGif.stateGif = false;
                 DialogBox.Show("ERRO", DialogBoxButtons.No, DialogBoxIcons.Error, false, ex.Message);
                 throw ex;
             }
 
-
+            ExibirGif.stateGif = false;
             switch (retorno)
             {
                 case "08000":
@@ -627,13 +629,13 @@ namespace PDV_WPF.Funcoes
                 string[] retorno = Declaracoes_DllSat.sRetorno.Split('|');
                 if (retorno.Length == 0)
                 {
-                    Login.stateGif = false;
+                    ExibirGif.stateGif = false;
                     MessageBox.Show("Falha ao obter retorno do SAT", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
                 if (retorno.Length == 1)
                 {
-                    Login.stateGif = false;
+                    ExibirGif.stateGif = false;
                     MessageBox.Show("Retorno na tentatativa de comunicação com o SAT\n" + retorno[0], "Resposta SAT", MessageBoxButton.OK, MessageBoxImage.Information);
                     return false;
                 }
@@ -721,8 +723,8 @@ namespace PDV_WPF.Funcoes
                         {
                             using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
                             {
-                                int index = pq.QueuePort.Name.Contains("COM") ? pq.QueuePort.Name.IndexOf("COM") : pq.QueuePort.Name.IndexOf("USB");
-                                string portaCOM = pq.QueuePort.Name.Substring(index).Replace(":", "");
+                                //int index = pq.QueuePort.Name.Contains("COM") ? pq.QueuePort.Name.IndexOf("COM") : pq.QueuePort.Name.IndexOf("USB");
+                                string portaCOM = pq.QueuePort.Name;
 
                                 int abriuPorta = IniciaPorta(portaCOM);
                                 int abriuGaveta = AcionaGaveta();

@@ -1791,17 +1791,17 @@ namespace PDV_WPF.Objetos
                                             }
                                             else goto finalizaDesc;
                                             break;
-                                        case "PRECIO_FIJO":                                            
-                                            decimal vltUnitComDesc = tblPromoServ[0].DET;
-                                            decimal vlrDesc = vlrUnit - vltUnitComDesc;
+                                        case "PRECIO_FIJO":
+                                            decimal vlrPorUnidadecomDesc = tblPromoServ[0].DET / tblPromoServ[0].QTD;
+                                            decimal descPorUnidade = vlrUnit - vlrPorUnidadecomDesc;                                                                                        
                                             if(qtd >= totProdComDesc)
                                             {
-                                                prod.prod.vDesc = (totProdComDesc * vlrDesc).ToString("N2");
+                                                prod.prod.vDesc = (totProdComDesc * descPorUnidade).ToString("N2");
                                                 goto finalizaDesc;
                                             }
                                             if (totProdComDesc != 0)
                                             {
-                                                prod.prod.vDesc = (vlrDesc * qtd).ToString("N2");
+                                                prod.prod.vDesc = (descPorUnidade * qtd).ToString("N2");
                                                 totProdComDesc -= qtd;
                                             }
                                             else goto finalizaDesc;

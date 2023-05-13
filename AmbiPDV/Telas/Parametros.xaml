@@ -9,7 +9,7 @@
         x:Class="PDV_WPF.Parametros"
         mc:Ignorable="d"
         Title="Parametros" Height="725" Width="700" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
-    <StackPanel Width="545" Height="689">
+    <StackPanel Width="545" Height="699">
         <GroupBox Header="Sangria" Padding="0" Margin="10,10,10,5">
             <StackPanel VerticalAlignment="Top" Margin="5,0" Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -92,7 +92,7 @@
                 </StackPanel>
                 <Label Content="Mensagem de Cortesia" Margin="0,0,0,0" />
                 <TextBox x:Name="txb_Cortesia" Margin="5,0" Height="26" VerticalContentAlignment="Center"/>
-                <Label Content="Mensagem de Rodapé" Margin="5,0" />
+                <Label Content="Mensagem de Rodapé" Margin="0,0" />
                 <TextBox x:Name="txb_Rodape" Margin="5,0" Height="26" VerticalContentAlignment="Center"/>
                 <Button Content="Assistente de Configuração de Impressora..." HorizontalAlignment="Left" Margin="5,15, 0, 5" Click="PCA_but_click" Height="23"/>
             </StackPanel>
@@ -118,7 +118,7 @@
                 <Button Name="but_Metodos" Content="Métodos de Pagamento" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0" Click="MetodosPgto_click" Height="23"/>
             </StackPanel>
         </GroupBox>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="68,10,67,10" Height="41">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="68,5,67,10" Height="47">
             <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
                 <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
             </Border>

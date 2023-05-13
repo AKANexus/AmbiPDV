@@ -264,6 +264,14 @@ namespace PDV_WPF.Telas
                 {
                     ProcessarTextoNoACBox();
                 }
+                if(e.Key == Key.PageUp)
+                {
+                    richTextBox1.PageUp();
+                }
+                if(e.Key == Key.PageDown)
+                {
+                    richTextBox1.PageDown();
+                }
             }
             catch (Exception ex)
             {
@@ -280,7 +288,7 @@ namespace PDV_WPF.Telas
         private void ACBox_TextChanged(object sender, RoutedEventArgs e)
         {
             if (combobox.Text.Length > 0)
-            {                
+            {
                 if (rgxNumberAcBox.IsMatch(combobox.Text.Substring(0))) combobox.MinimumPrefixLength = 50;
                 else combobox.MinimumPrefixLength = PREFIX_LISTBOX;
                 AplicarSelecaoDeQuantidade();
@@ -315,7 +323,7 @@ namespace PDV_WPF.Telas
 
 
             //LIMPAR A TELA
-            if(!restartingByException) LimparUltimaVenda(); //Se foi um reinicio automatico de venda não precisa limpar venda pendente pois será utilizado para puxar os itens.
+            if (!restartingByException) LimparUltimaVenda(); //Se foi um reinicio automatico de venda não precisa limpar venda pendente pois será utilizado para puxar os itens.
             LimparTela();
             _usouOrcamento = _usouPedido = _usouOS = false; //Caso o cliente "desista" da venda do orçamento limpando os produtos do cupom e posteriormente pressionando F2 ou F3
             orcamentoAtual.Clear();
@@ -393,16 +401,16 @@ namespace PDV_WPF.Telas
         private void but_F6_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!turno_aberto) { DialogBox.Show("Cancelamento de cupom", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel cancelar um cupom com o caixa fechado, abra um turno e tente novamente."); return; }
-            switch(_emTransacao)
+            switch (_emTransacao)
             {
                 case false:
                     CancelarUltimoCupom();
                     break;
                 case true:
-                    if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false)) return;                   
+                    if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false)) return;
                     CancelarVendaAtual();
                     break;
-            }           
+            }
             return;
         }
         private void but_F7_MouseEnter(object sender, EventArgs e)
@@ -508,8 +516,8 @@ namespace PDV_WPF.Telas
                 richTextBox1.FontSize = 22.6;
             }
 
-
             combobox.MinimumPrefixLength = PREFIX_LISTBOX;
+            combobox.FilterMode = (AutoCompleteFilterMode)ACFILLMODE;
             combobox.Focus();
         }
 
@@ -1589,7 +1597,7 @@ namespace PDV_WPF.Telas
         private bool CarregarVendaPendenteNovo(bool restartingByException = false)
         {
             if (!_emTransacao)
-            {                
+            {
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\Ultimavenda.txt";
                 if (File.Exists(path) && File.ReadAllText(path).Contains("|"))
                 {
@@ -1599,7 +1607,7 @@ namespace PDV_WPF.Telas
                         escolha = DialogBox.Show(strings.VENDA, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, strings.FOI_ENCONTRADA_VENDA_PENDENTE);
                     }
                     if (escolha == true || restartingByException == true)
-                    {                        
+                    {
                         IEnumerable<string> ultimavenda = File.ReadAllLines(path);
                         File.WriteAllText(path, "Arquivo gerado automaticamente pelo AmbiPDV. Não remova.\n\r");
                         if (!ChecagemPreVenda())
@@ -1782,7 +1790,7 @@ namespace PDV_WPF.Telas
                         if (objItemEncontrado_with_ref != null)
                         {
                             log.Debug("Encontrou um item pela referência");
-                            combobox.SelectedItem = objItemEncontrado_with_ref;                            
+                            combobox.SelectedItem = objItemEncontrado_with_ref;
                         }
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
@@ -1849,10 +1857,10 @@ namespace PDV_WPF.Telas
             if (!EXIGE_SANGRIA)
             {
                 return statusSangria.Normal;
-            }                      
+            }
             var funcoes = new funcoesClass();
-            decimal valoremgaveta = funcoes.CalculaValorEmCaixa(NO_CAIXA);            
-            
+            decimal valoremgaveta = funcoes.CalculaValorEmCaixa(NO_CAIXA);
+
             //using (var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())
             //using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             //{
@@ -2151,7 +2159,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                     relatorioX = fc.ImpRelX;
-                    if (!relatorioX) txb_Avisos.Text = "CAIXA FECHADO";                   
+                    if (!relatorioX) txb_Avisos.Text = "CAIXA FECHADO";
                     try
                     {
                         log.Debug("Iniciando checagem por conexão e sincronização de tudo no fechamento de turno.");
@@ -2191,7 +2199,7 @@ namespace PDV_WPF.Telas
                     return false;
 
                 }
-                if (!relatorioX) turno_aberto = false;               
+                if (!relatorioX) turno_aberto = false;
                 return true;
             }
             else
@@ -2785,12 +2793,10 @@ namespace PDV_WPF.Telas
                 };
 
                 log.Debug("Cupom sem ser devolução a ser finalizado");
-                string descUltimoItem;
                 try
                 {
-                    descUltimoItem = lbl_Cortesia.Content.ToString();
                     lbl_Cortesia.Content = "Finalizando ...";
-                    fechamento.ShowDialog();                    
+                    fechamento.ShowDialog();
                     //vendaAtual = fechamento._vendaAtual;
                 }
                 catch (Exception ex)
@@ -2808,14 +2814,13 @@ namespace PDV_WPF.Telas
                         fecha.Completed += new EventHandler(Completed_StoryBoard);
                     }
                     log.Debug("Finaliza cupom. Fechamento cancelado");
-                    lbl_Cortesia.Content = descUltimoItem;
+                    lbl_Cortesia.Content = "Cancelada finalização da venda ...";
                     _tipo = ItemChoiceType.ABERTO;
                     return;
                 }
                 else if (fechamento.DialogResult == true) //Caso o fechamento tenha sido bem sucedido ou é um processo de devolução:
                 {
-                    //oldCRT = fechamento.respCRT;
-                    combobox.IsEnabled = false;
+                    //oldCRT = fechamento.respCRT;                    
                     foreach ((string strCfePgto, decimal vlrPgto, int idAdm) metodo in fechamento.metodosnew)
                     {
                         if (metodo.strCfePgto == "05")
@@ -2832,7 +2837,7 @@ namespace PDV_WPF.Telas
                         else
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
 
-                    }                    
+                    }
                     if (Canvas_Desconto.Visibility == Visibility.Visible)
                     {
                         Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
@@ -4805,7 +4810,7 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATServidor())
                         {
-                            Login.stateGif = false;
+                            ExibirGif.stateGif = false;
                             MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
                     }
@@ -4823,7 +4828,7 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATLocal(pContingencia))
                         {
-                            Login.stateGif = false;
+                            ExibirGif.stateGif = false;
                             MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
 
@@ -4903,13 +4908,12 @@ namespace PDV_WPF.Telas
             await Task.Delay(pDelay);
             if (!_emTransacao) { richTextBox1.Document.Blocks.Clear(); }
             //mostratroco = false;
-            if (!ChecarPorSangria())
-            {                
-                txb_Avisos.Text = "CAIXA LIVRE";                
-            }
-            if (_modo_consulta == false)
+            if (!ChecarPorSangria() && !_emTransacao)
             {
-                combobox.IsEnabled = true; combobox.Focus();
+                txb_Avisos.Text = "CAIXA LIVRE";
+            }
+            if (_modo_consulta == false && !_emTransacao)
+            {
                 lbl_Cortesia.Content = null;
                 lbl_Marquee.Visibility = Visibility.Visible;
             }
@@ -5537,7 +5541,7 @@ namespace PDV_WPF.Telas
                     Canvas_Desconto.Visibility = Visibility.Visible;
                     Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
                     abre.Begin();
-                }                
+                }
                 FinalizarVendaNovo();
             }
             catch (Exception ex)
@@ -5589,7 +5593,7 @@ namespace PDV_WPF.Telas
                     Canvas_Desconto.Visibility = Visibility.Visible;
                     Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
                     abre.Begin();
-                }                
+                }
                 FinalizarVendaNovo();
             }
             catch (Exception ex)
@@ -5649,7 +5653,7 @@ namespace PDV_WPF.Telas
                     return;
                 }
             }
-            else if (_prepesado == false && dadosDoItem.UNI_MEDIDA == "KG" && BALMODELO == 0 && txb_Qtde.Text == "") 
+            else if (_prepesado == false && dadosDoItem.UNI_MEDIDA == "KG" && BALMODELO == 0 && txb_Qtde.Text == "")
             {
                 combobox.IsEnabled = false;
                 txb_Qtde.Text = "Aguarde...";
@@ -5876,15 +5880,24 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
+                    decimal attemptSatServidor = 1; StartSearchSatServidor:
                     using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter())
                     {
                         SAT_ENV_TA.SP_TRI_ENVIA_SAT_SERVIDOR(NO_CAIXA, bytes);
                     }
-
-                    var sb = new SATBox("Operação no SAT", "Aguarde a resposta do SAT.");
+                                       
+                    var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .       Tentativa: {attemptSatServidor}");
                     sb.ShowDialog();
                     if (sb.DialogResult == false)
                     {
+                        attemptSatServidor++;
+                        log.Debug($"Tentativa de envio SatServidor falhou. Tentando novamente... tentativa: {attemptSatServidor}");                                                                                        
+                        using (var SAT_REC_TA = new TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
+                        using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
+                        if (attemptSatServidor <= 3) goto StartSearchSatServidor;
+                        log.Debug("Após 4 tentativas SatServiddor falhou em todas, segue a vida.");
+                        lbl_Cortesia.Content = "Falha no SAT";
+                        DialogBox.Show("SAT SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se comunicar com o aparelho SAT servidor.\nEntre em contato com o suporte.");                        
                         erroVenda = true;
                         return false;
                     }
@@ -6144,13 +6157,13 @@ namespace PDV_WPF.Telas
 
             decimal vUnCom = 0;
             //decimal comdesc;
-            decimal vDescAplic = 0;            
+            decimal vDescAplic = 0;
             using var ESTOQUE_TA = new TB_ESTOQUETableAdapter(); log.Debug("Instanciado TableAdapter da TB_ESTOQUE, a seguir será chamado SP_TRI_PEGAPRECO");
-            int i = 0;     
-            inicio:
+            int i = 0;
+        inicio:
             try
             {
-                ESTOQUE_TA.Connection = _contingencia == true ? LOCAL_FB_CONN : ESTOQUE_TA.Connection;                
+                ESTOQUE_TA.Connection = _contingencia == true ? LOCAL_FB_CONN : ESTOQUE_TA.Connection;
                 if (decimal.TryParse(ESTOQUE_TA.SP_TRI_PEGAPRECO(/*cod_produto*/produtoEncontrado.ID_IDENTIFICADOR, quant).Safestring(),
                     out vUnCom) == false)
                 {
@@ -6336,7 +6349,7 @@ namespace PDV_WPF.Telas
                     }
                 }
             }
-        }      
+        }
         /// <summary>
         /// Se o AmbiOrcamento estiver aberto, traz a janela para frente
         /// </summary>
@@ -6969,7 +6982,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     if (SENHA_REIMPRESSAO && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
-                    e.Handled = true;                    
+                    e.Handled = true;
                     new ReimprimeCupons().ShowDialog();
                 });
             }//Tenta pegar o peso da balança.

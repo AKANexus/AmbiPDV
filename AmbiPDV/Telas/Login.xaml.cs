@@ -41,8 +41,7 @@ namespace PDV_WPF
         private readonly DebounceDispatcher debounceTimer = new DebounceDispatcher();
         //private SiTEFBox vendaTEF;
         Logger log = new Logger("Login");
-        LoadingScreen ls = new LoadingScreen();
-        public static volatile bool stateGif;
+        LoadingScreen ls = new LoadingScreen();        
         public static Thread t1;
 
         #endregion Fields & Properties
@@ -134,7 +133,7 @@ namespace PDV_WPF
             }
             catch (Exception ex)
             {
-                stateGif = false;
+                ExibirGif.stateGif = false;
                 TimedBox.stateDialog = false;
                 log.Error("Erro ao abrir o caixa", ex);
                 MessageBox.Show("Falha ao iniciar o caixa. Verifique Logerro.txt", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
@@ -171,7 +170,7 @@ namespace PDV_WPF
                         }
                         catch (Exception ex)
                         {
-                            stateGif = false;
+                            ExibirGif.stateGif = false;
                             log.Error("Erro na abertura do caixa: ", ex);
                             DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");                            
                             return;
@@ -260,7 +259,7 @@ namespace PDV_WPF
                     }
                     catch (Exception ex)
                     {
-                        stateGif = false;
+                        ExibirGif.stateGif = false;
                         log.Error("Erro na abertura do caixa ao tentar sincronizar", ex);
                         DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");
                         return;
@@ -397,7 +396,7 @@ namespace PDV_WPF
             }
             catch (Exception ex)
             {
-                stateGif = false;
+                ExibirGif.stateGif = false;
                 log.Error("Erro ao executar Contingencia() e StartupSequence()", ex);
                 MessageBox.Show("Erro ao inicar o caixa. O caixa será fechado.");
                 Application.Current.Shutdown();
@@ -631,7 +630,7 @@ namespace PDV_WPF
                 MainWindow.Show();                
                 //ss.Close(TimeSpan.FromMilliseconds(1));
                 this.Hide();
-                stateGif = false;
+                ExibirGif.stateGif = false;
                 // Gravar no banco local a data do último login válido:
                 (new LicencaDeUsoOffline(90, 15)).SetLastLog();                
                 return;

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
 using System.Reflection;
+using System.Windows.Threading;
 
 namespace PDV_WPF.Telas
 {
@@ -20,28 +21,37 @@ namespace PDV_WPF.Telas
     /// </summary>
     public partial class ExibirGif : Window
     {
-        private string CaminhoGif = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Resources\loading_anim.gif";       
+        private string CaminhoGif = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Resources\loading_anim.gif";
+        DispatcherTimer timer = new DispatcherTimer();
+        public static volatile bool stateGif;
         //(Assembly.GetExecutingAssembly().Location) + @"\LocalDB\CLIPP.FDB"
         public ExibirGif()
         {
-            Login.stateGif = true;
+            stateGif = true;
             Uri uri = new Uri(CaminhoGif);
+            
             InitializeComponent();
+            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Tick += new EventHandler(CheckGifStatus);
+            timer.Start();
             mediaElement.Source = uri;
         }
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
         { 
             mediaElement.Position = new TimeSpan(0, 0, 1);
-            mediaElement.Play();            
-            if(Login.stateGif == false)
-            {
-                FinalizaThread();
-            }
+            mediaElement.Play();                        
         }
-
         private void FinalizaThread()
         {
+            mediaElement.Close();
+            mediaElement.Source = null;
+            timer.Stop();
+            timer = null;
             this.Close();
+        }
+        private void CheckGifStatus(object sender, EventArgs e)
+        {
+            if (!stateGif) FinalizaThread();            
         }
     }
 }

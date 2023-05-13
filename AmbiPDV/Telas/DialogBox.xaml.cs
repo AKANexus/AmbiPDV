@@ -538,6 +538,7 @@ namespace PDV_WPF.Telas
 
         public static bool? Show(string title, DialogBoxButtons dbbuttons, DialogBoxIcons dbicons, bool showtimestamp, params string[] linhas)
         {
+            TimedBox.stateDialog = false;
             DialogBox dbox = new DialogBox();
             if (dbbuttons == DialogBoxButtons.None)
             {

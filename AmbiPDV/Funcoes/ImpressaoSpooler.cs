@@ -1638,19 +1638,20 @@ namespace PDV_WPF
                 //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
                 foreach (Produto prod in produtos)
                 {
+                    prod.numero = linha;
                     if (prod.valorOriginal <= 0) //se for igual a 0 quer muito provavelmente é uma reimpressão.
                     {
                         RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
                         RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorunit.ToString("C"), corpo, esquerda, 0);
                         RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
-                        RecebePrint((prod.valorunit * prod.qtde).ToString("C"), corpo, direita, 1);
+                        RecebePrint((prod.valorunit * prod.qtde).RoundABNT().ToString("C"), corpo, direita, 1);
                     }
                     else //se não for quer dizer que é a primeira impressão, isso pq não tem como sabermos o valor original do produto já que não consta no XML e no banco de dados já pode ter sido alterado.
                     {
                         RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
                         RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorOriginal.ToString("C"), corpo, esquerda, 0);
                         RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
-                        RecebePrint((prod.valorOriginal * prod.qtde).ToString("C"), corpo, direita, 1);
+                        RecebePrint((prod.valorOriginal * prod.qtde).RoundABNT().ToString("C"), corpo, direita, 1);
                     }
                     if (prod.desconto > 0)
                     {
@@ -2076,7 +2077,7 @@ namespace PDV_WPF
                             RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
                             RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorOriginal).ToString("C"), corpo, esquerda, 0);
                             RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + ((prod.valorOriginal) * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
-                            RecebePrint(((prod.valorOriginal * prod.qtde).ToString("n2")), corpo, direita, 1);
+                            RecebePrint(((prod.valorOriginal * prod.qtde).RoundABNT().ToString("n2")), corpo, direita, 1);
                             break;
                     }
                     if (prod.desconto > 0)

@@ -71,6 +71,7 @@ namespace PDV_WPF
             cbb_Ports.SelectedIndex = ports.FindIndex(a => a == "COM" + BALPORTA);
             tgl_Referencia.IsChecked = ACREFERENCIA.ToBool();
             PreencherTipoLicenca();
+            TimedBox.stateDialog = false;
         }
 
         #endregion (De)Constructor

@@ -95,6 +95,7 @@ namespace PDV_WPF.PCA_Telas
                 txb_CodAtiv.Text = null;
                 _configurado = true;
                 tbl_Continuar.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF09CAAA"));
+                chk_SATSERVIDOR.IsChecked = false;
                 rb_Layout07.IsChecked = false;
                 rb_Layout08.IsChecked = false;
                 return;
