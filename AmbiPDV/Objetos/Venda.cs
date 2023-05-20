@@ -1411,24 +1411,26 @@ namespace PDV_WPF.Objetos
                                        RetornarMensagemErro(ex, false));
                         return (-1, -1);
                     }
-                    try
-                    {
-                        if (Caixa._contingencia == false)
-                        {
-                            using var remendo1 = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter();
-                            using var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };
-                            remendo1.Connection = SERVER_FB_CONN;
-                            remendo1.SP_REM_CONTROLALOTE(Convert.ToInt32(detalhamento.prod.cProd), Convert.ToDecimal(detalhamento.prod.qCom, ptBR));
-                        }
-                        else
-                        {
-                            log.Debug("Caixa em contigencia, será pulado a procedure SP_REM_CONTROLALOTE");
-                        }
-                    }
-                    catch (Exception ex)
-                    {                        
-                        log.Debug("Erro ao tentar rodar a procedure SP_REM_CONTROLALOTE, ERRO: " + ex);
-                    }
+                    #region CONTROLA_LOTE_DESATIVADO
+                    //try
+                    //{
+                    //    if (Caixa._contingencia == false)
+                    //    {
+                    //        using var remendo1 = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter();
+                    //        using var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };
+                    //        remendo1.Connection = SERVER_FB_CONN;
+                    //        remendo1.SP_REM_CONTROLALOTE(Convert.ToInt32(detalhamento.prod.cProd), Convert.ToDecimal(detalhamento.prod.qCom, ptBR));
+                    //    }
+                    //    else
+                    //    {
+                    //        log.Debug("Caixa em contigencia, será pulado a procedure SP_REM_CONTROLALOTE");
+                    //    }
+                    //}
+                    //catch (Exception ex)
+                    //{                        
+                    //    log.Debug("Erro ao tentar rodar a procedure SP_REM_CONTROLALOTE, ERRO: " + ex);
+                    //}
+                    #endregion
                     if (nItemCup <= 0)
                     {
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());

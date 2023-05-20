@@ -452,6 +452,8 @@ namespace PDV_WPF.Telas
         }
         private void but_F11_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if(_emTransacao) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em venda!\nFinalize a tente novamente."); return; }
+            if(_modo_consulta) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em modo consulta!\nVolte ao estado 'CAIXA LIVRE' e tente novamente."); return; }
             AbrirJanelaSangriaSupr();
             return;
         }
@@ -465,6 +467,7 @@ namespace PDV_WPF.Telas
         }
         private void but_F12_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if(_emTransacao) { DialogBox.Show("FECHAMENTO DE TURNO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar fechameno de turno estando em venda!\nFinalize e tente novamente."); return; }
             switch (turno_aberto)
             {
                 case true:
@@ -2954,7 +2957,7 @@ namespace PDV_WPF.Telas
                 LimparObjetoDeVendaNovo();
                 AtualizarRetroTabelas();
                 DeterminarStatusDeSangria(false);
-            }
+            }            
         }
 
 
@@ -5886,7 +5889,7 @@ namespace PDV_WPF.Telas
                         SAT_ENV_TA.SP_TRI_ENVIA_SAT_SERVIDOR(NO_CAIXA, bytes);
                     }
                                        
-                    var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .       Tentativa: {attemptSatServidor}");
+                    var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .                 Tentativa: {attemptSatServidor}");
                     sb.ShowDialog();
                     if (sb.DialogResult == false)
                     {
@@ -6068,7 +6071,7 @@ namespace PDV_WPF.Telas
             log.Debug("Buscando a quantidade informada...");
 
             decimal quant = 1;
-            if (txb_Qtde.Text != "") { quant = Convert.ToDecimal(txb_Qtde.Text); }
+            if (txb_Qtde.Text != "") { log.Debug($"Convertendo {txb_Qtde.Text} (conteudo do txb_Qtde.Text) para decimal"); quant = Convert.ToDecimal(txb_Qtde.Text); }
 
             if (quant <= 0) { quant = 1; }
 

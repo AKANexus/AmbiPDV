@@ -327,8 +327,11 @@ namespace PDV_WPF.Funcoes
                                 using (var taSetupServ = new TRI_PDV_SETUPTableAdapter())
                                 {
                                     taSetupServ.Connection.ConnectionString = _strConnNetwork;
-                                    taSetupServ.UpdateSetup(tblSetup[0].ID_DUMMY, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_SYNC, Convert.ToDecimal(tblSetup[0].DESC_MAX_OP), tblSetup[0].USA_RECARGAS, tblSetup[0].DETALHADESCONTO,
-                                                            tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);
+                                    if(taSetupServ.Records() > 0) taSetupServ.UpdateSetup(tblSetup[0].ID_DUMMY, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_SYNC, Convert.ToDecimal(tblSetup[0].DESC_MAX_OP), tblSetup[0].USA_RECARGAS, tblSetup[0].DETALHADESCONTO,
+                                                                                          tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);
+                                    else taSetupServ.Insert(tblSetup[0].ID_DUMMY, tblSetup[0].EXECUCAO, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_AT, tblSetup[0].DT_INSTALACAO, tblSetup[0].ULTIMA_SYNC, tblSetup[0].ORIGEM,
+                                                            tblSetup[0].DESC_MAX_OP, tblSetup[0].MAIT_MAX_MESAS, tblSetup[0].USA_RECARGAS, tblSetup[0].VERSAO_ORCA, tblSetup[0].DETALHADESCONTO,
+                                                            tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);                                    
                                 }
                             }
                             catch(Exception ex)
