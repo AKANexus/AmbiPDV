@@ -1487,7 +1487,7 @@ namespace PDV_WPF
             int linha = 1;
             if (!(cFeDeRetorno is null))
             {
-                #region Cumpom de Venda
+                #region Cupom de Venda
                 RecebePrint(cFeDeRetorno.infCFe.emit.xFant, negrito, centro, 1);
                 RecebePrint(cFeDeRetorno.infCFe.emit.xNome, corpo, centro, 1);
                 string enderecodaempresa = string.Format("{0}, {1} - {2}, {3}", cFeDeRetorno.infCFe.emit.enderEmit.xLgr,
@@ -1563,7 +1563,7 @@ namespace PDV_WPF
                         RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
                         RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorOriginal.ToString("C"), corpo, esquerda, 0);
                         RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
-                        RecebePrint((prod.valorOriginal * prod.qtde).ToString("C"), corpo, direita, 1);
+                        RecebePrint((prod.valorOriginal * prod.qtde).RoundABNT().ToString("C"), corpo, direita, 1);
                     }
                     if (prod.desconto > 0)
                     {
