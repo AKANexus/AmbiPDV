@@ -1714,10 +1714,11 @@ namespace PDV_WPF.Objetos
             }
             return vlrTotalDescAtacado;
         }
-        public void VerificaScannTech()
+        public decimal VerificaScannTech()
         {
             try
             {
+                decimal vlrTotDescScannTech = 0;
                 using (var tblPromoServ = new FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHDataTable())
                 {
                     var prodCodBarras = from produtos in _listaDets
@@ -1749,6 +1750,7 @@ namespace PDV_WPF.Objetos
                                 if (itens.QTD_COMPRADA > tblPromoServ[0].QTD)
                                 {
                                     int combosPassados = (int)(itens.QTD_COMPRADA / tblPromoServ[0].QTD);
+                                    combosPassados = tblPromoServ[0].LIMITE > 0 && combosPassados > tblPromoServ[0].LIMITE ? tblPromoServ[0].LIMITE : combosPassados; 
                                     totProdComDesc = combosPassados * qtdDescontoCadastrada;
                                 }
                                 else
@@ -1764,31 +1766,35 @@ namespace PDV_WPF.Objetos
                                     switch (tblPromoServ[0].TIPO)
                                     {                                        
                                         case "LLEVA_PAGA":                                            
-                                            decimal vlrTotDesc = vlrUnit * totProdComDesc;
+                                            decimal vlrTotDesc = vlrUnit * totProdComDesc;                                            
                                             if (qtd >= totProdComDesc)
                                             {
+                                                vlrTotDescScannTech += vlrTotDesc;
                                                 prod.prod.vDesc = vlrTotDesc.ToString("N2");
                                                 goto finalizaDesc;
                                             }                                            
                                             if (totProdComDesc != 0)
-                                            {
+                                            {                                                
                                                 vlrTotDesc = vlrUnit * qtd;
+                                                vlrTotDescScannTech += vlrTotDesc;
                                                 prod.prod.vDesc = vlrTotDesc.ToString("N2");
                                                 totProdComDesc -= qtd;
                                             }
                                             else goto finalizaDesc;                                            
                                             break;
                                         case "DESCUENTO_VARIABLE":                                                                                        
-                                            decimal descPorc = (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * totProdComDesc;
+                                            decimal descPorc = (tblPromoServ[0].DET / 100 * vlrUnit) * totProdComDesc;
                                             if (qtd >= totProdComDesc) 
-                                            {                                                                                                
-                                                prod.prod.vDesc = descPorc.ToString("N2");
+                                            {
+                                                vlrTotDescScannTech += descPorc;
+                                                prod.prod.vDesc = descPorc.RoundABNT().ToString("N2");
                                                 goto finalizaDesc; 
                                             }
                                             if(totProdComDesc != 0) 
                                             {                                                
-                                                descPorc = (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtd;                                                
-                                                prod.prod.vDesc = descPorc.ToString("N2");
+                                                descPorc = (tblPromoServ[0].DET / 100 * vlrUnit) * qtd;
+                                                vlrTotDescScannTech += descPorc;
+                                                prod.prod.vDesc = descPorc.RoundABNT().ToString("N2");
                                                 totProdComDesc -= qtd; 
                                             }
                                             else goto finalizaDesc;
@@ -1798,11 +1804,13 @@ namespace PDV_WPF.Objetos
                                             decimal descPorUnidade = vlrUnit - vlrPorUnidadecomDesc;                                                                                        
                                             if(qtd >= totProdComDesc)
                                             {
+                                                vlrTotDescScannTech += totProdComDesc * descPorUnidade;
                                                 prod.prod.vDesc = (totProdComDesc * descPorUnidade).ToString("N2");
                                                 goto finalizaDesc;
                                             }
                                             if (totProdComDesc != 0)
                                             {
+                                                vlrTotDescScannTech += descPorUnidade * qtd;
                                                 prod.prod.vDesc = (descPorUnidade * qtd).ToString("N2");
                                                 totProdComDesc -= qtd;
                                             }
@@ -1814,11 +1822,13 @@ namespace PDV_WPF.Objetos
                             }                            
                         }
                     }
+                    return vlrTotDescScannTech;
                 }
             }
             catch(Exception ex)
-            {
+            {                
                 log.Debug("Erro ao verificar/aplicar promoções ScannTech: " + ex.Message);
+                return 0;
             }
         }   
         public decimal ValorDaVenda()

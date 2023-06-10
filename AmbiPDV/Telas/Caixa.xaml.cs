@@ -4,8 +4,6 @@ using Clearcove.Logging;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using LocalDarumaFrameworkDLL;
-using PayGo;
-using PDV_WPF.Controls;
 using PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters;
 using PDV_WPF.FDBDataSetTableAdapters;
 using PDV_WPF.Funcoes;
@@ -204,13 +202,13 @@ namespace PDV_WPF.Telas
         private tipoDesconto tipoDeDesconto;
         private ItemChoiceType _tipo = ItemChoiceType.FECHADO;
 
-        private List<ComboBoxBindingDTO_Produto_Sync> _lstProdutosAlteradosSync;
+        private List<ComboBoxBindingDTO_Produto_Sync> _lstProdutosAlteradosSync;        
         #endregion Fields & Properties
 
         #region (De)Constructor
 
         public Caixa(bool _contingencia)
-        {
+        {            
             DataContext = mvm;
             var args = new List<string>();
             foreach (string arg in Environment.GetCommandLineArgs())
@@ -293,11 +291,10 @@ namespace PDV_WPF.Telas
                 else combobox.MinimumPrefixLength = PREFIX_LISTBOX;
                 AplicarSelecaoDeQuantidade();
             }
-        }
+        }       
         private void MainWindows_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-                combobox.Focus();
+            if (!combobox.IsKeyboardFocusWithin) combobox.Focus();         
         }
 
         #region Teclas de Atalho
@@ -464,7 +461,7 @@ namespace PDV_WPF.Telas
         private void but_F12_MouseLeave(object sender, EventArgs e)
         {
             but_F12.FontSize = 32;
-        }
+        }      
         private void but_F12_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(_emTransacao) { DialogBox.Show("FECHAMENTO DE TURNO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar fechameno de turno estando em venda!\nFinalize e tente novamente."); return; }
@@ -493,7 +490,18 @@ namespace PDV_WPF.Telas
             }
             return;
         }
-
+        private void lbl_Logoff_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Logoff.FontSize = 40;         
+        }
+        private void lbl_Logoff_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Logoff.FontSize = 35;
+        }
+        private void lbl_Logoff_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ReiniciaAplicacao();          
+        }
         #endregion
 
         private void ACBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -738,7 +746,34 @@ namespace PDV_WPF.Telas
         //}//Lança o item no objeto de venda.
 
         #endregion TESTES
-
+        /// <summary>
+        /// Reinicia aplicação / Logoff
+        /// </summary>
+        private async void ReiniciaAplicacao()
+        {
+            if (_emTransacao) { DialogBox.Show("LOGOFF", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar Logoff com venda aberta.\nFinalize a venda e tente novamente"); return; }
+            if (PedeSenhaGerencial("Deslogando usuario atual."))
+            {
+                log.Debug("Realizando Logoff");
+                string args = null;
+                foreach(var arg in Environment.GetCommandLineArgs())
+                {
+                    if(arg.StartsWith("/")) args += $" {arg}";
+                }
+                log.Debug($"Argumentos de inicialização: {args ?? "Não possui argumentos"}");
+                await Task.Delay(500);
+                try
+                {
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location, "-Logoff " + args);
+                    Process.GetCurrentProcess().Kill();                                       
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Não foi possivel realizar Logoff, verifique os logs para visualizar o erro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    log.Debug($"Erro ao tentar realizar Logoff: {ex}");
+                }
+            }
+        }
         /// <summary>
         /// Abre a janela de consulta avançada.
         /// </summary>
@@ -1824,7 +1859,6 @@ namespace PDV_WPF.Telas
                         }
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
-
                 }
                 catch (Exception ex)
                 {
@@ -2750,7 +2784,7 @@ namespace PDV_WPF.Telas
         }
         private void Completed_StoryBoard(object sender, EventArgs a)
         {
-            txt_DescAtacado.Text = "R$ 0,00";
+            txb_Valor_Desconto.Text = "R$ 0,00";
             Canvas_Desconto.Visibility = Visibility.Collapsed;
         }
         /// <summary>
@@ -2810,7 +2844,7 @@ namespace PDV_WPF.Telas
 
                 if (fechamento.DialogResult == false)
                 {
-                    if (Canvas_Desconto.Visibility == Visibility.Visible)
+                    if (Canvas_Desconto.Visibility == Visibility.Visible && Canvas_Desconto.Margin == new Thickness(-0, 0, 0, 0))
                     {
                         Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
                         fecha.Begin();
@@ -2841,7 +2875,7 @@ namespace PDV_WPF.Telas
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
 
                     }
-                    if (Canvas_Desconto.Visibility == Visibility.Visible)
+                    if (Canvas_Desconto.Visibility == Visibility.Visible && Canvas_Desconto.Margin == new Thickness(-0, 0, 0, 0))
                     {
                         Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
                         fecha.Begin();
@@ -5086,8 +5120,7 @@ namespace PDV_WPF.Telas
                 _tipo = pegaID.tipo;
             }
 
-        }
-
+        }       
         /// <summary>
         /// Abre a janela pedindo o vendedor
         /// </summary>
@@ -5536,11 +5569,33 @@ namespace PDV_WPF.Telas
                 {
                     PedirVendedor();
                 }
-                if (SCANNTECH) vendaAtual.VerificaScannTech();
-                decimal vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
-                if (vlrTotalDescAtacado > 0)
+
+                decimal vlrTotDescGeral = 0, vlrTotalDescAtacado = 0, vlrTotDescScannTech = 0;
+
+                if (SCANNTECH) vlrTotDescScannTech = vendaAtual.VerificaScannTech();
+                vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
+
+                if (vlrTotalDescAtacado > 0 && vlrTotDescScannTech > 0)
                 {
-                    txt_DescAtacado.Text = vlrTotalDescAtacado.ToString("C");
+                    txb_Mensagem_Desconto.Text = "ATACADO & SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    vlrTotDescGeral = vlrTotalDescAtacado + vlrTotDescScannTech;
+                    txb_Valor_Desconto.Text = vlrTotDescGeral.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotalDescAtacado > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "ATACADO - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotalDescAtacado.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotDescScannTech > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotDescScannTech.ToString("C");
                     Canvas_Desconto.Visibility = Visibility.Visible;
                     Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
                     abre.Begin();
@@ -5588,11 +5643,32 @@ namespace PDV_WPF.Telas
             }
             try
             {
-                if (SCANNTECH) vendaAtual.VerificaScannTech();
-                decimal vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
-                if (vlrTotalDescAtacado > 0)
+                decimal vlrTotDescGeral = 0, vlrTotalDescAtacado = 0, vlrTotDescScannTech = 0;
+
+                if (SCANNTECH) vlrTotDescScannTech = vendaAtual.VerificaScannTech();
+                vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
+
+                if (vlrTotalDescAtacado > 0 && vlrTotDescScannTech > 0)
                 {
-                    txt_DescAtacado.Text = vlrTotalDescAtacado.ToString("C");
+                    txb_Mensagem_Desconto.Text = "ATACADO & SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    vlrTotDescGeral = vlrTotalDescAtacado + vlrTotDescScannTech;
+                    txb_Valor_Desconto.Text = vlrTotDescGeral.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotalDescAtacado > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "ATACADO - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotalDescAtacado.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotDescScannTech > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotDescScannTech.ToString("C");
                     Canvas_Desconto.Visibility = Visibility.Visible;
                     Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
                     abre.Begin();
@@ -7037,6 +7113,11 @@ namespace PDV_WPF.Telas
                 });
             } // Sincronização manual
             /* ---------------*/
+            else if (e.Key == Key.L && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                ReiniciaAplicacao();
+            }
             else if (e.Key == Key.T && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 e.Handled = true;

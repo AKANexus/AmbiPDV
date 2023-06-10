@@ -31,7 +31,7 @@ namespace PDV_WPF.Telas
             Uri uri = new Uri(CaminhoGif);
             
             InitializeComponent();
-            timer.Interval = TimeSpan.FromMilliseconds(500);
+            timer.Interval = TimeSpan.FromMilliseconds(2000);
             timer.Tick += new EventHandler(CheckGifStatus);
             timer.Start();
             mediaElement.Source = uri;

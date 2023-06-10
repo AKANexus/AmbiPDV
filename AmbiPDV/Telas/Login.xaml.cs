@@ -155,7 +155,7 @@ namespace PDV_WPF
             if (e.Key == Key.Enter)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
+                {                    
                     confirm_exit = false;
                     if (cbb_Usuario.IsFocused)
                     {                        
@@ -629,7 +629,7 @@ namespace PDV_WPF
                 var MainWindow = new Caixa(_contingencia);
                 MainWindow.Show();                
                 //ss.Close(TimeSpan.FromMilliseconds(1));
-                this.Hide();
+                this.Close();
                 ExibirGif.stateGif = false;
                 // Gravar no banco local a data do último login válido:
                 (new LicencaDeUsoOffline(90, 15)).SetLastLog();                

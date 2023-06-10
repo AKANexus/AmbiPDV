@@ -528,6 +528,8 @@
 
             </Grid>
             <Label Content="Trilha Informática - Suporte: (11) 4304-7778" Grid.Column="3" Margin="0,0,10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" Padding="5,0" HorizontalAlignment="Right" Width="343"/>
+            <Label Content="↹" x:Name="lbl_Logoff" Foreground="Gray" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="35" Padding="5,0" HorizontalAlignment="Left" Width="65" Height="50" Grid.RowSpan="2" Margin="-12,-75,0,0" ToolTipService.InitialShowDelay="1000" ToolTipService.ShowDuration="10000" ToolTip="Entrar com outro usuario." MouseDown="lbl_Logoff_MouseDown" MouseEnter="lbl_Logoff_MouseEnter" MouseLeave="lbl_Logoff_MouseLeave"/>
+            <Label Content="Logoff" Foreground="Gray" FontWeight="Bold" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="14" Padding="5,0" HorizontalAlignment="Left" Width="65" Height="50" Grid.RowSpan="2" Margin="40,-68,0,0"/>
             <Grid Grid.Row="6" Grid.ColumnSpan="4" Background="#FFFF7272" x:Name="bar_Contingencia" Margin="-10,0" Visibility="Hidden">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="27" HorizontalAlignment="Center">
                     <Label x:Name="lbl_Contingencia" Content="&gt;&gt;&gt; OPERANDO EM MODO DE CONTINGÊNCIA, CASO DESEJE TESTAR NOVA CONEXÃO COM SERVIDOR UTILIZE AS TECLAS 'CTRL + S' &lt;&lt;&lt;" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
@@ -544,7 +546,7 @@
                     <TranslateTransform/>
                 </TransformGroup>
             </Grid.RenderTransform>
-            <TextBlock Visibility="Visible" TextAlignment="Center" HorizontalAlignment="Center" FontSize="4" FontFamily="Open Sans" FontStretch="Expanded" Margin="0,0,0,1"><LineBreak/><Run Text="NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: " FontSize="28" FontStretch="Expanded" Foreground="White"/><Run x:Name="txt_DescAtacado" Text="R$ 0,00" Foreground="White" FontWeight="Bold" FontStretch="Expanded" FontSize="32"/></TextBlock>
+            <TextBlock Visibility="Visible" TextAlignment="Center" HorizontalAlignment="Center" FontSize="4" FontFamily="Open Sans" FontStretch="Expanded" Margin="0,0,0,1"><LineBreak/><Run x:Name="txb_Mensagem_Desconto" Text="NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: " FontSize="28" FontStretch="Expanded" Foreground="White"/><Run x:Name="txb_Valor_Desconto" Text="R$ 0,00" Foreground="White" FontWeight="Bold" FontStretch="Expanded" FontSize="32"/></TextBlock>
         </Grid>
     </Grid>
 </Window>
