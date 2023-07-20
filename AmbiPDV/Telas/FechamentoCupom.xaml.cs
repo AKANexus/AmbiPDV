@@ -62,9 +62,10 @@ namespace PDV_WPF.Telas
         #endregion Fields & Properties
 
         public readonly decimal _vlrTotalVenda; public decimal descNaVenda = 0;
+        private readonly bool _scannTech;
         #region (De)Constructor
 
-        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false)
+        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false, bool scannTech = false)
         {
             _vlrTotalVenda = vlrTotalVenda;
             _desconto_maximo = desconto_maximo;
@@ -73,7 +74,8 @@ namespace PDV_WPF.Telas
             txb_Metodo.Focus();
             _modoTeste = modoTeste;
             //tefAtual = tEFAtual;
-            _vendaAtual = vendaAtual;                     
+            _vendaAtual = vendaAtual;
+            _scannTech = scannTech;
         }
 
         /// <summary>
@@ -570,6 +572,7 @@ namespace PDV_WPF.Telas
                     //            throw new Exception("Erro ao aplicar desconto.");
                     //    }
                     //}
+                    if (_scannTech) { DialogBox.Show("Desconto", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel aplicar descontos pois a venda possui produtos de promoção ScannTech."); return; }
                     if (_vendaAtual.DescontoAplicado() > 0)
                     {
                         System.Windows.Forms.MessageBox.Show("Desconto total da venda removido com sucesso.", "Removendo desconto", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
@@ -582,7 +585,7 @@ namespace PDV_WPF.Telas
                         txb_Valor.Value = valor_a_ser_pago;
                         txb_Metodo.Focus();
                         return;
-                    }
+                    }                    
                     var senha = new perguntaSenha("Aplicando Desconto na Venda");
                     senha.ShowDialog();
                     if (senha.DialogResult == false)
@@ -702,7 +705,7 @@ namespace PDV_WPF.Telas
                     case false:
                         desconto = (pd.porcentagem) * _vendaAtual.ValorDaVenda().RoundABNT();
                         break;
-                }
+                }               
                 valor_a_ser_pago = (_vendaAtual.ValorDaVenda().RoundABNT() - desconto);
                 txb_Desconto.Value = desconto;
                 stp_Desconto.Visibility = Visibility.Visible;

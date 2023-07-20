@@ -1816,7 +1816,7 @@ namespace PDV_WPF.Telas
         private ComboBoxBindingDTO_Produto ConverterInformacaoEmProduto(string pInput)
         {
             #region Valida seleção de produto
-
+            bool produtoPrePesado = pInput.Length == 7;
             if (true)
             {
                 try
@@ -1862,18 +1862,13 @@ namespace PDV_WPF.Telas
                 }
                 catch (Exception ex)
                 {
-                    log.Error("Erro ao buscar produto", ex);
-                    //return MostrarProdutoNaoEncontrado(pInput);
-                    int prodNaoEncontrado = MostrarProdutoNaoEncontrado(pInput);
-                    return prodNaoEncontrado == -1 ? null : new ComboBoxBindingDTO_Produto() { ID_IDENTIFICADOR = prodNaoEncontrado, COD_BARRA = "", DESCRICAO = "", REFERENCIA = "" };
-
-                    //return -1;
+                    log.Error("Erro ao buscar produto", ex);                    
+                    int prodNaoEncontrado = produtoPrePesado ? -1 : MostrarProdutoNaoEncontrado(pInput);
+                    return prodNaoEncontrado == -1 ? null : new ComboBoxBindingDTO_Produto() { ID_IDENTIFICADOR = prodNaoEncontrado, COD_BARRA = "", DESCRICAO = "", REFERENCIA = "" };                    
                 }
 
-                if (combobox.SelectedItem == null)
-                {
-                    //return MostrarProdutoNaoEncontrado(pInput);
-                    ////return -1;
+                if (combobox.SelectedItem == null && !produtoPrePesado) //Se for código pré-pesado não exibimos agora a mensagem de não encontrado pois vamos tentar procurar novamente com o código de barras completo.
+                {                    
                     int prodNaoEncontrado = MostrarProdutoNaoEncontrado(pInput);
                     return prodNaoEncontrado == -1 ? null : new ComboBoxBindingDTO_Produto() { ID_IDENTIFICADOR = prodNaoEncontrado, COD_BARRA = "", DESCRICAO = "", REFERENCIA = "" };
                 }
@@ -2790,7 +2785,7 @@ namespace PDV_WPF.Telas
         /// <summary>
         /// Determina se o cupom é fiscal ou não ou se é uma devolução
         /// </summary>
-        private void FinalizarVendaNovo()
+        private void FinalizarVendaNovo(bool scannTech = false)
         {
             //ChecaPorContingencia(contingencia, EnmTipoSync.cadastros);
             if (subtotal > 0)
@@ -2822,7 +2817,7 @@ namespace PDV_WPF.Telas
                 }
 
                 #endregion AmbiMAITRE                
-                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, subtotal, ref vendaAtual, _modoTeste)
+                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, subtotal, ref vendaAtual, _modoTeste, scannTech)
                 {
                     //valor_venda = subtotal,
                     _info_int = infoStr,
@@ -5600,7 +5595,7 @@ namespace PDV_WPF.Telas
                     Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
                     abre.Begin();
                 }
-                FinalizarVendaNovo();
+                FinalizarVendaNovo(vlrTotDescScannTech > 0);
             }
             catch (Exception ex)
             {
@@ -5673,7 +5668,7 @@ namespace PDV_WPF.Telas
                     Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
                     abre.Begin();
                 }
-                FinalizarVendaNovo();
+                FinalizarVendaNovo(vlrTotDescScannTech > 0);
             }
             catch (Exception ex)
             {
@@ -5907,7 +5902,7 @@ namespace PDV_WPF.Telas
 
 
         private bool EnviaParaSAT(FechamentoCupom pFechamento)
-        {
+        {           
             vendaAtual.InformaCliente(_tipo, infoStr);
 
             log.Debug(SATSERVIDOR ? "Fechamento no SAT Servidor" : "Fechamento no SAT Local");
@@ -5915,12 +5910,12 @@ namespace PDV_WPF.Telas
 
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = false, Indent = false };
             var XmlFinal = new StringBuilder();
-            var serializer = new XmlSerializer(typeof(CFe));
+            var serializer = new XmlSerializer(typeof(CFe));    
             using (var xwriter2 = XmlWriter.Create(XmlFinal, settings))
             {
                 var xns = new XmlSerializerNamespaces();
                 xns.Add(string.Empty, string.Empty);
-                Directory.CreateDirectory(@"SAT_LOG");
+                Directory.CreateDirectory(@"SAT_LOG");                
                 serializer.Serialize(xwriter2, vendaAtual.RetornaCFe(), xns); //Popula o stringbuilder para ser enviado para o SAT.
             }
             string _XML_ = XmlFinal.ToString().Replace(',', '.').Replace("utf-16", "utf-8");
@@ -6077,7 +6072,7 @@ namespace PDV_WPF.Telas
             {
                 cFeDeRetorno.infCFe.det[i].prod.vUnComOri = vendaAtual.RetornaCFe().infCFe.det[i].prod.vUnComOri;
             }
-            vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);
+            vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);           
             return ImprimeESalvaCupomFiscal(pFechamento, xmlret, cFeDeRetorno);
         }
         private void ProcessarTextoNoACBox()
@@ -6202,11 +6197,16 @@ namespace PDV_WPF.Telas
             #region Detecta se foi escaneado um código pré-pesado
             if (input.StartsWith("2") && input.Length == 13)
             {
-                log.Debug("Código pré-pesado foi escaneado");
-                Decimal.TryParse(input.Substring(7, 5), out quant);
+                log.Debug("Possivel código pré-pesado foi escaneado, iniciando busca...");                
                 var produtoEncontradoPrePesado = ConverterInformacaoEmProduto(input.Substring(0, 7));
-                if (produtoEncontradoPrePesado == null) { return; }
+                if (produtoEncontradoPrePesado == null) 
+                { 
+                    log.Debug("Código pré-pesado não encontrado.");
+                    log.Debug("Possibilidades: Código não é pré-pesado ou de fato não está cadastrado.");
+                    goto getProdNaoPesado; 
+                }
 
+                Decimal.TryParse(input.Substring(7, 5), out quant);
                 input = produtoEncontradoPrePesado.ID_IDENTIFICADOR.ToString();
                 string _tipo;
                 using (var obtemdadosdoitem = new SP_TRI_OBTEMDADOSDOITEMTableAdapter())
@@ -6221,9 +6221,10 @@ namespace PDV_WPF.Telas
                     quant /= 1000;
                 }
                 _prepesado = true;
-
             }
             #endregion
+
+            getProdNaoPesado:            
 
             if (input == "") { return; }
 
