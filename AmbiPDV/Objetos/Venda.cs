@@ -930,6 +930,7 @@ namespace PDV_WPF.Objetos
             using (var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())
             using (var VENDA_TA = new DataSets.FDBDataSetVendaTableAdapters.SP_TRI_GRAVANFVENDATableAdapter())
             {
+                FuncoesFirebird remendo = new();
                 OPER_TA.Connection = LOCAL_FB_CONN;
                 VENDA_TA.Connection = LOCAL_FB_CONN;
                 try
@@ -1017,12 +1018,15 @@ namespace PDV_WPF.Objetos
                                 {
                                     int.TryParse(detalhamento.prod.cProd, out int codProd);
 
-                                    using var TaxaProd = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUETableAdapter { Connection = LOCAL_FB_CONN };
-                                    using var AliqTaxa = new DataSets.FDBDataSetOperSeedTableAdapters.TB_TAXA_UFTableAdapter { Connection = LOCAL_FB_CONN };                                    
+                                    //using var TaxaProd = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUETableAdapter { Connection = LOCAL_FB_CONN };
+                                    //using var AliqTaxa = new DataSets.FDBDataSetOperSeedTableAdapters.TB_TAXA_UFTableAdapter { Connection = LOCAL_FB_CONN };                                    
 
-                                    var taxa = TaxaProd.TaxaPorID(codProd);
-                                    decimal ALIQ_ICMS = Convert.ToDecimal(AliqTaxa.AliqPorID(taxa.ToString()), CultureInfo.InvariantCulture);
-                                    decimal POR_BC_ICMS = Convert.ToDecimal(AliqTaxa.BCPorID(taxa.ToString()), CultureInfo.InvariantCulture);                                     
+                                    //var taxa = TaxaProd.TaxaPorID(codProd);
+                                    var dadosDoItem = remendo.ObtemDadosDoItem(codProd, LOCAL_FB_CONN);
+                                    decimal ALIQ_ICMS = dadosDoItem.RUF_SP;
+                                        //Convert.ToDecimal(AliqTaxa.AliqPorID(taxa.ToString()), CultureInfo.InvariantCulture);
+                                        decimal POR_BC_ICMS = dadosDoItem.RBASE_ICMS;
+                                        //Convert.ToDecimal(AliqTaxa.BCPorID(taxa.ToString()), CultureInfo.InvariantCulture);                                     
                                     decimal.TryParse(detalhamento.prod.vProd.Replace('.', ','), out decimal vProd);
                                     decimal VLR_BC_ICMS = Math.Round(POR_BC_ICMS / 100 * vProd, 2);
 
