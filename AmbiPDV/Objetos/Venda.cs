@@ -1029,12 +1029,14 @@ namespace PDV_WPF.Objetos
                                     using var AliqTaxa = new DataSets.FDBDataSetOperSeedTableAdapters.TB_TAXA_UFTableAdapter { Connection = LOCAL_FB_CONN };
 
                                     var taxa = TaxaProd.TaxaPorID(codProd);
+                                    if (taxa is null) taxa = "III"; 
+
                                     decimal ALIQ_ICMS = Convert.ToDecimal(AliqTaxa.AliqPorID(taxa.ToString()), CultureInfo.InvariantCulture);
                                     decimal POR_BC_ICMS = Convert.ToDecimal(AliqTaxa.BCPorID(taxa.ToString()), CultureInfo.InvariantCulture);
                                     decimal.TryParse(detalhamento.prod.vProd.Replace('.', ','), out decimal vProd);
                                     decimal VLR_BC_ICMS = Math.Round(POR_BC_ICMS / 100 * vProd, 2);
 
-                                    TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, VLR_BC_ICMS, POR_BC_ICMS, ICMS00.Orig + ICMS00.CST, ALIQ_ICMS, decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture)); ;
+                                    TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, VLR_BC_ICMS, POR_BC_ICMS, ICMS00.Orig + ICMS00.CST, ALIQ_ICMS, decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture));
                                 }
                                 else //Cobrado integralmente
                                 {
@@ -1136,9 +1138,9 @@ namespace PDV_WPF.Objetos
                     {
                         using var CONTAREC_TA = new FDBDataSetTableAdapters.TB_CONTA_RECEBERTableAdapter();
                         using var TB_NFV_FMAPAGTO_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
-                        using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
-                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
+                        using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();                        
                         TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
+                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
                         //ID_NUMPAG = (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(Decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
                         if (pagamento.idADMINS <= 0)
                         {
@@ -1310,6 +1312,9 @@ namespace PDV_WPF.Objetos
                     catch (Exception ex)
                     {
                         log.Error("Falha ao gravar venda na base", ex);
+                        if (ex.InnerException is not null)
+                            log.Error("Falha ao gravar venda na base - inner", ex.InnerException); 
+                        
                         MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
                         return -1;
                     }
@@ -1678,7 +1683,9 @@ namespace PDV_WPF.Objetos
                         {
                             if (det.prod.vUnComOri is null or "" or "0.000") det.prod.vUnComOri = det.prod.vUnCom;
                             det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
-                            vlrTotalDescAtacado += Convert.ToDecimal(det.prod.qCom) * (Convert.ToDecimal(det.prod.vUnComOri) - Convert.ToDecimal(det.prod.vUnCom));
+                            //det.prod.vDesc = info.PrcAtacado.ToString("F2");
+                            vlrTotalDescAtacado += (det.prod.qCom.Safedecimal() * det.prod.vUnComOri.Safedecimal()) - (det.prod.qCom.Safedecimal() * det.prod.vUnCom.Safedecimal());
+                            //vlrTotalDescAtacado += decimal.Parse(det.prod.vDesc);
                             det.atacado = true;
                         }
                     }
@@ -1705,12 +1712,16 @@ namespace PDV_WPF.Objetos
                     {
                         foreach (var det1 in _listaDets)
                         {
+                            if (det1.atacado) continue;
+
                             if (det1.familia == familia && det1.kit == false && det1.scannTech == false)
                             {
                                 var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
                                 if(det1.prod.vUnComOri is null or "" or "0.000") det1.prod.vUnComOri = det1.prod.vUnCom;
                                 det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
-                                vlrTotalDescAtacado += Convert.ToDecimal(det1.prod.qCom) * (Convert.ToDecimal(det1.prod.vUnComOri) - Convert.ToDecimal(det1.prod.vUnCom));
+                                //det.prod.vDesc = info.PrcAtacado.ToString("F2");
+                                vlrTotalDescAtacado += (det.prod.qCom.Safedecimal() * det.prod.vUnComOri.Safedecimal()) - (det.prod.qCom.Safedecimal() * det.prod.vUnCom.Safedecimal());
+                                //vlrTotalDescAtacado += decimal.Parse(det.prod.vDesc);
                                 det1.atacado = true;
                             }
                         }
@@ -1719,6 +1730,7 @@ namespace PDV_WPF.Objetos
             }
             return vlrTotalDescAtacado;
         }
+
         public decimal VerificaScannTech()
         {
             try

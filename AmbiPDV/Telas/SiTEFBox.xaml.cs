@@ -320,7 +320,7 @@ namespace PDV_WPF.Telas
                 strParametros.Append($"4={parametros.cnpjFacilitador};");
             }
 
-            strParametros.Append($"2={CNPJSH}");
+            strParametros.Append("2=22141365000179");
 
             //int retorno = ConfiguraIntSiTefInterativo(IP, numLoja, numTerminal, "0");
             //audit("ConfiguraTefEx", $"ConfiguraIntSiTefInterativoEx({IP}, {"00000930"}, {numTerminal}, {"0"}, {$"[{strParametros}]"})");
@@ -642,6 +642,7 @@ namespace PDV_WPF.Telas
         }
         private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
+            log.Debug($"Texto previsto: {e.Text}");
             if (estadoTEF == StateTEF.AguardaMenu && e.Text.IsNumbersOnly())
             {
                 if (e.Text == "0" && ListaDeOpcoes.Count() > 9)
@@ -720,6 +721,7 @@ namespace PDV_WPF.Telas
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
+            log.Debug($"Tecla pressionada: {e.Key}");
             if (e.Key == Key.Escape)
             {
                 if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))

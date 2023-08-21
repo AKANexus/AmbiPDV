@@ -75,7 +75,7 @@ namespace PDV_WPF.Telas
             {                                               
                 #region Converte NF em F
 
-                string CNPJSH = "22141365000179";
+                string CNPJSH = "30737989000181";
                 string CNPJdaVenda = Emitente.CNPJ;
                 string IEdaVenda = Emitente.IE;
                 if (SIGN_AC.Contains("RETAGUARDA"))

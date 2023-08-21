@@ -234,6 +234,7 @@ namespace PDV_WPF.Funcoes
                 { Connection = fbConnection };
             using var dt_cli = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable();
             cLIENTETableAdapter.FillOrderByName(dt_cli);
+            clientesOC.Clear();
             foreach (DataSets.FDBDataSetOperSeed.TB_CLIENTERow row in dt_cli)
             {
                 if (row.STATUS == "A")

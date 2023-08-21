@@ -959,20 +959,26 @@ namespace PDV_WPF
                 log.Error("Falha ao obter taxas", ex);
             }
             return false;
-        }
+        }           
 
         /// <summary>
         /// Atualiza a tabela IBPT
         /// </summary>
-        private void AtualizarIBPT()
+        private void AtualizarIBPT(bool existingFile)
         {
             if (ChecarPorInternet())
             {
                 using var client = new WebClient();
-                var row_IBPT = from row in IBPTDataTable.AsEnumerable()
-                               select row.Field<string>("versao");
-                string versao_IBPT_local = row_IBPT.First();
                 string versao_IBPT_server = "";
+                string versao_IBPT_local = "";
+
+                if (existingFile)
+                {                    
+                    var row_IBPT = from row in IBPTDataTable.AsEnumerable()
+                                   select row.Field<string>("versao");
+                    versao_IBPT_local = row_IBPT.FirstOrDefault();
+                }
+
                 try
                 {
                     versao_IBPT_server = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/VER_IBPT");
@@ -984,19 +990,19 @@ namespace PDV_WPF
                 if (versao_IBPT_server != versao_IBPT_local)
                 {
                     client.DownloadFile("http://www.ambisoft.com.br/AmbiPDV/IBPT.csv", AppDomain.CurrentDomain.BaseDirectory + "\\IBPT.csv");
-                    CarregarIBPT();
+                    log.Debug("Tabela IBPT atualizada pelo servidor FTP.");
+                    if(existingFile) CarregarIBPT();
                 }
             }
             else
             {
                 var row_IBPT = from row in IBPTDataTable.AsEnumerable()
-                               select row.Field<string>("vigenciafim");
-                DateTime.TryParse(row_IBPT.First(), out DateTime validade_IBPT);
-                if (DateTime.Today > validade_IBPT)
-                {
+                               select row.Field<string>("vigenciafim");                
+                if (DateTime.TryParse(row_IBPT.FirstOrDefault(), out DateTime validade_IBPT) && DateTime.Today > validade_IBPT)
+                { 
                     DialogBox.Show(strings.TABELA_IBPT, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.SUA_TABELA_IBPT_ESTA_DESATUALIZADA, strings.CASO_DEIXE_DE_ATUALIZA_LA_SUAS_VENDAS_PODEM_SER_MAL_TRIBUTADAS);
                 }
-            }
+            }            
         }
 
         /// <summary>
@@ -1004,44 +1010,75 @@ namespace PDV_WPF
         /// </summary>
         public void CarregarIBPT()
         {
+            log.Debug("Carregando tabela IBPT em memória...");
+
             IBPTDataTable.Clear();
             IBPTDataTable.Columns.Clear();
-            //get all lines of csv file
-            string[] str;
-            string path = AppDomain.CurrentDomain.BaseDirectory + "\\IBPT.csv";
+            
+            string[] linesIBPT;
+            string path = AppDomain.CurrentDomain.BaseDirectory + @"\IBPT.csv";                                   
+            string pathCopia = AppDomain.CurrentDomain.BaseDirectory + @"\IBPT\IBPT.csv";
+
             if (!File.Exists(path))
             {
-                AtualizarIBPT();
+                try
+                {
+                    log.Debug("Arquivo IBPT (.csv) não foi localizado, copiando backup local...");
+                    if (File.Exists(pathCopia)) File.Copy(pathCopia, path);
+                    else
+                    {
+                        log.Debug("Backup local da tabela IBPT não foi encontrado. Tentando baixar diretamente do servidor FTP");
+                        AtualizarIBPT(false);
+
+                        if (!File.Exists(path)) { log.Debug("Servidor FTP não criou o arquivo IBPT, segue o jogo sem nada mesmo"); return; }
+                    }
+                }                
+                catch (Exception ex) 
+                {
+                    log.Debug($"Erro ao tentar recriar o arquivo IBPT na pasta raiz: {ex.InnerException.Message ?? ex.Message}");
+                    return;
+                }
             }
+
+            startsReadingIBPT:
             try
             {
-                str = File.ReadAllLines(path);
+                linesIBPT = File.ReadAllLines(path);
             }
             catch (Exception ex)
             {
                 log.Error("Falha ao carregar IBPT", ex);
                 DialogBox.Show(strings.TABELA_IBPT, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.FALHA_AO_ACESSAR_TABELA_IBPT, "Verifique os logs");
-                System.Windows.Application.Current.Shutdown(); //deuruim();
+                System.Windows.Application.Current.Shutdown();
                 return;
             }
-
-            // create new datatable
-
-            // get the column header means first line
-            string[] temp = str[0].Split(';');
-            // creates columns of gridview as per the header name
-            foreach (string t in temp)
+           
+            string[] columnsHeader = linesIBPT[0].Split(';');            
+            if(columnsHeader.Length is 13) foreach (string column in columnsHeader) { IBPTDataTable.Columns.Add(column, typeof(string)); }
+            
+            for (int i = 1; i < linesIBPT.Length; i++)
             {
-                IBPTDataTable.Columns.Add(t, typeof(string));
-            }
-            // now retrive the record from second line and add it to datatable
-            for (int i = 1; i < str.Length; i++)
-            {
-                string[] t = str[i].Split(';');
-                IBPTDataTable.Rows.Add(t);
+                string[] currentLine = linesIBPT[i].Split(';');
+                if (currentLine.Length is 13)
+                    IBPTDataTable.Rows.Add(currentLine);
+            }              
 
+            if(IBPTDataTable.Columns.Count < 13)
+            {
+                log.Debug("Tabela IBPT preenchida em memoria não está como esperado. Copiando backup local.");
+                try
+                {
+                    if (File.Exists(pathCopia)) { File.Copy(pathCopia, path, true); goto startsReadingIBPT; }
+                    else
+                        log.Debug("Arquivo de backup não encontrado.");                    
+                }
+                catch (Exception ex)
+                {
+                    log.Debug($"Erro ao tentar copiar backup local da tabela IBPT: {ex.InnerException.Message ?? ex.Message}");
+                }
             }
-            AtualizarIBPT();
+            log.Debug("Tabela IBPT carregada com sucesso.");
+            AtualizarIBPT(true);
         }
 
         /// <summary>

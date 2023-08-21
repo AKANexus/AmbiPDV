@@ -2994,15 +2994,26 @@ namespace PDV_WPF.Telas
         /// Lança texto no cupom virtual (na tela)
         /// </summary>
         /// <param name="pText"></param>
-        private void ImprimirCupomVirtual(string pText)
+        private void ImprimirCupomVirtual(string pText, bool isCancellationItem = false)
         {
             var pg = new Paragraph
             {
                 Margin = new Thickness(0),
                 TextAlignment = TextAlignment.Left,
-                TextIndent = indentdaMargem
+                TextIndent = indentdaMargem,
+                Foreground = isCancellationItem ? Brushes.Red : Foreground
             };
-            pg.Inlines.Add(new Run(pText));
+            
+            var run = new Run(pText);
+            
+            if (isCancellationItem) 
+                run.TextDecorations.Add(new TextDecoration() 
+                {
+                  Pen = new Pen(Brushes.Red, 1),
+                  Location = TextDecorationLocation.Strikethrough
+                });
+
+            pg.Inlines.Add(run);
             richTextBox1.Document.Blocks.Add(pg);
             richTextBox1.Focus();
             richTextBox1.ScrollToEnd();
@@ -6413,8 +6424,8 @@ namespace PDV_WPF.Telas
                             decimal.TryParse(produtoRemove.qCom.Replace('.', ','), out decimal quant);
                             decimal.TryParse(produtoRemove.vDesc.Replace('.', ','), out decimal desc);
 
-                            ImprimirCupomVirtual(string.Format("CANCELADO - " + produtoRemove.xProd.Trunca(29)));
-                            ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoRemove.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)));
+                            ImprimirCupomVirtual(string.Format($"CANCEL. ITEM {remitem._int} - " + produtoRemove.xProd.Trunca(28)), true);
+                            ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoRemove.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)), true);
 
                             subtotal -= ((precounit * quant) - desc).RoundABNT();
                             txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");

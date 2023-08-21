@@ -92,7 +92,19 @@
                         </DataGrid.CellStyle>-->
                         <DataGrid.Resources>
                             <Style TargetType="DataGridRow">
+                                <Setter Property="ContextMenu">
+                                    <Setter.Value>
+                                        <ContextMenu>
+                                            <MenuItem Header="Gerar CF-e" Name="geraCfe" IsEnabled="{Binding ActivateContextMenu}"/>
+                                        </ContextMenu>
+                                    </Setter.Value>
+                                </Setter>
                                 <EventSetter Event="MouseDoubleClick" Handler="Row_DoubleClick"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Status}" Value="C">
+                                        <Setter Property="Foreground" Value="Red"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
                         </DataGrid.Resources>
                         <DataGrid.Columns>

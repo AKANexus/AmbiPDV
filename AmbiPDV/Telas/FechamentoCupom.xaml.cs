@@ -59,10 +59,12 @@ namespace PDV_WPF.Telas
         public string numCupomTEF;
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
-        #endregion Fields & Properties
-
         public readonly decimal _vlrTotalVenda; public decimal descNaVenda = 0;
         private readonly bool _scannTech;
+        private bool fechouManualmente;
+
+        #endregion Fields & Properties
+
         #region (De)Constructor
 
         public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false, bool scannTech = false)
@@ -789,16 +791,25 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Escape)
             {
+                fechouManualmente = true;
                 DialogResult = false;
                 this.Close();
             }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (taxaAdicionada && DialogResult != true)
+        {            
+            if (taxaAdicionada && DialogResult != true) _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);            
+
+            if (fechouManualmente)
             {
-                _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);
+                foreach(var itemComDesc in _vendaAtual._listaDets.Where(l => l.atacado is true || l.scannTech is true))
+                {
+                    itemComDesc.prod.vUnCom = itemComDesc.prod.vUnComOri ?? itemComDesc.prod.vUnCom;
+                    itemComDesc.atacado = false;
+
+                    itemComDesc.prod.vDesc = "0,00";                    
+                }
             }
         }
         public void VerificaVlrTotal()

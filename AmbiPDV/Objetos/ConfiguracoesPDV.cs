@@ -33,7 +33,7 @@ namespace PDV_WPF.Configuracoes
             }
         }
 
-        public static string CNPJSH = "22141365000179";
+        public static string CNPJSH = "30737989000181";
 
         public static string ID_MAC { get; set; }
 
