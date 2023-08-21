@@ -5,6 +5,7 @@ using System.Linq;
 using FirebirdSql.Data.FirebirdClient;
 using DateTime = System.DateTime;
 using PDV_WPF.DataSets;
+using static PDV_WPF.Funcoes.Statics;
 
 namespace PDV_WPF.REMENDOOOOO
 {
@@ -52,11 +53,12 @@ namespace PDV_WPF.REMENDOOOOO
         //    return resultado;
         //}
 
-        public decimal SomaDeValores(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
+        public (decimal, decimal) SomaDeValores(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
             System.DateTime DT_FECHAMENTO, FbConnection connection)
         {
             try
-            {
+            { 
+                if(connection.State == ConnectionState.Closed) 
                 connection.Open();
             }
             catch (Exception e)
@@ -65,33 +67,64 @@ namespace PDV_WPF.REMENDOOOOO
                 throw;
             }
 
-            FbCommand command = new FbCommand();
-            command.Connection = connection;
-            command.CommandType = CommandType.Text;
-            //string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss");
-            //string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
-            //string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd");
-            //string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
 
-            command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
+            FbCommand commandNF = new FbCommand();
+            commandNF.Connection = connection;
+            commandNF.CommandType = CommandType.Text;
 
-            decimal resultado;
-            try
-            {
-                //var result = command.ExecuteScalar();
-                resultado = 0;//result is DBNull ? 0 : (decimal)result;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
-            finally
-            {
-                connection.Close();
-            }
 
-            return resultado;
+            string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss"); string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
+            string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd"); string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
+            string modelo;
+            int iteracao = 1;
+            decimal resultNaoFiscal = 0; decimal resultFiscal = 0;
+                        
+            while (iteracao <= 2)
+            {
+
+                //command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
+                /*commandNF.CommandText =  $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                         $"DECLARE VARIABLE DT_APLICADA DATE; DECLARE VARIABLE VLR_PAGO NUMERIC(18,4); " +
+                                         $"BEGIN DT_APLICADA = DATEADD(-4 DAY TO CURRENT_DATE); VLR_TOT = 0; " +
+                                         $"FOR SELECT A.VLR_PAGTO FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA >= :DT_APLICADA AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_PAGO DO " +
+                                         $"BEGIN VLR_TOT = VLR_TOT + VLR_PAGO; END SUSPEND; END";*/
+
+                /*.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                        $"BEGIN WITH DT_APLICADA AS (SELECT * FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}') " +
+                                        $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/                
+                modelo = iteracao == 2 ? null : "N";
+
+
+                if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
+                else commandNF.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
+                                             $"BEGIN SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND A.ID_NFVENDA >= (SELECT FIRST 1 ID_NFVENDA FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}' AND HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' ORDER BY ID_NFVENDA) INTO :VLR_TOT; SUSPEND; END";
+
+                try
+                {
+                    switch(modelo)
+                    {
+                        case "N":
+                            var resultNF = commandNF.ExecuteScalar();
+                            resultNaoFiscal = resultNF is DBNull ? 0 : (decimal)resultNF;
+                            break;
+                        default:
+                            var resultF = commandNF.ExecuteScalar();
+                            resultFiscal = resultF is DBNull ? 0 : (decimal)resultF;
+                            break;
+                    }                    
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                    throw;
+                }
+                finally
+                {
+                    iteracao++;                    
+                    if(iteracao > 2) connection.Close();
+                }
+            }
+            return (resultNaoFiscal, resultFiscal);
         }
 
         public InfoAtacado? GetInfoAtacado(int idIdentificador, FbConnection connection)
@@ -168,7 +201,7 @@ namespace PDV_WPF.REMENDOOOOO
 
             try
             {
-                infoDoItem.Load(command.ExecuteReader());
+                infoDoItem.Load(command.ExecuteReader());                
             }
             finally
             {
@@ -181,29 +214,38 @@ namespace PDV_WPF.REMENDOOOOO
             }
             else
             {
-                var row = infoDoItem.Rows[0];
-                return new DadosDoItem
+                using (var taPromoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOES_ITENSTableAdapter())
                 {
-                    DESCRICAO = row["DESCRICAO"] is DBNull ? "ITEM AVULSO" : row["DESCRICAO"] as string ?? "ITEM AVULSO",
-                    CFOP = row["CFOP"] is DBNull ? "5102" : row["CFOP"] as string ?? "5102",
-                    UNI_MEDIDA = row["UNI_MEDIDA"] is DBNull ? "UN" : row["UNI_MEDIDA"] as string ?? "UN",
-                    COD_NCM = row["COD_NCM"] is DBNull ? "00" : row["COD_NCM"] as string ?? "00",
-                    COD_BARRA = row["COD_BARRA"] is DBNull ? string.Empty : row["COD_BARRA"] as string ?? string.Empty,
-                    RCSOSN_CFE = row["CSOSN_CFE"] is DBNull ? string.Empty : row["CSOSN_CFE"] as string ?? string.Empty,
-                    RCST_CFE = row["CST_CFE"] is DBNull ? string.Empty : row["CST_CFE"] as string ?? string.Empty,
-                    RCST_PIS = row["CST_PIS"] is DBNull ? string.Empty : row["CST_PIS"] as string ?? string.Empty,
-                    RCST_COFINS = row["CST_COFINS"] is DBNull ? string.Empty : row["CST_COFINS"] as string ?? string.Empty,
-                    RPIS = row["PIS"] is DBNull ? 0 : row["PIS"] as decimal? ?? 0,
-                    RCOFINS = row["COFINS"] is DBNull ? 0 : row["COFINS"] as decimal? ?? 0,
-                    RUF_SP = row["RUF_SP"] is DBNull ? 0 : row["RUF_SP"] as decimal? ?? 0,
-                    RBASE_ICMS = row["RBASE_ICMS"] is DBNull ? 0 : row["RBASE_ICMS"] as decimal? ?? 0,
-                    RALIQ_ISS = row["RALIQ_ISS"] is DBNull ? 0 : row["RALIQ_ISS"] as decimal? ?? 0,
-                    RID_TIPOITEM = row["ID_TIPOITEM"] is DBNull ? "0" : row["ID_TIPOITEM"] as string ?? "0",
-                    RSTR_CEST = row["COD_CEST"] is DBNull ? string.Empty : row["COD_CEST"] as string ?? string.Empty,
-                    OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty,
-                    COR = row["COR"] is DBNull ? string.Empty : " - " + row["COR"] ?? string.Empty,
-                    TAMANHO = row["TAMANHO"] is DBNull ? string.Empty : " / " + row["TAMANHO"] ?? string.Empty
-                };
+                    var row = infoDoItem.Rows[0];
+
+                    taPromoServ.Connection = connection;
+                    string parametro = row["COD_BARRA"].ToString();
+                    int? idScannTech = (int?)taPromoServ.ScalarByCod(parametro); //gambiarraa da poha mas fodace                    
+                                                                                             
+                    return new DadosDoItem
+                    {
+                        DESCRICAO = row["DESCRICAO"] is DBNull ? "ITEM AVULSO" : row["DESCRICAO"] as string ?? "ITEM AVULSO",
+                        CFOP = row["CFOP"] is DBNull ? "5102" : row["CFOP"] as string ?? "5102",
+                        UNI_MEDIDA = row["UNI_MEDIDA"] is DBNull ? "UN" : row["UNI_MEDIDA"] as string ?? "UN",
+                        COD_NCM = row["COD_NCM"] is DBNull ? "00" : row["COD_NCM"] as string ?? "00",
+                        COD_BARRA = row["COD_BARRA"] is DBNull ? string.Empty : row["COD_BARRA"] as string ?? string.Empty,
+                        RCSOSN_CFE = row["CSOSN_CFE"] is DBNull ? string.Empty : row["CSOSN_CFE"] as string ?? string.Empty,
+                        RCST_CFE = row["CST_CFE"] is DBNull ? string.Empty : row["CST_CFE"] as string ?? string.Empty,
+                        RCST_PIS = row["CST_PIS"] is DBNull ? string.Empty : row["CST_PIS"] as string ?? string.Empty,
+                        RCST_COFINS = row["CST_COFINS"] is DBNull ? string.Empty : row["CST_COFINS"] as string ?? string.Empty,
+                        RPIS = row["PIS"] is DBNull ? 0 : row["PIS"] as decimal? ?? 0,
+                        RCOFINS = row["COFINS"] is DBNull ? 0 : row["COFINS"] as decimal? ?? 0,
+                        RUF_SP = row["RUF_SP"] is DBNull ? 0 : row["RUF_SP"] as decimal? ?? 0,
+                        RBASE_ICMS = row["RBASE_ICMS"] is DBNull ? 0 : row["RBASE_ICMS"] as decimal? ?? 0,
+                        RALIQ_ISS = row["RALIQ_ISS"] is DBNull ? 0 : row["RALIQ_ISS"] as decimal? ?? 0,
+                        RID_TIPOITEM = row["ID_TIPOITEM"] is DBNull ? "0" : row["ID_TIPOITEM"] as string ?? "0",
+                        RSTR_CEST = row["COD_CEST"] is DBNull ? string.Empty : row["COD_CEST"] as string ?? string.Empty,
+                        OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty,
+                        COR = row["COR"] is DBNull ? string.Empty : " - " + row["COR"] ?? string.Empty,
+                        TAMANHO = row["TAMANHO"] is DBNull ? string.Empty : " / " + row["TAMANHO"] ?? string.Empty,
+                        ID_SCANNTECH = idScannTech
+                    };
+                }
             }
         }
 
@@ -617,5 +659,6 @@ public class DadosDoItem
     public string OBSERVACAO { get; set; }
     public string COR { get; set; }
     public string TAMANHO { get; set; }
+    public int?  ID_SCANNTECH { get; set; }
 }
 

@@ -10,7 +10,7 @@ namespace PDV_WPF.Telas
     /// Interaction logic for DialogBox.xaml
     /// </summary>
     public partial class TimedBox : Window, IDisposable
-    {
+    {        
         public void Dispose()
         {
             // Dispose of unmanaged resources.
@@ -19,6 +19,7 @@ namespace PDV_WPF.Telas
             GC.SuppressFinalize(this);
         }
         bool disposed;
+        public static bool stateDialog;       
 
         protected virtual void Dispose(bool disposing)
         {
@@ -41,25 +42,34 @@ namespace PDV_WPF.Telas
         private void Timer_tick(object sender, EventArgs e)
         {
             elapsedseconds += 1;
-            if (elapsedseconds == timelimit)
+            if (elapsedseconds == timelimit || stateDialog == false)
             {
                 elapsedseconds = 0;
-                this.Dispatcher.Invoke(() =>
-                {
-                    Close();
-                });
+                timer.Stop();
+                timer = null;
+                this.Close();
                 return;
             }
+        }
+        public void CloseDialog()
+        {
+            this.Dispatcher.Invoke(() =>
+            {
+                this.timer.Stop();
+                this.timer = null;
+                this.Close();
+            });            
         }
         public TimedBox(string title, string line1, DialogBoxButtons dbbuttons, DialogBoxIcons dbicons, double seconds)
         {
             InitializeComponent();
+            stateDialog = true;
             timer.Interval = TimeSpan.FromSeconds(1);
             timelimit = seconds;
             timer.Tick += new EventHandler(Timer_tick);
             timer.Start();
             tbl_Body.Inlines.Clear();
-            lbl_Title.Text = title.ToUpper();
+            lbl_Title.Text = title;
             Run run = new Run
             {
                 Text = line1
@@ -139,6 +149,6 @@ namespace PDV_WPF.Telas
 
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
-        }
+        }       
     }
 }

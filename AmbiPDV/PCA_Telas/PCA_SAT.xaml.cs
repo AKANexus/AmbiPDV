@@ -37,6 +37,8 @@ namespace PDV_WPF.PCA_Telas
             txb_CodAtiv.Text = SAT_CODATIV;
             if (MODELO_SAT != ModeloSAT.NENHUM) { cbb_ModSat.SelectedIndex = MODELO_SAT.Safeint(); }
             chk_SATSERVIDOR.IsChecked = SATSERVIDOR;
+            rb_Layout07.IsChecked = LAYOUT_SAT is "007" ? true : false;
+            rb_Layout08.IsChecked = LAYOUT_SAT is "008" ? true : false;
         }
 
         private void But_Next_MouseDown(object sender, MouseButtonEventArgs e)
@@ -52,19 +54,22 @@ namespace PDV_WPF.PCA_Telas
                 case true:
                     MODELO_SAT = ModeloSAT.NENHUM;
                     SATSERVIDOR = false;
-                    SAT_CODATIV = txb_CodAtiv.Text;
+                    SAT_CODATIV = txb_CodAtiv.Text is "" ? null : txb_CodAtiv.Text;
                     SIGN_AC = txb_signAC.Text;
                     SAT_USADO = false;
                     ECF_ATIVA = false;
+                    LAYOUT_SAT = "000";
                     break;
                 default:
                 case false:
                     MODELO_SAT = (ModeloSAT)cbb_ModSat.SelectedIndex;
                     SATSERVIDOR = (bool)chk_SATSERVIDOR.IsChecked;
-                    SAT_CODATIV = txb_CodAtiv.Text;
+                    SAT_CODATIV = txb_CodAtiv.Text is "" ? null : txb_CodAtiv.Text;
                     SIGN_AC = txb_signAC.Text;
                     SAT_USADO = true;
                     ECF_ATIVA = false;
+                    if (rb_Layout07.IsChecked is false && rb_Layout08.IsChecked is false) { MessageBox.Show("Por favor\n\nPreencha qual layout do sat será utilizado neste terminal.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning); return; }
+                    LAYOUT_SAT = rb_Layout07.IsChecked is true ? "007" : "008";                                          
                     break;
             }
             SalvaConfigsNaBase();
@@ -87,8 +92,12 @@ namespace PDV_WPF.PCA_Telas
             {
                 _semsat = true;
                 txb_signAC.Text = "O representante dessa empresa se responsabiliza por não utilizar um equipamento emissor de CFe. Pressione \"Finalizar\" para confirmar.";
+                txb_CodAtiv.Text = null;
                 _configurado = true;
                 tbl_Continuar.Foreground = (SolidColorBrush)(new BrushConverter().ConvertFrom("#FF09CAAA"));
+                chk_SATSERVIDOR.IsChecked = false;
+                rb_Layout07.IsChecked = false;
+                rb_Layout08.IsChecked = false;
                 return;
 
             }
@@ -183,6 +192,30 @@ namespace PDV_WPF.PCA_Telas
         private void Chk_SATSERVIDOR_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+        private void but_Prev_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Prev.FontSize = 24;
+        }
+        private void but_Prev_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Prev.FontSize = 20;
+        }
+        private void but_Action_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Action.FontSize = 24;
+        }
+        private void but_Action_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Action.FontSize = 20;
+        }
+        private void but_Next_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Next.FontSize = 24;
+        }
+        private void but_Next_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Next.FontSize = 20;
         }
     }
 }

@@ -22,7 +22,7 @@
             </Viewbox>
 
         </StackPanel>
-        <Grid DockPanel.Dock="Top" Margin="15,10">
+        <Grid DockPanel.Dock="Top" Margin="15,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -50,12 +50,16 @@
                 <TextBlock Text="ASSINATURA DO APLICATIVO COMERCIAL" Margin="10,5"/>
                 <TextBox Margin="10,5" TextWrapping="Wrap" Height="91" Name="txb_signAC"/>
             </StackPanel>
-            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0, 10">
+            <StackPanel Orientation="Vertical" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0, 5">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10" HorizontalAlignment="Center">
+                    <RadioButton x:Name="rb_Layout07" Content="Layout 0.07" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,10,0"/>
+                    <RadioButton x:Name="rb_Layout08" Content="Layout 0.08" FontWeight="Bold" HorizontalAlignment="Center" Margin="10,0,0,0"/>
+                </StackPanel>
                 <CheckBox Content="Marque para usar SAT em Servidor" Name="chk_SATSERVIDOR" MouseDown="Chk_SATSERVIDOR_MouseDown" Click="Chk_SATSERVIDOR_Click"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="0, 10">
-                <Label Content="Selecione o Modelo do Equipamento" FontSize="15"/>
-                <ComboBox Width="120" DockPanel.Dock="Top" Margin="15, 0" SelectedIndex="1" FontSize="15" FontWeight="Bold" Name="cbb_ModSat" VerticalAlignment="Center">
+                <Label Content="Selecione o Modelo do Equipamento:" FontSize="15"/>
+                <ComboBox Width="120" DockPanel.Dock="Top" Margin="10, 0" SelectedIndex="1" FontSize="15" FontWeight="Bold" Name="cbb_ModSat" VerticalAlignment="Center">
                     <ComboBoxItem Content="DARUMA"/>
                     <ComboBoxItem Content="DIMEP"/>
                     <ComboBoxItem Content="BEMATECH"/>
@@ -69,19 +73,19 @@
             </StackPanel>
 
         </Grid>
-        <Grid DockPanel.Dock="Bottom" Margin="6">
+        <Grid DockPanel.Dock="Bottom" Margin="2,0,3,10" Height="44">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown">
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown" MouseEnter="but_Prev_MouseEnter" MouseLeave="but_Prev_MouseLeave">
                 <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Voltar" x:Name="lbl_Prev"/></TextBlock>
             </Border>
-            <Border Visibility="Visible" Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" HorizontalAlignment="Center" MouseDown="But_Action_MouseDown">
-                <TextBlock Foreground="White"><Run FontSize="20" FontFamily="Open Sans" Text="Testar" x:Name="lbl_Action"/></TextBlock>
+            <Border Visibility="Visible" Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" HorizontalAlignment="Center" MouseDown="But_Action_MouseDown" Margin="21,4,32,6" MouseEnter="but_Action_MouseEnter" MouseLeave="but_Action_MouseLeave" Width="105">
+                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"><Run FontSize="20" FontFamily="Open Sans" Text="Testar" x:Name="lbl_Action"/></TextBlock>
             </Border>
-            <Border MouseDown="But_Next_MouseDown" Grid.Column="2" Background="White" x:Name="but_Next" Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" >
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="But_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" MouseEnter="but_Next_MouseEnter" MouseLeave="but_Next_MouseLeave">
                 <TextBlock x:Name="tbl_Continuar" Foreground="#6609CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Finalizar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
             </Border>
         </Grid>

@@ -59,20 +59,25 @@ namespace PDV_WPF.Telas
         public string numCupomTEF;
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
+        public readonly decimal _vlrTotalVenda; public decimal descNaVenda = 0;
+        private readonly bool _scannTech;
+        private bool fechouManualmente;
+
         #endregion Fields & Properties
 
-        public static decimal vlrTotalVenda; public static decimal ObtemDesc = 0;
         #region (De)Constructor
 
-        public FechamentoCupom(decimal desconto_maximo, ref Venda vendaAtual, bool modoTeste = false)
+        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false, bool scannTech = false)
         {
+            _vlrTotalVenda = vlrTotalVenda;
             _desconto_maximo = desconto_maximo;
             InitializeComponent();
             this.Title = NOMESOFTWARE + " - Fechamento de cupom.";
             txb_Metodo.Focus();
             _modoTeste = modoTeste;
             //tefAtual = tEFAtual;
-            _vendaAtual = vendaAtual;                     
+            _vendaAtual = vendaAtual;
+            _scannTech = scannTech;
         }
 
         /// <summary>
@@ -86,6 +91,39 @@ namespace PDV_WPF.Telas
         #endregion (De)Constructor
 
         #region Events
+
+        private void but_F1_MouseEnter(object sender, EventArgs e)
+        {
+            but_F1.FontSize = 33;
+        }
+        private void but_F1_MouseLeave(object sender, EventArgs e)
+        {
+            but_F1.FontSize = 25;
+        }
+        private void but_F4_MouseEnter(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 33;
+        }
+        private void but_F4_MouseLeave(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 25;
+        }
+        private void but_F7_MouseEnter(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 37;
+        }
+        private void but_F7_MouseLeave(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 29;
+        }
+        private void but_F8_MouseEnter(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 35;
+        }
+        private void but_F8_MouseLeave(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 27;
+        }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -536,9 +574,10 @@ namespace PDV_WPF.Telas
                     //            throw new Exception("Erro ao aplicar desconto.");
                     //    }
                     //}
+                    if (_scannTech) { DialogBox.Show("Desconto", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel aplicar descontos pois a venda possui produtos de promoção ScannTech."); return; }
                     if (_vendaAtual.DescontoAplicado() > 0)
                     {
-                        System.Windows.Forms.MessageBox.Show("Removendo desconto.");
+                        System.Windows.Forms.MessageBox.Show("Desconto total da venda removido com sucesso.", "Removendo desconto", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Information);
                         _vendaAtual.LimpaAjuste();
                         desconto = 0;
                         valor_a_ser_pago = (_vendaAtual.ValorDaVenda().RoundABNT() - valor_pago);
@@ -548,7 +587,7 @@ namespace PDV_WPF.Telas
                         txb_Valor.Value = valor_a_ser_pago;
                         txb_Metodo.Focus();
                         return;
-                    }
+                    }                    
                     var senha = new perguntaSenha("Aplicando Desconto na Venda");
                     senha.ShowDialog();
                     if (senha.DialogResult == false)
@@ -668,7 +707,7 @@ namespace PDV_WPF.Telas
                     case false:
                         desconto = (pd.porcentagem) * _vendaAtual.ValorDaVenda().RoundABNT();
                         break;
-                }
+                }               
                 valor_a_ser_pago = (_vendaAtual.ValorDaVenda().RoundABNT() - desconto);
                 txb_Desconto.Value = desconto;
                 stp_Desconto.Visibility = Visibility.Visible;
@@ -752,25 +791,34 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Escape)
             {
+                fechouManualmente = true;
                 DialogResult = false;
                 this.Close();
             }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            if (taxaAdicionada && DialogResult != true)
+        {            
+            if (taxaAdicionada && DialogResult != true) _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);            
+
+            if (fechouManualmente)
             {
-                _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);
+                foreach(var itemComDesc in _vendaAtual._listaDets.Where(l => l.atacado is true || l.scannTech is true))
+                {
+                    itemComDesc.prod.vUnCom = itemComDesc.prod.vUnComOri ?? itemComDesc.prod.vUnCom;
+                    itemComDesc.atacado = false;
+
+                    itemComDesc.prod.vDesc = "0,00";                    
+                }
             }
         }
         public void VerificaVlrTotal()
         {            
-            if (vlrTotalVenda > valor_a_ser_pago)
+            if (_vlrTotalVenda > valor_a_ser_pago)
             {
-                ObtemDesc = vlrTotalVenda - valor_a_ser_pago;                          
-                txt_Vlr.Text = ObtemDesc.ToString("C");
-                txbDesc.Visibility = Visibility.Visible;
+                descNaVenda = _vlrTotalVenda - valor_a_ser_pago;                          
+                //txt_Vlr.Text = descNaVenda.ToString("C");
+                //txbDesc.Visibility = Visibility.Visible;
             }
         }
     }

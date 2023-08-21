@@ -1,7 +1,8 @@
-﻿using System;
+﻿using PDV_WPF.Telas;
+using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Windows;
-using System.Windows.Forms;
 using Application = System.Windows.Application;
 using MessageBox = System.Windows.MessageBox;
 
@@ -18,10 +19,10 @@ namespace PDV_WPF
             // Get Reference to the current Process
             Process thisProc = Process.GetCurrentProcess();
             // Check how many total processes have the same name as the current one
-            if (Process.GetProcessesByName(thisProc.ProcessName).Length > 1)
+            if (Process.GetProcessesByName(thisProc.ProcessName).Length > 1 && !Environment.GetCommandLineArgs().Contains("-Logoff"))
             {
                 // If ther is more than one, than it is already running.
-                MessageBox.Show("AmbiPDV já está sendo executado. Apenas uma instância do programa é permitida por vez.");
+                MessageBox.Show("AmbiPDV já está sendo executado. Apenas uma instância do programa é permitida por vez, aguarde...", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 Environment.Exit(0);
                 return;
             }
@@ -33,6 +34,8 @@ namespace PDV_WPF
                 Environment.Exit(0);
                 return;
             }
+            TimedBox dialog = new TimedBox("Iniciando AmbiPDV", "Carregando interface e sincronizando informações, aguarde ...  ", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 200);
+            dialog.Show();
             base.OnStartup(e);
         }
     }

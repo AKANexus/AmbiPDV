@@ -69,6 +69,14 @@ namespace PDV_WPF.Telas
                     break;
             }
         }
+        private void but_Confirmar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Confirmar.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Confirmar.FontSize = 12;
+        }
         private void button1_Click(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
@@ -86,6 +94,14 @@ namespace PDV_WPF.Telas
                     ExecutaOperacao();
                 });
             }
+        }
+        private void but_Cancelar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Cancelar.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Cancelar.FontSize = 12;
         }
         private void button2_Click(object sender, MouseButtonEventArgs e)
         {

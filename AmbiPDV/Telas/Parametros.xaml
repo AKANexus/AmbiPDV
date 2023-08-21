@@ -9,8 +9,7 @@
         x:Class="PDV_WPF.Parametros"
         mc:Ignorable="d"
         Title="Parametros" Height="725" Width="700" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
-
-    <StackPanel Width="545" Height="689">
+    <StackPanel Width="545" Height="699">
         <GroupBox Header="Sangria" Padding="0" Margin="10,10,10,5">
             <StackPanel VerticalAlignment="Top" Margin="5,0" Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -29,9 +28,6 @@
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
-
-
-
         </GroupBox>
         <GroupBox Header="Configurações do Terminal"  Margin="10,0,10,5">
             <StackPanel VerticalAlignment="Top" Margin="5,0">
@@ -81,7 +77,6 @@
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
-
                 <StackPanel Orientation="Horizontal" Margin="0,5" HorizontalAlignment="Center">
                     <CheckBox Content="Interromper ao não encontrar produto" Margin="5" x:Name="chk_Interrompe_Nao_Encontrado"/>
                     <CheckBox Content="Permite venda com estoque negativo" FontFamily="Open Sans" Margin="5" x:Name="chk_Permite_Venda_Negativa" IsThreeState="True" IsChecked="{x:Null}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
@@ -97,46 +92,39 @@
                 </StackPanel>
                 <Label Content="Mensagem de Cortesia" Margin="0,0,0,0" />
                 <TextBox x:Name="txb_Cortesia" Margin="5,0" Height="26" VerticalContentAlignment="Center"/>
-                <Label Content="Mensagem de Rodapé" Margin="5,0" />
+                <Label Content="Mensagem de Rodapé" Margin="0,0" />
                 <TextBox x:Name="txb_Rodape" Margin="5,0" Height="26" VerticalContentAlignment="Center"/>
                 <Button Content="Assistente de Configuração de Impressora..." HorizontalAlignment="Left" Margin="5,15, 0, 5" Click="PCA_but_click" Height="23"/>
             </StackPanel>
-
-
-
+        </GroupBox>
+        <GroupBox Header="Gaveta $" Margin="10,0" Height="61" Visibility="Visible">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" Click="AbreGaveta_dll"/>
+                <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" Click="AbreGaveta_spooler"/>
+                <Label Content="Mod impressora:" Margin="13,8,0,5" FontSize="10"/>
+                <ComboBox Name="cbb_ModImpressora" Width="120" DockPanel.Dock="Top" Margin="-2,0,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">
+                    <ComboBoxItem Content="EPSON"/>
+                </ComboBox>
+            </StackPanel>
         </GroupBox>
         <GroupBox Header="Configurações Técnicas" Padding="0" Margin="10,0,10,5">
             <StackPanel Margin="0" Orientation="Horizontal">
                 <Button Content="Acessar Configurações Extras..." Margin="10,5,0,5" Click="ConfigsTecs_click" Height="23"/>
                 <Label Content="Versão do PDV: H.N.D." x:Name="lbl_Versao" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0,0,0" />
             </StackPanel>
-
-
-
         </GroupBox>
         <GroupBox Header="Cadastros" Margin="10,0" Height="61" Visibility="Collapsed">
             <StackPanel Orientation="Horizontal">
                 <Button Name="but_Metodos" Content="Métodos de Pagamento" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0" Click="MetodosPgto_click" Height="23"/>
             </StackPanel>
         </GroupBox>
-
-        <GroupBox Header="Gaveta $" Margin="10,0" Height="61" Visibility="Visible">
-            <StackPanel Orientation="Horizontal">
-                <RadioButton Content="Abertura de gaveta via DLL?" Margin="10,12,0,0"/>
-                <RadioButton Content="Abertura de gaveta via SPOOLER?" Margin="100,12,0,0" Click="AbreGaveta_spooler"/>
-            </StackPanel>
-        </GroupBox>
-
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="68,10,67,10" Height="41">
-            <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
-                <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="68,5,67,10" Height="47">
+            <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
+                <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
             </Border>
-            <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
-                <Label x:Name="lbl_Nyet" Content="FECHAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+            <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0" MouseEnter="but_Cancelar_MouseEnter" MouseLeave="but_Cancelar_MouseLeave">
+                <Label x:Name="lbl_Nyet" Content="FECHAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12"/>
             </Border>
-
         </StackPanel>
-
     </StackPanel>
-
 </Window>

@@ -20,6 +20,8 @@ using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.ViewModels;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using System.Threading.Tasks;
+using System.Printing;
+using System.Windows.Media.Animation;
 
 namespace PDV_WPF.Funcoes
 {
@@ -190,6 +192,17 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            SCANNTECH = xmlLido.SCANNTECH switch
+            {
+                1 => true,
+                _ => false
+            };
+            SENHA_REIMPRESSAO = xmlLido.SENHA_REIMPRESSAO switch
+            {
+                1 => true,
+                _ => false
+            };
+            PREFIX_LISTBOX = xmlLido.PREFIX_LISTBOX;
         }
         public static bool ContemSoNumeros(string texto)
         {
@@ -221,6 +234,7 @@ namespace PDV_WPF.Funcoes
                 { Connection = fbConnection };
             using var dt_cli = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable();
             cLIENTETableAdapter.FillOrderByName(dt_cli);
+            clientesOC.Clear();
             foreach (DataSets.FDBDataSetOperSeed.TB_CLIENTERow row in dt_cli)
             {
                 if (row.STATUS == "A")
@@ -521,8 +535,16 @@ namespace PDV_WPF.Funcoes
         /// <returns></returns>
         public static string MontaStringDeConexao(string datasource, string initialcatalog, string charset = "WIN1252", string password = "masterkey", string userid = "SYSDBA")
         {
-            //return String.Format(@"data source={0};initial catalog={1};user id={2};Password={3};character set={4}", datasource, initialcatalog, userid, password, charset);
-            return $@"initial catalog={initialcatalog};data source={datasource};user id={userid};Password={password};encoding={charset};charset={charset}";
+            //return String.Format(@"data source={0};initial catalog={1};user id={2};Password={3};character set={4}", datasource, initialcatalog, userid, password, charset);            
+            if (SERVERNAME.Split('/').Length > 1)
+            {
+                string serverName;
+                if (datasource.Split('/').Length > 1) serverName = datasource.Split('/')[0].Trim(); 
+                else serverName = datasource;
+                string serverPort = SERVERNAME.Split('/')[1].Trim();
+                return $@"initial catalog={initialcatalog};data source={serverName};user id={userid};Password={password};Port={serverPort};encoding={charset};charset={charset}";
+            }
+            else return $@"initial catalog={initialcatalog};data source={datasource};user id={userid};Password={password};encoding={charset};charset={charset}";          
         }
 
         /// <summary>
@@ -552,34 +574,37 @@ namespace PDV_WPF.Funcoes
         }
 
         public static bool ChecaStatusSATServidor()
-        {
+        {            
             string retorno;
             byte[] bytes = Encoding.UTF8.GetBytes("ChecarStatus");
+            ExibirGif.stateGif = false;
+            decimal attemptSatServidor = 1; StartSearchSatServidor:
             using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter())
             {
                 SAT_ENV_TA.SP_TRI_ENVIA_SAT_SERVIDOR(NO_CAIXA, bytes);
             }
             try
-            {
-                var sb = new SATBox("Operação no SAT", "Aguarde a resposta do SAT.");
+            {                
+                var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .                 Tentativa: {attemptSatServidor}");
                 sb.ShowDialog();
-                if (sb.DialogResult is null)
+                if (sb.DialogResult is null or false)
                 {
+                    attemptSatServidor++;                    
+                    using (var SAT_REC_TA = new TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
+                    using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
+                    if (attemptSatServidor <= 3) goto StartSearchSatServidor;
                     return false;
-                }
-                if (sb.DialogResult == false)
-                {
-                    return false;
-                }
+                }               
                 else { retorno = sb.cod_retorno; }
             }
             catch (Exception ex)
             {
+                ExibirGif.stateGif = false;
                 DialogBox.Show("ERRO", DialogBoxButtons.No, DialogBoxIcons.Error, false, ex.Message);
                 throw ex;
             }
 
-
+            ExibirGif.stateGif = false;
             switch (retorno)
             {
                 case "08000":
@@ -615,13 +640,13 @@ namespace PDV_WPF.Funcoes
                 string[] retorno = Declaracoes_DllSat.sRetorno.Split('|');
                 if (retorno.Length == 0)
                 {
-                    Login.stateGif = false;
+                    ExibirGif.stateGif = false;
                     MessageBox.Show("Falha ao obter retorno do SAT", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
                 if (retorno.Length == 1)
                 {
-                    Login.stateGif = false;
+                    ExibirGif.stateGif = false;
                     MessageBox.Show("Retorno na tentatativa de comunicação com o SAT\n" + retorno[0], "Resposta SAT", MessageBoxButton.OK, MessageBoxImage.Information);
                     return false;
                 }
@@ -705,9 +730,18 @@ namespace PDV_WPF.Funcoes
                 {
                     try
                     {
-                        int abriuPorta = IniciaPorta("COM3");
-                        int abriuGaveta = AcionaGaveta();
-                        int fechouPorta = FechaPorta();                      
+                        using (PrintServer ps = new PrintServer())
+                        {
+                            using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
+                            {
+                                //int index = pq.QueuePort.Name.Contains("COM") ? pq.QueuePort.Name.IndexOf("COM") : pq.QueuePort.Name.IndexOf("USB");
+                                string portaCOM = pq.QueuePort.Name;
+
+                                int abriuPorta = IniciaPorta(portaCOM);
+                                int abriuGaveta = AcionaGaveta();
+                                int fechouPorta = FechaPorta();
+                            }
+                        }                                          
                     }
                     catch (Exception)
                     {

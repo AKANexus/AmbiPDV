@@ -320,7 +320,24 @@ namespace PDV_WPF.Funcoes
 
                         if (tblSetup != null && tblSetup.Rows.Count > 0)
                         {
-                            log.Debug("taSetupPdv.UpdateUltimaSync(): " + taSetup.UpdateUltimaSync(tsUltimaSync).ToString());
+                           log.Debug("taSetupPdv.UpdateUltimaSync(): " + taSetup.UpdateUltimaSync(tsUltimaSync).ToString());
+                            try
+                            {
+                                log.Debug("Incluido ultima SYNC na base local, iniciando sincronização para o servidor...");
+                                using (var taSetupServ = new TRI_PDV_SETUPTableAdapter())
+                                {
+                                    taSetupServ.Connection.ConnectionString = _strConnNetwork;
+                                    if(taSetupServ.Records() > 0) taSetupServ.UpdateSetup(tblSetup[0].ID_DUMMY, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_SYNC, Convert.ToDecimal(tblSetup[0].DESC_MAX_OP), tblSetup[0].USA_RECARGAS, tblSetup[0].DETALHADESCONTO,
+                                                                                          tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);
+                                    else taSetupServ.Insert(tblSetup[0].ID_DUMMY, tblSetup[0].EXECUCAO, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_AT, tblSetup[0].DT_INSTALACAO, tblSetup[0].ULTIMA_SYNC, tblSetup[0].ORIGEM,
+                                                            tblSetup[0].DESC_MAX_OP, tblSetup[0].MAIT_MAX_MESAS, tblSetup[0].USA_RECARGAS, tblSetup[0].VERSAO_ORCA, tblSetup[0].DETALHADESCONTO,
+                                                            tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);                                    
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                log.Debug($"Erro ao sincronizar TRI_PDV_SETUP para o servidor, erro: {ex.InnerException.Message ?? ex.Message}");
+                            }
                         }
                         else
                         {
@@ -4210,6 +4227,155 @@ namespace PDV_WPF.Funcoes
             }
         }
 
+        public void Sync_TB_PROMOCOES(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblPromoServ = new FDBDataSetOperSeed.TB_PROMOCOESDataTable())
+            {
+                try
+                {
+                    {
+                        int retorno = 0;
+                        DataRow[] pendentesPromos = dtAuxSyncPendentes.Select($"TABELA = 'TB_PROMOCOES'");
+                        for (int i = 0; i < pendentesPromos.Length; i++)
+                        {
+                            var id_sync = pendentesPromos[i]["ID_REG"].Safestring();
+                            var operacao = pendentesPromos[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesPromos[i]["NO_CAIXA"].Safeshort();
+
+                            if(operacao.Equals("U") || operacao.Equals("I"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taPromoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOESTableAdapter())
+                                {
+                                    taPromoServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                    int.TryParse(id_sync, out int id);
+                                    taPromoServ.FillById(tblPromoServ, id);
+                                    if (tblPromoServ != null && tblPromoServ.Rows.Count > 0)
+                                    {
+                                        using (var taPromoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOESTableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taPromoPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_PROMOCOESRow promoServ in tblPromoServ)
+                                                {
+                                                    retorno = (int)taPromoPdv.SP_TRI_PROMOCOES_UPSERT(promoServ.ID,
+                                                                                                      promoServ.QTD,
+                                                                                                      promoServ.TIPO,
+                                                                                                      promoServ.DET,
+                                                                                                      promoServ.LIMITE,
+                                                                                                      promoServ.INICIO,
+                                                                                                      promoServ.FIM,
+                                                                                                      promoServ.REJEITADA,
+                                                                                                      promoServ.SCANNTECH,
+                                                                                                      operacao);
+                                                    if (retorno.Equals(1)) ConfirmarAuxSync(promoServ.ID, "TB_PROMOCOES", operacao, NO_CAIXA);
+                                                    else log.Debug("Rodou SP_TRI_PROMOCOES_UPSERT porem não alterou nenhum registro na base local.");
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("Erro ao tentar sincronizar insert ou update da TB_PROMOCOES para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if(operacao.Equals("D"))
+                            {
+                                using (var taPromoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOESTableAdapter())
+                                {
+                                    int.TryParse(id_sync, out int id);
+
+                                    taPromoPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
+                                    retorno = (int)taPromoPdv.SP_TRI_PROMOCOES_UPSERT(id, 0, null, 0, 0, null, null, 0, 0, operacao);
+
+                                    if (retorno.Equals(1)) ConfirmarAuxSync(id, "TB_PROMOCOES", operacao, NO_CAIXA);
+                                    else log.Debug("Rodou SP_TRI_PROMOCOES_UPSERT porem não alterou nenhum registro na base local.");
+                                }
+                            }
+                        }                            
+                    }                    
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_PROMOCOES, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_PROMOCOES_ITENS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblPromoItensServ = new FDBDataSetOperSeed.TB_PROMOCOES_ITENSDataTable())
+            {
+                try
+                {
+                    {
+                        int retorno = 0;
+                        DataRow[] pendentesPromosItens = dtAuxSyncPendentes.Select($"TABELA = 'TB_PROMOCOES_ITENS'");
+                        for (int i = 0; i < pendentesPromosItens.Length; i++)
+                        {
+                            var id_sync = pendentesPromosItens[i]["ID_REG"].Safestring();
+                            var operacao = pendentesPromosItens[i]["OPERACAO"].Safestring();
+                            var NO_CAIXA = pendentesPromosItens[i]["NO_CAIXA"].Safeshort();
+
+                            if (operacao.Equals("U") || operacao.Equals("I"))
+                            {
+                                // Buscar o registro para executar as operações "Insert" ou "Update"
+                                using (var taPromoItensServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOES_ITENSTableAdapter())
+                                {
+                                    taPromoItensServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                    int.TryParse(id_sync, out int id);
+                                    taPromoItensServ.FillById(tblPromoItensServ, id);
+                                    if (tblPromoItensServ != null && tblPromoItensServ.Rows.Count > 0)
+                                    {
+                                        using (var taPromoItensPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOES_ITENSTableAdapter())
+                                        {
+                                            try
+                                            {
+                                                taPromoItensPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                                foreach (FDBDataSetOperSeed.TB_PROMOCOES_ITENSRow promoItensServ in tblPromoItensServ)
+                                                {
+                                                    retorno = (int)taPromoItensPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(promoItensServ.ID,
+                                                                                                                 promoItensServ.IDPROMOCAO,
+                                                                                                                 promoItensServ.PRODUTONOME,
+                                                                                                                 promoItensServ.CODIGOBARRAS,
+                                                                                                                 operacao);
+                                                    if (retorno.Equals(1)) ConfirmarAuxSync(promoItensServ.ID, "TB_PROMOCOES_ITENS", operacao, NO_CAIXA);
+                                                    else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
+                                                }
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Debug("Erro ao tentar sincronizar insert ou update da TB_PROMOCOES_ITENS para base local, segue erro: " + ex);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            else if (operacao.Equals("D"))
+                            {
+                                using (var taPromoItensPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOES_ITENSTableAdapter())
+                                {
+                                    int.TryParse(id_sync, out int id);
+
+                                    taPromoItensPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
+                                    retorno = (int)taPromoItensPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao);
+
+                                    if (retorno.Equals(1)) ConfirmarAuxSync(id, "TB_PROMOCOES_ITENS", operacao, NO_CAIXA);
+                                    else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_PROMOCOES_ITENS, erro: " + ex);
+                }
+            }
+        }
+
         public void Sync_TRI_PDV_CONFIG(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
         {
             using (var tblConfigServ = new FDBDataSetConfig.TRI_PDV_CONFIGDataTable())
@@ -4311,7 +4477,8 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.BALPORTA, configServ.BALBITS, configServ.BALBAUD, configServ.BALPARITY,
                                                                                                             configServ.BALMODELO, configServ.ACFILLPREFIX, configServ.ACFILLMODE, configServ.ACREFERENCIA,
                                                                                                             configServ.SYSCOMISSAO, configServ.SATSERVTIMEOUT, configServ.SATLIFESIGNINTERVAL,
-                                                                                                            configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA, configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA);                                                                                                           
+                                                                                                            configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA,
+                                                                                                            configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA, configServ.LAYOUT_SAT);                                                                                                           
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -8012,7 +8179,27 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar Sync_TB_EST_KIT_ITEM", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_EST_KIT_ITEM", ex);
-                    }                                      
+                    }
+                    try
+                    {
+                        Sync_TB_PROMOCOES(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_PROMOCOES sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_PROMOCOES", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_PROMOCOES", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_PROMOCOES_ITENS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_PROMOCOES_ITENS sincronizados");
+                    }
+                    catch(Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_PROMOCOES_ITENS", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_PROMOCOES_ITENS", ex);
+                    }
                     #region Função Desativada
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 
                     #region TRI_PDV_METODOS

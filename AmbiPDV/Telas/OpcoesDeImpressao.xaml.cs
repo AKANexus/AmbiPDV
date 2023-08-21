@@ -63,8 +63,7 @@ namespace PDV_WPF.Telas
             if (e.Key == Key.F1 && _permiteNenhuma)
             {                
                 veredito = DecisaoWhats.NaoImprime;
-                DialogResult = true;
-                FechamentoCupom.ObtemDesc = 0;
+                DialogResult = true;                
             }
         }
     }

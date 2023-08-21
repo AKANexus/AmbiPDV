@@ -44,6 +44,7 @@ namespace PDV_WPF.Telas
             printSANSUP.valor = ((SangriaSuprimento)dgv_Operacoes.SelectedItem).VALOR;
             printSANSUP.numcaixa = NO_CAIXA.ToString("000");
             printSANSUP.reimpressao = true;
+            printSANSUP.dtOperacao = ((SangriaSuprimento)dgv_Operacoes.SelectedItem).TS_OPERACAO;
             printSANSUP.IMPRIME();
         }
 

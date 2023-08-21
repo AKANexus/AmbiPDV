@@ -14,6 +14,11 @@ using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
 using PDV_WPF.DataSets;
+using System.Xml.Serialization;
+using System.Text;
+using System.Xml;
+using System.IO;
+using System.Windows.Controls;
 
 namespace PDV_WPF.Objetos
 {
@@ -64,6 +69,7 @@ namespace PDV_WPF.Objetos
         public bool imprimeViaAssinar = false;
         private decimal _valTroco;
         public bool imprimeViaCliente = true;
+        private enum TipoPromo { LEVA_PAGA, DESCONTO_VARIADO, PREÇO_FIXO }
 
         public void RecebeCFeDoSAT(CFe cfeDeRetorno)
         {
@@ -86,7 +92,7 @@ namespace PDV_WPF.Objetos
 
             //        } det.prod.vDesc = disgraça.ToString("0.00");
             //    }
-            //}
+            //}          
             return _cFe;
         }
 
@@ -170,7 +176,7 @@ namespace PDV_WPF.Objetos
             if (string.IsNullOrWhiteSpace(numeroCaixa) || !int.TryParse(numeroCaixa, out int _x) || _x <= 0) throw new ErroDeValidacaoDeConteudo("Número do caixa inválido. Deve ser um número inteiro e maior que zero");
             if (string.IsNullOrWhiteSpace(cNPJEmit) || cNPJEmit.Length != 14) throw new ErroDeValidacaoDeConteudo("CNPJ do Emitente inválido. Não deve conter pontuação.");
             if (string.IsNullOrWhiteSpace(iEEmit)) throw new ErroDeValidacaoDeConteudo("Inscrição Estadual do Emitente Inválida.");
-            _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = "0.08" };
+            _infCfe = new envCFeCFeInfCFe() { versaoDadosEnt = LAYOUT_SAT switch { "007" => "0.07", "008" => "0.08", _ => "0.08" } };
             _infCfe.ide = new envCFeCFeInfCFeIde() { CNPJ = cNPJSH, signAC = assinatura, numeroCaixa = numeroCaixa.PadLeft(3, '0') };
             if (string.IsNullOrWhiteSpace(iMEmit))
             {
@@ -252,7 +258,8 @@ namespace PDV_WPF.Objetos
                                       decimal quantidade = 1,
                                       string GTIN = null,
                                       string familia = null,
-                                      bool importadoKit = false)
+                                      bool importadoKit = false,
+                                      int? idScannTechh = null)
         {
             _det = new envCFeCFeInfCFeDet();
             _produto = new envCFeCFeInfCFeDetProd
@@ -360,8 +367,9 @@ namespace PDV_WPF.Objetos
                 _produto.obsFiscoDet = _listaObsFiscoDet.ToArray();
             }
 
+            _det.idScannTech = idScannTechh;
             _det.kit = importadoKit;
-            _det.familia = familia;            
+            _det.familia = familia;
             _produtoRecebido = true;
         }
 
@@ -598,7 +606,7 @@ namespace PDV_WPF.Objetos
                     _COFINS.Item = _COFINSAliq;
                     _COFINSrecebido = true;
                     break;
-                case "03":                    
+                case "03":
                     _COFINSQtde = new envCFeCFeInfCFeDetImpostoCOFINSCOFINSQtde() { CST = cST, vAliqProd = (aliquotaPorcento * valorBaseCalculo / 100).ToString("0.0000"), qBCProd = qtdVendida.ToString("0.000") };
                     _COFINS.Item = _COFINSQtde;
                     _COFINSrecebido = true;
@@ -620,7 +628,7 @@ namespace PDV_WPF.Objetos
                 case "99":
                     _COFINSOutr = new envCFeCFeInfCFeDetImpostoCOFINSCOFINSOutr
                     {
-                        CST = cST                        
+                        CST = cST
                     };
 
                     if ((valorBaseCalculo != 0 || aliquotaPorcento != 0) && (aliquotaValor != 0 || qtdVendida != 0))
@@ -777,7 +785,7 @@ namespace PDV_WPF.Objetos
             try
             {
                 if (numItemINT != 0)
-                {                   
+                {
                     List<envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(x => x.nItem == numItemINT.ToString());
                     List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
                     foreach (var list in listCanc)
@@ -793,25 +801,25 @@ namespace PDV_WPF.Objetos
                     return listProdCanc.Count == 0 ? null : listProdCanc;
                 }
                 if (numItemSTRING != null)
-                {                    
+                {
                     List<CfeRecepcao_0008.envCFeCFeInfCFeDet> listCanc = _listaDets.FindAll(s => s.prod.cEAN == numItemSTRING);
                     List<envCFeCFeInfCFeDetProd> listProdCanc = new List<envCFeCFeInfCFeDetProd>();
                     int iteracao = 0;
                     foreach (var list in listCanc)
                     {
-                        if (list is null) return null;                        
+                        if (list is null) return null;
                         listProdCanc.Add(list.prod);
                         _listaDets.Remove(list);
                         iteracao++;
-                        if (iteracao == qtdDevolver) break;                        
+                        if (iteracao == qtdDevolver) break;
                     }
-                        return listProdCanc.Count == 0 ? null : listProdCanc;                    
+                    return listProdCanc.Count == 0 ? null : listProdCanc;
                 }
                 else
                     return null;
             }
             catch(Exception ex)
-            {              
+            {
                 MessageBox.Show("Erro ao tentar estornar item.\n\nSe o problema persistir entre em contato com o suporte.", "Estorno de item", MessageBoxButton.OK, MessageBoxImage.Error);
                 log.Debug("Erro ao tentar estornar item, segue erro: " + ex);
                 return null;
@@ -1009,31 +1017,32 @@ namespace PDV_WPF.Objetos
                                 TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(ICMSSN900.vICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMSSN900.pICMS, CultureInfo.InvariantCulture), "000", decimal.Parse(ICMSSN900.pICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMSSN900.vICMS, CultureInfo.InvariantCulture));
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS40 ICMS40) //REGIME NORMAL = CST 40, 41 E 60
-                            {                                
+                            {
                                 TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, 0, 0, ICMS40.Orig + ICMS40.CST, 0, 0);
-                            }                            
+                            }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMS00 ICMS00) //REGIME NORMAL = CST 00, 20 E 90
-                            {                                
+                            {
                                 if (ICMS00.CST is "20") //Redução BC
                                 {
                                     int.TryParse(detalhamento.prod.cProd, out int codProd);
 
-                                    //using var TaxaProd = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUETableAdapter { Connection = LOCAL_FB_CONN };
-                                    //using var AliqTaxa = new DataSets.FDBDataSetOperSeedTableAdapters.TB_TAXA_UFTableAdapter { Connection = LOCAL_FB_CONN };                                    
 
-                                    //var taxa = TaxaProd.TaxaPorID(codProd);
-                                    var dadosDoItem = remendo.ObtemDadosDoItem(codProd, LOCAL_FB_CONN);
-                                    decimal ALIQ_ICMS = dadosDoItem.RUF_SP;
-                                        //Convert.ToDecimal(AliqTaxa.AliqPorID(taxa.ToString()), CultureInfo.InvariantCulture);
-                                        decimal POR_BC_ICMS = dadosDoItem.RBASE_ICMS;
-                                        //Convert.ToDecimal(AliqTaxa.BCPorID(taxa.ToString()), CultureInfo.InvariantCulture);                                     
+                                    using var TaxaProd = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUETableAdapter { Connection = LOCAL_FB_CONN };
+                                    using var AliqTaxa = new DataSets.FDBDataSetOperSeedTableAdapters.TB_TAXA_UFTableAdapter { Connection = LOCAL_FB_CONN };
+
+                                    var taxa = TaxaProd.TaxaPorID(codProd);
+                                    if (taxa is null) taxa = "III"; 
+
+                                    decimal ALIQ_ICMS = Convert.ToDecimal(AliqTaxa.AliqPorID(taxa.ToString()), CultureInfo.InvariantCulture);
+                                    decimal POR_BC_ICMS = Convert.ToDecimal(AliqTaxa.BCPorID(taxa.ToString()), CultureInfo.InvariantCulture);
+
                                     decimal.TryParse(detalhamento.prod.vProd.Replace('.', ','), out decimal vProd);
                                     decimal VLR_BC_ICMS = Math.Round(POR_BC_ICMS / 100 * vProd, 2);
 
-                                    TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, VLR_BC_ICMS, POR_BC_ICMS, ICMS00.Orig + ICMS00.CST, ALIQ_ICMS, decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture)); ;
-                                }                               
+                                    TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, VLR_BC_ICMS, POR_BC_ICMS, ICMS00.Orig + ICMS00.CST, ALIQ_ICMS, decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture));
+                                }
                                 else //Cobrado integralmente
-                                {                                    
+                                {
                                     TB_NFV_ITEM_ICMS.Insert(ID_NFV_ITEM, decimal.Parse(detalhamento.prod.vItem, CultureInfo.InvariantCulture), 100, ICMS00.Orig + ICMS00.CST, decimal.Parse(ICMS00.pICMS, CultureInfo.InvariantCulture), decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture)); ;
                                 }
                             }
@@ -1051,7 +1060,7 @@ namespace PDV_WPF.Objetos
                             };
                             if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSAliq
                                 COFINSAliq) //CST 01, 02 e 05
-                            {                                
+                            {
                                 TB_NFV_ITEM_COFINS.Insert(ID_NFV_ITEM, 100, COFINSAliq.CST, decimal.Parse(COFINSAliq.pCOFINS, CultureInfo.InvariantCulture) * 100, decimal.Parse(COFINSAliq.vCOFINS, CultureInfo.InvariantCulture), decimal.Parse(COFINSAliq.vBC, CultureInfo.InvariantCulture));
                             }
                             if (detalhamento.imposto.COFINS.Item is envCFeCFeInfCFeDetImpostoCOFINSCOFINSNT
@@ -1104,7 +1113,7 @@ namespace PDV_WPF.Objetos
                             }
                             if (detalhamento.imposto.PIS.Item is envCFeCFeInfCFeDetImpostoPISPISSN
                                 PISSN) //CST 49
-                            {                                
+                            {
                                 TB_NFV_ITEM_PIS.Insert(ID_NFV_ITEM, PISSN.CST, 0, 0, 0, 0);
                             }
                         }
@@ -1132,9 +1141,9 @@ namespace PDV_WPF.Objetos
                     {
                         using var CONTAREC_TA = new FDBDataSetTableAdapters.TB_CONTA_RECEBERTableAdapter();
                         using var TB_NFV_FMAPAGTO_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
-                        using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
-                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
+                        using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();                        
                         TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
+                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
                         //ID_NUMPAG = (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(Decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
                         if (pagamento.idADMINS <= 0)
                         {
@@ -1306,6 +1315,9 @@ namespace PDV_WPF.Objetos
                     catch (Exception ex)
                     {
                         log.Error("Falha ao gravar venda na base", ex);
+                        if (ex.InnerException is not null)
+                            log.Error("Falha ao gravar venda na base - inner", ex.InnerException); 
+                        
                         MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
                         return -1;
                     }
@@ -1339,7 +1351,7 @@ namespace PDV_WPF.Objetos
                 {
                     decimal totItem = 0;
                     foreach (var detalhamento in cfeDeRetorno.infCFe.det)
-                    {
+                    {                        
                         totItem += decimal.Parse(detalhamento.prod.vUnCom, ptBR) * decimal.Parse(detalhamento.prod.qCom, ptBR);
                     }
                     decimal valorDescAcr, porcentDescAcr = 0;
@@ -1412,24 +1424,26 @@ namespace PDV_WPF.Objetos
                                        RetornarMensagemErro(ex, false));
                         return (-1, -1);
                     }
-                    try
-                    {
-                        if (Caixa._contingencia == false)
-                        {
-                            using var remendo1 = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter();
-                            using var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };
-                            remendo1.Connection = SERVER_FB_CONN;
-                            remendo1.SP_REM_CONTROLALOTE(Convert.ToInt32(detalhamento.prod.cProd), Convert.ToDecimal(detalhamento.prod.qCom, ptBR));
-                        }
-                        else
-                        {
-                            log.Debug("Caixa em contigencia, será pulado a procedure SP_REM_CONTROLALOTE");
-                        }
-                    }
-                    catch (Exception ex)
-                    {                        
-                        log.Debug("Erro ao tentar rodar a procedure SP_REM_CONTROLALOTE, ERRO: " + ex);
-                    }
+                    #region CONTROLA_LOTE_DESATIVADO
+                    //try
+                    //{
+                    //    if (Caixa._contingencia == false)
+                    //    {
+                    //        using var remendo1 = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter();
+                    //        using var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) };
+                    //        remendo1.Connection = SERVER_FB_CONN;
+                    //        remendo1.SP_REM_CONTROLALOTE(Convert.ToInt32(detalhamento.prod.cProd), Convert.ToDecimal(detalhamento.prod.qCom, ptBR));
+                    //    }
+                    //    else
+                    //    {
+                    //        log.Debug("Caixa em contigencia, será pulado a procedure SP_REM_CONTROLALOTE");
+                    //    }
+                    //}
+                    //catch (Exception ex)
+                    //{                        
+                    //    log.Debug("Erro ao tentar rodar a procedure SP_REM_CONTROLALOTE, ERRO: " + ex);
+                    //}
+                    #endregion
                     if (nItemCup <= 0)
                     {
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());
@@ -1465,7 +1479,7 @@ namespace PDV_WPF.Objetos
                                     _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
                                 };
                             }
-                            
+
                             //ID_NUMPAG = (idNfce == 3) ?
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3) :
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
@@ -1636,22 +1650,23 @@ namespace PDV_WPF.Objetos
 
         private FuncoesFirebird _funcoes = new();
 
-        public void AplicaPrecoAtacado()
-        {            
+        public decimal AplicaPrecoAtacado()
+        {
+            decimal vlrTotalDescAtacado = 0;
             using FbConnection LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             var quantsCupom =
                 from det in _listaDets
-                where det.kit == false
+                where det.kit == false && det.scannTech == false
                 group det by det.prod.cProd into newGroup
                 select new
                 {
                     cod = newGroup.Key,
-                    qtdTotal = newGroup.Sum(x => decimal.Parse(x.prod.qCom))                    
+                    qtdTotal = newGroup.Sum(x => decimal.Parse(x.prod.qCom))
                 };
 
             var familiasCupom =
                 from det in _listaDets
-                where det.kit == false 
+                where det.kit == false && det.scannTech == false
                 group det by det.familia
                 into newGroup
                 select new
@@ -1661,17 +1676,19 @@ namespace PDV_WPF.Objetos
                 };
 
             foreach (var item in quantsCupom)
-            {                         
-                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);               
+            {
+                var info = _funcoes.GetInfoAtacado(int.Parse(item.cod), LOCAL_FB_CONN);
                 if (info is not null && info.PrcAtacado > 0 && item.qtdTotal >= info.QtdAtacado)
                 {
                     foreach (var det in _listaDets)
                     {
-                        bool teste = det.kit;
-                        if (det.prod.cProd == item.cod && det.kit == false)
-                        {                            
-                            det.prod.vUnComOri = det.prod.vUnCom;
+                        if (det.prod.cProd == item.cod && det.kit == false && det.scannTech == false)
+                        {
+                            if (det.prod.vUnComOri is null or "" or "0.000") det.prod.vUnComOri = det.prod.vUnCom;
                             det.prod.vUnCom = info.PrcAtacado.ToString("0.000");
+                            //det.prod.vDesc = info.PrcAtacado.ToString("F2");
+                            vlrTotalDescAtacado += (det.prod.qCom.Safedecimal() * det.prod.vUnComOri.Safedecimal()) - (det.prod.qCom.Safedecimal() * det.prod.vUnCom.Safedecimal());
+                            //vlrTotalDescAtacado += decimal.Parse(det.prod.vDesc);
                             det.atacado = true;
                         }
                     }
@@ -1698,20 +1715,124 @@ namespace PDV_WPF.Objetos
                     {
                         foreach (var det1 in _listaDets)
                         {
-                            if (det1.familia == familia && det1.kit == false)
+                            if (det1.atacado) continue;
+
+                            if (det1.familia == familia && det1.kit == false && det1.scannTech == false)
                             {
                                 var info1 = _funcoes.GetInfoAtacado(int.Parse(det1.prod.cProd), LOCAL_FB_CONN);
-
-                                //det1.prod.vUnComOri = det1.prod.vUnCom;
+                                if(det1.prod.vUnComOri is null or "" or "0.000") det1.prod.vUnComOri = det1.prod.vUnCom;
                                 det1.prod.vUnCom = info1.PrcAtacado.ToString("0.000");
+                                //det.prod.vDesc = info.PrcAtacado.ToString("F2");
+                                vlrTotalDescAtacado += (det.prod.qCom.Safedecimal() * det.prod.vUnComOri.Safedecimal()) - (det.prod.qCom.Safedecimal() * det.prod.vUnCom.Safedecimal());
+                                //vlrTotalDescAtacado += decimal.Parse(det.prod.vDesc);
                                 det1.atacado = true;
                             }
                         }
                     }
                 }
             }
+            return vlrTotalDescAtacado;
         }
 
+        public decimal VerificaScannTech()
+        {
+            try
+            {
+                decimal vlrTotDescScannTech = 0;
+                using (var tblPromoServ = new FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHDataTable())
+                {
+                    var prodCodBarras = from produtos in _listaDets
+                                        where produtos.idScannTech is not null
+                                        group produtos by produtos.idScannTech into newGroup
+                                        select new
+                                        {
+                                            ID = newGroup.Key,
+                                            QTD_COMPRADA = newGroup.Sum(x => decimal.Parse(x.prod.qCom))
+                                        };
+
+                    using (var taPromoItens = new DataSets.FDBDataSetOperSeedTableAdapters.SP_TRI_OBTEMPROMOSCANNTECHTableAdapter())
+                    {
+                        taPromoItens.Connection = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+                        foreach (var itens in prodCodBarras)
+                        {
+                            taPromoItens.Fill(tblPromoServ, itens.ID);
+                            if (tblPromoServ.Count <= 0) return 0;
+
+                            if (itens.QTD_COMPRADA >= tblPromoServ[0].QTD)
+                            {                                
+                                var prodScanntech = _listaDets.Where(z => z.idScannTech == itens.ID).ToList();
+
+                                decimal totProdComDesc = 0;
+                                decimal qtdDescontoCadastrada = 0;
+                                decimal resto = 0;
+                                int iteracoes = prodScanntech.Count;
+                                int iterador = 0;                                
+
+                                if (tblPromoServ[0].TIPO.Equals("LLEVA_PAGA")) { qtdDescontoCadastrada = tblPromoServ[0].QTD - tblPromoServ[0].DET; }
+                                if (tblPromoServ[0].TIPO.Equals("DESCUENTO_VARIABLE") || tblPromoServ[0].TIPO.Equals("PRECIO_FIJO")) { qtdDescontoCadastrada = tblPromoServ[0].QTD; }
+
+                                if (itens.QTD_COMPRADA > tblPromoServ[0].QTD)
+                                {
+                                    int combosPassados = (int)(itens.QTD_COMPRADA / tblPromoServ[0].QTD);
+                                    combosPassados = tblPromoServ[0].LIMITE > 0 && combosPassados > tblPromoServ[0].LIMITE ? tblPromoServ[0].LIMITE : combosPassados;
+                                    totProdComDesc = combosPassados * qtdDescontoCadastrada;
+                                }
+                                else
+                                {
+                                    totProdComDesc = qtdDescontoCadastrada;
+                                }                                
+
+                                foreach (var prod in prodScanntech)
+                                {
+                                    decimal qtd = decimal.Parse(prod.prod.qCom);
+                                    decimal vlrUnit = decimal.Parse(prod.prod.vUnCom);                                                                                                                                           
+
+                                    switch (tblPromoServ[0].TIPO)
+                                    {
+                                        case "LLEVA_PAGA":                                                                                                                                   
+                                            decimal vlrDescBruto = vlrUnit * totProdComDesc / itens.QTD_COMPRADA * qtd;
+                                            decimal vlrDescRound = vlrDescBruto.RoundABNT();
+                                            resto += vlrDescRound - vlrDescBruto;
+                                            prod.prod.vDesc = vlrDescRound.ToString("#0.00");
+                                            vlrTotDescScannTech += vlrDescBruto;
+                                            break;
+                                        case "DESCUENTO_VARIABLE":                                                                                        
+                                            decimal vlrDescBrutoPorcent = tblPromoServ[0].DET / 100 * vlrUnit * (totProdComDesc / itens.QTD_COMPRADA) * qtd;
+                                            decimal vlrDescRoundPorcent = vlrDescBrutoPorcent.RoundABNT();
+                                            resto += vlrDescRoundPorcent - vlrDescBrutoPorcent;
+                                            prod.prod.vDesc = vlrDescRoundPorcent.ToString("#0.00");
+                                            vlrTotDescScannTech += vlrDescBrutoPorcent;
+                                            break;
+                                        case "PRECIO_FIJO":                                                                                       
+                                            decimal vlrDescBrutoFixo = (vlrUnit - (tblPromoServ[0].DET / tblPromoServ[0].QTD)) * totProdComDesc / itens.QTD_COMPRADA * qtd;
+                                            decimal vlrDescRoundFixo = vlrDescBrutoFixo.RoundABNT();
+                                            resto += vlrDescRoundFixo - vlrDescBrutoFixo;
+                                            prod.prod.vDesc = vlrDescRoundFixo.ToString("#0.00");
+                                            vlrTotDescScannTech += vlrDescBrutoFixo;
+                                            break;
+                                    }
+                                    iterador++;
+                                    if (iterador == iteracoes && resto != 0) //iterando pelo ultimo item da promoção e tem resto, vamos ajustar nele.
+                                    {                                        
+                                        prod.prod.vDesc = resto > 0 ?
+                                        (decimal.Parse(prod.prod.vDesc) - Math.Abs(resto)).ToString("F2") :
+                                        (decimal.Parse(prod.prod.vDesc) + Math.Abs(resto)).ToString("F2") ; 
+                                    }
+                                }
+                                log.Debug($"Aplicação de descontos ScannTech, código da promoção: {itens.ID}");
+                            }
+                        }
+                    }
+                    return vlrTotDescScannTech;
+                }
+            }
+            catch(Exception ex)
+            {
+                log.Debug("Erro ao verificar/aplicar promoções ScannTech: " + ex.Message);
+                MessageBox.Show("Erro ao verificar promoção ScannTech. Entre em contato com o suporte técnico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Error);
+                return 0;
+            }
+        }       
         public decimal ValorDaVenda()
         {
             decimal valVenda = 0;

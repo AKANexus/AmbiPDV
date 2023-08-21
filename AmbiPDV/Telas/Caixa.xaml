@@ -3,11 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:controls="clr-namespace:PDV_WPF.Controls"
-        xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit"
-        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero" xmlns:System="clr-namespace:System;assembly=mscorlib"
-        xmlns:telas="clr-namespace:PDV_WPF.Telas"
+        xmlns:controls="clr-namespace:PDV_WPF.Controls"        
+        xmlns:Themes="clr-namespace:Microsoft.Windows.Themes;assembly=PresentationFramework.Aero"         
         xmlns:viewModels="clr-namespace:PDV_WPF.ViewModels"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
         x:Name="MainWindow" 
         mc:Ignorable="d"
         Focusable="False"
@@ -228,10 +227,16 @@
             </Style.Triggers>
         </Style>
         <Storyboard x:Key="Canvas_Open">
-            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-209,0,0,0" To="-10,0,0,0" Duration="0:0:0.3" />
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-209,-2,0,0" To="-10,-2,0,0" Duration="0:0:0.3" />
         </Storyboard>
         <Storyboard x:Key="Canvas_Close">
-            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,0,0,0" To="-209,0,0,0" Duration="0:0:0.3" />
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Menu" Storyboard.TargetProperty="Margin" From="-10,-2,0,0" To="-209,-2,0,0" Duration="0:0:0.3" />
+        </Storyboard>
+        <Storyboard x:Key="Canvas_DescontoOpen">
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Desconto" Storyboard.TargetProperty="Margin" From="-0,-58,0,0" To="-0,0,0,0" Duration="0:0:0.500" />
+        </Storyboard>
+        <Storyboard x:Key="Canvas_DescontoClose">
+            <ThicknessAnimation Storyboard.TargetName="Canvas_Desconto" Storyboard.TargetProperty="Margin" From="-0,0,0,0" To="-0,-58,0,0" Duration="0:0:0.500"/>
         </Storyboard>
         <Style  x:Key="myLBStyle" TargetType="ListBoxItem">
             <Setter Property="Background" Value="#E5FFFFFF" />
@@ -302,19 +307,31 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Label x:Name="lbl_Cortesia" Content="" Margin="10,8,10,10" FontFamily="Open Sans SemiBold" Background="{x:Null}" Foreground="#FF09CAAA" HorizontalContentAlignment="Center" FontSize="37" VerticalContentAlignment="Center" Grid.ColumnSpan="4" Grid.Row="1"/>
-            <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="10,8,10,10" 
+            <controls:MarqueeText Visibility="Visible" x:Name="lbl_Marquee" Background="{x:Null}" FontSize="37" MarqueeTimeInSeconds="60" FontFamily="Open Sans SemiBold" Foreground="#FF09CAAA" Margin="-10,8,-10,10" 
                                   MarqueeContent="I was gonna write this text, but then I got high. I was gonna code everything up, but then I got high. Now I have written nothing, and I know why. Because I got high, because I got high, because I got high." MarqueeType="RightToLeft"  Grid.ColumnSpan="4" Grid.Row="1" RenderTransformOrigin="0.5,0.5"/>
 
-            <controls:FastEditComboBox x:Name="combobox" controls:ComboBoxHelper.DisableF4HotKey="True" Margin="9,23,11,6" Grid.Row="2" FontSize="27" Grid.ColumnSpan="4" Grid.Column="0" Foreground="#FF333333" Background="#E5FFFFFF"
-                                 BorderThickness="2" IsEditable="True" IsTextSearchEnabled="True" Focusable="True" RenderTransformOrigin="0.5,0.5" Padding="0"
-                                 KeyDown="Combobox_OnKeyDown" DisplayMemberPath="DESCRICAO" SelectedValuePath="ID_IDENTIFICADOR"
-                                 >
-                <controls:FastEditComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </controls:FastEditComboBox.ItemsPanel>
-            </controls:FastEditComboBox>
+            <local:FocusableAutoCompleteBox x:Name="combobox" Grid.Row="2"
+														TextChanged="ACBox_TextChanged" PreviewKeyDown="ACBox_KeyDown" SelectionChanged="ACBox_SelectionChanged" 
+														FontSize="26" Foreground="#000000" Background="#FFF9F9F9" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
+														BorderThickness="2" Padding="2,3" ItemContainerStyle="{DynamicResource ResourceKey=myLBStyle}"
+														Focusable="True" MinimumPopulateDelay="1000" RenderTransformOrigin="0.5,0.5"
+														Margin="10,25,10,10"
+														ValueMemberPath="DESCRICAO" Grid.ColumnSpan="4" >
+                <local:FocusableAutoCompleteBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding DESCRICAO}" />
+                    </DataTemplate>
+                </local:FocusableAutoCompleteBox.ItemTemplate>
+                <local:FocusableAutoCompleteBox.BorderBrush>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF33CCCC" Offset="0"/>
+                        <GradientStop Color="#FF30B8B8" Offset="0.375"/>
+                        <GradientStop Color="#FF41EAEA" Offset="0.426"/>
+                        <GradientStop Color="#FF228D8D" Offset="1"/>
+                    </LinearGradientBrush>
+                </local:FocusableAutoCompleteBox.BorderBrush>
+            </local:FocusableAutoCompleteBox>
+
             <TextBlock Margin="10,0,0,59" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" Grid.ColumnSpan="2" Width="137" RenderTransformOrigin="0.5,0.5">
                 <TextBlock.RenderTransform>
                     <TransformGroup>
@@ -324,16 +341,16 @@
                         <TranslateTransform/>
                     </TransformGroup>
                 </TextBlock.RenderTransform><Run FontSize="18" Text="C"/><Run Text="ÓDIGO / "/><Run FontSize="18" Text="D"/><Run Text="ESCRIÇÃO"/></TextBlock>
-            <Grid Margin="0,10,10,10" Grid.Row="4" Grid.ColumnSpan="4" Name="grd_Grid1">
+            <Grid Margin="0,0,10,-10" Grid.Row="4" Grid.ColumnSpan="4" Name="grd_Grid1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="72"/>
                     <ColumnDefinition/>
                     <ColumnDefinition Width="290"/>
                     <ColumnDefinition Width="670"/>
                 </Grid.ColumnDefinitions>
-                <Rectangle Name="rec_Logo" Grid.Column="1" Margin="35" RadiusY="34" RadiusX="34" Fill="#7FFFFFFF"/>
-                <Image x:Name="logoplaceholder" Grid.Column="1" Margin="50" Source="/Resources/logo.png"/>
-                <Image x:Name="fotoProd" Grid.Column="1" Margin="50"/>
+                <Rectangle Name="rec_Logo" Grid.Column="1" Margin="45" RadiusY="34" RadiusX="34" Fill="#7FFFFFFF"/>
+                <Image x:Name="logoplaceholder" Grid.Column="1" Margin="60" Source="/Resources/logo.png"/>
+                <Image x:Name="fotoProd" Grid.Column="1" Margin="60"/>
                 <Grid Grid.Column="2" Margin="0,0,20,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="220*"/>
@@ -358,9 +375,9 @@
                         </TextBox.BorderBrush>
                     </TextBox>
                     <Label Visibility="Hidden" x:Name="label2" Content="VALOR UNIT." HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontSize="20" FontWeight="Bold" Grid.Row="1" Grid.RowSpan="2"/>
-                    <Canvas Margin="10,13,33,106" Grid.Row="1" Grid.RowSpan="2">
+                    <Canvas Margin="10,-3,33,106" Grid.Row="2">
                         <Label Content="V" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="26" Width="90" Padding="5,0" FontFamily="Open Sans"/>
-                        <Label Content="ALOR UNITÁRIO" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Canvas.Left="14" Canvas.Top="6" FontFamily="Open Sans" />
+                        <Label Content="ALOR UNITÀRIO" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="15" Canvas.Left="14" Canvas.Top="6" FontFamily="Open Sans"/>
                     </Canvas>
 
                     <TextBox x:Name="txb_ValorUnit" Margin="10,33,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Style="{DynamicResource RoundedCorners}" Background="#E5FFFFFF" FontSize="40"  Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Foreground="#FF333333" FontWeight="Bold" IsReadOnly="true" RenderTransformOrigin="0.52,2.169">
@@ -393,7 +410,7 @@
                     </TextBox>
 
                 </Grid>
-                <RichTextBox x:Name="richTextBox1" Grid.Column="3" Margin="0,10" FontFamily="Courier New" FontSize="24" Foreground="#FF4D4D4D" Background="#E4FFFFFF" FontWeight="Bold" IsReadOnly="true" Style="{DynamicResource RichTextBoxStyle1}" HorizontalContentAlignment="Center">
+                <RichTextBox x:Name="richTextBox1" Grid.Column="3" Margin="0,20" FontFamily="Courier New" FontSize="24" Foreground="#FF4D4D4D" Background="#E4FFFFFF" FontWeight="Bold" IsReadOnly="true" Style="{DynamicResource RichTextBoxStyle1}" HorizontalContentAlignment="Center">
                     <RichTextBox.BorderBrush>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FF33CCCC" Offset="0"/>
@@ -405,7 +422,7 @@
                     <!--<FlowDocument>
                         <Paragraph>=============================================</Paragraph></FlowDocument>-->
                 </RichTextBox>
-                <Grid Margin="-209,0,0,0" x:Name="Canvas_Menu" Width="263" HorizontalAlignment="Left" Background="#FF09CAAA" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+                <Grid Margin="-209,-2,0,0" x:Name="Canvas_Menu" Width="263" HorizontalAlignment="Left" Background="#FF09CAAA" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
                     <Grid.RenderTransform>
                         <TransformGroup>
                             <ScaleTransform/>
@@ -429,19 +446,19 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                        <Label x:Name="but_F3" Content="💵" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="0" Padding="0" Grid.Column="1" MouseDown="but_F3_MouseDown"/>
-                        <Label x:Name="but_F4" Content="📤" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="1" Padding="0" Grid.Column="1" MouseDown="but_F4_MouseDown"/>
-                        <Label x:Name="but_F5" Content="🔎" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="2" Padding="0" Grid.Column="1" MouseDown="but_F5_MouseDown"/>
-                        <Label x:Name="but_F6" Content="🚫" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="3" Padding="0" Grid.Column="1" MouseDown="but_F6_MouseDown"/>
-                        <Label x:Name="but_F7" Content="🔃" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="4" Padding="0" Grid.Column="1" MouseDown="but_F7_MouseDown"/>
-                        <Label x:Name="but_F8" Content="💸" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="5" Padding="0" Grid.Column="1" MouseDown="but_F8_MouseDown"/>
-                        <Label x:Name="but_F11" Content="💰" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="6" Padding="0" Grid.Column="1" MouseDown="but_F11_MouseDown"/>
-                        <Label x:Name="but_F12" Content="📋" Margin="0,3,3,3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="34" Grid.Row="7" Padding="0" Grid.Column="1" MouseDown="but_F12_MouseDown"/>
-                        <TextBlock Margin="15,0,0,0" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F3 - "/><Run FontSize="22" Text="F"/><Run Text="ECHA CUPOM"/></TextBlock>
-                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F4 -"/><Run Text=" "/><Run FontSize="22" Text="E"/><Run Text="STORNA ITEM"/></TextBlock>
-                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F5 -"/><Run Text=" "/><Run FontSize="22" Text="C"/><Run Text="ONSULTA ITEM"/></TextBlock>
-                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F6 -"/><Run Text=" "/><Run FontSize="22" Text="C"/><Run Text="ANCELA CUPOM"/></TextBlock>
-                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F7 -"/><Run Text=" "/><Run FontSize="22" Text="E"/><Run Text="FETUA TROCA"/></TextBlock>
+                        <Label x:Name="but_F3" Content="💵" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="0" Padding="0" Grid.Column="1" MouseDown="but_F3_MouseDown" MouseEnter="but_F3_MouseEnter" MouseLeave="but_F3_MouseLeave"/>
+                        <Label x:Name="but_F4" Content="📤" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="1" Padding="0" Grid.Column="1" MouseDown="but_F4_MouseDown" MouseEnter="but_F4_MouseEnter" MouseLeave="but_F4_MouseLeave"/>
+                        <Label x:Name="but_F5" Content="🔎" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="2" Padding="0" Grid.Column="1" MouseDown="but_F5_MouseDown" MouseEnter="but_F5_MouseEnter" MouseLeave="but_F5_MouseLeave"/>
+                        <Label x:Name="but_F6" Content="🚫" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="3" Padding="0" Grid.Column="1" MouseDown="but_F6_MouseDown" MouseEnter="but_F6_MouseEnter" MouseLeave="but_F6_MouseLeave"/>
+                        <Label x:Name="but_F7" Content="🔃" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="4" Padding="0" Grid.Column="1" MouseDown="but_F7_MouseDown" MouseEnter="but_F7_MouseEnter" MouseLeave="but_F7_MouseLeave"/>
+                        <Label x:Name="but_F8" Content="💸" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="5" Padding="0" Grid.Column="1" MouseDown="but_F8_MouseDown" MouseEnter="but_F8_MouseEnter" MouseLeave="but_F8_MouseLeave"/>
+                        <Label x:Name="but_F11" Content="💰" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="6" Padding="0" Grid.Column="1" MouseDown="but_F11_MouseDown" MouseEnter="but_F11_MouseEnter" MouseLeave="but_F11_MouseLeave"/>
+                        <Label x:Name="but_F12" Content="📋" Margin="0,-9,3,-3" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Foreground="#FFEEEEEE" FontSize="32" Grid.Row="7" Padding="0" Grid.Column="1" MouseDown="but_F12_MouseDown" MouseEnter="but_F12_MouseEnter" MouseLeave="but_F12_MouseLeave"/>
+                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F3 - "/><Run FontSize="22" Text="F"/><Run Text="ECHA CUPOM"/></TextBlock>
+                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F4 - "/><Run FontSize="22" Text="E"/><Run Text="STORNA ITEM"/></TextBlock>
+                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="2" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F5 - "/><Run FontSize="22" Text="C"/><Run Text="ONSULTA ITEM"/></TextBlock>
+                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="3" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F6 - "/><Run FontSize="22" Text="C"/><Run Text="ANCELA CUPOM"/></TextBlock>
+                        <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="4" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F7 - "/><Run FontSize="22" Text="E"/><Run Text="FETUA TROCA"/></TextBlock>
                         <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="5" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F8 - "/><Run FontSize="22" Text="A"/><Run Text="PLICA DESCONTO"/></TextBlock>
                         <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="6" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F11 - "/><Run FontSize="22" Text="S"/><Run Text="ANGR. /"/><Run Text=" "/><Run FontSize="22" Text="S"/><Run Text="UPRIM."/></TextBlock>
                         <TextBlock Margin="15,0,0,0" Typography.Capitals="SmallCaps" FontFamily="Open Sans SemiBold" Foreground="#FFEEEEEE" FontSize="15" Grid.Row="7" HorizontalAlignment="Left" VerticalAlignment="Center"><Run Text="F12 - "/><Run FontSize="22" Text="F"/><Run Text="ECHA CAIXA"/></TextBlock>
@@ -511,12 +528,25 @@
 
             </Grid>
             <Label Content="Trilha Informática - Suporte: (11) 4304-7778" Grid.Column="3" Margin="0,0,10,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" FontSize="16" Padding="5,0" HorizontalAlignment="Right" Width="343"/>
+            <Label Content="↹" x:Name="lbl_Logoff" Foreground="Gray" Grid.Column="0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="35" Padding="5,0" HorizontalAlignment="Left" Width="65" Height="50" Grid.RowSpan="2" Margin="-12,-75,0,0" ToolTipService.InitialShowDelay="1000" ToolTipService.ShowDuration="10000" ToolTip="Entrar com outro usuario." MouseDown="lbl_Logoff_MouseDown" MouseEnter="lbl_Logoff_MouseEnter" MouseLeave="lbl_Logoff_MouseLeave"/>
+            <Label Content="Logoff" Foreground="Gray" FontWeight="Bold" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="14" Padding="5,0" HorizontalAlignment="Left" Width="65" Height="50" Grid.RowSpan="2" Margin="40,-68,0,0"/>
             <Grid Grid.Row="6" Grid.ColumnSpan="4" Background="#FFFF7272" x:Name="bar_Contingencia" Margin="-10,0" Visibility="Hidden">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="27" HorizontalAlignment="Center">
                     <Label x:Name="lbl_Contingencia" Content="&gt;&gt;&gt; OPERANDO EM MODO DE CONTINGÊNCIA, CASO DESEJE TESTAR NOVA CONEXÃO COM SERVIDOR UTILIZE AS TECLAS 'CTRL + S' &lt;&lt;&lt;" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
                     <Label x:Name="lbl_Carga" Content="ÚLTIMA CARGA: 16:31" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
                 </StackPanel>
             </Grid>
+        </Grid>
+        <Grid x:Name="Canvas_Desconto" Visibility="Collapsed" HorizontalAlignment="Center" Background="#FF09CAAA" RenderTransformOrigin="0.5,0.5" Height="54" VerticalAlignment="Top" Width="1920" Margin="0,-58,0,0">
+            <Grid.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Grid.RenderTransform>
+            <TextBlock Visibility="Visible" TextAlignment="Center" HorizontalAlignment="Center" FontSize="4" FontFamily="Open Sans" FontStretch="Expanded" Margin="0,0,0,1"><LineBreak/><Run x:Name="txb_Mensagem_Desconto" Text="NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: " FontSize="28" FontStretch="Expanded" Foreground="White"/><Run x:Name="txb_Valor_Desconto" Text="R$ 0,00" Foreground="White" FontWeight="Bold" FontStretch="Expanded" FontSize="32"/></TextBlock>
         </Grid>
     </Grid>
 </Window>

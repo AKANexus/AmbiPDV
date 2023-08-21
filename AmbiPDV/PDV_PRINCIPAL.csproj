@@ -50,7 +50,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\AnyCPU\Debug\</OutputPath>
-    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF HOMOLOGASAT ANYCPU</DefineConstants>
+    <DefineConstants>DEBUG;DEBUG HOMOLOGATEF HOMOLOGASAT ANYCPU;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>9</LangVersion>

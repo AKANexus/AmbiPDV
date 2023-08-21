@@ -41,13 +41,8 @@ namespace PDV_WPF
         private readonly DebounceDispatcher debounceTimer = new DebounceDispatcher();
         //private SiTEFBox vendaTEF;
         Logger log = new Logger("Login");
-        LoadingScreen ls = new LoadingScreen();
-        public static volatile bool stateGif;
-        public static Thread t1 = new Thread(() =>
-        {
-            ExibirGif gif = new ExibirGif();
-            gif.ShowDialog();
-        });
+        LoadingScreen ls = new LoadingScreen();        
+        public static Thread t1;
 
         #endregion Fields & Properties
 
@@ -134,12 +129,14 @@ namespace PDV_WPF
                 log.Debug($"AplicarControleLicenca successful");
                 //ss.Close(TimeSpan.FromMilliseconds(1));
                 ls.Close();
+                TimedBox.stateDialog = false;
             }
             catch (Exception ex)
             {
-                stateGif = false;
+                ExibirGif.stateGif = false;
+                TimedBox.stateDialog = false;
                 log.Error("Erro ao abrir o caixa", ex);
-                MessageBox.Show("Falha ao iniciar o caixa. Verifique Logerro.txt");
+                MessageBox.Show("Falha ao iniciar o caixa. Verifique Logerro.txt", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
                 return;
             }
@@ -158,7 +155,7 @@ namespace PDV_WPF
             if (e.Key == Key.Enter)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {
+                {                    
                     confirm_exit = false;
                     if (cbb_Usuario.IsFocused)
                     {                        
@@ -173,9 +170,9 @@ namespace PDV_WPF
                         }
                         catch (Exception ex)
                         {
-                            stateGif = false;
-                            log.Error("Erro ao abrir o caixa", ex);
-                            MessageBox.Show("Erro ao sincronizar. Verifique LogErro.txt");
+                            ExibirGif.stateGif = false;
+                            log.Error("Erro na abertura do caixa: ", ex);
+                            DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");                            
                             return;
                         }
                     }
@@ -236,11 +233,38 @@ namespace PDV_WPF
             //antionte fez frii 
             //antionte feez friiiiiiii
         }
+        private void but_Confirmar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Confirmar.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Confirmar.FontSize = 12;
+        }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
             {
-                FazLogin();
+                confirm_exit = false;
+                if (cbb_Usuario.IsFocused)
+                {
+                    txb_Senha.Focus();
+                    txb_Senha.SelectAll();
+                }
+                else if (txb_Senha.IsFocused)
+                {
+                    try
+                    {
+                        FazLogin();
+                    }
+                    catch (Exception ex)
+                    {
+                        ExibirGif.stateGif = false;
+                        log.Error("Erro na abertura do caixa ao tentar sincronizar", ex);
+                        DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");
+                        return;
+                    }
+                }
             });
         }
         private void Run_MouseDown(object sender, MouseButtonEventArgs e)
@@ -372,7 +396,7 @@ namespace PDV_WPF
             }
             catch (Exception ex)
             {
-                stateGif = false;
+                ExibirGif.stateGif = false;
                 log.Error("Erro ao executar Contingencia() e StartupSequence()", ex);
                 MessageBox.Show("Erro ao inicar o caixa. O caixa será fechado.");
                 Application.Current.Shutdown();
@@ -594,6 +618,7 @@ namespace PDV_WPF
             if (ChecaHash(txb_Senha.Password, strHashDoUser) == true)
             {
                 #region Senha correta, segue o jogo.
+                t1 = new Thread(() => { ExibirGif gif = new ExibirGif(); gif.ShowDialog(); });
                 t1.SetApartmentState(ApartmentState.STA);
                 t1.Start();
                 log.Debug("Senha correta.");
@@ -604,8 +629,8 @@ namespace PDV_WPF
                 var MainWindow = new Caixa(_contingencia);
                 MainWindow.Show();                
                 //ss.Close(TimeSpan.FromMilliseconds(1));
-                this.Hide();
-                stateGif = false;
+                this.Close();
+                ExibirGif.stateGif = false;
                 // Gravar no banco local a data do último login válido:
                 (new LicencaDeUsoOffline(90, 15)).SetLastLog();                
                 return;

@@ -28,6 +28,8 @@ using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.PrintFunc;
 using DarumaDLL = LocalDarumaFrameworkDLL.UnsafeNativeMethods;
 using TB_CUPOMTableAdapter = PDV_WPF.DataSets.FDBDataSetVendaTableAdapters.TB_CUPOMTableAdapter;
+using RestSharp;
+using System.Windows.Documents;
 
 namespace PDV_WPF
 {
@@ -294,7 +296,7 @@ namespace PDV_WPF
                 {                    
                     using (PrintQueue pq = new PrintQueue(ps, IMPRESSORA_USB, PrintSystemDesiredAccess.AdministratePrinter))
                     {
-                        pq.Purge(); //impressora em estado de erro, então vamos zerar a fila pra tentar novamente.                        
+                        pq.Purge(); //limpando fila de impressão                      
                     }                    
                 }               
             }
@@ -446,6 +448,7 @@ namespace PDV_WPF
         public decimal valor;
         public string numcaixa;
         public bool reimpressao = false;
+        public DateTime dtOperacao;
 
         public bool IMPRIME()
         {
@@ -523,9 +526,11 @@ namespace PDV_WPF
                 #region Region1
                 RecebePrint("Comprovante de ".ToUpper() + operacao, titulo, centro, 1);
                 RecebePrint("Caixa Nº  " + numcaixa, titulo, centro, 1);
-                if (reimpressao) RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1);
-                RecebePrint(new string('-', 81), negrito, centro, 1);
-                RecebePrint(DateTime.Now.ToShortDateString() + ", " + DateTime.Now.ToLongTimeString(), negrito, centro, 1);
+                if (reimpressao) { RecebePrint(">>>>>>> REIMPRESSÃO <<<<<<<", titulo, centro, 1); RecebePrint(new string('-', 81), negrito, centro, 1);
+                                   RecebePrint("Data da operação: " + dtOperacao.ToShortDateString() + " " + dtOperacao.ToLongTimeString(), negrito, centro, 1);
+                                   RecebePrint("Data da reimpressão: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), negrito, centro, 1); }
+                else { RecebePrint(new string('-', 81), negrito, centro, 1);
+                       RecebePrint("Data da operação: " + DateTime.Now.ToShortDateString() + " " + DateTime.Now.ToLongTimeString(), negrito, centro, 1); }              
                 //PrintFunc.RecebePrint(" ", Titulo, centro, true);
                 RecebePrint("Valor: " + valor.ToString("c2"), titulo, esquerda, 1);
                 //PrintFunc.RecebePrint("Operação: " + operacao, negrito, esquerda, true);
@@ -605,19 +610,20 @@ namespace PDV_WPF
         /// <param name="intIdCaixa">Deve ser preenchido apenas na reimpressão</param>
         /// <param name="blnFazerFechamento">True apenas se for chamado durante um fechamento de caixa. Para reimpressão, deve ser false.</param>
         /// <returns></returns>
-        public bool IMPRIME(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
+        public bool IMPRIME(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true, bool relatorioX = false)
         {
             if (IMPRESSORA_USB != "Nenhuma")
             {
                 try
                 {
-                    return IMPRIME_SPOOLER(dtmFechado, METODOS_DT, intIdCaixa, blnFazerFechamento);
+                    return IMPRIME_SPOOLER(dtmFechado, METODOS_DT, intIdCaixa, blnFazerFechamento, relatorioX);
                 }
                 catch (Exception ex)
                 {
                     logErroAntigo(RetornarMensagemErro(ex, true));
-                    MessageBox.Show("Erro ao imprimir pelo spooler. \n\nO aplicativo deve ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                    Environment.Exit(0); // DEURUIM();
+                    MessageBox.Show("Erro ao fechar o turno e/ou imprimir pelo spooler. \n\nTente novamente. \nMas se o problema persistir não será possivel fechar o turno e será necessario entrar em contato com a equipe de suporte.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    //Environment.Exit(0); // DEURUIM();
+                    LimpaFilaImpressao();
                     return false;
                 }
             }
@@ -628,7 +634,7 @@ namespace PDV_WPF
         {
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
-        private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true)
+        private bool IMPRIME_SPOOLER(DateTime dtmFechado, FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable METODOS_DT, int intIdCaixa, bool blnFazerFechamento = true, bool relatorioX = false)
         {
 	        FuncoesFirebird ff = new();
 
@@ -661,6 +667,97 @@ namespace PDV_WPF
             DateTime abertura = new DateTime();
             DateTime aberturaAnterior = new DateTime();
             DateTime fechamento = new DateTime();
+            
+            if(relatorioX)
+            {
+                try
+                {
+                    log.Debug("RelatóioX acionado");
+
+                    fecha_oper_dt = Oper.GetByCaixaAberto(intIdCaixa);
+                    var metodosAtiv = METODOS_DT.Select(x => new { COD_CFE = x.ID_NFCE, x.STATUS, x.DESCRICAO, x.ID_FMANFCE });
+                    List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresPorMet = new();
+                    decimal san = 0, sup = 0; 
+                    abertura = Oper.GetByCaixaAberto(intIdCaixa)[0].CURRENTTIME;
+                    fechamento = DateTime.Now;
+
+                    foreach (var ativos in metodosAtiv)
+                    {
+                        decimal valorSomado, valorSAT, valorNAOFISCAL, valorECF;
+                        (valorNAOFISCAL, valorSAT) = ff.SomaDeValores(abertura, ativos.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);
+                        valorECF = 0;
+                        valorSomado = valorNAOFISCAL + valorSAT + valorECF;
+                        if (ativos.COD_CFE == "01")
+                        {
+                            using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
+                            {
+                                SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
+                                san = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                                sup = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(abertura, NO_CAIXA, DateTime.Now) ?? 0M;
+                                log.Debug($"Sangrias: {san} - Suprimentos: {sup}");
+                                valorSomado -= san;
+                                valorSomado += sup;
+                            }
+                        }
+                        valoresPorMet.Add((ativos.COD_CFE, valorSomado, ativos.ID_FMANFCE, ativos.DESCRICAO));
+                        totaissistema += valorSomado;
+                    }
+
+                    RecebePrint(nomefantasia, negrito, centro, 1);
+                    RecebePrint(enderecodaempresa, corpo, centro, 1);
+                    RecebePrint("CNPJ: " + cnpjempresa.Substring(0, 2) + "." + cnpjempresa.Substring(2, 3) + "." + cnpjempresa.Substring(5, 3) + "/" + cnpjempresa.Substring(8, 4) + "-" + cnpjempresa.Substring(12, 2), corpo, centro, 1);
+                    LinhaHorizontal();
+                    RecebePrint(new string('>', 15), negrito, esquerda, 0);
+                    RecebePrint(new string('<', 15), negrito, direita, 0);
+                    RecebePrint("RELATÓRIO X", negrito, centro, 1);
+
+                    using (var ContaFormasPagto = new SP_TRI_CONTANFVPAGTOTableAdapter())
+                    {
+                        ContaFormasPagto.Connection = LOCAL_FB_CONN;
+                        if (ECF_ATIVA) ContaFormasPagto.Fill(contagemFiscal, "E" + intIdCaixa, abertura, fechamento, "I");
+                        if (SAT_USADO) ContaFormasPagto.Fill(contagemFiscal, intIdCaixa.ToString(), abertura, fechamento, "I");
+                        ContaFormasPagto.Fill(contagemNaoFiscal, "N" + intIdCaixa, abertura, fechamento, "I");
+                    }
+
+                    foreach (var metodo in valoresPorMet)
+                    {
+                        log.Debug($"metodo{metodo},valoresOperacinais: {valoresPorMet}");
+                        //CALCULA NÚMERO DE OPERAÇÕES
+                        int contador = 0;
+                        if (!(contagemNaoFiscal.Count == 0 || contagemNaoFiscal[0][0] is DBNull))
+                            contador += (from linha in contagemNaoFiscal.AsEnumerable() where linha.RID_FMANCFE == metodo.ID_FMANFCE select linha.RCOUNT_FMANCE).FirstOrDefault();
+                        if (!(contagemFiscal.Count == 0 || contagemFiscal[0][0] is DBNull))
+                            contador += (from linha in contagemFiscal.AsEnumerable() where linha.RID_FMANCFE == metodo.ID_FMANFCE select linha.RCOUNT_FMANCE).FirstOrDefault();
+                        RecebePrint("\t\t:" + contador + "\tR$", corpo, esquerda, 0);
+                        numcupons += contador;
+                        RecebePrint(metodo.DESCRICAO + "\t", corpo, esquerda, 0);
+                        RecebePrint(String.Format("\t{0}", (metodo.VALOR).ToString("0.00")), corpo, rtl, 1);
+                    }
+
+                    RecebePrint("TOTAL\t\t:\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + totaissistema.ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint(" ", mini, esquerda, 1);
+                    RecebePrint("TROCAS\t\t:   " + "" + "\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + ((decimal)fecha_oper_dt[0]["TROCAS"]).ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint("SUPRIMENTOS\t:   " + "" + "\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + sup.ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint("SANGRIA\t\t:   " + "" + "\tR$", corpo, esquerda, 0);
+                    RecebePrint("\t" + san.ToString("0.00"), corpo, rtl, 1);
+                    RecebePrint(" ", mini, esquerda, 1);
+                    RecebePrint("\tData do relatório: " + fechamento.ToString("dd/MM/yyyy HH:mm:ss"), corpo, esquerda, 1);
+                    LinhaHorizontal();
+                    RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
+                    RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
+
+                    PrintaSpooler();
+                    return true;
+                }
+                catch(Exception ex)
+                {
+                    log.Debug("Erro ao imprimir relatório X: " + ex.Message);
+                    return false;
+                }
+            }
             if (blnFazerFechamento)
             {
                 fecha_oper_dt = Oper.GetByCaixaAberto(intIdCaixa);
@@ -724,9 +821,8 @@ namespace PDV_WPF
                     log.Debug("Processando método de pagamento====================");
                     decimal valorSomado, valorSAT, valorNAOFISCAL, valorECF;
                     //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                    valorSAT = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);
-                    valorNAOFISCAL = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, "N"+intIdCaixa, fechamento, LOCAL_FB_CONN);
-                    valorECF = 0;
+                    (valorNAOFISCAL, valorSAT) = ff.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);                   
+                     valorECF = 0;
 
                     //valorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
                     //valorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
@@ -753,18 +849,20 @@ namespace PDV_WPF
                     }
                     decimal somaABC, a, b, c;
                     //Soma das vendas no começo do mês até o presente.
-                    a = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN) ?? 0M;
-                    b = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "N" + intIdCaixa, fechamento, LOCAL_FB_CONN) ?? 0M;
-                    c = (decimal?)ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, "E" + intIdCaixa, fechamento, LOCAL_FB_CONN) ?? 0M;
-                    somaABC = a + b + c;
+                    if (FECHAMENTO_EXTENDIDO)
+                    {
+                        (a, b) = ff.SomaDeValores(PrimeiroDiaMes, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento, LOCAL_FB_CONN);                        
+                        c = 0;
+                        somaABC = a + b + c;
+                        SomatoriaMensal += somaABC;
+                    }
                     log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomado}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
                     valoresOperacionais.Add((metodo.COD_CFE, valorSomado, metodo.ID_FMANFCE, metodo.DESCRICAO));
-                    totaissistema += valorSomado;
-                    SomatoriaMensal += somaABC;
+                    totaissistema += valorSomado;                    
                 }
             }
             FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable RendimentoSoma = new FDBDataSetVenda.SP_TRI_RENDIMENTO_SOMADataTable();
-
+            
             #region Rendimento Produto/Servico
             if (FECHAMENTO_EXTENDIDO)
             {
@@ -782,172 +880,161 @@ namespace PDV_WPF
                     MessageBox.Show(ex.Message);
                 }
             }
-            #endregion
-
-
-
+            #endregion            
 
             #region Fluxo Turno Anterior
-            FbCommand FBCOMMAND = new FbCommand();
-            FbConnection fbConnect = new FbConnection(MontaStringDeConexao("localhost", localpath));
-            //FbDataReader Reader;
-            DateTime Inicio_dia = DateTime.Today;
-            DateTime DataHoraAtual = DateTime.Now;
-            //string ID_operAlternativo;
-            int ID_operInt;
-            DateTime AberturaAlternativa;
-            DateTime FechamentoAlternativo;
-            try
+            if (FECHAMENTO_EXTENDIDO)
             {
-                if (blnFazerFechamento)
+                FbCommand FBCOMMAND = new FbCommand();
+                FbConnection fbConnect = new FbConnection(MontaStringDeConexao("localhost", localpath));
+                //FbDataReader Reader;
+                DateTime Inicio_dia = DateTime.Today;
+                DateTime DataHoraAtual = DateTime.Now;
+                //string ID_operAlternativo;
+                int ID_operInt;
+                DateTime AberturaAlternativa;
+                DateTime FechamentoAlternativo;
+                try
                 {
-                    FBCOMMAND.Connection = fbConnect;
-
-                    if (fbConnect.State == ConnectionState.Closed)
-                    {
-                        fbConnect.Open();
-                    }
-
-
-
-                    FBCOMMAND.CommandText = "SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
-                    FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                    FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                    FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
-                    //FBCOMMAND.ExecuteNonQuery();
-                    FBCOMMAND.CommandType = CommandType.Text;
-                    //var DataReader = FBCOMMAND.ExecuteReader();
-
-                }
-                else //Não, Anna
-
-                {
-                    FBCOMMAND.Connection = fbConnect;
-
-                    if (fbConnect.State == ConnectionState.Closed)
-                    {
-                        fbConnect.Open();
-                    }
-
-
-
-                    FBCOMMAND.CommandText = "SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
-                    FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                    FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", abertura.Date);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
-                    FBCOMMAND.Parameters.AddWithValue("@datahoraatual", fechamento);
-                    //FBCOMMAND.ExecuteNonQuery();
-                    FBCOMMAND.CommandType = CommandType.Text;
-                    //var DataReader = FBCOMMAND.ExecuteReader();
-                }
-
-                ResultadoTurnosAnteriores.Load(FBCOMMAND.ExecuteReader());
-
-
-                if (ResultadoTurnosAnteriores is null || ResultadoTurnosAnteriores.Rows.Count == 0)
-                {
-                    TotalVendasAlternativo = tot_vendas;
-                }
-                else
-                {
-
-
-                    //foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
-                    for (int i = 0; i <= ResultadoTurnosAnteriores.Rows.Count - 1; i++)
-                    {
-
-
-                        ID_operInt = ResultadoTurnosAnteriores[i].ID_OPER;
-
-
-
-                        TabelaTurnoAnterior = Oper.GetByCaixa(ID_operInt);
-
-                        AberturaAlternativa = TabelaTurnoAnterior[0].CURRENTTIME;
-                        FechamentoAlternativo = TabelaTurnoAnterior[0].FECHADO;
-
-                        decimal sangriasAlternativa = 0, suprimentosAlternativo = 0;
-                        var statusesAlternativo = METODOS_DT.Select(x => new { COD_CFE = x.ID_NFCE, x.STATUS, x.DESCRICAO, x.ID_FMANFCE });
-                        List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionaisAlternativos = new List<(string, decimal, int, string)>();
-                        using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
-                        {
-                            // Atributos para definir as datas corretas 
-                            DateTime DataAtual = DateTime.Now;
-                            DateTime PrimeiroDiaMes = DateTime.Today;
-                            //DateTime DiaAnterior;
-                            DataAtual = DataAtual.AddDays(-1);
-                            // DiaAnterior = DataAtual;
-                            PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-DataAtual.Day);
-
-                            foreach (var metodo in statusesAlternativo)
-                            {
-                                SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
-                                log.Debug("Processando método de pagamento====================");
-                                decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
-                                //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
-                                valorSATAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
-                                valorNAOFISCALAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "N" + intIdCaixa, FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
-                                valorECFAlternativo = (decimal?)ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, "E" + intIdCaixa, FechamentoAlternativo, LOCAL_FB_CONN) ?? 0M;
-                                log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
-                                #region Total Venda editado por vinícius  
-                                //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
-                                //pvalorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                                //pvalorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
-                                //valorTotalVendas = valorTotalVendas + pvalorSAT + pvalorNAOFISCAL + pvalorECF; //pora
-                                #endregion
-                                valorSomadoAlternativo = valorSATAlternativo + valorNAOFISCALAlternativo + valorECFAlternativo;
-                                log.Debug($"valorSomado: {valorSomadoAlternativo}");
-                                // totalMovdiario += valorSomado;
-
-                                if (metodo.COD_CFE == "01")
-                                {
-                                    sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA, FechamentoAlternativo) ?? 0M;
-                                    suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA, FechamentoAlternativo) ?? 0M;
-                                    log.Debug($"Sangrias: {sangriasAlternativa} - Suprimentos: {suprimentosAlternativo}");
-                                    valorSomadoAlternativo -= sangriasAlternativa;
-                                    valorSomadoAlternativo += suprimentosAlternativo;
-                                    //Soma das vendas no começo do mês até o presente.
-                                    //  SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
-
-                                }
-                                log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomadoAlternativo}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
-                                // valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
-                                //totaissistema += valorSomadoAlternativo;
-                                TotalVendasAlternativo += valorSomadoAlternativo;
-
-                            }
-                            TotalVendasAlternativo += sangriasAlternativa;
-
-                        }
-
-                        TotalVendasAlternativo -= suprimentosAlternativo;
-
-                    }
                     if (blnFazerFechamento)
                     {
-                        TotalVendasAlternativo += tot_vendas;
+                        FBCOMMAND.Connection = fbConnect;
+
+                        if (fbConnect.State == ConnectionState.Closed)
+                        {
+                            fbConnect.Open();
+                        }
+
+
+
+                        FBCOMMAND.CommandText = "SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                        FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                        FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", Inicio_dia);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                        FBCOMMAND.Parameters.AddWithValue("@datahoraatual", DataHoraAtual);
+                        //FBCOMMAND.ExecuteNonQuery();
+                        FBCOMMAND.CommandType = CommandType.Text;
+                        //var DataReader = FBCOMMAND.ExecuteReader();
+
                     }
+                    else //Não, Anna
+
+                    {
+                        FBCOMMAND.Connection = fbConnect;
+
+                        if (fbConnect.State == ConnectionState.Closed)
+                        {
+                            fbConnect.Open();
+                        }
+
+
+
+                        FBCOMMAND.CommandText = "SELECT ID_CAIXA, CURRENTTIME, ABERTO, HASH, FECHADO, ID_OPER, ID_USER, DIN, CHEQUE, CREDITO, DEBITO, LOJA, ALIMENTACAO, REFEICAO, PRESENTE, COMBUSTIVEL, OUTROS, EXTRA_1, EXTRA_2, EXTRA_3, EXTRA_4, EXTRA_5, EXTRA_6, EXTRA_7, EXTRA_8, EXTRA_9, EXTRA_10, SANGRIAS, SUPRIMENTOS, TROCAS, TRI_PDV_DT_UPD FROM TRI_PDV_OPER WHERE ID_CAIXA = @intIdCaixa AND FECHADO BETWEEN CAST(@Inicio_dia AS TIMESTAMP) AND CAST(@datahoraatual AS TIMESTAMP)";
+                        FBCOMMAND.Parameters.AddWithValue("@intIdCaixa", intIdCaixa);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                        FBCOMMAND.Parameters.AddWithValue("@Inicio_dia", abertura.Date);//Adiciona o valor recebido pela assinatura a uma variavel no SQL
+                        FBCOMMAND.Parameters.AddWithValue("@datahoraatual", fechamento);
+                        //FBCOMMAND.ExecuteNonQuery();
+                        FBCOMMAND.CommandType = CommandType.Text;
+                        //var DataReader = FBCOMMAND.ExecuteReader();
+                    }
+
+                    ResultadoTurnosAnteriores.Load(FBCOMMAND.ExecuteReader());
+
+
+                    if (ResultadoTurnosAnteriores is null || ResultadoTurnosAnteriores.Rows.Count == 0)
+                    {
+                        TotalVendasAlternativo = tot_vendas;
+                    }
+                    else
+                    {
+
+
+                        //foreach (DataRow a in ResultadoTurnosAnteriores.Rows)
+                        for (int i = 0; i <= ResultadoTurnosAnteriores.Rows.Count - 1; i++)
+                        {
+
+
+                            ID_operInt = ResultadoTurnosAnteriores[i].ID_OPER;
+
+
+
+                            TabelaTurnoAnterior = Oper.GetByCaixa(ID_operInt);
+
+                            AberturaAlternativa = TabelaTurnoAnterior[0].CURRENTTIME;
+                            FechamentoAlternativo = TabelaTurnoAnterior[0].FECHADO;
+
+                            decimal sangriasAlternativa = 0, suprimentosAlternativo = 0;
+                            var statusesAlternativo = METODOS_DT.Select(x => new { COD_CFE = x.ID_NFCE, x.STATUS, x.DESCRICAO, x.ID_FMANFCE });
+                            List<(string COD_CFE, decimal VALOR, int ID_FMANFCE, string DESCRICAO)> valoresOperacionaisAlternativos = new List<(string, decimal, int, string)>();
+                            using (var SomaValoresFmapagto = new SomaValoresFmapagtoTableAdapter())
+                            {
+                                // Atributos para definir as datas corretas 
+                                DateTime DataAtual = DateTime.Now;
+                                DateTime PrimeiroDiaMes = DateTime.Today;
+                                //DateTime DiaAnterior;
+                                DataAtual = DataAtual.AddDays(-1);
+                                // DiaAnterior = DataAtual;
+                                PrimeiroDiaMes = PrimeiroDiaMes.AddDays(-DataAtual.Day);
+
+                                foreach (var metodo in statusesAlternativo)
+                                {
+                                    SomaValoresFmapagto.Connection = LOCAL_FB_CONN;
+                                    log.Debug("Processando método de pagamento====================");
+                                    decimal valorSomadoAlternativo, valorSATAlternativo, valorNAOFISCALAlternativo, valorECFAlternativo;
+                                    //decimal  pvalorSAT, pvalorNAOFISCAL, pvalorECF;
+                                    (valorNAOFISCALAlternativo, valorSATAlternativo) = ff.SomaDeValores(AberturaAlternativa, metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo, LOCAL_FB_CONN);                                   
+                                    valorECFAlternativo = 0;
+                                    log.Debug($"SAT: {valorSATAlternativo} - NAOFISCAL: {valorNAOFISCALAlternativo} - ECF: {valorECFAlternativo}");
+                                    #region Total Venda editado por vinícius  
+                                    //pvalorSAT = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, intIdCaixa.ToString(), fechamento) ?? 0M;
+                                    //pvalorNAOFISCAL = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "N" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                                    //pvalorECF = (decimal?)SomaValoresFmapagto.SomaDeValores(abertura, metodo.ID_FMANFCE, "E" + intIdCaixa.ToString(), fechamento) ?? 0M;
+                                    //valorTotalVendas = valorTotalVendas + pvalorSAT + pvalorNAOFISCAL + pvalorECF; //pora
+                                    #endregion
+                                    valorSomadoAlternativo = valorSATAlternativo + valorNAOFISCALAlternativo + valorECFAlternativo;
+                                    log.Debug($"valorSomado: {valorSomadoAlternativo}");
+                                    // totalMovdiario += valorSomado;
+
+                                    if (metodo.COD_CFE == "01")
+                                    {
+                                        sangriasAlternativa = (decimal?)SomaValoresFmapagto.GetSangriasByCaixa(AberturaAlternativa, NO_CAIXA, FechamentoAlternativo) ?? 0M;
+                                        suprimentosAlternativo = (decimal?)SomaValoresFmapagto.GetSuprimentosByCaixa(AberturaAlternativa, NO_CAIXA, FechamentoAlternativo) ?? 0M;
+                                        log.Debug($"Sangrias: {sangriasAlternativa} - Suprimentos: {suprimentosAlternativo}");
+                                        valorSomadoAlternativo -= sangriasAlternativa;
+                                        valorSomadoAlternativo += suprimentosAlternativo;
+                                        //Soma das vendas no começo do mês até o presente.
+                                        //  SomatoriaMensal = SomatoriaMensal + (decimal?)SomaValoresFmapagto.SomaDeValores(PrimeiroDiaMes, (int)metodo.ID_FMANFCE, intIdCaixa.ToString(), FechamentoAlternativo) ?? 0M;
+
+                                    }
+                                    log.Debug($"Adicionando nova tupla: (COD_CFE: {metodo.COD_CFE}, VALOR: {valorSomadoAlternativo}, ID_FMANFCE: {metodo.ID_FMANFCE}, DESCRICAO: {metodo.DESCRICAO}");
+                                    // valoresOperacionais.Add((metodo.COD_CFE, valorSomadoAlternativo, metodo.ID_FMANFCE, metodo.DESCRICAO));
+                                    //totaissistema += valorSomadoAlternativo;
+                                    TotalVendasAlternativo += valorSomadoAlternativo;
+
+                                }
+                                TotalVendasAlternativo += sangriasAlternativa;
+
+                            }
+
+                            TotalVendasAlternativo -= suprimentosAlternativo;
+
+                        }
+                        if (blnFazerFechamento)
+                        {
+                            TotalVendasAlternativo += tot_vendas;
+                        }
+                    }
+                    FBCOMMAND.Connection.Close();
+
+
+
                 }
-                FBCOMMAND.Connection.Close();
+                catch (Exception ex)
+                {
+                    FBCOMMAND.Connection.Close();
+                    MessageBox.Show("", ex.Message);
 
-
-
+                }
             }
-            catch (Exception ex)
-            {
-                FBCOMMAND.Connection.Close();
-                MessageBox.Show("", ex.Message);
-
-            }
-
-
-
-
-
-
-
-
-
-
             #endregion
 
 
@@ -1239,7 +1326,7 @@ namespace PDV_WPF
             catch (Exception ex)
             {
                 logErroAntigo(RetornarMensagemErro(ex, true));
-                MessageBox.Show("Erro ao finalizar cupom: " + RetornarMensagemErro(ex, false));
+                MessageBox.Show("Foi realizado a tentativa de impressão porem a impressora falhou.\n\nFalha: " + RetornarMensagemErro(ex, false), "Atenção", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 throw ex;
             }
             return true;
@@ -1475,7 +1562,7 @@ namespace PDV_WPF
             //else RecebePrint(new string('-', 91), negrito, centro, 1);
         }
 
-        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null)
+        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null, decimal vlrTotAtacado = 0)
         {
             float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
             esquerda.align.SetTabStops(10f, tabstops);
@@ -1551,12 +1638,13 @@ namespace PDV_WPF
                 //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
                 foreach (Produto prod in produtos)
                 {
+                    prod.numero = linha;
                     if (prod.valorOriginal <= 0) //se for igual a 0 quer muito provavelmente é uma reimpressão.
                     {
                         RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
                         RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + prod.valorunit.ToString("C"), corpo, esquerda, 0);
                         RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + (prod.valorunit * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
-                        RecebePrint((prod.valorunit * prod.qtde).ToString("C"), corpo, direita, 1);
+                        RecebePrint((prod.valorunit * prod.qtde).RoundABNT().ToString("C"), corpo, direita, 1);
                     }
                     else //se não for quer dizer que é a primeira impressão, isso pq não tem como sabermos o valor original do produto já que não consta no XML e no banco de dados já pode ter sido alterado.
                     {
@@ -1611,13 +1699,12 @@ namespace PDV_WPF
                 }
                 //RecebePrint(" ", corpo, esquerda, 1);
                 LinhaHorizontal();
-                if (FechamentoCupom.ObtemDesc > 0)
+                if (vlrTotAtacado > 0)
                 {
                     RecebePrint("NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);
-                    RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
+                    RecebePrint($"{vlrTotAtacado:C2}", titulo, centro, 0);
                     RecebePrint(" ", corpo, esquerda, 1);
-                    LinhaHorizontal();
-                    FechamentoCupom.ObtemDesc = 0;
+                    LinhaHorizontal();                    
                 }
                 if (DETALHADESCONTO)
                 {
@@ -1952,7 +2039,7 @@ namespace PDV_WPF
             RecebePrint(new string('-', 87), negrito, centro, 1);
         }
 
-        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null)
+        public static PrintDocument IMPRIME(int vias_prazo, CFe cFeDeRetorno = null, decimal vlrTotAtacado = 0)
         {
             float[] tabstops = { 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f, 10f };
             esquerda.align.SetTabStops(10f, tabstops);
@@ -1990,7 +2077,7 @@ namespace PDV_WPF
                             RecebePrint(linha.ToString("000") + "\t" + prod.codigo + "\t" + prod.descricao, corpo, esquerda, 1);
                             RecebePrint(prod.qtde + "\t\t\t\t\t" + prod.tipounid + "\t\t X " + (prod.valorOriginal).ToString("C"), corpo, esquerda, 0);
                             RecebePrint("\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t(" + ((prod.valorOriginal) * (prod.trib_est + prod.trib_fed + prod.trib_mun) / 100).ToString("C") + ")", corpo, esquerda, 0);
-                            RecebePrint(((prod.valorOriginal * prod.qtde).ToString("n2")), corpo, direita, 1);
+                            RecebePrint(((prod.valorOriginal * prod.qtde).RoundABNT().ToString("n2")), corpo, direita, 1);
                             break;
                     }
                     if (prod.desconto > 0)
@@ -2002,7 +2089,6 @@ namespace PDV_WPF
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
                         RecebePrint(prod.valorunit.ToString("C"), italico, direita, 1);
-
                     }
                     subtotal += prod.valortotal - prod.desconto;
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
@@ -2039,13 +2125,12 @@ namespace PDV_WPF
                 }
                 //RecebePrint(" ", corpo, esquerda, 1);
                 LinhaHorizontal();
-                if(FechamentoCupom.ObtemDesc > 0)
+                if(vlrTotAtacado > 0)
                 {
                     RecebePrint("NESTA COMPRA VOCÊ ECONOMIZOU", corpo, centro, 1);                    
-                    RecebePrint($"{FechamentoCupom.ObtemDesc:C2}", titulo, centro, 0);
+                    RecebePrint($"{vlrTotAtacado:C2}", titulo, centro, 0);
                     RecebePrint(" ", corpo, esquerda, 1);
-                    LinhaHorizontal();
-                    FechamentoCupom.ObtemDesc = 0;
+                    LinhaHorizontal();                    
                 }                
                 if (DETALHADESCONTO)
                 {
@@ -2061,7 +2146,9 @@ namespace PDV_WPF
                     }
                     if (existeDetalhamento) LinhaHorizontal();
                 }
-                RecebePrint((TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
+                if (operadorStr.Equals("REIMPRESSÃO")) { RecebePrint("Data da operação: " + (TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
+                                                         RecebePrint("Data da reimpressão: " + DateTime.Now.ToString(), corpo, esquerda, 2); }
+                else { RecebePrint((TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1); }
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {

@@ -125,12 +125,17 @@ namespace PDV_WPF.Telas
                 SAT_REC_TA.FillByAbertos(SAT_REC_DT, NO_CAIXA);
                 log.Debug($"SAT_REC_TA.FillbyAbertos: {SAT_REC_DT.Rows.Count}");
                 if (SAT_REC_DT.Rows.Count > 0)
-                {
-                    log.Debug("Convertendo string em byte[] (retornoxml)");
-                    byte[] retornoxml = (byte[])SAT_REC_DT.Rows[SAT_REC_DT.Rows.Count - 1]["XML_RECEB"];
+                {                    
+                    log.Debug("Verificando cod_retorno recebido...");
                     cod_retorno = (string)SAT_REC_DT.Rows[SAT_REC_DT.Rows.Count - 1]["RETORNO_SAT"];
                     log.Debug($"cod_retorno: {cod_retorno}");
+                    if (cod_retorno is "ERRO") return false;
+
+                    log.Debug("Convertendo string em byte[] (retornoxml)");
+                    byte[] retornoxml = (byte[])SAT_REC_DT.Rows[SAT_REC_DT.Rows.Count - 1]["XML_RECEB"];                                        
                     retorno = System.Text.Encoding.UTF8.GetString(retornoxml).Split('|');
+                    if (retorno is null || retorno.Length is 0) return false;
+
                     SAT_REC_TA.SetaProcessado(NO_CAIXA);
                     log.Debug("Setou processado");
                     return true;

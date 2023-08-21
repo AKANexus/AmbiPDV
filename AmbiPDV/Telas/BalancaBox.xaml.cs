@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDV_WPF.FDBDataSetTableAdapters;
+using System;
 using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Funcoes.Extensions;
@@ -24,14 +25,29 @@ namespace PDV_WPF.Telas
 
         public BalancaBox()
         {
-            InitializeComponent();
-            txb_Peso.Focus();
+            InitializeComponent();           
         }
 
         #endregion (De)Constructor
 
         #region Events
 
+        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 12;
+        }
+        private void but_Cancelar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 12;
+        }
         private void cancelar_Click(object sender, MouseButtonEventArgs e)
         {
             DialogResult = false;            
@@ -42,12 +58,39 @@ namespace PDV_WPF.Telas
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
             //TODO: avaliar o uso desse event handler
+            //if (txb_Peso.Text != "")
+            if (ValidarPeso())
+            {
+                try
+                {
+                    novopeso = Convert.ToDecimal(txb_Peso.Text.Replace('.', ','));
+                    DialogResult = true;
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    logErroAntigo(RetornarMensagemErro(ex, true));
+                    MessageBox.Show("Peso inválido. Por favor verifique o peso informado.");
+                    txb_Peso.Clear();
+                    return;
+                }
 
-            DialogResult = true;
-            this.Close();
-            return;
+                this.Close();
+                return;
+            }
+            else
+            {
+                DialogResult = false;
+                retry = true;
+                this.Close();
+                return;
+            }
         }
-
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            txb_Peso.Focus();
+            txb_Peso.SelectAll();
+        }
         private void window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Escape)
@@ -106,6 +149,7 @@ namespace PDV_WPF.Telas
             return true;
         }
 
-        #endregion Methods
+        #endregion Methods      
+        
     }
 }

@@ -4,8 +4,6 @@ using Clearcove.Logging;
 using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using LocalDarumaFrameworkDLL;
-using PayGo;
-using PDV_WPF.Controls;
 using PDV_WPF.DataSets.FDBDataSetOperSeedTableAdapters;
 using PDV_WPF.FDBDataSetTableAdapters;
 using PDV_WPF.Funcoes;
@@ -132,10 +130,11 @@ namespace PDV_WPF.Telas
         #region Fields & Properties
         private readonly List<Key> konami = new();
         private readonly List<Key> nghtmd = new() { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.B, Key.A, Key.A };
-        private readonly Regex rgx = new(@"(\d+\*)");
+        private readonly Regex rgxQtd = new(@"(\d+\*)");
+        private readonly Regex rgxNumberAcBox = new(@"[0-9]");
         public string numeroWhats;//HACK
         private enum tipoDesconto { Nenhum, Absoluto, Percentual }
-        private enum statusSangria { Normal, Folga, Excesso }       
+        private enum statusSangria { Normal, Folga, Excesso }
 
         private readonly DebounceDispatcher debounceTimer = new();
         private Dictionary<string, string> oldCRT = new();
@@ -145,7 +144,7 @@ namespace PDV_WPF.Telas
             _usouKit,
             _nightmode = false,
             _usouPedido,
-            erroVenda,            
+            erroVenda,
             _modoDevolucao,
             _emTransacao,
             _modo_consulta,
@@ -203,14 +202,13 @@ namespace PDV_WPF.Telas
         private tipoDesconto tipoDeDesconto;
         private ItemChoiceType _tipo = ItemChoiceType.FECHADO;
 
-        private List<ComboBoxBindingDTO_Produto_Sync> _lstProdutosAlteradosSync;
-
+        private List<ComboBoxBindingDTO_Produto_Sync> _lstProdutosAlteradosSync;        
         #endregion Fields & Properties
 
         #region (De)Constructor
 
         public Caixa(bool _contingencia)
-        {           
+        {            
             DataContext = mvm;
             var args = new List<string>();
             foreach (string arg in Environment.GetCommandLineArgs())
@@ -224,7 +222,7 @@ namespace PDV_WPF.Telas
             try
             {
                 InicializarCaixa(_contingencia);
-                combobox.MultiplyAdded += Combobox_MultiplyAdded;                
+                //combobox.MultiplyAdded += Combobox_MultiplyAdded;
             }
             catch (Exception ex)
             {
@@ -264,6 +262,14 @@ namespace PDV_WPF.Telas
                 {
                     ProcessarTextoNoACBox();
                 }
+                if(e.Key == Key.PageUp)
+                {
+                    richTextBox1.PageUp();
+                }
+                if(e.Key == Key.PageDown)
+                {
+                    richTextBox1.PageDown();
+                }
             }
             catch (Exception ex)
             {
@@ -277,11 +283,18 @@ namespace PDV_WPF.Telas
             //    return;
             //}
         }
-
+        private void ACBox_TextChanged(object sender, RoutedEventArgs e)
+        {
+            if (combobox.Text.Length > 0)
+            {
+                if (rgxNumberAcBox.IsMatch(combobox.Text.Substring(0))) combobox.MinimumPrefixLength = 50;
+                else combobox.MinimumPrefixLength = PREFIX_LISTBOX;
+                AplicarSelecaoDeQuantidade();
+            }
+        }       
         private void MainWindows_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)
-                combobox.Focus();
+            if (!combobox.IsKeyboardFocusWithin) combobox.Focus();         
         }
 
         #region Teclas de Atalho
@@ -297,7 +310,7 @@ namespace PDV_WPF.Telas
         /// <summary>
         /// Cancela a venda e limpa todos os textbox para o modo normal
         /// </summary>
-        private void CancelarVendaAtual()
+        private void CancelarVendaAtual(bool restartingByException = false)
         {
             if (_modo_consulta) AlternarModoDeConsulta();
             log.Debug($"Cancelando a venda atual, sem informar pagamentos.");
@@ -307,7 +320,7 @@ namespace PDV_WPF.Telas
 
 
             //LIMPAR A TELA
-            LimparUltimaVenda();
+            if (!restartingByException) LimparUltimaVenda(); //Se foi um reinicio automatico de venda não precisa limpar venda pendente pois será utilizado para puxar os itens.
             LimparTela();
             _usouOrcamento = _usouPedido = _usouOS = false; //Caso o cliente "desista" da venda do orçamento limpando os produtos do cupom e posteriormente pressionando F2 ou F3
             orcamentoAtual.Clear();
@@ -333,50 +346,139 @@ namespace PDV_WPF.Telas
 
         #region Botões Desativados
 
+        private void but_F3_MouseEnter(object sender, EventArgs e)
+        {
+            but_F3.FontSize = 40;
+        }
+        private void but_F3_MouseLeave(object sender, EventArgs e)
+        {
+            but_F3.FontSize = 32;
+        }
         private void but_F3_MouseDown(object sender, MouseButtonEventArgs e)
         {
             PrepararFinalizacaoDeCupomFiscal();
             return;
         }
+        private void but_F4_MouseEnter(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 40;
+        }
+        private void but_F4_MouseLeave(object sender, EventArgs e)
+        {
+            but_F4.FontSize = 32;
+        }
         private void but_F4_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!_emTransacao) { DialogBox.Show("Remover item", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Nenhuma venda está aberta, não será possivel estornar item."); return; }
+            if (!turno_aberto) { DialogBox.Show("Remover item", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Turno não está aberta, não será possivel estornar item."); return; }
             RemoverItemDaVendaNovo();
             return;
+        }
+        private void but_F5_MouseEnter(object sender, EventArgs e)
+        {
+            but_F5.FontSize = 40;
+        }
+        private void but_F5_MouseLeave(object sender, EventArgs e)
+        {
+            but_F5.FontSize = 32;
         }
         private void but_F5_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AlternarModoDeConsulta();
             return;
         }
+        private void but_F6_MouseEnter(object sender, EventArgs e)
+        {
+            but_F6.FontSize = 40;
+        }
+        private void but_F6_MouseLeave(object sender, EventArgs e)
+        {
+            but_F6.FontSize = 32;
+        }
         private void but_F6_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            CancelarUltimoCupom();
+            if (!turno_aberto) { DialogBox.Show("Cancelamento de cupom", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel cancelar um cupom com o caixa fechado, abra um turno e tente novamente."); return; }
+            switch (_emTransacao)
+            {
+                case false:
+                    CancelarUltimoCupom();
+                    break;
+                case true:
+                    if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false)) return;
+                    CancelarVendaAtual();
+                    break;
+            }
             return;
+        }
+        private void but_F7_MouseEnter(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 40;
+        }
+        private void but_F7_MouseLeave(object sender, EventArgs e)
+        {
+            but_F7.FontSize = 32;
         }
         private void but_F7_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (_emTransacao) { DialogBox.Show("Devolução", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel fazer devolução com venda aberta, finalize e tente novamente."); return; }
+            if (!turno_aberto) { DialogBox.Show("Devolução", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel fazer devolução com o caixa fechado, abra um turno e tente novamente."); return; }
             AlternarModoDevolucao();
             return;
         }
+        private void but_F8_MouseEnter(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 40;
+        }
+        private void but_F8_MouseLeave(object sender, EventArgs e)
+        {
+            but_F8.FontSize = 32;
+        }
         private void but_F8_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (!turno_aberto) { DialogBox.Show("Desconto", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel aplicar desconto com o caixa fechado, abra um turno e tente novamente."); return; }
             AlternarDescontoNoItem();
             return;
         }
+        private void but_F11_MouseEnter(object sender, EventArgs e)
+        {
+            but_F11.FontSize = 40;
+        }
+        private void but_F11_MouseLeave(object sender, EventArgs e)
+        {
+            but_F11.FontSize = 32;
+        }
         private void but_F11_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if(_emTransacao) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em venda!\nFinalize a tente novamente."); return; }
+            if(_modo_consulta) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em modo consulta!\nVolte ao estado 'CAIXA LIVRE' e tente novamente."); return; }
             AbrirJanelaSangriaSupr();
             return;
         }
+        private void but_F12_MouseEnter(object sender, EventArgs e)
+        {
+            but_F12.FontSize = 40;
+        }
+        private void but_F12_MouseLeave(object sender, EventArgs e)
+        {
+            but_F12.FontSize = 32;
+        }      
         private void but_F12_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if(_emTransacao) { DialogBox.Show("FECHAMENTO DE TURNO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar fechameno de turno estando em venda!\nFinalize e tente novamente."); return; }
             switch (turno_aberto)
             {
                 case true:
-                    if (ExecFechamentoCaixa())
+                    bool resultFechamento = ExecFechamentoCaixa(out bool relatorioX);
+                    switch (resultFechamento)
                     {
-                        //MessageBox.Show("DEBUG - CAIXA FECHADO!");
-                        DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_FECHADO_COM_SUCESSO);
+                        case true when relatorioX == false:
+                            log.Debug("Exibindo ao usuario CAIXA FECHADO com sucesso.");
+                            DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_FECHADO_COM_SUCESSO);
+                            break;
+                        case true when relatorioX == true:
+                            log.Debug("Exibindo ao usuario RELATÓRIO X impresso com sucesso.");
+                            DialogBox.Show("Relatório X", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Relatório de valores impresso com sucesso.");
+                            break;
                     }
                     break;
                 case false:
@@ -388,7 +490,18 @@ namespace PDV_WPF.Telas
             }
             return;
         }
-
+        private void lbl_Logoff_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Logoff.FontSize = 40;         
+        }
+        private void lbl_Logoff_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Logoff.FontSize = 35;
+        }
+        private void lbl_Logoff_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            ReiniciaAplicacao();          
+        }
         #endregion
 
         private void ACBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -414,8 +527,8 @@ namespace PDV_WPF.Telas
                 richTextBox1.FontSize = 22.6;
             }
 
-
-
+            combobox.MinimumPrefixLength = PREFIX_LISTBOX;
+            combobox.FilterMode = (AutoCompleteFilterMode)ACFILLMODE;
             combobox.Focus();
         }
 
@@ -633,7 +746,34 @@ namespace PDV_WPF.Telas
         //}//Lança o item no objeto de venda.
 
         #endregion TESTES
-
+        /// <summary>
+        /// Reinicia aplicação / Logoff
+        /// </summary>
+        private async void ReiniciaAplicacao()
+        {
+            if (_emTransacao) { DialogBox.Show("LOGOFF", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar Logoff com venda aberta.\nFinalize a venda e tente novamente"); return; }
+            if (PedeSenhaGerencial("Deslogando usuario atual."))
+            {
+                log.Debug("Realizando Logoff");
+                string args = null;
+                foreach(var arg in Environment.GetCommandLineArgs())
+                {
+                    if(arg.StartsWith("/")) args += $" {arg}";
+                }
+                log.Debug($"Argumentos de inicialização: {args ?? "Não possui argumentos"}");
+                await Task.Delay(500);
+                try
+                {
+                    System.Diagnostics.Process.Start(Application.ResourceAssembly.Location, "-Logoff " + args);
+                    Process.GetCurrentProcess().Kill();                                       
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Não foi possivel realizar Logoff, verifique os logs para visualizar o erro.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    log.Debug($"Erro ao tentar realizar Logoff: {ex}");
+                }
+            }
+        }
         /// <summary>
         /// Abre a janela de consulta avançada.
         /// </summary>
@@ -694,7 +834,7 @@ namespace PDV_WPF.Telas
                 {
                     return;
                 }
-                switch(ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
+                switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
                 {
                     case 0:
                         AbreGavetaSPOOLER();
@@ -932,7 +1072,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AplicarSelecaoDeQuantidade()
         {
-            if (!string.IsNullOrWhiteSpace(combobox.Text) && rgx.IsMatch(combobox.Text) && decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade))
+            if (!string.IsNullOrWhiteSpace(combobox.Text) && rgxQtd.IsMatch(combobox.Text) && decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade))
             {
                 txb_Qtde.Text = quantidade.ToString();
                 combobox.Text = "";
@@ -964,11 +1104,49 @@ namespace PDV_WPF.Telas
         {
             if (_emTransacao || !PedeSenhaGerencial("Cancelando Último Cupom", _modoTeste)) { return; }
             new List().ShowDialog();
-            IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.vendas*/);
+            log.Debug("Verificando se o caixa já está em modo de contigencia após cancelamento de cupom(...)");
+            if (_contingencia == false)
+            {
+                try
+                {
+                    log.Debug("Caixa não está em contigencia, iniciando a checagem por conexão e sincronização de tudo após cancelamento de cupom.");
+                    if (DeterminarStatusDeSangria(false) != statusSangria.Normal) txb_Avisos.Text = "FAZER SANGRIA";
+                    else txb_Avisos.Text = "CAIXA LIVRE";
+                    Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
+                    bool waitTime = executeSyncAsync.Wait(3000);
+                    if (!waitTime)
+                    {
+                        log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                        log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                        this.IsEnabled = false;
+                        TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                        dialog.Show();
+                        Task.WaitAll(executeSyncAsync);
+                        this.IsEnabled = true; dialog.CloseDialog();
+                    }
+                    log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                }
+                catch (AggregateException agex)
+                {
+                    this.IsEnabled = true; TimedBox.stateDialog = false;
+                    string[] erros = new string[1];
+                    foreach (var ex in agex.InnerExceptions)
+                    {
+                        erros[0] = ex.Message;
+                    }
+                    _contingencia = true;
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                    log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                }
+            }
+            else
+            {
+                log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                          "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+            }
             return;
-
         }
-
 
         /// <summary>
         /// Carrega os produtos na lista de autocomplete do ACBox
@@ -1378,7 +1556,7 @@ namespace PDV_WPF.Telas
         {
             if (!combobox.Text.StartsWith("@")) return false;
             try
-            {                
+            {
                 kitPromocional.Clear();
                 int.TryParse(combobox.Text.TrimStart('@'), out int id_kit);
                 log.Debug($"Kit promocional detectado: {id_kit}");
@@ -1393,8 +1571,8 @@ namespace PDV_WPF.Telas
                     combobox.Text = "";
                     return true;
                 }
-                if(!kitPromocional.LeKitItens(connection, id_kit))
-                {                    
+                if (!kitPromocional.LeKitItens(connection, id_kit))
+                {
                     log.Debug("Kit promocional sem item");
                     MessageBox.Show("Não foi encontrado itens para este kit.  ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return true;
@@ -1454,14 +1632,19 @@ namespace PDV_WPF.Telas
         /// <summary>
         /// Se houver uma venda pendente devido a uma falha no sistema, ela é carregada
         /// </summary>
-        private bool CarregarVendaPendenteNovo()
+        private bool CarregarVendaPendenteNovo(bool restartingByException = false)
         {
             if (!_emTransacao)
             {
                 string path = AppDomain.CurrentDomain.BaseDirectory + "\\Ultimavenda.txt";
                 if (File.Exists(path) && File.ReadAllText(path).Contains("|"))
                 {
-                    if (DialogBox.Show(strings.VENDA, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, strings.FOI_ENCONTRADA_VENDA_PENDENTE) == true)
+                    bool? escolha = false;
+                    if (!restartingByException) //se não for um reinicio automatico de venda, será perguntado ao usuario se deseja puxar venda pendente.
+                    {
+                        escolha = DialogBox.Show(strings.VENDA, DialogBoxButtons.YesNo, DialogBoxIcons.None, false, strings.FOI_ENCONTRADA_VENDA_PENDENTE);
+                    }
+                    if (escolha == true || restartingByException == true)
                     {
                         IEnumerable<string> ultimavenda = File.ReadAllLines(path);
                         File.WriteAllText(path, "Arquivo gerado automaticamente pelo AmbiPDV. Não remova.\n\r");
@@ -1537,7 +1720,7 @@ namespace PDV_WPF.Telas
                 funcoes.ChangeConnectionString(MontaStringDeConexao(SERVERNAME, SERVERCATALOG));
                 _contingencia = false;
                 log.Debug($"FDBConnString definido para DB na rede: {Settings.Default.FDBConnString}");
-                bar_Contingencia.Visibility = Visibility.Hidden;
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { bar_Contingencia.Visibility = Visibility.Hidden; }));
                 IniciarSincronizacaoDB(pTipo, pSegundosTolerancia);
                 ultimaContingencia = DateTime.Now;
                 //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -1548,15 +1731,18 @@ namespace PDV_WPF.Telas
                 return;
             }
             else if (conectividade == false && pContingencia == false)
-            {              
-                //Aqui houve a queda de conexão com o servidor.                
-                DialogBox.Show("CONEXÃO COM O SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se conectar com o Servidor.\n O sistema entrara em modo de contigencia " +
-                    "e para testar novamente a comunicação com o servidor utilize as teclas\n'CTRL+S'."); ;
+            {
+                //Aqui houve a queda de conexão com o servidor.                                
                 funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
                 _contingencia = true;
                 log.Debug($"FDBConnString definido para DB de contingência: {Settings.Default.FDBConnString}");
-                lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
-                bar_Contingencia.Visibility = Visibility.Visible;
+                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
+                                                        {
+                                                            lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
+                                                            bar_Contingencia.Visibility = Visibility.Visible;
+                                                            DialogBox.Show("CONEXÃO COM O SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se conectar com o Servidor.\n O sistema entrara em modo de contigencia " +
+                                                                           "e para testar novamente a comunicação com o servidor utilize as teclas\n'CTRL+S'.");
+                                                        }));
                 return;
             }
             else if (conectividade == false && pContingencia == true)
@@ -1630,17 +1816,20 @@ namespace PDV_WPF.Telas
         private ComboBoxBindingDTO_Produto ConverterInformacaoEmProduto(string pInput)
         {
             #region Valida seleção de produto
-
+            bool produtoPrePesado = pInput.Length == 7;
             if (true)
             {
                 try
                 {
-                    log.Debug("Procurando por referência");
-                    object objItemEncontrado_with_ref = mvm.LstProdutos.FirstOrDefault(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
-                    if (objItemEncontrado_with_ref != null)
+                    if (ACREFERENCIA is 1)
                     {
-                        log.Debug("Encontrou um item pela referência");
-                        combobox.SelectedItem = objItemEncontrado_with_ref;
+                        log.Debug("Procurando por referência");
+                        object objItemEncontrado_with_ref = mvm.LstProdutos.FirstOrDefault(item => item.REFERENCIA.Equals(pInput, StringComparison.InvariantCultureIgnoreCase) && item.STATUS == "A");
+                        if (objItemEncontrado_with_ref != null)
+                        {
+                            log.Debug("Encontrou um item pela referência");
+                            combobox.SelectedItem = objItemEncontrado_with_ref;
+                        }
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
                     if (combobox.SelectedItem == null)
@@ -1670,22 +1859,16 @@ namespace PDV_WPF.Telas
                         }
                     }
                     log.Debug($"cbb.SelectedItem {(combobox.SelectedItem == null ? "" : "não")} era nulo");
-
                 }
                 catch (Exception ex)
                 {
-                    log.Error("Erro ao buscar produto", ex);
-                    //return MostrarProdutoNaoEncontrado(pInput);
-                    int prodNaoEncontrado = MostrarProdutoNaoEncontrado(pInput);
-                    return prodNaoEncontrado == -1 ? null : new ComboBoxBindingDTO_Produto() { ID_IDENTIFICADOR = prodNaoEncontrado, COD_BARRA = "", DESCRICAO = "", REFERENCIA = "" };
-
-                    //return -1;
+                    log.Error("Erro ao buscar produto", ex);                    
+                    int prodNaoEncontrado = produtoPrePesado ? -1 : MostrarProdutoNaoEncontrado(pInput);
+                    return prodNaoEncontrado == -1 ? null : new ComboBoxBindingDTO_Produto() { ID_IDENTIFICADOR = prodNaoEncontrado, COD_BARRA = "", DESCRICAO = "", REFERENCIA = "" };                    
                 }
 
-                if (combobox.SelectedItem == null)
-                {
-                    //return MostrarProdutoNaoEncontrado(pInput);
-                    ////return -1;
+                if (combobox.SelectedItem == null && !produtoPrePesado) //Se for código pré-pesado não exibimos agora a mensagem de não encontrado pois vamos tentar procurar novamente com o código de barras completo.
+                {                    
                     int prodNaoEncontrado = MostrarProdutoNaoEncontrado(pInput);
                     return prodNaoEncontrado == -1 ? null : new ComboBoxBindingDTO_Produto() { ID_IDENTIFICADOR = prodNaoEncontrado, COD_BARRA = "", DESCRICAO = "", REFERENCIA = "" };
                 }
@@ -1707,9 +1890,9 @@ namespace PDV_WPF.Telas
             {
                 return statusSangria.Normal;
             }
-
             var funcoes = new funcoesClass();
             decimal valoremgaveta = funcoes.CalculaValorEmCaixa(NO_CAIXA);
+
             //using (var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())
             //using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             //{
@@ -1755,7 +1938,7 @@ namespace PDV_WPF.Telas
                     if (aviso)
                     {
                         DialogBox.Show(strings.SANGRIA,
-                                       DialogBoxButtons.Yes, DialogBoxIcons.None,
+                                       DialogBoxButtons.Yes, DialogBoxIcons.Warn,
                                        false,
                                        strings.CAIXA_ESTA_ACIMA_DO_LIMITE,
                                        strings.PRESSIONE_ENTER_PARA_CONTINUAR);
@@ -1820,7 +2003,7 @@ namespace PDV_WPF.Telas
                                 {
                                     turno_aberto = true;
                                     udx_pdv_oper = funcoes.VerificaPDVOper(_usuario);
-                                    ExecFechamentoCaixa();
+                                    ExecFechamentoCaixa(out bool relatorioX);
                                     if (turno_aberto)
                                     {
                                         turno_aberto = false;
@@ -1959,7 +2142,7 @@ namespace PDV_WPF.Telas
         /// Executa o fechamento do caixa
         /// </summary>
         /// <returns></returns>
-        private bool ExecFechamentoCaixa()
+        private bool ExecFechamentoCaixa(out bool relatorioX)
         {
             log.Debug($"ExecFechamentoCaixa() - contingencia = {_contingencia}");
             //if (_contingencia)
@@ -1976,6 +2159,7 @@ namespace PDV_WPF.Telas
             {
                 log.Debug("ExecFechamentoCaixa() NÃO HÁ CAIXA ABERTO - turno_aberto = FALSE ");
                 DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.No, DialogBoxIcons.None, false, strings.NAO_HA_TURNO_ABERTO);
+                relatorioX = false;
                 return false;
             }
             //}
@@ -2003,29 +2187,56 @@ namespace PDV_WPF.Telas
                     fc.ShowDialog();
                     if (fc.DialogResult == false)
                     {
+                        relatorioX = false;
                         return false;
                     }
-
-                    ChecarPorContingencia(_contingencia, 0, EnmTipoSync.tudo);
-                    txb_Avisos.Text = "CAIXA FECHADO";
+                    relatorioX = fc.ImpRelX;
+                    if (!relatorioX) txb_Avisos.Text = "CAIXA FECHADO";
+                    try
+                    {
+                        log.Debug("Iniciando checagem por conexão e sincronização de tudo no fechamento de turno.");
+                        Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, 0, EnmTipoSync.tudo); });
+                        bool waitTime = executeSyncAsync.Wait(3000);
+                        if (!waitTime)
+                        {
+                            log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                            log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                            this.IsEnabled = false;
+                            TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                            dialog.Show();
+                            Task.WaitAll(executeSyncAsync);
+                            this.IsEnabled = true; dialog.CloseDialog();
+                        }
+                        log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                    }
+                    catch (AggregateException agex)
+                    {
+                        this.IsEnabled = true; TimedBox.stateDialog = false;
+                        string[] erros = new string[1];
+                        foreach (var ex in agex.InnerExceptions)
+                        {
+                            erros[0] = ex.Message;
+                        }
+                        _contingencia = true;
+                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                        DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                        log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                    }
                 }
                 catch (Exception ex)
                 {
                     DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.No, DialogBoxIcons.Error, false, RetornarMensagemErro(ex, false));
                     log.Error("Erro ao executar o fechamento de turno", ex);
+                    relatorioX = false;
                     return false;
 
                 }
-                turno_aberto = false;
-                if (txb_Avisos.Text == "FAZER SANGRIA")
-                {
-                    txb_Avisos.Text = "CAIXA LIVRE";
-                }
-
+                if (!relatorioX) turno_aberto = false;
                 return true;
             }
             else
             {
+                relatorioX = false;
                 return false;
             }
         }
@@ -2229,13 +2440,41 @@ namespace PDV_WPF.Telas
                     log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Fiscal(...)");
                     if (_contingencia == false)
                     {
-                        log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
-                        ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                        try
+                        {
+                            log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de tudo após finalização da venda.");
+                            Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
+                            bool waitTime = executeSyncAsync.Wait(3000);
+                            if (!waitTime)
+                            {
+                                log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                                log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                                this.IsEnabled = false;
+                                TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                                dialog.Show();
+                                Task.WaitAll(executeSyncAsync);
+                                this.IsEnabled = true; dialog.CloseDialog();
+                            }
+                            log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                        }
+                        catch (AggregateException agex)
+                        {
+                            this.IsEnabled = true; TimedBox.stateDialog = false;
+                            string[] erros = new string[1];
+                            foreach (var ex in agex.InnerExceptions)
+                            {
+                                erros[0] = ex.Message;
+                            }
+                            _contingencia = true;
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                            log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                        }
                     }
                     else
                     {
                         log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
-                      "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                                  "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
                     }
                     return true;
                 }
@@ -2248,15 +2487,43 @@ namespace PDV_WPF.Telas
                 {
                     LimparUltimaVenda();
                     log.Debug("Verificando se o caixa já está em modo de contigencia na finaização da venda Fiscal(...)");
-                    if(_contingencia == false)
+                    if (_contingencia == false)
                     {
-                        log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
-                        ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
+                        try
+                        {
+                            log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de tudo após finalização da venda.");
+                            Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
+                            bool waitTime = executeSyncAsync.Wait(3000);
+                            if (!waitTime)
+                            {
+                                log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                                log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                                this.IsEnabled = false;
+                                TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                                dialog.Show();
+                                Task.WaitAll(executeSyncAsync);
+                                this.IsEnabled = true; dialog.CloseDialog();
+                            }
+                            log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                        }
+                        catch (AggregateException agex)
+                        {
+                            this.IsEnabled = true; TimedBox.stateDialog = false;
+                            string[] erros = new string[1];
+                            foreach (var ex in agex.InnerExceptions)
+                            {
+                                erros[0] = ex.Message;
+                            }
+                            _contingencia = true;
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                            log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                        }
                     }
                     else
                     {
                         log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
-                        "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                                  "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
                     }
                 }
                 else
@@ -2303,13 +2570,41 @@ namespace PDV_WPF.Telas
             log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Não Fiscal(...)");
             if (_contingencia == false)
             {
-                log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
-                ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo);
+                try
+                {
+                    log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de tudo após finalização da venda.");
+                    Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo); });
+                    bool waitTime = executeSyncAsync.Wait(3000);
+                    if (!waitTime)
+                    {
+                        log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                        log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                        this.IsEnabled = false;
+                        TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                        dialog.Show();
+                        Task.WaitAll(executeSyncAsync);
+                        this.IsEnabled = true; dialog.CloseDialog();
+                    }
+                    log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                }
+                catch (AggregateException agex)
+                {
+                    this.IsEnabled = true; TimedBox.stateDialog = false;
+                    string[] erros = new string[1];
+                    foreach (var ex in agex.InnerExceptions)
+                    {
+                        erros[0] = ex.Message;
+                    }
+                    _contingencia = true;
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                    log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                }
             }
             else
             {
                 log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
-                        "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                          "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
             }
         }
 
@@ -2404,7 +2699,45 @@ namespace PDV_WPF.Telas
 
             LimparTela();
             LimparUltimaVenda();
-            ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo);
+            log.Debug("Verificando se o caixa já está em modo de contigencia ao finalizar devolução(...)");
+            if (_contingencia == false)
+            {
+                try
+                {
+                    log.Debug("Caixa não está em contigencia, iniciando checagem por conexão e sincronização de tudo ao finalizar devolução.");
+                    Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo); });
+                    bool waitTime = executeSyncAsync.Wait(3000);
+                    if (!waitTime)
+                    {
+                        log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                        log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                        this.IsEnabled = false;
+                        TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                        dialog.Show();
+                        Task.WaitAll(executeSyncAsync);
+                        this.IsEnabled = true; dialog.CloseDialog();
+                    }
+                    log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                }
+                catch (AggregateException agex)
+                {
+                    this.IsEnabled = true; TimedBox.stateDialog = false;
+                    string[] erros = new string[1];
+                    foreach (var ex in agex.InnerExceptions)
+                    {
+                        erros[0] = ex.Message;
+                    }
+                    _contingencia = true;
+                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                    log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                }
+            }
+            else
+            {
+                log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                          "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+            }
             LimparObjetoDeVendaNovo();
         }
 
@@ -2444,15 +2777,19 @@ namespace PDV_WPF.Telas
                 _usouOrcamento = _usouPedido = _usouOS = false; // Independentemente do resultado deste método, deve indicar o término do uso do orçamento na venda, para não comprometer o funcionamento subsequente.
             }
         }
-
+        private void Completed_StoryBoard(object sender, EventArgs a)
+        {
+            txb_Valor_Desconto.Text = "R$ 0,00";
+            Canvas_Desconto.Visibility = Visibility.Collapsed;
+        }
         /// <summary>
         /// Determina se o cupom é fiscal ou não ou se é uma devolução
         /// </summary>
-        private void FinalizarVendaNovo()
+        private void FinalizarVendaNovo(bool scannTech = false)
         {
             //ChecaPorContingencia(contingencia, EnmTipoSync.cadastros);
             if (subtotal > 0)
-            {                
+            {
                 #region AmbiMAITRE
 
                 if (IMPRESSORA_USB_PED != "Nenhuma")
@@ -2479,13 +2816,8 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                #endregion AmbiMAITRE
-                //Pega valor do textBox Total Geral fiquei com preguiça de procurar a variavel que armazena esse valor então peguei do textbox.
-                string tot = txb_TotGer.Text;
-                string[] totConvert = tot.Split(' ');
-                decimal.TryParse(totConvert[1], out decimal totConvertido);
-                FechamentoCupom.vlrTotalVenda = totConvertido;
-                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, ref vendaAtual, _modoTeste)
+                #endregion AmbiMAITRE                
+                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, subtotal, ref vendaAtual, _modoTeste, scannTech)
                 {
                     //valor_venda = subtotal,
                     _info_int = infoStr,
@@ -2494,7 +2826,8 @@ namespace PDV_WPF.Telas
 
                 log.Debug("Cupom sem ser devolução a ser finalizado");
                 try
-                {                                      
+                {
+                    lbl_Cortesia.Content = "Finalizando ...";
                     fechamento.ShowDialog();
                     //vendaAtual = fechamento._vendaAtual;
                 }
@@ -2506,13 +2839,20 @@ namespace PDV_WPF.Telas
 
                 if (fechamento.DialogResult == false)
                 {
+                    if (Canvas_Desconto.Visibility == Visibility.Visible && Canvas_Desconto.Margin == new Thickness(-0, 0, 0, 0))
+                    {
+                        Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
+                        fecha.Begin();
+                        fecha.Completed += new EventHandler(Completed_StoryBoard);
+                    }
                     log.Debug("Finaliza cupom. Fechamento cancelado");
+                    lbl_Cortesia.Content = "Cancelada finalização da venda ...";
                     _tipo = ItemChoiceType.ABERTO;
                     return;
                 }
                 else if (fechamento.DialogResult == true) //Caso o fechamento tenha sido bem sucedido ou é um processo de devolução:
                 {
-                    //oldCRT = fechamento.respCRT;
+                    //oldCRT = fechamento.respCRT;                    
                     foreach ((string strCfePgto, decimal vlrPgto, int idAdm) metodo in fechamento.metodosnew)
                     {
                         if (metodo.strCfePgto == "05")
@@ -2520,7 +2860,7 @@ namespace PDV_WPF.Telas
                         else if (metodo.strCfePgto == "01")
                         {
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.troco);
-                            if(ACFILLPREFIX == 1) AbreGavetaDLL();
+                            if (ACFILLPREFIX == 1) AbreGavetaDLL();
                         }
                         else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && USATEF)
                         {
@@ -2530,7 +2870,12 @@ namespace PDV_WPF.Telas
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
 
                     }
-
+                    if (Canvas_Desconto.Visibility == Visibility.Visible && Canvas_Desconto.Margin == new Thickness(-0, 0, 0, 0))
+                    {
+                        Storyboard fecha = FindResource("Canvas_DescontoClose") as Storyboard;
+                        fecha.Begin();
+                        fecha.Completed += new EventHandler(Completed_StoryBoard);
+                    }
                     if (!vendaAtual.TotalizaCupom())
                     {
                         _tipo = ItemChoiceType.ABERTO;
@@ -2641,7 +2986,7 @@ namespace PDV_WPF.Telas
                 LimparObjetoDeVendaNovo();
                 AtualizarRetroTabelas();
                 DeterminarStatusDeSangria(false);
-            }
+            }            
         }
 
 
@@ -2649,15 +2994,26 @@ namespace PDV_WPF.Telas
         /// Lança texto no cupom virtual (na tela)
         /// </summary>
         /// <param name="pText"></param>
-        private void ImprimirCupomVirtual(string pText)
+        private void ImprimirCupomVirtual(string pText, bool isCancellationItem = false)
         {
             var pg = new Paragraph
             {
                 Margin = new Thickness(0),
                 TextAlignment = TextAlignment.Left,
-                TextIndent = indentdaMargem
+                TextIndent = indentdaMargem,
+                Foreground = isCancellationItem ? Brushes.Red : Foreground
             };
-            pg.Inlines.Add(new Run(pText));
+            
+            var run = new Run(pText);
+            
+            if (isCancellationItem) 
+                run.TextDecorations.Add(new TextDecoration() 
+                {
+                  Pen = new Pen(Brushes.Red, 1),
+                  Location = TextDecorationLocation.Strikethrough
+                });
+
+            pg.Inlines.Add(run);
             richTextBox1.Document.Blocks.Add(pg);
             richTextBox1.Focus();
             richTextBox1.ScrollToEnd();
@@ -2932,7 +3288,7 @@ namespace PDV_WPF.Telas
                 case DecisaoWhats.ImpressaoNormal:
                     try
                     {
-                        ultimaImpressao = VendaDEMO.IMPRIME(venda_prazo, cFeDeRetorno);                        
+                        ultimaImpressao = VendaDEMO.IMPRIME(venda_prazo, cFeDeRetorno, pFechamento.descNaVenda);
                         if (vendaAtual.imprimeViaAssinar)
                         {
                             VendaDEMO.IMPRIME(1);
@@ -4151,7 +4507,7 @@ namespace PDV_WPF.Telas
                     try
                     {
 
-                        ultimaImpressao = VendaImpressa.IMPRIME(venda_prazo, cFeDeRetorno);
+                        ultimaImpressao = VendaImpressa.IMPRIME(venda_prazo, cFeDeRetorno, pFechamento.descNaVenda);
                         if (vendaAtual.imprimeViaAssinar)
                         {
                             VendaImpressa.IMPRIME(1);
@@ -4358,12 +4714,20 @@ namespace PDV_WPF.Telas
             _emTransacao = false;
 
             // Inicia a sync de cadastros para evitar aquele problema de senha cadastrada no servidor mas ainda não no PDV:
-            IniciarSincronizacaoDB(EnmTipoSync.cadastros, 0);
+            try
+            {
+                IniciarSincronizacaoDB(EnmTipoSync.cadastros, 0);
+            }
+            catch (Exception ex)
+            {
+                log.Debug("Erro ao sincronizar: " + ex.Message);
+                DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte.");
+            }
 
             //IniciarTestes();
             ChecarStatusTurno();
             try
-            {              
+            {
                 CarregarClientesOC();
                 CarregaAdministradoras();
                 log.Debug("Clientes carregados");
@@ -4489,7 +4853,7 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATServidor())
                         {
-                            Login.stateGif = false;
+                            ExibirGif.stateGif = false;
                             MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
                     }
@@ -4507,7 +4871,7 @@ namespace PDV_WPF.Telas
                     {
                         if (!ChecaStatusSATLocal(pContingencia))
                         {
-                            Login.stateGif = false;
+                            ExibirGif.stateGif = false;
                             MessageBox.Show("SAT não está respondendo. Não será possível fazer vendas no SAT.", "Aviso", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                         }
 
@@ -4587,12 +4951,11 @@ namespace PDV_WPF.Telas
             await Task.Delay(pDelay);
             if (!_emTransacao) { richTextBox1.Document.Blocks.Clear(); }
             //mostratroco = false;
-            if (!ChecarPorSangria())
+            if (!ChecarPorSangria() && !_emTransacao)
             {
                 txb_Avisos.Text = "CAIXA LIVRE";
             }
-
-            if (_modo_consulta == false)
+            if (_modo_consulta == false && !_emTransacao)
             {
                 lbl_Cortesia.Content = null;
                 lbl_Marquee.Visibility = Visibility.Visible;
@@ -4763,8 +5126,7 @@ namespace PDV_WPF.Telas
                 _tipo = pegaID.tipo;
             }
 
-        }
-
+        }       
         /// <summary>
         /// Abre a janela pedindo o vendedor
         /// </summary>
@@ -4795,7 +5157,7 @@ namespace PDV_WPF.Telas
                         bb.run_Linha4.Text = "ou pressione [ESC] para cancelar.";
                         bb.run_Linha5.Text = "";
                         bb.lbl_Title.Text = "Balança não configurada";
-                        bb.txb_Peso.Text = "1,000";
+                        bb.txb_Peso.AppendText("1,000");
 
                     }
                     bb.ShowDialog();
@@ -4811,7 +5173,7 @@ namespace PDV_WPF.Telas
                                     PegarPesoDaBalanca();
                                     return;
                                 case false:
-                                    txb_Qtde.Text = "";                                    
+                                    txb_Qtde.Text = "";
                                     return;
                             }
                     }
@@ -4907,12 +5269,12 @@ namespace PDV_WPF.Telas
             {
                 DialogBox.Show("KIT PROMOCIONAL", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Abra o caixa antes de importar um KIT.");
                 return;
-            }           
+            }
             var po = new PerguntaOrcamento(PerguntaOrcamento.EnmTipo.kitPromocional);
             switch (po.ShowDialog())
             {
-                case true:                                  
-                    combobox.Text = "@" + po.numeroInformado.ToString();                    
+                case true:
+                    combobox.Text = "@" + po.numeroInformado.ToString();
                     CarregarProdutosKit();
                     combobox.Text = "";
                     break;
@@ -5213,8 +5575,38 @@ namespace PDV_WPF.Telas
                 {
                     PedirVendedor();
                 }
-                vendaAtual.AplicaPrecoAtacado();
-                FinalizarVendaNovo();
+
+                decimal vlrTotDescGeral = 0, vlrTotalDescAtacado = 0, vlrTotDescScannTech = 0;
+
+                if (SCANNTECH) vlrTotDescScannTech = vendaAtual.VerificaScannTech();
+                vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
+
+                if (vlrTotalDescAtacado > 0 && vlrTotDescScannTech > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "ATACADO & SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    vlrTotDescGeral = vlrTotalDescAtacado + vlrTotDescScannTech;
+                    txb_Valor_Desconto.Text = vlrTotDescGeral.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotalDescAtacado > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "ATACADO - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotalDescAtacado.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotDescScannTech > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotDescScannTech.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                FinalizarVendaNovo(vlrTotDescScannTech > 0);
             }
             catch (Exception ex)
             {
@@ -5257,8 +5649,37 @@ namespace PDV_WPF.Telas
             }
             try
             {
-                vendaAtual.AplicaPrecoAtacado();
-                FinalizarVendaNovo();
+                decimal vlrTotDescGeral = 0, vlrTotalDescAtacado = 0, vlrTotDescScannTech = 0;
+
+                if (SCANNTECH) vlrTotDescScannTech = vendaAtual.VerificaScannTech();
+                vlrTotalDescAtacado = vendaAtual.AplicaPrecoAtacado();
+
+                if (vlrTotalDescAtacado > 0 && vlrTotDescScannTech > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "ATACADO & SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    vlrTotDescGeral = vlrTotalDescAtacado + vlrTotDescScannTech;
+                    txb_Valor_Desconto.Text = vlrTotDescGeral.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotalDescAtacado > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "ATACADO - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotalDescAtacado.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                else if (vlrTotDescScannTech > 0)
+                {
+                    txb_Mensagem_Desconto.Text = "SCANNTECH - NESTA COMPRA VOCÊ CLIENTE ESTÁ ECONOMIZANDO: ";
+                    txb_Valor_Desconto.Text = vlrTotDescScannTech.ToString("C");
+                    Canvas_Desconto.Visibility = Visibility.Visible;
+                    Storyboard abre = FindResource("Canvas_DescontoOpen") as Storyboard;
+                    abre.Begin();
+                }
+                FinalizarVendaNovo(vlrTotDescScannTech > 0);
             }
             catch (Exception ex)
             {
@@ -5301,8 +5722,8 @@ namespace PDV_WPF.Telas
                     combobox.IsEnabled = false;
                     txb_Qtde.Text = "Pesando...";
                     PegarPesoDaBalanca();
-                    combobox.IsEnabled = true; 
-                    combobox.Focus();                    
+                    combobox.IsEnabled = true;
+                    combobox.Focus();
                     if (txb_Qtde.Text == "")
                     {
                         return;
@@ -5317,6 +5738,20 @@ namespace PDV_WPF.Telas
                     return;
                 }
             }
+            else if (_prepesado == false && dadosDoItem.UNI_MEDIDA == "KG" && BALMODELO == 0 && txb_Qtde.Text == "")
+            {
+                combobox.IsEnabled = false;
+                txb_Qtde.Text = "Aguarde...";
+                PegarPesoDaBalanca();
+                combobox.IsEnabled = true;
+                combobox.Focus();
+                if (txb_Qtde.Text == "")
+                {
+                    return;
+                }
+
+                pQuant = Convert.ToDecimal(txb_Qtde.Text);
+            }
             #endregion Pegar peso
 
             log.Debug($" Código: {pCodigoItem}, Preço: {pPrecoUnitario}, Quant {pQuant}");
@@ -5324,8 +5759,8 @@ namespace PDV_WPF.Telas
             string csosnCfe = dadosDoItem.RCSOSN_CFE.Safestring().Trim();
             log.Debug("csosnCfe obtido");
             lbl_Marquee.Visibility = Visibility.Hidden;
-            log.Debug("obtendo descrição");            
-            lbl_Cortesia.Content = nomeKit != null ? nomeKit : dadosDoItem.DESCRICAO + dadosDoItem.COR + dadosDoItem.TAMANHO;   
+            log.Debug("obtendo descrição");
+            lbl_Cortesia.Content = nomeKit != null ? nomeKit : dadosDoItem.DESCRICAO + dadosDoItem.COR + dadosDoItem.TAMANHO;
             log.Debug("descrição obtida");
             combobox.Text = "";
             txb_Qtde.Clear();
@@ -5378,7 +5813,8 @@ namespace PDV_WPF.Telas
                                         pQuant,
                                         dadosDoItem.COD_BARRA,
                                         famiglia,
-                                        importadoKit);
+                                        importadoKit,
+                                        dadosDoItem.ID_SCANNTECH);
                 log.Debug("vendaAtual.RecebeNovoProduto concluído");
                 switch (dadosDoItem.RID_TIPOITEM == "9")
                 {
@@ -5467,7 +5903,7 @@ namespace PDV_WPF.Telas
                     numAtual = (vendaAtual.nItemCupom - 1).ToString().PadLeft(3, '0');
                     break;
             }
-            if (barcode == null) { ImprimirCupomVirtual($@"{numAtual} {pCodigoItem.ToString().PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27) + dadosDoItem.COR + dadosDoItem.TAMANHO}"); }
+            if (barcode is null || barcode is "") { ImprimirCupomVirtual($@"{numAtual} {pCodigoItem.ToString().PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27) + dadosDoItem.COR + dadosDoItem.TAMANHO}"); }
 
             else { ImprimirCupomVirtual($"{numAtual} {barcode.PadLeft(13, '0')} {dadosDoItem.DESCRICAO.Trunca(27) + dadosDoItem.COR + dadosDoItem.TAMANHO}"); }
             ImprimirCupomVirtual($"{pQuant.RoundABNT(3).ToString("0.000").Trunca(5),8} {dadosDoItem.UNI_MEDIDA} {pPrecoUnitario.RoundABNT(),10:0.00} {(pPrecoUnitario * pQuant).RoundABNT(),20:0.00}");
@@ -5477,7 +5913,7 @@ namespace PDV_WPF.Telas
 
 
         private bool EnviaParaSAT(FechamentoCupom pFechamento)
-        {
+        {           
             vendaAtual.InformaCliente(_tipo, infoStr);
 
             log.Debug(SATSERVIDOR ? "Fechamento no SAT Servidor" : "Fechamento no SAT Local");
@@ -5485,12 +5921,12 @@ namespace PDV_WPF.Telas
 
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = false, Indent = false };
             var XmlFinal = new StringBuilder();
-            var serializer = new XmlSerializer(typeof(CFe));
+            var serializer = new XmlSerializer(typeof(CFe));    
             using (var xwriter2 = XmlWriter.Create(XmlFinal, settings))
             {
                 var xns = new XmlSerializerNamespaces();
                 xns.Add(string.Empty, string.Empty);
-                Directory.CreateDirectory(@"SAT_LOG");
+                Directory.CreateDirectory(@"SAT_LOG");                
                 serializer.Serialize(xwriter2, vendaAtual.RetornaCFe(), xns); //Popula o stringbuilder para ser enviado para o SAT.
             }
             string _XML_ = XmlFinal.ToString().Replace(',', '.').Replace("utf-16", "utf-8");
@@ -5529,15 +5965,24 @@ namespace PDV_WPF.Telas
             {
                 try
                 {
+                    decimal attemptSatServidor = 1; StartSearchSatServidor:
                     using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter())
                     {
                         SAT_ENV_TA.SP_TRI_ENVIA_SAT_SERVIDOR(NO_CAIXA, bytes);
                     }
-
-                    var sb = new SATBox("Operação no SAT", "Aguarde a resposta do SAT.");
+                                       
+                    var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .                 Tentativa: {attemptSatServidor}");
                     sb.ShowDialog();
                     if (sb.DialogResult == false)
                     {
+                        attemptSatServidor++;
+                        log.Debug($"Tentativa de envio SatServidor falhou. Tentando novamente... tentativa: {attemptSatServidor}");                                                                                        
+                        using (var SAT_REC_TA = new TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
+                        using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
+                        if (attemptSatServidor <= 3) goto StartSearchSatServidor;
+                        log.Debug("Após 4 tentativas SatServiddor falhou em todas, segue a vida.");
+                        lbl_Cortesia.Content = "Falha no SAT";
+                        DialogBox.Show("SAT SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se comunicar com o aparelho SAT servidor.\nEntre em contato com o suporte.");                        
                         erroVenda = true;
                         return false;
                     }
@@ -5638,12 +6083,11 @@ namespace PDV_WPF.Telas
             {
                 cFeDeRetorno.infCFe.det[i].prod.vUnComOri = vendaAtual.RetornaCFe().infCFe.det[i].prod.vUnComOri;
             }
-            vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);
+            vendaAtual.RecebeCFeDoSAT(cFeDeRetorno);           
             return ImprimeESalvaCupomFiscal(pFechamento, xmlret, cFeDeRetorno);
         }
-
         private void ProcessarTextoNoACBox()
-        {            
+        {
             string input = combobox.Text;
             log.Debug("ProcessarTextoNoACBox chamado");
             if (!_modoDevolucao && !_modo_consulta)
@@ -5664,13 +6108,41 @@ namespace PDV_WPF.Telas
                 log.Debug("Verificando se o caixa já está em modo de contigencia na abertura da venda(...)");
                 if (_contingencia == false)
                 {
-                    log.Debug("Foi verificado que o caixa não está em modo de contigencia, será checado novamente se a conexão persiste.");
-                    ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros);
+                    try
+                    {
+                        log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização dos cadastros.");
+                        Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros); });
+                        bool waitTime = executeSyncAsync.Wait(3000);
+                        if (!waitTime)
+                        {
+                            log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                            log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                            this.IsEnabled = false;
+                            TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                            dialog.Show();
+                            Task.WaitAll(executeSyncAsync);
+                            this.IsEnabled = true; dialog.CloseDialog();
+                        }
+                        log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                    }
+                    catch (AggregateException agex)
+                    {
+                        this.IsEnabled = true; TimedBox.stateDialog = false;
+                        string[] erros = new string[1];
+                        foreach (var ex in agex.InnerExceptions)
+                        {
+                            erros[0] = ex.Message;
+                        }
+                        _contingencia = true;
+                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                        DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                        log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                    }
                 }
                 else
                 {
                     log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
-                        "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                              "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
                 }
                 log.Debug("Iniciando CarregarProdutos(...)");
                 AtualizarProdutosNoACBox();
@@ -5681,7 +6153,7 @@ namespace PDV_WPF.Telas
             log.Debug("Buscando a quantidade informada...");
 
             decimal quant = 1;
-            if (txb_Qtde.Text != "") { quant = Convert.ToDecimal(txb_Qtde.Text); }
+            if (txb_Qtde.Text != "") { log.Debug($"Convertendo {txb_Qtde.Text} (conteudo do txb_Qtde.Text) para decimal"); quant = Convert.ToDecimal(txb_Qtde.Text); }
 
             if (quant <= 0) { quant = 1; }
 
@@ -5736,11 +6208,16 @@ namespace PDV_WPF.Telas
             #region Detecta se foi escaneado um código pré-pesado
             if (input.StartsWith("2") && input.Length == 13)
             {
-                log.Debug("Código pré-pesado foi escaneado");
-                Decimal.TryParse(input.Substring(7, 5), out quant);
+                log.Debug("Possivel código pré-pesado foi escaneado, iniciando busca...");                
                 var produtoEncontradoPrePesado = ConverterInformacaoEmProduto(input.Substring(0, 7));
-                if (produtoEncontradoPrePesado == null) { return; }
+                if (produtoEncontradoPrePesado == null) 
+                { 
+                    log.Debug("Código pré-pesado não encontrado.");
+                    log.Debug("Possibilidades: Código não é pré-pesado ou de fato não está cadastrado.");
+                    goto getProdNaoPesado; 
+                }
 
+                Decimal.TryParse(input.Substring(7, 5), out quant);
                 input = produtoEncontradoPrePesado.ID_IDENTIFICADOR.ToString();
                 string _tipo;
                 using (var obtemdadosdoitem = new SP_TRI_OBTEMDADOSDOITEMTableAdapter())
@@ -5755,9 +6232,10 @@ namespace PDV_WPF.Telas
                     quant /= 1000;
                 }
                 _prepesado = true;
-
             }
             #endregion
+
+            getProdNaoPesado:            
 
             if (input == "") { return; }
 
@@ -5770,24 +6248,25 @@ namespace PDV_WPF.Telas
 
             decimal vUnCom = 0;
             //decimal comdesc;
-            decimal vDescAplic = 0;            
+            decimal vDescAplic = 0;
             using var ESTOQUE_TA = new TB_ESTOQUETableAdapter(); log.Debug("Instanciado TableAdapter da TB_ESTOQUE, a seguir será chamado SP_TRI_PEGAPRECO");
             int i = 0;
-            inicio:            
+        inicio:
             try
-            {                
+            {
+                ESTOQUE_TA.Connection = _contingencia == true ? LOCAL_FB_CONN : ESTOQUE_TA.Connection;
                 if (decimal.TryParse(ESTOQUE_TA.SP_TRI_PEGAPRECO(/*cod_produto*/produtoEncontrado.ID_IDENTIFICADOR, quant).Safestring(),
-                                 out vUnCom) == false)
+                    out vUnCom) == false)
                 {
                     log.Debug("Caiu no IF e não conseguiu parsear o retorno da SP_TRI_PEGAPRECO");
-                    throw new Exceptions.DataNotLoadedException("Não foi possível \"parsear\" o preço do produto.");                    
+                    throw new Exceptions.DataNotLoadedException("Não foi possível \"parsear\" o preço do produto.");
                 }
                 log.Debug($"SP_TRI_PEGAPRECO({produtoEncontrado.ID_IDENTIFICADOR}, {quant}): {vUnCom}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 i++;
-                if (i <= 3)
+                if (i <= 2)
                 {
                     MessageBox.Show("Por motivos de oscilação na rede o sistema não conseguiu obter informações do produto informado.\n\n      Pressione 'ENTER' para tentar novamente.\n      Tentativa: " + i, "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //MIGUÉ
                     log.Debug("Erro ao chamar SP_TRI_PEGAPRECO, e essa é a Exception gerada: " + ex);
@@ -5795,8 +6274,18 @@ namespace PDV_WPF.Telas
                 }
                 else
                 {
-                    MessageBox.Show("Após 3 tentativas o sistema não conseguiu obter informações do item.\n\nPor favor, reinicie a venda!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    i = 0;
+                    MessageBox.Show("Após 2 tentativas o sistema não conseguiu obter informações do item.\n\nVenda será reiniciada.\nEntre em contato com o suporte!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    TimedBox dialog = new TimedBox("Reiniciando", "Reiniciando a venda em modo de contigencia, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                    dialog.Show();
+                    _contingencia = true;
+                    lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible;
+                    ESTOQUE_TA.Dispose();
+                    CancelarVendaAtual(true);
+                    Thread.Sleep(2000);
+                    CarregarVendaPendenteNovo(true);
+                    lbl_Marquee.Visibility = Visibility.Hidden;
+                    lbl_Cortesia.Content = "Venda reiniciada em contigencia, continue passando...";
+                    dialog.CloseDialog();
                     return;
                 }
             }
@@ -5921,22 +6410,22 @@ namespace PDV_WPF.Telas
                 var remitem = new RemoverItem(numProximoItem - 1);
                 if (remitem.ShowDialog() == true)
                 {
-                    List <envCFeCFeInfCFeDetProd> produtoARemover = vendaAtual.RemoveProduto(remitem._int, remitem._string, remitem._qtdDevolver);
+                    List<envCFeCFeInfCFeDetProd> produtoARemover = vendaAtual.RemoveProduto(remitem._int, remitem._string, remitem._qtdDevolver);
                     if (produtoARemover is null)
                     {
                         DialogBox.Show(strings.ESTORNO_DE_ITEM, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.ITEM_INVALIDO_VERIFIQUE);
                         return;
                     }
                     foreach (var produtoRemove in produtoARemover)
-                    {                     
+                    {
                         try
                         {
                             decimal.TryParse(produtoRemove.vUnCom.Replace('.', ','), out decimal precounit);
                             decimal.TryParse(produtoRemove.qCom.Replace('.', ','), out decimal quant);
                             decimal.TryParse(produtoRemove.vDesc.Replace('.', ','), out decimal desc);
 
-                            ImprimirCupomVirtual(string.Format("CANCELADO - " + produtoRemove.xProd.Trunca(29)));
-                            ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoRemove.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)));
+                            ImprimirCupomVirtual(string.Format($"CANCEL. ITEM {remitem._int} - " + produtoRemove.xProd.Trunca(28)), true);
+                            ImprimirCupomVirtual(string.Format(@"{0} {1} {2} {3}", quant.RoundABNT(3).ToString().Trunca(4).PadLeft(8, ' '), produtoRemove.uCom, precounit.RoundABNT().ToString().PadLeft(10, ' '), (quant * (precounit - desc)).ToString("0.00").PadLeft(20)), true);
 
                             subtotal -= ((precounit * quant) - desc).RoundABNT();
                             txb_TotGer.Text = subtotal.RoundABNT().ToString("C2");
@@ -5952,7 +6441,6 @@ namespace PDV_WPF.Telas
                 }
             }
         }
-
         /// <summary>
         /// Se o AmbiOrcamento estiver aberto, traz a janela para frente
         /// </summary>
@@ -6125,11 +6613,16 @@ namespace PDV_WPF.Telas
 
         #endregion Methods
 
+        private void Combobox_OnPreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.PageDown) richTextBox1.PageDown();
+            if (e.Key == Key.PageUp) richTextBox1.PageUp();
+        }
         private void Combobox_OnKeyDown(object sender, KeyEventArgs e)
-        {            
-            if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))            
+        {
+            if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))
                 ProcessarTextoNoACBox();
-                //else MainWindow_KeyDown(sender, e);            
+            //else MainWindow_KeyDown(sender, e);           
         }
         private void Caixa_OnPreviewKeyDown(object sender, KeyEventArgs e)
         {
@@ -6217,6 +6710,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
+                    if (!_emTransacao) { DialogBox.Show("Remover item", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Nenhuma venda está aberta, não será possivel estornar item."); return; }
                     RemoverItemDaVendaNovo();
                 });
             } //Ativa modo de cancelamento de item (Tecla F4 com venda ativa)
@@ -6230,7 +6724,7 @@ namespace PDV_WPF.Telas
                 });
             } // Ativa modo de consulta avançado (Tecla F5)
             /* ---------------*/
-            else if (e.Key == Key.F6 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
+            else if (e.Key == Key.F6 && e.KeyboardDevice.Modifiers == ModifierKeys.None && turno_aberto)
             {
                 //cancelamentoAtual.CancelaCupomFiscal(new CupomSAT());
                 //return;
@@ -6252,7 +6746,7 @@ namespace PDV_WPF.Telas
                 });
             } //Ativa o cancelamento de compras (Tecla F6)
             /* ---------------*/
-            else if (e.Key == Key.F7)
+            else if (e.Key == Key.F7 && !_emTransacao && turno_aberto)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
@@ -6266,7 +6760,7 @@ namespace PDV_WPF.Telas
                 });
             } // Ativa o modo de devolução (Tecla F7)
             /* ---------------*/
-            else if (e.Key == Key.F8)
+            else if (e.Key == Key.F8 && turno_aberto)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
@@ -6333,10 +6827,18 @@ namespace PDV_WPF.Telas
                 log.Debug($"turno_aberto = {turno_aberto}");
                 switch (turno_aberto)// condicional para descobrir o status do turno
                 {
-                    case true://Caso o turno esteja true, quer dizer que está aberto e você deseja fechar, então o método abaixo irá fechar o caixa 
-                        if (ExecFechamentoCaixa()) // já faz sync (tudo)
+                    case true: //Caso o turno esteja true, quer dizer que está aberto e você deseja fechar, então o método abaixo irá fechar o caixa 
+                        bool resultFechamento = ExecFechamentoCaixa(out bool relatorioX);
+                        switch (resultFechamento)
                         {
-                            DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_FECHADO_COM_SUCESSO);
+                            case true when relatorioX == false:
+                                log.Debug("Exibindo ao usuario CAIXA FECHADO com sucesso.");
+                                DialogBox.Show(strings.FECHAMENTO_DE_TURNO, DialogBoxButtons.Yes, DialogBoxIcons.Info, false, strings.TURNO_FECHADO_COM_SUCESSO);
+                                break;
+                            case true when relatorioX == true:
+                                log.Debug("Exibindo ao usuario RELATÓRIO X impresso com sucesso.");
+                                DialogBox.Show("Relatório X", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Relatório de valores impresso com sucesso.");
+                                break;
                         }
                         break;
                     case false:// Caso seja false, quer dizer que está fechado e você deseja abrir, o método abaixo irá abrir o caixa
@@ -6508,7 +7010,7 @@ namespace PDV_WPF.Telas
                 });
             } //Pergunta numero da Ordem de serviço
             /* ---------------*/
-            else if(e.Key == Key.K && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            else if (e.Key == Key.K && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
@@ -6522,7 +7024,7 @@ namespace PDV_WPF.Telas
                 {
                     log.Debug("Logo encontrado. Carregando novo logo...");
 
-                    logoplaceholder.Visibility = Visibility.Collapsed;                    
+                    logoplaceholder.Visibility = Visibility.Collapsed;
                     // Create Image and set its width and height  
                     Image dynamicImage = new Image();
                     //dynamicImage.Width = 500;
@@ -6532,7 +7034,7 @@ namespace PDV_WPF.Telas
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
                     bitmap.UriSource = new Uri(@"logo.png", UriKind.RelativeOrAbsolute);
-                    bitmap.EndInit();                    
+                    bitmap.EndInit();
 
                     // Set Image.Source  
                     dynamicImage.Source = bitmap;
@@ -6570,13 +7072,13 @@ namespace PDV_WPF.Telas
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
+                    if (SENHA_REIMPRESSAO && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
                     e.Handled = true;
                     new ReimprimeCupons().ShowDialog();
                 });
             }//Tenta pegar o peso da balança.
             /* ---------------*/
             else if (e.Key == Key.S && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao && !_modo_consulta)// Sincronização manual
-
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
@@ -6588,14 +7090,46 @@ namespace PDV_WPF.Telas
                     /// Exibir uma tela de aguardar.
                     if (DialogBox.Show(strings.SINCRONIZACAO, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, strings.PDV_INICIARA_ATUALIZACAO_DE_REGISTROS) == true)
                     {
-                        ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo);
-                        IniciarSincronizacaoDB(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync/*, EnmTipoSync.CtrlS*/);
+                        try
+                        {
+                            log.Debug("Iniciando a checagem por conexão e sincronização dos cadastros manualmente.");
+                            Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros); });
+                            bool waitTime = executeSyncAsync.Wait(3000);
+                            if (!waitTime)
+                            {
+                                log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                                log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                                this.IsEnabled = false;
+                                TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                                dialog.Show();
+                                Task.WaitAll(executeSyncAsync);
+                                this.IsEnabled = true; dialog.CloseDialog();
+                            }
+                            log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+                        }
+                        catch (AggregateException agex)
+                        {
+                            this.IsEnabled = true; TimedBox.stateDialog = false;
+                            string[] erros = new string[1];
+                            foreach (var ex in agex.InnerExceptions)
+                            {
+                                erros[0] = ex.Message;
+                            }
+                            _contingencia = true;
+                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
+                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                            log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                        }
                     }
-
                     //IniciarTestes();
                 });
             } // Sincronização manual
             /* ---------------*/
+            else if (e.Key == Key.L && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
+            {
+                e.Handled = true;
+                ReiniciaAplicacao();
+            }
             else if (e.Key == Key.T && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 e.Handled = true;
@@ -6698,6 +7232,29 @@ namespace PDV_WPF.Telas
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
     }
+    public class FocusableAutoCompleteBox : AutoCompleteBox
+    {
+        public new void Focus()
+        {
+            if (Template.FindName("Text", this) is TextBox textbox) textbox.Focus();
+        }
+        //protected override void OnKeyDown(KeyEventArgs e)
+        //{
+        //    if (e.Key == Key.F4)
+        //    {
+        //        return;
+        //    }
+        //    else if (e.Key == Key.Escape && (Text != "" || Text != String.Empty))
+        //    {
+        //        Text = "";
+        //        e.Handled = true;
+        //    }
+        //    else
+        //    {
+        //        base.OnKeyDown(e);
+        //    }
+        //}
+    }//Controle da caixa autocompletável.
 
     #endregion Classes Auxiliares
 

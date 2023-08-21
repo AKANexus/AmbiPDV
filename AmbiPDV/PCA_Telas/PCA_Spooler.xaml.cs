@@ -21,7 +21,31 @@ namespace PDV_WPF.PCA_Telas
             InitializeComponent();
             _impressora = impressora;
         }
-
+        #region Events
+        private void but_Prev_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Prev.FontSize = 24;
+        }
+        private void but_Prev_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Prev.FontSize = 20;
+        }
+        private void but_Next_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Next.FontSize = 23;
+        }
+        private void but_Next_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Next.FontSize = 20;
+        }
+        private void but_Action_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Action.FontSize = 24;
+        }
+        private void but_Action_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Action.FontSize = 20;
+        }
         private void But_Next_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.RightButton == MouseButtonState.Pressed || e.MiddleButton == MouseButtonState.Pressed) return;
@@ -93,5 +117,6 @@ namespace PDV_WPF.PCA_Telas
                 }
             }
         }
+        #endregion
     }
 }

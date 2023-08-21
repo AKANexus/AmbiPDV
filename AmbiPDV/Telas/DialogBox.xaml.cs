@@ -538,6 +538,7 @@ namespace PDV_WPF.Telas
 
         public static bool? Show(string title, DialogBoxButtons dbbuttons, DialogBoxIcons dbicons, bool showtimestamp, params string[] linhas)
         {
+            TimedBox.stateDialog = false;
             DialogBox dbox = new DialogBox();
             if (dbbuttons == DialogBoxButtons.None)
             {
@@ -638,7 +639,14 @@ namespace PDV_WPF.Telas
                     return null;
             }
         }
-
+        private void but_Cancelar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Nyet.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Nyet.FontSize = 12;
+        }
         private void cancelar_Click(object sender, MouseButtonEventArgs e)
         {
             DialogResult = false;
@@ -646,6 +654,14 @@ namespace PDV_WPF.Telas
             return;
         }
 
+        private void but_Confirmar_MouseEnter(object sender, EventArgs e)
+        {
+            lbl_Da.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
+        {
+            lbl_Da.FontSize = 12;
+        }
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
             DialogResult = true;

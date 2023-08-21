@@ -30,6 +30,7 @@ namespace PDV_WPF.Telas
             {
                 txb_Caminho_Arquivo.Text = Properties.Settings.Default.SWATInfo;
             }
+            TimedBox.stateDialog = false;
             //DataContext = new MainViewModel();
         }
 

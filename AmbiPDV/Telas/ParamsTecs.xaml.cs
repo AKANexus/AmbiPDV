@@ -69,13 +69,31 @@ namespace PDV_WPF
             #endregion AmbiMAITRE
             cbb_Marca.SelectedIndex = BALMODELO;
             cbb_Ports.SelectedIndex = ports.FindIndex(a => a == "COM" + BALPORTA);
+            tgl_Referencia.IsChecked = ACREFERENCIA.ToBool();
             PreencherTipoLicenca();
+            TimedBox.stateDialog = false;
         }
 
         #endregion (De)Constructor
 
         #region Events
 
+        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 15;
+        }
+        private void but_Confirmar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Da.FontSize = 12;
+        }
+        private void but_Cancelar_MouseEnter(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 15;
+        }
+        private void but_Cancelar_MouseLeave(object sender, MouseEventArgs e)
+        {
+            lbl_Nyet.FontSize = 12;
+        }      
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.LeftShift || e.Key == Key.RightShift)
@@ -340,7 +358,7 @@ namespace PDV_WPF
                 ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
                 configuracoesXML.Serializa();
                 SalvaConfigsNaBase();
-                MessageBox.Show("Configurações Salvas.");
+                MessageBox.Show("Configurações/parametros técnicos salvo com sucesso.       ", "Informativo", MessageBoxButton.OK, MessageBoxImage.Information);
                 Close();
             }
         }
@@ -358,8 +376,6 @@ namespace PDV_WPF
         private void tgl_usatef_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-        }
-
+        }     
     }
-
 }

@@ -33,7 +33,7 @@ namespace PDV_WPF.Configuracoes
             }
         }
 
-        public static string CNPJSH = "22141365000179";
+        public static string CNPJSH = "30737989000181";
 
         public static string ID_MAC { get; set; }
 
@@ -133,6 +133,8 @@ namespace PDV_WPF.Configuracoes
             }
 
         }
+
+        public static string LAYOUT_SAT { get; set; } = "000";
 
         private static string _iNTERROMPE_NAO_ENCONTRADO;
         public static bool INTERROMPE_NAO_ENCONTRADO
@@ -566,6 +568,9 @@ namespace PDV_WPF.Configuracoes
         public static bool EXIBEFOTO { get; set; }
         public static bool SENHA_PRAZO { get; set; }
         public static bool SENHA_CONSULTA { get; set; }
+        public static bool SCANNTECH { get; set; }
+        public static bool SENHA_REIMPRESSAO { get; set; }
+        public static int PREFIX_LISTBOX { get; set; }
 
         #endregion Propriedades
 
@@ -603,6 +608,7 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pVALOR_DE_FOLGA", VALOR_DE_FOLGA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pPERMITE_FOLGA_SANGRIA", _pERMITE_FOLGA_SANGRIA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pINFORMA_MAQUININHA", _iNFORMA_MAQUININHA);
+                fbCommSalvaConfig.Parameters.AddWithValue("@pLAYOUT_SAT", LAYOUT_SAT);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pINTERROMPE_NAO_ENCONTRADO", _iNTERROMPE_NAO_ENCONTRADO);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pMENSAGEM_CORTESIA", MENSAGEM_CORTESIA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pICMS_CONT", ICMS_CONT);
@@ -645,14 +651,14 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.CommandText =
                                         "UPDATE OR INSERT INTO TRI_PDV_CONFIG " +
                                         "(ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, " +
-                                        "INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, " +
+                                        "INFORMA_MAQUININHA, LAYOUT_SAT, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, " +
                                         "MODELO_CUPOM, MENSAGEM_RODAPE, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, " +
                                         " IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, " +
                                         "BALPORTA, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, " +
                                         "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE) " +
                                         "VALUES " +
                                         "(@pID_MAC, @pNO_CAIXA, @pEXIGE_SANGRIA, @pVALOR_MAX_CAIXA, @pBLOQUEIA_NO_LIMITE, @pVALOR_DE_FOLGA, @pPERMITE_FOLGA_SANGRIA, " +
-                                        "@pINFORMA_MAQUININHA, @pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
+                                        "@pINFORMA_MAQUININHA, @pLAYOUT_SAT, @pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
                                         "@pMODELO_CUPOM, @pMENSAGEM_RODAPE, @pMODELO_SAT, @pSATSERVIDOR, @pSAT_CODATIV, @pSIGN_AC, @pSAT_USADO, @pECF_ATIVA, " +
                                         "@pECF_PORTA, @pIMPRESSORA_USB, @pIMPRESSORA_USB_PED, @pPERGUNTA_WHATS, @pUSATEF, @pTEFIP, @pTEFNUMLOJA, @pTEFNUMTERMINAL, " +
                                         "@pTEFPEDECPFPELOPINPAD, @pBALPORTA, @pBALBAUD, @pBALPARITY, @pBALMODELO, @pACFILLPREFIX, @pACFILLMODE, @pACREFERENCIA, @pSYSCOMISSAO, @pSATSERVTIMEOUT, " +
@@ -673,11 +679,11 @@ namespace PDV_WPF.Configuracoes
                         if (SETUP_TA.GetData().Rows.Count < 1)
                         {
                             SETUP_TA.Insert(1, null, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DateTime.Now,
-                                DateTime.Now, DateTime.Now, null, (double)DESCONTO_MAXIMO, null, _uSARECARGAS, "0.0.0.0", "N", COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
+                            DateTime.Now, DateTime.Now, null, (double)DESCONTO_MAXIMO, null, _uSARECARGAS, "0.0.0.0", "N", COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
                         }
                         else
                         {
-                            SETUP_TA.UpdateSetup(1, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DESCONTO_MAXIMO, _uSARECARGAS, DETALHADESCONTO.ToInt().ToString(), COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
+                            SETUP_TA.UpdateSetup(1, Assembly.GetExecutingAssembly().GetName().Version.ToString(), DateTime.Now, DESCONTO_MAXIMO, _uSARECARGAS, DETALHADESCONTO.ToInt().ToString(), COD10PORCENTO, _mODOBAR, _tIPO_LICENCA, _uSA_COMANDA, _pEDESENHACANCEL);
                         }
                     }
                     using (var fbCommGetNoCaixaAuxConfigLocal = new FbCommand())
@@ -780,6 +786,7 @@ namespace PDV_WPF.Configuracoes
                 _bLOQUEIA_NO_LIMITE = (registro.BLOQUEIA_NO_LIMITE is null) ? "N" : registro.BLOQUEIA_NO_LIMITE;
                 VALOR_DE_FOLGA = (decimal)registro.VALOR_DE_FOLGA;
                 _iNFORMA_MAQUININHA = (registro.INFORMA_MAQUININHA is null) ? "N" : registro.INFORMA_MAQUININHA;
+                LAYOUT_SAT = (registro.LAYOUT_SAT is null) ? "007" : registro.LAYOUT_SAT;
                 _iNTERROMPE_NAO_ENCONTRADO = (registro.INTERROMPE_NAO_ENCONTRADO is null) ? "N" : registro.INTERROMPE_NAO_ENCONTRADO;
                 _pERMITE_FOLGA_SANGRIA = (registro.PERMITE_FOLGA_SANGRIA is null) ? "N" : registro.PERMITE_FOLGA_SANGRIA;
                 MENSAGEM_CORTESIA = registro.MENSAGEM_CORTESIA;
@@ -826,6 +833,7 @@ namespace PDV_WPF.Configuracoes
                 DESCONTO_MAXIMO = infoDoSetup.DESC_MAX_OP.Safedecimal();
                 _uSARECARGAS = infoDoSetup.USA_RECARGAS;
                 _uSA_COMANDA = infoDoSetup.USA_COMANDA;
+                DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true: false;
             }
             catch (Exception ex)
             {
@@ -846,7 +854,13 @@ namespace PDV_WPF.Configuracoes
 
         public void Serializa()
         {
-            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML() { FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT, LOGO = ConfiguracoesPDV.LOGO, NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE, SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG, SERVERNAME = ConfiguracoesPDV.SERVERNAME };
+            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML() { FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT, LOGO = ConfiguracoesPDV.LOGO, NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE,
+                                                                         SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG, SERVERNAME = ConfiguracoesPDV.SERVERNAME, 
+                                                                         AUTORIZADO = ConfiguracoesPDV.PERMITE_CANCELAR_VENDA_EM_CURSO.ToInt(), FECHAMENTO_EXTENDIDO = ConfiguracoesPDV.FECHAMENTO_EXTENDIDO.ToInt(),
+                                                                         FORCA_GAVETA = ConfiguracoesPDV.FORÇA_GAVETA.ToInt(), USAORCAMENTO = ConfiguracoesPDV.USA_ORÇAMENTO.ToInt(), SATTIMEOUT = ConfiguracoesPDV.SATTIMEOUT,
+                                                                         EXIBEFOTO = ConfiguracoesPDV.EXIBEFOTO.ToInt(), SENHA_PRAZO = ConfiguracoesPDV.SENHA_PRAZO.ToInt(), SENHA_CONSULTA = ConfiguracoesPDV.SENHA_CONSULTA.ToInt(),
+                                                                         SCANNTECH = ConfiguracoesPDV.SCANNTECH.ToInt(), SENHA_REIMPRESSAO = ConfiguracoesPDV.SENHA_REIMPRESSAO.ToInt(), PREFIX_LISTBOX = ConfiguracoesPDV.PREFIX_LISTBOX };
+
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = true, Indent = true };
             var XMLPendFinal = new StringBuilder();
 
@@ -883,5 +897,8 @@ namespace PDV_WPF.Configuracoes
         public int EXIBEFOTO { get; set; }
         public int SENHA_PRAZO { get; set; } = 0;
         public int SENHA_CONSULTA { get; set; } = 0;
+        public int SCANNTECH { get; set; } = 0;
+        public int SENHA_REIMPRESSAO { get; set; } = 0;
+        public int PREFIX_LISTBOX { get; set; } = 3;
     }
 }
