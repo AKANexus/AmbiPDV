@@ -259,9 +259,10 @@ namespace PDV_WPF.Telas
 
 
             var Funcoes = new funcoesClass();
-            decimal _qCom, _vUnCom, _vDesc;
+            decimal _qCom = 1, _vUnCom = 1, _vDesc = 0;
             foreach (envCFeCFeInfCFeDet item in cFeDeRetorno.infCFe.det)
             {
+
                 decimal.TryParse(item.prod.qCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _qCom);
                 decimal.TryParse(item.prod.vUnCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnCom);
                 decimal.TryParse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vDesc);
@@ -270,9 +271,11 @@ namespace PDV_WPF.Telas
                 {
                     Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun);
 
+
                     decimal _vUnComOri;
                     decimal.TryParse(item.prod.vUnComOri, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnComOri);
                     VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, _vUnComOri);
+
                 }
                 else
                 {

@@ -1574,7 +1574,7 @@ namespace PDV_WPF
             int linha = 1;
             if (!(cFeDeRetorno is null))
             {
-                #region Cumpom de Venda
+                #region Cupom de Venda
                 RecebePrint(cFeDeRetorno.infCFe.emit.xFant, negrito, centro, 1);
                 RecebePrint(cFeDeRetorno.infCFe.emit.xNome, corpo, centro, 1);
                 string enderecodaempresa = string.Format("{0}, {1} - {2}, {3}", cFeDeRetorno.infCFe.emit.enderEmit.xLgr,

@@ -640,6 +640,7 @@ namespace PDV_WPF.Telas
         {
 
         }
+
         private void Window_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             log.Debug($"Texto previsto: {e.Text}");

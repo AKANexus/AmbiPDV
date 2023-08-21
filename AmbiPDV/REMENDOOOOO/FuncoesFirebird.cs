@@ -11,6 +11,7 @@ namespace PDV_WPF.REMENDOOOOO
 {
     public class FuncoesFirebird
     {       
+
         //public async Task<decimal> SomaDeValoresAsync(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
         //    System.DateTime DT_FECHAMENTO, FbConnection connection)
         //{
@@ -66,9 +67,11 @@ namespace PDV_WPF.REMENDOOOOO
                 throw;
             }
 
+
             FbCommand commandNF = new FbCommand();
             commandNF.Connection = connection;
             commandNF.CommandType = CommandType.Text;
+
 
             string hrAbertura = DT_ABERTURA.ToString("HH:mm:ss"); string hrFechamento = DT_FECHAMENTO.ToString("HH:mm:ss");
             string dtAbertura = DT_ABERTURA.ToString("yyyy-MM-dd"); string dtFechamento = DT_FECHAMENTO.ToString("yyyy-MM-dd");
@@ -78,6 +81,7 @@ namespace PDV_WPF.REMENDOOOOO
                         
             while (iteracao <= 2)
             {
+
                 //command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
                 /*commandNF.CommandText =  $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
                                          $"DECLARE VARIABLE DT_APLICADA DATE; DECLARE VARIABLE VLR_PAGO NUMERIC(18,4); " +
@@ -89,6 +93,7 @@ namespace PDV_WPF.REMENDOOOOO
                                         $"BEGIN WITH DT_APLICADA AS (SELECT * FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}') " +
                                         $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/                
                 modelo = iteracao == 2 ? null : "N";
+
 
                 if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
                 else commandNF.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +

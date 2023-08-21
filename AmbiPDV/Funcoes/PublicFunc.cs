@@ -1014,6 +1014,7 @@ namespace PDV_WPF
 
             IBPTDataTable.Clear();
             IBPTDataTable.Columns.Clear();
+
             
             string[] linesIBPT;
             string path = AppDomain.CurrentDomain.BaseDirectory + @"\IBPT.csv";                                   
