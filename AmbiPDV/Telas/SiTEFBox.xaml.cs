@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -71,6 +72,7 @@ namespace PDV_WPF.Telas
         public string _nsu;
         private decimal valor;
         private TipoTEF _tipoTEF;
+        private readonly DebounceDispatcher debounceTimer = new();
 
         private Logger log = new Logger("SITEF");
 
@@ -722,19 +724,23 @@ namespace PDV_WPF.Telas
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            log.Debug($"Tecla pressionada: {e.Key}");
+            log.Debug($"Tecla pressionada: {e.Key}");          
+            
             if (e.Key == Key.Escape)
             {
-                if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))
+                debounceTimer.Debounce(1500, (p) =>
                 {
-                    log.Debug("Cancelamento e prosseguimento solicitados");
-                    estadoTEF = StateTEF.CancelamentoRequisitado;
-                    ComunicaComTEFAsync(progressIndicator);
-                }
-                ///else if (PermiteCancelar) { }
+                    if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))
+                    {
+                        log.Debug("Cancelamento e prosseguimento solicitados");
+                        estadoTEF = StateTEF.CancelamentoRequisitado;
+                        ComunicaComTEFAsync(progressIndicator);
+                    }
+                    ///else if (PermiteCancelar) { }
                     log.Debug("Cancelamento solicitado");
-                    estadoTEF = StateTEF.CancelamentoRequisitado;                
-                return;
+                    estadoTEF = StateTEF.CancelamentoRequisitado;
+                    return;
+                });                
             }
             if ((new[] { StateTEF.AguardaEnter }.Contains(estadoTEF)) && e.Key == Key.Enter)
             {

@@ -174,6 +174,9 @@
   <data name="COMANDA" xml:space="preserve">
     <value>Comanda</value>
   </data>
+  <data name="CONEXÃO_SERVIDOR" xml:space="preserve">
+    <value>CONEXÃO COM O SERVIDOR</value>
+  </data>
   <data name="CPF_CNPJ_INVALIDO" xml:space="preserve">
     <value>CPF/CNPJ inválido ou está em branco. Favor verificar.</value>
   </data>
@@ -345,6 +348,12 @@ Mas se a falta de conexão persistir, por favor entre em contato com a equipe de
   <data name="ITEM_INVALIDO_VERIFIQUE" xml:space="preserve">
     <value>Item inválido. Verifique se o item já não foi estornado.</value>
   </data>
+  <data name="KIT_COM_ESTOQUE_ZERADO" xml:space="preserve">
+    <value>O kit promocional passado possui itens com estoque zerado. </value>
+  </data>
+  <data name="KIT_PROMOCIONAL" xml:space="preserve">
+    <value>KIT PROMOCIONAL</value>
+  </data>
   <data name="LANCAMENTO_DE_PRODUTO" xml:space="preserve">
     <value>Lançamento de Produto</value>
   </data>
@@ -399,6 +408,9 @@ Mas se a falta de conexão persistir, por favor entre em contato com a equipe de
   <data name="ORCAMENTO" xml:space="preserve">
     <value>Orçamento</value>
   </data>
+  <data name="ORDEM_SERVICO" xml:space="preserve">
+    <value>ORDEM DE SERVIÇO O.S</value>
+  </data>
   <data name="PARA_ABRIR_EM_CONTINGENCIA_REINICIE" xml:space="preserve">
     <value>Para iniciar o programa em modo de contingência, abra-o novamente e selecione \"CONFIRMAR\"</value>
   </data>
@@ -413,6 +425,11 @@ Mas se a falta de conexão persistir, por favor entre em contato com a equipe de
   </data>
   <data name="PEDIDO_NAO_FOI_ENVIADO_PARA_IMPRESSORA" xml:space="preserve">
     <value>O pedido NÃO será enviado para a impressora de pedidos.</value>
+  </data>
+  <data name="PERDEU_CONEXAO_SERVIDOR" xml:space="preserve">
+    <value>Não foi possivel se conectar com o Servidor.
+O sistema entrara em modo de contigencia e para testar novamente a comunicação com o servidor utilize as teclas
+'CTRL+S'</value>
   </data>
   <data name="PRESSIONE_ENTER_PARA_CONTINUAR" xml:space="preserve">
     <value>Pressione \"ENTER\" para continuar.</value>

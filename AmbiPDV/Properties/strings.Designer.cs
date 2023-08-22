@@ -19,7 +19,7 @@ namespace PDV_WPF.Properties {
     // através de uma ferramenta como ResGen ou Visual Studio.
     // Para adicionar ou remover um associado, edite o arquivo .ResX e execute ResGen novamente
     // com a opção /str, ou recrie o projeto do VS.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class strings {
@@ -228,6 +228,15 @@ namespace PDV_WPF.Properties {
         internal static string COMANDA {
             get {
                 return ResourceManager.GetString("COMANDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CONEXÃO COM O SERVIDOR.
+        /// </summary>
+        internal static string CONEXÃO_SERVIDOR {
+            get {
+                return ResourceManager.GetString("CONEXÃO_SERVIDOR", resourceCulture);
             }
         }
         
@@ -739,6 +748,24 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a O kit promocional passado possui itens com estoque zerado. .
+        /// </summary>
+        internal static string KIT_COM_ESTOQUE_ZERADO {
+            get {
+                return ResourceManager.GetString("KIT_COM_ESTOQUE_ZERADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a KIT PROMOCIONAL.
+        /// </summary>
+        internal static string KIT_PROMOCIONAL {
+            get {
+                return ResourceManager.GetString("KIT_PROMOCIONAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Lançamento de Produto.
         /// </summary>
         internal static string LANCAMENTO_DE_PRODUTO {
@@ -896,23 +923,19 @@ namespace PDV_WPF.Properties {
         /// </summary>
         internal static string ORCAMENTO {
             get {
-                return ResourceManager.GetString("ORÇAMENTO", resourceCulture);
+                return ResourceManager.GetString("ORCAMENTO", resourceCulture);
             }
         }
-        internal static string ORDEM_SERVICO
-        {
-            get
-            {
-                return ResourceManager.GetString("ORDEM DE SERVIÇO", resourceCulture);
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO O.S.
+        /// </summary>
+        internal static string ORDEM_SERVICO {
+            get {
+                return ResourceManager.GetString("ORDEM_SERVICO", resourceCulture);
             }
         }
-        internal static string KIT_PROMOCIONAL
-        {
-            get
-            {
-                return ResourceManager.GetString("KIT PROMOCIONAL", resourceCulture);
-            }
-        }
+        
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Para iniciar o programa em modo de contingência, abra-o novamente e selecione \&quot;CONFIRMAR\&quot;.
         /// </summary>
@@ -955,6 +978,17 @@ namespace PDV_WPF.Properties {
         internal static string PEDIDO_NAO_FOI_ENVIADO_PARA_IMPRESSORA {
             get {
                 return ResourceManager.GetString("PEDIDO_NAO_FOI_ENVIADO_PARA_IMPRESSORA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel se conectar com o Servidor.
+        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação com o servidor utilize as teclas
+        ///&apos;CTRL+S&apos;.
+        /// </summary>
+        internal static string PERDEU_CONEXAO_SERVIDOR {
+            get {
+                return ResourceManager.GetString("PERDEU_CONEXAO_SERVIDOR", resourceCulture);
             }
         }
         
