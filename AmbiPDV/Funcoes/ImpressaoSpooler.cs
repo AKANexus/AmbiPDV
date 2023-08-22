@@ -1495,13 +1495,13 @@ namespace PDV_WPF
             //RecebePrint(nomedaempresa, corpo, centro, true);
             //RecebePrint(enderecodaempresa, corpo, centro, true);
             //RecebePrint("CNPJ: " + cnpjempresa.ToString().Substring(0, 2) + "." + cnpjempresa.ToString().Substring(2, 3) + "." + cnpjempresa.ToString().Substring(5, 3) + "/" + cnpjempresa.ToString().Substring(8, 4) + "-" + cnpjempresa.ToString().Substring(12, 2) + "  IE: " + ieempresa + "  IM: " + imempresa, corpo, centro, true);
-            RecebePrint(new string('-', 91), negrito, centro, 1);
+            RecebePrint(new string('-', 87), negrito, centro, 1);
             RecebePrint("Relatório de itens", titulo, centro, 1);
             RecebePrint("com estoque negativo", titulo, centro, 1);
-            RecebePrint(new string('-', 91), negrito, centro, 1);
+            RecebePrint(new string('-', 87), negrito, centro, 1);
             RecebePrint("COD  DESC", corpo, esquerda, 1);
             RecebePrint("VL ITEM R$", corpo, esquerda, 1);
-            RecebePrint(new string('-', 91), corpo, centro, 1);
+            RecebePrint(new string('-', 87), corpo, centro, 1);
 
             //-----------------------------------------^^^^^^^^^^^^^^^^^^^^^^^^
             foreach (Produto prod in produtos)
@@ -1513,7 +1513,7 @@ namespace PDV_WPF
 
             RecebePrint("Núm. de prod. c/ est. neg.", titulo, esquerda, 0);
             RecebePrint(produtos.Count.ToString(), titulo, direita, 1);
-            RecebePrint(new string('-', 91), corpo, centro, 1);
+            RecebePrint(new string('-', 87), corpo, centro, 1);
             RecebePrint("Trilha Informática - Soluções e Tecnologia", corpo, centro, 1);
             RecebePrint(Assembly.GetExecutingAssembly().GetName().Version + strings.VERSAO_ADENDO, corpo, centro, 1);
             #endregion

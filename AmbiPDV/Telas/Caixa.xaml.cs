@@ -39,6 +39,7 @@ using static PDV_WPF.Funcoes.SiTEFDLL;
 using static PDV_WPF.Funcoes.Statics;
 using ECF = PDV_WPF.FuncoesECF;
 using WinForms = System.Windows.Forms;
+using System.Runtime.CompilerServices;
 
 namespace PDV_WPF.Telas
 {
@@ -1106,39 +1107,10 @@ namespace PDV_WPF.Telas
             new List().ShowDialog();
             log.Debug("Verificando se o caixa já está em modo de contigencia após cancelamento de cupom(...)");
             if (_contingencia == false)
-            {
-                try
-                {
-                    log.Debug("Caixa não está em contigencia, iniciando a checagem por conexão e sincronização de tudo após cancelamento de cupom.");
-                    if (DeterminarStatusDeSangria(false) != statusSangria.Normal) txb_Avisos.Text = "FAZER SANGRIA";
-                    else txb_Avisos.Text = "CAIXA LIVRE";
-                    Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
-                    bool waitTime = executeSyncAsync.Wait(3000);
-                    if (!waitTime)
-                    {
-                        log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                        log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                        this.IsEnabled = false;
-                        TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                        dialog.Show();
-                        Task.WaitAll(executeSyncAsync);
-                        this.IsEnabled = true; dialog.CloseDialog();
-                    }
-                    log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                }
-                catch (AggregateException agex)
-                {
-                    this.IsEnabled = true; TimedBox.stateDialog = false;
-                    string[] erros = new string[1];
-                    foreach (var ex in agex.InnerExceptions)
-                    {
-                        erros[0] = ex.Message;
-                    }
-                    _contingencia = true;
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                    log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                }
+            {                
+                if (DeterminarStatusDeSangria(false) != statusSangria.Normal) txb_Avisos.Text = "FAZER SANGRIA";
+                else txb_Avisos.Text = "CAIXA LIVRE";
+                PreparaInicioDeSincronizacao(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync);
             }
             else
             {
@@ -1555,74 +1527,140 @@ namespace PDV_WPF.Telas
         private bool CarregarProdutosKit()
         {
             if (!combobox.Text.StartsWith("@")) return false;
+
+            if (!_emTransacao)
+            {
+                log.Debug("Verificando se o caixa já está em modo de contigencia na abertura da venda(...)");
+                if (!_contingencia)
+                {
+                    PreparaInicioDeSincronizacao(EnmTipoSync.cadastros, Settings.Default.SegToleranciaUltSync);
+                }
+                else
+                {
+                    log.Debug("Foi verificado que o caixa já está em contigencia, assim pulando a checagem automatica!\n" +
+                              "Caso deseje reestabelecer conexão com o servidor utilize as teclas 'CTRL+S'.");
+                }
+            }
+
             try
             {
                 kitPromocional.Clear();
                 int.TryParse(combobox.Text.TrimStart('@'), out int id_kit);
                 log.Debug($"Kit promocional detectado: {id_kit}");
-
-                string DataBase = _contingencia == false ? MontaStringDeConexao(SERVERNAME, SERVERCATALOG) : MontaStringDeConexao("localhost", localpath);
-                FbConnection connection = new FbConnection(DataBase);
-                string nomeKit;
-                if (!kitPromocional.LeKitPromocional(connection, id_kit, out nomeKit))
+                
+                using (var connection = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
                 {
-                    log.Debug("Erro ao ler kit promocional, ou kit promocional não exite/está inativo.");
-                    MessageBox.Show("Kit promocional indisponível.      ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    combobox.Text = "";
-                    return true;
-                }
-                if (!kitPromocional.LeKitItens(connection, id_kit))
-                {
-                    log.Debug("Kit promocional sem item");
-                    MessageBox.Show("Não foi encontrado itens para este kit.  ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return true;
-                }
-                if (kitPromocional.produtos.Count == 0)
-                {
-                    combobox.Text = "";
-                    MessageBox.Show("Kit promocional vazio e/ou sem produtos.   ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    return true;
-                }
-                if (_tipo == ItemChoiceType.FECHADO && _modo_consulta == false)
-                {
-                    _tipo = ItemChoiceType.ABERTO;
-
-                    if (!ChecagemPreVenda())
+                    string nomeKit;
+                    if (!kitPromocional.LeKitPromocional(connection, id_kit, out nomeKit))
                     {
-                        return false;
-                    }
-
-                    if (!PrepararCabecalhoDoCupom())
-                    {
-                        return false;
-                    }
-                }
-
-                foreach (var item in kitPromocional.produtos)
-                {
-                    if (item.QTD_ITEM <= 0)
-                    {
-                        DialogBox.Show(strings.KIT_PROMOCIONAL,
-                                       DialogBoxButtons.No, DialogBoxIcons.Warn, false,
-                                       strings.A_QUANT_DO_ITEM_ERA_ZERO_OU_NEGATIVA,
-                                       strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
-                        FinalizarVendaNovo();
+                        log.Debug("Erro ao ler kit promocional, ou kit promocional não exite/está inativo.");
+                        MessageBox.Show("Kit promocional indisponível.      ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        combobox.Text = "";
                         return true;
                     }
+                    if (!kitPromocional.LeKitItens(connection, id_kit))
+                    {
+                        log.Debug("Kit promocional sem item");
+                        MessageBox.Show("Não foi encontrado itens para este kit.  ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return true;
+                    }
+                    if (kitPromocional.produtos.Count == 0)
+                    {
+                        combobox.Text = "";
+                        MessageBox.Show("Kit promocional vazio e/ou sem produtos.   ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return true;
+                    }
+                    if (_tipo == ItemChoiceType.FECHADO && _modo_consulta == false)
+                    {
+                        _tipo = ItemChoiceType.ABERTO;
 
-                    //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
-                    ProcessarItemNovo(item.ID_IDENTIFICADOR,
-                                 item.VLR_ITEM,
-                                 item.QTD_ITEM,
-                                 0,
-                                 nomeKit);
+                        if (!ChecagemPreVenda())
+                        {
+                            return false;
+                        }
 
-                    numProximoItem += 1;
+                        if (!PrepararCabecalhoDoCupom())
+                        {
+                            return false;
+                        }
+                    }
+                    if (PERMITE_ESTOQUE_NEGATIVO is false or null)
+                    {
+                        using var ESTOQUE_TA = new TB_ESTOQUETableAdapter(); 
+                        using (var EST_PRODUTO_TA = new TB_EST_PRODUTOTableAdapter())
+                        {                            
+                            List<(KIT_PROMOCIONAL_ITEM item, string descricao, decimal quantidade)> qtdsDeCadaItemEmEstoque = new();
 
-                    combobox.Text = "";
+                            foreach (var item in kitPromocional.produtos)
+                            {
+                                var qtdEmEstoque = EST_PRODUTO_TA.ConsultaQtde(item.ID_IDENTIFICADOR);
+                                var descricaoItem = ESTOQUE_TA.DescricaoPorID(item.ID_IDENTIFICADOR);
+                                qtdsDeCadaItemEmEstoque.Add((item, descricaoItem is not DBNull ? descricaoItem.ToString() : "Não foi possivel pegar a descrição do item", qtdEmEstoque ?? 0));
+                            }
+
+                            bool temProdutoZerado = qtdsDeCadaItemEmEstoque.Any(qtds => qtds.quantidade <= 0 || qtds.quantidade < qtds.item.QTD_ITEM);
+
+                            perguntaSenha pg;
+                            switch (PERMITE_ESTOQUE_NEGATIVO)
+                            {
+                                case false when temProdutoZerado:
+                                    DialogBox.Show(strings.ESTOQUE_VAZIO,
+                                                   DialogBoxButtons.No, DialogBoxIcons.Warn, false,
+                                                   strings.KIT_COM_ESTOQUE_ZERADO,
+                                                   strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
+
+                                    pg = new perguntaSenha("Kit com estoque zerado") { permiteescape = false };
+                                    pg.ShowDialog();
+
+                                    return false;
+
+                                case null when temProdutoZerado:
+                                    DialogBox.Show(strings.ESTOQUE_VAZIO,
+                                                   DialogBoxButtons.No, DialogBoxIcons.Info, false,
+                                                   strings.KIT_COM_ESTOQUE_ZERADO,
+                                                   strings.SERA_GERADO_UM_RELATORIO);
+
+                                    foreach (var itemZerado in qtdsDeCadaItemEmEstoque.Where(qtds => qtds.quantidade <= 0 || qtds.quantidade < qtds.item.QTD_ITEM))
+                                    {
+                                        RelNegativ.RecebeProduto(itemZerado.item.ID_IDENTIFICADOR.ToString(),
+                                                                 itemZerado.descricao,
+                                                                 itemZerado.item.VLR_ITEM);
+                                    }
+
+                                    pg = new perguntaSenha("Kit com estoque zerado") { permiteescape = false };
+                                    pg.ShowDialog();
+
+                                    break;
+                            }
+                        }
+                    }
+
+                    foreach (var item in kitPromocional.produtos)
+                    {
+                        if (item.QTD_ITEM <= 0)
+                        {
+                            DialogBox.Show(strings.KIT_PROMOCIONAL,
+                                           DialogBoxButtons.No, DialogBoxIcons.Warn, false,
+                                           strings.A_QUANT_DO_ITEM_ERA_ZERO_OU_NEGATIVA,
+                                           strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
+                            FinalizarVendaNovo();
+                            return true;
+                        }
+
+                        //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
+                        ProcessarItemNovo(item.ID_IDENTIFICADOR,
+                                     item.VLR_ITEM,
+                                     item.QTD_ITEM,
+                                     0,
+                                     nomeKit);
+
+                        numProximoItem += 1;
+
+                        combobox.Text = "";
+                    }
+                    _usouKit = true;
+                    return true;
                 }
-                _usouKit = true;
-                return true;
             }
             catch (Exception ex)
             {
@@ -1694,6 +1732,52 @@ namespace PDV_WPF.Telas
         }
 
         /// <summary>
+        /// Inicia o procedimento de checagam + sincronização e avalia possiveis erros de comunicação com o servidor e/ou erros de sincronização. 
+        /// </summary>
+        private void PreparaInicioDeSincronizacao(EnmTipoSync tipoSync, int segundosTolerancia, [CallerMemberName] string caller = null)
+        {
+            bool exceptionInSync = false;
+            try
+            {
+                log.Debug($"Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de {tipoSync}");
+                log.Debug($"Metodo chamador da função: {caller ?? "Sem ocorrencias do chamador"}");
+                Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, segundosTolerancia, tipoSync); });
+                if (!executeSyncAsync.Wait(3000))
+                {
+                    log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                    log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
+                    this.IsEnabled = false;
+                    TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
+                    dialog.Show();
+                    Task.WaitAll(executeSyncAsync);
+                    this.IsEnabled = true; dialog.CloseDialog();
+                }
+                log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
+            }
+            catch (AggregateException agex)
+            {
+                this.IsEnabled = true; TimedBox.stateDialog = false;
+                string[] erros = new string[1];
+                foreach (var ex in agex.InnerExceptions)
+                {
+                    erros[0] = ex.Message;
+                }
+                _contingencia = true;
+                lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
+                bar_Contingencia.Visibility = Visibility.Visible;
+                DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
+                log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                exceptionInSync = true;
+            }
+            if (_contingencia && !exceptionInSync)
+            {
+                lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
+                bar_Contingencia.Visibility = Visibility.Visible;
+                DialogBox.Show(strings.CONEXÃO_SERVIDOR, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.PERDEU_CONEXAO_SERVIDOR);
+            }
+        }
+
+        /// <summary>
         /// Executa o procedimento de alteração da interface do banco entre banco em rede e banco de contingência. Caso o sistema esteja voltando da contingência, executa a sincronização personalizada.
         /// </summary>
         /// <param name="pContingencia">A contingência estava ativada previamente?</param>
@@ -1735,14 +1819,7 @@ namespace PDV_WPF.Telas
                 //Aqui houve a queda de conexão com o servidor.                                
                 funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
                 _contingencia = true;
-                log.Debug($"FDBConnString definido para DB de contingência: {Settings.Default.FDBConnString}");
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
-                                                        {
-                                                            lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
-                                                            bar_Contingencia.Visibility = Visibility.Visible;
-                                                            DialogBox.Show("CONEXÃO COM O SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se conectar com o Servidor.\n O sistema entrara em modo de contigencia " +
-                                                                           "e para testar novamente a comunicação com o servidor utilize as teclas\n'CTRL+S'.");
-                                                        }));
+                log.Debug($"FDBConnString definido para DB de contingência: {Settings.Default.FDBConnString}");                
                 return;
             }
             else if (conectividade == false && pContingencia == true)
@@ -2192,36 +2269,7 @@ namespace PDV_WPF.Telas
                     }
                     relatorioX = fc.ImpRelX;
                     if (!relatorioX) txb_Avisos.Text = "CAIXA FECHADO";
-                    try
-                    {
-                        log.Debug("Iniciando checagem por conexão e sincronização de tudo no fechamento de turno.");
-                        Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, 0, EnmTipoSync.tudo); });
-                        bool waitTime = executeSyncAsync.Wait(3000);
-                        if (!waitTime)
-                        {
-                            log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                            log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                            this.IsEnabled = false;
-                            TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                            dialog.Show();
-                            Task.WaitAll(executeSyncAsync);
-                            this.IsEnabled = true; dialog.CloseDialog();
-                        }
-                        log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                    }
-                    catch (AggregateException agex)
-                    {
-                        this.IsEnabled = true; TimedBox.stateDialog = false;
-                        string[] erros = new string[1];
-                        foreach (var ex in agex.InnerExceptions)
-                        {
-                            erros[0] = ex.Message;
-                        }
-                        _contingencia = true;
-                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                        DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                        log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                    }
+                    PreparaInicioDeSincronizacao(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync);                                           
                 }
                 catch (Exception ex)
                 {
@@ -2440,36 +2488,7 @@ namespace PDV_WPF.Telas
                     log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Fiscal(...)");
                     if (_contingencia == false)
                     {
-                        try
-                        {
-                            log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de tudo após finalização da venda.");
-                            Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
-                            bool waitTime = executeSyncAsync.Wait(3000);
-                            if (!waitTime)
-                            {
-                                log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                                log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                                this.IsEnabled = false;
-                                TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                                dialog.Show();
-                                Task.WaitAll(executeSyncAsync);
-                                this.IsEnabled = true; dialog.CloseDialog();
-                            }
-                            log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                        }
-                        catch (AggregateException agex)
-                        {
-                            this.IsEnabled = true; TimedBox.stateDialog = false;
-                            string[] erros = new string[1];
-                            foreach (var ex in agex.InnerExceptions)
-                            {
-                                erros[0] = ex.Message;
-                            }
-                            _contingencia = true;
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                            log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                        }
+                        PreparaInicioDeSincronizacao(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync);
                     }
                     else
                     {
@@ -2489,36 +2508,7 @@ namespace PDV_WPF.Telas
                     log.Debug("Verificando se o caixa já está em modo de contigencia na finaização da venda Fiscal(...)");
                     if (_contingencia == false)
                     {
-                        try
-                        {
-                            log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de tudo após finalização da venda.");
-                            Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, Settings.Default.SegToleranciaUltSync, EnmTipoSync.tudo); });
-                            bool waitTime = executeSyncAsync.Wait(3000);
-                            if (!waitTime)
-                            {
-                                log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                                log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                                this.IsEnabled = false;
-                                TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                                dialog.Show();
-                                Task.WaitAll(executeSyncAsync);
-                                this.IsEnabled = true; dialog.CloseDialog();
-                            }
-                            log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                        }
-                        catch (AggregateException agex)
-                        {
-                            this.IsEnabled = true; TimedBox.stateDialog = false;
-                            string[] erros = new string[1];
-                            foreach (var ex in agex.InnerExceptions)
-                            {
-                                erros[0] = ex.Message;
-                            }
-                            _contingencia = true;
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                            log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                        }
+                        PreparaInicioDeSincronizacao(EnmTipoSync.tudo, Settings.Default.SegToleranciaUltSync);
                     }
                     else
                     {
@@ -2570,36 +2560,7 @@ namespace PDV_WPF.Telas
             log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Não Fiscal(...)");
             if (_contingencia == false)
             {
-                try
-                {
-                    log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização de tudo após finalização da venda.");
-                    Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo); });
-                    bool waitTime = executeSyncAsync.Wait(3000);
-                    if (!waitTime)
-                    {
-                        log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                        log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                        this.IsEnabled = false;
-                        TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                        dialog.Show();
-                        Task.WaitAll(executeSyncAsync);
-                        this.IsEnabled = true; dialog.CloseDialog();
-                    }
-                    log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                }
-                catch (AggregateException agex)
-                {
-                    this.IsEnabled = true; TimedBox.stateDialog = false;
-                    string[] erros = new string[1];
-                    foreach (var ex in agex.InnerExceptions)
-                    {
-                        erros[0] = ex.Message;
-                    }
-                    _contingencia = true;
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                    log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                }
+                PreparaInicioDeSincronizacao(EnmTipoSync.tudo, 0);
             }
             else
             {
@@ -2702,36 +2663,7 @@ namespace PDV_WPF.Telas
             log.Debug("Verificando se o caixa já está em modo de contigencia ao finalizar devolução(...)");
             if (_contingencia == false)
             {
-                try
-                {
-                    log.Debug("Caixa não está em contigencia, iniciando checagem por conexão e sincronização de tudo ao finalizar devolução.");
-                    Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(bar_Contingencia.IsVisible, 0, EnmTipoSync.tudo); });
-                    bool waitTime = executeSyncAsync.Wait(3000);
-                    if (!waitTime)
-                    {
-                        log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                        log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                        this.IsEnabled = false;
-                        TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                        dialog.Show();
-                        Task.WaitAll(executeSyncAsync);
-                        this.IsEnabled = true; dialog.CloseDialog();
-                    }
-                    log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                }
-                catch (AggregateException agex)
-                {
-                    this.IsEnabled = true; TimedBox.stateDialog = false;
-                    string[] erros = new string[1];
-                    foreach (var ex in agex.InnerExceptions)
-                    {
-                        erros[0] = ex.Message;
-                    }
-                    _contingencia = true;
-                    Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                    DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                    log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                }
+                PreparaInicioDeSincronizacao(EnmTipoSync.tudo, 0);
             }
             else
             {
@@ -6108,36 +6040,7 @@ namespace PDV_WPF.Telas
                 log.Debug("Verificando se o caixa já está em modo de contigencia na abertura da venda(...)");
                 if (_contingencia == false)
                 {
-                    try
-                    {
-                        log.Debug("Caixa não está em contigencia, será iniciado a checagem por conexão e sincronização dos cadastros.");
-                        Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros); });
-                        bool waitTime = executeSyncAsync.Wait(3000);
-                        if (!waitTime)
-                        {
-                            log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                            log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                            this.IsEnabled = false;
-                            TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                            dialog.Show();
-                            Task.WaitAll(executeSyncAsync);
-                            this.IsEnabled = true; dialog.CloseDialog();
-                        }
-                        log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                    }
-                    catch (AggregateException agex)
-                    {
-                        this.IsEnabled = true; TimedBox.stateDialog = false;
-                        string[] erros = new string[1];
-                        foreach (var ex in agex.InnerExceptions)
-                        {
-                            erros[0] = ex.Message;
-                        }
-                        _contingencia = true;
-                        Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                        DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                        log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                    }
+                    PreparaInicioDeSincronizacao(EnmTipoSync.cadastros, Settings.Default.SegToleranciaUltSync);                      
                 }
                 else
                 {
@@ -6246,15 +6149,12 @@ namespace PDV_WPF.Telas
 
             #region Lançamento de produto no cupom
 
-            decimal vUnCom = 0;
-            //decimal comdesc;
+            decimal vUnCom = 0;            
             decimal vDescAplic = 0;
-            using var ESTOQUE_TA = new TB_ESTOQUETableAdapter(); log.Debug("Instanciado TableAdapter da TB_ESTOQUE, a seguir será chamado SP_TRI_PEGAPRECO");
-            int i = 0;
-        inicio:
+            using var ESTOQUE_TA = new TB_ESTOQUETableAdapter() { Connection = LOCAL_FB_CONN }; log.Debug("Instanciado TableAdapter da TB_ESTOQUE, a seguir será chamado SP_TRI_PEGAPRECO");            
+            
             try
-            {
-                ESTOQUE_TA.Connection = _contingencia == true ? LOCAL_FB_CONN : ESTOQUE_TA.Connection;
+            {                
                 if (decimal.TryParse(ESTOQUE_TA.SP_TRI_PEGAPRECO(/*cod_produto*/produtoEncontrado.ID_IDENTIFICADOR, quant).Safestring(),
                     out vUnCom) == false)
                 {
@@ -6264,32 +6164,12 @@ namespace PDV_WPF.Telas
                 log.Debug($"SP_TRI_PEGAPRECO({produtoEncontrado.ID_IDENTIFICADOR}, {quant}): {vUnCom}");
             }
             catch (Exception ex)
-            {
-                i++;
-                if (i <= 2)
-                {
-                    MessageBox.Show("Por motivos de oscilação na rede o sistema não conseguiu obter informações do produto informado.\n\n      Pressione 'ENTER' para tentar novamente.\n      Tentativa: " + i, "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //MIGUÉ
-                    log.Debug("Erro ao chamar SP_TRI_PEGAPRECO, e essa é a Exception gerada: " + ex);
-                    goto inicio;
-                }
-                else
-                {
-                    MessageBox.Show("Após 2 tentativas o sistema não conseguiu obter informações do item.\n\nVenda será reiniciada.\nEntre em contato com o suporte!", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    TimedBox dialog = new TimedBox("Reiniciando", "Reiniciando a venda em modo de contigencia, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                    dialog.Show();
-                    _contingencia = true;
-                    lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible;
-                    ESTOQUE_TA.Dispose();
-                    CancelarVendaAtual(true);
-                    Thread.Sleep(2000);
-                    CarregarVendaPendenteNovo(true);
-                    lbl_Marquee.Visibility = Visibility.Hidden;
-                    lbl_Cortesia.Content = "Venda reiniciada em contigencia, continue passando...";
-                    dialog.CloseDialog();
-                    return;
-                }
+            {                
+                MessageBox.Show("Não foi possivel obter informações do item passado.\n" +
+                                "Se o problema persistir entre em contato com o suporte técnico.", "Erro", MessageBoxButton.OK, MessageBoxImage.Error); //MIGUÉ
+                log.Debug("Erro ao chamar SP_TRI_PEGAPRECO, e essa é a Exception gerada: " + ex);                                       
             }
-            i = 0;
+            
             if (tipoDeDesconto == tipoDesconto.Percentual)
             {
                 log.Debug($"Aplicado desconto: {desconto}%");
@@ -6329,9 +6209,14 @@ namespace PDV_WPF.Telas
                             if (PERMITE_ESTOQUE_NEGATIVO == false)
                             {
                                 DialogBox.Show(strings.ESTOQUE_VAZIO,
-                                               DialogBoxButtons.No, DialogBoxIcons.Info, false,
+                                               DialogBoxButtons.No, DialogBoxIcons.Warn, false,
                                                strings.NAO_HA_ESTOQUE_DISPONIVEL,
                                                strings.IMPOSSIVEL_PROSSEGUIR_COM_A_VENDA);
+                                perguntaSenha pg = new perguntaSenha("Produto com estoque zerado")
+                                {
+                                    permiteescape = false
+                                }; 
+                                pg.ShowDialog();
                                 combobox.Text = "";
                                 return;
                             }
@@ -6364,6 +6249,11 @@ namespace PDV_WPF.Telas
                                         RelNegativ.RecebeProduto(produtoEncontrado.ID_IDENTIFICADOR.ToString(),
                                                              descricaoProduto, //TODO: não precisa buscar a descrição por id. Basta pegar a descrição direto no ACBox. OOuuuuu, se o objeto "produtoEncontrado" não tiver valor na property "DESCRICAO", o valor deve ser recuperado no banco na etapa anterior.
                                                              vUnCom);
+                                        perguntaSenha pg = new perguntaSenha("Produto com estoque zerado")
+                                        {
+                                            permiteescape = false
+                                        };
+                                        pg.ShowDialog();
                                         break;
                                     case false:
                                         return;
@@ -7089,37 +6979,9 @@ namespace PDV_WPF.Telas
                     /// Perguntar pro usuário se ele tem certeza se quer continuar;
                     /// Exibir uma tela de aguardar.
                     if (DialogBox.Show(strings.SINCRONIZACAO, DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, strings.PDV_INICIARA_ATUALIZACAO_DE_REGISTROS) == true)
-                    {
-                        try
-                        {
-                            log.Debug("Iniciando a checagem por conexão e sincronização dos cadastros manualmente.");
-                            Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, Settings.Default.SegToleranciaUltSync, EnmTipoSync.cadastros); });
-                            bool waitTime = executeSyncAsync.Wait(3000);
-                            if (!waitTime)
-                            {
-                                log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
-                                log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
-                                this.IsEnabled = false;
-                                TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                                dialog.Show();
-                                Task.WaitAll(executeSyncAsync);
-                                this.IsEnabled = true; dialog.CloseDialog();
-                            }
-                            log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
-                        }
-                        catch (AggregateException agex)
-                        {
-                            this.IsEnabled = true; TimedBox.stateDialog = false;
-                            string[] erros = new string[1];
-                            foreach (var ex in agex.InnerExceptions)
-                            {
-                                erros[0] = ex.Message;
-                            }
-                            _contingencia = true;
-                            Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { lbl_Carga.Content = ultimaContingencia.ToShortTimeString(); bar_Contingencia.Visibility = Visibility.Visible; }));
-                            DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                            log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
-                        }
+                    {                        
+                        log.Debug("Iniciando a checagem por conexão e sincronização dos cadastros manualmente.");
+                        PreparaInicioDeSincronizacao(EnmTipoSync.cadastros, Settings.Default.SegToleranciaUltSync);
                     }
                     //IniciarTestes();
                 });

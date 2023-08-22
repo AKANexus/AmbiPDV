@@ -12,7 +12,7 @@
         </Border.Effect>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock TextWrapping="Wrap" TextAlignment="Center" Text="Listando Reimpressão de Fechamento" MaxWidth="440" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15" FontFamily="Open Sans SemiBold" FontSize="24" FontStyle="Italic" Foreground="#FF757575" x:Name="lbl_Acao"/>
-            <Label Content="DIGITE UMA SENHA GERENCIAL" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15" FontFamily="Open Sans SemiBold" FontSize="14" FontStyle="Italic" Foreground="#FF757575"/>
+            <Label Content="DIGITE UMA SENHA GERENCIAL PARA CONTINUAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,15" FontFamily="Open Sans SemiBold" FontSize="14" FontStyle="Italic" Foreground="#FF757575"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Border Background="#FF09CAAA" Margin="0,0,-1,0" Panel.ZIndex="1" >
                     <Label Content="Ï" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Webdings" FontSize="37"/>
