@@ -12,6 +12,7 @@ namespace PDV_WPF.Objetos
         public string Status { get; set; }
         public int ID_NFVENDA { get; set; }
         public string NF_SERIE { get; set; }
+        public string NF_MODELO { get; set; }
         public bool ActivateContextMenu => Status is not "C" && NF_SERIE.StartsWith("N");
     }
 }

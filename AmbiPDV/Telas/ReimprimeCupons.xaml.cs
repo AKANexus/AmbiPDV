@@ -17,6 +17,16 @@ using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using PDV_WPF.DataSets;
 using System.Data;
+using System.Text;
+using PDV_WPF.DataSets.FDBDataSetVendaTableAdapters;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.WebControls;
+using System.Linq;
+using PDV_WPF.Properties;
+using System.Runtime.InteropServices;
+using Clearcove.Logging;
+using PDV_WPF.FDBDataSetTableAdapters;
+using System.Threading;
 
 namespace PDV_WPF.Telas
 {
@@ -25,6 +35,8 @@ namespace PDV_WPF.Telas
     /// </summary>
     public partial class ReimprimeCupons : Window
     {
+        private Logger log = new("Reimpressão");
+
         public ReimprimeCupons()
         {
             InitializeComponent();
@@ -45,7 +57,7 @@ namespace PDV_WPF.Telas
             using var Cupons_DT = new DataSets.FDBDataSetVenda.CuponsDataTableDataTable();
             using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter();
             //Cupons_TA.Connection = LOCAL_FB_CONN;
-            Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());
+            //Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());            
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
             {
                 var cupom = new ReimpressaoVenda()
@@ -56,13 +68,13 @@ namespace PDV_WPF.Telas
                     Status = cupomRow.STATUS,
                     TS_Venda = cupomRow.TS_SAIDA,
                     ID_NFVENDA = cupomRow.ID_NFVENDA,
-                    NF_SERIE = cupomRow.NF_SERIE
+                    NF_SERIE = cupomRow.NF_SERIE                   
                 };
                 listaVendas.Add(cupom);
             }
         }
 
-        private void ReimprimeCupom(ReimpressaoVenda cupom)
+        private void ReimprimeCupom(ReimpressaoVenda cupom, bool gerarCFe = false)
         {
             using var Itens_DT = new DataSets.FDBDataSetVenda.CupomItensTableDataTable();
             using var Pagtos_DT = new DataSets.FDBDataSetVenda.CupomPgtosTableDataTable();
@@ -163,14 +175,32 @@ namespace PDV_WPF.Telas
                         );
 
                     venda.AdicionaProduto(dadosDoItem[0].IsRCST_CFENull() ? "" : dadosDoItem[0].RCST_CFE);
-                }
-                foreach (var pagamento in Pagtos_DT)
-                {
+                }                
 
+                if (venda.RetornaCFe().infCFe.pgto is null)
+                {
+                    //using var InfoPagtosDT = new FDBDataSetVenda.OutrasInfoPagtoTableDataTable();
+                    //using (var InfoPagtosTA = new OutrasInfoPagtoTableAdapter())
+                    //{
+                    //    InfoPagtosTA.FillByInfoAdicionaisPagtos(InfoPagtosDT, cupom.ID_NFVENDA);
+                    //    InfoPagtosDT.ToList().ForEach(pagamentos =>
+                    //    {
+                    //        venda.RecebePagamento(pagamentos.ID_NFCE, pagamentos.VLR_PAGTO, pagamentos.ID_ADMINISTRADORA, pagamentos.VLR_TROCO);
+                    //    });
+                    //    venda.InformaCliente(ItemChoiceType.CPF, null);
+                    //    venda.TotalizaCupom();
+                    //}
                 }
 
                 #endregion Converte NF em F
 
+
+                if (gerarCFe) 
+                    if (GerarCFe(venda.RetornaCFe(), cupom))
+                    {
+                        DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.CFE_CONVERTIDO);
+                    }
+                    else return;
 
                 VendaDEMO.numerodocupom = cupom.Num_Cupom;
                 VendaDEMO.operadorStr = "REIMPRESSÃO";
@@ -381,6 +411,185 @@ namespace PDV_WPF.Telas
             return true;
         }
 
+        private bool GerarCFe(CFe cfeVenda, ReimpressaoVenda cupom)
+        {
+            string _XML_ = "", codigoDeRetorno = "", xmlret = "";
+            string[] retorno = null;           
+            byte[] bytes = null;
+            var serializer = new XmlSerializer(typeof(CFe));
+
+            try
+            {
+                var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = false, Indent = false };
+                var XmlFinal = new StringBuilder();                
+                using (var xwriter2 = XmlWriter.Create(XmlFinal, settings))
+                {
+                    var xns = new XmlSerializerNamespaces();
+                    xns.Add(string.Empty, string.Empty);
+                    Directory.CreateDirectory(@"SAT_LOG");
+                    serializer.Serialize(xwriter2, cfeVenda, xns); //Popula o stringbuilder para ser enviado para o SAT.
+                }
+                _XML_ = XmlFinal.ToString().Replace(',', '.').Replace("utf-16", "utf-8");
+                File.WriteAllText(@"SAT_LOG\NfParaF.xml", _XML_);
+                
+                //HACK: Trecho pra garantir que o encoding da string (???) seja em UTF-8.
+                // Se não executar essa conversão string -> bytes -> string com encoding, pode acontecer o erro de validação 6010|1999|Erro não identificado, com erro de conversão UTF-8.
+                // O bug é deflagrado quando a descrição de algum produto contém pelo menos um caracter diacrítico.
+                // ---------------------------------------------->>>
+                bytes = Encoding.Default.GetBytes(_XML_);
+                _XML_ = Encoding.UTF8.GetString(bytes);
+            }
+            catch(Exception ex)
+            {
+                log.Error($"Erro ao serializar objeto CFe. Erro --> {ex.InnerException.Message ?? ex.Message} ");
+                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, "Erro ao serializar objeto CF-e");
+            }
+            // ----------------------------------------------<<<
+
+            if (!SATSERVIDOR)
+            {
+                try
+                {
+                    Declaracoes_DllSat.sRetorno = Marshal.PtrToStringAnsi(Declaracoes_DllSat.EnviarDadosVenda(new NumSessao().GeraNumero(), SAT_CODATIV, _XML_, MODELO_SAT));
+                    var arraydebytes = Encoding.Default.GetBytes(Declaracoes_DllSat.sRetorno);
+                    string sRetorno = Encoding.UTF8.GetString(arraydebytes);
+                    retorno = sRetorno.Split('|');
+                    codigoDeRetorno = retorno.Length > 1 ? retorno[1] : "06099";
+                }
+
+                catch (Exception ex)
+                {
+                    log.Error("Erro ao enviar dados para a venda", ex);
+                    DialogBox.Show(strings.CFE,
+                                   DialogBoxButtons.No, DialogBoxIcons.Error, false,
+                                   strings.VERIFIQUE_AS_LUZES_DO_SAT);
+                }
+            }
+            else
+            {
+                try
+                {
+                    decimal attemptSatServidor = 1; StartSearchSatServidor:
+                    using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter())
+                    {
+                        SAT_ENV_TA.SP_TRI_ENVIA_SAT_SERVIDOR(NO_CAIXA, bytes);
+                    }
+
+                    var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .                 Tentativa: {attemptSatServidor}");
+                    sb.ShowDialog();
+                    if (sb.DialogResult == false)
+                    {
+                        log.Debug($"Tentativa de envio SatServidor falhou. Tentando novamente... tentativa: {attemptSatServidor}");
+                        using (var SAT_REC_TA = new FDBDataSetTableAdapters.TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
+                        using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
+                        if (attemptSatServidor < 3)
+                        {
+                            Thread.Sleep(1500);
+                            attemptSatServidor++;
+                                goto StartSearchSatServidor;
+                        }
+                        log.Debug("Após 3 tentativas SatServiddor falhou em todas, segue a vida.");
+                        DialogBox.Show(strings.SAT_SERVIDOR, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_SAT_SERVIDOR);                        
+                        return false;
+                    }
+                    else
+                    {
+                        retorno = sb.retorno;
+                        codigoDeRetorno = retorno.Length > 1 ? retorno[1] : "06099";
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Erro ao enviar XML para o Sat Servidor. Erro --> ", ex);
+                    DialogBox.Show(strings.CFE,
+                                   DialogBoxButtons.No, DialogBoxIcons.Error, false,
+                                   "Erro ao enviar a venda para o servidor SAT");
+                    return false;
+                }
+            }
+            if (retorno.Length < 2)
+            {
+                log.Debug($"Retorno do SAT era invalido. Retorno --> {string.Join(" | ", retorno)}");
+                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_GENERICO_SAT);
+                return false;
+            }
+            if (codigoDeRetorno != "06000")
+            {
+                log.Debug($"Erro ao enviar venda para o SAT. Còdigo do retorno --> {codigoDeRetorno}. Retorno --> {string.Join(" | ", retorno)}");
+                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, codigoDeRetorno switch
+                {
+                    "06001" => "Código de ativação inválido.",
+                    "06002" => "SAT ainda não ativado.",
+                    "06003" => "SAT ainda não vinculado ao Aplicativo Comercial.",
+                    "06004" => "Vinculação do AC não confere.",
+                    "06005" => "Tamanho do CF-e-SAT superior a 1500 KB.",
+                    "06006" => "SAT bloqueado pelo contribuinte.",
+                    "06007" => "SAT bloqueado pela SEFAZ.",
+                    "06008" => "SAT bloqueado por falta de comunicação.",
+                    "06009" => "SAT temporariamente bloqueado. Número de tentativas ultrapassado.",
+                    "06010" => $"Erro de validação de conteúdo:\n{retorno[3]}",
+                    "06098" => "SAT ocupado, aguarde para tentar novamente.",
+                    _ => $"ERRO DESCONHECIDO. Ligue para (11) 4304-7778 e informe erro {retorno[1]}",
+                });
+                return false;
+            }
+
+            //---------> QUANDO RETORNO 06000 <---------
+            try
+            {
+                xmlret = Encoding.UTF8.GetString(Convert.FromBase64String(retorno[6].ToString()));
+                CFe cFeDeRetorno;
+
+                using (var XmlRetorno = new StringReader(xmlret))
+                using (var xreader = XmlReader.Create(XmlRetorno))
+                {
+                    cFeDeRetorno = (CFe)serializer.Deserialize(xreader);
+                }
+
+                for (int i = 0; i < cFeDeRetorno.infCFe.det.Length; i++)
+                {
+                    cFeDeRetorno.infCFe.det[i].prod.vUnComOri = cfeVenda.infCFe.det[i].prod.vUnComOri;
+                }
+
+                if (cFeDeRetorno is not null)
+                {                    
+                    AtualizaInfoNaBase(cFeDeRetorno, cupom);
+                }
+                
+                //TODO: Após atualizar informações na base de dados será chamado o metodo de impressão via XML passando os parametros necessarios. 
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Erro ao desserializar CFe de retorno no objeto CFe. Erro --> {ex.InnerException.Message ?? ex.Message}");
+                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, "Erro ao desserializar objeto CF-e");
+            }
+
+            return true;
+        }
+
+        private bool AtualizaInfoNaBase (CFe CFeRetorno, ReimpressaoVenda cupom)
+        {
+            try
+            {
+                using (var TB_NFVENDA_TA = new TB_NFVENDATableAdapter() { Connection = new FbConnection {ConnectionString = MontaStringDeConexao("localhost", localpath)} })
+                {                    
+                    //TB_NFVENDA_TA.UpdateNfToF(CFeRetorno.infCFe.ide.nCFe.Replace("0", string.Empty),
+                    //                          CFeRetorno.infCFe.ide.numeroCaixa.Replace("0", string.Empty),
+                    //                          DateTime.ParseExact(CFeRetorno.infCFe.ide.dEmi, "yyyyMMdd", CultureInfo.InvariantCulture),
+                    //                          DateTime.ParseExact(CFeRetorno.infCFe.ide.hEmi, "HHmmss", CultureInfo.InvariantCulture),
+                    //                          "", "", "");  //TODO: Ajustar aqui pra pegar do cupom convertido.                  
+                    return true;
+                };
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Erro ao atualizar informações para base de dados. Erro: --> {ex.InnerException.Message ?? ex.Message}");
+                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, "Erro ao atualizar informações no banco de dados");
+                return false;
+            }            
+        }
+
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
@@ -408,10 +617,14 @@ namespace PDV_WPF.Telas
         {
             if (!(dgv_Cupons.SelectedItem is null))
             {
-                ReimprimeCupom((ReimpressaoVenda)dgv_Cupons.SelectedItem);
+                ReimprimeCupom((ReimpressaoVenda)dgv_Cupons.SelectedItem, false);
             }
         }
 
-
+        private void geraCfe_Click(object sender, RoutedEventArgs e)
+        {
+            //MessageBox.Show("Gerando CF-e aguarde...");
+            ReimprimeCupom((ReimpressaoVenda)dgv_Cupons.SelectedItem, true);
+        }
     }
 }

@@ -95,7 +95,26 @@
                                 <Setter Property="ContextMenu">
                                     <Setter.Value>
                                         <ContextMenu>
-                                            <MenuItem Header="Gerar CF-e" Name="geraCfe" IsEnabled="{Binding ActivateContextMenu}"/>
+                                            <ContextMenu.Template>
+                                                <ControlTemplate TargetType="ContextMenu">
+                                                    <Border Background="White"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            CornerRadius="6">
+                                                        <MenuItem Name="geraCfe" Header="Gerar CF-e" Click="geraCfe_Click" IsEnabled="{Binding ActivateContextMenu}">
+                                                            <MenuItem.Style>
+                                                                <Style TargetType="MenuItem">
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Foreground" Value="DarkBlue"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </MenuItem.Style>
+                                                        </MenuItem>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </ContextMenu.Template>
                                         </ContextMenu>
                                     </Setter.Value>
                                 </Setter>
@@ -114,14 +133,8 @@
                             <DataGridTextColumn x:Name="tOTALVENDAColumn" Binding="{Binding Valor, StringFormat=C}" Header="Valor" Width="0.35*" />
                         </DataGrid.Columns>
                     </DataGrid>
-
-
-
-
-
                 </Grid>
             </Grid>
         </Border>
     </Border>
-
 </Window>

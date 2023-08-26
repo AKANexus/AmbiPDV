@@ -214,6 +214,24 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerador de CF-e.
+        /// </summary>
+        internal static string CFE {
+            get {
+                return ResourceManager.GetString("CFE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cupom fiscal convertido e impresso com sucesso..
+        /// </summary>
+        internal static string CFE_CONVERTIDO {
+            get {
+                return ResourceManager.GetString("CFE_CONVERTIDO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Clique no botão para interromper o teste..
         /// </summary>
         internal static string CLIQUE_PARA_INTERROMPER_AUTOTESTE {
@@ -567,11 +585,31 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Houve algum erro ao capturar o retorno do aparelho SAT.
+        ///Se o problema persistir entre em contato com o suporte..
+        /// </summary>
+        internal static string ERRO_GENERICO_SAT {
+            get {
+                return ResourceManager.GetString("ERRO_GENERICO_SAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Erro inesperado {0}.
         /// </summary>
         internal static string ERRO_INESPERADO {
             get {
                 return ResourceManager.GetString("ERRO_INESPERADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel se comunicar com o aparelho SAT servidor.
+        ///Entre em contato com o suporte..
+        /// </summary>
+        internal static string ERRO_SAT_SERVIDOR {
+            get {
+                return ResourceManager.GetString("ERRO_SAT_SERVIDOR", resourceCulture);
             }
         }
         
@@ -1061,6 +1099,15 @@ namespace PDV_WPF.Properties {
         internal static string SAT_RETORNOU_VALOR_INESPERADO {
             get {
                 return ResourceManager.GetString("SAT_RETORNOU_VALOR_INESPERADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SAT SERVIDOR.
+        /// </summary>
+        internal static string SAT_SERVIDOR {
+            get {
+                return ResourceManager.GetString("SAT_SERVIDOR", resourceCulture);
             }
         }
         

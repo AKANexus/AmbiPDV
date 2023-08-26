@@ -168,6 +168,12 @@
   <data name="CASO_ESTEJA_USANDO_BACKUP_DE_XML" xml:space="preserve">
     <value>Caso esteja utilizando um serviço de backup de XML (SIEG, GestorXML, etc.), peça a seu contador para configurá-lo a fim de não remover os XMLs da pasta de origem.</value>
   </data>
+  <data name="CFE" xml:space="preserve">
+    <value>Gerador de CF-e</value>
+  </data>
+  <data name="CFE_CONVERTIDO" xml:space="preserve">
+    <value>Cupom fiscal convertido e impresso com sucesso.</value>
+  </data>
   <data name="CLIQUE_PARA_INTERROMPER_AUTOTESTE" xml:space="preserve">
     <value>Clique no botão para interromper o teste.</value>
   </data>
@@ -284,8 +290,16 @@ Menininha quando dorme, põe a mão no coração.</value>
   <data name="ERRO_DURANTE_VENDA" xml:space="preserve">
     <value>Erro durante a venda.</value>
   </data>
+  <data name="ERRO_GENERICO_SAT" xml:space="preserve">
+    <value>Houve algum erro ao capturar o retorno do aparelho SAT.
+Se o problema persistir entre em contato com o suporte.</value>
+  </data>
   <data name="ERRO_INESPERADO" xml:space="preserve">
     <value>Erro inesperado {0}</value>
+  </data>
+  <data name="ERRO_SAT_SERVIDOR" xml:space="preserve">
+    <value>Não foi possivel se comunicar com o aparelho SAT servidor.
+Entre em contato com o suporte.</value>
   </data>
   <data name="ESTOQUE_VAZIO" xml:space="preserve">
     <value>Estoque Vazio</value>
@@ -454,6 +468,9 @@ O sistema entrara em modo de contigencia e para testar novamente a comunicação
   </data>
   <data name="SAT_RETORNOU_VALOR_INESPERADO" xml:space="preserve">
     <value>O SAT retornou um valor inesperado.</value>
+  </data>
+  <data name="SAT_SERVIDOR" xml:space="preserve">
+    <value>SAT SERVIDOR</value>
   </data>
   <data name="SENHA_DIGITADA_NAO_E_VALIDA" xml:space="preserve">
     <value>A senha digitada não é válida.</value>
