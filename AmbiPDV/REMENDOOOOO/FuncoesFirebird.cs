@@ -6,6 +6,9 @@ using FirebirdSql.Data.FirebirdClient;
 using DateTime = System.DateTime;
 using PDV_WPF.DataSets;
 using static PDV_WPF.Funcoes.Statics;
+using System.CodeDom.Compiler;
+using System.Windows.Controls.Primitives;
+using System.Windows.Documents;
 
 namespace PDV_WPF.REMENDOOOOO
 {
@@ -82,6 +85,7 @@ namespace PDV_WPF.REMENDOOOOO
             while (iteracao <= 2)
             {
 
+                #region SomaDesativado
                 //command.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE CAST(B.DT_SAIDA || ' ' || B.HR_SAIDA AS TIMESTAMP) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH-mm-ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH-mm-ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{STR_SERIE}'";
                 /*commandNF.CommandText =  $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
                                          $"DECLARE VARIABLE DT_APLICADA DATE; DECLARE VARIABLE VLR_PAGO NUMERIC(18,4); " +
@@ -91,13 +95,18 @@ namespace PDV_WPF.REMENDOOOOO
 
                 /*.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
                                         $"BEGIN WITH DT_APLICADA AS (SELECT * FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}') " +
-                                        $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/                
+                                        $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN DT_APLICADA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND (B.DT_SAIDA || ' ' || B.HR_SAIDA) BETWEEN '{DT_ABERTURA:yyyy-MM-dd HH:mm:ss}' AND '{DT_FECHAMENTO:yyyy-MM-dd HH:mm:ss}' INTO :VLR_TOT; SUSPEND; END";*/
+                #endregion SomaDesativado
+
                 modelo = iteracao == 2 ? null : "N";
 
-
-                if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
-                else commandNF.CommandText = $"EXECUTE BLOCK RETURNS (VLR_TOT NUMERIC(18,4)) AS " +
-                                             $"BEGIN SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' AND A.ID_NFVENDA >= (SELECT FIRST 1 ID_NFVENDA FROM TB_NFVENDA WHERE DT_SAIDA >= '{DT_ABERTURA:yyyy-MM-dd}' AND HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' ORDER BY ID_NFVENDA) INTO :VLR_TOT; SUSPEND; END";
+                //if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
+                //else 
+                commandNF.CommandText = "SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A " +
+                                        "INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA " +
+                                        $"WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' " +
+                                        $"AND (B.DT_EMISSAO > '{DT_ABERTURA:yyyy-MM-dd}' OR (B.DT_EMISSAO = '{DT_ABERTURA:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH-mm-ss}')) " +
+                                        $"AND (B.DT_EMISSAO < '{DT_FECHAMENTO:yyyy-MM-dd}' OR (B.DT_EMISSAO = '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA <= '{DT_FECHAMENTO:HH-mm-ss}'))";
 
                 try
                 {
