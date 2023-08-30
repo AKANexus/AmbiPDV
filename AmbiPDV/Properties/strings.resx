@@ -189,6 +189,9 @@
   <data name="CUPOM_ABERTO" xml:space="preserve">
     <value>CUPOM ABERTO</value>
   </data>
+  <data name="CUPOM_CANCELADO" xml:space="preserve">
+    <value>CUPOM JÁ CANCELADO</value>
+  </data>
   <data name="DESCONTO_APLICADO_E_MAIOR_QUE_O_VALOR" xml:space="preserve">
     <value>Desconto aplicado é maior que o valor do produto. Desconto removido.</value>
   </data>
@@ -522,6 +525,10 @@ O sistema entrara em modo de contigencia e para testar novamente a comunicação
   </data>
   <data name="VENDA" xml:space="preserve">
     <value>Venda</value>
+  </data>
+  <data name="VENDA_CANCELADA" xml:space="preserve">
+    <value>Essa venda já foi cancelada anteriormente. 
+Clique em Ok para imprimir.</value>
   </data>
   <data name="VENDA_NO_TEF" xml:space="preserve">
     <value>Operação no TEF</value>

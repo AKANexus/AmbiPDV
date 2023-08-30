@@ -5911,8 +5911,7 @@ namespace PDV_WPF.Telas
                         using (var SAT_REC_TA = new TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
                         using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
                         if (attemptSatServidor < 3) 
-                        {  
-                            Thread.Sleep(1500);
+                        {                              
                             attemptSatServidor++;
                                 goto StartSearchSatServidor; 
                         }

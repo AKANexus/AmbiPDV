@@ -57,7 +57,9 @@ namespace PDV_WPF.Telas
             using var Cupons_DT = new DataSets.FDBDataSetVenda.CuponsDataTableDataTable();
             using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter();
             //Cupons_TA.Connection = LOCAL_FB_CONN;
-            //Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());            
+            
+            Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());               
+
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
             {
                 var cupom = new ReimpressaoVenda()
@@ -68,7 +70,8 @@ namespace PDV_WPF.Telas
                     Status = cupomRow.STATUS,
                     TS_Venda = cupomRow.TS_SAIDA,
                     ID_NFVENDA = cupomRow.ID_NFVENDA,
-                    NF_SERIE = cupomRow.NF_SERIE                   
+                    NF_SERIE = cupomRow.NF_SERIE,
+                    NF_MODELO = cupomRow.NF_MODELO
                 };
                 listaVendas.Add(cupom);
             }
@@ -82,6 +85,8 @@ namespace PDV_WPF.Telas
             using var Pagtos_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomPgtosTableAdapter();
             Itens_TA.FillByNFVenda(Itens_DT, cupom.ID_NFVENDA);
             Pagtos_TA.FillByNFVenda(Pagtos_DT, cupom.ID_NFVENDA);
+
+            if (cupom.Status is "C") DialogBox.Show(strings.CUPOM_CANCELADO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.VENDA_CANCELADA);
 
             if (cupom.NF_SERIE.Contains("E") || cupom.NF_SERIE.Contains("N"))
             {                                               
@@ -484,7 +489,6 @@ namespace PDV_WPF.Telas
                         using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
                         if (attemptSatServidor < 3)
                         {
-                            Thread.Sleep(1500);
                             attemptSatServidor++;
                                 goto StartSearchSatServidor;
                         }

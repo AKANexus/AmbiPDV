@@ -277,6 +277,15 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CUPOM JÁ CANCELADO.
+        /// </summary>
+        internal static string CUPOM_CANCELADO {
+            get {
+                return ResourceManager.GetString("CUPOM_CANCELADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Desconto aplicado é maior que o valor do produto. Desconto removido..
         /// </summary>
         internal static string DESCONTO_APLICADO_E_MAIOR_QUE_O_VALOR {
@@ -1261,6 +1270,16 @@ namespace PDV_WPF.Properties {
         internal static string VENDA {
             get {
                 return ResourceManager.GetString("VENDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Essa venda já foi cancelada anteriormente. 
+        ///Clique em Ok para imprimir..
+        /// </summary>
+        internal static string VENDA_CANCELADA {
+            get {
+                return ResourceManager.GetString("VENDA_CANCELADA", resourceCulture);
             }
         }
         

@@ -13225,9 +13225,11 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnVLR_PAGTO;
             
-            private global::System.Data.DataColumn columnTS_SAIDA;
-            
             private global::System.Data.DataColumn columnSTATUS;
+            
+            private global::System.Data.DataColumn columnDT_SAIDA;
+            
+            private global::System.Data.DataColumn columnTS_SAIDA;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -13312,17 +13314,25 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn TS_SAIDAColumn {
+            public global::System.Data.DataColumn STATUSColumn {
                 get {
-                    return this.columnTS_SAIDA;
+                    return this.columnSTATUS;
                 }
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public global::System.Data.DataColumn STATUSColumn {
+            public global::System.Data.DataColumn DT_SAIDAColumn {
                 get {
-                    return this.columnSTATUS;
+                    return this.columnDT_SAIDA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TS_SAIDAColumn {
+                get {
+                    return this.columnTS_SAIDA;
                 }
             }
             
@@ -13363,7 +13373,7 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CuponsDataTableRow AddCuponsDataTableRow(int ID_NFVENDA, int NF_NUMERO, string NF_SERIE, string NF_MODELO, string NOME, decimal VLR_PAGTO, System.DateTime TS_SAIDA, string STATUS) {
+            public CuponsDataTableRow AddCuponsDataTableRow(int ID_NFVENDA, int NF_NUMERO, string NF_SERIE, string NF_MODELO, string NOME, decimal VLR_PAGTO, string STATUS, System.DateTime DT_SAIDA, System.DateTime TS_SAIDA) {
                 CuponsDataTableRow rowCuponsDataTableRow = ((CuponsDataTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_NFVENDA,
@@ -13372,8 +13382,9 @@ namespace PDV_WPF.DataSets {
                         NF_MODELO,
                         NOME,
                         VLR_PAGTO,
-                        TS_SAIDA,
-                        STATUS};
+                        STATUS,
+                        DT_SAIDA,
+                        TS_SAIDA};
                 rowCuponsDataTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCuponsDataTableRow);
                 return rowCuponsDataTableRow;
@@ -13402,8 +13413,9 @@ namespace PDV_WPF.DataSets {
                 this.columnNF_MODELO = base.Columns["NF_MODELO"];
                 this.columnNOME = base.Columns["NOME"];
                 this.columnVLR_PAGTO = base.Columns["VLR_PAGTO"];
-                this.columnTS_SAIDA = base.Columns["TS_SAIDA"];
                 this.columnSTATUS = base.Columns["STATUS"];
+                this.columnDT_SAIDA = base.Columns["DT_SAIDA"];
+                this.columnTS_SAIDA = base.Columns["TS_SAIDA"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -13421,10 +13433,12 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnNOME);
                 this.columnVLR_PAGTO = new global::System.Data.DataColumn("VLR_PAGTO", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVLR_PAGTO);
-                this.columnTS_SAIDA = new global::System.Data.DataColumn("TS_SAIDA", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnTS_SAIDA);
                 this.columnSTATUS = new global::System.Data.DataColumn("STATUS", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnSTATUS);
+                this.columnDT_SAIDA = new global::System.Data.DataColumn("DT_SAIDA", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDT_SAIDA);
+                this.columnTS_SAIDA = new global::System.Data.DataColumn("TS_SAIDA", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTS_SAIDA);
                 this.columnID_NFVENDA.AllowDBNull = false;
                 this.columnNF_NUMERO.AllowDBNull = false;
                 this.columnNF_SERIE.AllowDBNull = false;
@@ -13433,7 +13447,6 @@ namespace PDV_WPF.DataSets {
                 this.columnNF_MODELO.MaxLength = 2;
                 this.columnNOME.AllowDBNull = false;
                 this.columnNOME.MaxLength = 60;
-                this.columnTS_SAIDA.AllowDBNull = false;
                 this.columnSTATUS.AllowDBNull = false;
                 this.columnSTATUS.MaxLength = 1;
             }
@@ -21007,23 +21020,44 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public System.DateTime TS_SAIDA {
-                get {
-                    return ((global::System.DateTime)(this[this.tableCuponsDataTable.TS_SAIDAColumn]));
-                }
-                set {
-                    this[this.tableCuponsDataTable.TS_SAIDAColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public string STATUS {
                 get {
                     return ((string)(this[this.tableCuponsDataTable.STATUSColumn]));
                 }
                 set {
                     this[this.tableCuponsDataTable.STATUSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime DT_SAIDA {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableCuponsDataTable.DT_SAIDAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'DT_SAIDA\' na tabela \'CuponsDataTable\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCuponsDataTable.DT_SAIDAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime TS_SAIDA {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableCuponsDataTable.TS_SAIDAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'TS_SAIDA\' na tabela \'CuponsDataTable\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCuponsDataTable.TS_SAIDAColumn] = value;
                 }
             }
             
@@ -21037,6 +21071,30 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetVLR_PAGTONull() {
                 this[this.tableCuponsDataTable.VLR_PAGTOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDT_SAIDANull() {
+                return this.IsNull(this.tableCuponsDataTable.DT_SAIDAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDT_SAIDANull() {
+                this[this.tableCuponsDataTable.DT_SAIDAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTS_SAIDANull() {
+                return this.IsNull(this.tableCuponsDataTable.TS_SAIDAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTS_SAIDANull() {
+                this[this.tableCuponsDataTable.TS_SAIDAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -40236,7 +40294,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[7];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[6];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_NFVENDA WHERE NF_MODELO = \'59\'";
@@ -40277,69 +40335,14 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE TB_NFVENDA \r\nSET NF_NUMERO = @NEW_NF_NUMERO,\r\n\tNF_SERIE = @NEW_NF_SERIE,\r\n" +
-                "\tDT_EMISSAO = @NEW_DT_EMISSAO,\r\n\tHR_SAIDA = @NEW_HR_SAIDA\r\nWHERE NF_MODELO = @OL" +
-                "D_NF_MODELO AND NF_SERIE = @OLD_NF_SERIE AND NF_NUMERO = @OLD_NF_NUMERO";
+            this._commandCollection[4].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 1\r\nWHERE        (STATUS = \'E" +
+                "\') OR\r\n                         (STATUS = \'I\')";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@NEW_NF_NUMERO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "NF_NUMERO";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@NEW_NF_SERIE";
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "NF_SERIE";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@NEW_DT_EMISSAO";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "DT_EMISSAO";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@NEW_HR_SAIDA";
-            param.DbType = global::System.Data.DbType.Object;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "HR_SAIDA";
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@OLD_NF_MODELO";
-            param.Size = 2;
-            param.IsNullable = true;
-            param.SourceColumn = "NF_MODELO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@OLD_NF_SERIE";
-            param.Size = 3;
-            param.IsNullable = true;
-            param.SourceColumn = "NF_SERIE";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[4].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@OLD_NF_NUMERO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "NF_NUMERO";
-            param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[5].Connection = this.Connection;
-            this._commandCollection[5].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 1\r\nWHERE        (STATUS = \'E" +
-                "\') OR\r\n                         (STATUS = \'I\')";
-            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
-            this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 2\r\nWHERE        (STATUS = \'C" +
+            this._commandCollection[5].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 2\r\nWHERE        (STATUS = \'C" +
                 "\') OR\r\n                         (STATUS = \'X\')";
-            this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -41384,58 +41387,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
-        public virtual int UpdateNfToF(int NEW_NF_NUMERO, string NEW_NF_SERIE, System.DateTime NEW_DT_EMISSAO, object NEW_HR_SAIDA, string OLD_NF_MODELO, string OLD_NF_SERIE, int OLD_NF_NUMERO) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
-            command.Parameters[0].Value = ((int)(NEW_NF_NUMERO));
-            if ((NEW_NF_SERIE == null)) {
-                throw new global::System.ArgumentNullException("NEW_NF_SERIE");
-            }
-            else {
-                command.Parameters[1].Value = ((string)(NEW_NF_SERIE));
-            }
-            command.Parameters[2].Value = ((System.DateTime)(NEW_DT_EMISSAO));
-            if ((NEW_HR_SAIDA == null)) {
-                command.Parameters[3].Value = global::System.DBNull.Value;
-            }
-            else {
-                command.Parameters[3].Value = ((object)(NEW_HR_SAIDA));
-            }
-            if ((OLD_NF_MODELO == null)) {
-                throw new global::System.ArgumentNullException("OLD_NF_MODELO");
-            }
-            else {
-                command.Parameters[4].Value = ((string)(OLD_NF_MODELO));
-            }
-            if ((OLD_NF_SERIE == null)) {
-                throw new global::System.ArgumentNullException("OLD_NF_SERIE");
-            }
-            else {
-                command.Parameters[5].Value = ((string)(OLD_NF_SERIE));
-            }
-            command.Parameters[6].Value = ((int)(OLD_NF_NUMERO));
-            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
-            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
-                        != global::System.Data.ConnectionState.Open)) {
-                command.Connection.Open();
-            }
-            int returnValue;
-            try {
-                returnValue = command.ExecuteNonQuery();
-            }
-            finally {
-                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
-                    command.Connection.Close();
-                }
-            }
-            return returnValue;
-        }
-        
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateSyncedAll1() {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -41458,7 +41411,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateSyncedAll2() {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[6];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -48270,8 +48223,9 @@ WHERE A.ID_NFVENDA = @Param1";
             tableMapping.ColumnMappings.Add("NF_MODELO", "NF_MODELO");
             tableMapping.ColumnMappings.Add("NOME", "NOME");
             tableMapping.ColumnMappings.Add("VLR_PAGTO", "VLR_PAGTO");
-            tableMapping.ColumnMappings.Add("TS_SAIDA", "TS_SAIDA");
             tableMapping.ColumnMappings.Add("STATUS", "STATUS");
+            tableMapping.ColumnMappings.Add("DT_SAIDA", "DT_SAIDA");
+            tableMapping.ColumnMappings.Add("TS_SAIDA", "TS_SAIDA");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -48288,45 +48242,84 @@ WHERE A.ID_NFVENDA = @Param1";
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT
-	A.ID_NFVENDA,
-	A.NF_NUMERO,
-	A.NF_SERIE,
-	A.NF_MODELO,
-	B.NOME,
-	SUM(C.VLR_PAGTO) AS VLR_PAGTO,
-	CAST (A.DT_SAIDA || ' ' || A.HR_SAIDA AS TIMESTAMP) AS TS_SAIDA,
-	A.STATUS
-FROM
-	TB_NFVENDA A
-JOIN TB_CLIENTE B ON
-	A.ID_CLIENTE = B.ID_CLIENTE
-JOIN TB_NFVENDA_FMAPAGTO_NFCE C ON
-	A.ID_NFVENDA = C.ID_NFVENDA
-WHERE
-	DT_SAIDA BETWEEN @Param1 AND @Param2
-	AND A.NF_MODELO = '59'
-	AND A.NF_SERIE CONTAINING @Param3
-GROUP BY
-	A.ID_NFVENDA,
-	A.NF_NUMERO,
-	A.NF_SERIE,
-	A.NF_MODELO,
-	B.NOME,
-	A.DT_SAIDA,
-	A.HR_SAIDA,
-	A.STATUS
-ORDER BY
-	TS_SAIDA DESC";
+            this._commandCollection[0].CommandText = @"
+                      SELECT
+                      A.ID_NFVENDA,
+                      A.NF_NUMERO,
+                      A.NF_SERIE,
+                      A.NF_MODELO,
+                      B.NOME,
+                      SUM(C.VLR_PAGTO) AS VLR_PAGTO,
+                      CAST (A.DT_SAIDA || ' ' || A.HR_SAIDA AS TIMESTAMP) AS TS_SAIDA,
+                      A.STATUS
+                      FROM
+                      TB_NFVENDA A
+                      JOIN TB_CLIENTE B ON
+                      A.ID_CLIENTE = B.ID_CLIENTE
+                      JOIN TB_NFVENDA_FMAPAGTO_NFCE C ON
+                      A.ID_NFVENDA = C.ID_NFVENDA
+                      WHERE
+                      DT_SAIDA BETWEEN @Param01 AND @Param02
+                      AND A.NF_MODELO = '59'
+                      AND A.NF_SERIE CONTAINING @Param03
+                      GROUP BY
+                      A.ID_NFVENDA,
+                      A.NF_NUMERO,
+                      A.NF_SERIE,
+                      A.NF_MODELO,
+                      B.NOME,
+                      A.DT_SAIDA,
+                      A.HR_SAIDA,
+                      A.STATUS
+                      ORDER BY
+                      TS_SAIDA DESC";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Param01";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "TS_SAIDA";
+            this._commandCollection[0].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Param02";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "TS_SAIDA";
+            this._commandCollection[0].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Param03";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = "NF_SERIE";
+            this._commandCollection[0].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int FillByCupons(FDBDataSetVenda.CuponsDataTableDataTable dataTable) {
+        public virtual int FillByCupons(FDBDataSetVenda.CuponsDataTableDataTable dataTable, global::System.Nullable<global::System.DateTime> Param01, global::System.Nullable<global::System.DateTime> Param02, string Param03) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((Param01.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((System.DateTime)(Param01.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((Param02.HasValue == true)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(Param02.Value));
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((Param03 == null)) {
+                throw new global::System.ArgumentNullException("Param03");
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[2].Value = ((string)(Param03));
+            }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
