@@ -1043,9 +1043,9 @@ namespace PDV_WPF
             foreach (var metodo in valoresOperacionais)
             {
                 log.Debug($"metodo{metodo},valoresOperacinais: {valoresOperacionais}");
-                if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17") && USATEF)
+                if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17" || metodo.COD_CFE == "10" || metodo.COD_CFE == "11") && USATEF)
                 {
-                    //Caso o sistema use TEF, nenhum valor de débito, crédito e PIX(caso use PIX) será informado - o sistema pega o valor diretamente da base.
+                    //Caso o sistema use TEF, nenhum valor de débito, crédito, PIX(caso use PIX), vale alimentação (caso use) e vale refeição (caso use) será informado - o sistema pega o valor diretamente da base.
                     valorASerImpresso = metodo.VALOR;
                 }
                 else

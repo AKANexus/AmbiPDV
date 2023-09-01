@@ -312,7 +312,7 @@ namespace PDV_WPF.Telas
                 return;
             }
 
-            if (strPgCfe is "03" or "04" or "06" or "07")
+            if (strPgCfe is "03" or "04" or "10" or "11")
             {
                 int intPagamentoDias = 10;
                 if (DateTime.Today.Day < intPagamentoDias)
@@ -344,10 +344,10 @@ namespace PDV_WPF.Telas
                         case "04":
                             tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
-                        case "06":
+                        case "10":
                             tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
-                        case "07":
+                        case "11":
                             tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
                     }
