@@ -306,7 +306,7 @@ namespace PDV_WPF.Telas
                             }
                             log.Debug($"SP_TRI_FECHACAIXA() {_abertura}");
                             Oper.SP_TRI_FECHACAIXA(NO_CAIXA,
-                                                   _dinheiro, _cheque, _credito, _debito, _valeloja, _alimentacao, _refeicao, _presente, _combustivel, _outros, _pix, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                                                   _dinheiro, _cheque, _credito, _debito, _valeloja, _alimentacao, _refeicao, _presente, _combustivel, _outros, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                                                    _TROCA, _SUP, _SANG, userid, _abertura);
                             log.Debug($"Foi registrado o fechamento do caixa {NO_CAIXA} pelo operador {operador}");
                         }

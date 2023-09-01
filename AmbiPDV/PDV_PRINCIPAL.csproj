@@ -204,9 +204,6 @@
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=7.10.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.7.10.1\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
-    <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
-      <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
-    </Reference>
     <Reference Include="Google.Protobuf">
       <HintPath>..\..\packages\Google.Protobuf.3.7.0\lib\net45\Google.Protobuf.dll</HintPath>
     </Reference>
@@ -630,9 +627,6 @@
     <Compile Include="Telas\ListaSanSup.xaml.cs">
       <DependentUpon>ListaSanSup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Telas\LoadingProccess.xaml.cs">
-      <DependentUpon>LoadingProccess.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Telas\OpcoesDeImpressao.xaml.cs">
       <DependentUpon>OpcoesDeImpressao.xaml</DependentUpon>
     </Compile>
@@ -894,10 +888,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Telas\ListaSanSup.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Telas\LoadingProccess.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

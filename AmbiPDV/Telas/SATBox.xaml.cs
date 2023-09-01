@@ -2,7 +2,6 @@
 using FirebirdSql.Data.FirebirdClient;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -85,7 +84,6 @@ namespace PDV_WPF.Telas
         {
             try
             {
-                if (!resultado) Thread.Sleep(1500);
                 DialogResult = resultado;
                 timer.IsEnabled = false;
                 revent.Dispose();
