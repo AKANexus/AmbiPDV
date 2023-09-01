@@ -577,7 +577,7 @@ namespace PDV_WPF.Funcoes
         {            
             string retorno;
             byte[] bytes = Encoding.UTF8.GetBytes("ChecarStatus");
-            ExibirGif.stateGif = false;
+            if(!USATEF) ExibirGif.stateGif = false; //Checando somente para não fechar a tela de loading.. enquanto não terminar de processar o TEF.
             decimal attemptSatServidor = 1; StartSearchSatServidor:
             using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter())
             {
@@ -603,8 +603,7 @@ namespace PDV_WPF.Funcoes
                 DialogBox.Show("ERRO", DialogBoxButtons.No, DialogBoxIcons.Error, false, ex.Message);
                 throw ex;
             }
-
-            ExibirGif.stateGif = false;
+            
             switch (retorno)
             {
                 case "08000":
