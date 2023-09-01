@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -176,89 +174,80 @@ namespace PDV_WPF.Telas
             }
         }
 
-        private async void ReimprimirFechamentoCaixa(int intIdCaixa, DateTime dtmFechado)
+        private void ReimprimirFechamentoCaixa(int intIdCaixa, DateTime dtmFechado)
         {
             using var Impressao = new PrintFECHA();
             PegarValoresFechamentoUsuario(intIdCaixa, dtmFechado);
             switch (DialogBox.Show("Reimpressão de Fechamento", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja reimprimir o fechamento do caixa?"))
             {
                 case true:
-                    LoadingProccess loadingProccess = new LoadingProccess();
-                    loadingProccess.Show();
-                    this.IsEnabled = false;
-
-                    await Task.Run(() =>
+                    DataRow metodo_pgto_col;
+                    metodo_pgto_col = Impressao.fecha_infor_dt.NewRow();
+                    metodo_pgto_col[0] = -1;
+                    metodo_pgto_col["DIN"] = _01;
+                    metodo_pgto_col["CHEQUE"] = _02;
+                    metodo_pgto_col["CREDITO"] = _03;
+                    metodo_pgto_col["DEBITO"] = _04;
+                    metodo_pgto_col["LOJA"] = _05;
+                    metodo_pgto_col["ALIMENTACAO"] = _06;
+                    metodo_pgto_col["REFEICAO"] = _07;
+                    metodo_pgto_col["PRESENTE"] = _08;
+                    metodo_pgto_col["COMBUSTIVEL"] = _09;
+                    metodo_pgto_col["OUTROS"] = _10;
+                    metodo_pgto_col["EXTRA_1"] = _11;
+                    metodo_pgto_col["EXTRA_2"] = _12;
+                    metodo_pgto_col["EXTRA_3"] = _13;
+                    metodo_pgto_col["EXTRA_4"] = _14;
+                    metodo_pgto_col["EXTRA_5"] = _15;
+                    metodo_pgto_col["EXTRA_6"] = _16;
+                    metodo_pgto_col["EXTRA_7"] = _17;
+                    metodo_pgto_col["EXTRA_8"] = _18;
+                    metodo_pgto_col["EXTRA_9"] = _19;
+                    metodo_pgto_col["EXTRA_10"] = _20;
+                    metodo_pgto_col["CURRENTTIME"] = DateTime.Now;
+                    metodo_pgto_col["ABERTO"] = "X";
+                    metodo_pgto_col["HASH"] = "X";
+                    metodo_pgto_col["SANGRIAS"] = _SANG;
+                    metodo_pgto_col["SUPRIMENTOS"] = _SUP;
+                    metodo_pgto_col["TROCAS"] = _TROCA;
+                    metodo_pgto_col["ID_OPER"] = 0;
+                    metodo_pgto_col["ID_USER"] = 0;
+                    Impressao.fecha_infor_dt.Rows.Add(metodo_pgto_col);
+                    using (var EMIT_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EMITENTETableAdapter())
+                    using (var EMIT_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable())
+                    using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
                     {
-                        DataRow metodo_pgto_col;
-                        metodo_pgto_col = Impressao.fecha_infor_dt.NewRow();
-                        metodo_pgto_col[0] = -1;
-                        metodo_pgto_col["DIN"] = _01;
-                        metodo_pgto_col["CHEQUE"] = _02;
-                        metodo_pgto_col["CREDITO"] = _03;
-                        metodo_pgto_col["DEBITO"] = _04;
-                        metodo_pgto_col["LOJA"] = _05;
-                        metodo_pgto_col["ALIMENTACAO"] = _06;
-                        metodo_pgto_col["REFEICAO"] = _07;
-                        metodo_pgto_col["PRESENTE"] = _08;
-                        metodo_pgto_col["COMBUSTIVEL"] = _09;
-                        metodo_pgto_col["OUTROS"] = _10;
-                        metodo_pgto_col["EXTRA_1"] = _11;
-                        metodo_pgto_col["EXTRA_2"] = _12;
-                        metodo_pgto_col["EXTRA_3"] = _13;
-                        metodo_pgto_col["EXTRA_4"] = _14;
-                        metodo_pgto_col["EXTRA_5"] = _15;
-                        metodo_pgto_col["EXTRA_6"] = _16;
-                        metodo_pgto_col["EXTRA_7"] = _17;
-                        metodo_pgto_col["EXTRA_8"] = _18;
-                        metodo_pgto_col["EXTRA_9"] = _19;
-                        metodo_pgto_col["EXTRA_10"] = _20;
-                        metodo_pgto_col["CURRENTTIME"] = DateTime.Now;
-                        metodo_pgto_col["ABERTO"] = "X";
-                        metodo_pgto_col["HASH"] = "X";
-                        metodo_pgto_col["SANGRIAS"] = _SANG;
-                        metodo_pgto_col["SUPRIMENTOS"] = _SUP;
-                        metodo_pgto_col["TROCAS"] = _TROCA;
-                        metodo_pgto_col["ID_OPER"] = 0;
-                        metodo_pgto_col["ID_USER"] = 0;
-                        Impressao.fecha_infor_dt.Rows.Add(metodo_pgto_col);
-                        using (var EMIT_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_EMITENTETableAdapter())
-                        using (var EMIT_DT = new DataSets.FDBDataSetOperSeed.TB_EMITENTEDataTable())
-                        using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+                        EMIT_TA.Connection = LOCAL_FB_CONN;
+
+                        try
                         {
-                            EMIT_TA.Connection = LOCAL_FB_CONN;
-
-                            try
-                            {
-                                EMIT_TA.Fill(EMIT_DT);
-                            }
-                            catch (Exception ex)
-                            {
-                                logErroAntigo(RetornarMensagemErro(ex, true));
-                                MessageBox.Show("Erro ao consultar dados do emitente. \n\nO aplicativo deverá ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                Environment.Exit(0); // deuruim();
-                                return;
-                            }
-
-                            Impressao.cnpjempresa = EMIT_DT[0].CNPJ.TiraPont();
-                            //Impressao.nomefantasia = Properties.Settings.Default.nomefantasia;//TODO essa informação deve vir da base de dados do Clipp.
-                            Impressao.nomefantasia = EMIT_DT[0].NOME_FANTA.Safestring();
-                            Impressao.enderecodaempresa = string.Format("{0} {1}, {2} - {3}, {4}",
-                                                                        EMIT_DT[0].END_TIPO,
-                                                                        EMIT_DT[0].END_LOGRAD,
-                                                                        EMIT_DT[0].END_NUMERO,
-                                                                        EMIT_DT[0].END_BAIRRO,
-                                                                        "São Paulo");
-                            using var METODOS_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
-                            using var METODOS_DT = new DataSets.FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable();
-                            METODOS_TA.Connection = LOCAL_FB_CONN;
-                            METODOS_TA.FillByAtivos(METODOS_DT);
-                            Impressao.IMPRIME(dtmFechado, METODOS_DT, intIdCaixa, false); // deuruim();
-                                                                                          //Oper.SP_TRI_FECHACAIXA(Properties.Settings.Default.no_caixa, _01, _02, _03, _04, _05, _06, _07, _08, _09, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _TROCA, _SUP, _SANG, userid);
+                            EMIT_TA.Fill(EMIT_DT);
                         }
-                        //this.Close();
-                    });
-                    this.IsEnabled = true; this.Focus(); 
-                    loadingProccess.Close();                    
+                        catch (Exception ex)
+                        {
+                            logErroAntigo(RetornarMensagemErro(ex, true));
+                            MessageBox.Show("Erro ao consultar dados do emitente. \n\nO aplicativo deverá ser fechado. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
+                            Environment.Exit(0); // deuruim();
+                            return;
+                        }
+
+                        Impressao.cnpjempresa = EMIT_DT[0].CNPJ.TiraPont();
+                        //Impressao.nomefantasia = Properties.Settings.Default.nomefantasia;//TODO essa informação deve vir da base de dados do Clipp.
+                        Impressao.nomefantasia = EMIT_DT[0].NOME_FANTA.Safestring();
+                        Impressao.enderecodaempresa = string.Format("{0} {1}, {2} - {3}, {4}",
+                                                                    EMIT_DT[0].END_TIPO,
+                                                                    EMIT_DT[0].END_LOGRAD,
+                                                                    EMIT_DT[0].END_NUMERO,
+                                                                    EMIT_DT[0].END_BAIRRO,
+                                                                    "São Paulo");
+                        using var METODOS_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
+                        using var METODOS_DT = new DataSets.FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable();
+                        METODOS_TA.Connection = LOCAL_FB_CONN;
+                        METODOS_TA.FillByAtivos(METODOS_DT);
+                        Impressao.IMPRIME(dtmFechado, METODOS_DT, intIdCaixa, false); // deuruim();
+                                                                                      //Oper.SP_TRI_FECHACAIXA(Properties.Settings.Default.no_caixa, _01, _02, _03, _04, _05, _06, _07, _08, _09, _10, _11, _12, _13, _14, _15, _16, _17, _18, _19, _20, _TROCA, _SUP, _SANG, userid);
+                    }
+                    //this.Close();
                     return;
                 case false:
                     //txb_01.Focus();
