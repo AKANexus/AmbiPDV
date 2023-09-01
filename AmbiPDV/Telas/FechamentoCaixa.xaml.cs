@@ -84,11 +84,11 @@ namespace PDV_WPF.Telas
                             lbl_vale.Content = item.DESCRICAO;
                             break;
                         case "10":
-                            txb_Alimentacao.Visibility = lbl_alimentacao.Visibility = Visibility.Visible;
+                            if (!USATEF) txb_Alimentacao.Visibility = lbl_alimentacao.Visibility = Visibility.Visible;
                             lbl_alimentacao.Content = item.DESCRICAO;
                             break;
                         case "11":
-                            txb_Refeicao.Visibility = lbl_refeicao.Visibility = Visibility.Visible;
+                            if (!USATEF) txb_Refeicao.Visibility = lbl_refeicao.Visibility = Visibility.Visible;
                             lbl_refeicao.Content = item.DESCRICAO;
                             break;
                         case "12":

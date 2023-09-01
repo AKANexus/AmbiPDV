@@ -2794,7 +2794,7 @@ namespace PDV_WPF.Telas
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.troco);
                             if (ACFILLPREFIX == 1) AbreGavetaDLL();
                         }
-                        else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03") && USATEF)
+                        else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03" || metodo.strCfePgto == "10" || metodo.strCfePgto == "11") && USATEF)
                         {
                             vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
                         }
