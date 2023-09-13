@@ -41,7 +41,7 @@ namespace PDV_WPF.Telas
             using var Cupons_DT = new DataSets.FDBDataSetVenda.CuponsDataTableDataTable();
             using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter();// { Connection = LOCAL_FB_CONN };
             //Cupons_TA.Connection = LOCAL_FB_CONN;
-            Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());
+            //Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString()); TODO: Arrumar aqui
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
             {
                 if (cupomRow.NF_SERIE.Contains("99")) continue;

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         mc:Ignorable="d"
-        Title="Fechamentos" Height="469" Width="737.864" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" Loaded="Window_Loaded" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" KeyDown="Window_KeyDown">
+        Title="Fechamentos" Height="469" Width="737.864" Closing="Window_Closing" WindowStartupLocation="CenterScreen" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" Loaded="Window_Loaded" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}" KeyDown="Window_KeyDown">
     <Border Margin="10" CornerRadius="10">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
@@ -95,7 +95,26 @@
                                 <Setter Property="ContextMenu">
                                     <Setter.Value>
                                         <ContextMenu>
-                                            <MenuItem Header="Gerar CF-e" Name="geraCfe" IsEnabled="{Binding ActivateContextMenu}"/>
+                                            <ContextMenu.Template>
+                                                <ControlTemplate TargetType="ContextMenu">
+                                                    <Border Background="White"
+                                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                                            CornerRadius="6">
+                                                        <MenuItem Name="geraCfe" Header="Gerar CF-e" Click="geraCfe_Click" IsEnabled="{Binding ActivateContextMenu}">
+                                                            <MenuItem.Style>
+                                                                <Style TargetType="MenuItem">
+                                                                    <Style.Triggers>
+                                                                        <Trigger Property="IsMouseOver" Value="True">
+                                                                            <Setter Property="Foreground" Value="DarkBlue"/>
+                                                                        </Trigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </MenuItem.Style>
+                                                        </MenuItem>
+                                                    </Border>
+                                                </ControlTemplate>
+                                            </ContextMenu.Template>
                                         </ContextMenu>
                                     </Setter.Value>
                                 </Setter>
@@ -114,14 +133,8 @@
                             <DataGridTextColumn x:Name="tOTALVENDAColumn" Binding="{Binding Valor, StringFormat=C}" Header="Valor" Width="0.35*" />
                         </DataGrid.Columns>
                     </DataGrid>
-
-
-
-
-
                 </Grid>
             </Grid>
         </Border>
     </Border>
-
 </Window>

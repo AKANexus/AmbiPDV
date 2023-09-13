@@ -28,6 +28,7 @@ using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Properties.strings;
 using ECF = PDV_WPF.FuncoesECF;
 using System.Threading;
+using System.Text;
 
 namespace PDV_WPF
 {

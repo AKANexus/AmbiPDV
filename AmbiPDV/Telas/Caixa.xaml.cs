@@ -1590,13 +1590,13 @@ namespace PDV_WPF.Telas
                         using (var EST_PRODUTO_TA = new TB_EST_PRODUTOTableAdapter())
                         {                            
                             List<(KIT_PROMOCIONAL_ITEM item, string descricao, decimal quantidade)> qtdsDeCadaItemEmEstoque = new();
-
-                            foreach (var item in kitPromocional.produtos)
+                                                       
+                            kitPromocional.produtos.ForEach(produto =>
                             {
-                                var qtdEmEstoque = EST_PRODUTO_TA.ConsultaQtde(item.ID_IDENTIFICADOR);
-                                var descricaoItem = ESTOQUE_TA.DescricaoPorID(item.ID_IDENTIFICADOR);
-                                qtdsDeCadaItemEmEstoque.Add((item, descricaoItem is not DBNull ? descricaoItem.ToString() : "Não foi possivel pegar a descrição do item", qtdEmEstoque ?? 0));
-                            }
+                                var qtdEmEstoque = EST_PRODUTO_TA.ConsultaQtde(produto.ID_IDENTIFICADOR);
+                                var descricaoItem = ESTOQUE_TA.DescricaoPorID(produto.ID_IDENTIFICADOR);
+                                qtdsDeCadaItemEmEstoque.Add((produto, descricaoItem is not DBNull ? descricaoItem.ToString() : "Não foi possivel pegar a descrição do item", qtdEmEstoque ?? 0));
+                            });                                                        
 
                             bool temProdutoZerado = qtdsDeCadaItemEmEstoque.Any(qtds => qtds.quantidade <= 0 || qtds.quantidade < qtds.item.QTD_ITEM);
 
@@ -5906,15 +5906,18 @@ namespace PDV_WPF.Telas
                     var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .                 Tentativa: {attemptSatServidor}");
                     sb.ShowDialog();
                     if (sb.DialogResult == false)
-                    {
-                        attemptSatServidor++;
+                    {                        
                         log.Debug($"Tentativa de envio SatServidor falhou. Tentando novamente... tentativa: {attemptSatServidor}");                                                                                        
                         using (var SAT_REC_TA = new TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
                         using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
-                        if (attemptSatServidor <= 3) goto StartSearchSatServidor;
-                        log.Debug("Após 4 tentativas SatServiddor falhou em todas, segue a vida.");
+                        if (attemptSatServidor < 3) 
+                        {                              
+                            attemptSatServidor++;
+                                goto StartSearchSatServidor; 
+                        }
+                        log.Debug("Após 3 tentativas SatServiddor falhou em todas, segue a vida.");
                         lbl_Cortesia.Content = "Falha no SAT";
-                        DialogBox.Show("SAT SERVIDOR", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Não foi possivel se comunicar com o aparelho SAT servidor.\nEntre em contato com o suporte.");                        
+                        DialogBox.Show(strings.SAT_SERVIDOR, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_SAT_SERVIDOR);                        
                         erroVenda = true;
                         return false;
                     }
@@ -5940,6 +5943,8 @@ namespace PDV_WPF.Telas
             if (retorno.Length < 2)
             {
                 erroVenda = true;
+                log.Debug($"Retorno do SAT era invalido. Retorno: {retorno}");
+                DialogBox.Show("SAT", DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_GENERICO_SAT);
                 return false;
             }
 
@@ -6964,7 +6969,9 @@ namespace PDV_WPF.Telas
                 {
                     if (SENHA_REIMPRESSAO && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
                     e.Handled = true;
-                    new ReimprimeCupons().ShowDialog();
+                    var reimpressao = new ReimprimeCupons();
+                    reimpressao.ShowDialog();
+                    if (reimpressao.DialogResult is true && !_contingencia) PreparaInicioDeSincronizacao(EnmTipoSync.vendas, Settings.Default.SegToleranciaUltSync);
                 });
             }//Tenta pegar o peso da balança.
             /* ---------------*/

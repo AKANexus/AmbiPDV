@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.Remoting.Contexts;
+using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 
 namespace PDV_WPF.Objetos
 {
@@ -12,6 +12,7 @@ namespace PDV_WPF.Objetos
         public string Status { get; set; }
         public int ID_NFVENDA { get; set; }
         public string NF_SERIE { get; set; }
-        public bool ActivateContextMenu => Status is not "C" && NF_SERIE.StartsWith("N");
+        public string NF_MODELO { get; set; }
+        public bool ActivateContextMenu => Status is not "C" && NF_SERIE.StartsWith("N") && SAT_USADO;
     }
 }
