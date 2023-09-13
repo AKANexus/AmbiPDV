@@ -6969,7 +6969,9 @@ namespace PDV_WPF.Telas
                 {
                     if (SENHA_REIMPRESSAO && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
                     e.Handled = true;
-                    new ReimprimeCupons().ShowDialog();
+                    var reimpressao = new ReimprimeCupons();
+                    reimpressao.ShowDialog();
+                    if (reimpressao.DialogResult is true && !_contingencia) PreparaInicioDeSincronizacao(EnmTipoSync.vendas, Settings.Default.SegToleranciaUltSync);
                 });
             }//Tenta pegar o peso da balança.
             /* ---------------*/

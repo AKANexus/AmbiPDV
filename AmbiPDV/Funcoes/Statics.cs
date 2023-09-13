@@ -683,6 +683,20 @@ namespace PDV_WPF.Funcoes
         }
 
         /// <summary>
+        /// Percorre/Itera por duas coleções simultaneamente e executa uma action.
+        /// </summary>    
+        public static void TwoForEach<T1, T2>(IEnumerable<T1> lista01, IEnumerable<T2> lista02, Action<T1, T2> action)
+        {
+            var enumerador1 = lista01.GetEnumerator();
+            var enumerador2 = lista02.GetEnumerator();
+
+            while (enumerador1.MoveNext() && enumerador2.MoveNext())
+            {
+                action(enumerador1.Current, enumerador2.Current);
+            }
+        }
+
+        /// <summary>
         /// Abre a gaveta ao imprimir uma linha em branco.
         /// </summary>
         public static void AbreGavetaSPOOLER()

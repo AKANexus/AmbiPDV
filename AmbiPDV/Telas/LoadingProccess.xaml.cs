@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -20,11 +21,17 @@ namespace PDV_WPF.Telas
     /// Lógica interna para LoadingProccess.xaml
     /// </summary>
     public partial class LoadingProccess : Window
-    {        
+    {
+        public IProgress<string> progress;
         public LoadingProccess()
         {
             InitializeComponent();  
             Topmost = true;
-        }           
+            progress = new Progress<string>(AtualizaUI);
+        }
+        public void AtualizaUI(string textProgress)
+        {
+            lbl_progress.Content = textProgress;
+        }
     }
 }
