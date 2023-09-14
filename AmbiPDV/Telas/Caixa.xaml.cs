@@ -1424,10 +1424,10 @@ namespace PDV_WPF.Telas
 
                     //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
                     ProcessarItemNovo(item.ID_ESTOQUE,
-                                 item.VALOR,
-                                 item.QUANT,
-                                 item.DESCONTO,
-                                 orcamento.ToString());
+                                      item.VALOR,
+                                      item.QUANT,
+                                      item.DESCONTO,
+                                     $"Orçamento Nº {orcamento}");
 
                     numProximoItem += 1;
 
@@ -1480,7 +1480,7 @@ namespace PDV_WPF.Telas
                 if (ordemDeServico is null)
                 {
                     log.Debug("Erro ao ler ordem de serviço, ou ordem de serviço está FECHADA");
-                    MessageBox.Show("Ordem de serviço indisponível.     ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    DialogBox.Show(strings.ORDEM_SERVICO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.OS_INDISPONIVEL);                    
                     combobox.Text = "";
                     return true;
                 }
@@ -1488,7 +1488,7 @@ namespace PDV_WPF.Telas
                 if (ordemDeServico.ClippOsItems is null || ordemDeServico.ClippOsItems.Count == 0)
                 {
                     combobox.Text = "";
-                    MessageBox.Show("Ordem de serviço vazia e/ou sem produtos.    ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    DialogBox.Show(strings.ORDEM_SERVICO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.OS_VAZIA);                    
                     return true;
                 }
 
@@ -1505,10 +1505,10 @@ namespace PDV_WPF.Telas
                     }
 
                     ProcessarItemNovo(item.ID_IDENTIFICADOR,
-                                 item.VLR_UNIT,
-                                 item.QTD_ITEM ?? 1,
-                                 item.VLR_DESC ?? 0,
-                                 ordemDeServico.ToString());
+                                      item.VLR_UNIT,
+                                      item.QTD_ITEM ?? 1,
+                                      item.VLR_DESC ?? 0,
+                                      $"O.S Nº {ordemServico}");
 
                     numProximoItem += 1;
 

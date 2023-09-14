@@ -984,6 +984,24 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO INDISPONÍVEL.
+        /// </summary>
+        internal static string OS_INDISPONIVEL {
+            get {
+                return ResourceManager.GetString("OS_INDISPONIVEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO VAZIA E/OU SEM PRODUTOS..
+        /// </summary>
+        internal static string OS_VAZIA {
+            get {
+                return ResourceManager.GetString("OS_VAZIA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Para iniciar o programa em modo de contingência, abra-o novamente e selecione \&quot;CONFIRMAR\&quot;.
         /// </summary>
         internal static string PARA_ABRIR_EM_CONTINGENCIA_REINICIE {
