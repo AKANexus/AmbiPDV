@@ -1761,12 +1761,12 @@ namespace PDV_WPF.Telas
                 foreach (var ex in agex.InnerExceptions)
                 {
                     erros[0] = ex.Message;
-                }
+                }                
                 _contingencia = true;
                 lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
                 bar_Contingencia.Visibility = Visibility.Visible;
                 DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                log.Debug("Erro ao executar processo de sincronização: " + agex);
                 exceptionInSync = true;
             }
             if (_contingencia && !exceptionInSync)
@@ -1775,6 +1775,7 @@ namespace PDV_WPF.Telas
                 bar_Contingencia.Visibility = Visibility.Visible;
                 DialogBox.Show(strings.CONEXÃO_SERVIDOR, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.PERDEU_CONEXAO_SERVIDOR);
             }
+            if (!_contingencia && bar_Contingencia.Visibility is Visibility.Visible) bar_Contingencia.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -1803,8 +1804,7 @@ namespace PDV_WPF.Telas
                 //Houve o retorno da conectividade ao servidor.
                 funcoes.ChangeConnectionString(MontaStringDeConexao(SERVERNAME, SERVERCATALOG));
                 _contingencia = false;
-                log.Debug($"FDBConnString definido para DB na rede: {Settings.Default.FDBConnString}");
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { bar_Contingencia.Visibility = Visibility.Hidden; }));
+                log.Debug($"FDBConnString definido para DB na rede: {Settings.Default.FDBConnString}");                
                 IniciarSincronizacaoDB(pTipo, pSegundosTolerancia);
                 ultimaContingencia = DateTime.Now;
                 //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -3010,13 +3010,13 @@ namespace PDV_WPF.Telas
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal());
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
 
                 }
                 else
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal());
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                     // item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun));
                 }
@@ -3963,12 +3963,12 @@ namespace PDV_WPF.Telas
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal());
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
                 }
                 else
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal());
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                 }
 

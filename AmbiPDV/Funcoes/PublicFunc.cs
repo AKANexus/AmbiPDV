@@ -636,6 +636,7 @@ namespace PDV_WPF
                 Config_TA.B_GERATRIGGERS_AUX_SYNC();
                 Config_TA.B_GERATRIGGERS_AUX_SYNC2();
                 Config_TA.B_GERATRIGGERS_AUX_SYNC3();
+                Config_TA.B_GERATRIGGERS_AUX_SYNC4();
                 /*if (origemBd == EnmDBSync.serv) { */
                 Config_TA.B_ENABLE_SERV_TRIGGERS(); /*}*/
                 /*if (origemBd == EnmDBSync.pdv) { */
@@ -695,6 +696,9 @@ namespace PDV_WPF
 
                 string GERATRIGGERS_AUX_SYNC3 = (string)Config_TA.SP_TRI_GERATRIGGERS_AUX_SYNC3();
                 if (GERATRIGGERS_AUX_SYNC3 != "deu certo") { throw new Exception(GERATRIGGERS_AUX_SYNC3); }
+
+                string GERATRIGGERS_AUX_SYNC4 = (string)Config_TA.SP_TRI_GERATRIGGERS_AUX_SYNC4();
+                if (GERATRIGGERS_AUX_SYNC4 != "deu certo") { throw new Exception(GERATRIGGERS_AUX_SYNC4); }
 
                 if (origemBd == EnmDBSync.serv)
                 {

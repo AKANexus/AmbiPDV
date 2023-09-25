@@ -1346,6 +1346,138 @@ namespace PDV_WPF.Funcoes
             }
         }
 
+        public void Sync_TB_EST_SUBGRUPO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+        {
+            using (var tblEstSubGrupoServ = new FDBDataSetOperSeed.TB_EST_SUBGRUPODataTable())
+            {
+                try
+                {
+                    if (dtUltimaSyncPdv is null)
+                    {
+                        #region Única sync
+
+                        using (var taEstSubGrupoServ = new TB_EST_SUBGRUPOTableAdapter())
+
+                        using (var taEstSubGrupoPdv = new TB_EST_SUBGRUPOTableAdapter())
+                        using (var tblEstSubGrupoPdv = new FDBDataSetOperSeed.TB_EST_SUBGRUPODataTable())
+                        {
+                            taEstSubGrupoServ.Connection = fbConnServ;
+                            taEstSubGrupoServ.Fill(tblEstSubGrupoServ);
+
+                            taEstSubGrupoPdv.Connection = fbConnPdv;
+                            taEstSubGrupoPdv.Fill(tblEstSubGrupoPdv);
+
+                            using (var changeReader = new DataTableReader(tblEstSubGrupoServ))
+                                tblEstSubGrupoPdv.Load(changeReader, LoadOption.Upsert);
+
+                            taEstSubGrupoPdv.Update(tblEstSubGrupoPdv);
+
+                            tblEstSubGrupoPdv.AcceptChanges();
+                        }
+
+                        #endregion Única sync
+                    }
+                    else
+                    {
+                        #region AUX_SYNC
+
+                        int intRetornoUpsert = 0;
+
+                        {
+                            DataRow[] pendentesEstGrupo = dtAuxSyncPendentes.Select($"TABELA = 'TB_EST_SUBGRUPO'");
+
+                            for (int i = 0; i < pendentesEstGrupo.Length; i++)
+                            {
+                                var idEstSubGrupo = pendentesEstGrupo[i]["ID_REG"].Safeint();
+                                var operacao = pendentesEstGrupo[i]["OPERACAO"].Safestring();
+
+                                if (operacao.Equals("I") || operacao.Equals("U"))
+                                {
+                                    using (var taEstSubGrupoServ = new TB_EST_SUBGRUPOTableAdapter())
+                                    {
+                                        taEstSubGrupoServ.Connection = fbConnServ;
+
+                                        taEstSubGrupoServ.FillById(tblEstSubGrupoServ, idEstSubGrupo);
+
+                                        if (tblEstSubGrupoServ != null && tblEstSubGrupoServ.Rows.Count > 0)
+                                        {
+                                            using (var taEstSubGrupoPdv = new TB_EST_SUBGRUPOTableAdapter())
+                                            {
+                                                taEstSubGrupoPdv.Connection = fbConnPdv;
+
+                                                foreach (FDBDataSetOperSeed.TB_EST_SUBGRUPORow estSubGrupoServ in tblEstSubGrupoServ)
+                                                {
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            intRetornoUpsert = taEstSubGrupoPdv.Insert(estSubGrupoServ.ID_SUBGRUPO, estSubGrupoServ.DESCRICAO, estSubGrupoServ.ID_GRUPO);
+                                                            break;
+                                                        case "U":
+                                                            intRetornoUpsert = taEstSubGrupoPdv.UpdateById(estSubGrupoServ.DESCRICAO, estSubGrupoServ.ID_GRUPO, estSubGrupoServ.ID_SUBGRUPO);
+                                                            break;
+                                                    }
+
+                                                    if (intRetornoUpsert != 0)
+                                                    {
+                                                        ConfirmarAuxSync(idEstSubGrupo,
+                                                                         "TB_EST_SUBGRUPO",
+                                                                         operacao,
+                                                                         shtNumCaixa);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // O item não foi encontrado no servidor.
+                                            // Pode ter sido deletado.
+                                            // Deve constar essa operação em dtAuxSync.
+                                            // Caso contrário, estourar exception.
+
+                                            using (var dtPendentesEstGrupo = pendentesEstGrupo.CopyToDataTable())
+                                            {
+                                                DataRow[] deletesPendentesEstSubGrupo = dtPendentesEstGrupo.Select($"ID_REG = {idEstSubGrupo} AND OPERACAO = 'D'");
+
+                                                if (deletesPendentesEstSubGrupo.Length > 0)
+                                                {
+                                                    foreach (var deletePendenteEstoque in deletesPendentesEstSubGrupo)
+                                                    {
+                                                        dtAuxSyncDeletesPendentes.Rows.Add(0, idEstSubGrupo, "TB_EST_SUBGRUPO", "D", shtNumCaixa);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    // Ops....
+                                                    // Item não encontrado no servidor e não foi deletado?
+                                                    // Estourar exception.
+                                                    throw new DataException($"Erro não esperado: produto (TB_EST_SUBGRUPO) não encontrado no servidor e sem exclusão pendente. \nID do registro: {idEstSubGrupo}");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (operacao.Equals("D"))
+                                {
+                                    DataRow[] deletesPendentesEstGrupo = dtAuxSyncDeletesPendentes.Select($"ID_REG = {idEstSubGrupo} AND TABELA = 'TB_EST_SUBGRUPO' AND OPERACAO = 'D'");
+
+                                    if (deletesPendentesEstGrupo.Length <= 0)
+                                        dtAuxSyncDeletesPendentes.Rows.Add(0, idEstSubGrupo, "TB_EST_SUBGRUPO", "D", shtNumCaixa);
+                                }
+                            }
+                        }
+
+                        #endregion AUX_SYNC
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //audit("SINCCONTNETDB>> " + "Erro ao sincronizar: \n\n" + RetornarMensagemErro(ex, true));
+                    GravarErroSync("Subgrupo de estoque", tblEstSubGrupoServ, ex);
+                    throw ex;
+                }
+            }
+        }
+
         public void Sync_TB_FORNECEDOR(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
         {
             using (var tblFornecServ = new FDBDataSetOperSeed.TB_FORNECEDORDataTable())
@@ -1751,44 +1883,57 @@ namespace PDV_WPF.Funcoes
                                         {
                                             using (var taEstoquePdv = new TB_ESTOQUETableAdapter())
                                             {
-                                                taEstoquePdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
-                                                string testetrib = "012";
+                                                taEstoquePdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;                                                
 
                                                 //foreach (FDBDataSetOperSeed.TB_ESTOQUERow estoqueServ in tblEstoqueServ)
                                                 foreach (FDBDataSetOperSeed.SP_TRI_ESTOQUE_ID_GETBY_IDRow estoqueServ in tblAuxEstoqueServ)
                                                 {
                                                     intRetornoUpsert = (int)taEstoquePdv.SP_TRI_ESTOQUE_UPSERT(estoqueServ.ID_ESTOQUE,
-                                                                                       (estoqueServ.IsID_GRUPONull() ? null : (int?)estoqueServ.ID_GRUPO),
-                                                                                       estoqueServ.DESCRICAO,
-                                                                                       estoqueServ.STATUS,
-                                                                                       estoqueServ.DT_CADAST,
-                                                                                       estoqueServ.HR_CADAST,
-                                                                                       estoqueServ.FRACIONADO,
-                                                                                       estoqueServ.PRC_VENDA,
-                                                                                       (estoqueServ.IsPRC_CUSTONull() ? null : (decimal?)estoqueServ.PRC_CUSTO),
-                                                                                       (estoqueServ.IsULT_VENDANull() ? null : (DateTime?)estoqueServ.ULT_VENDA),
-                                                                                       (estoqueServ.IsMARGEM_LBNull() ? null : (decimal?)estoqueServ.MARGEM_LB),
-                                                                                       (estoqueServ.IsPOR_COMISSAONull() ? null : (decimal?)estoqueServ.POR_COMISSAO),
-                                                                                       (estoqueServ.IsULT_FORNECNull() ? null : (int?)estoqueServ.ULT_FORNEC),
-                                                                                       (estoqueServ.IsGRADE_SERIENull() ? null : estoqueServ.GRADE_SERIE),
-                                                                                       estoqueServ.ID_TIPOITEM,
-                                                                                       (estoqueServ.IsID_CTINull() ? null : estoqueServ.ID_CTI),
-                                                                                       (estoqueServ.IsCST_PISNull() ? null : estoqueServ.CST_PIS),
-                                                                                       (estoqueServ.IsCST_COFINSNull() ? null : estoqueServ.CST_COFINS),
-                                                                                       (estoqueServ.IsPISNull() ? null : (decimal?)estoqueServ.PIS),
-                                                                                       (estoqueServ.IsCOFINSNull() ? null : (decimal?)estoqueServ.COFINS),
-                                                                                       (estoqueServ.IsUNI_MEDIDANull() ? null : estoqueServ.UNI_MEDIDA),
-                                                                                       (estoqueServ.IsMARGEM_PVNull() ? null : (decimal?)estoqueServ.MARGEM_PV),
-                                                                                       (estoqueServ.IsCFOPNull() ? null : estoqueServ.CFOP),
-                                                                                       (estoqueServ.IsOBSERVACAONull() ? null : estoqueServ.OBSERVACAO),
-                                                                                       (estoqueServ.IsNAT_RECEITANull() ? null : (short?)estoqueServ.NAT_RECEITA),
-                                                                                       (estoqueServ.IsCFOP_NFNull() ? null : estoqueServ.CFOP_NF),
-                                                                                       (estoqueServ.IsPRC_ATACADONull() ? null : (decimal?)estoqueServ.PRC_ATACADO),
-                                                                                       (estoqueServ.IsID_CTI_PARTNull() ? null : estoqueServ.ID_CTI_PART),
-                                                                                       (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),
-                                                                                       (estoqueServ.IsQTD_ATACADONull() ? null : (decimal?)estoqueServ.QTD_ATACADO),
-                                                                                       (estoqueServ.IsID_CTI_CFENull() ? null : estoqueServ.ID_CTI_CFE),
-                                                                                       DateTime.Now);
+                                                                                                              (estoqueServ.IsID_GRUPONull() ? null : (int?)estoqueServ.ID_GRUPO),
+                                                                                                               estoqueServ.DESCRICAO,
+                                                                                                               estoqueServ.STATUS,
+                                                                                                               estoqueServ.DT_CADAST,
+                                                                                                               estoqueServ.HR_CADAST,
+                                                                                                               estoqueServ.FRACIONADO,
+                                                                                                               estoqueServ.PRC_VENDA,
+                                                                                                               (estoqueServ.IsPRC_CUSTONull() ? null : (decimal?)estoqueServ.PRC_CUSTO),
+                                                                                                               (estoqueServ.IsULT_VENDANull() ? null : (DateTime?)estoqueServ.ULT_VENDA),
+                                                                                                               (estoqueServ.IsMARGEM_LBNull() ? null : (decimal?)estoqueServ.MARGEM_LB),
+                                                                                                               (estoqueServ.IsPOR_COMISSAONull() ? null : (decimal?)estoqueServ.POR_COMISSAO),
+                                                                                                               (estoqueServ.IsULT_FORNECNull() ? null : (int?)estoqueServ.ULT_FORNEC),
+                                                                                                               (estoqueServ.IsGRADE_SERIENull() ? null : estoqueServ.GRADE_SERIE),
+                                                                                                               estoqueServ.ID_TIPOITEM,
+                                                                                                               (estoqueServ.IsID_CTINull() ? null : estoqueServ.ID_CTI),
+                                                                                                               (estoqueServ.IsCST_PISNull() ? null : estoqueServ.CST_PIS),
+                                                                                                               (estoqueServ.IsCST_COFINSNull() ? null : estoqueServ.CST_COFINS),
+                                                                                                               (estoqueServ.IsPISNull() ? null : (decimal?)estoqueServ.PIS),
+                                                                                                               (estoqueServ.IsCOFINSNull() ? null : (decimal?)estoqueServ.COFINS),
+                                                                                                               (estoqueServ.IsUNI_MEDIDANull() ? null : estoqueServ.UNI_MEDIDA),
+                                                                                                               (estoqueServ.IsMARGEM_PVNull() ? null : (decimal?)estoqueServ.MARGEM_PV),
+                                                                                                               (estoqueServ.IsCFOPNull() ? null : estoqueServ.CFOP),
+                                                                                                               (estoqueServ.IsOBSERVACAONull() ? null : estoqueServ.OBSERVACAO),
+                                                                                                               (estoqueServ.IsNAT_RECEITANull() ? null : (short?)estoqueServ.NAT_RECEITA),
+                                                                                                               (estoqueServ.IsCFOP_NFNull() ? null : estoqueServ.CFOP_NF),
+                                                                                                               (estoqueServ.IsPRC_ATACADONull() ? null : (decimal?)estoqueServ.PRC_ATACADO),
+                                                                                                               (estoqueServ.IsID_CTI_PARTNull() ? null : estoqueServ.ID_CTI_PART),
+                                                                                                               (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),
+                                                                                                               (estoqueServ.IsQTD_ATACADONull() ? null : (decimal?)estoqueServ.QTD_ATACADO),
+                                                                                                               (estoqueServ.IsID_CTI_CFENull() ? null : estoqueServ.ID_CTI_CFE),
+                                                                                                               (estoqueServ.IsEMPCADASTRONull() ? null : estoqueServ.EMPCADASTRO),
+                                                                                                               (estoqueServ.IsALIQINTERNANull() ? null : estoqueServ.ALIQINTERNA),
+                                                                                                               DateTime.Now,
+                                                                                                               (estoqueServ.IsMARGEM_LB_ATACNull() ? null : estoqueServ.MARGEM_LB_ATAC),
+                                                                                                               (estoqueServ.IsINFCOMPLEMENTARNull() ? null : estoqueServ.INFCOMPLEMENTAR),
+                                                                                                               (estoqueServ.IsID_MOTIVO_DESONull() ? null : estoqueServ.ID_MOTIVO_DESO),
+                                                                                                               (estoqueServ.IsID_CTAPLANull() ? null : estoqueServ.ID_CTAPLA),
+                                                                                                               (estoqueServ.IsCOD_ANVISANull() ? null : estoqueServ.COD_ANVISA),
+                                                                                                               (estoqueServ.IsPMCNull() ? null : estoqueServ.PMC),
+                                                                                                               (estoqueServ.IsIRRFNull() ? null : estoqueServ.IRRF),
+                                                                                                               (estoqueServ.IsMED_MOTIVO_ISENCAONull() ? null : estoqueServ.MED_MOTIVO_ISENCAO),
+                                                                                                               (estoqueServ.IsCONTROLEESPNull() ? null : estoqueServ.CONTROLEESP),
+                                                                                                               (estoqueServ.IsID_SUBGRUPONull() ? null : estoqueServ.ID_SUBGRUPO),
+                                                                                                               (estoqueServ.IsCOD_BENEF_CFOPNull() ? null : estoqueServ.COD_BENEF_CFOP),
+                                                                                                               (estoqueServ.IsTP_PRC_ATACADONull() ? null : estoqueServ.TP_PRC_ATACADO));
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -4111,7 +4256,7 @@ namespace PDV_WPF.Funcoes
                                                         taPromoDiasPdv.Insert(PromoDiasServ.ID_IDENTIFICADOR,
                                                                               PromoDiasServ.DIA,
                                                                               DateTime.ParseExact(PromoDiasServ.HR_INICIO.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture),
-                                                                              DateTime.ParseExact(PromoDiasServ.HR_FIM.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture));                                                        
+                                                                              DateTime.ParseExact(PromoDiasServ.HR_FIM.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture));
                                                         break;
                                                     case "U":
                                                         taPromoDiasPdv.Update(PromoDiasServ);
@@ -4267,7 +4412,7 @@ namespace PDV_WPF.Funcoes
                                                 {
                                                     switch (operacao)
                                                     {
-                                                        case "I":                                                            
+                                                        case "I":
                                                             taKitItemPdv.Insert(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);
                                                             break;
                                                         case "U":
@@ -4455,6 +4600,82 @@ namespace PDV_WPF.Funcoes
                 catch (Exception ex)
                 {
                     log.Debug("Erro ao sincronizar tabela TB_PROMOCOES_ITENS, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_MOTIVO_DESO_SIS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblMotivoDesoServ = new FDBDataSetOperSeed.TB_MOTIVO_DESO_SISDataTable())
+            {
+                try
+                {
+                    int retornoUpSert = 0;
+                    DataRow[] pendentesMotivoDeso = dtAuxSyncPendentes.Select($"TABELA = 'TB_MOTIVO_DESO_SIS'");
+                    for (int i = 0; i < pendentesMotivoDeso.Length; i++)
+                    {
+                        var idMotivoDeso = pendentesMotivoDeso[i]["ID_REG"].Safeint();
+                        var operacao = pendentesMotivoDeso[i]["OPERACAO"].Safestring();                        
+
+                        if (operacao.Equals("U") || operacao.Equals("I"))
+                        {                            
+                            using (var taMotivoDesoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
+                            {
+                                taMotivoDesoServ.Connection = fbConnServ;
+                                taMotivoDesoServ.FillById(tblMotivoDesoServ, idMotivoDeso);
+                                if (tblMotivoDesoServ != null && tblMotivoDesoServ.Rows.Count > 0)
+                                {
+                                    using (var taMotivoDesoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
+                                    {
+                                        try
+                                        {
+                                            taMotivoDesoPdv.Connection = fbConnPdv;
+                                            foreach (FDBDataSetOperSeed.TB_MOTIVO_DESO_SISRow motivoDeso in tblMotivoDesoServ)
+                                            {
+                                                switch(operacao)
+                                                {
+                                                    case "I":
+                                                        retornoUpSert = taMotivoDesoPdv.Insert(motivoDeso.ID_MOTIVO_DESO, motivoDeso.DESCRICAO);
+                                                        break;
+                                                    case "U":
+                                                        retornoUpSert = taMotivoDesoPdv.Update(motivoDeso);
+                                                        break;
+                                                }
+
+                                                if(retornoUpSert != 0)
+                                                    ConfirmarAuxSync(motivoDeso.ID_MOTIVO_DESO,
+                                                                     "TB_MOTIVO_DESO_SIS",
+                                                                     operacao,
+                                                                     shtNumCaixa);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Debug("Erro ao tentar sincronizar insert ou update da TB_MOTIVO_DESO_SIS para base local, segue erro: " + ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (operacao.Equals("D"))
+                        {
+                            using (var taMotivoDesoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
+                            {
+                                taMotivoDesoPdv.Connection = fbConnPdv;
+                                retornoUpSert = taMotivoDesoPdv.DeleteByUpdate(idMotivoDeso);
+
+                                if (retornoUpSert != 0) 
+                                    ConfirmarAuxSync(idMotivoDeso,
+                                                    "TB_MOTIVO_DESO_SIS", 
+                                                    operacao,
+                                                    shtNumCaixa);                                
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_MOTIVO_DESO_SIS, erro: " + ex);
                 }
             }
         }
@@ -4962,6 +5183,39 @@ namespace PDV_WPF.Funcoes
             catch (Exception ex)
             {
                 log.Error("Erro ao deletar registro de TB_EST_GRUPO", ex);
+                throw ex;
+            }
+        }
+
+        public void Sync_Delete_TB_EST_SUBGRUPO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+        {
+            try
+            {
+                var drEstSubGrupoDeletesPendentes = dtAuxSyncDeletesPendentes.Select("TABELA = 'TB_EST_SUBGRUPO'");
+
+                if (drEstSubGrupoDeletesPendentes.Length > 0)
+                {
+                    using (var taEstSubGrupoPdv = new TB_EST_SUBGRUPOTableAdapter())
+                    {
+                        taEstSubGrupoPdv.Connection = fbConnPdv;
+
+                        foreach (var subGrupoDeletar in drEstSubGrupoDeletesPendentes)
+                        {
+                            taEstSubGrupoPdv.DeleteById(subGrupoDeletar["ID_REG"].Safeint());
+
+                            // Deletou? Tem que falar pro servidor que o registro foi sincronizado.
+
+                            ConfirmarAuxSync(subGrupoDeletar["ID_REG"].Safeint(),
+                                             subGrupoDeletar["TABELA"].Safestring(),
+                                             "D", //drEstGrupoDeletePendente["OPERACAO"].Safestring(),
+                                             shtNumCaixa);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Erro ao deletar registro de TB_EST_SUBGRUPO", ex);
                 throw ex;
             }
         }
@@ -8344,6 +8598,16 @@ namespace PDV_WPF.Funcoes
                     }
                     try
                     {
+                        Sync_TB_EST_SUBGRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("EST_SUBGRUPO sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar EST_SUBGRUPO", ex);
+                        throw new SynchException("Erro ao sincronizar EST_SUBGRUPO", ex);
+                    }
+                    try
+                    {
                         Sync_TB_FORNECEDOR(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         log.Debug("Fornecedores sincronizados");
                     }
@@ -8508,7 +8772,7 @@ namespace PDV_WPF.Funcoes
                         Sync_TB_ESTOQUE_PRECOS_DIAS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
                         log.Debug("Sync_TB_ESTOQUE_PRECOS_DIAS sincronizados");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_ESTOQUE_PRECOS_DIAS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_ESTOQUE_PRECOS_DIAS", ex);
@@ -8552,6 +8816,16 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar Sync_TB_PROMOCOES_ITENS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_PROMOCOES_ITENS", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa); 
+                        log.Debug("Sync_TB_MOTIVO_DESO_SIS sincronizados");
+                    }
+                    catch(Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
                     }
                     #region Função Desativada
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 
@@ -9516,6 +9790,10 @@ namespace PDV_WPF.Funcoes
                       }
                   */
                         #endregion TB_FORNECEDOR
+                        Sync_Delete_TB_EST_SUBGRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        #region TB_EST_SUBGRUPO
+                        //Deleta subgrupo =)  
+                        #endregion TB_EST_SUBGRUPO
                         Sync_Delete_TB_EST_GRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         #region TB_EST_GRUPO
                         /*
@@ -9549,7 +9827,7 @@ namespace PDV_WPF.Funcoes
                                 throw ex;
                             }
                         */
-                        #endregion TB_EST_GRUPO
+                        #endregion TB_EST_GRUPO                        
                         Sync_Delete_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         #region TB_CLIENTE
                         /*

@@ -368,6 +368,7 @@ namespace PDV_WPF
         public decimal trib_mun;
         public decimal valortotal;
         public decimal valorOriginal;
+        public bool recebeuAtacado;
     }
     internal class PrintCANCL
     {
@@ -1543,9 +1544,9 @@ namespace PDV_WPF
         public static DateTime? TsOperacao;
         public static Dictionary<string, string> ReciboTEF { get; set; }
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0, bool recAtacado = false)
         {
-            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri, recebeuAtacado = recAtacado };
             produtos.Add(prod);
         }
 
@@ -1655,7 +1656,7 @@ namespace PDV_WPF
                     }
                     if (prod.desconto > 0)
                     {
-                        RecebePrint("(DESCONTO)", italico, esquerda, 0);
+                        RecebePrint($"(DESCONTO{(prod.recebeuAtacado ? " ATACADO" : "")})", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("C"), italico, direita, 1);
                     }
                     if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)
@@ -2022,9 +2023,9 @@ namespace PDV_WPF
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
         public static DateTime? TsOperacao;
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0, bool recAtacado = false)
         {
-            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri, recebeuAtacado = recAtacado };
             produtos.Add(prod);
         }
 
@@ -2082,7 +2083,7 @@ namespace PDV_WPF
                     }
                     if (prod.desconto > 0)
                     {
-                        RecebePrint("(DESCONTO)", italico, esquerda, 0);
+                        RecebePrint($"(DESCONTO{(prod.recebeuAtacado ? " ATACADO" : "")})", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("C"), italico, direita, 1);
                     }
                     if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)

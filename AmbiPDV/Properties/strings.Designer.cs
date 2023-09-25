@@ -250,7 +250,7 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a CONEXÃO COM O SERVIDOR.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SERVIDOR.
         /// </summary>
         internal static string CONEXÃO_SERVIDOR {
             get {
@@ -1048,7 +1048,7 @@ namespace PDV_WPF.Properties {
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel se conectar com o Servidor.
-        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação com o servidor utilize as teclas
+        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação utilize as teclas
         ///&apos;CTRL+S&apos;.
         /// </summary>
         internal static string PERDEU_CONEXAO_SERVIDOR {
