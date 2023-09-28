@@ -1023,6 +1023,7 @@ namespace PDV_WPF
             string[] linesIBPT;
             string path = AppDomain.CurrentDomain.BaseDirectory + @"\IBPT.csv";                                   
             string pathCopia = AppDomain.CurrentDomain.BaseDirectory + @"\IBPT\IBPT.csv";
+            bool backupAcionado = default;
 
             if (!File.Exists(path))
             {
@@ -1073,7 +1074,12 @@ namespace PDV_WPF
                 log.Debug("Tabela IBPT preenchida em memoria não está como esperado. Copiando backup local.");
                 try
                 {
-                    if (File.Exists(pathCopia)) { File.Copy(pathCopia, path, true); goto startsReadingIBPT; }
+                    if (File.Exists(pathCopia)) 
+                    { 
+                        File.Copy(pathCopia, path, true);
+                        backupAcionado = true; 
+                        goto startsReadingIBPT; 
+                    }
                     else
                         log.Debug("Arquivo de backup não encontrado.");                    
                 }
@@ -1083,7 +1089,7 @@ namespace PDV_WPF
                 }
             }
             log.Debug("Tabela IBPT carregada com sucesso.");
-            AtualizarIBPT(true);
+            if(!backupAcionado) AtualizarIBPT(true);
         }
 
         /// <summary>

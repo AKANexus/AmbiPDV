@@ -39,9 +39,8 @@ namespace PDV_WPF.Telas
         {
             listaVendas.Clear();
             using var Cupons_DT = new DataSets.FDBDataSetVenda.CuponsDataTableDataTable();
-            using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter();// { Connection = LOCAL_FB_CONN };
-            //Cupons_TA.Connection = LOCAL_FB_CONN;
-            //Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString()); TODO: Arrumar aqui
+            using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter(); 
+            Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
             {
                 if (cupomRow.NF_SERIE.Contains("99")) continue;
@@ -180,12 +179,12 @@ namespace PDV_WPF.Telas
                 0,
                 0,
                 nf_num,
-                "1", 
-                "55", 
+                "1",
+                "55",
                 DateTime.Now,
-                DateTime.Now, 
-                DateTime.Now, 
-                0, 
+                DateTime.Now,
+                DateTime.Now,
+                0,
                 0,
                 0,
                 "0",
@@ -195,14 +194,14 @@ namespace PDV_WPF.Telas
                 Devol_TA.Insert(idDevol, produto.Item1.ID_NFVITEM, produto.Item1.PRECO_VENDA * produto.Item2, "N", DateTime.Now, null, produto.Item2);
                 idDevol = (int)Devol_TA.PegaUltimaDevolucaoPorIDNFVItem(produto.Item1.ID_NFVITEM);
                 vlrDev += produto.Item1.PRECO_VENDA * produto.Item2;
-                NfCompraItem_TA.Insert((int)NfCompraItem_TA.NextNFCItemID(), 
+                NfCompraItem_TA.Insert((int)NfCompraItem_TA.NextNFCItemID(),
 
 
 
 
 
                     produto.Item1.ID_IDENTIFICADOR, (int)nf_id,
-                    (short)seq, produto.Item2, "UN", 
+                    (short)seq, produto.Item2, "UN",
                     produto.Item1.PRECO_VENDA * produto.Item2,
                     0, 0, "0", 0, 0, 0, 0, "0",
                     "0", "1949", "102", 0, 9, "S", produto.Item2);
