@@ -60,6 +60,7 @@ namespace PDV_WPF.Telas
         private DateTime tsFiscal;
         private bool IsSilent;
         private bool PermiteCancelar = false;
+        private bool processandoCancelamento;
         public SiTEFBox()
         {
             InitializeComponent();
@@ -201,7 +202,8 @@ namespace PDV_WPF.Telas
                         statusAtual = StatusTEF.Cancelado;
                         retorno = CancelaOperacaoAtual();
                     }
-                }
+                }                
+
                 string msgErro = retorno switch
                 {
                     -1 => "Módulo não inicializado. O PDV tentou chamar alguma rotina sem antes executar a função configura.",
@@ -216,6 +218,9 @@ namespace PDV_WPF.Telas
                     -40 => "Transação negada pelo servidor SiTef",
                     _ => ""
                 };
+
+                if (retorno is -2) processandoCancelamento = false;
+
                 if (retorno.IsBetween(0, 10000, false))
                 {
                     statusAtual = StatusTEF.NaoAutorizado;
@@ -677,6 +682,7 @@ namespace PDV_WPF.Telas
                 }
                 else if (e.Text.ToUpper() == "N")
                 {
+                    processandoCancelamento = false;
                     Array.Copy(Encoding.ASCII.GetBytes("1".PadRight(22000, '\0')), bufferTEF, 22000);
                     estadoTEF = StateTEF.OperacaoPadrao;
                     ComunicaComTEFAsync(progressIndicator);
@@ -724,23 +730,23 @@ namespace PDV_WPF.Telas
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            log.Debug($"Tecla pressionada: {e.Key}");          
-            
+            log.Debug($"Tecla pressionada: {e.Key}");
+
             if (e.Key == Key.Escape)
             {
-                debounceTimer.Debounce(1500, (p) =>
+                if (processandoCancelamento) return;
+
+                processandoCancelamento = true;
+                if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))
                 {
-                    if (new[] { StateTEF.AguardaCampo, StateTEF.AguardaEnter, StateTEF.AguardaMenu, StateTEF.AguardaSenha, StateTEF.AguardaValor }.Contains(estadoTEF))
-                    {
-                        log.Debug("Cancelamento e prosseguimento solicitados");
-                        estadoTEF = StateTEF.CancelamentoRequisitado;
-                        ComunicaComTEFAsync(progressIndicator);
-                    }
-                    ///else if (PermiteCancelar) { }
-                    log.Debug("Cancelamento solicitado");
+                    log.Debug("Cancelamento e prosseguimento solicitados");
                     estadoTEF = StateTEF.CancelamentoRequisitado;
-                    return;
-                });                
+                    ComunicaComTEFAsync(progressIndicator);
+                }
+                ///else if (PermiteCancelar) { }
+                log.Debug("Cancelamento solicitado");
+                estadoTEF = StateTEF.CancelamentoRequisitado;
+                return;
             }
             if ((new[] { StateTEF.AguardaEnter }.Contains(estadoTEF)) && e.Key == Key.Enter)
             {

@@ -532,7 +532,7 @@
             <Label Content="Logoff" Foreground="Gray" FontWeight="Bold" Grid.Column="0" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" FontSize="14" Padding="5,0" HorizontalAlignment="Left" Width="65" Height="50" Grid.RowSpan="2" Margin="40,-68,0,0"/>
             <Grid Grid.Row="6" Grid.ColumnSpan="4" Background="#FFFF7272" x:Name="bar_Contingencia" Margin="-10,0" Visibility="Hidden">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Height="27" HorizontalAlignment="Center">
-                    <Label x:Name="lbl_Contingencia" Content="&gt;&gt;&gt; OPERANDO EM MODO DE CONTINGÊNCIA, CASO DESEJE TESTAR NOVA CONEXÃO COM SERVIDOR UTILIZE AS TECLAS 'CTRL + S' &lt;&lt;&lt;" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
+                    <Label x:Name="lbl_Contingencia" Content="&gt;&gt;&gt; OPERANDO EM MODO DE CONTINGÊNCIA, UTILIZE AS TECLAS 'CTRL + S' &lt;&lt;&lt;" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
                     <Label x:Name="lbl_Carga" Content="ÚLTIMA CARGA: 16:31" Padding="30,0" FontSize="15" FontWeight="Bold" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" HorizontalAlignment="Center" Foreground="White"/>
                 </StackPanel>
             </Grid>

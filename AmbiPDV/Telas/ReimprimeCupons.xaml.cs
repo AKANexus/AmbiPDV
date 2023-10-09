@@ -231,7 +231,7 @@ namespace PDV_WPF.Telas
                     VendaDEMO.num_caixa = int.Parse(cupom.NF_SERIE.Replace("E", "").Replace("N", ""));
                     foreach (var item in Itens_DT)
                     {
-                        VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, 0, 0, 0, 0, item.PRC_VENDA);
+                        VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, item.VLR_DESC, 0, 0, 0, item.PRC_VENDA);
                     }
                     bool prazo = false;
                     foreach (var item in Pagtos_DT)
@@ -295,7 +295,7 @@ namespace PDV_WPF.Telas
                             { "05", "Crédito Loja" },
                             { "10", "Vale Aliment." },
                             { "11", "Vale Refeição" },
-                            { "12", "PIX" },
+                            { "17", "PIX" },
                             { "13", "Vale Combustível" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.

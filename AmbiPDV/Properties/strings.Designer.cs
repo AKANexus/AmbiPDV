@@ -250,7 +250,7 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a CONEXÃO COM O SERVIDOR.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SERVIDOR.
         /// </summary>
         internal static string CONEXÃO_SERVIDOR {
             get {
@@ -984,6 +984,24 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO INDISPONÍVEL.
+        /// </summary>
+        internal static string OS_INDISPONIVEL {
+            get {
+                return ResourceManager.GetString("OS_INDISPONIVEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO VAZIA E/OU SEM PRODUTOS..
+        /// </summary>
+        internal static string OS_VAZIA {
+            get {
+                return ResourceManager.GetString("OS_VAZIA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Para iniciar o programa em modo de contingência, abra-o novamente e selecione \&quot;CONFIRMAR\&quot;.
         /// </summary>
         internal static string PARA_ABRIR_EM_CONTINGENCIA_REINICIE {
@@ -1030,7 +1048,7 @@ namespace PDV_WPF.Properties {
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel se conectar com o Servidor.
-        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação com o servidor utilize as teclas
+        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação utilize as teclas
         ///&apos;CTRL+S&apos;.
         /// </summary>
         internal static string PERDEU_CONEXAO_SERVIDOR {

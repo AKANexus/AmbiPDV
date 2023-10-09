@@ -1424,10 +1424,10 @@ namespace PDV_WPF.Telas
 
                     //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
                     ProcessarItemNovo(item.ID_ESTOQUE,
-                                 item.VALOR,
-                                 item.QUANT,
-                                 item.DESCONTO,
-                                 orcamento.ToString());
+                                      item.VALOR,
+                                      item.QUANT,
+                                      item.DESCONTO,
+                                     $"Orçamento Nº {orcamento}");
 
                     numProximoItem += 1;
 
@@ -1480,7 +1480,7 @@ namespace PDV_WPF.Telas
                 if (ordemDeServico is null)
                 {
                     log.Debug("Erro ao ler ordem de serviço, ou ordem de serviço está FECHADA");
-                    MessageBox.Show("Ordem de serviço indisponível.     ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    DialogBox.Show(strings.ORDEM_SERVICO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.OS_INDISPONIVEL);                    
                     combobox.Text = "";
                     return true;
                 }
@@ -1488,7 +1488,7 @@ namespace PDV_WPF.Telas
                 if (ordemDeServico.ClippOsItems is null || ordemDeServico.ClippOsItems.Count == 0)
                 {
                     combobox.Text = "";
-                    MessageBox.Show("Ordem de serviço vazia e/ou sem produtos.    ", "Aviso", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    DialogBox.Show(strings.ORDEM_SERVICO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.OS_VAZIA);                    
                     return true;
                 }
 
@@ -1505,10 +1505,10 @@ namespace PDV_WPF.Telas
                     }
 
                     ProcessarItemNovo(item.ID_IDENTIFICADOR,
-                                 item.VLR_UNIT,
-                                 item.QTD_ITEM ?? 1,
-                                 item.VLR_DESC ?? 0,
-                                 ordemDeServico.ToString());
+                                      item.VLR_UNIT,
+                                      item.QTD_ITEM ?? 1,
+                                      item.VLR_DESC ?? 0,
+                                      $"O.S Nº {ordemServico}");
 
                     numProximoItem += 1;
 
@@ -1761,12 +1761,12 @@ namespace PDV_WPF.Telas
                 foreach (var ex in agex.InnerExceptions)
                 {
                     erros[0] = ex.Message;
-                }
+                }                
                 _contingencia = true;
                 lbl_Carga.Content = ultimaContingencia.ToShortTimeString();
                 bar_Contingencia.Visibility = Visibility.Visible;
                 DialogBox.Show("SINCRONIZAÇÃO", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", erros[0], "Entre em contato com o suporte");
-                log.Debug("Erro ao executar processo de sincronização: " + erros[0]);
+                log.Debug("Erro ao executar processo de sincronização: " + agex);
                 exceptionInSync = true;
             }
             if (_contingencia && !exceptionInSync)
@@ -1775,6 +1775,7 @@ namespace PDV_WPF.Telas
                 bar_Contingencia.Visibility = Visibility.Visible;
                 DialogBox.Show(strings.CONEXÃO_SERVIDOR, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.PERDEU_CONEXAO_SERVIDOR);
             }
+            if (!_contingencia && bar_Contingencia.Visibility is Visibility.Visible) bar_Contingencia.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -1803,8 +1804,7 @@ namespace PDV_WPF.Telas
                 //Houve o retorno da conectividade ao servidor.
                 funcoes.ChangeConnectionString(MontaStringDeConexao(SERVERNAME, SERVERCATALOG));
                 _contingencia = false;
-                log.Debug($"FDBConnString definido para DB na rede: {Settings.Default.FDBConnString}");
-                Application.Current.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => { bar_Contingencia.Visibility = Visibility.Hidden; }));
+                log.Debug($"FDBConnString definido para DB na rede: {Settings.Default.FDBConnString}");                
                 IniciarSincronizacaoDB(pTipo, pSegundosTolerancia);
                 ultimaContingencia = DateTime.Now;
                 //vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
@@ -3010,13 +3010,13 @@ namespace PDV_WPF.Telas
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal());
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
 
                 }
                 else
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal());
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                     // item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun));
                 }
@@ -3963,12 +3963,12 @@ namespace PDV_WPF.Telas
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal());
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
                 }
                 else
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal());
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                 }
 
