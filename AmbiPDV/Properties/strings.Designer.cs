@@ -214,6 +214,24 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Gerador de CF-e.
+        /// </summary>
+        internal static string CFE {
+            get {
+                return ResourceManager.GetString("CFE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Cupom fiscal convertido e impresso com sucesso..
+        /// </summary>
+        internal static string CFE_CONVERTIDO {
+            get {
+                return ResourceManager.GetString("CFE_CONVERTIDO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Clique no botão para interromper o teste..
         /// </summary>
         internal static string CLIQUE_PARA_INTERROMPER_AUTOTESTE {
@@ -232,7 +250,7 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a CONEXÃO COM O SERVIDOR.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SERVIDOR.
         /// </summary>
         internal static string CONEXÃO_SERVIDOR {
             get {
@@ -255,6 +273,15 @@ namespace PDV_WPF.Properties {
         internal static string CUPOM_ABERTO {
             get {
                 return ResourceManager.GetString("CUPOM_ABERTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CUPOM JÁ CANCELADO.
+        /// </summary>
+        internal static string CUPOM_CANCELADO {
+            get {
+                return ResourceManager.GetString("CUPOM_CANCELADO", resourceCulture);
             }
         }
         
@@ -567,11 +594,31 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Houve algum erro ao capturar o retorno do aparelho SAT.
+        ///Se o problema persistir entre em contato com o suporte..
+        /// </summary>
+        internal static string ERRO_GENERICO_SAT {
+            get {
+                return ResourceManager.GetString("ERRO_GENERICO_SAT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Erro inesperado {0}.
         /// </summary>
         internal static string ERRO_INESPERADO {
             get {
                 return ResourceManager.GetString("ERRO_INESPERADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel se comunicar com o aparelho SAT servidor.
+        ///Entre em contato com o suporte..
+        /// </summary>
+        internal static string ERRO_SAT_SERVIDOR {
+            get {
+                return ResourceManager.GetString("ERRO_SAT_SERVIDOR", resourceCulture);
             }
         }
         
@@ -937,6 +984,24 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO INDISPONÍVEL.
+        /// </summary>
+        internal static string OS_INDISPONIVEL {
+            get {
+                return ResourceManager.GetString("OS_INDISPONIVEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a ORDEM DE SERVIÇO VAZIA E/OU SEM PRODUTOS..
+        /// </summary>
+        internal static string OS_VAZIA {
+            get {
+                return ResourceManager.GetString("OS_VAZIA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Para iniciar o programa em modo de contingência, abra-o novamente e selecione \&quot;CONFIRMAR\&quot;.
         /// </summary>
         internal static string PARA_ABRIR_EM_CONTINGENCIA_REINICIE {
@@ -983,7 +1048,7 @@ namespace PDV_WPF.Properties {
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel se conectar com o Servidor.
-        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação com o servidor utilize as teclas
+        ///O sistema entrara em modo de contigencia e para testar novamente a comunicação utilize as teclas
         ///&apos;CTRL+S&apos;.
         /// </summary>
         internal static string PERDEU_CONEXAO_SERVIDOR {
@@ -1061,6 +1126,15 @@ namespace PDV_WPF.Properties {
         internal static string SAT_RETORNOU_VALOR_INESPERADO {
             get {
                 return ResourceManager.GetString("SAT_RETORNOU_VALOR_INESPERADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SAT SERVIDOR.
+        /// </summary>
+        internal static string SAT_SERVIDOR {
+            get {
+                return ResourceManager.GetString("SAT_SERVIDOR", resourceCulture);
             }
         }
         
@@ -1214,6 +1288,16 @@ namespace PDV_WPF.Properties {
         internal static string VENDA {
             get {
                 return ResourceManager.GetString("VENDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Essa venda já foi cancelada anteriormente. 
+        ///Clique em Ok para imprimir..
+        /// </summary>
+        internal static string VENDA_CANCELADA {
+            get {
+                return ResourceManager.GetString("VENDA_CANCELADA", resourceCulture);
             }
         }
         

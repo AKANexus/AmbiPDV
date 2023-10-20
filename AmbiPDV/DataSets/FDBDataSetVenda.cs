@@ -14,3 +14,10 @@ namespace PDV_WPF.DataSets
     {
     }
 }
+
+namespace PDV_WPF.DataSets.FDBDataSetVendaTableAdapters {
+    
+    
+    public partial class CuponsDataTableAdapter {
+    }
+}

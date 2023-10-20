@@ -189,6 +189,8 @@ namespace PDV_WPF.Telas
 
                     await Task.Run(() =>
                     {
+                        loadingProccess.progress.Report("Pegando valores");
+
                         DataRow metodo_pgto_col;
                         metodo_pgto_col = Impressao.fecha_infor_dt.NewRow();
                         metodo_pgto_col[0] = -1;
@@ -248,6 +250,7 @@ namespace PDV_WPF.Telas
                                                                         EMIT_DT[0].END_NUMERO,
                                                                         EMIT_DT[0].END_BAIRRO,
                                                                         "São Paulo");
+                            loadingProccess.progress.Report("Calculando");
                             using var METODOS_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
                             using var METODOS_DT = new DataSets.FDBDataSetVenda.TB_FORMA_PAGTO_NFCEDataTable();
                             METODOS_TA.Connection = LOCAL_FB_CONN;

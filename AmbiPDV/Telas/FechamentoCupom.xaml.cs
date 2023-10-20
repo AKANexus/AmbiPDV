@@ -811,10 +811,9 @@ namespace PDV_WPF.Telas
             {
                 foreach(var itemComDesc in _vendaAtual._listaDets.Where(l => l.atacado is true || l.scannTech is true))
                 {
-                    itemComDesc.prod.vUnCom = itemComDesc.prod.vUnComOri ?? itemComDesc.prod.vUnCom;
-                    itemComDesc.atacado = false;
-
-                    itemComDesc.prod.vDesc = "0,00";                    
+                    itemComDesc.prod.vUnCom = itemComDesc.prod.vUnComOri ?? itemComDesc.prod.vUnCom;                    
+                    itemComDesc.prod.vDesc = "0,00";
+                    itemComDesc.atacado = false;                    
                 }
             }
         }

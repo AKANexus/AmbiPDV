@@ -16,6 +16,11 @@ using System.Windows;
 using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Statics;
+using System.Text;
+using System.Linq;
+using PDV_WPF.Objetos;
+using System.Diagnostics;
+using System.Globalization;
 
 //TODO: revisar todas as funções "FillBy...()". O ideal é usar stored procedures. Isso em combinação com
 //      índices no banco de dados, o ganho em desempenho é significativo.
@@ -320,21 +325,21 @@ namespace PDV_WPF.Funcoes
 
                         if (tblSetup != null && tblSetup.Rows.Count > 0)
                         {
-                           log.Debug("taSetupPdv.UpdateUltimaSync(): " + taSetup.UpdateUltimaSync(tsUltimaSync).ToString());
+                            log.Debug("taSetupPdv.UpdateUltimaSync(): " + taSetup.UpdateUltimaSync(tsUltimaSync).ToString());
                             try
                             {
                                 log.Debug("Incluido ultima SYNC na base local, iniciando sincronização para o servidor...");
                                 using (var taSetupServ = new TRI_PDV_SETUPTableAdapter())
                                 {
                                     taSetupServ.Connection.ConnectionString = _strConnNetwork;
-                                    if(taSetupServ.Records() > 0) taSetupServ.UpdateSetup(tblSetup[0].ID_DUMMY, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_SYNC, Convert.ToDecimal(tblSetup[0].DESC_MAX_OP), tblSetup[0].USA_RECARGAS, tblSetup[0].DETALHADESCONTO,
+                                    if (taSetupServ.Records() > 0) taSetupServ.UpdateSetup(tblSetup[0].ID_DUMMY, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_SYNC, Convert.ToDecimal(tblSetup[0].DESC_MAX_OP), tblSetup[0].USA_RECARGAS, tblSetup[0].DETALHADESCONTO,
                                                                                           tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);
                                     else taSetupServ.Insert(tblSetup[0].ID_DUMMY, tblSetup[0].EXECUCAO, tblSetup[0].VERSAO, tblSetup[0].ULTIMA_AT, tblSetup[0].DT_INSTALACAO, tblSetup[0].ULTIMA_SYNC, tblSetup[0].ORIGEM,
                                                             tblSetup[0].DESC_MAX_OP, tblSetup[0].MAIT_MAX_MESAS, tblSetup[0].USA_RECARGAS, tblSetup[0].VERSAO_ORCA, tblSetup[0].DETALHADESCONTO,
-                                                            tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);                                    
+                                                            tblSetup[0].COD10PORCENTO, tblSetup[0].MODOBAR, tblSetup[0].TIPO_LICENCA, tblSetup[0].USA_COMANDA, tblSetup[0].PEDESENHACANCEL);
                                 }
                             }
-                            catch(Exception ex)
+                            catch (Exception ex)
                             {
                                 log.Debug($"Erro ao sincronizar TRI_PDV_SETUP para o servidor, erro: {ex.InnerException.Message ?? ex.Message}");
                             }
@@ -605,7 +610,7 @@ namespace PDV_WPF.Funcoes
 
                                         // DEU RUIM
 
-                                        throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido (TB_EMITENTE) { operacao }");
+                                        throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido (TB_EMITENTE) {operacao}");
 
                                         //switch (operacao)
                                         //{
@@ -833,7 +838,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -996,7 +1001,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -1166,7 +1171,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -1322,7 +1327,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -1336,6 +1341,138 @@ namespace PDV_WPF.Funcoes
                 {
                     //audit("SINCCONTNETDB>> " + "Erro ao sincronizar: \n\n" + RetornarMensagemErro(ex, true));
                     GravarErroSync("Grupo de estoque", tblEstGrupoServ, ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void Sync_TB_EST_SUBGRUPO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+        {
+            using (var tblEstSubGrupoServ = new FDBDataSetOperSeed.TB_EST_SUBGRUPODataTable())
+            {
+                try
+                {
+                    if (dtUltimaSyncPdv is null)
+                    {
+                        #region Única sync
+
+                        using (var taEstSubGrupoServ = new TB_EST_SUBGRUPOTableAdapter())
+
+                        using (var taEstSubGrupoPdv = new TB_EST_SUBGRUPOTableAdapter())
+                        using (var tblEstSubGrupoPdv = new FDBDataSetOperSeed.TB_EST_SUBGRUPODataTable())
+                        {
+                            taEstSubGrupoServ.Connection = fbConnServ;
+                            taEstSubGrupoServ.Fill(tblEstSubGrupoServ);
+
+                            taEstSubGrupoPdv.Connection = fbConnPdv;
+                            taEstSubGrupoPdv.Fill(tblEstSubGrupoPdv);
+
+                            using (var changeReader = new DataTableReader(tblEstSubGrupoServ))
+                                tblEstSubGrupoPdv.Load(changeReader, LoadOption.Upsert);
+
+                            taEstSubGrupoPdv.Update(tblEstSubGrupoPdv);
+
+                            tblEstSubGrupoPdv.AcceptChanges();
+                        }
+
+                        #endregion Única sync
+                    }
+                    else
+                    {
+                        #region AUX_SYNC
+
+                        int intRetornoUpsert = 0;
+
+                        {
+                            DataRow[] pendentesEstGrupo = dtAuxSyncPendentes.Select($"TABELA = 'TB_EST_SUBGRUPO'");
+
+                            for (int i = 0; i < pendentesEstGrupo.Length; i++)
+                            {
+                                var idEstSubGrupo = pendentesEstGrupo[i]["ID_REG"].Safeint();
+                                var operacao = pendentesEstGrupo[i]["OPERACAO"].Safestring();
+
+                                if (operacao.Equals("I") || operacao.Equals("U"))
+                                {
+                                    using (var taEstSubGrupoServ = new TB_EST_SUBGRUPOTableAdapter())
+                                    {
+                                        taEstSubGrupoServ.Connection = fbConnServ;
+
+                                        taEstSubGrupoServ.FillById(tblEstSubGrupoServ, idEstSubGrupo);
+
+                                        if (tblEstSubGrupoServ != null && tblEstSubGrupoServ.Rows.Count > 0)
+                                        {
+                                            using (var taEstSubGrupoPdv = new TB_EST_SUBGRUPOTableAdapter())
+                                            {
+                                                taEstSubGrupoPdv.Connection = fbConnPdv;
+
+                                                foreach (FDBDataSetOperSeed.TB_EST_SUBGRUPORow estSubGrupoServ in tblEstSubGrupoServ)
+                                                {
+                                                    switch (operacao)
+                                                    {
+                                                        case "I":
+                                                            intRetornoUpsert = taEstSubGrupoPdv.Insert(estSubGrupoServ.ID_SUBGRUPO, estSubGrupoServ.DESCRICAO, estSubGrupoServ.ID_GRUPO);
+                                                            break;
+                                                        case "U":
+                                                            intRetornoUpsert = taEstSubGrupoPdv.UpdateById(estSubGrupoServ.DESCRICAO, estSubGrupoServ.ID_GRUPO, estSubGrupoServ.ID_SUBGRUPO);
+                                                            break;
+                                                    }
+
+                                                    if (intRetornoUpsert != 0)
+                                                    {
+                                                        ConfirmarAuxSync(idEstSubGrupo,
+                                                                         "TB_EST_SUBGRUPO",
+                                                                         operacao,
+                                                                         shtNumCaixa);
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // O item não foi encontrado no servidor.
+                                            // Pode ter sido deletado.
+                                            // Deve constar essa operação em dtAuxSync.
+                                            // Caso contrário, estourar exception.
+
+                                            using (var dtPendentesEstGrupo = pendentesEstGrupo.CopyToDataTable())
+                                            {
+                                                DataRow[] deletesPendentesEstSubGrupo = dtPendentesEstGrupo.Select($"ID_REG = {idEstSubGrupo} AND OPERACAO = 'D'");
+
+                                                if (deletesPendentesEstSubGrupo.Length > 0)
+                                                {
+                                                    foreach (var deletePendenteEstoque in deletesPendentesEstSubGrupo)
+                                                    {
+                                                        dtAuxSyncDeletesPendentes.Rows.Add(0, idEstSubGrupo, "TB_EST_SUBGRUPO", "D", shtNumCaixa);
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    // Ops....
+                                                    // Item não encontrado no servidor e não foi deletado?
+                                                    // Estourar exception.
+                                                    throw new DataException($"Erro não esperado: produto (TB_EST_SUBGRUPO) não encontrado no servidor e sem exclusão pendente. \nID do registro: {idEstSubGrupo}");
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                else if (operacao.Equals("D"))
+                                {
+                                    DataRow[] deletesPendentesEstGrupo = dtAuxSyncDeletesPendentes.Select($"ID_REG = {idEstSubGrupo} AND TABELA = 'TB_EST_SUBGRUPO' AND OPERACAO = 'D'");
+
+                                    if (deletesPendentesEstGrupo.Length <= 0)
+                                        dtAuxSyncDeletesPendentes.Rows.Add(0, idEstSubGrupo, "TB_EST_SUBGRUPO", "D", shtNumCaixa);
+                                }
+                            }
+                        }
+
+                        #endregion AUX_SYNC
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //audit("SINCCONTNETDB>> " + "Erro ao sincronizar: \n\n" + RetornarMensagemErro(ex, true));
+                    GravarErroSync("Subgrupo de estoque", tblEstSubGrupoServ, ex);
                     throw ex;
                 }
             }
@@ -1507,7 +1644,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -1658,7 +1795,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -1746,44 +1883,57 @@ namespace PDV_WPF.Funcoes
                                         {
                                             using (var taEstoquePdv = new TB_ESTOQUETableAdapter())
                                             {
-                                                taEstoquePdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
-                                                string testetrib = "012";
+                                                taEstoquePdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;                                                
 
                                                 //foreach (FDBDataSetOperSeed.TB_ESTOQUERow estoqueServ in tblEstoqueServ)
                                                 foreach (FDBDataSetOperSeed.SP_TRI_ESTOQUE_ID_GETBY_IDRow estoqueServ in tblAuxEstoqueServ)
                                                 {
                                                     intRetornoUpsert = (int)taEstoquePdv.SP_TRI_ESTOQUE_UPSERT(estoqueServ.ID_ESTOQUE,
-                                                                                       (estoqueServ.IsID_GRUPONull() ? null : (int?)estoqueServ.ID_GRUPO),
-                                                                                       estoqueServ.DESCRICAO,
-                                                                                       estoqueServ.STATUS,
-                                                                                       estoqueServ.DT_CADAST,
-                                                                                       estoqueServ.HR_CADAST,
-                                                                                       estoqueServ.FRACIONADO,
-                                                                                       estoqueServ.PRC_VENDA,
-                                                                                       (estoqueServ.IsPRC_CUSTONull() ? null : (decimal?)estoqueServ.PRC_CUSTO),
-                                                                                       (estoqueServ.IsULT_VENDANull() ? null : (DateTime?)estoqueServ.ULT_VENDA),
-                                                                                       (estoqueServ.IsMARGEM_LBNull() ? null : (decimal?)estoqueServ.MARGEM_LB),
-                                                                                       (estoqueServ.IsPOR_COMISSAONull() ? null : (decimal?)estoqueServ.POR_COMISSAO),
-                                                                                       (estoqueServ.IsULT_FORNECNull() ? null : (int?)estoqueServ.ULT_FORNEC),
-                                                                                       (estoqueServ.IsGRADE_SERIENull() ? null : estoqueServ.GRADE_SERIE),
-                                                                                       estoqueServ.ID_TIPOITEM,
-                                                                                       (estoqueServ.IsID_CTINull() ? null : estoqueServ.ID_CTI),
-                                                                                       (estoqueServ.IsCST_PISNull() ? null : estoqueServ.CST_PIS),
-                                                                                       (estoqueServ.IsCST_COFINSNull() ? null : estoqueServ.CST_COFINS),
-                                                                                       (estoqueServ.IsPISNull() ? null : (decimal?)estoqueServ.PIS),
-                                                                                       (estoqueServ.IsCOFINSNull() ? null : (decimal?)estoqueServ.COFINS),
-                                                                                       (estoqueServ.IsUNI_MEDIDANull() ? null : estoqueServ.UNI_MEDIDA),
-                                                                                       (estoqueServ.IsMARGEM_PVNull() ? null : (decimal?)estoqueServ.MARGEM_PV),
-                                                                                       (estoqueServ.IsCFOPNull() ? null : estoqueServ.CFOP),
-                                                                                       (estoqueServ.IsOBSERVACAONull() ? null : estoqueServ.OBSERVACAO),
-                                                                                       (estoqueServ.IsNAT_RECEITANull() ? null : (short?)estoqueServ.NAT_RECEITA),
-                                                                                       (estoqueServ.IsCFOP_NFNull() ? null : estoqueServ.CFOP_NF),
-                                                                                       (estoqueServ.IsPRC_ATACADONull() ? null : (decimal?)estoqueServ.PRC_ATACADO),
-                                                                                       (estoqueServ.IsID_CTI_PARTNull() ? null : estoqueServ.ID_CTI_PART),
-                                                                                       (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),                                                                                       
-                                                                                       (estoqueServ.IsQTD_ATACADONull() ? null : (decimal?)estoqueServ.QTD_ATACADO),
-                                                                                       (estoqueServ.IsID_CTI_CFENull() ? null : estoqueServ.ID_CTI_CFE),
-                                                                                       DateTime.Now);
+                                                                                                              (estoqueServ.IsID_GRUPONull() ? null : (int?)estoqueServ.ID_GRUPO),
+                                                                                                               estoqueServ.DESCRICAO,
+                                                                                                               estoqueServ.STATUS,
+                                                                                                               estoqueServ.DT_CADAST,
+                                                                                                               estoqueServ.HR_CADAST,
+                                                                                                               estoqueServ.FRACIONADO,
+                                                                                                               estoqueServ.PRC_VENDA,
+                                                                                                               (estoqueServ.IsPRC_CUSTONull() ? null : (decimal?)estoqueServ.PRC_CUSTO),
+                                                                                                               (estoqueServ.IsULT_VENDANull() ? null : (DateTime?)estoqueServ.ULT_VENDA),
+                                                                                                               (estoqueServ.IsMARGEM_LBNull() ? null : (decimal?)estoqueServ.MARGEM_LB),
+                                                                                                               (estoqueServ.IsPOR_COMISSAONull() ? null : (decimal?)estoqueServ.POR_COMISSAO),
+                                                                                                               (estoqueServ.IsULT_FORNECNull() ? null : (int?)estoqueServ.ULT_FORNEC),
+                                                                                                               (estoqueServ.IsGRADE_SERIENull() ? null : estoqueServ.GRADE_SERIE),
+                                                                                                               estoqueServ.ID_TIPOITEM,
+                                                                                                               (estoqueServ.IsID_CTINull() ? null : estoqueServ.ID_CTI),
+                                                                                                               (estoqueServ.IsCST_PISNull() ? null : estoqueServ.CST_PIS),
+                                                                                                               (estoqueServ.IsCST_COFINSNull() ? null : estoqueServ.CST_COFINS),
+                                                                                                               (estoqueServ.IsPISNull() ? null : (decimal?)estoqueServ.PIS),
+                                                                                                               (estoqueServ.IsCOFINSNull() ? null : (decimal?)estoqueServ.COFINS),
+                                                                                                               (estoqueServ.IsUNI_MEDIDANull() ? null : estoqueServ.UNI_MEDIDA),
+                                                                                                               (estoqueServ.IsMARGEM_PVNull() ? null : (decimal?)estoqueServ.MARGEM_PV),
+                                                                                                               (estoqueServ.IsCFOPNull() ? null : estoqueServ.CFOP),
+                                                                                                               (estoqueServ.IsOBSERVACAONull() ? null : estoqueServ.OBSERVACAO),
+                                                                                                               (estoqueServ.IsNAT_RECEITANull() ? null : (short?)estoqueServ.NAT_RECEITA),
+                                                                                                               (estoqueServ.IsCFOP_NFNull() ? null : estoqueServ.CFOP_NF),
+                                                                                                               (estoqueServ.IsPRC_ATACADONull() ? null : (decimal?)estoqueServ.PRC_ATACADO),
+                                                                                                               (estoqueServ.IsID_CTI_PARTNull() ? null : estoqueServ.ID_CTI_PART),
+                                                                                                               (estoqueServ.IsID_CTI_FCPNull() ? null : estoqueServ.ID_CTI_FCP),
+                                                                                                               (estoqueServ.IsQTD_ATACADONull() ? null : (decimal?)estoqueServ.QTD_ATACADO),
+                                                                                                               (estoqueServ.IsID_CTI_CFENull() ? null : estoqueServ.ID_CTI_CFE),
+                                                                                                               (estoqueServ.IsEMPCADASTRONull() ? null : estoqueServ.EMPCADASTRO),
+                                                                                                               (estoqueServ.IsALIQINTERNANull() ? null : estoqueServ.ALIQINTERNA),
+                                                                                                               DateTime.Now,
+                                                                                                               (estoqueServ.IsMARGEM_LB_ATACNull() ? null : estoqueServ.MARGEM_LB_ATAC),
+                                                                                                               (estoqueServ.IsINFCOMPLEMENTARNull() ? null : estoqueServ.INFCOMPLEMENTAR),
+                                                                                                               (estoqueServ.IsID_MOTIVO_DESONull() ? null : estoqueServ.ID_MOTIVO_DESO),
+                                                                                                               (estoqueServ.IsID_CTAPLANull() ? null : estoqueServ.ID_CTAPLA),
+                                                                                                               (estoqueServ.IsCOD_ANVISANull() ? null : estoqueServ.COD_ANVISA),
+                                                                                                               (estoqueServ.IsPMCNull() ? null : estoqueServ.PMC),
+                                                                                                               (estoqueServ.IsIRRFNull() ? null : estoqueServ.IRRF),
+                                                                                                               (estoqueServ.IsMED_MOTIVO_ISENCAONull() ? null : estoqueServ.MED_MOTIVO_ISENCAO),
+                                                                                                               (estoqueServ.IsCONTROLEESPNull() ? null : estoqueServ.CONTROLEESP),
+                                                                                                               (estoqueServ.IsID_SUBGRUPONull() ? null : estoqueServ.ID_SUBGRUPO),
+                                                                                                               (estoqueServ.IsCOD_BENEF_CFOPNull() ? null : estoqueServ.COD_BENEF_CFOP),
+                                                                                                               (estoqueServ.IsTP_PRC_ATACADONull() ? null : estoqueServ.TP_PRC_ATACADO));
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -1863,7 +2013,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -2031,7 +2181,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -2421,7 +2571,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -2619,7 +2769,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -2785,7 +2935,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -2971,7 +3121,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -3130,7 +3280,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -3293,7 +3443,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -3452,7 +3602,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -3614,7 +3764,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -3744,7 +3894,7 @@ namespace PDV_WPF.Funcoes
                                             break;
                                         }
                                     default:
-                                        throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                        throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                         //break;
                                 }
                             }
@@ -3886,7 +4036,7 @@ namespace PDV_WPF.Funcoes
                                             break;
                                         }
                                     default:
-                                        throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                        throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                         //break;
                                 }
                             }
@@ -3922,10 +4072,10 @@ namespace PDV_WPF.Funcoes
             using (var tblAdminsServ = new FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable())
             {
                 try
-                {                    
+                {
                     {
                         DataRow[] pendentesConfig = dtAuxSyncPendentes.Select($"TABELA = 'TB_CARTAO_ADMINISTRADORA'");
-                        for(int i = 0; i < pendentesConfig.Length; i++)
+                        for (int i = 0; i < pendentesConfig.Length; i++)
                         {
                             var idAdmins = pendentesConfig[i]["ID_REG"].Safestring();
                             var operacao = pendentesConfig[i]["OPERACAO"].Safestring();
@@ -3936,7 +4086,7 @@ namespace PDV_WPF.Funcoes
                             {
                                 // Buscar o registro para executar as operações "Insert" ou "Update"
                                 using (var taAdminsServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter())
-                                {                                    
+                                {
                                     taAdminsServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;                                                                        
                                     int.TryParse(idAdmins, out int idAdministradora);
                                     taAdminsServ.FillByIdAdmins(tblAdminsServ, idAdministradora);
@@ -3949,7 +4099,7 @@ namespace PDV_WPF.Funcoes
                                                 taAdminsPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow AdminsServ in tblAdminsServ)
                                                 {
-                                                    switch(operacao)
+                                                    switch (operacao)
                                                     {
                                                         case "I":
                                                             taAdminsPdv.Insert(AdminsServ.ID_ADMINISTRADORA, AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO);
@@ -3957,7 +4107,7 @@ namespace PDV_WPF.Funcoes
                                                         case "U":
                                                             taAdminsPdv.UpdateQuery(AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO, AdminsServ.ID_ADMINISTRADORA);
                                                             break;
-                                                    }                                                                                                     
+                                                    }
                                                 }
                                                 ConfirmarAuxSync(idAdministradora, "TB_CARTAO_ADMINISTRADORA", operacao, NO_CAIXA);
                                             }
@@ -3969,7 +4119,7 @@ namespace PDV_WPF.Funcoes
                                     }
                                 }
                             }
-                            else if(operacao.Equals("D"))
+                            else if (operacao.Equals("D"))
                             {
                                 try
                                 {
@@ -3987,7 +4137,7 @@ namespace PDV_WPF.Funcoes
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     log.Debug("Erro ao sincronizar administradoras, erro: " + ex);
                 }
@@ -3996,77 +4146,155 @@ namespace PDV_WPF.Funcoes
 
         public void Sync_TB_ESTOQUE_PRECOS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
         {
-            using(var tblPromoServ = new FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable())
+            using (var tblPromoServ = new FDBDataSetOperSeed.TB_ESTOQUE_PRECOSDataTable())
             {
                 try
                 {
+                    DataRow[] syncPendentes = dtAuxSyncPendentes.Select($"TABELA = 'TB_ESTOQUE_PRECOS'");
+                    for (int i = 0; i < syncPendentes.Length; i++)
                     {
-                        DataRow[] pendentesConfig = dtAuxSyncPendentes.Select($"TABELA = 'TB_ESTOQUE_PRECOS'");
-                        for (int i = 0; i < pendentesConfig.Length; i++)
-                        {
-                            var idIdent = pendentesConfig[i]["ID_REG"].Safestring();
-                            var operacao = pendentesConfig[i]["OPERACAO"].Safestring();
-                            var NO_CAIXA = pendentesConfig[i]["NO_CAIXA"].Safeshort();
+                        var idIdent = syncPendentes[i]["ID_REG"].Safestring();
+                        var operacao = syncPendentes[i]["OPERACAO"].Safestring();
+                        var NO_CAIXA = syncPendentes[i]["NO_CAIXA"].Safeshort();
 
-                            // Verificar o que deve ser feito com o registro (insert, update ou delete)
-                            if (operacao.Equals("I") || operacao.Equals("U"))
+                        // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                        if (operacao.Equals("I") || operacao.Equals("U"))
+                        {
+                            // Buscar o registro para executar as operações "Insert" ou "Update"
+                            using (var taPromoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOSTableAdapter())
                             {
-                                // Buscar o registro para executar as operações "Insert" ou "Update"
-                                using (var taPromoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOSTableAdapter())
+                                taPromoServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                int.TryParse(idIdent, out int idIdentificador);
+                                taPromoServ.FillById(tblPromoServ, idIdentificador);
+                                if (tblPromoServ != null && tblPromoServ.Rows.Count > 0)
                                 {
-                                    taPromoServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
-                                    int.TryParse(idIdent, out int idIdentificador);
-                                    taPromoServ.FillById(tblPromoServ, idIdentificador);
-                                    if(tblPromoServ != null && tblPromoServ.Rows.Count > 0)
+                                    using (var taPromoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOSTableAdapter())
                                     {
-                                        using (var taPromoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOSTableAdapter())
+                                        try
                                         {
-                                            try
+                                            taPromoPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                            foreach (FDBDataSetOperSeed.TB_ESTOQUE_PRECOSRow PromoServ in tblPromoServ)
                                             {
-                                                taPromoPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
-                                                foreach (FDBDataSetOperSeed.TB_ESTOQUE_PRECOSRow PromoServ in tblPromoServ)
+                                                switch (operacao)
                                                 {
-                                                    switch (operacao)
-                                                    {
-                                                        case "I":
-                                                            taPromoPdv.Insert(PromoServ.ID_IDENTIFICADOR, PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA);
-                                                            break;
-                                                        case "U":
-                                                            taPromoPdv.UpdateQuery(PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA, PromoServ.ID_IDENTIFICADOR);
-                                                            break;
-                                                    }
-                                                 }
-                                                ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
+                                                    case "I":
+                                                        taPromoPdv.Insert(PromoServ.ID_IDENTIFICADOR, PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA);
+                                                        break;
+                                                    case "U":
+                                                        taPromoPdv.UpdateQuery(PromoServ.PRC_VENDA, PromoServ.DT_INICIO, PromoServ.DT_FIM, PromoServ.PERIODO, PromoServ.DIAS_SEMANA, PromoServ.ID_IDENTIFICADOR);
+                                                        break;
+                                                }
                                             }
-                                            catch (Exception ex)
-                                            {
-                                                log.Debug("erro ao tentar sincronizar insert ou update das promoções para base local, segue erro: " + ex);
-                                            }
+                                            ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Error("erro ao tentar sincronizar insert ou update das promoções para base local, segue erro: " + ex);
                                         }
                                     }
                                 }
                             }
-                            else if(operacao.Equals("D"))
+                        }
+                        else if (operacao.Equals("D"))
+                        {
+                            try
                             {
-                                try
-                                {
-                                    int.TryParse(idIdent, out int idIdentificador);
-                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
-                                    FbCommand comand = new FbCommand($"DELETE FROM TB_ESTOQUE_PRECOS WHERE ID_IDENTIFICADOR = {idIdentificador}", fbConnPdv);
-                                    comand.ExecuteNonQuery();
-                                    ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
-                                }
-                                catch (Exception ex)
-                                {
-                                    log.Debug("erro ao tentar sincronizar delete das promoções para base local, segue erro: " + ex);
-                                }                              
+                                int.TryParse(idIdent, out int idIdentificador);
+                                if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                FbCommand comand = new FbCommand($"DELETE FROM TB_ESTOQUE_PRECOS WHERE ID_IDENTIFICADOR = {idIdentificador}", fbConnPdv);
+                                comand.ExecuteNonQuery();
+                                ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS", operacao, NO_CAIXA);
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error("erro ao tentar sincronizar delete das promoções para base local, segue erro: " + ex);
                             }
                         }
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    log.Debug("Erro ao sincronizar promoções, erro: " + ex);
+                    log.Error("Erro ao sincronizar promoções, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_ESTOQUE_PRECOS_DIAS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblPromoDiasServ = new FDBDataSetOperSeed.TB_ESTOQUE_PRECOS_DIASDataTable())
+            {
+                try
+                {
+                    DataRow[] syncPendentes = dtAuxSyncPendentes.Select($"TABELA = 'TB_ESTOQUE_PRECOS_DIAS'");
+                    for (int i = 0; i < syncPendentes.Length; i++)
+                    {
+                        var idIdent = syncPendentes[i]["ID_REG"].Safestring();
+                        var operacao = syncPendentes[i]["OPERACAO"].Safestring();
+                        var NO_CAIXA = syncPendentes[i]["NO_CAIXA"].Safeshort();
+
+                        // Verificar o que deve ser feito com o registro (insert, update ou delete)
+                        if (operacao.Equals("I") || operacao.Equals("U"))
+                        {
+                            // Buscar o registro para executar as operações "Insert" ou "Update"
+                            using (var taPromoDiasServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOS_DIASTableAdapter())
+                            {
+                                taPromoDiasServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;
+                                int.TryParse(idIdent, out int idIdentificador);
+                                taPromoDiasServ.FillById(tblPromoDiasServ, idIdentificador);
+                                if (tblPromoDiasServ != null && tblPromoDiasServ.Rows.Count > 0)
+                                {
+                                    using (var taPromoDiasPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOS_DIASTableAdapter())
+                                    {
+                                        try
+                                        {
+                                            taPromoDiasPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
+                                            foreach (FDBDataSetOperSeed.TB_ESTOQUE_PRECOS_DIASRow PromoDiasServ in tblPromoDiasServ)
+                                            {
+                                                switch (operacao)
+                                                {
+                                                    case "I":
+                                                        taPromoDiasPdv.Insert(PromoDiasServ.ID_IDENTIFICADOR,
+                                                                              PromoDiasServ.DIA,
+                                                                              DateTime.ParseExact(PromoDiasServ.HR_INICIO.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture),
+                                                                              DateTime.ParseExact(PromoDiasServ.HR_FIM.ToString(), "HH:mm:ss", CultureInfo.InvariantCulture));
+                                                        break;
+                                                    case "U":
+                                                        taPromoDiasPdv.Update(PromoDiasServ);
+                                                        break;
+                                                }
+                                            }
+                                            ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS_DIAS", operacao, NO_CAIXA);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Error("erro ao tentar sincronizar insert ou update das promoções por dia para base local, segue erro: " + ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (operacao.Equals("D"))
+                        {
+                            try
+                            {
+                                int.TryParse(idIdent, out int idIdentificador);
+                                using (var taPromoDiasPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_ESTOQUE_PRECOS_DIASTableAdapter())
+                                {
+                                    taPromoDiasPdv.Connection = fbConnPdv;
+                                    taPromoDiasPdv.DeleteQuery(idIdentificador);
+                                    ConfirmarAuxSync(idIdentificador, "TB_ESTOQUE_PRECOS_DIAS", operacao, NO_CAIXA);
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error("erro ao tentar sincronizar delete das promoções por dia para base local, segue erro: " + ex);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Erro ao sincronizar promoções, erro: " + ex);
                 }
             }
         }
@@ -4130,7 +4358,7 @@ namespace PDV_WPF.Funcoes
                                 try
                                 {
                                     int.TryParse(idKit, out int id_kit);
-                                    if(fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
                                     FbCommand comand = new FbCommand($"DELETE FROM TB_EST_KIT WHERE ID_KIT = {id_kit}", fbConnPdv);
                                     comand.ExecuteNonQuery();
                                     ConfirmarAuxSync(id_kit, "TB_EST_KIT", operacao, NO_CAIXA);
@@ -4181,7 +4409,7 @@ namespace PDV_WPF.Funcoes
                                             {
                                                 taKitItemPdv.Connection = fbConnPdv;//.ConnectionString = _strConnContingency;
                                                 foreach (FDBDataSetOperSeed.TB_EST_KIT_ITEMRow KitItemServ in tblKitItemServ)
-                                                {                                                    
+                                                {
                                                     switch (operacao)
                                                     {
                                                         case "I":
@@ -4190,7 +4418,7 @@ namespace PDV_WPF.Funcoes
                                                         case "U":
                                                             taKitItemPdv.UpdateQuery(KitItemServ.ID_IDENTIFICADOR, KitItemServ.ID_KIT, KitItemServ.QTD_ITEM, KitItemServ.STATUS, KitItemServ.VLR_ITEM, KitItemServ.ID_ESTKIT);
                                                             break;
-                                                    }                                                                                                                                                         
+                                                    }
                                                 }
                                                 ConfirmarAuxSync(id_est_kit, "TB_EST_KIT_ITEM", operacao, NO_CAIXA);
                                             }
@@ -4207,7 +4435,7 @@ namespace PDV_WPF.Funcoes
                                 try
                                 {
                                     int.TryParse(idEstKit, out int id_est_kit);
-                                    if(fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                    if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
                                     FbCommand comand = new FbCommand($"DELETE FROM TB_EST_KIT_ITEM WHERE ID_ESTKIT = {id_est_kit}", fbConnPdv);
                                     comand.ExecuteNonQuery();
                                     ConfirmarAuxSync(id_est_kit, "TB_EST_KIT_ITEM", operacao, NO_CAIXA);
@@ -4242,7 +4470,7 @@ namespace PDV_WPF.Funcoes
                             var operacao = pendentesPromos[i]["OPERACAO"].Safestring();
                             var NO_CAIXA = pendentesPromos[i]["NO_CAIXA"].Safeshort();
 
-                            if(operacao.Equals("U") || operacao.Equals("I"))
+                            if (operacao.Equals("U") || operacao.Equals("I"))
                             {
                                 // Buscar o registro para executar as operações "Insert" ou "Update"
                                 using (var taPromoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOESTableAdapter())
@@ -4281,7 +4509,7 @@ namespace PDV_WPF.Funcoes
                                     }
                                 }
                             }
-                            else if(operacao.Equals("D"))
+                            else if (operacao.Equals("D"))
                             {
                                 using (var taPromoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PROMOCOESTableAdapter())
                                 {
@@ -4294,8 +4522,8 @@ namespace PDV_WPF.Funcoes
                                     else log.Debug("Rodou SP_TRI_PROMOCOES_UPSERT porem não alterou nenhum registro na base local.");
                                 }
                             }
-                        }                            
-                    }                    
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -4372,6 +4600,82 @@ namespace PDV_WPF.Funcoes
                 catch (Exception ex)
                 {
                     log.Debug("Erro ao sincronizar tabela TB_PROMOCOES_ITENS, erro: " + ex);
+                }
+            }
+        }
+
+        public void Sync_TB_MOTIVO_DESO_SIS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblMotivoDesoServ = new FDBDataSetOperSeed.TB_MOTIVO_DESO_SISDataTable())
+            {
+                try
+                {
+                    int retornoUpSert = 0;
+                    DataRow[] pendentesMotivoDeso = dtAuxSyncPendentes.Select($"TABELA = 'TB_MOTIVO_DESO_SIS'");
+                    for (int i = 0; i < pendentesMotivoDeso.Length; i++)
+                    {
+                        var idMotivoDeso = pendentesMotivoDeso[i]["ID_REG"].Safeint();
+                        var operacao = pendentesMotivoDeso[i]["OPERACAO"].Safestring();                        
+
+                        if (operacao.Equals("U") || operacao.Equals("I"))
+                        {                            
+                            using (var taMotivoDesoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
+                            {
+                                taMotivoDesoServ.Connection = fbConnServ;
+                                taMotivoDesoServ.FillById(tblMotivoDesoServ, idMotivoDeso);
+                                if (tblMotivoDesoServ != null && tblMotivoDesoServ.Rows.Count > 0)
+                                {
+                                    using (var taMotivoDesoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
+                                    {
+                                        try
+                                        {
+                                            taMotivoDesoPdv.Connection = fbConnPdv;
+                                            foreach (FDBDataSetOperSeed.TB_MOTIVO_DESO_SISRow motivoDeso in tblMotivoDesoServ)
+                                            {
+                                                switch(operacao)
+                                                {
+                                                    case "I":
+                                                        retornoUpSert = taMotivoDesoPdv.Insert(motivoDeso.ID_MOTIVO_DESO, motivoDeso.DESCRICAO);
+                                                        break;
+                                                    case "U":
+                                                        retornoUpSert = taMotivoDesoPdv.Update(motivoDeso);
+                                                        break;
+                                                }
+
+                                                if(retornoUpSert != 0)
+                                                    ConfirmarAuxSync(motivoDeso.ID_MOTIVO_DESO,
+                                                                     "TB_MOTIVO_DESO_SIS",
+                                                                     operacao,
+                                                                     shtNumCaixa);
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Debug("Erro ao tentar sincronizar insert ou update da TB_MOTIVO_DESO_SIS para base local, segue erro: " + ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (operacao.Equals("D"))
+                        {
+                            using (var taMotivoDesoPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
+                            {
+                                taMotivoDesoPdv.Connection = fbConnPdv;
+                                retornoUpSert = taMotivoDesoPdv.DeleteByUpdate(idMotivoDeso);
+
+                                if (retornoUpSert != 0) 
+                                    ConfirmarAuxSync(idMotivoDeso,
+                                                    "TB_MOTIVO_DESO_SIS", 
+                                                    operacao,
+                                                    shtNumCaixa);                                
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_MOTIVO_DESO_SIS, erro: " + ex);
                 }
             }
         }
@@ -4478,7 +4782,7 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.BALMODELO, configServ.ACFILLPREFIX, configServ.ACFILLMODE, configServ.ACREFERENCIA,
                                                                                                             configServ.SYSCOMISSAO, configServ.SATSERVTIMEOUT, configServ.SATLIFESIGNINTERVAL,
                                                                                                             configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA,
-                                                                                                            configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA, configServ.LAYOUT_SAT);                                                                                                           
+                                                                                                            configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA, configServ.LAYOUT_SAT);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -4554,7 +4858,7 @@ namespace PDV_WPF.Funcoes
                                                 break;
                                             }
                                         default:
-                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido { operacao }");
+                                            throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
                                             //break;
                                     }
                                 }
@@ -4879,6 +5183,39 @@ namespace PDV_WPF.Funcoes
             catch (Exception ex)
             {
                 log.Error("Erro ao deletar registro de TB_EST_GRUPO", ex);
+                throw ex;
+            }
+        }
+
+        public void Sync_Delete_TB_EST_SUBGRUPO(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
+        {
+            try
+            {
+                var drEstSubGrupoDeletesPendentes = dtAuxSyncDeletesPendentes.Select("TABELA = 'TB_EST_SUBGRUPO'");
+
+                if (drEstSubGrupoDeletesPendentes.Length > 0)
+                {
+                    using (var taEstSubGrupoPdv = new TB_EST_SUBGRUPOTableAdapter())
+                    {
+                        taEstSubGrupoPdv.Connection = fbConnPdv;
+
+                        foreach (var subGrupoDeletar in drEstSubGrupoDeletesPendentes)
+                        {
+                            taEstSubGrupoPdv.DeleteById(subGrupoDeletar["ID_REG"].Safeint());
+
+                            // Deletou? Tem que falar pro servidor que o registro foi sincronizado.
+
+                            ConfirmarAuxSync(subGrupoDeletar["ID_REG"].Safeint(),
+                                             subGrupoDeletar["TABELA"].Safestring(),
+                                             "D", //drEstGrupoDeletePendente["OPERACAO"].Safestring(),
+                                             shtNumCaixa);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                log.Error("Erro ao deletar registro de TB_EST_SUBGRUPO", ex);
                 throw ex;
             }
         }
@@ -5998,14 +6335,14 @@ namespace PDV_WPF.Funcoes
                                                     #region Gravar as formas de pagamento da nfvenda na retaguarda
 
                                                     foreach (FDBDataSetVenda.TB_NFVENDA_FMAPAGTO_NFCERow nfvendaFmapagtoNfcePdv in tblNfvendaFmapagtoNfcePdv)
-                                                    {                                                        
+                                                    {
                                                         int newIdnumpag = 0;
 
                                                         //Problema encontrado, TB_NFC_BANDEIRA não tem a coluna 'ID_NFVENDA', sendo assim só é possivel usar como eixo de pesquisa a coluna 'ID_NUMPAG'
                                                         //o que acaba fugindo um pouco da lógica do que acontece aqui, então vamos lá capturar o 'ID_NUMPAG' e ver qual administradora foi ultilizada.
                                                         int idNumPag = nfvendaFmapagtoNfcePdv.ID_NUMPAG;
                                                         var tbNfceBandeira = new DataSets.FDBDataSetVendaTableAdapters.TB_NFCE_BANDEIRATableAdapter(); tbNfceBandeira.Connection.ConnectionString = _strConnContingency;
-                                                        var idAdmins = tbNfceBandeira.PegaIDAdmin(idNumPag); 
+                                                        var idAdmins = tbNfceBandeira.PegaIDAdmin(idNumPag);
 
                                                         using (var fbCommNfvendaFmapagtoNfceSyncInsert = new FbCommand())
                                                         {
@@ -7077,7 +7414,7 @@ namespace PDV_WPF.Funcoes
                                                         }
                                                         catch (Exception ex)
                                                         {
-                                                            log.Error($"Erro ao cancelar (excluir) conta a receber no servidor (ID_CTAREC { ctarecServ.ID_CTAREC }).", ex);
+                                                            log.Error($"Erro ao cancelar (excluir) conta a receber no servidor (ID_CTAREC {ctarecServ.ID_CTAREC}).", ex);
                                                             throw ex;
                                                         }
                                                     }
@@ -7445,6 +7782,266 @@ namespace PDV_WPF.Funcoes
                         #endregion Limpeza dos objetos Disposable
                     }
                     #endregion Nfvendas sincronizadas e posteriormente canceladas
+
+                    #region Convertidos de NF para F
+
+                    {
+                        using (var fbConnPdv = new FbConnection(_strConnContingency))
+                        using (var TB_NFVENDA_DT_PDV = new FDBDataSetVenda.TB_NFVENDADataTable())
+                        using (var TB_NFVENDA_TA_PDV = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter() { Connection = fbConnPdv })
+                        {
+                            TB_NFVENDA_TA_PDV.FillByNfvendaSync(TB_NFVENDA_DT_PDV, 3);
+                            if (TB_NFVENDA_DT_PDV is not null && TB_NFVENDA_DT_PDV.Rows.Count > 0)
+                            {
+                                using (var fbConnServ = new FbConnection(_strConnNetwork))
+                                using (var TB_NFV_ITEM_PIS_DT = new FDBDataSetVenda.TB_NFV_ITEM_PISDataTable())
+                                using (var TB_NFV_ITEM_PIS_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_PISTableAdapter() { Connection = fbConnPdv })
+                                using (var TB_NFV_ITEM_COFINS_DT = new FDBDataSetVenda.TB_NFV_ITEM_COFINSDataTable())
+                                using (var TB_NFV_ITEM_COFINS_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_COFINSTableAdapter() { Connection = fbConnPdv })
+                                using (var TB_NFV_ITEM_ICMS_DT = new FDBDataSetVenda.TB_NFV_ITEM_ICMSDataTable())
+                                using (var TB_NFV_ITEM_ICMS_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEM_ICMSTableAdapter() { Connection = fbConnPdv })
+                                using (var TB_SAT_DT = new FDBDataSetVenda.TB_SATDataTable())
+                                using (var TB_SAT_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter() { Connection = fbConnPdv })
+                                using (var TB_NFVENDA_TA_SERV = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter() { Connection = fbConnServ })
+                                using (var TB_NFV_ITEM_DT_PDV = new FDBDataSetVenda.TB_NFV_ITEMDataTable())
+                                using (var TB_NFV_ITEM_TA_PDV = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter() { Connection = fbConnPdv })
+                                using (var TB_NFV_ITEM_DT_SERV = new FDBDataSetVenda.TB_NFV_ITEMDataTable())
+                                using (var TB_NFV_ITEM_TA_SERV = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter() { Connection = fbConnServ })
+                                {
+                                    foreach (var nfConvertida in TB_NFVENDA_DT_PDV)
+                                    {
+                                        #region Altera alguns registros na TB_NFVENDA (serv)
+
+                                        string[] antigosMSN = nfConvertida.INF_COMP_EDIT.Split('|');
+                                        if (antigosMSN.Count() < 3)
+                                        {
+                                            log.Debug("Coluna INF_COMP_EDIT não contem as informações do cupom provisório conforme esperado, " +
+                                                     $"por conta disso não será possivel sincronizar a conversão para fiscal. Cupom fiscal: {nfConvertida.NF_NUMERO}");
+                                            continue;
+                                        }
+                                        int idAlteradoServ = (int)TB_NFVENDA_TA_SERV.SP_TRI_UPDATE_NF_TO_F(nfConvertida.NF_NUMERO,
+                                                                                                           nfConvertida.NF_SERIE,
+                                                                                                           nfConvertida.DT_SAIDA,
+                                                                                                           nfConvertida.HR_SAIDA,
+                                                                                                           1,
+                                                                                                           int.Parse(antigosMSN[0]),
+                                                                                                           antigosMSN[1],
+                                                                                                           antigosMSN[2]);
+
+                                        TB_NFVENDA_TA_SERV.SaveOldInfos($"{antigosMSN[0]}|{antigosMSN[1]}|{antigosMSN[2]}", idAlteradoServ);
+
+                                        #endregion Altera alguns registros na TB_NFVENDA (serv)
+
+                                        #region Cria objeto de transação FbTransaction (serv)
+
+                                        if (fbConnServ.State == ConnectionState.Closed) fbConnServ.Open();
+                                        using var fbTransactServ = fbConnServ.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, _SyncTimeout) });
+
+                                        #endregion Cria objeto de transação FbTransaction (serv)
+
+                                        #region Gravar conversão TB_SAT (serv)
+
+                                        TB_SAT_DT.Clear();
+                                        TB_SAT_TA.FillByIdNfvenda(TB_SAT_DT, nfConvertida.ID_NFVENDA);
+
+                                        foreach (FDBDataSetVenda.TB_SATRow satPdv in TB_SAT_DT)
+                                        {
+                                            int newIdRegistro = 0;
+
+                                            using (var fbCommSatSyncInsert = new FbCommand())
+                                            {
+                                                fbCommSatSyncInsert.Connection = fbConnServ;
+                                                fbCommSatSyncInsert.Transaction = fbTransactServ;
+
+                                                fbCommSatSyncInsert.CommandText = "SP_TRI_SAT_SYNC_INSERT";
+                                                fbCommSatSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                fbCommSatSyncInsert.Parameters.Add("@pID_NFVENDA", idAlteradoServ);
+                                                fbCommSatSyncInsert.Parameters.Add("@pCHAVE", satPdv.IsCHAVENull() ? null : satPdv.CHAVE);
+                                                fbCommSatSyncInsert.Parameters.Add("@pDT_EMISSAO", satPdv.IsDT_EMISSAONull() ? null : (DateTime?)satPdv.DT_EMISSAO);
+                                                fbCommSatSyncInsert.Parameters.Add("@pHR_EMISSAO", satPdv.IsHR_EMISSAONull() ? null : (TimeSpan?)satPdv.HR_EMISSAO);
+
+                                                fbCommSatSyncInsert.Parameters.Add("@pSTATUS", satPdv.IsSTATUSNull() ? null : satPdv.STATUS);
+                                                fbCommSatSyncInsert.Parameters.Add("@pSTATUS_DES", satPdv.IsSTATUS_DESNull() ? null : satPdv.STATUS_DES);
+                                                fbCommSatSyncInsert.Parameters.Add("@pNUMERO_CFE", satPdv.IsNUMERO_CFENull() ? null : (int?)satPdv.NUMERO_CFE);
+                                                fbCommSatSyncInsert.Parameters.Add("@pNUM_SERIE_SAT", satPdv.IsNUM_SERIE_SATNull() ? null : satPdv.NUM_SERIE_SAT);
+
+                                                try
+                                                {
+                                                    newIdRegistro = (int)fbCommSatSyncInsert.ExecuteScalar();
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    log.Error($"Erro ao salvar informações na TB_SAT. Operação de conversão do cupom provisório: {antigosMSN[0]} para CF-e: {nfConvertida.NF_NUMERO} --> {ex.InnerException.Message ?? ex.Message}");
+                                                    fbTransactServ.Rollback();
+                                                    throw;
+                                                }
+                                            }
+                                        }
+
+                                        #endregion Gravar conversão TB_SAT (serv)
+
+                                        #region Gravar conversão tabelas de tributações (serv)     
+
+                                        TB_NFV_ITEM_TA_PDV.FillByIdNfvenda(TB_NFV_ITEM_DT_PDV, nfConvertida.ID_NFVENDA);
+                                        TB_NFV_ITEM_TA_SERV.Transaction = fbTransactServ;
+                                        TB_NFV_ITEM_TA_SERV.FillByIdNfvenda(TB_NFV_ITEM_DT_SERV, idAlteradoServ);
+                                        TwoForEach(TB_NFV_ITEM_DT_PDV.ToList(), TB_NFV_ITEM_DT_SERV.ToList(), (itemPDV, itemSERV) =>
+                                        {
+                                            #region Gravar conversão TB_NFV_ITEM_ICMS (serv)
+
+                                            TB_NFV_ITEM_ICMS_DT.Clear();
+                                            TB_NFV_ITEM_ICMS_TA.FillById(TB_NFV_ITEM_ICMS_DT, itemPDV.ID_NFVITEM);
+                                            foreach (var nfvItemIcmsPdv in TB_NFV_ITEM_ICMS_DT)
+                                            {
+                                                using (var fbCommNfvItemIcmsSyncInsert = new FbCommand())
+                                                {
+                                                    fbCommNfvItemIcmsSyncInsert.Connection = fbConnServ;
+
+                                                    fbCommNfvItemIcmsSyncInsert.Transaction = fbTransactServ;
+
+                                                    fbCommNfvItemIcmsSyncInsert.CommandText = "SP_TRI_NFVITEMICMS_SYNCINSERT";
+                                                    fbCommNfvItemIcmsSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                    fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pID_NFVITEM", itemSERV.ID_NFVITEM);
+                                                    fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pVLR_BC_ICMS", nfvItemIcmsPdv.IsVLR_BC_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.VLR_BC_ICMS);
+                                                    fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pPOR_BC_ICMS", nfvItemIcmsPdv.IsPOR_BC_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.POR_BC_ICMS);
+                                                    fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pCST_ICMS", nfvItemIcmsPdv.IsCST_ICMSNull() ? null : nfvItemIcmsPdv.CST_ICMS);
+                                                    fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pALIQ_ICMS", nfvItemIcmsPdv.IsALIQ_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.ALIQ_ICMS);
+                                                    fbCommNfvItemIcmsSyncInsert.Parameters.Add("@pVLR_ICMS", nfvItemIcmsPdv.IsVLR_ICMSNull() ? null : (decimal?)nfvItemIcmsPdv.VLR_ICMS);
+
+                                                    try
+                                                    {
+                                                        fbCommNfvItemIcmsSyncInsert.ExecuteScalar();
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        log.Error($"Erro ao salvar informações na TB_NFV_ITEM_ICMS. Operação de conversão do cupom provisório: {antigosMSN[0]} para CF-e: {nfConvertida.NF_NUMERO} --> {ex.InnerException.Message ?? ex.Message}");
+                                                        fbTransactServ.Rollback();
+                                                        throw;
+                                                    }
+                                                }
+                                            }
+
+                                            #endregion Gravar conversão TB_NFV_ITEM_ICMS (serv)
+
+                                            #region Gravar conversão TB_NFV_ITEM_COFINS (serv)
+
+                                            TB_NFV_ITEM_COFINS_DT.Clear();
+                                            TB_NFV_ITEM_COFINS_TA.FillById(TB_NFV_ITEM_COFINS_DT, itemPDV.ID_NFVITEM);
+                                            foreach (var nfvItemCofinsPDV in TB_NFV_ITEM_COFINS_DT)
+                                            {
+                                                using (var fbCommNfvItemCofinsSyncInsert = new FbCommand())
+                                                {
+                                                    fbCommNfvItemCofinsSyncInsert.Connection = fbConnServ;
+
+                                                    fbCommNfvItemCofinsSyncInsert.Transaction = fbTransactServ;
+
+                                                    fbCommNfvItemCofinsSyncInsert.CommandText = "SP_TRI_NFVITEMCOFINS_SYNCINSERT";
+                                                    fbCommNfvItemCofinsSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                    fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pID_NFVITEM", itemSERV.ID_NFVITEM);
+                                                    fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pPOR_BC_COFINS", nfvItemCofinsPDV.IsPOR_BC_COFINSNull() ? null : (decimal?)nfvItemCofinsPDV.POR_BC_COFINS);
+                                                    fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pCST_COFINS", nfvItemCofinsPDV.IsCST_COFINSNull() ? null : nfvItemCofinsPDV.CST_COFINS);
+                                                    fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pALIQ_COFINS", nfvItemCofinsPDV.IsALIQ_COFINSNull() ? null : (decimal?)nfvItemCofinsPDV.ALIQ_COFINS);
+                                                    fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pVLR_COFINS", nfvItemCofinsPDV.IsVLR_COFINSNull() ? null : (decimal?)nfvItemCofinsPDV.VLR_COFINS);
+                                                    fbCommNfvItemCofinsSyncInsert.Parameters.Add("@pVLR_BC_COFINS", nfvItemCofinsPDV.IsVLR_BC_COFINSNull() ? null : (decimal?)nfvItemCofinsPDV.VLR_BC_COFINS);
+
+                                                    try
+                                                    {
+                                                        fbCommNfvItemCofinsSyncInsert.ExecuteScalar();
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        log.Error($"Erro ao salvar informações na TB_NFV_ITEM_COFINS. Operação de conversão do cupom provisório: {antigosMSN[0]} para CF-e: {nfConvertida.NF_NUMERO} --> {ex.InnerException.Message ?? ex.Message}");
+                                                        fbTransactServ.Rollback();
+                                                        throw;
+                                                    }
+                                                }
+                                            }
+
+                                            #endregion Gravar conversão TB_NFV_ITEM_COFINS (serv)  
+
+                                            #region Gravar conversão TB_NFV_ITEM_PIS (serv)
+
+                                            TB_NFV_ITEM_PIS_DT.Clear();
+                                            TB_NFV_ITEM_PIS_TA.FillById(TB_NFV_ITEM_PIS_DT, itemPDV.ID_NFVITEM);
+                                            foreach (var nfvItemPisPdv in TB_NFV_ITEM_PIS_DT)
+                                            {
+                                                using (var fbCommNfvItemPisSyncInsert = new FbCommand())
+                                                {
+                                                    fbCommNfvItemPisSyncInsert.Connection = fbConnServ;
+
+                                                    fbCommNfvItemPisSyncInsert.Transaction = fbTransactServ;
+
+                                                    fbCommNfvItemPisSyncInsert.CommandText = "SP_TRI_NFVITEMPIS_SYNCINSERT";
+                                                    fbCommNfvItemPisSyncInsert.CommandType = CommandType.StoredProcedure;
+
+                                                    fbCommNfvItemPisSyncInsert.Parameters.Add("@pID_NFVITEM", itemSERV.ID_NFVITEM);
+                                                    fbCommNfvItemPisSyncInsert.Parameters.Add("@pPOR_BC_PIS", nfvItemPisPdv.IsPOR_BC_PISNull() ? null : (decimal?)nfvItemPisPdv.POR_BC_PIS);
+                                                    fbCommNfvItemPisSyncInsert.Parameters.Add("@pCST_PIS", nfvItemPisPdv.IsCST_PISNull() ? null : nfvItemPisPdv.CST_PIS);
+                                                    fbCommNfvItemPisSyncInsert.Parameters.Add("@pALIQ_PIS", nfvItemPisPdv.IsALIQ_PISNull() ? null : (decimal?)nfvItemPisPdv.ALIQ_PIS);
+                                                    fbCommNfvItemPisSyncInsert.Parameters.Add("@pVLR_PIS", nfvItemPisPdv.IsVLR_PISNull() ? null : (decimal?)nfvItemPisPdv.VLR_PIS);
+                                                    fbCommNfvItemPisSyncInsert.Parameters.Add("@pVLR_BC_PIS", nfvItemPisPdv.IsVLR_BC_PISNull() ? null : (decimal?)nfvItemPisPdv.VLR_BC_PIS);
+
+                                                    try
+                                                    {
+                                                        fbCommNfvItemPisSyncInsert.ExecuteScalar();
+                                                    }
+                                                    catch (Exception ex)
+                                                    {
+                                                        log.Error($"Erro ao salvar informações na TB_NFV_ITEM_PIS. Operação de conversão do cupom provisório: {antigosMSN[0]} para CF-e: {nfConvertida.NF_NUMERO} --> {ex.InnerException.Message ?? ex.Message}");
+                                                        fbTransactServ.Rollback();
+                                                        throw;
+                                                    }
+                                                }
+
+                                            }
+
+                                            #endregion Gravar conversão TB_NFV_ITEM_PIS (serv)                                                                                               
+
+                                        });
+
+                                        #endregion Gravar conversão tabelas de tributações (serv)                                          
+
+                                        #region Indicar que a conversão da nfvenda foi synced
+
+                                        using (var fbCommNfvendaUnsyncedSetSynced = new FbCommand())
+                                        {
+                                            if (fbConnPdv.State == ConnectionState.Closed) fbConnPdv.Open();
+                                            using var fbTransactPdv = fbConnPdv.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, _SyncTimeout) });
+
+                                            fbCommNfvendaUnsyncedSetSynced.Connection = fbConnPdv;
+                                            fbCommNfvendaUnsyncedSetSynced.Transaction = fbTransactPdv;
+                                            fbCommNfvendaUnsyncedSetSynced.CommandText = "SP_TRI_NFVENDA_SETSYNCED";
+                                            fbCommNfvendaUnsyncedSetSynced.CommandType = CommandType.StoredProcedure;
+
+                                            fbCommNfvendaUnsyncedSetSynced.Parameters.Add("@pIdNfvenda", nfConvertida.ID_NFVENDA);
+                                            fbCommNfvendaUnsyncedSetSynced.Parameters.Add("@pSynced", 1);
+
+                                            try
+                                            {
+                                                fbCommNfvendaUnsyncedSetSynced.ExecuteScalar();
+                                                fbTransactServ.Commit();
+                                                fbTransactPdv.Commit();
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                log.Error($"Erro ao setar SYNCED = 1 na TB_NFVENDA. Operação de conversão do cupom provisório: {antigosMSN[0]} para CF-e: {nfConvertida.NF_NUMERO} --> {ex.InnerException.Message ?? ex.Message}");
+                                                fbTransactServ.Rollback();
+                                                fbTransactPdv.Rollback();
+                                                throw;
+                                            }
+                                        }
+
+                                        #endregion Indicar que a conversão da nfvenda foi synced
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    #endregion Convertidos de NF para F
                 }
             }
             catch (Exception e)
@@ -7948,9 +8545,9 @@ namespace PDV_WPF.Funcoes
 
                 // Inicia a sincronização de cadastros apenas se houver registro indicado na tabela auxiliar (a TB_IFS é exceção):
                 if (dtAuxSyncPendentes != null && dtAuxSyncPendentes.Rows.Count > 0)
-                {                   
+                {
                     try
-                    {                        
+                    {
                         Sync_Emitente(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
                         log.Debug("Emitentes sincronizados");
                     }
@@ -7990,14 +8587,24 @@ namespace PDV_WPF.Funcoes
                         throw new SynchException("Erro ao sincronizar NatOper", ex);
                     }
                     try
-                    {                                                
+                    {
                         Sync_TB_EST_GRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         log.Debug("EST_GRUPO sincronizados");
-                    }                    
+                    }
                     catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar EST_GRUPO", ex);
                         throw new SynchException("Erro ao sincronizar EST_GRUPO", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_EST_SUBGRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        log.Debug("EST_SUBGRUPO sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar EST_SUBGRUPO", ex);
+                        throw new SynchException("Erro ao sincronizar EST_SUBGRUPO", ex);
                     }
                     try
                     {
@@ -8141,24 +8748,34 @@ namespace PDV_WPF.Funcoes
                         throw new SynchException("Erro ao sincronizar Sync_TRI_PDV_USERS", ex);
                     }
                     try
-                    {                        
+                    {
                         Sync_TB_CARTAO_ADMINISTRADORA(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
-                        log.Debug("Sync_TB_CARTAO_ADMINISTRADORA sincronizados");                        
+                        log.Debug("Sync_TB_CARTAO_ADMINISTRADORA sincronizados");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_CARTAO_ADMINISTRADORA", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_CARTAO_ADMINISTRADORA", ex);
                     }
                     try
-                    {                        
+                    {
                         Sync_TB_ESTOQUE_PRECOS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
-                        log.Debug("Sync_TB_ESTOQUE_PRECOS sincronizados");                        
+                        log.Debug("Sync_TB_ESTOQUE_PRECOS sincronizados");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_ESTOQUE_PRECOS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_ESTOQUE_PRECOS", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_ESTOQUE_PRECOS_DIAS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TB_ESTOQUE_PRECOS_DIAS sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_ESTOQUE_PRECOS_DIAS", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_ESTOQUE_PRECOS_DIAS", ex);
                     }
                     try
                     {
@@ -8195,10 +8812,20 @@ namespace PDV_WPF.Funcoes
                         Sync_TB_PROMOCOES_ITENS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
                         log.Debug("Sync_TB_PROMOCOES_ITENS sincronizados");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_PROMOCOES_ITENS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_PROMOCOES_ITENS", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa); 
+                        log.Debug("Sync_TB_MOTIVO_DESO_SIS sincronizados");
+                    }
+                    catch(Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
                     }
                     #region Função Desativada
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 
@@ -9163,6 +9790,10 @@ namespace PDV_WPF.Funcoes
                       }
                   */
                         #endregion TB_FORNECEDOR
+                        Sync_Delete_TB_EST_SUBGRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
+                        #region TB_EST_SUBGRUPO
+                        //Deleta subgrupo =)  
+                        #endregion TB_EST_SUBGRUPO
                         Sync_Delete_TB_EST_GRUPO(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         #region TB_EST_GRUPO
                         /*
@@ -9196,7 +9827,7 @@ namespace PDV_WPF.Funcoes
                                 throw ex;
                             }
                         */
-                        #endregion TB_EST_GRUPO
+                        #endregion TB_EST_GRUPO                        
                         Sync_Delete_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
                         #region TB_CLIENTE
                         /*

@@ -9,11 +9,15 @@ using static PDV_WPF.Funcoes.Statics;
 using System.CodeDom.Compiler;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
+using static PDV_WPF.REMENDOOOOO.FuncoesFirebird;
+using System.Management.Instrumentation;
+using PDV_WPF.Funcoes;
 
 namespace PDV_WPF.REMENDOOOOO
 {
     public class FuncoesFirebird
-    {       
+    {
+        public enum CondicaoAtacado { Todas = 0, SomenteAcima = 1, Multiplos = 2, ApenasIgual = 3 }
 
         //public async Task<decimal> SomaDeValoresAsync(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
         //    System.DateTime DT_FECHAMENTO, FbConnection connection)
@@ -153,7 +157,7 @@ namespace PDV_WPF.REMENDOOOOO
             command.CommandType = CommandType.Text;
 
             command.CommandText =
-                $"SELECT PRC_ATACADO, QTD_ATACADO, OBSERVACAO FROM TB_ESTOQUE te JOIN TB_EST_IDENTIFICADOR tei ON te.ID_ESTOQUE = tei.ID_ESTOQUE WHERE tei.ID_IDENTIFICADOR = {idIdentificador}";
+                $"SELECT PRC_ATACADO, QTD_ATACADO, OBSERVACAO, TP_PRC_ATACADO FROM TB_ESTOQUE te JOIN TB_EST_IDENTIFICADOR tei ON te.ID_ESTOQUE = tei.ID_ESTOQUE WHERE tei.ID_IDENTIFICADOR = {idIdentificador}";
             DataTable infoTable = new();
             try
             {
@@ -165,16 +169,17 @@ namespace PDV_WPF.REMENDOOOOO
             }
 
             if (infoTable.Rows.Count == 0)
-            {
+            {                
                 return null;
             }
             else
-            {
+            {                              
                 return new InfoAtacado
                 {
                     PrcAtacado = infoTable.Rows[0]["PRC_ATACADO"] is DBNull ? 0 : infoTable.Rows[0]["PRC_ATACADO"] as decimal? ?? 0,
                     QtdAtacado = infoTable.Rows[0]["QTD_ATACADO"] is DBNull ? 0 : infoTable.Rows[0]["QTD_ATACADO"] as decimal? ?? 0,
-                    Família = ""
+                    Família = "",                    
+                    TipoAtacado = (CondicaoAtacado)(infoTable.Rows[0]["TP_PRC_ATACADO"] is DBNull ? 0 : infoTable.Rows[0]["TP_PRC_ATACADO"].Safeint())
                 };
             }
 
@@ -638,13 +643,13 @@ namespace PDV_WPF.REMENDOOOOO
     //    command.CommandText = "SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC"
     //}
 
-}
-
-public class InfoAtacado
-{
-    public decimal QtdAtacado { get; set; }
-    public decimal PrcAtacado { get; set; }
-    public string Família { get; set; }
+    public class InfoAtacado
+    {
+        public decimal QtdAtacado { get; set; }
+        public decimal PrcAtacado { get; set; }
+        public string Família { get; set; }
+        public CondicaoAtacado TipoAtacado { get; set; }
+    }
 }
 
 public class DadosDoItem
