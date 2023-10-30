@@ -114,7 +114,13 @@ namespace PDV_WPF.Controls
             else if (e.Key == Key.Space) e.Handled = true;
             else
             {
-                if (this.SelectionLength == Text.Length)
+	            if (Text.Length >= MaxLength)
+	            {
+		            e.Handled = true;
+		            return;
+	            }
+
+				if (this.SelectionLength == Text.Length)
                 {
                     Value = 0;
                 }
