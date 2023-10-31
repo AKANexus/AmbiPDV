@@ -3042,7 +3042,7 @@ namespace PDV_WPF.Telas
                     {
                         VendaDEMO.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], item.dec_vMP);
                         log.Debug($"FISCAL>> Pagamento efetuado: {_metodos_de_pagamento[item.cMP.ToString()]}, Valor {item.dec_vMP}");
-                        if (USATEF == true && (item.cMP == "03" || item.cMP == "04"))
+                        if (USATEF == true && (item.cMP == "03" || item.cMP == "04" || item.cMP == "17" || item.cMP == "10" || item.cMP == "11"))
                         {
                             //usouTEF = true;
                             log.Debug("TEF UTILIZADO!!!!!");
@@ -4020,7 +4020,7 @@ namespace PDV_WPF.Telas
                     {
                         VendaImpressa.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], item.dec_vMP);
                         log.Debug($"FISCAL>> Pagamento efetuado: {_metodos_de_pagamento[item.cMP.ToString()]}, Valor {item.dec_vMP}");
-                        if (USATEF == true && (item.cMP == "03" || item.cMP == "04"))
+                        if (USATEF == true && (item.cMP == "03" || item.cMP == "04" || item.cMP == "17" || item.cMP == "10" || item.cMP == "11"))
                         {
                             //usouTEF = true;
                             log.Debug("TEF UTILIZADO!!!!!");

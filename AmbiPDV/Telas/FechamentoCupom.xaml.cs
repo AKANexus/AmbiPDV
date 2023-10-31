@@ -345,10 +345,10 @@ namespace PDV_WPF.Telas
                             tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
                         case "10":
-                            tefAtual.ShowTEF(TipoTEF.Vale, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
+                            tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
                         case "11":
-                            tefAtual.ShowTEF(TipoTEF.Vale, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
+                            tefAtual.ShowTEF(TipoTEF.Debito, _valor, $"{numCupomTEF}", DateTime.Now, idMetodo);
                             break;
                     }
                     tefAtual.StatusChanged += Tef_StatusChanged;

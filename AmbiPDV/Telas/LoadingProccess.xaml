@@ -10,7 +10,8 @@
         AllowsTransparency="True"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        Height="170" Width="150">
+        Height="170" Width="150"
+        ShowInTaskbar="False">
     <StackPanel Orientation="Vertical">
         <FontAwesome:ImageAwesome x:Name="loading" Icon="Spinner"  Width="130" Height="130" Spin="True" Foreground="#FF09CAAA" SpinDuration="3" VerticalAlignment="Top" Margin="0,5"/>
         <Label Name="lbl_progress" HorizontalAlignment="Center" FontFamily="Century Gothic" FontSize="15" FontStyle="Italic" FontWeight="Bold" Margin="0,1" Foreground="Black">Carregando ...</Label>

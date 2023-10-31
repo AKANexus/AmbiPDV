@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         mc:Ignorable="d"
-        Title="ExibirGif" Height="440.479" Width="428.543" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent">
+        Title="ExibirGif" Height="440.479" Width="428.543" WindowStartupLocation="CenterScreen" WindowStyle="None" AllowsTransparency="True" Background="Transparent" ShowInTaskbar="False">
     <Border CornerRadius="10">
         <MediaElement x:Name="mediaElement" MediaEnded="mediaElement_MediaEnded" HorizontalAlignment="Center" Height="456" VerticalAlignment="Top" Width="457" Source="" Stretch="Fill" UnloadedBehavior="Manual" LoadedBehavior="Play" Margin="-15,-6,-13,-10"/>
     </Border>
