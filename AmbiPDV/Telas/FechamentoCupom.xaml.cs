@@ -403,7 +403,7 @@ namespace PDV_WPF.Telas
             if (e.status == StatusTEF.Confirmado)
                 try
                 {
-                    AcrescentaMetodoPagamento(e.idMetodo, e.Valor, e.GetStrPgCfe, tefAtual);
+	                AcrescentaMetodoPagamento(idMetodo: e.idMetodo, _valor: e.Valor, strPgCfe: Metodos_DT.First(x => x.ID_FMANFCE == e.idMetodo).ID_NFCE, sitefbox: tefAtual);
                 }
                 catch (Exception ex)
                 {
