@@ -753,6 +753,9 @@ namespace PDV_WPF.Telas
 
         private void Txb_Valor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+            log.Debug($"txb_Valor.Value: {txb_Valor.Value}");
+            log.Debug($"valor_a_ser_pago: {valor_a_ser_pago}");
+            log.Debug("Bora arrendondar?");
             if (txb_Valor.Value.RoundABNT() > valor_a_ser_pago.RoundABNT())
             {
                 stp_Troco.Visibility = Visibility.Visible;
