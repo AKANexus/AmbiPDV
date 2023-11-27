@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         mc:Ignorable="d"
-        WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="True" AllowsTransparency="True" KeyDown="window_KeyDown"
+        WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" AllowsTransparency="True" KeyDown="window_KeyDown"
         Title="DialogBox" Height="566" Width="470" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">
 
     <Border Margin="10,0" Background="#FFF9F9F9" CornerRadius="10" VerticalAlignment="Center" Padding="13">
