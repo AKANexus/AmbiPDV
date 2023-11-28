@@ -230,20 +230,25 @@ namespace PDV_WPF.Telas
                     //DialogBox.Show("ERRO DE TEF", DialogBox.DialogBoxButtons.No, DialogBox.DialogBoxIcons.Error, true, $"{msgErro}");
                     statusAtual = StatusTEF.Erro;
                 });
-                PendenciasDoTEF pendTefObj = new PendenciasDoTEF();
+
+                #region desativado PendenciasTEF
+                //PendenciasDoTEF pendTefObj = new PendenciasDoTEF();
                 //FinalizaOperacaoTEF();
-                if (!(new[] { TipoTEF.Administrativo, TipoTEF.PendenciasTerminal }.Contains(_tipoTEF)) && !(numPagamentoTEF is null))
-                {
-                    pendTefObj.AdicionaPendenciaNoXML(numCupom.ToString(), numPagamentoTEF.ToString(), tsFiscal.ToString("yyyyMMdd"), tsFiscal.ToString("HHmmss"), ((int)_tipoTEF).ToString("00"), (valor).ToString("0.00", CultureInfo.InvariantCulture), _nsu, _tipoTEF);
-                }
-                else if (statusAtual != StatusTEF.Cancelado && statusAtual != StatusTEF.Erro && statusAtual != StatusTEF.NaoAutorizado)
+                //if (!(new[] { TipoTEF.Administrativo, TipoTEF.PendenciasTerminal }.Contains(_tipoTEF)) && !(numPagamentoTEF is null))
+                //{
+                //    pendTefObj.AdicionaPendenciaNoXML(numCupom.ToString(), numPagamentoTEF.ToString(), tsFiscal.ToString("yyyyMMdd"), tsFiscal.ToString("HHmmss"), ((int)_tipoTEF).ToString("00"), (valor).ToString("0.00", CultureInfo.InvariantCulture), _nsu, _tipoTEF);
+                //}
+                /*else*/
+                #endregion desativado PendenciasTEF
+
+                if (statusAtual != StatusTEF.Cancelado && statusAtual != StatusTEF.Erro && statusAtual != StatusTEF.NaoAutorizado)
                 {
                     statusAtual = StatusTEF.Confirmado;
                 }
                 this.Dispatcher.Invoke(() => this.Close());
                 StatusChanged?.Invoke(this, new TEFEventArgs() { TipoDoTEF = _tipoTEF, Valor = valor, idMetodo = _idMetodo, status = statusAtual, viaCliente = _viaCliente, viaLoja = _viaLoja, NoCupom = numCupom });
-                Console.WriteLine($"Chamada {chamada} >> Fim do ciclo de comunicação ");
-                log.Debug($"Chamada {chamada} >> Fim do ciclo de comunicação ");
+                Console.WriteLine($"Chamada {chamada} >> Fim do ciclo de comunicação --> Status Atual: {statusAtual}");
+                log.Debug($"Chamada {chamada} >> Fim do ciclo de comunicação --> Status Atual: {statusAtual}");
                 return 0;
             });
         }

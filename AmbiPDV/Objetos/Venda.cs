@@ -16,6 +16,7 @@ using static PDV_WPF.Funcoes.Statics;
 using PDV_WPF.DataSets;
 using static PDV_WPF.REMENDOOOOO.FuncoesFirebird;
 using System.Security.Cryptography;
+using System.Windows.Media.Animation;
 
 namespace PDV_WPF.Objetos
 {
@@ -1912,7 +1913,7 @@ namespace PDV_WPF.Objetos
         public decimal VerificaScannTech()
         {
             try
-            {
+            {               
                 decimal vlrTotDescScannTech = 0;
                 using (var tblPromoServ = new FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHDataTable())
                 {
@@ -1936,116 +1937,187 @@ namespace PDV_WPF.Objetos
                             if (itens.QTD_COMPRADA >= tblPromoServ[0].QTD)
                             {
                                 int combosPassados = 0;
-                                decimal totProdComDesc = 0;
-                                decimal qtdDescontoCadastrada = 0;
+                                decimal totProdCalcularDesc = 0; // ----> Calcular desconto para essa quantidade de itens.
+                                decimal qtdBaseDesconto = 0;     // ----> Usado como base para obter o valor da variavel acima (totProdCalcularDesc).
                                 decimal resto = 0;
+                                string tipoPromocao = tblPromoServ[0].TIPO;
 
-                                if (tblPromoServ[0].TIPO.Equals("LLEVA_PAGA")) { qtdDescontoCadastrada = tblPromoServ[0].QTD - tblPromoServ[0].DET; }
-                                if (tblPromoServ[0].TIPO.Equals("DESCUENTO_VARIABLE") || tblPromoServ[0].TIPO.Equals("PRECIO_FIJO")) { qtdDescontoCadastrada = tblPromoServ[0].QTD; }
+                                if (tipoPromocao.Equals("LLEVA_PAGA")) qtdBaseDesconto = tblPromoServ[0].QTD - tblPromoServ[0].DET; 
+                                else qtdBaseDesconto = tblPromoServ[0].QTD;                                
 
                                 if (itens.QTD_COMPRADA > tblPromoServ[0].QTD)
                                 {
                                     combosPassados = (int)(itens.QTD_COMPRADA / tblPromoServ[0].QTD);
                                     combosPassados = tblPromoServ[0].LIMITE > 0 && combosPassados > tblPromoServ[0].LIMITE ? tblPromoServ[0].LIMITE : combosPassados;
-                                    totProdComDesc = combosPassados * qtdDescontoCadastrada;
+                                    totProdCalcularDesc = combosPassados * qtdBaseDesconto;
                                 }
                                 else
                                 {
                                     combosPassados = 1;
-                                    totProdComDesc = qtdDescontoCadastrada;
-                                }
+                                    totProdCalcularDesc = qtdBaseDesconto;
+                                }                                                             
 
-                                List<envCFeCFeInfCFeDet> prodScanntech = _listaDets.Where(x => x.idScannTech == itens.ID).ToList();
-                                decimal qtdProdQueReceberãoDesconto = (tblPromoServ[0].QTD * combosPassados);
-                                decimal qtdProdQueFaltaDarDesconto = qtdProdQueReceberãoDesconto;
+                                if (tipoPromocao.StartsWith("ADICIONAL")) ScannTechAdicional();
+                                else ScannTechPromos();
 
-
-                                foreach (var prod in prodScanntech)
+                                void ScannTechPromos()
                                 {
-                                    decimal qtd = decimal.Parse(prod.prod.qCom);
-                                    decimal vlrUnit = decimal.Parse(prod.prod.vUnCom);
+                                    List<envCFeCFeInfCFeDet> prodScanntech = _listaDets.Where(x => x.idScannTech == itens.ID).ToList();
+                                    decimal qtdProdQueReceberãoDesconto, qtdProdQueFaltaDarDesconto;
+                                    qtdProdQueReceberãoDesconto = qtdProdQueFaltaDarDesconto = tblPromoServ[0].QTD * combosPassados;
 
-                                    switch (tblPromoServ[0].TIPO)
+                                    foreach (var prod in prodScanntech)
                                     {
-                                        case "LLEVA_PAGA":
-                                            decimal vlrDescBruto;
-                                            if (qtd > qtdProdQueReceberãoDesconto)
-                                            {
-                                                vlrDescBruto = vlrUnit * totProdComDesc / qtdProdQueReceberãoDesconto * qtdProdQueFaltaDarDesconto;
-                                                qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
-                                            }
-                                            else
-                                            {
-                                                vlrDescBruto = vlrUnit * totProdComDesc / qtdProdQueReceberãoDesconto * qtd;
-                                                qtdProdQueFaltaDarDesconto -= qtd;
-                                            }
+                                        decimal qtd = decimal.Parse(prod.prod.qCom);
+                                        decimal vlrUnit = decimal.Parse(prod.prod.vUnCom);
 
-                                            decimal vlrDescRound = vlrDescBruto.RoundABNT();
-                                            resto += vlrDescRound - vlrDescBruto;
-                                            prod.prod.vDesc = vlrDescRound.ToString("#0.00");
-                                            vlrTotDescScannTech += vlrDescBruto;
+                                        switch (tipoPromocao)
+                                        {
+                                            case "LLEVA_PAGA":
+                                                {
+                                                    decimal vlrDescBruto;
+                                                    if (qtd >= qtdProdQueFaltaDarDesconto)
+                                                    {
+                                                        vlrDescBruto = vlrUnit * totProdCalcularDesc / qtdProdQueReceberãoDesconto * qtdProdQueFaltaDarDesconto;
+                                                        qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
+                                                    }
+                                                    else
+                                                    {
+                                                        vlrDescBruto = vlrUnit * totProdCalcularDesc / qtdProdQueReceberãoDesconto * qtd;
+                                                        qtdProdQueFaltaDarDesconto -= qtd;
+                                                    }
+                                                    decimal vlrDescRound = vlrDescBruto.RoundABNT();
+                                                    resto += vlrDescRound - vlrDescBruto;
+                                                    prod.prod.vDesc = vlrDescRound.ToString("#0.00");
+                                                    vlrTotDescScannTech += vlrDescBruto;
+                                                }
+                                                break;
 
+                                            case "DESCUENTO_VARIABLE":
+                                                {
+                                                    decimal vlrDescBruto;
+                                                    if (qtd >= qtdProdQueFaltaDarDesconto)
+                                                    {
+                                                        vlrDescBruto = tblPromoServ[0].DET / 100 * vlrUnit * qtdProdQueFaltaDarDesconto;
+                                                        qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
+                                                    }
+                                                    else
+                                                    {
+                                                        vlrDescBruto = tblPromoServ[0].DET / 100 * vlrUnit * qtd;
+                                                        qtdProdQueFaltaDarDesconto -= qtd;
+                                                    }
+                                                    decimal vlrDescRound = vlrDescBruto.RoundABNT();
+                                                    resto += vlrDescRound - vlrDescBruto;
+                                                    prod.prod.vDesc = vlrDescRound.ToString("#0.00");
+                                                    vlrTotDescScannTech += vlrDescBruto;
+                                                }
+                                                break;
+
+                                            case "PRECIO_FIJO":
+                                                {
+                                                    decimal vlrDescBruto;
+                                                    if (qtd >= qtdProdQueFaltaDarDesconto)
+                                                    {
+                                                        vlrDescBruto = (vlrUnit - (tblPromoServ[0].DET / tblPromoServ[0].QTD)) * qtdProdQueFaltaDarDesconto;
+                                                        qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
+                                                    }
+                                                    else
+                                                    {
+                                                        vlrDescBruto = (vlrUnit - (tblPromoServ[0].DET / tblPromoServ[0].QTD)) * qtd;
+                                                        qtdProdQueFaltaDarDesconto -= qtd;
+                                                    }
+
+                                                    decimal vlrDescRound = vlrDescBruto.RoundABNT();
+                                                    resto += vlrDescRound - vlrDescBruto;
+                                                    prod.prod.vDesc = vlrDescRound.ToString("#0.00");
+                                                    vlrTotDescScannTech += vlrDescBruto;
+                                                }
+                                                break;
+
+                                            case "DESCUENTO_FIJO":
+                                                {
+                                                    decimal vlrDescBruto;
+                                                    if (qtd >= qtdProdQueFaltaDarDesconto)
+                                                    {
+                                                        vlrDescBruto = tblPromoServ[0].DET * combosPassados / qtdProdQueReceberãoDesconto * qtdProdQueFaltaDarDesconto;
+                                                        qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
+                                                    }
+                                                    else
+                                                    {
+                                                        vlrDescBruto = tblPromoServ[0].DET * combosPassados / qtdProdQueReceberãoDesconto * qtd;
+                                                        qtdProdQueFaltaDarDesconto -= qtd;
+                                                    }
+                                                    decimal vlrDescRound = vlrDescBruto.RoundABNT();
+                                                    resto += vlrDescRound - vlrDescBruto;
+                                                    prod.prod.vDesc = vlrDescRound.ToString("#0.00");
+                                                    vlrTotDescScannTech += vlrDescBruto;
+                                                }
+                                                break;
+                                        }
+
+                                        #region desativado por enquanto
+                                        //iterador++;
+                                        //if (iterador == iteracoes && resto != 0) //iterando pelo ultimo item da promoção e tem resto, vamos ajustar nele.
+                                        //{
+                                        //    prod.prod.vDesc = resto > 0 ?
+                                        //    (decimal.Parse(prod.prod.vDesc) - Math.Abs(resto)).ToString("F2") :
+                                        //    (decimal.Parse(prod.prod.vDesc) + Math.Abs(resto)).ToString("F2") ;
+                                        //}
+                                        #endregion desativado por enquanto
+
+                                        if (qtdProdQueFaltaDarDesconto == 0)
+                                        {
+                                            prod.prod.vDesc = resto > 0 ?
+                                            (decimal.Parse(prod.prod.vDesc) - Math.Abs(resto)).ToString("F2") :
+                                            (decimal.Parse(prod.prod.vDesc) + Math.Abs(resto)).ToString("F2");
                                             break;
-
-                                        case "DESCUENTO_VARIABLE":
-                                            decimal vlrDescBrutoPorcent;
-                                            if (qtd > qtdProdQueReceberãoDesconto)
-                                            {
-                                                vlrDescBrutoPorcent = tblPromoServ[0].DET / 100 * vlrUnit * (totProdComDesc / qtdProdQueReceberãoDesconto) * qtdProdQueFaltaDarDesconto;
-                                                qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
-                                            }
-                                            else
-                                            {
-                                                vlrDescBrutoPorcent = tblPromoServ[0].DET / 100 * vlrUnit * (totProdComDesc / qtdProdQueReceberãoDesconto) * qtd;
-                                                qtdProdQueFaltaDarDesconto -= qtd;
-                                            }
-                                            decimal vlrDescRoundPorcent = vlrDescBrutoPorcent.RoundABNT();
-                                            resto += vlrDescRoundPorcent - vlrDescBrutoPorcent;
-                                            prod.prod.vDesc = vlrDescRoundPorcent.ToString("#0.00");
-                                            vlrTotDescScannTech += vlrDescBrutoPorcent;
-
-                                            break;
-
-                                        case "PRECIO_FIJO":
-                                            decimal vlrDescBrutoFixo;
-                                            if (qtd > qtdProdQueReceberãoDesconto)
-                                            {
-                                                vlrDescBrutoFixo = (vlrUnit - (tblPromoServ[0].DET / tblPromoServ[0].QTD)) * totProdComDesc / qtdProdQueReceberãoDesconto * qtdProdQueFaltaDarDesconto;
-                                                qtdProdQueFaltaDarDesconto -= qtdProdQueFaltaDarDesconto;
-                                            }
-                                            else
-                                            {
-                                                vlrDescBrutoFixo = (vlrUnit - (tblPromoServ[0].DET / tblPromoServ[0].QTD)) * totProdComDesc / qtdProdQueReceberãoDesconto * qtd;
-                                                qtdProdQueFaltaDarDesconto -= qtd;
-                                            }
-
-                                            decimal vlrDescRoundFixo = vlrDescBrutoFixo.RoundABNT();
-                                            resto += vlrDescRoundFixo - vlrDescBrutoFixo;
-                                            prod.prod.vDesc = vlrDescRoundFixo.ToString("#0.00");
-                                            vlrTotDescScannTech += vlrDescBrutoFixo;
-
-                                            break;
-
-                                    }
-
-                                    #region desativado por enquanto
-                                    //iterador++;
-                                    //if (iterador == iteracoes && resto != 0) //iterando pelo ultimo item da promoção e tem resto, vamos ajustar nele.
-                                    //{
-                                    //    prod.prod.vDesc = resto > 0 ?
-                                    //    (decimal.Parse(prod.prod.vDesc) - Math.Abs(resto)).ToString("F2") :
-                                    //    (decimal.Parse(prod.prod.vDesc) + Math.Abs(resto)).ToString("F2") ;
-                                    //}
-                                    #endregion desativado por enquanto
-
-                                    if (qtdProdQueFaltaDarDesconto == 0)
-                                    {
-                                        prod.prod.vDesc = resto > 0 ?
-                                        (decimal.Parse(prod.prod.vDesc) - Math.Abs(resto)).ToString("F2") :
-                                        (decimal.Parse(prod.prod.vDesc) + Math.Abs(resto)).ToString("F2");
-                                        break;
+                                        }
                                     }
                                 }
+                                void ScannTechAdicional()
+                                {                                    
+                                    using (var tblScannAdicional = new FDBDataSetOperSeed.TRI_SCANN_ADICIONALDataTable())
+                                    using (var taScannAdicional = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                                    {
+                                        taScannAdicional.Connection = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
+                                        taScannAdicional.FillByIdPromo(tblScannAdicional, itens.ID.Safeint());
+
+                                        decimal qtdProdutosParaDarDesconto = combosPassados;
+
+                                        if (tipoPromocao == "ADICIONAL_REGALO") qtdProdutosParaDarDesconto = combosPassados * tblPromoServ[0].DET;
+
+                                        if (tblScannAdicional != null && tblScannAdicional.Rows.Count > 0)
+                                        {
+                                            foreach (var itemAdicional in tblScannAdicional)
+                                            {
+                                                foreach(var itemComDesconto in _listaDets.Where(x => x.prod.cEAN == itemAdicional.CODIGOBARRAS && qtdProdutosParaDarDesconto > 0))
+                                                {
+                                                    decimal vlrUnit = itemComDesconto.prod.vUnCom.Safedecimal();
+                                                    decimal qtdCompra = itemComDesconto.prod.qCom.Safedecimal();
+                                                    decimal vlrDesc = default;
+
+                                                    if (qtdCompra >= qtdProdutosParaDarDesconto) 
+                                                    {
+                                                        vlrDesc = tipoPromocao == "ADICIONAL_DESCUENTO" ? (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtdProdutosParaDarDesconto : vlrUnit * qtdProdutosParaDarDesconto;
+                                                        qtdProdutosParaDarDesconto -= qtdProdutosParaDarDesconto;
+                                                    }
+                                                    else
+                                                    {
+                                                        vlrDesc = tipoPromocao == "ADICIONAL_DESCUENTO" ? (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtdCompra : vlrUnit * qtdCompra;
+                                                        qtdProdutosParaDarDesconto -= qtdCompra;
+                                                    }
+                                                                                                                                                       
+                                                    itemComDesconto.prod.vDesc = vlrDesc.ToString("#0.00");
+                                                    vlrTotDescScannTech += vlrDesc;
+
+                                                    if (qtdProdutosParaDarDesconto == 0) break;                                                    
+                                                }                                                
+                                            }
+                                        }
+                                        else log.Debug("Não foi encontrado item para receber desconto da promoção `ADICIONAL` da ScannTech.");
+                                    }
+                                }
+
                                 log.Debug($"Aplicação de descontos ScannTech, código da promoção: {itens.ID}");
                             }
                         }
@@ -2055,7 +2127,7 @@ namespace PDV_WPF.Objetos
             }
             catch (Exception ex)
             {
-                log.Debug("Erro ao verificar/aplicar promoções ScannTech: " + ex.Message);
+                log.Error("Erro ao verificar/aplicar promoções ScannTech: " + ex.Message);
                 MessageBox.Show("Erro ao verificar promoção ScannTech. Entre em contato com o suporte técnico", "Atenção", MessageBoxButton.OK, MessageBoxImage.Error);
                 return 0;
             }

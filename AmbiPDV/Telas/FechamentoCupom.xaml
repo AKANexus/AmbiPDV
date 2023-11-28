@@ -114,13 +114,13 @@
                     <StackPanel Margin="0" Grid.Row="0">
                         <Label Content="MÉTODO" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                            <TextBox x:Name="txb_Metodo" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" KeyDown="txb_Metodo_KeyDown" HorizontalContentAlignment="Right" TextChanged="Txb_Metodo_TextChanged"/>
+                            <TextBox x:Name="txb_Metodo" MaxLength="3" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" KeyDown="txb_Metodo_KeyDown" HorizontalContentAlignment="Right" TextChanged="Txb_Metodo_TextChanged"/>
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="0" Grid.Row="1">
                         <Label Content="VALOR" FontFamily="Open Sans" FontSize="13" HorizontalAlignment="Left" VerticalAlignment="Bottom" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Foreground="#FF4D4D4D" Padding="0,0,5,0"/>
                         <StackPanel Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" >
-                            <nexusControls:NexusCurrencyBox Language="pt-BR" x:Name="txb_Valor" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" TextChanged="Txb_Valor_TextChanged" KeyDown="txb_Valor_KeyDown" EnterToMoveNext="False" />
+                            <nexusControls:NexusCurrencyBox MaxLength="12" Language="pt-BR" x:Name="txb_Valor" Width="100" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="18" Padding="3" TextChanged="Txb_Valor_TextChanged" KeyDown="txb_Valor_KeyDown" EnterToMoveNext="False" />
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Margin="0" Grid.Row="2" Name="stp_Parcelas" Visibility="Visible">

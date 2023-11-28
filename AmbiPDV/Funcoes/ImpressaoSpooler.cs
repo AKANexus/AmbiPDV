@@ -1120,7 +1120,7 @@ namespace PDV_WPF
                 {
                     log.Debug($"metodo {metodo},valoresOperacinais: {valoresOperacionais}");
                     decimal valorInformado = GetValorMetodoFromOper(fecha_infor_dt[0], metodo.ID_FMANFCE);
-                    if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17") && USATEF)
+                    if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17" || metodo.COD_CFE == "10" || metodo.COD_CFE == "11") && USATEF)
                     {
                         valorInformado = metodo.VALOR;
                     }

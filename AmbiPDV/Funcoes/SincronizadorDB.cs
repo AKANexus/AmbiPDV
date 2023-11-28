@@ -4568,7 +4568,8 @@ namespace PDV_WPF.Funcoes
                                                                                                                  promoItensServ.IDPROMOCAO,
                                                                                                                  promoItensServ.PRODUTONOME,
                                                                                                                  promoItensServ.CODIGOBARRAS,
-                                                                                                                 operacao);
+                                                                                                                 operacao,
+                                                                                                                 "TB_PROMOCOES_ITENS");
                                                     if (retorno.Equals(1)) ConfirmarAuxSync(promoItensServ.ID, "TB_PROMOCOES_ITENS", operacao, NO_CAIXA);
                                                     else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
                                                 }
@@ -4588,7 +4589,7 @@ namespace PDV_WPF.Funcoes
                                     int.TryParse(id_sync, out int id);
 
                                     taPromoItensPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
-                                    retorno = (int)taPromoItensPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao);
+                                    retorno = (int)taPromoItensPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao, "TB_PROMOCOES_ITENS");
 
                                     if (retorno.Equals(1)) ConfirmarAuxSync(id, "TB_PROMOCOES_ITENS", operacao, NO_CAIXA);
                                     else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
@@ -4604,6 +4605,75 @@ namespace PDV_WPF.Funcoes
             }
         }
 
+        public void Sync_TRI_SCANN_ADICIONAL(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblPromoAdicionalServ = new FDBDataSetOperSeed.TRI_SCANN_ADICIONALDataTable())
+            {
+                try
+                {
+                    int retorno = 0;
+                    DataRow[] pendentesPromosAdicional = dtAuxSyncPendentes.Select($"TABELA = 'TRI_SCANN_ADICIONAL'");
+                    for (int i = 0; i < pendentesPromosAdicional.Length; i++)
+                    {
+                        var id_sync = pendentesPromosAdicional[i]["ID_REG"].Safestring();
+                        var operacao = pendentesPromosAdicional[i]["OPERACAO"].Safestring();
+                        var NO_CAIXA = pendentesPromosAdicional[i]["NO_CAIXA"].Safeshort();
+
+                        if (operacao.Equals("U") || operacao.Equals("I"))
+                        {
+                            // Buscar o registro para executar as operações "Insert" ou "Update"
+                            using (var taPromoItensAdicionalServ = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                            {
+                                taPromoItensAdicionalServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;                                
+                                taPromoItensAdicionalServ.FillById(tblPromoAdicionalServ, id_sync.Safeint());
+                                if (tblPromoAdicionalServ != null && tblPromoAdicionalServ.Rows.Count > 0)
+                                {
+                                    using (var taPromoItensAdicionalPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                                    {
+                                        try
+                                        {
+                                            taPromoItensAdicionalPdv.Connection = fbConnPdv;
+                                            foreach (FDBDataSetOperSeed.TRI_SCANN_ADICIONALRow ItensAdicionalServ in tblPromoAdicionalServ)
+                                            {
+                                                retorno = (int)taPromoItensAdicionalPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(ItensAdicionalServ.ID,
+                                                                                                                      ItensAdicionalServ.IDPROMOCAO,
+                                                                                                                      ItensAdicionalServ.PRODUTONOME,
+                                                                                                                      ItensAdicionalServ.CODIGOBARRAS,
+                                                                                                                      operacao,
+                                                                                                                      "TRI_SCANN_ADICIONAL");
+                                                if (retorno.Equals(1)) ConfirmarAuxSync(ItensAdicionalServ.ID, "TRI_SCANN_ADICIONAL", operacao, NO_CAIXA);
+                                                else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Debug("Erro ao tentar sincronizar insert ou update da TRI_SCANN_ADICIONAL para base local, segue erro: " + ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (operacao.Equals("D"))
+                        {
+                            using (var taPromoItensAdicionalPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                            {
+                                var id = id_sync.Safeint();
+                                taPromoItensAdicionalPdv.Connection = fbConnPdv;
+                                retorno = (int)taPromoItensAdicionalPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao, "TRI_SCANN_ADICIONAL");
+
+                                if (retorno.Equals(1)) ConfirmarAuxSync(id, "TRI_SCANN_ADICIONAL", operacao, NO_CAIXA);
+                                else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TRI_SCANN_ADICIONAL, erro: " + ex);
+                }
+            }
+        }
+
         public void Sync_TB_MOTIVO_DESO_SIS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
         {
             using (var tblMotivoDesoServ = new FDBDataSetOperSeed.TB_MOTIVO_DESO_SISDataTable())
@@ -4615,10 +4685,10 @@ namespace PDV_WPF.Funcoes
                     for (int i = 0; i < pendentesMotivoDeso.Length; i++)
                     {
                         var idMotivoDeso = pendentesMotivoDeso[i]["ID_REG"].Safeint();
-                        var operacao = pendentesMotivoDeso[i]["OPERACAO"].Safestring();                        
+                        var operacao = pendentesMotivoDeso[i]["OPERACAO"].Safestring();
 
                         if (operacao.Equals("U") || operacao.Equals("I"))
-                        {                            
+                        {
                             using (var taMotivoDesoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
                             {
                                 taMotivoDesoServ.Connection = fbConnServ;
@@ -4632,7 +4702,7 @@ namespace PDV_WPF.Funcoes
                                             taMotivoDesoPdv.Connection = fbConnPdv;
                                             foreach (FDBDataSetOperSeed.TB_MOTIVO_DESO_SISRow motivoDeso in tblMotivoDesoServ)
                                             {
-                                                switch(operacao)
+                                                switch (operacao)
                                                 {
                                                     case "I":
                                                         retornoUpSert = taMotivoDesoPdv.Insert(motivoDeso.ID_MOTIVO_DESO, motivoDeso.DESCRICAO);
@@ -4642,7 +4712,7 @@ namespace PDV_WPF.Funcoes
                                                         break;
                                                 }
 
-                                                if(retornoUpSert != 0)
+                                                if (retornoUpSert != 0)
                                                     ConfirmarAuxSync(motivoDeso.ID_MOTIVO_DESO,
                                                                      "TB_MOTIVO_DESO_SIS",
                                                                      operacao,
@@ -4664,11 +4734,11 @@ namespace PDV_WPF.Funcoes
                                 taMotivoDesoPdv.Connection = fbConnPdv;
                                 retornoUpSert = taMotivoDesoPdv.DeleteByUpdate(idMotivoDeso);
 
-                                if (retornoUpSert != 0) 
+                                if (retornoUpSert != 0)
                                     ConfirmarAuxSync(idMotivoDeso,
-                                                    "TB_MOTIVO_DESO_SIS", 
+                                                    "TB_MOTIVO_DESO_SIS",
                                                     operacao,
-                                                    shtNumCaixa);                                
+                                                    shtNumCaixa);
                             }
                         }
                     }
@@ -8819,10 +8889,20 @@ namespace PDV_WPF.Funcoes
                     }
                     try
                     {
-                        Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa); 
+                        Sync_TRI_SCANN_ADICIONAL(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TRI_SCANN_ADICIONAL sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TRI_SCANN_ADICIONAL", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TRI_SCANN_ADICIONAL", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
                         log.Debug("Sync_TB_MOTIVO_DESO_SIS sincronizados");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);

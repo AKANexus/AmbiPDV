@@ -403,7 +403,7 @@ namespace PDV_WPF.Telas
             if (e.status == StatusTEF.Confirmado)
                 try
                 {
-                    AcrescentaMetodoPagamento(e.idMetodo, e.Valor, e.GetStrPgCfe, tefAtual);
+	                AcrescentaMetodoPagamento(idMetodo: e.idMetodo, _valor: e.Valor, strPgCfe: Metodos_DT.First(x => x.ID_FMANFCE == e.idMetodo).ID_NFCE, sitefbox: tefAtual);
                 }
                 catch (Exception ex)
                 {
@@ -753,6 +753,9 @@ namespace PDV_WPF.Telas
 
         private void Txb_Valor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+            log.Debug($"txb_Valor.Value: {txb_Valor.Value}");
+            log.Debug($"valor_a_ser_pago: {valor_a_ser_pago}");
+            log.Debug("Bora arrendondar?");
             if (txb_Valor.Value.RoundABNT() > valor_a_ser_pago.RoundABNT())
             {
                 stp_Troco.Visibility = Visibility.Visible;
