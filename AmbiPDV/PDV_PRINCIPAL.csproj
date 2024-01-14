@@ -751,6 +751,7 @@
     <Compile Include="ViewModels\CaixaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Resource Include="SiTEF\Cheque.txt" />
+    <Resource Include="LogoCliente\logo.png" />
     <Content Include="SiTEF\CliSiTef32I.dll" />
     <Content Include="SiTEF\CliSiTef64I.dll" />
     <Resource Include="SiTEF\LEIAME.TXT" />

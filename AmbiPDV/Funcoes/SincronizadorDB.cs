@@ -7706,39 +7706,32 @@ namespace PDV_WPF.Funcoes
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_CLIENTE", nfvendaCancelPdv.ID_CLIENTE);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
-
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_MODELO", nfvendaCancelPdv.NF_MODELO);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_EMISSAO", nfvendaCancelPdv.DT_EMISSAO);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_SAIDA", nfvendaCancelPdv.IsDT_SAIDANull() ? null : (DateTime?)nfvendaCancelPdv.DT_SAIDA);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pHR_SAIDA", nfvendaCancelPdv.IsHR_SAIDANull() ? null : (TimeSpan?)nfvendaCancelPdv.HR_SAIDA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pESPECIE", nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pTIPO_FRETE", nfvendaCancelPdv.TIPO_FRETE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pESPECIE", nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE);                                                
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_LIQUID", nfvendaCancelPdv.IsPES_LIQUIDNull() ? null : (decimal?)nfvendaCancelPdv.PES_LIQUID);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_BRUTO", nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSTATUS", nfvendaCancelPdv.STATUS);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENT_SAI", nfvendaCancelPdv.ENT_SAI);
-
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_BRUTO", nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO);                                                                                               
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_FMAPGTO", nfvendaCancelPdv.ID_FMAPGTO);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_PARCELA", nfvendaCancelPdv.ID_PARCELA);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pMARCA", nfvendaCancelPdv.IsMARCANull() ? null : nfvendaCancelPdv.MARCA);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pQTD_VOLUM", nfvendaCancelPdv.IsQTD_VOLUMNull() ? null : (decimal?)nfvendaCancelPdv.QTD_VOLUM);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNUM_VOLUM", nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPROD_REV", nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSOMA_FRETE", nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNUM_VOLUM", nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM);                                                                                              
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pVLR_TROCO", nfvendaCancelPdv.IsVLR_TROCONull() ? null : (decimal?)nfvendaCancelPdv.VLR_TROCO);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_PRES", nfvendaCancelPdv.IsIND_PRESNull() ? null : nfvendaCancelPdv.IND_PRES);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_IE_DEST", nfvendaCancelPdv.IsIND_IE_DESTNull() ? null : nfvendaCancelPdv.IND_IE_DEST);
-
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvendaCancelPdv.DESCONTO_CONDICIONAL);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_FIXA", nfvendaCancelPdv.IsINF_COMP_FIXANull() ? null : nfvendaCancelPdv.INF_COMP_FIXA);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_EDIT", nfvendaCancelPdv.IsINF_COMP_EDITNull() ? null : nfvendaCancelPdv.INF_COMP_EDIT);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENDERECO_ENTREGA", nfvendaCancelPdv.ENDERECO_ENTREGA);
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENVIO_API", nfvendaCancelPdv.IsENVIO_APINull() ? null : (DateTime?)nfvendaCancelPdv.ENVIO_API);
-
                                                 fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSYNCED", 2);
-
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSOMA_FRETE", nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPROD_REV", nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSTATUS", nfvendaCancelPdv.STATUS);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENT_SAI", nfvendaCancelPdv.ENT_SAI);
+                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pTIPOajuFRETE", nfvendaCancelPdv.TIPO_FRETE);
                                                 #endregion Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
 
                                                 // Executa a sproc

@@ -56,11 +56,14 @@ namespace PDV_WPF
                         using (var PEDIDO_PROD_TB = new DataSets.FDBDataSetOperSeed.TB_PED_VENDA_ITEMDataTable())
                         {
                             PEDIDO_PROD_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
-                            PEDIDO_PROD_TA.FillByIdPedido(PEDIDO_PROD_TB, ID_PEDIDO: orcamento);
+                            PEDIDO_PROD_TA.FillByIdPedido(dataTable: PEDIDO_PROD_TB, ID_PEDIDO: orcamento);
                             if (PEDIDO_PROD_TB.Rows.Count > 0)
                             {
+                                int numProduto = 1;
                                 foreach (var item in PEDIDO_PROD_TB)
                                 {
+                                    numProduto++;
+
                                     var Produto = new Orcamento_Produto
                                     {
                                         ID_PRODUTO = item.ID_ITEMPED,
@@ -70,7 +73,7 @@ namespace PDV_WPF
                                         DESCONTO = item.VLR_DESC,
                                         VALOR_TOT = item.VLR_TOTAL,
                                         ID_ORCAMENTO = item.ID_PEDIDO,
-                                        NUM_PRODUTO = item.ID_SEQUENCIA_DAV 
+                                        NUM_PRODUTO = item.IsID_SEQUENCIA_DAVNull() ? numProduto : item.ID_SEQUENCIA_DAV
                                     };
                                     produtos.Add(Produto);
                                 }
@@ -80,9 +83,9 @@ namespace PDV_WPF
                     }
                     catch (Exception ex)
                     {
-                        logErroAntigo(RetornarMensagemErro(ex, true));
-                        MessageBox.Show($"Erro ao pescar itens do pedido.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        return false;
+                        logErroAntigo(RetornarMensagemErro(ex, true));                        
+                        MessageBox.Show($"Erro ao pescar itens do pedido.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);                        
+                        throw;
                     }
                     break;                
                 case "AmbiOrcamento":
@@ -115,10 +118,10 @@ namespace PDV_WPF
                             else { return false; }
                         }
                         catch (Exception ex)
-                        {
+                        {                            
                             logErroAntigo(RetornarMensagemErro(ex, true));
                             MessageBox.Show($"Erro ao pescar itens do orçamento.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                            return false;
+                            throw;
                         }
                     }
                     break;

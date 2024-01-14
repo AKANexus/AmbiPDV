@@ -40,6 +40,7 @@ using static PDV_WPF.Funcoes.Statics;
 using ECF = PDV_WPF.FuncoesECF;
 using WinForms = System.Windows.Forms;
 using System.Runtime.CompilerServices;
+using System.Reflection;
 
 namespace PDV_WPF.Telas
 {
@@ -527,6 +528,16 @@ namespace PDV_WPF.Telas
                 richTextBox1.Margin = new Thickness(0, 10, 40, 10);
                 richTextBox1.FontSize = 22.6;
             }
+
+            if(File.Exists(@$"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\LogoCliente\logo.png"))
+            {
+                BitmapImage logoClient = new BitmapImage();
+                logoClient.BeginInit();
+                logoClient.UriSource = new Uri(@$"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\LogoCliente\logo.png");
+                logoClient.CacheOption = BitmapCacheOption.OnLoad;
+                logoClient.EndInit();
+                logoplaceholder.Source = logoClient;
+            }            
 
             combobox.MinimumPrefixLength = PREFIX_LISTBOX;
             combobox.FilterMode = (AutoCompleteFilterMode)ACFILLMODE;
@@ -5077,12 +5088,7 @@ namespace PDV_WPF.Telas
                 _tipo = pegaID.tipo;
             }
 
-        }
-
-        private void but_F3_MouseEnter(object sender, MouseEventArgs e)
-        {
-
-        }
+        }       
 
         /// <summary>
         /// Abre a janela pedindo o vendedor
@@ -5969,7 +5975,7 @@ namespace PDV_WPF.Telas
             if (retorno.Length < 2)
             {
                 erroVenda = true;
-                log.Debug($"Retorno do SAT era invalido. Retorno: {retorno}");
+                log.Debug($"Retorno do SAT era invalido. Retorno: {string.Join("|", retorno)}");
                 DialogBox.Show("SAT", DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_GENERICO_SAT);
                 return false;
             }
