@@ -144,9 +144,10 @@ namespace PDV_WPF.Telas
                             {
                                 using (var taClientePf = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter())
                                 {
+                                    string customerCpf = $"{txb_Cpf.Text.Substring(0, 3)}.{txb_Cpf.Text.Substring(3,3)}.{txb_Cpf.Text.Substring(6,3)}.{txb_Cpf.Text.Substring(9,2)}"; 
                                     taClientePf.Connection = connectionServ;
                                     taClientePf.Transaction = transactionServ;
-                                    taClientePf.InsertCustomerPf(ID_CLIENTE: idCliente, CPF: txb_Cpf.Text);
+                                    taClientePf.InsertCustomerPf(ID_CLIENTE: idCliente, CPF: customerCpf);
                                 }
                             }
                             else if (txb_Cpf.Text.Length == 14)
