@@ -615,6 +615,9 @@
     <Compile Include="Telas\Caixa.xaml.cs">
       <DependentUpon>Caixa.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\ClienteDuepay.xaml.cs">
+      <DependentUpon>ClienteDuepay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\ConsultaAvancada.xaml.cs">
       <DependentUpon>ConsultaAvancada.xaml</DependentUpon>
     </Compile>
@@ -875,6 +878,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Telas\Caixa.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\ClienteDuepay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

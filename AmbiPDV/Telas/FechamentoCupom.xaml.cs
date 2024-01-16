@@ -62,12 +62,13 @@ namespace PDV_WPF.Telas
         public readonly decimal _vlrTotalVenda; public decimal descNaVenda = 0;
         private readonly bool _scannTech;
         private bool fechouManualmente;
+        private readonly string _identificacaoConsumidor;
 
         #endregion Fields & Properties
 
         #region (De)Constructor
 
-        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false, bool scannTech = false)
+        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, string identificacaoConsumidor, bool modoTeste = false, bool scannTech = false)
         {
             _vlrTotalVenda = vlrTotalVenda;
             _desconto_maximo = desconto_maximo;
@@ -78,6 +79,7 @@ namespace PDV_WPF.Telas
             //tefAtual = tEFAtual;
             _vendaAtual = vendaAtual;
             _scannTech = scannTech;
+            _identificacaoConsumidor = identificacaoConsumidor;
         }
 
         /// <summary>
@@ -381,7 +383,7 @@ namespace PDV_WPF.Telas
                             return;
                     }
                 }
-            }
+            }            
 
             if (strPgCfe == "17")
             {
@@ -394,6 +396,13 @@ namespace PDV_WPF.Telas
                     return;
                 }
             }
+
+            if (strPgCfe == "19")
+            {
+                var clienteDuepay = new ClienteDuepay(_identificacaoConsumidor);
+                clienteDuepay.ShowDialog();
+            }
+
             AcrescentaMetodoPagamento(idMetodo, _valor, strPgCfe);
         }
 

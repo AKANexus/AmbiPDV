@@ -2782,8 +2782,8 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                #endregion AmbiMAITRE                
-                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, subtotal, ref vendaAtual, _modoTeste, scannTech)
+                #endregion AmbiMAITRE                                
+                var fechamento = new FechamentoCupom(DESCONTO_MAXIMO, subtotal, ref vendaAtual, identificacaoConsumidor: infoStr, _modoTeste, scannTech)
                 {
                     //valor_venda = subtotal,
                     _info_int = infoStr,
@@ -3005,6 +3005,7 @@ namespace PDV_WPF.Telas
                             { "11", "Vale Refeição" },
                             { "13", "Vale Combustível" },
                             { "17", "PIX" },
+                            { "19", "DuePay Créd. Virtual" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             var cFeDeRetorno = vendaAtual.RetornaCFe();
@@ -3930,6 +3931,7 @@ namespace PDV_WPF.Telas
                             { "11", "Vale Refeição" },
                             { "13", "Vale Combustível" },
                             { "17", "PIX" },
+                            { "19", "DuePay Créd. Virtual" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             int venda_prazo = 0;
