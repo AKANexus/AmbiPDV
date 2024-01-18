@@ -40292,7 +40292,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[9];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[10];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_NFVENDA WHERE NF_MODELO = \'59\'";
@@ -40356,32 +40356,171 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection[5].Parameters.Add(param);
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;
-            this._commandCollection[6].CommandText = "\"SP_TRI_UPDATE_NF_TO_F\"";
+            this._commandCollection[6].CommandText = "\"SP_TRI_NFV_UPDT_BYNFNUMSERIE\"";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PNEW_NF_NUMERO";
+            param.ParameterName = "PID_NATOPE";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PNEW_NF_SERIE";
+            param.ParameterName = "PID_VENDEDOR";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PID_CLIENTE";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNF_NUMERO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNF_SERIE";
             param.Size = 3;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PNEW_DT_SAIDA";
+            param.ParameterName = "PNF_MODELO";
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PDT_EMISSAO";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "PNEW_HR_SAIDA";
+            param.ParameterName = "PDT_SAIDA";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PHR_SAIDA";
             param.DbType = global::System.Data.DbType.Object;
             param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PESPECIE";
+            param.Size = 15;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PPES_LIQUID";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PPES_BRUTO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PID_FMAPGTO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PID_PARCELA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PMARCA";
+            param.Size = 15;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PQTD_VOLUM";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNUM_VOLUM";
+            param.Size = 15;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PVLR_TROCO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PIND_PRES";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PIND_IE_DEST";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PDESCONTO_CONDICIONAL";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PINF_COMP_FIXA";
+            param.DbType = global::System.Data.DbType.Binary;
+            param.Size = 2147483647;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PINF_COMP_EDIT";
+            param.DbType = global::System.Data.DbType.Binary;
+            param.Size = 2147483647;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PENDERECO_ENTREGA";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PENVIO_API";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
@@ -40393,34 +40532,102 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "POLD_NF_NUMERO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 4;
+            param.ParameterName = "PSOMA_FRETE";
+            param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "POLD_NF_SERIE";
-            param.Size = 3;
+            param.ParameterName = "PPROD_REV";
+            param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "POLD_NF_MODELO";
-            param.Size = 2;
+            param.ParameterName = "PSTATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PENT_SAI";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[6].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PTIPO_FRETE";
+            param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[6].Parameters.Add(param);
             this._commandCollection[7] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[7].Connection = this.Connection;
-            this._commandCollection[7].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 1\r\nWHERE        (STATUS = \'E" +
-                "\') OR\r\n                         (STATUS = \'I\')";
-            this._commandCollection[7].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[7].CommandText = "\"SP_TRI_UPDATE_NF_TO_F\"";
+            this._commandCollection[7].CommandType = global::System.Data.CommandType.StoredProcedure;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNEW_NF_NUMERO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNEW_NF_SERIE";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNEW_DT_SAIDA";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PNEW_HR_SAIDA";
+            param.DbType = global::System.Data.DbType.Object;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PSYNCED";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "POLD_NF_NUMERO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "POLD_NF_SERIE";
+            param.Size = 3;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "POLD_NF_MODELO";
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
             this._commandCollection[8] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[8].Connection = this.Connection;
-            this._commandCollection[8].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 2\r\nWHERE        (STATUS = \'C" +
-                "\') OR\r\n                         (STATUS = \'X\')";
+            this._commandCollection[8].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 1\r\nWHERE        (STATUS = \'E" +
+                "\') OR\r\n                         (STATUS = \'I\')";
             this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[9] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[9].Connection = this.Connection;
+            this._commandCollection[9].CommandText = "UPDATE       TB_NFVENDA\r\nSET                SYNCED = 2\r\nWHERE        (STATUS = \'C" +
+                "\') OR\r\n                         (STATUS = \'X\')";
+            this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -41522,8 +41729,247 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object SP_TRI_UPDATE_NF_TO_F(global::System.Nullable<int> PNEW_NF_NUMERO, string PNEW_NF_SERIE, global::System.Nullable<global::System.DateTime> PNEW_DT_SAIDA, object PNEW_HR_SAIDA, global::System.Nullable<short> PSYNCED, global::System.Nullable<int> POLD_NF_NUMERO, string POLD_NF_SERIE, string POLD_NF_MODELO) {
+        public virtual int SP_TRI_NFV_UPDT_BYNFNUMSERIE(
+                    global::System.Nullable<int> PID_NATOPE, 
+                    global::System.Nullable<short> PID_VENDEDOR, 
+                    global::System.Nullable<int> PID_CLIENTE, 
+                    global::System.Nullable<int> PNF_NUMERO, 
+                    string PNF_SERIE, 
+                    string PNF_MODELO, 
+                    global::System.Nullable<global::System.DateTime> PDT_EMISSAO, 
+                    global::System.Nullable<global::System.DateTime> PDT_SAIDA, 
+                    object PHR_SAIDA, 
+                    string PESPECIE, 
+                    global::System.Nullable<decimal> PPES_LIQUID, 
+                    global::System.Nullable<decimal> PPES_BRUTO, 
+                    global::System.Nullable<short> PID_FMAPGTO, 
+                    global::System.Nullable<short> PID_PARCELA, 
+                    string PMARCA, 
+                    global::System.Nullable<decimal> PQTD_VOLUM, 
+                    string PNUM_VOLUM, 
+                    global::System.Nullable<decimal> PVLR_TROCO, 
+                    string PIND_PRES, 
+                    string PIND_IE_DEST, 
+                    string PDESCONTO_CONDICIONAL, 
+                    byte[] PINF_COMP_FIXA, 
+                    byte[] PINF_COMP_EDIT, 
+                    string PENDERECO_ENTREGA, 
+                    global::System.Nullable<global::System.DateTime> PENVIO_API, 
+                    global::System.Nullable<short> PSYNCED, 
+                    string PSOMA_FRETE, 
+                    string PPROD_REV, 
+                    string PSTATUS, 
+                    string PENT_SAI, 
+                    string PTIPO_FRETE) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[6];
+            if ((PID_NATOPE.HasValue == true)) {
+                command.Parameters[0].Value = ((int)(PID_NATOPE.Value));
+            }
+            else {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            if ((PID_VENDEDOR.HasValue == true)) {
+                command.Parameters[1].Value = ((short)(PID_VENDEDOR.Value));
+            }
+            else {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            if ((PID_CLIENTE.HasValue == true)) {
+                command.Parameters[2].Value = ((int)(PID_CLIENTE.Value));
+            }
+            else {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            if ((PNF_NUMERO.HasValue == true)) {
+                command.Parameters[3].Value = ((int)(PNF_NUMERO.Value));
+            }
+            else {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((PNF_SERIE == null)) {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[4].Value = ((string)(PNF_SERIE));
+            }
+            if ((PNF_MODELO == null)) {
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[5].Value = ((string)(PNF_MODELO));
+            }
+            if ((PDT_EMISSAO.HasValue == true)) {
+                command.Parameters[6].Value = ((System.DateTime)(PDT_EMISSAO.Value));
+            }
+            else {
+                command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((PDT_SAIDA.HasValue == true)) {
+                command.Parameters[7].Value = ((System.DateTime)(PDT_SAIDA.Value));
+            }
+            else {
+                command.Parameters[7].Value = global::System.DBNull.Value;
+            }
+            if ((PHR_SAIDA == null)) {
+                command.Parameters[8].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[8].Value = ((object)(PHR_SAIDA));
+            }
+            if ((PESPECIE == null)) {
+                command.Parameters[9].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[9].Value = ((string)(PESPECIE));
+            }
+            if ((PPES_LIQUID.HasValue == true)) {
+                command.Parameters[10].Value = ((decimal)(PPES_LIQUID.Value));
+            }
+            else {
+                command.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((PPES_BRUTO.HasValue == true)) {
+                command.Parameters[11].Value = ((decimal)(PPES_BRUTO.Value));
+            }
+            else {
+                command.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            if ((PID_FMAPGTO.HasValue == true)) {
+                command.Parameters[12].Value = ((short)(PID_FMAPGTO.Value));
+            }
+            else {
+                command.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            if ((PID_PARCELA.HasValue == true)) {
+                command.Parameters[13].Value = ((short)(PID_PARCELA.Value));
+            }
+            else {
+                command.Parameters[13].Value = global::System.DBNull.Value;
+            }
+            if ((PMARCA == null)) {
+                command.Parameters[14].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[14].Value = ((string)(PMARCA));
+            }
+            if ((PQTD_VOLUM.HasValue == true)) {
+                command.Parameters[15].Value = ((decimal)(PQTD_VOLUM.Value));
+            }
+            else {
+                command.Parameters[15].Value = global::System.DBNull.Value;
+            }
+            if ((PNUM_VOLUM == null)) {
+                command.Parameters[16].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[16].Value = ((string)(PNUM_VOLUM));
+            }
+            if ((PVLR_TROCO.HasValue == true)) {
+                command.Parameters[17].Value = ((decimal)(PVLR_TROCO.Value));
+            }
+            else {
+                command.Parameters[17].Value = global::System.DBNull.Value;
+            }
+            if ((PIND_PRES == null)) {
+                command.Parameters[18].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[18].Value = ((string)(PIND_PRES));
+            }
+            if ((PIND_IE_DEST == null)) {
+                command.Parameters[19].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[19].Value = ((string)(PIND_IE_DEST));
+            }
+            if ((PDESCONTO_CONDICIONAL == null)) {
+                command.Parameters[20].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[20].Value = ((string)(PDESCONTO_CONDICIONAL));
+            }
+            if ((PINF_COMP_FIXA == null)) {
+                command.Parameters[21].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[21].Value = ((byte[])(PINF_COMP_FIXA));
+            }
+            if ((PINF_COMP_EDIT == null)) {
+                command.Parameters[22].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[22].Value = ((byte[])(PINF_COMP_EDIT));
+            }
+            if ((PENDERECO_ENTREGA == null)) {
+                command.Parameters[23].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[23].Value = ((string)(PENDERECO_ENTREGA));
+            }
+            if ((PENVIO_API.HasValue == true)) {
+                command.Parameters[24].Value = ((System.DateTime)(PENVIO_API.Value));
+            }
+            else {
+                command.Parameters[24].Value = global::System.DBNull.Value;
+            }
+            if ((PSYNCED.HasValue == true)) {
+                command.Parameters[25].Value = ((short)(PSYNCED.Value));
+            }
+            else {
+                command.Parameters[25].Value = global::System.DBNull.Value;
+            }
+            if ((PSOMA_FRETE == null)) {
+                command.Parameters[26].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[26].Value = ((string)(PSOMA_FRETE));
+            }
+            if ((PPROD_REV == null)) {
+                command.Parameters[27].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[27].Value = ((string)(PPROD_REV));
+            }
+            if ((PSTATUS == null)) {
+                command.Parameters[28].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[28].Value = ((string)(PSTATUS));
+            }
+            if ((PENT_SAI == null)) {
+                command.Parameters[29].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[29].Value = ((string)(PENT_SAI));
+            }
+            if ((PTIPO_FRETE == null)) {
+                command.Parameters[30].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[30].Value = ((string)(PTIPO_FRETE));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual object SP_TRI_UPDATE_NF_TO_F(global::System.Nullable<int> PNEW_NF_NUMERO, string PNEW_NF_SERIE, global::System.Nullable<global::System.DateTime> PNEW_DT_SAIDA, object PNEW_HR_SAIDA, global::System.Nullable<short> PSYNCED, global::System.Nullable<int> POLD_NF_NUMERO, string POLD_NF_SERIE, string POLD_NF_MODELO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
             if ((PNEW_NF_NUMERO.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(PNEW_NF_NUMERO.Value));
             }
@@ -41600,7 +42046,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateSyncedAll1() {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[8];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -41623,7 +42069,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int UpdateSyncedAll2() {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[8];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[9];
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {

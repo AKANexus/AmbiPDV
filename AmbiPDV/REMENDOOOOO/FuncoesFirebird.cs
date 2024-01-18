@@ -104,13 +104,12 @@ namespace PDV_WPF.REMENDOOOOO
 
                 modelo = iteracao == 2 ? null : "N";
 
-                //if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
-                //else 
-                commandNF.CommandText = "SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A " +
-                                        "INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA " +
-                                        $"WHERE B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}' " +
-                                        $"AND (B.DT_EMISSAO > '{DT_ABERTURA:yyyy-MM-dd}' OR (B.DT_EMISSAO = '{DT_ABERTURA:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH-mm-ss}')) " +
-                                        $"AND (B.DT_EMISSAO < '{DT_FECHAMENTO:yyyy-MM-dd}' OR (B.DT_EMISSAO = '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA <= '{DT_FECHAMENTO:HH-mm-ss}'))";
+                if (DT_ABERTURA.Day == DateTime.Now.Day) commandNF.CommandText = $"SELECT SUM(A.VLR_PAGTO) FROM TB_NFVENDA_FMAPAGTO_NFCE A INNER JOIN TB_NFVENDA B ON A.ID_NFVENDA = B.ID_NFVENDA WHERE B.DT_SAIDA BETWEEN '{DT_ABERTURA:yyyy-MM-dd}' AND '{DT_FECHAMENTO:yyyy-MM-dd}' AND B.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}' AND B.STATUS = 'I' AND A.ID_FMANFCE = {INT_FMANFCE} AND B.NF_SERIE = '{modelo}{STR_SERIE}'";
+                else
+                    commandNF.CommandText = "SELECT SUM(TNFN.VLR_PAGTO) FROM TB_NFVENDA TN JOIN TB_NFVENDA_FMAPAGTO_NFCE TNFN ON TN.ID_NFVENDA = TNFN.ID_NFVENDA " +
+                                           $"WHERE ((TN.DT_SAIDA  = '{DT_ABERTURA:yyyy-MM-dd}' AND TN.HR_SAIDA >= '{DT_ABERTURA:HH:mm:ss}') OR (TN.DT_SAIDA > '{DT_ABERTURA:yyyy-MM-dd}' " +
+                                           $"AND TN.DT_SAIDA < '{DT_FECHAMENTO:yyyy-MM-dd}') OR (TN.DT_SAIDA = '{DT_FECHAMENTO:yyyy-MM-dd}' AND TN.HR_SAIDA <= '{DT_FECHAMENTO:HH:mm:ss}')) " +
+                                           $"AND TN.STATUS = 'I' AND TN.NF_SERIE = '{modelo}{STR_SERIE}' AND TNFN.ID_FMANFCE  = {INT_FMANFCE}";
 
                 try
                 {
