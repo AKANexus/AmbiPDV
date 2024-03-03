@@ -304,6 +304,9 @@ Se o problema persistir entre em contato com o suporte.</value>
     <value>Não foi possivel se comunicar com o aparelho SAT servidor.
 Entre em contato com o suporte.</value>
   </data>
+  <data name="ERRO_VENDA_CLIENTE_DUEPAY" xml:space="preserve">
+    <value>Não foi possivel adicionar o cliente na venda e por conta disso os dados não serão exibidos no cupom.</value>
+  </data>
   <data name="ESTOQUE_VAZIO" xml:space="preserve">
     <value>Estoque Vazio</value>
   </data>

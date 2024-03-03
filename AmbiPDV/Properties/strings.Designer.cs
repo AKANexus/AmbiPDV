@@ -623,6 +623,15 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel adicionar o cliente na venda e por conta disso os dados não serão exibidos no cupom..
+        /// </summary>
+        internal static string ERRO_VENDA_CLIENTE_DUEPAY {
+            get {
+                return ResourceManager.GetString("ERRO_VENDA_CLIENTE_DUEPAY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Estoque Vazio.
         /// </summary>
         internal static string ESTOQUE_VAZIO {

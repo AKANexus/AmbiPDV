@@ -74,7 +74,12 @@ namespace PDV_WPF.Telas
                     TS_Venda = cupomRow.TS_SAIDA,
                     ID_NFVENDA = cupomRow.ID_NFVENDA,
                     NF_SERIE = cupomRow.NF_SERIE,
-                    NF_MODELO = cupomRow.NF_MODELO
+                    NF_MODELO = cupomRow.NF_MODELO,                    
+                    ClienteDuePay = cupomRow.IsOBSERVACAONull() ? null : cupomRow.OBSERVACAO == "CLIENTE DUEPAY" ? new ClienteDuePayDTO(id: cupomRow.ID_CLIENTE, 
+                                                                                                                                        nome: cupomRow.NOME, 
+                                                                                                                                        cpfOrCnpj: cupomRow.IsDOC_CLIENTENull() ? "Doc não informado." : cupomRow.DOC_CLIENTE, 
+                                                                                                                                        telefone: cupomRow.IsTEL_CLIENTENull() ? "Telefone não informado." : cupomRow.TEL_CLIENTE,
+                                                                                                                                        numeroDaSorte: cupomRow.MENSAGEM.Safeint()) : null                 
                 };
                 listaVendas.Add(cupom);
             }
@@ -229,6 +234,7 @@ namespace PDV_WPF.Telas
                     VendaDEMO.operadorStr = "REIMPRESSÃO";
                     VendaDEMO.TsOperacao = cupom.TS_Venda;
                     VendaDEMO.num_caixa = int.Parse(cupom.NF_SERIE.Replace("E", "").Replace("N", ""));
+                    VendaDEMO.RecebeClienteDuepay(cupom.ClienteDuePay);
                     foreach (var item in Itens_DT)
                     {
                         VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, item.VLR_DESC, 0, 0, 0, item.PRC_VENDA);
@@ -297,6 +303,7 @@ namespace PDV_WPF.Telas
                             { "11", "Vale Refeição" },
                             { "17", "PIX" },
                             { "13", "Vale Combustível" },
+                            { "19", "DuePay Créd. Virtual" },
                             { "99", "Outros" }
                         };//Dicionário de métodos de pagamento.
             var cFeDeRetorno = new CFe();
@@ -316,6 +323,9 @@ namespace PDV_WPF.Telas
             string id_dest = "NÃO DECLARADO";
             int.TryParse(cFeDeRetorno.infCFe.ide.nCFe, out int nCFe);
             VendaImpressa.numerodocupom = nCFe;
+            VendaImpressa.operadorStr = "REIMPRESSÃO";
+            VendaImpressa.num_caixa = NO_CAIXA;
+            VendaImpressa.RecebeClienteDuepay(cupom.ClienteDuePay);
             string valorcfe = cFeDeRetorno.infCFe.total.vCFe;
 
 

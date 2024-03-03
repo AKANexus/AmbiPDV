@@ -31,8 +31,8 @@
                 </Border>
                 <TextBox Width="273" FontFamily="Open Sans Semibold" FontSize="19" Padding="5,6" x:Name="txb_Nome" KeyDown="txb_KeyDown"/>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Margin="15,0,0,20">
-                <Label Content="CPF:" VerticalAlignment="Center"></Label>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center"  Margin="-16,0,0,20">
+                <Label Content="CNPJ/CPF:" VerticalAlignment="Center"></Label>
                 <Border Background="#FF09CAAA" Width="40" Height="40">
                     <Canvas HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Path  Fill="#ffffffff" Data="M52.47,13h-.76A3.71,3.71,0,0,0,48,16.71V17a8,8,0,0,1-8,8H24a8,8,0,0,1-8-8v-.3A3.71,3.71,0,0,0,12.29,13h-.76A7.53,7.53,0,0,0,4,20.53V49.47A7.53,7.53,0,0,0,11.53,57H52.47A7.53,7.53,0,0,0,60,49.47V20.53A7.53,7.53,0,0,0,52.47,13ZM25.42,46.58H14.64a2.2,2.2,0,0,1-2.13-2.85,8.27,8.27,0,0,1,5.12-5.3.55.55,0,0,0,.09-1A4.52,4.52,0,0,1,20,29a4.62,4.62,0,0,1,4.5,5,4.51,4.51,0,0,1-2.21,3.41.55.55,0,0,0,.09,1,8.26,8.26,0,0,1,5.16,5.31A2.21,2.21,0,0,1,25.42,46.58Zm16.58,0H34a2,2,0,0,1,0-4h8a2,2,0,0,1,0,4Zm8,0a2,2,0,1,1,2-2A2,2,0,0,1,50,46.58ZM50,37H34a2,2,0,0,1,0-4H50a2,2,0,0,1,0,4Z" Canvas.Left="-14" Canvas.Top="-11" Height="22" Stretch="Fill" Width="28" HorizontalAlignment="Center" VerticalAlignment="Top"/>

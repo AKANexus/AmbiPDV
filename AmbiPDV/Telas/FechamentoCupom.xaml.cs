@@ -399,8 +399,9 @@ namespace PDV_WPF.Telas
 
             if (strPgCfe == "19")
             {
-                var clienteDuepay = new ClienteDuepay(_identificacaoConsumidor);
+                var clienteDuepay = new ClienteDuepay(_identificacaoConsumidor, ref _vendaAtual);
                 clienteDuepay.ShowDialog();
+                id_cliente = clienteDuepay.idCliente;
             }
 
             AcrescentaMetodoPagamento(idMetodo, _valor, strPgCfe);

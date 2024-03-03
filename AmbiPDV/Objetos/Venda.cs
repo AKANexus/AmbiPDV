@@ -17,6 +17,11 @@ using PDV_WPF.DataSets;
 using static PDV_WPF.REMENDOOOOO.FuncoesFirebird;
 using System.Security.Cryptography;
 using System.Windows.Media.Animation;
+using System.Runtime.Remoting;
+using System.Security.Policy;
+using FluentValidation;
+using System.Data;
+using FluentValidation.Results;
 
 namespace PDV_WPF.Objetos
 {
@@ -68,6 +73,7 @@ namespace PDV_WPF.Objetos
         private decimal _valTroco;
         public bool imprimeViaCliente = true;
         private enum TipoPromo { LEVA_PAGA, DESCONTO_VARIADO, PREÇO_FIXO }
+        private ClienteDuePayDTO _clienteDuepay;
 
         public void RecebeCFeDoSAT(CFe cfeDeRetorno)
         {
@@ -219,8 +225,7 @@ namespace PDV_WPF.Objetos
                     _infCfe.dest = new envCFeCFeInfCFeDest()
                     {
                         ItemElementName = tipo,
-                        Item = texto
-
+                        Item = texto != null ? texto.TiraPont() : texto
                     };
                     break;
                 default:
@@ -728,6 +733,24 @@ namespace PDV_WPF.Objetos
             _ISSQNRecebido = true;
         }
 
+        public List<ValidationFailure> SetClienteDuepay(ClienteDuePayDTO cliente)
+        {
+            if(cliente is not null)
+            {
+                ValidationResult result = cliente.Validador.Validate(cliente);
+                if (result.IsValid)
+                {                    
+                    _clienteDuepay = cliente;
+                    return null;
+                }
+                return result.Errors;
+            }
+            return null;
+        }
+        public ClienteDuePayDTO GetClienteDuepay()
+        {
+            return _clienteDuepay;
+        }
         /// <summary>
         /// Adiciona o produto com todas as informações tributárias que foram preenchidas.
         /// </summary>
@@ -1000,7 +1023,8 @@ namespace PDV_WPF.Objetos
                             Convert.ToInt16(detalhamento.nItem),
                             Convert.ToDecimal(detalhamento.prod.qCom, CultureInfo.InvariantCulture),
                             Convert.ToDecimal(detalhamento.prod.vDesc, CultureInfo.InvariantCulture) + Convert.ToDecimal(detalhamento.prod.vRatDesc, CultureInfo.InvariantCulture),
-                            pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, CultureInfo.InvariantCulture));
+                            pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, CultureInfo.InvariantCulture), 
+                            detalhamento.idScannTech);
 
                         if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoICMS)
                         {
@@ -1309,6 +1333,10 @@ namespace PDV_WPF.Objetos
                                 return -1; //deuruim(); ColocarTransacao();
                             }
                         }
+                        if(pagamento.cMP == "19")
+                        {
+                            ID_CLIENTE = pagamento.idCliente;
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -1403,14 +1431,15 @@ namespace PDV_WPF.Objetos
                     int ID_NFV_ITEM;
                     nItemCup = int.Parse(detalhamento.nItem);
                     try
-                    {
+                    {                        
                         string pCSOSN = null;
                         ID_NFV_ITEM = (int)OPER_TA.SP_TRI_GRAVANFVITEM(ID_NFVENDA,
                             Convert.ToInt32(detalhamento.prod.cProd),
                             Convert.ToInt16(detalhamento.nItem),
                             Convert.ToDecimal(detalhamento.prod.qCom, ptBR),
                             Convert.ToDecimal(detalhamento.prod.vDesc, ptBR) + Convert.ToDecimal(detalhamento.prod.vRatDesc, ptBR),
-                            pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, ptBR));
+                            pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, ptBR),
+                            detalhamento.idScannTech);
                     }
                     catch (Exception ex)
                     {
@@ -1629,7 +1658,10 @@ namespace PDV_WPF.Objetos
                                     return (-1, -1);
                                 }
                             }
-
+                            if(pagamento.cMP == "19")
+                            {
+                                ID_CLIENTE = pagamento.idCliente;
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -2140,6 +2172,55 @@ namespace PDV_WPF.Objetos
                 valVenda += (det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal() - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
             }
             return valVenda;
+        }
+    }
+
+    public class ClienteDuePayDTO
+    {
+        public int IdCliente { get; set; }
+        public string Nome { get; set; }
+        public string CpfOrCnpj { get; set; }
+        public string Telefone { get; set; }
+        public int NumeroDaSorte { get; set; }
+        public ClienteDuePayDTOValidator Validador { get; set; } = new();
+
+        public ClienteDuePayDTO(int id, string nome, string cpfOrCnpj, string telefone, int numeroDaSorte)
+        {
+            IdCliente = id;
+            Nome = nome;
+            CpfOrCnpj = cpfOrCnpj; 
+            Telefone = telefone;
+            NumeroDaSorte = numeroDaSorte;
+        }               
+    }
+
+    public class ClienteDuePayDTOValidator : AbstractValidator<ClienteDuePayDTO>
+    {
+        public ClienteDuePayDTOValidator()
+        {
+            RuleFor(x => x.IdCliente)
+                .NotEqual(0)
+                .WithMessage("Id do cliente não pode ser igual a zero");
+
+            RuleFor(x => x.Nome)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Nome do cliente não pode estar em branco");
+
+            RuleFor(x => x.CpfOrCnpj)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("CPF/CNPJ do cliente não pode estar em branco");
+
+            RuleFor(x => x.Telefone)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Telefone do cliente não pode estar em branco");
+
+            RuleFor(x => x.NumeroDaSorte)
+                .NotEqual(0)              
+                .WithMessage("Número da sorte não pode estar em branco");
+
         }
     }
 }

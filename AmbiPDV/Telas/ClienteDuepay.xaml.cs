@@ -8,6 +8,12 @@ using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using PDV_WPF.Properties;
 using System.Text.RegularExpressions;
+using PDV_WPF.Funcoes;
+using PDV_WPF.Objetos;
+using System.Windows.Markup;
+using System.Linq;
+using Clearcove.Logging;
+using FluentValidation.Results;
 
 namespace PDV_WPF.Telas
 {
@@ -16,13 +22,18 @@ namespace PDV_WPF.Telas
     /// </summary>
     public partial class ClienteDuepay : Window
     {
-        private LoadingProccess loadingProccess;
+        private Logger log = new Logger("ClienteDuepay");
+        private LoadingProccess loadingProccess;        
         private readonly string _identificacaoConsumidor;
         private bool cpfOrCnpjJaInformado;
+        private Venda _vendaAtual;
+        private int numberLucky;
+        public int idCliente;
 
-        public ClienteDuepay(string identificacaoConsumidor)
+        public ClienteDuepay(string identificacaoConsumidor, ref Venda vendaAtual)
         {
             _identificacaoConsumidor = identificacaoConsumidor;
+            _vendaAtual = vendaAtual;
             InitializeComponent();
         }
 
@@ -85,7 +96,26 @@ namespace PDV_WPF.Telas
                             loadingProccess.Show();
                             loadingProccess.progress.Report("Gravando dados...");
                             this.IsEnabled = false;
-                            if(!await ChecksIfClientExists(CpfOrCnpj: txb_Cpf.Text)) await SaveCustomerOnBase();
+
+                            (idCliente, numberLucky) = await ChecksIfClientExists(CpfOrCnpj: txb_Cpf.Text.TiraPont());
+                            if (idCliente == 0) 
+                                (idCliente, numberLucky) = await SaveCustomerOnBase();
+
+                            var errors = _vendaAtual.SetClienteDuepay(new ClienteDuePayDTO(id: idCliente,
+                                                                                           nome: txb_Nome.Text,
+                                                                                           cpfOrCnpj: txb_Cpf.Text.TiraPont().ParseToCpfOrCnpj(),
+                                                                                           telefone: txb_Telefone.Text,
+                                                                                           numeroDaSorte: numberLucky));
+                            if (errors != null)
+                            {
+                                foreach(var error in errors)
+                                {
+                                    log.Error($"Erro ao validar cliente duepay.");
+                                    log.Error($"{error}");
+                                }                                
+                                DialogBox.Show("Erro", DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_VENDA_CLIENTE_DUEPAY);
+                            }
+
                             loadingProccess.Close();
                             this.IsEnabled = true;
                         }
@@ -112,17 +142,24 @@ namespace PDV_WPF.Telas
         #endregion Events
 
         #region Methods
-        private async Task SaveCustomerOnBase()
+        private async Task<(int customerIdServ, int luckyNumber)> SaveCustomerOnBase()
         {
-            using (var connectionServ = new FbConnection(MontaStringDeConexao(SERVERNAME, SERVERCATALOG)))
-            {
-                connectionServ.Open();
-                using (var transactionServ = connectionServ.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, 10) }))
-                {
-                    try
-                    {                        
-                        await Task.Delay(2000);                         
+            var retorno = await SaveCustomerOnConnection(SERVERNAME, SERVERCATALOG);
+            return await SaveCustomerOnConnection("localhost", localpath, retorno.customerIdServ, retorno.luckyNumber);
+        }        
 
+        private async Task<(int customerIdServ, int luckyNumber)> SaveCustomerOnConnection(string serverName, string serverCatalog, int idComingFromTheServer = 0, int numberComingFromTheServer = 0)
+        {
+            using (FbConnection connection = new FbConnection(MontaStringDeConexao(serverName, serverCatalog)))
+            {
+                connection.Open();
+
+                using (FbTransaction transaction = connection.BeginTransaction(new FbTransactionOptions() { TransactionBehavior = FbTransactionBehavior.Wait, WaitTimeout = new TimeSpan(0, 0, 10) }))
+                {
+                    await Task.Delay(1000);
+
+                    try
+                    {
                         string ddd = "11";
                         string telefone = txb_Telefone.Text;
 
@@ -132,77 +169,139 @@ namespace PDV_WPF.Telas
                             telefone = txb_Telefone.Text.Substring(2, 9);
                         }
 
-                        using (var taCliente = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter())
-                        {
-                            taCliente.Connection = connectionServ;
-                            taCliente.Transaction = transactionServ;
+                        using (var taCliente = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = connection, Transaction = transaction })
+                        {                            
+                            int newCustomerIdServ = idComingFromTheServer == 0 ? Convert.ToInt32(taCliente.GenTbClienteId()) : idComingFromTheServer;
+                            int newLuckyNumber = numberComingFromTheServer == 0 ? GenerateLuckyNumber(taCliente) : numberComingFromTheServer;
 
-                            taCliente.InsertDuepayCustomer(DT_CADASTRO: DateTime.Now, NOME: txb_Nome.Text, DDD_CELUL: ddd, FONE_CELUL: telefone);
-                            int idCliente = (int)taCliente.SelectLastId();                                                        
+                            taCliente.InsertDuepayCustomer(ID_CLIENTE: newCustomerIdServ, 
+                                                           DT_CADASTRO: DateTime.Now, 
+                                                           NOME: txb_Nome.Text, 
+                                                           MENSAGEM: newLuckyNumber.ToString(), 
+                                                           DDD_CELUL: ddd, 
+                                                           FONE_CELUL: telefone);
 
-                            if (txb_Cpf.Text.Length == 11)
+                            if (txb_Cpf.Text.TiraPont() is string customerCpf && customerCpf.Length == 11)
                             {
-                                using (var taClientePf = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter())
-                                {
-                                    string customerCpf = $"{txb_Cpf.Text.Substring(0, 3)}.{txb_Cpf.Text.Substring(3,3)}.{txb_Cpf.Text.Substring(6,3)}.{txb_Cpf.Text.Substring(9,2)}"; 
-                                    taClientePf.Connection = connectionServ;
-                                    taClientePf.Transaction = transactionServ;
-                                    taClientePf.InsertCustomerPf(ID_CLIENTE: idCliente, CPF: customerCpf);
+                                using (var taClientePf = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter() { Connection = connection, Transaction = transaction })
+                                {                                                                        
+                                    taClientePf.InsertCustomerPf(ID_CLIENTE: newCustomerIdServ, CPF: customerCpf.ParseToCpfOrCnpj());
                                 }
                             }
-                            else if (txb_Cpf.Text.Length == 14)
+                            else if (txb_Cpf.Text.TiraPont() is string customerCnpj && customerCnpj.Length == 14)
                             {
-                                using (var taClientePj = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PJTableAdapter())
-                                {
-                                    taClientePj.Connection = connectionServ;
-                                    taClientePj.Transaction = transactionServ;
-                                    taClientePj.InsertCustomerPj(ID_CLIENTE: idCliente, CNPJ: txb_Cpf.Text);
+                                using (var taClientePj = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PJTableAdapter() { Connection = connection, Transaction = transaction })
+                                {                                                                       
+                                    taClientePj.InsertCustomerPj(ID_CLIENTE: newCustomerIdServ, CNPJ: customerCnpj.ParseToCpfOrCnpj());
                                 }
-                            }                            
+                            }
+                            transaction.Commit();
+                            return (newCustomerIdServ, newLuckyNumber);
                         }
-                        transactionServ.Commit();
                     }
                     catch (Exception ex)
                     {
-                        transactionServ.Rollback();
+                        transaction.Rollback();
                         throw new Exception("Falha:", ex);
                     }
                 }
-            }
+            }           
         }
 
-        private async Task<bool> ChecksIfClientExists(string CpfOrCnpj)
+        private async Task<(int customerIdServ, int luckyNumber)> ChecksIfClientExists(string CpfOrCnpj)
         {
             try
             {
-                await Task.Delay(2000);
+                await Task.Delay(1500);
 
                 if(CpfOrCnpj.Length == 11)
                 {
-                    using(var taClientePf = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter())
-                    {
-                        int CustomerFound = (int)taClientePf.CheckRegisteredCustomerPf(CPF: CpfOrCnpj);
-                        if (CustomerFound > 0) return true;
-                        else return false;
+                    using(var taClientePf = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter() { Connection = new FbConnection(MontaStringDeConexao("localhost", localpath)) })
+                    { 
+                        var customerFound = taClientePf.CheckRegisteredCustomerPf(CPF: CpfOrCnpj.ParseToCpfOrCnpj());
+                        if (customerFound is not null && int.TryParse(customerFound.ToString(), out int id))
+                        {
+                            using(var dtCliente = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable())
+                            using(var taClientePdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = new FbConnection(MontaStringDeConexao("localhost", localpath)) })                            
+                            {
+                                taClientePdv.FillById(dtCliente, id);
+
+                                if (dtCliente.First().IsMENSAGEMNull())
+                                {
+                                    using (var taClienteServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = new FbConnection(MontaStringDeConexao(SERVERNAME, SERVERCATALOG)) })
+                                    {
+                                        int newNumber = GenerateLuckyNumber(taClientePdv);
+                                        taClientePdv.SetMensagemByCliente(MENSAGEM: newNumber.ToString(), ID_CLIENTE: id);
+                                        taClienteServ.SetMensagemByCliente(MENSAGEM: newNumber.ToString(), ID_CLIENTE: id);
+                                        return (id, newNumber);
+                                    }
+                                }
+
+                                if (int.TryParse(dtCliente.Select(x => x.MENSAGEM).FirstOrDefault(), out int savedNumber))                                  
+                                    return (id, savedNumber);                                                                    
+                                else
+                                    return (id, 0);
+                            }                            
+                        }                            
+                        return (0, 0);                        
                     }
                 }
                 else if(CpfOrCnpj.Length == 14)
                 {
-                    using(var taClientePj = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PJTableAdapter())
+                    using(var taClientePj = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PJTableAdapter() { Connection = new FbConnection(MontaStringDeConexao("localhost", localpath)) })
                     {
-                        int CustomerFound = (int)taClientePj.CheckRegisteredCustomerPj(CNPJ: CpfOrCnpj);
-                        if (CustomerFound > 0) return true;
-                        else return false;
+                        var customerFound = taClientePj.CheckRegisteredCustomerPj(CNPJ: CpfOrCnpj.ParseToCpfOrCnpj());
+                        if (customerFound is not null && int.TryParse(customerFound.ToString(), out int id))
+                        {
+                            using (var dtCliente = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable())
+                            using (var taClientePdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = new FbConnection(MontaStringDeConexao("localhost", localpath)) })
+                            {
+                                taClientePdv.FillById(dtCliente, id);
+
+                                if (dtCliente.First().IsMENSAGEMNull())
+                                {
+                                    using (var taClienteServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = new FbConnection(MontaStringDeConexao(SERVERNAME, SERVERCATALOG)) })
+                                    {
+                                        int newNumber = GenerateLuckyNumber(taClientePdv);
+                                        taClientePdv.SetMensagemByCliente(MENSAGEM: newNumber.ToString(), ID_CLIENTE: id);
+                                        taClienteServ.SetMensagemByCliente(MENSAGEM: newNumber.ToString(), ID_CLIENTE: id);
+                                        return (id, newNumber);
+                                    }
+                                }
+                                if (int.TryParse(dtCliente.Select(x => x.MENSAGEM).FirstOrDefault(), out int savedNumber))
+                                    return (id, savedNumber);
+                                else
+                                    return (id, 0); ;
+                            }
+                        }
+                        return (0, 0);                        
                     }
                 }
-
-                return false;
+                return (0, 0);
             }
             catch(Exception ex)
             {
                 throw new Exception("Falha:", ex);                                    
             }
         }
+
+        Func <DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter, int> GenerateLuckyNumber = (taCliente) =>
+        {
+            Random random = new Random();
+            using (var dtCliente = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable())
+            {
+                StartNumberGenerator:
+
+                dtCliente.Clear();
+                int number = random.Next(100000, 999999);
+                taCliente.FillByClienteDuepay(dtCliente, "CLIENTE DUEPAY");
+
+                if (dtCliente != null && dtCliente.Count > 0 && dtCliente.Select($"MENSAGEM = '{number}'").Length > 0)
+                    goto StartNumberGenerator;
+
+                return number;
+            }            
+        };
         #endregion Methods
     }
 }

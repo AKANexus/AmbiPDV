@@ -6525,7 +6525,7 @@ namespace PDV_WPF.Funcoes
                                                             //fbCommNfvItemSyncInsert.Parameters.Add("@pIMP_MANUAL", nfvItem.IsIMP_MANUALNull() ? null : nfvItem.IMP_MANUAL);
                                                             fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_RETENCAO", nfvItem.VLR_RETENCAO);
                                                             fbCommNfvItemSyncInsert.Parameters.Add("@pREFERENCIA", nfvItem.IsREFERENCIANull() ? null : nfvItem.REFERENCIA);
-                                                            //fbCommNfvItemSyncInsert.Parameters.Add("@pCODPROMOSCANNTECH", nfvItem.IsCODPROMOSCANNTECHNull() ? null : (int?)nfvItem.CODPROMOSCANNTECH);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCODPROMOSCANNTECH", nfvItem.IsCODPROMOSCANNTECHNull() ? 0 : (int?)nfvItem.CODPROMOSCANNTECH);
 
 
                                                             #endregion Prepara o comando da SP_TRI_NFVITEM_SYNC_INSERT

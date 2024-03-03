@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
@@ -286,7 +287,15 @@ namespace PDV_WPF.Funcoes
 
             return str.Length <= maxLength ? str : str.Substring(0, maxLength);
         }//Trunca strings acima de maxLength.
+        public static string ParseToCpfOrCnpj(this string str)
+        {
+            if (str.Length == 11)
+                return $"{str.Substring(0, 3)}.{str.Substring(3, 3)}.{str.Substring(6, 3)}-{str.Substring(9, 2)}";
+            if (str.Length == 14) 
+                return $"{str.Substring(0, 2)}.{str.Substring(2, 3)}.{str.Substring(5, 3)}/{str.Substring(8, 4)}-{str.Substring(12, 2)}";
 
+            return "";
+        }
         #endregion
 
         #region OBJECT

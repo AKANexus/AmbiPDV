@@ -1756,12 +1756,17 @@ namespace PDV_WPF.Telas
                 Task executeSyncAsync = Task.Run(() => { ChecarPorContingencia(_contingencia, segundosTolerancia, tipoSync); });
                 if (!executeSyncAsync.Wait(3000))
                 {
-                    log.Debug("Checagem + sincronização ultrapassou o limite de tempo esperado, aguardando retorno(...)");
+                    log.Debug("Checagem + sincronização ultrapassou o tempo esperado, aguardando retorno(...)");
                     log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
                     this.IsEnabled = false;
                     TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                    dialog.Show();
-                    Task.WaitAll(executeSyncAsync);
+                    dialog.Show();                     
+                    if(!executeSyncAsync.Wait(5000))
+                    {
+                        log.Debug("Checagem + sincronização ultrapassou o tempo limite, sistema entrara em modo de contigencia");
+                        funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
+                        _contingencia = true;
+                    }
                     this.IsEnabled = true; dialog.CloseDialog();
                 }
                 log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());
@@ -1796,7 +1801,7 @@ namespace PDV_WPF.Telas
         /// <param name="pContingencia">A contingência estava ativada previamente?</param>
         /// <param name="pTipo">Qual tipo de sincronização deverá ser efetuada, caso o sistema esteja voltando de uma contingência.</param>
         private void ChecarPorContingencia(bool pContingencia, int pSegundosTolerancia, EnmTipoSync pTipo = EnmTipoSync.tudo)
-        {
+        {            
             var funcoes = new funcoesClass();
             bool conectividade;
             log.Debug("Checando conexão com o servidor.");
@@ -2557,6 +2562,7 @@ namespace PDV_WPF.Telas
                     }
                     VendaDEMO.produtos.Clear();
                     VendaDEMO.pagamentos.Clear();
+                    VendaDEMO.clienteDuePay = null;
                 }
                 return;
             }//Caso tente lançar um cupom NF sem configurar uma impressora.
@@ -2567,6 +2573,9 @@ namespace PDV_WPF.Telas
                     erroVenda = true;
                     return;
                 }
+                VendaDEMO.produtos.Clear();
+                VendaDEMO.pagamentos.Clear();
+                VendaDEMO.clienteDuePay = null;
             }
             LimparUltimaVenda();
             log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Não Fiscal(...)");
@@ -2993,6 +3002,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         /// <param name="pFechamento">Fechamento a ser processado</param>
         private bool ImprimeESalvaCupomNaoFiscal(FechamentoCupom pFechamento)
+        
         {
             var _metodos_de_pagamento = new Dictionary<string, string>
                         {
@@ -3014,6 +3024,7 @@ namespace PDV_WPF.Telas
 
             VendaDEMO.operadorStr = operador;
             VendaDEMO.num_caixa = NO_CAIXA;
+            VendaDEMO.RecebeClienteDuepay(vendaAtual.GetClienteDuepay());
 
             //TODO: Permitir vencimento/id_cliente POR MÉTODO DE PAGAMENTO
             //for (int i = 0; i < pFechamento.pagamentos.Count; i++)
@@ -3028,6 +3039,7 @@ namespace PDV_WPF.Telas
             foreach (var item in cFeDeRetorno.infCFe.pgto.MP)
             {
                 if (item.cMP == "05") item.idCliente = pFechamento.id_cliente; item.vencimento = pFechamento.vencimento;
+                if (item.cMP == "19") item.idCliente = pFechamento.id_cliente;
             }
 
 
@@ -3955,7 +3967,9 @@ namespace PDV_WPF.Telas
             string id_dest = "NÃO DECLARADO";
             int.TryParse(cFeDeRetorno.infCFe.ide.nCFe, out int nCFe);
             VendaImpressa.numerodocupom = nCFe;
-
+            VendaImpressa.operadorStr = operador;
+            VendaImpressa.num_caixa = NO_CAIXA;
+            VendaImpressa.RecebeClienteDuepay(vendaAtual.GetClienteDuepay());
 
             //TODO: Permitir vencimento/id_cliente POR MÉTODO DE PAGAMENTO
             //for (int i = 0; i < pFechamento.pagamentos.Count; i++)
@@ -3969,6 +3983,7 @@ namespace PDV_WPF.Telas
             foreach (var item in cFeDeRetorno.infCFe.pgto.MP)
             {
                 if (item.cMP == "05") item.idCliente = pFechamento.id_cliente; item.vencimento = pFechamento.vencimento;
+                if (item.cMP == "19") item.idCliente = pFechamento.id_cliente;
             }
 
             log.Debug($" ID_DEST: {id_dest}");
@@ -4945,12 +4960,13 @@ namespace PDV_WPF.Telas
             PendenciasDoTEF pendTef = new PendenciasDoTEF();
             pendTef.LimpaTodasPendencias();
 
+            infoStr = null;
         }
 
-        /// <summary>
-        /// Limpa o cupom virtual, os campos e retorna a interface ao modo standby.
-        /// </summary>
-        private void LimparTela()
+    /// <summary>
+    /// Limpa o cupom virtual, os campos e retorna a interface ao modo standby.
+    /// </summary>
+    private void LimparTela()
         {
             logoplaceholder.Visibility = Visibility.Visible;
 
@@ -6589,13 +6605,16 @@ namespace PDV_WPF.Telas
                             MessageBox.Show("É necessário informar um cliente.");
                             return;
                     }
+                    foreach (var item in vendaAtual._listaDets)
+                    {
+                        item.prod.vUnCom = "0.00";
+                    }
                     vendaAtual.TotalizaCupom();
                     (int id, int nf) info = vendaAtual.GravaNaoFiscalBase(0, 99, 0);
 
                     foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
-                    {
+                    {                        
                         Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal(), item.prod.vUnComOri.Safedecimal());
-
                     }
                     Remessa.numerodocupom = info.nf;
                     Remessa.cliente = cliente;
