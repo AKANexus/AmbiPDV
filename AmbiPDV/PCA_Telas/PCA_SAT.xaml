@@ -79,14 +79,14 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown" MouseEnter="but_Prev_MouseEnter" MouseLeave="but_Prev_MouseLeave">
-                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="20" FontFamily="Open Sans" Text="Voltar" x:Name="lbl_Prev"/></TextBlock>
+            <Border Grid.Column="0" Background="White" x:Name="but_Prev" Padding="15,4" Visibility="Visible" HorizontalAlignment="Center" VerticalAlignment="Center" MouseDown="But_Prev_MouseDown">
+                <TextBlock Foreground="#FF09CAAA" VerticalAlignment="Center" HorizontalAlignment="Left"><Run FontSize="22" FontFamily="Wingdings" Text="×" x:Name="icn_Prev"/><Run FontSize="20" Style="{StaticResource HoverStyleRun}" FontFamily="Open Sans" Text=" "/><Run FontSize="20" Style="{StaticResource HoverStyleRun}" FontFamily="Open Sans" Text="Voltar" x:Name="lbl_Prev"/></TextBlock>
             </Border>
-            <Border Visibility="Visible" Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" HorizontalAlignment="Center" MouseDown="But_Action_MouseDown" Margin="21,4,32,6" MouseEnter="but_Action_MouseEnter" MouseLeave="but_Action_MouseLeave" Width="105">
-                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"><Run FontSize="20" FontFamily="Open Sans" Text="Testar" x:Name="lbl_Action"/></TextBlock>
+            <Border Visibility="Visible" Grid.Column="1" Background="#FF09CAAA" x:Name="but_Action" Padding="15,4" CornerRadius="10" HorizontalAlignment="Center" MouseDown="But_Action_MouseDown" Margin="21,4,32,6" Width="105">
+                <TextBlock Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"><Run FontSize="20" Style="{StaticResource HoverStyleRun}" FontFamily="Open Sans" Text="Testar" x:Name="lbl_Action"/></TextBlock>
             </Border>
-            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="But_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center" MouseEnter="but_Next_MouseEnter" MouseLeave="but_Next_MouseLeave">
-                <TextBlock x:Name="tbl_Continuar" Foreground="#6609CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" FontSize="20" FontFamily="Open Sans" Text="Finalizar"/><Run FontSize="20" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
+            <Border Grid.Column="2" Background="White" x:Name="but_Next" MouseDown="But_Next_MouseDown"  Padding="15,4" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <TextBlock x:Name="tbl_Continuar" Foreground="#6609CAAA" VerticalAlignment="Center" HorizontalAlignment="Right"><Run x:Name="lbl_Next" Style="{StaticResource HoverStyleRun}" FontSize="20" FontFamily="Open Sans" Text="Finalizar"/><Run FontSize="20" Style="{StaticResource HoverStyleRun}" FontFamily="Open Sans" Text=" "/><Run FontSize="22" FontFamily="Wingdings" Text="Ø" x:Name="icn_Next"/></TextBlock>
             </Border>
         </Grid>
     </DockPanel>

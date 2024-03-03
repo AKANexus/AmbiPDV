@@ -4376,8 +4376,12 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "ADO CHAR(1) DEFAULT \'\'N\'\' NOT NULL, DATA_DEVOL TIMESTAMP NOT NULL, DATA_USADO TI" +
                 "MESTAMP, QTD_DEVOL INTEGER, CONSTRAINT \"TRI_PDV_DEVOL_PK\" PRIMARY KEY (ID_DEVOLU" +
                 "CAO), CONSTRAINT TRI_PDV_DEVOL_FK FOREIGN KEY (ID_NFVITEM) REFERENCES TB_NFV_ITE" +
-                "M(ID_NFVITEM));\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nE" +
-                "ND;";
+                "M(ID_NFVITEM));\';\r\n\r\nerro = \'create TRI_SCANN_ADICIONAL\';\r\nif (not exists(select" +
+                " 1 from RDB$RELATIONS where rdb$relation_name = \'TRI_SCANN_ADICIONAL\'))\r\nthen\r\nE" +
+                "XECUTE STATEMENT \'CREATE TABLE TRI_SCANN_ADICIONAL ( ID INTEGER NOT NULL, IDPROM" +
+                "OCAO INTEGER, PRODUTONOME VARCHAR(150), CODIGOBARRAS VARCHAR(18), CONSTRAINT PK_" +
+                "TB_PROMOCOES_ITENS_1 PRIMARY KEY (ID) );\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHE" +
+                "N ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;

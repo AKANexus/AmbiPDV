@@ -348,26 +348,10 @@ namespace PDV_WPF.Telas
 
         #region Botões Desativados
 
-        private void but_F3_MouseEnter(object sender, EventArgs e)
-        {
-            but_F3.FontSize = 40;
-        }
-        private void but_F3_MouseLeave(object sender, EventArgs e)
-        {
-            but_F3.FontSize = 32;
-        }
         private void but_F3_MouseDown(object sender, MouseButtonEventArgs e)
         {
             PrepararFinalizacaoDeCupomFiscal();
             return;
-        }
-        private void but_F4_MouseEnter(object sender, EventArgs e)
-        {
-            but_F4.FontSize = 40;
-        }
-        private void but_F4_MouseLeave(object sender, EventArgs e)
-        {
-            but_F4.FontSize = 32;
         }
         private void but_F4_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -376,26 +360,10 @@ namespace PDV_WPF.Telas
             RemoverItemDaVendaNovo();
             return;
         }
-        private void but_F5_MouseEnter(object sender, EventArgs e)
-        {
-            but_F5.FontSize = 40;
-        }
-        private void but_F5_MouseLeave(object sender, EventArgs e)
-        {
-            but_F5.FontSize = 32;
-        }
         private void but_F5_MouseDown(object sender, MouseButtonEventArgs e)
         {
             AlternarModoDeConsulta();
             return;
-        }
-        private void but_F6_MouseEnter(object sender, EventArgs e)
-        {
-            but_F6.FontSize = 40;
-        }
-        private void but_F6_MouseLeave(object sender, EventArgs e)
-        {
-            but_F6.FontSize = 32;
         }
         private void but_F6_MouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -412,14 +380,6 @@ namespace PDV_WPF.Telas
             }
             return;
         }
-        private void but_F7_MouseEnter(object sender, EventArgs e)
-        {
-            but_F7.FontSize = 40;
-        }
-        private void but_F7_MouseLeave(object sender, EventArgs e)
-        {
-            but_F7.FontSize = 32;
-        }
         private void but_F7_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_emTransacao) { DialogBox.Show("Devolução", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel fazer devolução com venda aberta, finalize e tente novamente."); return; }
@@ -427,43 +387,19 @@ namespace PDV_WPF.Telas
             AlternarModoDevolucao();
             return;
         }
-        private void but_F8_MouseEnter(object sender, EventArgs e)
-        {
-            but_F8.FontSize = 40;
-        }
-        private void but_F8_MouseLeave(object sender, EventArgs e)
-        {
-            but_F8.FontSize = 32;
-        }
         private void but_F8_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!turno_aberto) { DialogBox.Show("Desconto", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel aplicar desconto com o caixa fechado, abra um turno e tente novamente."); return; }
             AlternarDescontoNoItem();
             return;
-        }
-        private void but_F11_MouseEnter(object sender, EventArgs e)
-        {
-            but_F11.FontSize = 40;
-        }
-        private void but_F11_MouseLeave(object sender, EventArgs e)
-        {
-            but_F11.FontSize = 32;
-        }
+        }       
         private void but_F11_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_emTransacao) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em venda!\nFinalize a tente novamente."); return; }
             if (_modo_consulta) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em modo consulta!\nVolte ao estado 'CAIXA LIVRE' e tente novamente."); return; }
             AbrirJanelaSangriaSupr();
             return;
-        }
-        private void but_F12_MouseEnter(object sender, EventArgs e)
-        {
-            but_F12.FontSize = 40;
-        }
-        private void but_F12_MouseLeave(object sender, EventArgs e)
-        {
-            but_F12.FontSize = 32;
-        }
+        }     
         private void but_F12_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_emTransacao) { DialogBox.Show("FECHAMENTO DE TURNO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar fechameno de turno estando em venda!\nFinalize e tente novamente."); return; }
@@ -491,15 +427,7 @@ namespace PDV_WPF.Telas
                     break;
             }
             return;
-        }
-        private void lbl_Logoff_MouseEnter(object sender, MouseEventArgs e)
-        {
-            lbl_Logoff.FontSize = 40;
-        }
-        private void lbl_Logoff_MouseLeave(object sender, MouseEventArgs e)
-        {
-            lbl_Logoff.FontSize = 35;
-        }
+        }       
         private void lbl_Logoff_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ReiniciaAplicacao();
@@ -557,18 +485,7 @@ namespace PDV_WPF.Telas
         {
             e.Cancel = true;
             Application.Current.Shutdown();
-        }
-
-        private void Lbl_Operador_MouseEnter(object sender, MouseEventArgs e)
-        {
-            //lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, operador.Split(' ')[0]);
-        }
-
-        private void Lbl_Operador_MouseLeave(object sender, MouseEventArgs e)
-        {
-            //var rnd = new Random();
-            //lbl_Operador.Content = string.Format(strings.VOCE_ESTA_SENDO_ATENDIDO_POR, funcoes.eegg[rnd.Next(0, funcoes.eegg.Count)]);
-        }
+        }        
         private void Tef_StatusChanged(object sender, TEFEventArgs e)
         {
             var printTEFAdmin = new ComprovanteSiTEF();
@@ -5106,7 +5023,7 @@ namespace PDV_WPF.Telas
                 _tipo = pegaID.tipo;
             }
 
-        }       
+        }
 
         /// <summary>
         /// Abre a janela pedindo o vendedor
@@ -6193,7 +6110,7 @@ namespace PDV_WPF.Telas
             }
         #endregion
 
-        getProdNaoPesado:
+            getProdNaoPesado:
 
             if (input == "") { return; }
 
@@ -6259,7 +6176,11 @@ namespace PDV_WPF.Telas
                         decimal? qtdeEstoque = EST_PRODUTO_TA.ConsultaQtde(produtoEncontrado.ID_IDENTIFICADOR);
                         log.Debug($"EST_PRODUTO_TA.ConsultaQtde({produtoEncontrado.ID_IDENTIFICADOR}): {qtdeEstoque}");
 
-                        if (qtdeEstoque <= 0 && !_modoDevolucao)
+                        decimal qtdeJaPassada = vendaAtual._listaDets.Where(x => x.prod.cProd.Safeint() == produtoEncontrado.ID_IDENTIFICADOR)
+                                                                     .Sum(x => x.prod.qCom.Safedecimal());                        
+                        log.Debug($"Quantidade já passada: {qtdeJaPassada}");
+
+                        if (qtdeEstoque <= 0 || (qtdeJaPassada + quant) > qtdeEstoque && !_modoDevolucao)
                         {
                             if (PERMITE_ESTOQUE_NEGATIVO == false)
                             {
