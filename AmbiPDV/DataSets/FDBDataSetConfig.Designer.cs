@@ -4901,47 +4901,47 @@ END;";
                 "ABLE TRI_PDV_CONFIG ADD BALPARITY SMALLINT DEFAULT -1 NOT NULL;\';\r\n\t\t\t\t\t\texecute" +
                 " statement \'ALTER TABLE TRI_PDV_CONFIG ADD BALMODELO SMALLINT DEFAULT 0 NOT NULL" +
                 ";\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG ADD ACFILLPREFIX SMALLI" +
-                "NT DEFAULT 3 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG AD" +
-                "D ACFILLMODE SMALLINT DEFAULT 1 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABL" +
+                "NT DEFAULT 0 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG AD" +
+                "D ACFILLMODE SMALLINT DEFAULT 3 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABL" +
                 "E TRI_PDV_CONFIG ADD ACREFERENCIA SMALLINT DEFAULT 0 NOT NULL;\';\r\n\t\t\t\t\t\texecute " +
                 "statement \'ALTER TABLE TRI_PDV_CONFIG ADD SYSCOMISSAO SMALLINT DEFAULT 0 NOT NUL" +
                 "L;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG ADD SATSERVTIMEOUT INT" +
                 "EGER DEFAULT 10 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG" +
                 " ADD SATLIFESIGNINTERVAL INTEGER DEFAULT 1 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement " +
-                "\'ALTER TABLE TRI_PDV_CONFIG ADD ACFILLDELAY INTEGER DEFAULT 3000 NOT NULL;\';\r\n\t\t" +
-                "\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG ADD SYSEMITECOMPROVANTE SMALLI" +
-                "NT DEFAULT 0 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG AD" +
-                "D SYSPERGUNTAWHATS SMALLINT DEFAULT 0 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTE" +
-                "R TABLE TRI_PDV_CONFIG ADD SYSPARCELA SMALLINT DEFAULT 0 NOT NULL;\';\r\n          " +
+                "\'ALTER TABLE TRI_PDV_CONFIG ADD ACFILLDELAY INTEGER DEFAULT -1 NOT NULL;\';\r\n\t\t\t\t" +
+                "\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG ADD SYSEMITECOMPROVANTE SMALLINT" +
+                " DEFAULT 0 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_CONFIG ADD " +
+                "SYSPERGUNTAWHATS SMALLINT DEFAULT 0 NOT NULL;\';\r\n\t\t\t\t\t\texecute statement \'ALTER " +
+                "TABLE TRI_PDV_CONFIG ADD SYSPARCELA SMALLINT DEFAULT 0 NOT NULL;\';\r\n            " +
                 "                                                                                " +
-                "                      end\r\n\r\n                                                   " +
-                "                                                             erro = \'alter table" +
-                " TRI_PDV_CONFIG add CONFIGS MAQUININHA\';\r\n                                      " +
-                "                                                                          IF ( N" +
-                "OT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TRI_PDV_" +
-                "CONFIG\' AND RDB$FIELD_NAME = \'INFORMA_MAQUININHA\'))\r\n\t\t\t\t\t\tthen begin\r\n         " +
+                "                    end\r\n\r\n                                                     " +
+                "                                                           erro = \'alter table T" +
+                "RI_PDV_CONFIG add CONFIGS MAQUININHA\';\r\n                                        " +
+                "                                                                        IF ( NOT" +
+                " EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TRI_PDV_CO" +
+                "NFIG\' AND RDB$FIELD_NAME = \'INFORMA_MAQUININHA\'))\r\n\t\t\t\t\t\tthen begin\r\n           " +
                 "                                                                                " +
-                "                       execute statement \'ALTER TABLE TRI_PDV_CONFIG ADD INFORMA" +
-                "_MAQUININHA CHAR(1) DEFAULT \'\'N\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n                    " +
+                "                     execute statement \'ALTER TABLE TRI_PDV_CONFIG ADD INFORMA_M" +
+                "AQUININHA CHAR(1) DEFAULT \'\'N\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n                      " +
                 "                                                                                " +
-                "            erro = \'alter table TRI_PDV_CONFIG add CONFIGS LAYOUT SAT\';\r\n       " +
+                "          erro = \'alter table TRI_PDV_CONFIG add CONFIGS LAYOUT SAT\';\r\n         " +
                 "                                                                                " +
-                "                         IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHER" +
-                "E RDB$RELATION_NAME = \'TRI_PDV_CONFIG\' AND RDB$FIELD_NAME = \'LAYOUT_SAT\'))\r\n\t\t\t\t" +
-                "\t\tthen begin\r\n                                                                  " +
-                "                                              execute statement \'ALTER TABLE TRI" +
-                "_PDV_CONFIG ADD LAYOUT_SAT VARCHAR(4) DEFAULT \'\'008\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n" +
-                "\t\t\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$" +
-                "INDICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute s" +
-                "tatement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\t" +
-                "erro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GE" +
-                "NERATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECU" +
-                "TE STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigg" +
-                "er DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RDB$TRI" +
-                "GGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGE" +
-                "R DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -" +
-                "1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\r\n\t\t\t\t\t\terro = \'" +
-                "deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "                       IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE " +
+                "RDB$RELATION_NAME = \'TRI_PDV_CONFIG\' AND RDB$FIELD_NAME = \'LAYOUT_SAT\'))\r\n\t\t\t\t\t\t" +
+                "then begin\r\n                                                                    " +
+                "                                            execute statement \'ALTER TABLE TRI_P" +
+                "DV_CONFIG ADD LAYOUT_SAT VARCHAR(4) DEFAULT \'\'008\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t" +
+                "\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$IN" +
+                "DICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute sta" +
+                "tement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\ter" +
+                "ro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENE" +
+                "RATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE" +
+                " STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger" +
+                " DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RDB$TRIGG" +
+                "ER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER " +
+                "DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1)" +
+                " THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\r\n\t\t\t\t\t\terro = \'de" +
+                "u certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;

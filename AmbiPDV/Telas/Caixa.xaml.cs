@@ -1677,13 +1677,15 @@ namespace PDV_WPF.Telas
                     log.Debug("Status do processo de sincronização encontra-se em: " + executeSyncAsync.Status.ToString());
                     this.IsEnabled = false;
                     TimedBox dialog = new TimedBox("Conexão", "Tentanto restabelecer conexão com o servidor, aguarde ...", TimedBox.DialogBoxButtons.No, TimedBox.DialogBoxIcons.None, 100);
-                    dialog.Show();                     
-                    if(!executeSyncAsync.Wait(5000))
-                    {
-                        log.Debug("Checagem + sincronização ultrapassou o tempo limite, sistema entrara em modo de contigencia");
-                        funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
-                        _contingencia = true;
-                    }
+                    dialog.Show();
+                    //if (!executeSyncAsync.Wait(7000))
+                    //{
+                    //    Para não deixar o cliente parado vamos entrar em contigencia e seguir o jogo(sincronização fica rodando na task em segundo plano).                        
+                    //    funcoes.ChangeConnectionString(MontaStringDeConexao("localhost", localpath));
+                    //    _contingencia = true;
+                    //    log.Debug($"FDBConnString definido para DB de contingência: {Settings.Default.FDBConnString}");
+                    //}
+                    Task.WaitAll(executeSyncAsync);
                     this.IsEnabled = true; dialog.CloseDialog();
                 }
                 log.Debug("Processo de sincronização finalizado com sucesso status encontra-se em: " + executeSyncAsync.Status.ToString());

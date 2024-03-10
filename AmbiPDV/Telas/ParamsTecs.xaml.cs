@@ -51,7 +51,8 @@ namespace PDV_WPF
                 gpb_Senhas.IsEnabled = false;
                 gpb_balanca.IsEnabled = false;
                 Porcentagemtxb.Text = "-1";
-                Porcentagemtxb.IsEnabled = false;                
+                Porcentagemtxb.IsEnabled = false;
+                but_Alterar.Visibility = Visibility.Visible;
                 but_Confirmar.Visibility = Visibility.Collapsed;
             }
             foreach (string port in ports)
@@ -106,21 +107,21 @@ namespace PDV_WPF
             });
         }
 
-        //private void but_Alterar_Click(object sender, RoutedEventArgs e)
-        //{
-        //    debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-        //    {
-        //        string[] conf = txb_DB.Text.Replace("\"", "").Split('|');
-        //        if (conf.Length != 2) { DialogBox.Show("Configuração", DialogBoxButtons.No, DialogBoxIcons.None, false, "Caminho da Base de dados incorretamente preenchido.", "Verifique e tente novamente"); return; }
-        //        SERVERCATALOG = conf[1];
-        //        SERVERNAME = conf[0];
-        //        ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
-        //        configuracoesXML.Serializa();
-        //        DialogBox.Show("Configurações salvas", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Para a alteração do banco de dados, o programa deverá ser reiniciado");
-        //        DialogResult = null;
-        //        this.Close();
-        //    });
-        //}
+        private void but_Alterar_Click(object sender, RoutedEventArgs e)
+        {
+            debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
+            {
+                string[] conf = txb_DB.Text.Replace("\"", "").Split('|');
+                if (conf.Length != 2) { DialogBox.Show("Configuração", DialogBoxButtons.No, DialogBoxIcons.None, false, "Caminho da Base de dados incorretamente preenchido.", "Verifique e tente novamente"); return; }
+                SERVERCATALOG = conf[1];
+                SERVERNAME = conf[0];
+                ConfiguracoesXML configuracoesXML = new ConfiguracoesXML();
+                configuracoesXML.Serializa();
+                DialogBox.Show("Configurações salvas", DialogBoxButtons.Yes, DialogBoxIcons.Info, false, "Para a alteração do banco de dados, o programa deverá ser reiniciado");
+                DialogResult = null;
+                this.Close();
+            });
+        }
 
         private void btnResetarSenha_Click(object sender, RoutedEventArgs e)
         {
