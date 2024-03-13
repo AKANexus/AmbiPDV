@@ -3510,7 +3510,7 @@ WHERE        (NOME = @Param2)</CommandText>
               <Mapping SourceColumn="TRI_PDV_DT_UPD" DataSetColumn="TRI_PDV_DT_UPD" />
             </Mappings>
             <Sources>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_CLIENTE" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByClienteDuepay" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByClienteDuepay" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="FillByClienteDuepay">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_CLIENTE" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillByClienteDuepay" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillByClienteDuepay" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillByClienteDuepay">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT * FROM TB_CLIENTE WHERE OBSERVACAO like @OBSERVACAO</CommandText>
@@ -3520,7 +3520,7 @@ WHERE        (NOME = @Param2)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_CLIENTE_GETBY_ID&quot;" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="FillById">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_CLIENTE_GETBY_ID&quot;" DbObjectType="StoredProcedure" FillMethodModifier="Public" FillMethodName="FillById" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillById" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillById">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>"SP_TRI_CLIENTE_GETBY_ID"</CommandText>
@@ -3540,7 +3540,7 @@ WHERE        (NOME = @Param2)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_CLIENTE" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillOrderByName" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillOrderByName" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy1" UserSourceName="FillOrderByName">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_CLIENTE" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="FillOrderByName" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="FillOrderByName" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="FillOrderByName">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT CONTATO, DDD_CELUL, DDD_COMER, DDD_FAX, DDD_RESID, DT_CADASTRO, DT_MELHOR_VENCTO, DT_PRICOMP, DT_ULTCOMP, EMAIL_ADIC, EMAIL_CONT, EMAIL_NFE, END_BAIRRO, END_CEP, END_COMPLE, END_LOGRAD, END_NUMERO, END_TIPO, FONE_CELUL, FONE_COMER, FONE_FAX, FONE_RESID, ID_CIDADE, ID_CLIENTE, ID_CONVENIO, ID_FUNCIONARIO, ID_PAIS, ID_RAMO, ID_TIPO, LIMITE, MENSAGEM, NOME, OBSERVACAO, STATUS, TRI_PDV_DT_UPD FROM TB_CLIENTE ORDER BY NOME</CommandText>
@@ -3548,7 +3548,7 @@ WHERE        (NOME = @Param2)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="GenTbClienteId" Modifier="Public" Name="GenTbClienteId" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy2" UserSourceName="GenTbClienteId">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="GenTbClienteId" Modifier="Public" Name="GenTbClienteId" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="GenTbClienteId">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT GEN_ID(GEN_TB_CLIENTE_ID, 1) FROM RDB$DATABASE</CommandText>
@@ -3556,7 +3556,7 @@ WHERE        (NOME = @Param2)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertDuepayCustomer" Modifier="Public" Name="InsertDuepayCustomer" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy3" UserSourceName="InsertDuepayCustomer">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertDuepayCustomer" Modifier="Public" Name="InsertDuepayCustomer" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="InsertDuepayCustomer">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>INSERT INTO
@@ -3581,7 +3581,7 @@ VALUES (@ID_CLIENTE, @DT_CADASTRO, @NOME, 'A', '1058', 'CLIENTE DUEPAY', @MENSAG
                   </DbCommand>
                 </InsertCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="PegaIDPorCliente" Modifier="Public" Name="PegaIDPorCliente" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy4" UserSourceName="PegaIDPorCliente">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="PegaIDPorCliente" Modifier="Public" Name="PegaIDPorCliente" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="PegaIDPorCliente">
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>SELECT FIRST 1 ID_CLIENTE FROM TB_CLIENTE WHERE NOME = @Param1</CommandText>
@@ -3591,7 +3591,7 @@ VALUES (@ID_CLIENTE, @DT_CADASTRO, @NOME, 'A', '1058', 'CLIENTE DUEPAY', @MENSAG
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="SetMensagemByCliente" Modifier="Public" Name="SetMensagemByCliente" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy7" UserSourceName="SetMensagemByCliente">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="SetMensagemByCliente" Modifier="Public" Name="SetMensagemByCliente" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy6" UserSourceName="SetMensagemByCliente">
                 <UpdateCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
                     <CommandText>UPDATE TB_CLIENTE SET MENSAGEM = @MENSAGEM WHERE ID_CLIENTE = @ID_CLIENTE</CommandText>
@@ -3602,7 +3602,7 @@ VALUES (@ID_CLIENTE, @DT_CADASTRO, @NOME, 'A', '1058', 'CLIENTE DUEPAY', @MENSAG
                   </DbCommand>
                 </UpdateCommand>
               </DbSource>
-              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_CLIENTE_UPSERT&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_CLIENTE_UPSERT" Modifier="Public" Name="SP_TRI_CLIENTE_UPSERT" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy5" UserSourceName="SP_TRI_CLIENTE_UPSERT">
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="&quot;SP_TRI_CLIENTE_UPSERT&quot;" DbObjectType="StoredProcedure" GenerateShortCommands="true" GeneratorSourceName="SP_TRI_CLIENTE_UPSERT" Modifier="Public" Name="SP_TRI_CLIENTE_UPSERT" QueryType="Scalar" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy7" UserSourceName="SP_TRI_CLIENTE_UPSERT">
                 <SelectCommand>
                   <DbCommand CommandType="StoredProcedure" ModifiedByUser="false">
                     <CommandText>"SP_TRI_CLIENTE_UPSERT"</CommandText>
@@ -5328,6 +5328,93 @@ WHERE ID_PEDIDO = @ID_PEDIDO</CommandText>
               <Mapping SourceColumn="ID_ITEMPED" DataSetColumn="ID_ITEMPED" />
             </Mappings>
             <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TB_FUNC_AUDITORIA_SISTableAdapter" GeneratorDataComponentClassName="TB_FUNC_AUDITORIA_SISTableAdapter" Name="TB_FUNC_AUDITORIA_SIS" UserDataComponentName="TB_FUNC_AUDITORIA_SISTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TB_FUNC_AUDITORIA_SIS" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Fill" GenerateShortCommands="true" GeneratorSourceName="Fill" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM "TB_FUNC_AUDITORIA_SIS" WHERE (("ID_AUDIT" = @Original_ID_AUDIT) AND ("ID_FUNCIONARIO" = @Original_ID_FUNCIONARIO) AND ("DATA" = @Original_DATA) AND ("HORA" = @Original_HORA) AND ("DESCRICAO" = @Original_DESCRICAO) AND ("ID_AUDTIPO" = @Original_ID_AUDTIPO) AND ("BUILD" = @Original_BUILD))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID_AUDIT" Precision="0" Scale="0" Size="4" SourceColumn="ID_AUDIT" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@Original_ID_FUNCIONARIO" Precision="0" Scale="0" Size="2" SourceColumn="ID_FUNCIONARIO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_DATA" Precision="0" Scale="0" Size="4" SourceColumn="DATA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@Original_HORA" Precision="0" Scale="0" Size="4" SourceColumn="HORA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_DESCRICAO" Precision="0" Scale="0" Size="300" SourceColumn="DESCRICAO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@Original_ID_AUDTIPO" Precision="0" Scale="0" Size="2" SourceColumn="ID_AUDTIPO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_BUILD" Precision="0" Scale="0" Size="20" SourceColumn="BUILD" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO "TB_FUNC_AUDITORIA_SIS" ("ID_AUDIT", "ID_FUNCIONARIO", "DATA", "HORA", "DESCRICAO", "ID_AUDTIPO", "BUILD") VALUES (@ID_AUDIT, @ID_FUNCIONARIO, @DATA, @HORA, @DESCRICAO, @ID_AUDTIPO, @BUILD)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID_AUDIT" Precision="0" Scale="0" Size="4" SourceColumn="ID_AUDIT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@ID_FUNCIONARIO" Precision="0" Scale="0" Size="2" SourceColumn="ID_FUNCIONARIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@DATA" Precision="0" Scale="0" Size="4" SourceColumn="DATA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@HORA" Precision="0" Scale="0" Size="4" SourceColumn="HORA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@DESCRICAO" Precision="0" Scale="0" Size="300" SourceColumn="DESCRICAO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@ID_AUDTIPO" Precision="0" Scale="0" Size="2" SourceColumn="ID_AUDTIPO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@BUILD" Precision="0" Scale="0" Size="20" SourceColumn="BUILD" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM TB_FUNC_AUDITORIA_SIS</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE "TB_FUNC_AUDITORIA_SIS" SET "ID_AUDIT" = @ID_AUDIT, "ID_FUNCIONARIO" = @ID_FUNCIONARIO, "DATA" = @DATA, "HORA" = @HORA, "DESCRICAO" = @DESCRICAO, "ID_AUDTIPO" = @ID_AUDTIPO, "BUILD" = @BUILD WHERE (("ID_AUDIT" = @Original_ID_AUDIT) AND ("ID_FUNCIONARIO" = @Original_ID_FUNCIONARIO) AND ("DATA" = @Original_DATA) AND ("HORA" = @Original_HORA) AND ("DESCRICAO" = @Original_DESCRICAO) AND ("ID_AUDTIPO" = @Original_ID_AUDTIPO) AND ("BUILD" = @Original_BUILD))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@ID_AUDIT" Precision="0" Scale="0" Size="4" SourceColumn="ID_AUDIT" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@ID_FUNCIONARIO" Precision="0" Scale="0" Size="2" SourceColumn="ID_FUNCIONARIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@DATA" Precision="0" Scale="0" Size="4" SourceColumn="DATA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@HORA" Precision="0" Scale="0" Size="4" SourceColumn="HORA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@DESCRICAO" Precision="0" Scale="0" Size="300" SourceColumn="DESCRICAO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@ID_AUDTIPO" Precision="0" Scale="0" Size="2" SourceColumn="ID_AUDTIPO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@BUILD" Precision="0" Scale="0" Size="20" SourceColumn="BUILD" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_ID_AUDIT" Precision="0" Scale="0" Size="4" SourceColumn="ID_AUDIT" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@Original_ID_FUNCIONARIO" Precision="0" Scale="0" Size="2" SourceColumn="ID_FUNCIONARIO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Date" Direction="Input" ParameterName="@Original_DATA" Precision="0" Scale="0" Size="4" SourceColumn="DATA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Time" Direction="Input" ParameterName="@Original_HORA" Precision="0" Scale="0" Size="4" SourceColumn="HORA" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_DESCRICAO" Precision="0" Scale="0" Size="300" SourceColumn="DESCRICAO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int16" Direction="Input" ParameterName="@Original_ID_AUDTIPO" Precision="0" Scale="0" Size="2" SourceColumn="ID_AUDTIPO" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@Original_BUILD" Precision="0" Scale="0" Size="20" SourceColumn="BUILD" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="ID_AUDIT" DataSetColumn="ID_AUDIT" />
+              <Mapping SourceColumn="ID_FUNCIONARIO" DataSetColumn="ID_FUNCIONARIO" />
+              <Mapping SourceColumn="DATA" DataSetColumn="DATA" />
+              <Mapping SourceColumn="HORA" DataSetColumn="HORA" />
+              <Mapping SourceColumn="DESCRICAO" DataSetColumn="DESCRICAO" />
+              <Mapping SourceColumn="ID_AUDTIPO" DataSetColumn="ID_AUDTIPO" />
+              <Mapping SourceColumn="BUILD" DataSetColumn="BUILD" />
+            </Mappings>
+            <Sources>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="InsertAudit" Modifier="Public" Name="InsertAudit" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy" UserSourceName="InsertAudit">
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>INSERT INTO "TB_FUNC_AUDITORIA_SIS" ("ID_AUDIT", "ID_FUNCIONARIO", "DATA", "HORA", "DESCRICAO", "ID_AUDTIPO", "BUILD") VALUES (GEN_ID(GEN_TB_FUNC_AUDITORIA_SIS_ID,1), @ID_FUNCIONARIO, @DATA, @HORA, @DESCRICAO, @ID_AUDTIPO, @BUILD)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="ID_FUNCIONARIO" ColumnName="ID_FUNCIONARIO" DataSourceName="TB_FUNC_AUDITORIA_SIS" DataTypeServer="DbType.Int16(2)" DbType="Int32" Direction="Input" ParameterName="@ID_FUNCIONARIO" Precision="0" Scale="0" Size="2" SourceColumn="ID_FUNCIONARIO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="DATA" ColumnName="DATA" DataSourceName="TB_FUNC_AUDITORIA_SIS" DataTypeServer="DbType.DateTime(4)" DbType="DateTime" Direction="Input" ParameterName="@DATA" Precision="0" Scale="0" Size="4" SourceColumn="DATA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="HORA" ColumnName="HORA" DataSourceName="TB_FUNC_AUDITORIA_SIS" DataTypeServer="DbType.Object(4)" DbType="Object" Direction="Input" ParameterName="@HORA" Precision="0" Scale="0" Size="4" SourceColumn="HORA" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="DESCRICAO" ColumnName="DESCRICAO" DataSourceName="TB_FUNC_AUDITORIA_SIS" DataTypeServer="DbType.String(300)" DbType="String" Direction="Input" ParameterName="@DESCRICAO" Precision="0" Scale="0" Size="300" SourceColumn="DESCRICAO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="ID_AUDTIPO" ColumnName="ID_AUDTIPO" DataSourceName="TB_FUNC_AUDITORIA_SIS" DataTypeServer="DbType.Int16(2)" DbType="Int32" Direction="Input" ParameterName="@ID_AUDTIPO" Precision="0" Scale="0" Size="2" SourceColumn="ID_AUDTIPO" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="BUILD" ColumnName="BUILD" DataSourceName="TB_FUNC_AUDITORIA_SIS" DataTypeServer="DbType.String(20)" DbType="String" Direction="Input" ParameterName="@BUILD" Precision="0" Scale="0" Size="20" SourceColumn="BUILD" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+              </DbSource>
+            </Sources>
           </TableAdapter>
         </Tables>
         <Sources />
@@ -7870,6 +7957,31 @@ WHERE ID_PEDIDO = @ID_PEDIDO</CommandText>
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TB_FUNC_AUDITORIA_SIS" msprop:Generator_RowClassName="TB_FUNC_AUDITORIA_SISRow" msprop:Generator_RowEvHandlerName="TB_FUNC_AUDITORIA_SISRowChangeEventHandler" msprop:Generator_RowDeletedName="TB_FUNC_AUDITORIA_SISRowDeleted" msprop:Generator_RowDeletingName="TB_FUNC_AUDITORIA_SISRowDeleting" msprop:Generator_RowEvArgName="TB_FUNC_AUDITORIA_SISRowChangeEvent" msprop:Generator_TablePropName="TB_FUNC_AUDITORIA_SIS" msprop:Generator_RowChangedName="TB_FUNC_AUDITORIA_SISRowChanged" msprop:Generator_UserTableName="TB_FUNC_AUDITORIA_SIS" msprop:Generator_RowChangingName="TB_FUNC_AUDITORIA_SISRowChanging" msprop:Generator_TableClassName="TB_FUNC_AUDITORIA_SISDataTable" msprop:Generator_TableVarName="tableTB_FUNC_AUDITORIA_SIS">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="ID_AUDIT" msprop:Generator_UserColumnName="ID_AUDIT" msprop:Generator_ColumnPropNameInTable="ID_AUDITColumn" msprop:Generator_ColumnPropNameInRow="ID_AUDIT" msprop:Generator_ColumnVarNameInTable="columnID_AUDIT" type="xs:int" />
+              <xs:element name="ID_FUNCIONARIO" msprop:Generator_UserColumnName="ID_FUNCIONARIO" msprop:Generator_ColumnPropNameInTable="ID_FUNCIONARIOColumn" msprop:Generator_ColumnPropNameInRow="ID_FUNCIONARIO" msprop:Generator_ColumnVarNameInTable="columnID_FUNCIONARIO" type="xs:short" />
+              <xs:element name="DATA" msprop:Generator_UserColumnName="DATA" msprop:Generator_ColumnPropNameInTable="DATAColumn" msprop:Generator_ColumnPropNameInRow="DATA" msprop:Generator_ColumnVarNameInTable="columnDATA" type="xs:dateTime" />
+              <xs:element name="HORA" msprop:Generator_UserColumnName="HORA" msprop:Generator_ColumnPropNameInTable="HORAColumn" msprop:Generator_ColumnPropNameInRow="HORA" msprop:Generator_ColumnVarNameInTable="columnHORA" type="xs:duration" />
+              <xs:element name="DESCRICAO" msprop:Generator_UserColumnName="DESCRICAO" msprop:Generator_ColumnPropNameInTable="DESCRICAOColumn" msprop:Generator_ColumnPropNameInRow="DESCRICAO" msprop:Generator_ColumnVarNameInTable="columnDESCRICAO">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="300" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="ID_AUDTIPO" msprop:Generator_UserColumnName="ID_AUDTIPO" msprop:Generator_ColumnPropNameInTable="ID_AUDTIPOColumn" msprop:Generator_ColumnPropNameInRow="ID_AUDTIPO" msprop:Generator_ColumnVarNameInTable="columnID_AUDTIPO" type="xs:short" />
+              <xs:element name="BUILD" msprop:Generator_UserColumnName="BUILD" msprop:Generator_ColumnPropNameInTable="BUILDColumn" msprop:Generator_ColumnPropNameInRow="BUILD" msprop:Generator_ColumnVarNameInTable="columnBUILD">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
     <xs:unique name="Constraint1" msdata:PrimaryKey="true">
@@ -8042,6 +8154,10 @@ WHERE ID_PEDIDO = @ID_PEDIDO</CommandText>
       <xs:field xpath="mstns:ID_NFVITEM" />
       <xs:field xpath="mstns:ID_ITEMPED" />
     </xs:unique>
+    <xs:unique name="TB_FUNC_AUDITORIA_SIS_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TB_FUNC_AUDITORIA_SIS" />
+      <xs:field xpath="mstns:ID_AUDIT" />
+    </xs:unique>
   </xs:element>
   <xs:annotation>
     <xs:appinfo>
@@ -8074,6 +8190,7 @@ WHERE ID_PEDIDO = @ID_PEDIDO</CommandText>
       <msdata:Relationship name="FK_PED_ITEM_IDENTIFICADOR" msdata:parent="TB_EST_IDENTIFICADOR" msdata:child="TB_PED_VENDA_ITEM" msdata:parentkey="ID_IDENTIFICADOR" msdata:childkey="ID_IDENTIFICADOR" msprop:Generator_UserParentTable="TB_EST_IDENTIFICADOR" msprop:Generator_UserChildTable="TB_PED_VENDA_ITEM" msprop:Generator_RelationVarName="relationFK_PED_ITEM_IDENTIFICADOR" msprop:Generator_ChildPropName="GetTB_PED_VENDA_ITEMRows" msprop:Generator_UserRelationName="FK_PED_ITEM_IDENTIFICADOR" msprop:Generator_ParentPropName="TB_EST_IDENTIFICADORRow" />
       <msdata:Relationship name="FK_PEDIDO_VENDA_ITEM" msdata:parent="TB_PEDIDO_VENDA" msdata:child="TB_PED_VENDA_ITEM" msdata:parentkey="ID_PEDIDO" msdata:childkey="ID_PEDIDO" msprop:Generator_UserParentTable="TB_PEDIDO_VENDA" msprop:Generator_UserChildTable="TB_PED_VENDA_ITEM" msprop:Generator_RelationVarName="relationFK_PEDIDO_VENDA_ITEM" msprop:Generator_ChildPropName="GetTB_PED_VENDA_ITEMRows" msprop:Generator_UserRelationName="FK_PEDIDO_VENDA_ITEM" msprop:Generator_ParentPropName="TB_PEDIDO_VENDARow" />
       <msdata:Relationship name="FK_PED_ITEM_NFV" msdata:parent="TB_PED_VENDA_ITEM" msdata:child="TB_PED_VENDA_NFVENDA" msdata:parentkey="ID_ITEMPED" msdata:childkey="ID_ITEMPED" msprop:Generator_UserParentTable="TB_PED_VENDA_ITEM" msprop:Generator_UserChildTable="TB_PED_VENDA_NFVENDA" msprop:Generator_RelationVarName="relationFK_PED_ITEM_NFV" msprop:Generator_ChildPropName="GetTB_PED_VENDA_NFVENDARows" msprop:Generator_ParentPropName="TB_PED_VENDA_ITEMRow" msprop:Generator_UserRelationName="FK_PED_ITEM_NFV" />
+      <msdata:Relationship name="FK_AUDITORIA_FUNC" msdata:parent="TB_FUNCIONARIO" msdata:child="TB_FUNC_AUDITORIA_SIS" msdata:parentkey="ID_FUNCIONARIO" msdata:childkey="ID_FUNCIONARIO" msprop:Generator_UserParentTable="TB_FUNCIONARIO" msprop:Generator_UserChildTable="TB_FUNC_AUDITORIA_SIS" msprop:Generator_RelationVarName="relationFK_AUDITORIA_FUNC" msprop:Generator_ChildPropName="GetTB_FUNC_AUDITORIA_SISRows" msprop:Generator_UserRelationName="FK_AUDITORIA_FUNC" msprop:Generator_ParentPropName="TB_FUNCIONARIORow" />
     </xs:appinfo>
   </xs:annotation>
 </xs:schema>

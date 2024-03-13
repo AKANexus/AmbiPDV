@@ -3692,8 +3692,9 @@ namespace PDV_WPF.Funcoes
                                                                                                                  triUsersServ.USERNAME,
                                                                                                                  triUsersServ.PASSWORD,
                                                                                                                  triUsersServ.GERENCIA,
-                                                                                                                 triUsersServ.ATIVO,
-                                                                                                                 DateTime.Now);
+                                                                                                                 triUsersServ.ATIVO,                                                                                                                 
+                                                                                                                 DateTime.Now,
+                                                                                                                 triUsersServ.PERMISSOES);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))

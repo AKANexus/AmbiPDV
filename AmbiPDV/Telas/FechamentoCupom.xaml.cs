@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.Objetos.Enums;
 
 namespace PDV_WPF.Telas
 {
@@ -361,7 +362,7 @@ namespace PDV_WPF.Telas
 
             if (strPgCfe == "05")
             {
-                if (SENHA_PRAZO && !PedeSenhaGerencial("Necessária autorização de gerente")) return;
+                if (SENHA_PRAZO && !PedeSenhaGerencial("Venda a prazo", Permissoes.VendaPrazo)) return;
                 if (/*intPagamentoDiasByIdPag > 0*/ true)
                 {
                     var PC = new PerguntaCliente(idMetodo, false, _valor);

@@ -41,6 +41,7 @@ using ECF = PDV_WPF.FuncoesECF;
 using WinForms = System.Windows.Forms;
 using System.Runtime.CompilerServices;
 using System.Reflection;
+using PDV_WPF.Objetos.Enums;
 
 namespace PDV_WPF.Telas
 {
@@ -374,7 +375,7 @@ namespace PDV_WPF.Telas
                     CancelarUltimoCupom();
                     break;
                 case true:
-                    if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false)) return;
+                    if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", Permissoes.CancelarVenda, false)) return;
                     CancelarVendaAtual();
                     break;
             }
@@ -681,7 +682,7 @@ namespace PDV_WPF.Telas
         private async void ReiniciaAplicacao()
         {
             if (_emTransacao) { DialogBox.Show("LOGOFF", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar Logoff com venda aberta.\nFinalize a venda e tente novamente"); return; }
-            if (PedeSenhaGerencial("Deslogando usuario atual."))
+            if (PedeSenhaGerencial("Deslogando usuario atual.", Permissoes.EfetuarLogoff))
             {
                 log.Debug("Realizando Logoff");
                 string args = null;
@@ -757,7 +758,7 @@ namespace PDV_WPF.Telas
                 DialogBox.Show(strings.SANGRIA_SUPRIMENTO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.NAO_HA_TURNO_ABERTO);
                 return;
             }
-            if (PedeSenhaGerencial("Fazendo Sangria ou Suprimento"))
+            if (PedeSenhaGerencial("Fazendo Sangria ou Suprimento", Permissoes.EfetuarSangria))
             {
                 if (!ChecagemPreVenda(true))
                 {
@@ -897,7 +898,7 @@ namespace PDV_WPF.Telas
                 case false:
                     if (!_emTransacao && turno_aberto)
                     {
-                        if (PedeSenhaGerencial("Iniciando Devolução"))
+                        if (PedeSenhaGerencial("Iniciando Devolução", Permissoes.EfetuarDevolucao))
                         {
                             txb_Avisos.Text = "MODO DE DEVOLUÇÃO";
                             _modoDevolucao = true;
@@ -909,7 +910,7 @@ namespace PDV_WPF.Telas
 
         private void NovoModoDeDevolucao()
         {
-            if (PedeSenhaGerencial("Iniciando devolução"))
+            if (PedeSenhaGerencial("Iniciando devolução", Permissoes.EfetuarDevolucao))
             {
                 ListaDevolucao ld = new ListaDevolucao();
                 ld.ShowDialog();
@@ -1031,7 +1032,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void CancelarUltimoCupom()
         {
-            if (_emTransacao || !PedeSenhaGerencial("Cancelando Último Cupom", _modoTeste)) { return; }
+            if (_emTransacao || !PedeSenhaGerencial("Cancelando Último Cupom", Permissoes.CancelarCupons, _modoTeste)) { return; }
             new List().ShowDialog();
             log.Debug("Verificando se o caixa já está em modo de contigencia após cancelamento de cupom(...)");
             if (_contingencia == false)
@@ -2176,7 +2177,7 @@ namespace PDV_WPF.Telas
                 return false;
             }
             //}
-            if (PedeSenhaGerencial(strings.FECHAMENTO_DE_TURNO))
+            if (PedeSenhaGerencial(strings.FECHAMENTO_DE_TURNO, Permissoes.FecharTurno))
             {
                 try
                 {
@@ -6267,7 +6268,7 @@ namespace PDV_WPF.Telas
             bool _permissao;
             if (PEDESENHACANCEL)
             {
-                _permissao = PedeSenhaGerencial("Removendo item da venda");
+                _permissao = PedeSenhaGerencial("Removendo item da venda", Permissoes.EstornarItem);
             }
             else
             {
@@ -6571,7 +6572,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    if (SENHA_CONSULTA && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
+                    if (SENHA_CONSULTA && !PedeSenhaGerencial("Consulta avançada", Permissoes.ConsultaAvancada)) { return; }
                     else AbrirConsultaAvancada();
                 });
             } // Ativa o modo de consulta (Tecla F4)
@@ -6608,7 +6609,7 @@ namespace PDV_WPF.Telas
                     }
                     else
                     {
-                        if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", false))
+                        if (!PERMITE_CANCELAR_VENDA_EM_CURSO || !PedeSenhaGerencial("Cancelamento da Venda Atual", Permissoes.CancelarVenda, false))
                         {
                             return;
                         }
@@ -6683,7 +6684,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    if (!PedeSenhaGerencial("LISTANDO REIMPRESSÃO DE SANGRIAS"))
+                    if (!PedeSenhaGerencial("LISTANDO REIMPRESSÃO DE SANGRIAS", Permissoes.ReimprimirSangria))
                     {
                         return;
                     }
@@ -6725,7 +6726,7 @@ namespace PDV_WPF.Telas
             /* ---------------*/
             else if (e.Key == Key.F12 && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)// Ao apertar F12 + CRTL essa condição será aceita
             {
-                if (!PedeSenhaGerencial(@strings.LISTANDO_REIMPRESSAO_DE_FECHAMENTOS))
+                if (!PedeSenhaGerencial(@strings.LISTANDO_REIMPRESSAO_DE_FECHAMENTOS, Permissoes.ReimprimirFechamento))
                 {
                     return;
                 }
@@ -6740,7 +6741,7 @@ namespace PDV_WPF.Telas
             else if (e.Key == Key.Escape && e.KeyboardDevice.Modifiers == ModifierKeys.Shift && !_emTransacao)
             {
                 e.Handled = true;
-                bool _senha = PedeSenhaGerencial("Fechando o programa");
+                bool _senha = PedeSenhaGerencial("Fechando o programa", Permissoes.FecharPdv);
                 if (_senha == true)
                 {
                     Application.Current.Shutdown();
@@ -6832,7 +6833,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    if (PedeSenhaGerencial("Abrindo Gaveta"))
+                    if (PedeSenhaGerencial("Abrindo Gaveta", Permissoes.AbrirGaveta))
                     {
                         if (IMPRESSORA_USB != "Nenhuma")
                         {
@@ -6860,7 +6861,7 @@ namespace PDV_WPF.Telas
             else if (e.Key == Key.M && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
                 e.Handled = true;
-                bool _senha = PedeSenhaGerencial("Minimizando o Programa");
+                bool _senha = PedeSenhaGerencial("Minimizando o Programa", Permissoes.MinimizarPdv);
                 if (_senha == true)
                 {
                     WindowState = WindowState.Minimized;
@@ -6921,7 +6922,7 @@ namespace PDV_WPF.Telas
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     e.Handled = true;
-                    bool _senha = PedeSenhaGerencial("Abrindo Configurações");
+                    bool _senha = PedeSenhaGerencial("Abrindo Configurações", Permissoes.AbrirConfiguracoes);
                     if (_senha == true)
                     {
                         Parametros par = new Parametros(turno_aberto, _contingencia) { conf_inicial = false };
@@ -6943,7 +6944,7 @@ namespace PDV_WPF.Telas
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
-                    if (SENHA_REIMPRESSAO && !PedeSenhaGerencial("Necessária autorização de gerente")) { return; }
+                    if (SENHA_REIMPRESSAO && !PedeSenhaGerencial("Reimpressão de cupom", Permissoes.ReimprimirCupom)) { return; }
                     e.Handled = true;
                     var reimpressao = new ReimprimeCupons();
                     reimpressao.ShowDialog();
