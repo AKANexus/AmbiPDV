@@ -654,6 +654,9 @@
     <Compile Include="Telas\PerguntaVale.xaml.cs">
       <DependentUpon>PerguntaVale.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\PermissaoUsuario.xaml.cs">
+      <DependentUpon>PermissaoUsuario.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\ReimprimeFecha.xaml.cs">
       <DependentUpon>ReimprimeFecha.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -931,6 +934,10 @@
     <Page Include="Telas\PerguntaVale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\PermissaoUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Telas\ReimprimeFecha.xaml">
       <SubType>Designer</SubType>

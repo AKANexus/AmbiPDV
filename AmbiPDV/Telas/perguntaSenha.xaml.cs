@@ -10,6 +10,8 @@ using PDV_WPF.Objetos.Enums;
 using System.Reflection;
 using PDV_WPF.Funcoes;
 using PDV_WPF.Properties;
+using System.ComponentModel;
+using System.Web.UI.WebControls.WebParts;
 
 namespace PDV_WPF.Telas
 {
@@ -24,7 +26,7 @@ namespace PDV_WPF.Telas
         public enum nivelDeAcesso { Nenhum, Funcionario, Gerente }
         public nivelDeAcesso NivelAcesso { get; set; }
         private string Acao { get; set; }
-        private Permissoes PermissaoAtual { get; set; }
+        private Permissoes? PermissaoAtual { get; set; } = null;
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
@@ -35,11 +37,16 @@ namespace PDV_WPF.Telas
         public perguntaSenha(string acao)
         {
             StartPasswordClass(acao);
+            lbl_dica.Content = "DIGITE SUA SENHA PARA FECHAR ESTA NOTIFICAÇÃO";
+            txb_Senha.Focus();
         }
 
         public perguntaSenha(string acao, Permissoes permissaoRequisitada)
         {
             StartPasswordClass(acao);
+            lbl_dica.Content = "DIGITE UMA SENHA GERENCIAL PARA CONTINUAR";
+            panel_Usuarios.Visibility = Visibility.Visible;
+            cbb_Usuario.Focus();
             PermissaoAtual = permissaoRequisitada;
         }
 
@@ -67,23 +74,36 @@ namespace PDV_WPF.Telas
                         taUsersPdv.Connection = LOCAL_FB_CONN;
 
                         if(cbb_Usuario.Text == "" || cbb_Usuario.Text == null)
-                        {                            
+                        {    
+                            if(PermissaoAtual is null)
+                            {
+                                if(ChecaHash(txb_Senha.Password, (string)taUsersPdv.PegaHashPorUser(operador)) || taUsersPdv.ChecaSenhaSupervisor(GenerateHash(txb_Senha.Password)).Safeint() > 0)
+                                {
+                                    DialogResult = true;
+                                    NivelAcesso = nivelDeAcesso.Funcionario;
+                                    return;
+                                }
+                                DialogBox.Show(strings.ACESSO_RESTRITO,
+                                               DialogBoxButtons.No, DialogBoxIcons.None, false,
+                                               strings.SENHA_INVALIDA_NOTIFICAÇÃO);
+                                txb_Senha.Password = String.Empty;
+                                return;
+                            }
                             if (taUsersPdv.ChecaSenhaSupervisor(GenerateHash(txb_Senha.Password)).Safeint() > 0)
                             {
                                 RegisterAccessManage(LOCAL_FB_CONN, "SUPERVISOR", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text) ?? 0);                                                             
                                 return;
                             }
                             DialogBox.Show(strings.ACESSO_RESTRITO,
-                                          DialogBoxButtons.No, DialogBoxIcons.None, false,
-                                          strings.SENHA_INVALIDA_SUPER);
+                                           DialogBoxButtons.No, DialogBoxIcons.None, false,
+                                           strings.SENHA_INVALIDA_SUPER);
                             txb_Senha.Password = String.Empty;
                             return;
-
                         }
 
                         if(ChecaHash(txb_Senha.Password, (string)taUsersPdv.PegaHashPorUser(cbb_Usuario.Text)))
                         {
-                            if (taUsersPdv.ChecaPriv(GenerateHash(txb_Senha.Password)) > 0)
+                            if (taUsersPdv.ChecaPriv(cbb_Usuario.Text).Safeint() > 0)
                             {
                                 RegisterAccessManage(LOCAL_FB_CONN, "GERENTE", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text) ?? 0);
                                 return;
@@ -135,8 +155,7 @@ namespace PDV_WPF.Telas
 
         private void StartPasswordClass(string acao)
         {
-            InitializeComponent();
-            cbb_Usuario.Focus();
+            InitializeComponent();            
             lbl_Acao.Text = acao.ToUpper();
             Acao = acao;
             DataContext = new MainViewModel(true, false);
@@ -159,9 +178,10 @@ namespace PDV_WPF.Telas
             taFuncAuditoria.InsertAudit(ID_FUNCIONARIO: id,
                                         DATA: DateTime.Now,
                                         HORA: DateTime.Now,
-                                        DESCRICAO: $"Senha de Supervisor usada em ({Acao}) no caixa {NO_CAIXA} operado por {operador}.",
+                                        DESCRICAO: message,
                                         ID_AUDTIPO: 30,
-                                        BUILD: Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                                        BUILD: Assembly.GetExecutingAssembly().GetName().Version.ToString(),
+                                        SYNCED: 0);
             NivelAcesso = nivelDeAcesso.Gerente;
             DialogResult = true;
         }

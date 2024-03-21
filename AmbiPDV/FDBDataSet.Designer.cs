@@ -34826,15 +34826,15 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "SELECT        COUNT(*) AS Expr1, \"PASSWORD\", GERENCIA\r\nFROM            TRI_PDV_US" +
-                "ERS\r\nGROUP BY \"PASSWORD\", GERENCIA\r\nHAVING        (\"PASSWORD\" = @Param1) AND (GE" +
-                "RENCIA = \'SIM\')";
+            this._commandCollection[4].CommandText = "SELECT        COUNT(*) AS Expr1, \"USERNAME\", GERENCIA\r\nFROM            TRI_PDV_US" +
+                "ERS\r\nGROUP BY \"USERNAME\", GERENCIA\r\nHAVING        (\"USERNAME\" = @USERNAME) AND (" +
+                "GERENCIA = \'SIM\')";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Param1";
-            param.Size = 32;
+            param.ParameterName = "@USERNAME";
+            param.Size = 64;
             param.IsNullable = true;
-            param.SourceColumn = "PASSWORD";
+            param.SourceColumn = "USERNAME";
             this._commandCollection[4].Parameters.Add(param);
             this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[5].Connection = this.Connection;
@@ -35411,13 +35411,13 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual global::System.Nullable<int> ChecaPriv(string Param1) {
+        public virtual object ChecaPriv(string USERNAME) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
-            if ((Param1 == null)) {
-                throw new global::System.ArgumentNullException("Param1");
+            if ((USERNAME == null)) {
+                throw new global::System.ArgumentNullException("USERNAME");
             }
             else {
-                command.Parameters[0].Value = ((string)(Param1));
+                command.Parameters[0].Value = ((string)(USERNAME));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -35435,10 +35435,10 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             }
             if (((returnValue == null) 
                         || (returnValue.GetType() == typeof(global::System.DBNull)))) {
-                return new global::System.Nullable<int>();
+                return null;
             }
             else {
-                return new global::System.Nullable<int>(((int)(returnValue)));
+                return ((object)(returnValue));
             }
         }
         

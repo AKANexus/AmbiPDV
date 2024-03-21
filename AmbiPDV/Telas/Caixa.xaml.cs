@@ -800,7 +800,7 @@ namespace PDV_WPF.Telas
         {
             if (tipoDeDesconto == tipoDesconto.Nenhum)
             {
-                var senha = new perguntaSenha("Aplicando desconto no item");
+                var senha = new perguntaSenha("Aplicando desconto no item", Permissoes.DescontoItem);
                 senha.ShowDialog();
                 if (senha.DialogResult == false)
                 {
@@ -812,7 +812,7 @@ namespace PDV_WPF.Telas
                 {
                     if (DESCONTO_MAXIMO == 0)
                     {
-                        DialogBox.Show(strings.APLICAR_DESCONTO, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.SENHA_DIGITADA_NAO_E_VALIDA);
+                        DialogBox.Show(strings.ACESSO_NEGADO, DialogBoxButtons.No, DialogBoxIcons.None, false, strings.USUARIO_NAO_POSSUI_PERMISSAO);
                         return;
                     }
                     AplicarDesconto(true);

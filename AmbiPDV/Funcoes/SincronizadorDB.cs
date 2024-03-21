@@ -2954,6 +2954,44 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
+        public void Sync_TB_FUNC_AUDITORIA_SIS(EnmTipoSync enmTipoSync)
+        {
+            if (enmTipoSync != EnmTipoSync.tudo) return; 
+
+            using(var tblFuncAuditPdv = new FDBDataSetOperSeed.TB_FUNC_AUDITORIA_SISDataTable())
+            using (var taFuncAuditPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_AUDITORIA_SISTableAdapter())
+            using (var taFuncAuditServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_AUDITORIA_SISTableAdapter())
+            {
+                taFuncAuditPdv.Connection.ConnectionString = _strConnContingency;
+                taFuncAuditServ.Connection.ConnectionString = _strConnNetwork;
+
+                try
+                {
+                    taFuncAuditPdv.FillByUnsynceds(tblFuncAuditPdv);
+
+                    if (tblFuncAuditPdv != null && tblFuncAuditPdv.Rows.Count > 0)
+                    {
+                        foreach (var auditoria in tblFuncAuditPdv)
+                        {
+                            taFuncAuditServ.InsertAudit(ID_FUNCIONARIO: auditoria.ID_FUNCIONARIO,
+                                                        DATA: auditoria.DATA,
+                                                        HORA: auditoria.HORA,
+                                                        DESCRICAO: auditoria.DESCRICAO,
+                                                        ID_AUDTIPO: auditoria.ID_AUDTIPO,
+                                                        BUILD: auditoria.BUILD,
+                                                        SYNCED: 1);
+                        }
+
+                        taFuncAuditPdv.SetSynchronized();
+                    }
+                }
+                catch(Exception ex)
+                {                    
+                    GravarErroSync("Auditoria do Funcionário(PDV)", tblFuncAuditPdv, ex);                    
+                    throw ex;
+                }
+            }
+        }
 
         public void Sync_TB_CLIENTE(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
         {
@@ -8798,7 +8836,7 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar FuncionarioPapel", ex);
                         throw new SynchException("Erro ao sincronizar FuncionarioPapel", ex);
-                    }
+                    }                    
                     try
                     {
                         Sync_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
@@ -10489,7 +10527,27 @@ namespace PDV_WPF.Funcoes
 
             #region Operações
 
-            Sync_Operacoes_TRI_PDV_TERMINAL_USUARIO_INCOMPLETO(tipoSync);
+            try
+            {
+                Sync_Operacoes_TRI_PDV_TERMINAL_USUARIO_INCOMPLETO(tipoSync);
+                log.Debug("TerminalUsuario sincronizado");
+            }
+            catch(Exception ex)
+            {
+                log.Error("Falha ao sincronizar TerminalUsuario", ex);
+                throw new SynchException("Erro ao sincronizar TerminalUsuario", ex);
+            }
+
+            try
+            {
+                Sync_TB_FUNC_AUDITORIA_SIS(tipoSync);
+                log.Debug("FuncionarioAuditoria sincronizados");
+            }
+            catch (Exception ex)
+            {
+                log.Error("Falha ao sincronizar FuncionarioAuditoria", ex);
+                throw new SynchException("Erro ao sincronizar FuncionarioAuditoria", ex);
+            }
 
             #region TRI_PDV_TERMINAL_USUARIO (PDV -> Serv) (INCOMPLETO)
             /*
@@ -10544,7 +10602,16 @@ namespace PDV_WPF.Funcoes
              */
             #endregion TRI_PDV_TERMINAL_USUARIO (PDV -> Serv) (INCOMPLETO)
 
-            Sync_Operacoes_TRI_PDV_SANSUP_PDV_Serv(tipoSync);
+            try
+            {
+                Sync_Operacoes_TRI_PDV_SANSUP_PDV_Serv(tipoSync);
+                log.Debug("SanSup sincronizados");
+            }            
+            catch (Exception ex)
+            {
+                log.Error("Falha ao sincronizar SanSup", ex);
+                throw new SynchException("Erro ao sincronizar SanSup", ex);
+            }
             #region TRI_PDV_SANSUP (PDV => Serv)
             /*
             if (tipoSync == EnmTipoSync.vendas || tipoSync == EnmTipoSync.tudo)

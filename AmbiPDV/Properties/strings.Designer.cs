@@ -1175,6 +1175,15 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha digitada está inválida. Digite sua senha ou a do supervisor..
+        /// </summary>
+        internal static string SENHA_INVALIDA_NOTIFICAÇÃO {
+            get {
+                return ResourceManager.GetString("SENHA_INVALIDA_NOTIFICAÇÃO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Senha do supervisor está inválida, por favor, tente novamente..
         /// </summary>
         internal static string SENHA_INVALIDA_SUPER {

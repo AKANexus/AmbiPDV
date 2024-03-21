@@ -134,8 +134,13 @@ namespace PDV_WPF
                     return;
                 }
 
-                if (
-                DialogBox.Show("Zerar senha", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja mesmo resetar a senha para o usuário:", cbb_Usuario.SelectedItem.ToString().ToUpper()) == false)
+                if(cbb_Usuario.SelectedItem == null)
+                {
+                    DialogBox.Show("Atenção", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Selecione o usuário para qual deseja resetar a senha");
+                    return;
+                }
+
+                if (DialogBox.Show("Zerar senha", DialogBoxButtons.YesNo, DialogBoxIcons.None, false, "Deseja mesmo resetar a senha para o usuário:", cbb_Usuario.SelectedItem.ToString().ToUpper()) == false)
                 {
                     return;
                 }
@@ -359,6 +364,32 @@ namespace PDV_WPF
         private void tgl_usatef_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
-        }     
+        }
+
+        private void btn_permissoes_Click(object sender, RoutedEventArgs e)
+        {
+            if(cbb_Usuario.SelectedItem == null)
+            {
+                DialogBox.Show("Atenção", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Selecione o usuário que deseja alterar permissões.");
+                return;
+            }
+
+            PermissaoUsuario permissaoUsuario = new PermissaoUsuario(cbb_Usuario.SelectedItem.ToString());
+            permissaoUsuario.ShowDialog();
+        }
+
+        private void cbb_Usuario_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox comboBox = (ComboBox)sender;
+
+            if(comboBox.SelectedItem.ToString().ToUpper() == "SUPERVISOR")
+            {
+                btn_permissoes.IsEnabled = false;
+                return;
+            }
+
+            if (!btn_permissoes.IsEnabled)
+                btn_permissoes.IsEnabled = true;
+        }
     }
 }

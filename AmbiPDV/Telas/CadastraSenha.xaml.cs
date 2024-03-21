@@ -86,7 +86,7 @@ namespace PDV_WPF.Telas
                         }
                     }
 
-                    MessageBox.Show("Senha cadastrada com sucesso. Já pode fazer login.");
+                    MessageBox.Show("Senha cadastrada com sucesso. Usuário já pode realizar login.", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
                     senha = txb_Senha1.Password;
 
                     // Usuário cadastrado/alterado no servidor.

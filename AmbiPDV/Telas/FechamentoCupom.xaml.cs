@@ -605,7 +605,7 @@ namespace PDV_WPF.Telas
                         txb_Metodo.Focus();
                         return;
                     }                    
-                    var senha = new perguntaSenha("Aplicando Desconto na Venda");
+                    var senha = new perguntaSenha("Aplicando Desconto na Venda", Permissoes.DescontoVenda);
                     senha.ShowDialog();
                     if (senha.DialogResult == false)
                     {
@@ -617,10 +617,9 @@ namespace PDV_WPF.Telas
                     {
                         if (_desconto_maximo == 0)
                         {
-                            DialogBox.Show("Senha incorreta",
-                                           DialogBoxButtons.No, DialogBoxIcons.Warn, false,
-                                           "A senha digitada não é uma senha de gerente.",
-                                           "Impossível aplicar desconto.");
+                            DialogBox.Show(strings.ACESSO_NEGADO,
+                                           DialogBoxButtons.No, DialogBoxIcons.None, false,
+                                           strings.USUARIO_NAO_POSSUI_PERMISSAO);
                             return;
                         }
                         AplicaDesconto(true);
