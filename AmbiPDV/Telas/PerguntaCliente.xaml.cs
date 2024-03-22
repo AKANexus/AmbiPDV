@@ -5,6 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Funcoes.Statics;
+using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
+using PDV_WPF.REMENDOOOOO;
 
 namespace PDV_WPF.Telas
 {
@@ -20,6 +22,7 @@ namespace PDV_WPF.Telas
         public DateTime? vencimento { get; set; }
         private bool _modoteste;
         private readonly decimal _vlrPagto;
+        private bool _creditoLoja;
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
@@ -27,14 +30,18 @@ namespace PDV_WPF.Telas
 
         #region (De)Constructor
 
-        public PerguntaCliente(int id_pgto, bool modoTeste = false, decimal vlrPagto = decimal.Zero)
+        public PerguntaCliente(int id_pgto, bool modoTeste = false, decimal vlrPagto = decimal.Zero, bool creditoLoja = false)
         {
             //DataContext = new ViewModels.MainViewModel();
             _modoteste = modoTeste;
             _vlrPagto = vlrPagto;
+            _creditoLoja = creditoLoja;
             InitializeComponent();
             PreencherCombobox();
             cbb_Cliente.Focus();
+
+            if (creditoLoja)
+                dtp_Vencimento.Visibility = Visibility.Collapsed;
 
             DataSets.FDBDataSetVenda.TB_FORMA_PAGTO_NFCERow metodoRow;
             try
@@ -124,7 +131,9 @@ namespace PDV_WPF.Telas
             try
             {
                 using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
+                using (var SERVER_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG)})
                 using (var Cliente_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter())
+                using (var CredCli_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CRED_CLITableAdapter())
                 using (var ContaReceber_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter())
                 {
                     Cliente_TA.Connection = LOCAL_FB_CONN;
@@ -135,12 +144,43 @@ namespace PDV_WPF.Telas
 
                     DataSets.FDBDataSetOperSeed.TB_CLIENTERow clienteRow = (from cliente in Cliente_TA.GetData()
                                                                             where cliente.ID_CLIENTE == id_cliente
-                                                                            select cliente).FirstOrDefault();
+                                                                            select cliente).FirstOrDefault();                    
 
                     if (!clienteRow.IsMENSAGEMNull() && !String.IsNullOrWhiteSpace(clienteRow.MENSAGEM))
                     {
                         if (DialogBox.Show("ALERTA", DialogBoxButtons.YesNo, DialogBoxIcons.Warn, false, "Atenção, cliente possui aviso:", clienteRow.MENSAGEM, "Deseja prosseguir com a venda?") == false)
                         {
+                            return;
+                        }
+                    }
+
+                    if (_creditoLoja)
+                    {
+                        try
+                        {
+                            SERVER_FB_CONN.Open();
+                            CredCli_TA.Connection = SERVER_FB_CONN;
+                        }
+                        catch (Exception _)
+                        {
+                            MessageBox.Show("Sem conexão com o servidor, entre em contato com o suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return;
+                        }
+
+                        decimal saldoAtual = CredCli_TA.SaldoAtual(ID_CLIENTE: clienteRow.ID_CLIENTE) ?? 0;
+                        if (saldoAtual < _vlrPagto)
+                        {
+                            DialogBox.Show("Saldo Insuficiente", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Cliente não possui saldo suficiente para pagar essa compra", $"Saldo atual: {saldoAtual.ToString("C")}");
+                            return;
+                        }
+
+                        FuncoesFirebird ff = new();
+                        if(!ff.DebitaSaldoCliente(idCliente: clienteRow.ID_CLIENTE, 
+                                              vlrDebito: _vlrPagto,                                              
+                                              observacao: $"Venda CFe pag. com credito do cliente em {DateTime.Now}",
+                                              connection: SERVER_FB_CONN))
+                        {
+                            MessageBox.Show("Não foi possivel debitar saldo do cliente, entre em contato com o suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                             return;
                         }
                     }

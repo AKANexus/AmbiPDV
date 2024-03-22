@@ -14,7 +14,7 @@
             <Label Content="INFORME A MAQUININHA UTILIZADA" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,10" FontFamily="Open Sans SemiBold" FontSize="24" FontStyle="Italic" Foreground="#FF757575"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Border Background="#FF09CAAA" Margin="0,0,-1,0" Panel.ZIndex="1" Height="30" >
-                    <Label Content="Ó" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Webdings" FontSize="30" Margin="0,0,0,4" Width="40"/>
+                    <Label Content="Ó" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Webdings" FontSize="30" Width="40" Height="34" Margin="0,-4,0,0"/>
                 </Border>
                 <ComboBox x:Name="cbb_Administradora" Width="330" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="15" Padding="3" HorizontalContentAlignment="Left" Height="30"/>
             </StackPanel>

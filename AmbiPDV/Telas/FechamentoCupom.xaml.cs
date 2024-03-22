@@ -359,7 +359,7 @@ namespace PDV_WPF.Telas
                 }
             }
 
-            if (strPgCfe == "05")
+            if (strPgCfe == "05" && idMetodo == 5)
             {
                 if (SENHA_PRAZO && !PedeSenhaGerencial("Necessária autorização de gerente")) return;
                 if (/*intPagamentoDiasByIdPag > 0*/ true)
@@ -379,11 +379,23 @@ namespace PDV_WPF.Telas
                             log.Debug($"ID_CLIENTE: {id_cliente}, vencimento: {vencimento}");
                             break;
                         default:
-                            MessageBox.Show("É necessário informar um cliente.");
+                            MessageBox.Show("É necessário informar um cliente." , "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                             return;
                     }
                 }
-            }            
+            } 
+            
+            if(strPgCfe == "05" && idMetodo == 19)
+            {
+                var PC = new PerguntaCliente(idMetodo, false, _valor, true);
+                PC.ShowDialog();
+
+               if(PC.DialogResult == false || PC.DialogResult == null)
+                {
+                    MessageBox.Show("É necessário informar um cliente.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
+            }
 
             if (strPgCfe == "17")
             {
@@ -789,7 +801,8 @@ namespace PDV_WPF.Telas
                         if (INFORMA_MAQUININHA == true)
                         {
                             Administradora adm = new Administradora();
-                            adm.ShowDialog();                            
+                            adm.ShowDialog();
+                            log.Debug($"Maquininha utilizada: {(Administradora.idAdm == 0 ? "Maquininha não informada" : Administradora.idAdm)}");
                         }
                         break;
                 }

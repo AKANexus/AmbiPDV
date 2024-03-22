@@ -81,8 +81,9 @@ namespace PDV_WPF.Telas
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })                        
             {
                 using var TB_CARTAO_ADMINISTRADORA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter { Connection = LOCAL_FB_CONN };
-                short? ID_ADMINISTRADORA = TB_CARTAO_ADMINISTRADORA.PegaIDPorDesc(cbb_Administradora.Text);
-                idAdm = Convert.ToInt16(ID_ADMINISTRADORA);
+                short? ID_ADMINISTRADORA = (short?)TB_CARTAO_ADMINISTRADORA.PegaIDPorDesc(DESCRICAO: cbb_Administradora.Text);
+                if(ID_ADMINISTRADORA is not null)
+                    idAdm = Convert.ToInt16(ID_ADMINISTRADORA);
             }
         }   
     }

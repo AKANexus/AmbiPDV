@@ -60,6 +60,42 @@ namespace PDV_WPF.REMENDOOOOO
         //    return resultado;
         //}
 
+        public bool DebitaSaldoCliente(int idCliente, decimal vlrDebito, string observacao, FbConnection connection)
+        {
+            try
+            {
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+
+            FbCommand command = new FbCommand();
+            command.Connection = connection;
+            command.CommandType = CommandType.Text;
+
+            command.CommandText = "UPDATE OR INSERT INTO TB_CRED_CLI (ID_CRED_CLI, ID_CLIENTE, VLR_CREDITO, VLR_DEBITO, DATA, OBS, ID_CTAREC, ID_NFVENDA_DEVOL, ID_NFVENDA_TROCO) " +
+                                  $"VALUES (GEN_ID(GEN_TB_CRED_CLI_ID, 1), @idCliente, 0, @vlrDebito, current_timestamp, @obs, NULL, 0, NULL);";
+
+            command.Parameters.Add("@idCliente", idCliente);
+            command.Parameters.Add("@vlrDebito", vlrDebito);
+            command.Parameters.Add("@obs", observacao);
+
+            try
+            {
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return false;
+            }
+        }
+
         public (decimal, decimal) SomaDeValores(System.DateTime DT_ABERTURA, int INT_FMANFCE, string STR_SERIE,
             System.DateTime DT_FECHAMENTO, FbConnection connection)
         {
