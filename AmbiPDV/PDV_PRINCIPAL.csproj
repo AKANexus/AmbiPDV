@@ -443,6 +443,11 @@
     <Compile Include="DataSets\FDBDataSetConfig.cs">
       <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
     </Compile>
+    <Compile Include="DataSets\FDBDataSetConfig.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
+    </Compile>
     <Compile Include="DataSets\FDBDataSetConfig1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
