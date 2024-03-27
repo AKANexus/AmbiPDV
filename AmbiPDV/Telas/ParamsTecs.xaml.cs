@@ -374,6 +374,12 @@ namespace PDV_WPF
                 return;
             }
 
+            if (_contingencia)
+            {
+                DialogBox.Show("Permissões", DialogBoxButtons.No, DialogBoxIcons.None, false, "Esse operação só poderá ser executada quando o caixa não estiver em contingência.", cbb_Usuario.SelectedItem.ToString().ToUpper());
+                return;
+            }
+
             PermissaoUsuario permissaoUsuario = new PermissaoUsuario(cbb_Usuario.SelectedItem.ToString());
             permissaoUsuario.ShowDialog();
         }
