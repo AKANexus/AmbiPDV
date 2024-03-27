@@ -4380,8 +4380,18 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 " 1 from RDB$RELATIONS where rdb$relation_name = \'TRI_SCANN_ADICIONAL\'))\r\nthen\r\nE" +
                 "XECUTE STATEMENT \'CREATE TABLE TRI_SCANN_ADICIONAL ( ID INTEGER NOT NULL, IDPROM" +
                 "OCAO INTEGER, PRODUTONOME VARCHAR(150), CODIGOBARRAS VARCHAR(18), CONSTRAINT PK_" +
-                "TB_PROMOCOES_ITENS_1 PRIMARY KEY (ID) );\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHE" +
-                "N ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "TB_PROMOCOES_ITENS_1 PRIMARY KEY (ID) );\';\r\n\r\nerro = \'alter table TB_FUNC_AUDITO" +
+                "RIA_SIS add TRI_PDV_SYNCED\';\r\nIF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS" +
+                " WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAME = \'TRI_PDV" +
+                "_SYNCED\'))\r\nthen begin\r\nexecute statement \'ALTER TABLE TB_FUNC_AUDITORIA_SIS ADD" +
+                " TRI_PDV_SYNCED SMALLINT DEFAULT 1;\';\r\nend\r\n                                    " +
+                "                                                          \r\nerro = \'add descript" +
+                "ion in TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED\';\r\nIF (EXISTS (SELECT 1 FROM RDB$REL" +
+                "ATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAM" +
+                "E = \'TRI_PDV_SYNCED\' AND RDB$DESCRIPTION IS NULL))\r\nthen begin\r\nexecute statemen" +
+                "t \'COMMENT ON COLUMN TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED IS \'\'INDICA SE O REGIS" +
+                "TRO JÁ FOI SINCRONIZADO DO PDV PARA O CLIPP\'\';\';\r\nend\r\n\r\nerro = \'deu certo\';\r\nSU" +
+                "SPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
@@ -4935,35 +4945,25 @@ END;";
                 "                                            execute statement \'ALTER TABLE TRI_P" +
                 "DV_CONFIG ADD LAYOUT_SAT VARCHAR(4) DEFAULT \'\'008\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n  " +
                 "                                                                                " +
-                "              erro = \'alter table TB_FUNC_AUDITORIA_SIS add TRI_PDV_SYNCED\';\r\n  " +
-                "                                                                                " +
-                "                              IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS" +
-                " WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAME = \'TRI_PDV" +
-                "_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                                                  " +
-                "                                                              execute statement " +
-                "\'ALTER TABLE TB_FUNC_AUDITORIA_SIS ADD TRI_PDV_SYNCED SMALLINT DEFAULT 1;\';\r\n\t\t\t" +
-                "\t\t\tend\r\n                                                                        " +
-                "                      \r\n                                                        " +
-                "                                        erro = \'add description in TB_FUNC_AUDIT" +
-                "ORIA_SIS.TRI_PDV_SYNCED\';\r\n                                                     " +
-                "                                                           IF (EXISTS (SELECT 1 " +
-                "FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND R" +
-                "DB$FIELD_NAME = \'TRI_PDV_SYNCED\' AND RDB$DESCRIPTION IS NULL))\r\n\t\t\t\t\t\tthen begin" +
-                "\r\n                                                                              " +
-                "                                  execute statement \'COMMENT ON COLUMN TB_FUNC_A" +
-                "UDITORIA_SIS.TRI_PDV_SYNCED IS \'\'INDICA SE O REGISTRO JÁ FOI SINCRONIZADO DO PDV" +
-                " PARA O CLIPP\'\';\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t" +
-                "\t\t\tif (exists (select 1 from RDB$INDICES where rdb$index_name = \'TRI_PDV_DEVOL_P" +
-                "K\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTR" +
-                "AINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\terro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif" +
-                " (NOT exists(SELECT 1 FROM RDB$GENERATORS WHERE RDB$Generator_name= \'TRI_PDV_DEV" +
-                "OL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID" +
-                ";\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select " +
-                "1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t" +
-                "\tEXECUTE STATEMENT \'CREATE TRIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT " +
-                "AS BEGIN IF (NEW.ID_DEVOLUCAO = -1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL" +
-                "_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO " +
-                "BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "              erro = \'alter from null to 1 in TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNC" +
+                "ED\';\r\n                                                                          " +
+                "                                      IF (EXISTS (SELECT 1 FROM RDB$RELATION_FIE" +
+                "LDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAME = \'TRI_" +
+                "PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                                               " +
+                "                                                                 execute stateme" +
+                "nt \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA_SIS SET TRI_PDV_SYNCED = 1 W" +
+                "HERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t\t\t\t\terro = \'delete UK TRI_PDV" +
+                "_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$INDICES where rdb$index_name = " +
+                "\'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_D" +
+                "EVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\terro = \'create gen TRI_PDV_DEVO" +
+                "L_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENERATORS WHERE RDB$Generator_na" +
+                "me= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE GENERATOR " +
+                "TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (no" +
+                "t exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t" +
+                "\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVO" +
+                "L BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1) THEN NEW.ID_DEVOLUCAO = GEN_" +
+                "ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t" +
+                "\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;

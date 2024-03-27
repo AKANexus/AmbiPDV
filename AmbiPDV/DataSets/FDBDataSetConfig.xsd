@@ -601,6 +601,18 @@ if (not exists(select 1 from RDB$RELATIONS where rdb$relation_name = 'TRI_SCANN_
 then
 EXECUTE STATEMENT 'CREATE TABLE TRI_SCANN_ADICIONAL ( ID INTEGER NOT NULL, IDPROMOCAO INTEGER, PRODUTONOME VARCHAR(150), CODIGOBARRAS VARCHAR(18), CONSTRAINT PK_TB_PROMOCOES_ITENS_1 PRIMARY KEY (ID) );';
 
+erro = 'alter table TB_FUNC_AUDITORIA_SIS add TRI_PDV_SYNCED';
+IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = 'TB_FUNC_AUDITORIA_SIS' AND RDB$FIELD_NAME = 'TRI_PDV_SYNCED'))
+then begin
+execute statement 'ALTER TABLE TB_FUNC_AUDITORIA_SIS ADD TRI_PDV_SYNCED SMALLINT DEFAULT 1;';
+end
+                                                                                              
+erro = 'add description in TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED';
+IF (EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = 'TB_FUNC_AUDITORIA_SIS' AND RDB$FIELD_NAME = 'TRI_PDV_SYNCED' AND RDB$DESCRIPTION IS NULL))
+then begin
+execute statement 'COMMENT ON COLUMN TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED IS ''INDICA SE O REGISTRO JÁ FOI SINCRONIZADO DO PDV PARA O CLIPP'';';
+end
+
 erro = 'deu certo';
 SUSPEND;
 WHEN ANY DO
@@ -1437,16 +1449,10 @@ END;</CommandText>
                                                                                                                 execute statement 'ALTER TABLE TRI_PDV_CONFIG ADD LAYOUT_SAT VARCHAR(4) DEFAULT ''008'' NOT NULL;';
 						end
 
-                                                                                                erro = 'alter table TB_FUNC_AUDITORIA_SIS add TRI_PDV_SYNCED';
-                                                                                                                IF ( NOT EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = 'TB_FUNC_AUDITORIA_SIS' AND RDB$FIELD_NAME = 'TRI_PDV_SYNCED'))
+                                                                                                erro = 'alter from null to 1 in TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED';
+                                                                                                                IF (EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = 'TB_FUNC_AUDITORIA_SIS' AND RDB$FIELD_NAME = 'TRI_PDV_SYNCED'))
 						then begin
-                                                                                                                execute statement 'ALTER TABLE TB_FUNC_AUDITORIA_SIS ADD TRI_PDV_SYNCED SMALLINT DEFAULT 1; UPDATE TB_FUNC_AUDITORIA_SIS SET TRI_PDV_SYNCED = 1 WHERE TRI_PDV_SYNCED IS NULL;';
-						end
-                                                                                              
-                                                                                                erro = 'add description in TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED';
-                                                                                                                IF (EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = 'TB_FUNC_AUDITORIA_SIS' AND RDB$FIELD_NAME = 'TRI_PDV_SYNCED' AND RDB$DESCRIPTION IS NULL))
-						then begin
-                                                                                                                execute statement 'COMMENT ON COLUMN TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED IS ''INDICA SE O REGISTRO JÁ FOI SINCRONIZADO DO PDV PARA O CLIPP'';';
+                                                                                                                execute statement 'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA_SIS SET TRI_PDV_SYNCED = 1 WHERE TRI_PDV_SYNCED IS NULL; END';
 						end
 
 						erro = 'delete UK TRI_PDV_DEVOL_PK';
