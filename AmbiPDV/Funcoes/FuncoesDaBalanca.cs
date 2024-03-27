@@ -17,7 +17,7 @@ namespace Balancas
         {
             private Logger _log = new Logger(typeof(Balanca));
 
-            [DllImport(@"P05.dll", CallingConvention = CallingConvention.Winapi)]
+            [DllImport(@"P05.dll", CallingConvention = CallingConvention.StdCall)]
             public static extern int AbrePorta(int porta, int velocidade, int dataBits, int paridade);
 
             [DllImport(@"P05.dll", CallingConvention = CallingConvention.Winapi)]

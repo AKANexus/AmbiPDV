@@ -27,11 +27,11 @@
             <TextBlock Grid.Row="1" x:Name="lbl_Title" HorizontalAlignment="Center" VerticalAlignment="Top" FontFamily="Open Sans SemiBold" FontSize="24" Foreground="#FF757575" Text="Erro ao ler peso da Balança"/>
             <TextBlock Grid.Row="2" TextWrapping="Wrap" x:Name="tbl_Body" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" FontFamily="Open Sans SemiBold" FontSize="14" Foreground="#FF757575" MaxWidth="430" TextAlignment="Center"><Run x:Name="run_Linha1" Text="Não foi possível obter o peso da balanca. "/><LineBreak/><Run x:Name="run_Linha2" Text="Deseja digitar o peso manualmente?"/><LineBreak/><Run x:Name="run_Linha3" Text="[ENTER] para tentar novamente, [ESC] para cancelar, "/><LineBreak/><Run x:Name="run_Linha4" Text="ou digite o peso"/><Run x:Name="run_Linha5" Text=", e pressione [ENTER]"/></TextBlock>
             <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="7,0,7,4">
-                <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
-                    <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
+                <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
+                    <Label x:Name="lbl_Da" Style="{StaticResource HoverStyleLabelInBorder}" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"  Height="37" Width="185"/>
                 </Border>
-                <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0" MouseEnter="but_Cancelar_MouseEnter" MouseLeave="but_Cancelar_MouseLeave">
-                    <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12"/>
+                <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
+                    <Label x:Name="lbl_Nyet" Style="{StaticResource HoverStyleLabelInBorder}" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12" Height="37" Width="185"/>
                 </Border>
 
             </StackPanel>

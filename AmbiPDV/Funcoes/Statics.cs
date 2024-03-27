@@ -22,6 +22,8 @@ using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using System.Threading.Tasks;
 using System.Printing;
 using System.Windows.Media.Animation;
+using PDV_WPF.Objetos.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace PDV_WPF.Funcoes
 {
@@ -552,10 +554,10 @@ namespace PDV_WPF.Funcoes
         /// </summary>
         /// <param name="acao">Informe o motivo para pedir a senha gerencial.</param>
         /// <returns></returns>
-        public static bool PedeSenhaGerencial(string acao, bool modoTeste = false)
+        public static bool PedeSenhaGerencial(string acao, Permissoes permissaoRequisitada, bool modoTeste = false)
         {
             if (modoTeste) return true;
-            var senha = new perguntaSenha(acao);
+            var senha = new perguntaSenha(acao, permissaoRequisitada);
             senha.ShowDialog();
             switch (senha.DialogResult)
             {
@@ -564,7 +566,7 @@ namespace PDV_WPF.Funcoes
                     { return true; }
                     else
                     {
-                        DialogBox.Show(strings.SENHA_DIGITADA_NAO_E_VALIDA, DialogBoxButtons.No, DialogBoxIcons.None, false, strings.USUARIO_NAO_POSSUI_PERMISSAO);
+                        DialogBox.Show(strings.ACESSO_NEGADO, DialogBoxButtons.No, DialogBoxIcons.None, false, strings.USUARIO_NAO_POSSUI_PERMISSAO);
                         return false;
                     }
                 case false:
@@ -693,6 +695,34 @@ namespace PDV_WPF.Funcoes
             {
                 action(enumerador1.Current, enumerador2.Current);
             }
+        }
+
+        /// <summary>
+        /// Retorna display das opção de algum enum
+        /// </summary>
+        /// <param name="value">Enum avaliado</param>
+        /// <returns></returns>
+        public static string ToFriendly(this Enum? value)
+        {
+            if (value == null)
+            {
+                return "Acesso de Supervisor";
+            }
+            Type type = value.GetType();
+            string? name = Enum.GetName(type, value);
+            if (name != null)
+            {
+                FieldInfo? field = type.GetField(name);
+                if (field != null)
+                {
+                    if (Attribute.GetCustomAttribute(field,
+                            typeof(DisplayAttribute)) is DisplayAttribute attr)
+                    {
+                        return attr.Name ?? nameof(value);
+                    }
+                }
+            }
+            return value.ToString();
         }
 
         /// <summary>

@@ -1120,7 +1120,7 @@ namespace PDV_WPF
                 {
                     log.Debug($"metodo {metodo},valoresOperacinais: {valoresOperacionais}");
                     decimal valorInformado = GetValorMetodoFromOper(fecha_infor_dt[0], metodo.ID_FMANFCE);
-                    if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17") && USATEF)
+                    if ((metodo.COD_CFE == "03" || metodo.COD_CFE == "04" || metodo.COD_CFE == "17" || metodo.COD_CFE == "10" || metodo.COD_CFE == "11") && USATEF)
                     {
                         valorInformado = metodo.VALOR;
                     }
@@ -1526,7 +1526,8 @@ namespace PDV_WPF
     }
     public class VendaImpressa
     {
-
+        public static string operadorStr;
+        public static int num_caixa;
         public static int numerodocupom;
         public static string chavenfe;
         public static int no_pedido;
@@ -1543,6 +1544,7 @@ namespace PDV_WPF
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
         public static DateTime? TsOperacao;
         public static Dictionary<string, string> ReciboTEF { get; set; }
+        public static ClienteDuePayDTO clienteDuePay;
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0, bool recAtacado = false)
         {
@@ -1554,6 +1556,11 @@ namespace PDV_WPF
         {
             MetodoPagamento method = new MetodoPagamento { NomeMetodo = Xmetodo, ValorDoPgto = Xvalor };
             pagamentos.Add(method);
+        }
+
+        public static void RecebeClienteDuepay(ClienteDuePayDTO cliente)
+        {
+            clienteDuePay = cliente;
         }
 
         private static void LinhaHorizontal()
@@ -1726,13 +1733,28 @@ namespace PDV_WPF
                 {
                     RecebePrint($"{observacaoFisco.Item1} - {observacaoFisco.Item2}", corpo, esquerda, 1);
                 }
-                RecebePrint((TsOperacao ?? DateTime.Now).ToShortDateString(), corpo, esquerda, 1);
+                if (operadorStr.Equals("REIMPRESSÃO"))
+                {
+                    RecebePrint("Data da operação: " + (TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
+                    RecebePrint("Data da reimpressão: " + DateTime.Now.ToString(), corpo, esquerda, 2);
+                }
+                else { RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1); }
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {
                     RecebePrint("Você foi atendido por: " + vendedor, corpo, esquerda, 1);
                 }
                 if (no_pedido > 0) RecebePrint("Pedido nº: " + no_pedido, titulo, esquerda, 1);
+                if (clienteDuePay is not null)
+                {
+                    LinhaHorizontal();
+                    RecebePrint("Dados Cliente Duepay", titulo, centro, 1);
+                    RecebePrint($"Id: {clienteDuePay.IdCliente}", corpo, esquerda, 1);
+                    RecebePrint($"Nome: {clienteDuePay.Nome}", corpo, esquerda, 1);
+                    RecebePrint($"Cnpj/Cpf: {clienteDuePay.CpfOrCnpj}", corpo, esquerda, 1);
+                    RecebePrint($"Telefone: {clienteDuePay.Telefone}", corpo, esquerda, 1);                    
+                    RecebePrint($"Número da sorte: {clienteDuePay.NumeroDaSorte}", corpo, esquerda, 1);                    
+                }                
                 LinhaHorizontal();
                 RecebePrint("* - Valor aproximado dos tributos do item", corpo, esquerda, 1);
                 RecebePrint("Valor aproximado dos tributos deste cupom R$", corpo, esquerda, 0);
@@ -1744,7 +1766,8 @@ namespace PDV_WPF
                 RecebePrint("Tributos Municipais R$", corpo, esquerda, 0);
                 RecebePrint((total_trib_mun / 100).ToString("n2"), negrito, direita, 1);
                 RecebePrint("(conforme Lei Fed. 12.741/2012)", corpo, esquerda, 1);
-                RecebePrint("Operador: " + operador, corpo, esquerda, 1);
+                RecebePrint("Operador(a): " + operador, corpo, esquerda, 0);
+                RecebePrint("Caixa: " + num_caixa.ToString("000"), corpo, direita, 1);
                 LinhaHorizontal();
                 if (numerosat > 99999999) RecebePrint("### HOMOLOGAÇÃO - SEM VALOR FISCAL ###", titulo, centro, 1);
                 RecebePrint("SAT No. " + numerosat, titulo, centro, 1);
@@ -2022,6 +2045,7 @@ namespace PDV_WPF
         public static List<Produto> produtos = new List<Produto>();
         public static List<MetodoPagamento> pagamentos = new List<MetodoPagamento>();
         public static DateTime? TsOperacao;
+        public static ClienteDuePayDTO clienteDuePay;
 
         public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0, bool recAtacado = false)
         {
@@ -2033,6 +2057,11 @@ namespace PDV_WPF
         {
             MetodoPagamento method = new MetodoPagamento { NomeMetodo = Xmetodo, ValorDoPgto = Xvalor };
             pagamentos.Add(method);
+        }
+
+        public static void RecebeClienteDuepay(ClienteDuePayDTO cliente)
+        {
+            clienteDuePay = cliente;
         }
 
         private static void LinhaHorizontal()
@@ -2149,11 +2178,22 @@ namespace PDV_WPF
                 }
                 if (operadorStr.Equals("REIMPRESSÃO")) { RecebePrint("Data da operação: " + (TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1);
                                                          RecebePrint("Data da reimpressão: " + DateTime.Now.ToString(), corpo, esquerda, 2); }
-                else { RecebePrint((TsOperacao ?? DateTime.Now).ToString(), corpo, esquerda, 1); }
+                else { RecebePrint(DateTime.Now.ToString(), corpo, esquerda, 1); }
                 RecebePrint(MENSAGEM_RODAPE, corpo, esquerda, 2);
                 if (SYSCOMISSAO > 0 && !String.IsNullOrWhiteSpace(vendedor))
                 {
                     RecebePrint("Você foi atendido por: " + vendedor, corpo, esquerda, 1);
+                }
+                if (clienteDuePay is not null)
+                {
+                    LinhaHorizontal();
+                    RecebePrint("Dados Cliente Duepay", titulo, centro, 1);
+                    RecebePrint($"Id: {clienteDuePay.IdCliente}", corpo, esquerda, 1);
+                    RecebePrint($"Nome: {clienteDuePay.Nome}", corpo, esquerda, 1);
+                    RecebePrint($"Cnpj/Cpf: {clienteDuePay.CpfOrCnpj}", corpo, esquerda, 1);
+                    RecebePrint($"Telefone: {clienteDuePay.Telefone}", corpo, esquerda, 1);
+                    RecebePrint($"Número da sorte: {clienteDuePay.NumeroDaSorte}", corpo, esquerda, 1);
+                    LinhaHorizontal();
                 }
                 RecebePrint("Operador(a): " + operador, corpo, esquerda, 0);
                 RecebePrint("Caixa: " + num_caixa.ToString("000"), corpo, direita, 1);

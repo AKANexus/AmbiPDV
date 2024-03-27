@@ -7,7 +7,7 @@ using PDV_WPF.REMENDOOOOO;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-
+using PDV_WPF.Controls;
 
 namespace PDV_WPF
 {
@@ -37,6 +37,7 @@ namespace PDV_WPF
         public string tel2 { get; set; }
         public string tel3 { get; set; }
         public string cep { get; set; }
+        public string origem { get; set; }
 
         public Orcamento()
         {
@@ -44,94 +45,143 @@ namespace PDV_WPF
             produtos = new List<Orcamento_Produto>();// Instância uma nova lista da classe Orçamento_produto 
         }
 
-        public bool LeOrcaProdutos(int orcamentos)
+        public bool LeOrcaProdutos(int orcamento, string origemImportacao)
         {
-            using (var ORCA_PROD_TA = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_PRODUTOSTableAdapter())
-            using (var ORCA_PROD_TB = new DataSets.FDBDataSetOrcam.TRI_ORCA_PRODUTOSDataTable())
+            switch (origemImportacao)
             {
-                try
-                {
-                    ORCA_PROD_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
-
-                    ORCA_PROD_TA.FillByOrca(ORCA_PROD_TB, orcamentos);
-                    if (ORCA_PROD_TB.Rows.Count > 0)
+                case "DavsClipp":                    
+                    try
                     {
-                        foreach (DataRow row in ORCA_PROD_TB)
+                        using (var PEDIDO_PROD_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PED_VENDA_ITEMTableAdapter())
+                        using (var PEDIDO_PROD_TB = new DataSets.FDBDataSetOperSeed.TB_PED_VENDA_ITEMDataTable())
                         {
-                            //audit("LEORCAMENTOPRODUTO", "Quantidade adicionada: " + Convert.ToDecimal(row["QUANT"]));
-                            //audit("LEORCAMENTOPRODUTO", "Código adicionado: " + Convert.ToInt32(row["ID_ESTOQUE"])); //TODO: APESAR DE SE CHAMAR ID_ESTOQUE, O VALOR REAL É O ID_IDENTIFICADOR!
-                            var Produto = new Orcamento_Produto
+                            PEDIDO_PROD_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
+                            PEDIDO_PROD_TA.FillByIdPedido(dataTable: PEDIDO_PROD_TB, ID_PEDIDO: orcamento);
+                            if (PEDIDO_PROD_TB.Rows.Count > 0)
                             {
-                                ID_PRODUTO = Convert.ToInt32(row["ID_PRODUTO"]),
-                                ID_ESTOQUE = Convert.ToInt32(row["ID_ESTOQUE"]),
-                                QUANT = Convert.ToDecimal(row["QUANT"]),
-                                VALOR = Convert.ToDecimal(row["VALOR"]),
-                                DESCONTO = Convert.ToDecimal(row["DESCONTO"]),
-                                VALOR_TOT = Convert.ToDecimal(row["VALOR_TOT"]),
-                                ID_ORCAMENTO = Convert.ToInt32(row["ID_ORCAMENTO"]),
-                                NUM_PRODUTO = Convert.ToInt32(row["NUM_PRODUTO"])
-                            };
-                            produtos.Add(Produto);
+                                int numProduto = 1;
+                                foreach (var item in PEDIDO_PROD_TB)
+                                {
+                                    numProduto++;
+
+                                    var Produto = new Orcamento_Produto
+                                    {
+                                        ID_PRODUTO = item.ID_ITEMPED,
+                                        ID_ESTOQUE = item.ID_IDENTIFICADOR,
+                                        QUANT = item.QTD_ITEM,
+                                        VALOR = item.VLR_UNIT,
+                                        DESCONTO = item.VLR_DESC,
+                                        VALOR_TOT = item.VLR_TOTAL,
+                                        ID_ORCAMENTO = item.ID_PEDIDO,
+                                        NUM_PRODUTO = item.IsID_SEQUENCIA_DAVNull() ? numProduto : item.ID_SEQUENCIA_DAV
+                                    };
+                                    produtos.Add(Produto);
+                                }
+                            }
+                            else return false;
                         }
                     }
-                    else { return false; }
-                }
-                catch (Exception ex)
-                {
-                    logErroAntigo(RetornarMensagemErro(ex, true));
-                    MessageBox.Show(ex.Message);
-                    return false;
-                }
+                    catch (Exception ex)
+                    {
+                        logErroAntigo(RetornarMensagemErro(ex, true));                        
+                        MessageBox.Show($"Erro ao pescar itens do pedido.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);                        
+                        throw;
+                    }
+                    break;                
+                case "AmbiOrcamento":
+                    using (var ORCA_PROD_TA = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_PRODUTOSTableAdapter())
+                    using (var ORCA_PROD_TB = new DataSets.FDBDataSetOrcam.TRI_ORCA_PRODUTOSDataTable())
+                    {
+                        try
+                        {
+                            ORCA_PROD_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
 
+                            ORCA_PROD_TA.FillByOrca(ORCA_PROD_TB, PID_ORCAMENTO: orcamento);
+                            if (ORCA_PROD_TB.Rows.Count > 0)
+                            {
+                                foreach (DataRow row in ORCA_PROD_TB)
+                                {
+                                    var Produto = new Orcamento_Produto
+                                    {
+                                        ID_PRODUTO = Convert.ToInt32(row["ID_PRODUTO"]),
+                                        ID_ESTOQUE = Convert.ToInt32(row["ID_ESTOQUE"]),
+                                        QUANT = Convert.ToDecimal(row["QUANT"]),
+                                        VALOR = Convert.ToDecimal(row["VALOR"]),
+                                        DESCONTO = Convert.ToDecimal(row["DESCONTO"]),
+                                        VALOR_TOT = Convert.ToDecimal(row["VALOR_TOT"]),
+                                        ID_ORCAMENTO = Convert.ToInt32(row["ID_ORCAMENTO"]),
+                                        NUM_PRODUTO = Convert.ToInt32(row["NUM_PRODUTO"])
+                                    };
+                                    produtos.Add(Produto);
+                                }
+                            }
+                            else { return false; }
+                        }
+                        catch (Exception ex)
+                        {                            
+                            logErroAntigo(RetornarMensagemErro(ex, true));
+                            MessageBox.Show($"Erro ao pescar itens do orçamento.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            throw;
+                        }
+                    }
+                    break;
             }
             return true;
         }
 
-        public bool LeOrcamento(int orcamentos)
+        public bool LeOrcamento(int orcamento, string origemImportacao)
         {
-            //using (var ORCA_TA = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_ORCAMENTOSTableAdapter())
-            //using (var INFO_TA = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_INFOTableAdapter())
-            using (var ORCA_TA = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_ORCAMENTOSTableAdapter())
-            using (var ORCA_TB = new DataSets.FDBDataSetOrcam.TRI_ORCA_ORCAMENTOSDataTable())
+            switch (origemImportacao)
             {
-                try
-                {
-                    ORCA_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
+                case "DavsClipp":
+                    using (var PEDIDO_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PEDIDO_VENDATableAdapter())
+                    using (var PEDIDO_TB = new DataSets.FDBDataSetOperSeed.TB_PEDIDO_VENDADataTable())
+                    {
+                        try
+                        {
+                            PEDIDO_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
+                            PEDIDO_TA.FillById(PEDIDO_TB, ID_PEDIDO: orcamento);
 
-                    ORCA_TA.FillByOrcaStatus(ORCA_TB, orcamentos, "SALVO");
+                            if (PEDIDO_TB.Rows.Count <= 0) return false;
 
-                    if (ORCA_TB.Rows.Count <= 0) { return false; }
+                            no_orcamento = PEDIDO_TB[0]["ID_PEDIDO"].Safeint();
+                            Cod_Cliente = PEDIDO_TB[0]["ID_CLIENTE"].Safeint();
+                            origem = origemImportacao;
+                        }
+                        catch (Exception ex)
+                        {
+                            logErroAntigo(RetornarMensagemErro(ex, true));
+                            MessageBox.Show($"Erro ao pescar pedido.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return false;
+                        }
+                    }
+                    break;                
+                case "AmbiOrcamento":
+                    using (var ORCA_TA = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_ORCAMENTOSTableAdapter())
+                    using (var ORCA_TB = new DataSets.FDBDataSetOrcam.TRI_ORCA_ORCAMENTOSDataTable())
+                    {
+                        try
+                        {
+                            ORCA_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
+                            ORCA_TA.FillByOrcaStatus(ORCA_TB, PID_ORCAMENTO: orcamento, PSTATUS: "SALVO");
 
-                    //DataRow INFORMACAO_DR = INFO_TA.GetInfoByOrcamento(orcamentos).Rows[0];
-                    no_orcamento = ORCA_TB[0]["ID_ORCAMENTO"].Safeint();
-                    Cod_Cliente = ORCA_TB[0]["ID_CLIENTE"].Safeint();
-                    //dt_emissao = (DateTime)ORCAMENTO_DR["DT_EMISSAO"];
-                    //cod_transportadora = ORCAMENTO_DR["COD_TRANSPORTADORA"].Safeint();
-                    //dt_validade = (DateTime)ORCAMENTO_DR["DT_VALIDADE"];
-                    //pagamento = ORCAMENTO_DR["PAGAMENTO"].Safestring();
-                    //id_user = ORCAMENTO_DR["ID_USER"].Safeint();
-                    //valor_total = (decimal)ORCAMENTO_DR["VALOR_TOTAL"];
-                    //desconto_total = (decimal)ORCAMENTO_DR["DESCONTO_TOTAL"];
-                    //valor_tot = (decimal)ORCAMENTO_DR["VALOR_TOT"];
-                    //dt_vencimento = (DateTime)ORCAMENTO_DR["DT_VENCIMENTO"];
-                    //endereco = INFORMACAO_DR["ENDERECO"].Safestring();
-                    //numero = INFORMACAO_DR["NUMERO"].Safestring();
-                    //cidade = INFORMACAO_DR["CIDADE"].Safestring();
-                    //estado = INFORMACAO_DR["ESTADO"].Safestring();
-                    //tel1 = INFORMACAO_DR["TEL1"].Safestring();
-                    //tel2 = INFORMACAO_DR["TEL2"].Safestring();
-                    //tel3 = INFORMACAO_DR["TEL3"].Safestring();
-                    //cep = INFORMACAO_DR["CEP"].Safestring();
-                }
-                catch (Exception ex)
-                {
-                    logErroAntigo(RetornarMensagemErro(ex, true));
-                    MessageBox.Show(ex.Message);
-                    return false;
-                }
+                            if (ORCA_TB.Rows.Count <= 0) return false;
+
+                            no_orcamento = ORCA_TB[0]["ID_ORCAMENTO"].Safeint();
+                            Cod_Cliente = ORCA_TB[0]["ID_CLIENTE"].Safeint();
+                            origem = origemImportacao;
+                        }
+                        catch (Exception ex)
+                        {
+                            logErroAntigo(RetornarMensagemErro(ex, true));
+                            MessageBox.Show($"Erro ao pescar orçamento.\n\n{ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                            return false;
+                        }
+                    }
+                    break;
             }
             return true;
-        }
+        }        
         public void Clear()
         {
             produtos.Clear();

@@ -69,7 +69,7 @@ namespace PDV_WPF
         static public bool EfetuaReducaoZ()
         {
             Logger log = new Logger("Redução Z");
-            if (!PedeSenhaGerencial("Efetuando Redução Z"))
+            if (!PedeSenhaGerencial("Efetuando Redução Z", Objetos.Enums.Permissoes.Nenhum))
             { return false; }
 
 

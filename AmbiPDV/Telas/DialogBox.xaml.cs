@@ -638,30 +638,13 @@ namespace PDV_WPF.Telas
                 case null:
                     return null;
             }
-        }
-        private void but_Cancelar_MouseEnter(object sender, EventArgs e)
-        {
-            lbl_Nyet.FontSize = 15;
-        }
-        private void but_Cancelar_MouseLeave(object sender, EventArgs e)
-        {
-            lbl_Nyet.FontSize = 12;
-        }
+        }      
         private void cancelar_Click(object sender, MouseButtonEventArgs e)
         {
             DialogResult = false;
             this.Close();
             return;
-        }
-
-        private void but_Confirmar_MouseEnter(object sender, EventArgs e)
-        {
-            lbl_Da.FontSize = 15;
-        }
-        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
-        {
-            lbl_Da.FontSize = 12;
-        }
+        }        
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
             DialogResult = true;

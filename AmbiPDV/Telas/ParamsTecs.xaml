@@ -102,16 +102,13 @@
             </GroupBox>
             <Label Content="Label" Height="1.5" Margin="0,32.44,0,0" VerticalAlignment="Top" Width="2"/>
         </DockPanel>
-        <GroupBox Header="Resetar Senhas" Name="gpb_Senhas" Padding="0" Margin="10,0,10,5">
-            <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
-                <ComboBox x:Name="cbb_Usuario" Width="275" FontFamily="Open Sans" FontSize="14" ItemsSource="{Binding Funcionarios}" Margin="15"/>
-                <Button Content="Resetar Senha" Margin="15" Click="btnResetarSenha_Click"/>
-
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <GroupBox Header="Opções do usuário" Name="gpb_Senhas" Padding="0" Margin="10,0,10,5">
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Center" Orientation="Horizontal">
+                <ComboBox x:Name="cbb_Usuario" Width="210" FontFamily="Open Sans" FontSize="14" ItemsSource="{Binding Funcionarios}" Margin="15" SelectionChanged="cbb_Usuario_SelectionChanged"/>
+                <Button x:Name="btn_permissoes" Content="Permissões" Margin="0,15,0,15" Padding="3" Click="btn_permissoes_Click"/>
+                <Button x:Name="btn_resetar" Content="Resetar Senha" Margin="15" Click="btnResetarSenha_Click" Padding="3"/>
+                <!--<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top"/>-->
             </StackPanel>
-
-
-
         </GroupBox>
         <GroupBox Header="Impressão de Pedidos (2ª via)" Name="gpb_Imp_Pedido" Padding="0" Margin="10,0,10,5">
             <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
@@ -139,18 +136,15 @@
             <CheckBox Content="Permite consultar pelo campo &quot;Referência&quot;?" Margin="5,10,5,5" x:Name="tgl_Referencia" IsEnabled="True"/>
         </GroupBox>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,10">
-
-
             <Border x:Name="but_Alterar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="but_Alterar_Click" Margin="10,0" Visibility="Collapsed">
-                <Label x:Name="lbl_Alterar" Content="ALTERAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+                <Label x:Name="lbl_Alterar" Style="{StaticResource HoverStyleLabelInBorder}" Content="ALTERAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" Height="37" Width="185"/>
             </Border>
-            <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
-                <Label x:Name="lbl_Da" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
+            <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
+                <Label x:Name="lbl_Da" Style="{StaticResource HoverStyleLabelInBorder}" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12" Height="37" Width="185"/>
             </Border>
-            <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0" MouseEnter="but_Cancelar_MouseEnter" MouseLeave="but_Cancelar_MouseLeave">
-                <Label x:Name="lbl_Nyet" Content="FECHAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12"/>
+            <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
+                <Label x:Name="lbl_Nyet" Style="{StaticResource HoverStyleLabelInBorder}" Content="FECHAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12" Height="37" Width="185"/>
             </Border>
-
         </StackPanel>
 
     </StackPanel>

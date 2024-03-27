@@ -1,17 +1,7 @@
 ﻿using FirebirdSql.Data.FirebirdClient;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using static PDV_WPF.Funcoes.Statics;
 
 namespace PDV_WPF.Telas
@@ -77,12 +67,13 @@ namespace PDV_WPF.Telas
         }
         private void button_Confirmar_Click(Object sender, RoutedEventArgs e)
         {
-            if (cbb_Administradora.Text == null || cbb_Administradora.Text == "")
-            {
+            if (cbb_Administradora.Text == null || cbb_Administradora.Text == "")            
                 MessageBox.Show("Infome corretamente a maquininha utilizada.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-            }
             else
+            {
                 GravaAdministradora();
+                this.Close();
+            }                
         }
         private void GravaAdministradora()
         {
@@ -93,6 +84,6 @@ namespace PDV_WPF.Telas
                 short? ID_ADMINISTRADORA = TB_CARTAO_ADMINISTRADORA.PegaIDPorDesc(cbb_Administradora.Text);
                 idAdm = Convert.ToInt16(ID_ADMINISTRADORA);
             }
-        }
+        }   
     }
 }
