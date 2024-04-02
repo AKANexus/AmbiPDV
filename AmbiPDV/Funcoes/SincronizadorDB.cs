@@ -2954,6 +2954,44 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
+        public void Sync_TB_FUNC_AUDITORIA_SIS(EnmTipoSync enmTipoSync)
+        {
+            if (enmTipoSync != EnmTipoSync.tudo) return; 
+
+            using(var tblFuncAuditPdv = new FDBDataSetOperSeed.TB_FUNC_AUDITORIA_SISDataTable())
+            using (var taFuncAuditPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_AUDITORIA_SISTableAdapter())
+            using (var taFuncAuditServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_AUDITORIA_SISTableAdapter())
+            {
+                taFuncAuditPdv.Connection.ConnectionString = _strConnContingency;
+                taFuncAuditServ.Connection.ConnectionString = _strConnNetwork;
+
+                try
+                {
+                    taFuncAuditPdv.FillByUnsynceds(tblFuncAuditPdv);
+
+                    if (tblFuncAuditPdv != null && tblFuncAuditPdv.Rows.Count > 0)
+                    {
+                        foreach (var auditoria in tblFuncAuditPdv)
+                        {
+                            taFuncAuditServ.InsertAudit(ID_FUNCIONARIO: auditoria.ID_FUNCIONARIO,
+                                                        DATA: auditoria.DATA,
+                                                        HORA: auditoria.HORA,
+                                                        DESCRICAO: auditoria.DESCRICAO,
+                                                        ID_AUDTIPO: auditoria.ID_AUDTIPO,
+                                                        BUILD: auditoria.BUILD,
+                                                        SYNCED: 1);
+                        }
+
+                        taFuncAuditPdv.SetSynchronized();
+                    }
+                }
+                catch(Exception ex)
+                {                    
+                    GravarErroSync("Auditoria do Funcionário(PDV)", tblFuncAuditPdv, ex);                    
+                    throw ex;
+                }
+            }
+        }
 
         public void Sync_TB_CLIENTE(DateTime? dtUltimaSyncPdv, FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncDeletesPendentes, short shtNumCaixa)
         {
@@ -3692,8 +3730,9 @@ namespace PDV_WPF.Funcoes
                                                                                                                  triUsersServ.USERNAME,
                                                                                                                  triUsersServ.PASSWORD,
                                                                                                                  triUsersServ.GERENCIA,
-                                                                                                                 triUsersServ.ATIVO,
-                                                                                                                 DateTime.Now);
+                                                                                                                 triUsersServ.ATIVO,                                                                                                                 
+                                                                                                                 DateTime.Now,
+                                                                                                                 triUsersServ.PERMISSOES);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -4568,7 +4607,8 @@ namespace PDV_WPF.Funcoes
                                                                                                                  promoItensServ.IDPROMOCAO,
                                                                                                                  promoItensServ.PRODUTONOME,
                                                                                                                  promoItensServ.CODIGOBARRAS,
-                                                                                                                 operacao);
+                                                                                                                 operacao,
+                                                                                                                 "TB_PROMOCOES_ITENS");
                                                     if (retorno.Equals(1)) ConfirmarAuxSync(promoItensServ.ID, "TB_PROMOCOES_ITENS", operacao, NO_CAIXA);
                                                     else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
                                                 }
@@ -4588,7 +4628,7 @@ namespace PDV_WPF.Funcoes
                                     int.TryParse(id_sync, out int id);
 
                                     taPromoItensPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
-                                    retorno = (int)taPromoItensPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao);
+                                    retorno = (int)taPromoItensPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao, "TB_PROMOCOES_ITENS");
 
                                     if (retorno.Equals(1)) ConfirmarAuxSync(id, "TB_PROMOCOES_ITENS", operacao, NO_CAIXA);
                                     else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
@@ -4604,6 +4644,75 @@ namespace PDV_WPF.Funcoes
             }
         }
 
+        public void Sync_TRI_SCANN_ADICIONAL(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
+        {
+            using (var tblPromoAdicionalServ = new FDBDataSetOperSeed.TRI_SCANN_ADICIONALDataTable())
+            {
+                try
+                {
+                    int retorno = 0;
+                    DataRow[] pendentesPromosAdicional = dtAuxSyncPendentes.Select($"TABELA = 'TRI_SCANN_ADICIONAL'");
+                    for (int i = 0; i < pendentesPromosAdicional.Length; i++)
+                    {
+                        var id_sync = pendentesPromosAdicional[i]["ID_REG"].Safestring();
+                        var operacao = pendentesPromosAdicional[i]["OPERACAO"].Safestring();
+                        var NO_CAIXA = pendentesPromosAdicional[i]["NO_CAIXA"].Safeshort();
+
+                        if (operacao.Equals("U") || operacao.Equals("I"))
+                        {
+                            // Buscar o registro para executar as operações "Insert" ou "Update"
+                            using (var taPromoItensAdicionalServ = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                            {
+                                taPromoItensAdicionalServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;                                
+                                taPromoItensAdicionalServ.FillById(tblPromoAdicionalServ, id_sync.Safeint());
+                                if (tblPromoAdicionalServ != null && tblPromoAdicionalServ.Rows.Count > 0)
+                                {
+                                    using (var taPromoItensAdicionalPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                                    {
+                                        try
+                                        {
+                                            taPromoItensAdicionalPdv.Connection = fbConnPdv;
+                                            foreach (FDBDataSetOperSeed.TRI_SCANN_ADICIONALRow ItensAdicionalServ in tblPromoAdicionalServ)
+                                            {
+                                                retorno = (int)taPromoItensAdicionalPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(ItensAdicionalServ.ID,
+                                                                                                                      ItensAdicionalServ.IDPROMOCAO,
+                                                                                                                      ItensAdicionalServ.PRODUTONOME,
+                                                                                                                      ItensAdicionalServ.CODIGOBARRAS,
+                                                                                                                      operacao,
+                                                                                                                      "TRI_SCANN_ADICIONAL");
+                                                if (retorno.Equals(1)) ConfirmarAuxSync(ItensAdicionalServ.ID, "TRI_SCANN_ADICIONAL", operacao, NO_CAIXA);
+                                                else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
+                                            }
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            log.Debug("Erro ao tentar sincronizar insert ou update da TRI_SCANN_ADICIONAL para base local, segue erro: " + ex);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else if (operacao.Equals("D"))
+                        {
+                            using (var taPromoItensAdicionalPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
+                            {
+                                var id = id_sync.Safeint();
+                                taPromoItensAdicionalPdv.Connection = fbConnPdv;
+                                retorno = (int)taPromoItensAdicionalPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao, "TRI_SCANN_ADICIONAL");
+
+                                if (retorno.Equals(1)) ConfirmarAuxSync(id, "TRI_SCANN_ADICIONAL", operacao, NO_CAIXA);
+                                else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TRI_SCANN_ADICIONAL, erro: " + ex);
+                }
+            }
+        }
+
         public void Sync_TB_MOTIVO_DESO_SIS(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes, short shtNumCaixa)
         {
             using (var tblMotivoDesoServ = new FDBDataSetOperSeed.TB_MOTIVO_DESO_SISDataTable())
@@ -4615,10 +4724,10 @@ namespace PDV_WPF.Funcoes
                     for (int i = 0; i < pendentesMotivoDeso.Length; i++)
                     {
                         var idMotivoDeso = pendentesMotivoDeso[i]["ID_REG"].Safeint();
-                        var operacao = pendentesMotivoDeso[i]["OPERACAO"].Safestring();                        
+                        var operacao = pendentesMotivoDeso[i]["OPERACAO"].Safestring();
 
                         if (operacao.Equals("U") || operacao.Equals("I"))
-                        {                            
+                        {
                             using (var taMotivoDesoServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_MOTIVO_DESO_SISTableAdapter())
                             {
                                 taMotivoDesoServ.Connection = fbConnServ;
@@ -4632,7 +4741,7 @@ namespace PDV_WPF.Funcoes
                                             taMotivoDesoPdv.Connection = fbConnPdv;
                                             foreach (FDBDataSetOperSeed.TB_MOTIVO_DESO_SISRow motivoDeso in tblMotivoDesoServ)
                                             {
-                                                switch(operacao)
+                                                switch (operacao)
                                                 {
                                                     case "I":
                                                         retornoUpSert = taMotivoDesoPdv.Insert(motivoDeso.ID_MOTIVO_DESO, motivoDeso.DESCRICAO);
@@ -4642,7 +4751,7 @@ namespace PDV_WPF.Funcoes
                                                         break;
                                                 }
 
-                                                if(retornoUpSert != 0)
+                                                if (retornoUpSert != 0)
                                                     ConfirmarAuxSync(motivoDeso.ID_MOTIVO_DESO,
                                                                      "TB_MOTIVO_DESO_SIS",
                                                                      operacao,
@@ -4664,11 +4773,11 @@ namespace PDV_WPF.Funcoes
                                 taMotivoDesoPdv.Connection = fbConnPdv;
                                 retornoUpSert = taMotivoDesoPdv.DeleteByUpdate(idMotivoDeso);
 
-                                if (retornoUpSert != 0) 
+                                if (retornoUpSert != 0)
                                     ConfirmarAuxSync(idMotivoDeso,
-                                                    "TB_MOTIVO_DESO_SIS", 
+                                                    "TB_MOTIVO_DESO_SIS",
                                                     operacao,
-                                                    shtNumCaixa);                                
+                                                    shtNumCaixa);
                             }
                         }
                     }
@@ -6455,7 +6564,7 @@ namespace PDV_WPF.Funcoes
                                                             //fbCommNfvItemSyncInsert.Parameters.Add("@pIMP_MANUAL", nfvItem.IsIMP_MANUALNull() ? null : nfvItem.IMP_MANUAL);
                                                             fbCommNfvItemSyncInsert.Parameters.Add("@pVLR_RETENCAO", nfvItem.VLR_RETENCAO);
                                                             fbCommNfvItemSyncInsert.Parameters.Add("@pREFERENCIA", nfvItem.IsREFERENCIANull() ? null : nfvItem.REFERENCIA);
-                                                            //fbCommNfvItemSyncInsert.Parameters.Add("@pCODPROMOSCANNTECH", nfvItem.IsCODPROMOSCANNTECHNull() ? null : (int?)nfvItem.CODPROMOSCANNTECH);
+                                                            fbCommNfvItemSyncInsert.Parameters.Add("@pCODPROMOSCANNTECH", nfvItem.IsCODPROMOSCANNTECHNull() ? 0 : (int?)nfvItem.CODPROMOSCANNTECH);
 
 
                                                             #endregion Prepara o comando da SP_TRI_NFVITEM_SYNC_INSERT
@@ -7617,63 +7726,95 @@ namespace PDV_WPF.Funcoes
 
                                             #region Indicar que a nfvenda foi synced depois de cancelado (Serv)
 
-                                            using (var fbCommNfvendaUpdtByNumeroSerieServ = new FbCommand())
+                                            using (var TB_NFVENDA_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter())
                                             {
-                                                #region Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
 
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Connection = fbConnServ;
+                                                TB_NFVENDA_TA.Connection = fbConnServ;
+                                                TB_NFVENDA_TA.SP_TRI_NFV_UPDT_BYNFNUMSERIE(PID_NATOPE: nfvendaCancelPdv.ID_NATOPE,
+                                                                                           PID_VENDEDOR: nfvendaCancelPdv.IsID_VENDEDORNull() ? null : (short?)nfvendaCancelPdv.ID_VENDEDOR,
+                                                                                           PID_CLIENTE: nfvendaCancelPdv.ID_CLIENTE,
+                                                                                           PNF_NUMERO: nfvendaCancelPdv.NF_NUMERO,
+                                                                                           PNF_SERIE: nfvendaCancelPdv.NF_SERIE,
+                                                                                           PNF_MODELO: nfvendaCancelPdv.NF_MODELO,
+                                                                                           PDT_EMISSAO: nfvendaCancelPdv.DT_EMISSAO,
+                                                                                           PDT_SAIDA: nfvendaCancelPdv.IsDT_SAIDANull() ? null : (DateTime?)nfvendaCancelPdv.DT_SAIDA,
+                                                                                           PHR_SAIDA: nfvendaCancelPdv.IsHR_SAIDANull() ? null : (TimeSpan?)nfvendaCancelPdv.HR_SAIDA,
+                                                                                           PESPECIE: nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE,
+                                                                                           PPES_LIQUID: nfvendaCancelPdv.IsPES_LIQUIDNull() ? null : (decimal?)nfvendaCancelPdv.PES_LIQUID,
+                                                                                           PPES_BRUTO: nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO,
+                                                                                           PID_FMAPGTO: nfvendaCancelPdv.ID_FMAPGTO,
+                                                                                           PID_PARCELA: nfvendaCancelPdv.ID_PARCELA,
+                                                                                           PMARCA: nfvendaCancelPdv.IsMARCANull() ? null : nfvendaCancelPdv.MARCA,
+                                                                                           PQTD_VOLUM: nfvendaCancelPdv.IsQTD_VOLUMNull() ? null : (decimal?)nfvendaCancelPdv.QTD_VOLUM,
+                                                                                           PNUM_VOLUM: nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM,
+                                                                                           PVLR_TROCO: nfvendaCancelPdv.IsVLR_TROCONull() ? null : (decimal?)nfvendaCancelPdv.VLR_TROCO,
+                                                                                           PIND_PRES: nfvendaCancelPdv.IsIND_PRESNull() ? null : nfvendaCancelPdv.IND_PRES,
+                                                                                           PIND_IE_DEST: nfvendaCancelPdv.IsIND_IE_DESTNull() ? null : nfvendaCancelPdv.IND_IE_DEST,
+                                                                                           PDESCONTO_CONDICIONAL: nfvendaCancelPdv.DESCONTO_CONDICIONAL,
+                                                                                           PINF_COMP_FIXA: nfvendaCancelPdv.IsINF_COMP_FIXANull() ? null : Encoding.UTF8.GetBytes(nfvendaCancelPdv.INF_COMP_FIXA),
+                                                                                           PINF_COMP_EDIT: nfvendaCancelPdv.IsINF_COMP_EDITNull() ? null : Encoding.UTF8.GetBytes(nfvendaCancelPdv.INF_COMP_EDIT),
+                                                                                           PENDERECO_ENTREGA: nfvendaCancelPdv.ENDERECO_ENTREGA,
+                                                                                           PENVIO_API: nfvendaCancelPdv.IsENVIO_APINull() ? null : (DateTime?)nfvendaCancelPdv.ENVIO_API,
+                                                                                           PSYNCED: 2,
+                                                                                           PSOMA_FRETE: nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE,
+                                                                                           PPROD_REV: nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV,
+                                                                                           PSTATUS: nfvendaCancelPdv.STATUS,
+                                                                                           PENT_SAI: nfvendaCancelPdv.ENT_SAI,
+                                                                                           PTIPO_FRETE: nfvendaCancelPdv.TIPO_FRETE);
 
-                                                //fbCommNfvendaUpdtByCooNumcaixaServ.CommandText = "SP_TRI_CUPOM_UPDT_BYCOONUMCAIX";
-
-                                                //TODO: o que seria um COO e NUM_CAIXA do TB_CUPOM para a TB_NFVENDA?
-                                                // Seria a NF_NUMERO e a NF_SERIE
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.CommandText = "SP_TRI_NFV_UPDT_BYNFNUMSERIE";
-                                                fbCommNfvendaUpdtByNumeroSerieServ.CommandType = CommandType.StoredProcedure;
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_NATOPE", nfvendaCancelPdv.ID_NATOPE);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_VENDEDOR", nfvendaCancelPdv.IsID_VENDEDORNull() ? null : (short?)nfvendaCancelPdv.ID_VENDEDOR);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_CLIENTE", nfvendaCancelPdv.ID_CLIENTE);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_MODELO", nfvendaCancelPdv.NF_MODELO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_EMISSAO", nfvendaCancelPdv.DT_EMISSAO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_SAIDA", nfvendaCancelPdv.IsDT_SAIDANull() ? null : (DateTime?)nfvendaCancelPdv.DT_SAIDA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pHR_SAIDA", nfvendaCancelPdv.IsHR_SAIDANull() ? null : (TimeSpan?)nfvendaCancelPdv.HR_SAIDA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pESPECIE", nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pTIPO_FRETE", nfvendaCancelPdv.TIPO_FRETE);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_LIQUID", nfvendaCancelPdv.IsPES_LIQUIDNull() ? null : (decimal?)nfvendaCancelPdv.PES_LIQUID);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_BRUTO", nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSTATUS", nfvendaCancelPdv.STATUS);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENT_SAI", nfvendaCancelPdv.ENT_SAI);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_FMAPGTO", nfvendaCancelPdv.ID_FMAPGTO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_PARCELA", nfvendaCancelPdv.ID_PARCELA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pMARCA", nfvendaCancelPdv.IsMARCANull() ? null : nfvendaCancelPdv.MARCA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pQTD_VOLUM", nfvendaCancelPdv.IsQTD_VOLUMNull() ? null : (decimal?)nfvendaCancelPdv.QTD_VOLUM);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNUM_VOLUM", nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPROD_REV", nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSOMA_FRETE", nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pVLR_TROCO", nfvendaCancelPdv.IsVLR_TROCONull() ? null : (decimal?)nfvendaCancelPdv.VLR_TROCO);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_PRES", nfvendaCancelPdv.IsIND_PRESNull() ? null : nfvendaCancelPdv.IND_PRES);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_IE_DEST", nfvendaCancelPdv.IsIND_IE_DESTNull() ? null : nfvendaCancelPdv.IND_IE_DEST);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvendaCancelPdv.DESCONTO_CONDICIONAL);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_FIXA", nfvendaCancelPdv.IsINF_COMP_FIXANull() ? null : nfvendaCancelPdv.INF_COMP_FIXA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_EDIT", nfvendaCancelPdv.IsINF_COMP_EDITNull() ? null : nfvendaCancelPdv.INF_COMP_EDIT);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENDERECO_ENTREGA", nfvendaCancelPdv.ENDERECO_ENTREGA);
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENVIO_API", nfvendaCancelPdv.IsENVIO_APINull() ? null : (DateTime?)nfvendaCancelPdv.ENVIO_API);
-
-                                                fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSYNCED", 2);
-
-                                                #endregion Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
-
-                                                // Executa a sproc
-                                                fbCommNfvendaUpdtByNumeroSerieServ.ExecuteScalar();
                                             }
+                                            #region Procedure mapeada acima.
+                                            //using (var fbCommNfvendaUpdtByNumeroSerieServ = new FbCommand())
+                                            //{
+                                            //    #region Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
+
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Connection = fbConnServ;
+
+                                            //    //fbCommNfvendaUpdtByCooNumcaixaServ.CommandText = "SP_TRI_CUPOM_UPDT_BYCOONUMCAIX";
+
+                                            //    //TODO: o que seria um COO e NUM_CAIXA do TB_CUPOM para a TB_NFVENDA?
+                                            //    // Seria a NF_NUMERO e a NF_SERIE
+
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.CommandText = "SP_TRI_NFV_UPDT_BYNFNUMSERIE";
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.CommandType = CommandType.StoredProcedure;
+
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_NATOPE", nfvendaCancelPdv.ID_NATOPE);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_VENDEDOR", nfvendaCancelPdv.IsID_VENDEDORNull() ? null : (short?)nfvendaCancelPdv.ID_VENDEDOR);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_CLIENTE", nfvendaCancelPdv.ID_CLIENTE);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_NUMERO", nfvendaCancelPdv.NF_NUMERO);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_SERIE", nfvendaCancelPdv.NF_SERIE);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNF_MODELO", nfvendaCancelPdv.NF_MODELO);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_EMISSAO", nfvendaCancelPdv.DT_EMISSAO);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDT_SAIDA", nfvendaCancelPdv.IsDT_SAIDANull() ? null : (DateTime?)nfvendaCancelPdv.DT_SAIDA);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pHR_SAIDA", nfvendaCancelPdv.IsHR_SAIDANull() ? null : (TimeSpan?)nfvendaCancelPdv.HR_SAIDA);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pESPECIE", nfvendaCancelPdv.IsESPECIENull() ? null : nfvendaCancelPdv.ESPECIE);                                                
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_LIQUID", nfvendaCancelPdv.IsPES_LIQUIDNull() ? null : (decimal?)nfvendaCancelPdv.PES_LIQUID);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPES_BRUTO", nfvendaCancelPdv.IsPES_BRUTONull() ? null : (decimal?)nfvendaCancelPdv.PES_BRUTO);                                                                                               
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_FMAPGTO", nfvendaCancelPdv.ID_FMAPGTO);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pID_PARCELA", nfvendaCancelPdv.ID_PARCELA);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pMARCA", nfvendaCancelPdv.IsMARCANull() ? null : nfvendaCancelPdv.MARCA);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pQTD_VOLUM", nfvendaCancelPdv.IsQTD_VOLUMNull() ? null : (decimal?)nfvendaCancelPdv.QTD_VOLUM);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pNUM_VOLUM", nfvendaCancelPdv.IsNUM_VOLUMNull() ? null : nfvendaCancelPdv.NUM_VOLUM);                                                                                              
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pVLR_TROCO", nfvendaCancelPdv.IsVLR_TROCONull() ? null : (decimal?)nfvendaCancelPdv.VLR_TROCO);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_PRES", nfvendaCancelPdv.IsIND_PRESNull() ? null : nfvendaCancelPdv.IND_PRES);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pIND_IE_DEST", nfvendaCancelPdv.IsIND_IE_DESTNull() ? null : nfvendaCancelPdv.IND_IE_DEST);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pDESCONTO_CONDICIONAL", nfvendaCancelPdv.DESCONTO_CONDICIONAL);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_FIXA", nfvendaCancelPdv.IsINF_COMP_FIXANull() ? null : nfvendaCancelPdv.INF_COMP_FIXA);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pINF_COMP_EDIT", nfvendaCancelPdv.IsINF_COMP_EDITNull() ? null : nfvendaCancelPdv.INF_COMP_EDIT);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENDERECO_ENTREGA", nfvendaCancelPdv.ENDERECO_ENTREGA);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENVIO_API", nfvendaCancelPdv.IsENVIO_APINull() ? null : (DateTime?)nfvendaCancelPdv.ENVIO_API);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSYNCED", 2);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSOMA_FRETE", nfvendaCancelPdv.IsSOMA_FRETENull() ? null : nfvendaCancelPdv.SOMA_FRETE);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pPROD_REV", nfvendaCancelPdv.IsPROD_REVNull() ? null : nfvendaCancelPdv.PROD_REV);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pSTATUS", nfvendaCancelPdv.STATUS);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pENT_SAI", nfvendaCancelPdv.ENT_SAI);
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.Parameters.Add("@pTIPOajuFRETE", nfvendaCancelPdv.TIPO_FRETE);
+                                            //    #endregion Prepara o comando da SP_TRI_NFV_UPDT_BYNFNUMSERIE
+
+                                            //    // Executa a sproc
+                                            //    fbCommNfvendaUpdtByNumeroSerieServ.ExecuteScalar();
+                                            //}
+                                            #endregion Procedure mapeada acima.
 
                                             #endregion Indicar que a nfvenda foi synced depois de cancelado (Serv)
 
@@ -8695,7 +8836,7 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar FuncionarioPapel", ex);
                         throw new SynchException("Erro ao sincronizar FuncionarioPapel", ex);
-                    }
+                    }                    
                     try
                     {
                         Sync_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
@@ -8819,10 +8960,20 @@ namespace PDV_WPF.Funcoes
                     }
                     try
                     {
-                        Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa); 
+                        Sync_TRI_SCANN_ADICIONAL(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
+                        log.Debug("Sync_TRI_SCANN_ADICIONAL sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TRI_SCANN_ADICIONAL", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TRI_SCANN_ADICIONAL", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
                         log.Debug("Sync_TB_MOTIVO_DESO_SIS sincronizados");
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
                         log.Error("Falha ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
@@ -10376,7 +10527,27 @@ namespace PDV_WPF.Funcoes
 
             #region Operações
 
-            Sync_Operacoes_TRI_PDV_TERMINAL_USUARIO_INCOMPLETO(tipoSync);
+            try
+            {
+                Sync_Operacoes_TRI_PDV_TERMINAL_USUARIO_INCOMPLETO(tipoSync);
+                log.Debug("TerminalUsuario sincronizado");
+            }
+            catch(Exception ex)
+            {
+                log.Error("Falha ao sincronizar TerminalUsuario", ex);
+                throw new SynchException("Erro ao sincronizar TerminalUsuario", ex);
+            }
+
+            try
+            {
+                Sync_TB_FUNC_AUDITORIA_SIS(tipoSync);
+                log.Debug("FuncionarioAuditoria sincronizados");
+            }
+            catch (Exception ex)
+            {
+                log.Error("Falha ao sincronizar FuncionarioAuditoria", ex);
+                throw new SynchException("Erro ao sincronizar FuncionarioAuditoria", ex);
+            }
 
             #region TRI_PDV_TERMINAL_USUARIO (PDV -> Serv) (INCOMPLETO)
             /*
@@ -10431,7 +10602,16 @@ namespace PDV_WPF.Funcoes
              */
             #endregion TRI_PDV_TERMINAL_USUARIO (PDV -> Serv) (INCOMPLETO)
 
-            Sync_Operacoes_TRI_PDV_SANSUP_PDV_Serv(tipoSync);
+            try
+            {
+                Sync_Operacoes_TRI_PDV_SANSUP_PDV_Serv(tipoSync);
+                log.Debug("SanSup sincronizados");
+            }            
+            catch (Exception ex)
+            {
+                log.Error("Falha ao sincronizar SanSup", ex);
+                throw new SynchException("Erro ao sincronizar SanSup", ex);
+            }
             #region TRI_PDV_SANSUP (PDV => Serv)
             /*
             if (tipoSync == EnmTipoSync.vendas || tipoSync == EnmTipoSync.tudo)

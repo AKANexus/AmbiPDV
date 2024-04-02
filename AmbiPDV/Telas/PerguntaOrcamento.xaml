@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PDV_WPF.Telas"
-        mc:Ignorable="d"
-        Height="283" Width="500" KeyDown="PerguntaSenha_KeyDown" WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="True" AllowsTransparency="True">
+        mc:Ignorable="d"        
+        Height="283" Width="500" KeyDown="PerguntaSenha_KeyDown" WindowStartupLocation="CenterScreen" Background="{x:Null}" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" AllowsTransparency="True">
     <Border Background="#FFF9F9F9" CornerRadius="10" Margin="10">
         <Border.Effect>
             <DropShadowEffect ShadowDepth="1.5" Opacity="0.65" Direction="300" BlurRadius="8"/>
@@ -17,6 +17,13 @@
                     <Label Content="Ï" VerticalAlignment="Center" VerticalContentAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Webdings" FontSize="37"/>
                 </Border>
                 <TextBox x:Name="txb_Cupom" Width="305" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="28" Padding="3" HorizontalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel x:Name="options_Orca" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,20,0,20" Visibility="Collapsed">
+                <Label Content="Importar orçamento / pedido de:" HorizontalAlignment="Center" Margin="0,0,0,10" FontSize="17" FontStyle="Italic" Foreground="#FF757575"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="rb_DavsClipp" Content="DAV's ClippStore" Margin="0,0,30,0" Checked="rb_DavsClipp_Checked" FontStyle="Italic"></RadioButton>
+                    <RadioButton x:Name="rb_AmbiOrca" Content="Ambi Orçamento" Checked="rb_AmbiOrca_Checked" FontStyle="Italic"></RadioButton>
+                </StackPanel>
             </StackPanel>
         </StackPanel>
     </Border>

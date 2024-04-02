@@ -57,10 +57,10 @@
 
         <StackPanel Visibility ="Visible" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,31">
             <Border Focusable="True" x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" KeyDown="but_Confirmar_KeyDown">
-                <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans"/>
+                <Label x:Name="lbl_Da" Style="{StaticResource HoverStyleLabelInBorder}" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" Height="37" Width="185"/>
             </Border>
             <Border Focusable="True" x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
-                <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE"/>
+                <Label x:Name="lbl_Nyet" Style="{StaticResource HoverStyleLabelInBorder}" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" Height="37" Width="185"/>
             </Border>
 
         </StackPanel>

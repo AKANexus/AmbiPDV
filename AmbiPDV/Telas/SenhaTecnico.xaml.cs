@@ -33,7 +33,7 @@ namespace PDV_WPF
                 }
                 else
                 {
-                    MessageBox.Show("SENHA INVÁLIDA.");
+                    MessageBox.Show("Senha para acesso técnico está incorreta.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                     Debug.WriteLine(String.Format("Usuário {0} tentou acessar funções de técnico. Método: {1}", operador, System.Reflection.MethodBase.GetCurrentMethod().Name));
                 }
             }

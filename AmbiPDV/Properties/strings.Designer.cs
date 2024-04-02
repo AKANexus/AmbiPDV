@@ -106,11 +106,29 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Acesso negado.
+        /// </summary>
+        internal static string ACESSO_NEGADO {
+            get {
+                return ResourceManager.GetString("ACESSO_NEGADO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Acesso Remoto.
         /// </summary>
         internal static string ACESSO_REMOTO {
             get {
                 return ResourceManager.GetString("ACESSO_REMOTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Acesso restrito.
+        /// </summary>
+        internal static string ACESSO_RESTRITO {
+            get {
+                return ResourceManager.GetString("ACESSO_RESTRITO", resourceCulture);
             }
         }
         
@@ -619,6 +637,15 @@ namespace PDV_WPF.Properties {
         internal static string ERRO_SAT_SERVIDOR {
             get {
                 return ResourceManager.GetString("ERRO_SAT_SERVIDOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Não foi possivel adicionar o cliente na venda e por conta disso os dados não serão exibidos no cupom..
+        /// </summary>
+        internal static string ERRO_VENDA_CLIENTE_DUEPAY {
+            get {
+                return ResourceManager.GetString("ERRO_VENDA_CLIENTE_DUEPAY", resourceCulture);
             }
         }
         
@@ -1144,6 +1171,33 @@ namespace PDV_WPF.Properties {
         internal static string SENHA_DIGITADA_NAO_E_VALIDA {
             get {
                 return ResourceManager.GetString("SENHA_DIGITADA_NAO_E_VALIDA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha digitada está inválida. Digite sua senha ou a do supervisor..
+        /// </summary>
+        internal static string SENHA_INVALIDA_NOTIFICAÇÃO {
+            get {
+                return ResourceManager.GetString("SENHA_INVALIDA_NOTIFICAÇÃO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha do supervisor está inválida, por favor, tente novamente..
+        /// </summary>
+        internal static string SENHA_INVALIDA_SUPER {
+            get {
+                return ResourceManager.GetString("SENHA_INVALIDA_SUPER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Senha do usuário selecionado está inválida, por favor, tente novamente..
+        /// </summary>
+        internal static string SENHA_INVALIDA_USER {
+            get {
+                return ResourceManager.GetString("SENHA_INVALIDA_USER", resourceCulture);
             }
         }
         

@@ -5,8 +5,7 @@ using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
-
-
+using PDV_WPF.Objetos.Enums;
 
 namespace PDV_WPF.Telas
 {
@@ -79,15 +78,15 @@ namespace PDV_WPF.Telas
 
                         if (taFuncPapelServ.ChecaSeEGerente(indice) == 1)
                         {
-                            taUsersServ.NovoUsuario(indice, txb_Usuario.Text, hash, "SIM");
+                            taUsersServ.NovoUsuario(indice, txb_Usuario.Text, hash, "SIM", (int)Permissoes.PermissaoTotal);
                         }
                         else
                         {
-                            taUsersServ.NovoUsuario(indice, txb_Usuario.Text, hash, "NAO");
+                            taUsersServ.NovoUsuario(indice, txb_Usuario.Text, hash, "NAO", (int)Permissoes.Nenhum);
                         }
                     }
 
-                    MessageBox.Show("Senha cadastrada com sucesso. Já pode fazer login.");
+                    MessageBox.Show("Senha cadastrada com sucesso. Usuário já pode realizar login.", "Sucesso", MessageBoxButton.OK, MessageBoxImage.Information);
                     senha = txb_Senha1.Password;
 
                     // Usuário cadastrado/alterado no servidor.

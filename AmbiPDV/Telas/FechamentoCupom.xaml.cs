@@ -14,6 +14,7 @@ using System.Windows.Media.Animation;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.Objetos.Enums;
 
 namespace PDV_WPF.Telas
 {
@@ -62,12 +63,13 @@ namespace PDV_WPF.Telas
         public readonly decimal _vlrTotalVenda; public decimal descNaVenda = 0;
         private readonly bool _scannTech;
         private bool fechouManualmente;
+        private readonly string _identificacaoConsumidor;
 
         #endregion Fields & Properties
 
         #region (De)Constructor
 
-        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, bool modoTeste = false, bool scannTech = false)
+        public FechamentoCupom(decimal desconto_maximo, decimal vlrTotalVenda, ref Venda vendaAtual, string identificacaoConsumidor, bool modoTeste = false, bool scannTech = false)
         {
             _vlrTotalVenda = vlrTotalVenda;
             _desconto_maximo = desconto_maximo;
@@ -78,6 +80,7 @@ namespace PDV_WPF.Telas
             //tefAtual = tEFAtual;
             _vendaAtual = vendaAtual;
             _scannTech = scannTech;
+            _identificacaoConsumidor = identificacaoConsumidor;
         }
 
         /// <summary>
@@ -359,7 +362,7 @@ namespace PDV_WPF.Telas
 
             if (strPgCfe == "05")
             {
-                if (SENHA_PRAZO && !PedeSenhaGerencial("Necessária autorização de gerente")) return;
+                if (SENHA_PRAZO && !PedeSenhaGerencial("Venda a prazo", Permissoes.VendaPrazo)) return;
                 if (/*intPagamentoDiasByIdPag > 0*/ true)
                 {
                     var PC = new PerguntaCliente(idMetodo, false, _valor);
@@ -381,7 +384,7 @@ namespace PDV_WPF.Telas
                             return;
                     }
                 }
-            }
+            }            
 
             if (strPgCfe == "17")
             {
@@ -394,6 +397,14 @@ namespace PDV_WPF.Telas
                     return;
                 }
             }
+
+            if (strPgCfe == "19")
+            {
+                var clienteDuepay = new ClienteDuepay(_identificacaoConsumidor, ref _vendaAtual);
+                clienteDuepay.ShowDialog();
+                id_cliente = clienteDuepay.idCliente;
+            }
+
             AcrescentaMetodoPagamento(idMetodo, _valor, strPgCfe);
         }
 
@@ -403,7 +414,7 @@ namespace PDV_WPF.Telas
             if (e.status == StatusTEF.Confirmado)
                 try
                 {
-                    AcrescentaMetodoPagamento(e.idMetodo, e.Valor, e.GetStrPgCfe, tefAtual);
+	                AcrescentaMetodoPagamento(idMetodo: e.idMetodo, _valor: e.Valor, strPgCfe: Metodos_DT.First(x => x.ID_FMANFCE == e.idMetodo).ID_NFCE, sitefbox: tefAtual);
                 }
                 catch (Exception ex)
                 {
@@ -594,7 +605,7 @@ namespace PDV_WPF.Telas
                         txb_Metodo.Focus();
                         return;
                     }                    
-                    var senha = new perguntaSenha("Aplicando Desconto na Venda");
+                    var senha = new perguntaSenha("Aplicando Desconto na Venda", Permissoes.DescontoVenda);
                     senha.ShowDialog();
                     if (senha.DialogResult == false)
                     {
@@ -606,10 +617,9 @@ namespace PDV_WPF.Telas
                     {
                         if (_desconto_maximo == 0)
                         {
-                            DialogBox.Show("Senha incorreta",
-                                           DialogBoxButtons.No, DialogBoxIcons.Warn, false,
-                                           "A senha digitada não é uma senha de gerente.",
-                                           "Impossível aplicar desconto.");
+                            DialogBox.Show(strings.ACESSO_NEGADO,
+                                           DialogBoxButtons.No, DialogBoxIcons.None, false,
+                                           strings.USUARIO_NAO_POSSUI_PERMISSAO);
                             return;
                         }
                         AplicaDesconto(true);
@@ -753,6 +763,9 @@ namespace PDV_WPF.Telas
 
         private void Txb_Valor_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
         {
+            log.Debug($"txb_Valor.Value: {txb_Valor.Value}");
+            log.Debug($"valor_a_ser_pago: {valor_a_ser_pago}");
+            log.Debug("Bora arrendondar?");
             if (txb_Valor.Value.RoundABNT() > valor_a_ser_pago.RoundABNT())
             {
                 stp_Troco.Visibility = Visibility.Visible;

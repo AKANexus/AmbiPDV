@@ -110,23 +110,7 @@ namespace PDV_WPF.Telas
 
         #endregion (De)Constructor
 
-        #region Events
-        private void but_Confirmar_MouseLeave(object sender, MouseEventArgs e)
-        {
-            lbl_Da.FontSize = 12;
-        }
-        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
-        {
-            lbl_Da.FontSize = 15;
-        }
-        private void but_Cancelar_MouseLeave(object sender, MouseEventArgs e)
-        {
-            lbl_Nyet.FontSize = 12;
-        }
-        private void but_Cancelar_MouseEnter(object sender, MouseEventArgs e)
-        {
-            lbl_Nyet.FontSize = 15;
-        }       
+        #region Events             
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.

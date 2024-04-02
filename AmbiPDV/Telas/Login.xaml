@@ -70,8 +70,8 @@
                     </Border>
                     <PasswordBox x:Name="txb_Senha" Width="275" VerticalContentAlignment="Center" VerticalAlignment="Center" FontFamily="Open Sans" FontSize="20" Padding="3"/>
                 </StackPanel>
-                <Border Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Center" MouseDown="Border_MouseDown" Margin="10" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
-                    <Label x:Name="lbl_Confirmar" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
+                <Border Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Center" MouseDown="Border_MouseDown" Margin="10">
+                    <Label x:Name="lbl_Confirmar" Style="{StaticResource HoverStyleLabelInBorder}" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12" Height="37" Width="185"/>
                 </Border>
 
             </StackPanel>

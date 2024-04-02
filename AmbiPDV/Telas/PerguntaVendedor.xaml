@@ -18,11 +18,11 @@
         </StackPanel>
         <DatePicker x:Name="dtp_Vencimento" Margin="140,0" KeyDown="dtp_Vencimento_KeyDown" Visibility="Collapsed"/>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,31">
-            <Border Focusable="True" x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" KeyDown="but_Confirmar_KeyDown" MouseEnter="but_Confirmar_MouseEnter" MouseLeave="but_Confirmar_MouseLeave">
-                <Label x:Name="lbl_Da" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"/>
+            <Border Focusable="True" x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0" KeyDown="but_Confirmar_KeyDown">
+                <Label x:Name="lbl_Da" Style="{StaticResource HoverStyleLabelInBorder}" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12" Height="37" Width="185"/>
             </Border>
-            <Border Focusable="True" x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0" MouseEnter="but_Cancelar_MouseEnter" MouseLeave="but_Cancelar_MouseLeave">
-                <Label x:Name="lbl_Nyet" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12"/>
+            <Border Focusable="True" x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="cancelar_Click" Margin="10,0">
+                <Label x:Name="lbl_Nyet" Style="{StaticResource HoverStyleLabelInBorder}" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="12" Height="37" Width="185"/>
             </Border>
 
         </StackPanel>

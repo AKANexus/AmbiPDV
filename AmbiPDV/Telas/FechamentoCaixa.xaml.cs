@@ -157,32 +157,7 @@ namespace PDV_WPF.Telas
             {
                 relatorio_x();
             });
-        }
-        private void but_Confirmar_MouseEnter(object sender, MouseEventArgs e)
-        {
-            lbl_Da.FontSize = 15;
-        }
-        private void but_Confirmar_MouseLeave(object sender, EventArgs e)
-        {
-            lbl_Da.FontSize = 12;
-        }       
-        private void but_Cancelar_MouseEnter(object sender, EventArgs e)
-        {
-            lbl_Nyet.FontSize = 15;
-        }
-        private void but_Cancelar_MouseLeave(object sender, EventArgs e)
-        {
-            lbl_Nyet.FontSize = 12;
-        }
-        private void but_RelatorioX_MouseEnter(object sender, MouseEventArgs e)
-        {
-            lbl_RelatorioX.FontSize = 15;
-        }
-
-        private void but_RelatorioX_MouseLeave(object sender, MouseEventArgs e)
-        {
-            lbl_RelatorioX.FontSize = 12;
-        }      
+        }             
         private void txb_Total_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -223,7 +198,7 @@ namespace PDV_WPF.Telas
             _SANG = txb_San.Value;
             _SUP = txb_Sup.Value;
             _TROCA = txb_Troca.Value;
-            total = _dinheiro + _cheque + _credito + _debito + _valeloja + _alimentacao + _refeicao + _presente + _combustivel + _outros;
+            total = _dinheiro + _cheque + _credito + _debito + _valeloja + _alimentacao + _refeicao + _presente + _combustivel + _outros + _pix;
             txb_Total.Value = total;
         }
         private bool fecha_o_caixa()

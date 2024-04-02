@@ -204,6 +204,9 @@
     <Reference Include="FirebirdSql.Data.FirebirdClient, Version=7.10.1.0, Culture=neutral, PublicKeyToken=3750abcc3150b00c, processorArchitecture=MSIL">
       <HintPath>..\packages\FirebirdSql.Data.FirebirdClient.7.10.1\lib\net452\FirebirdSql.Data.FirebirdClient.dll</HintPath>
     </Reference>
+    <Reference Include="FluentValidation, Version=11.0.0.0, Culture=neutral, PublicKeyToken=7de548da2fbae0f0, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentValidation.11.9.0\lib\netstandard2.0\FluentValidation.dll</HintPath>
+    </Reference>
     <Reference Include="FontAwesome.WPF, Version=4.7.0.37774, Culture=neutral, PublicKeyToken=0758b07a11a4f466, processorArchitecture=MSIL">
       <HintPath>..\packages\FontAwesome.WPF.4.7.0.9\lib\net40\FontAwesome.WPF.dll</HintPath>
     </Reference>
@@ -310,7 +313,7 @@
       <HintPath>..\packages\RestSharp.106.12.0\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="System">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -615,6 +618,9 @@
     <Compile Include="Telas\Caixa.xaml.cs">
       <DependentUpon>Caixa.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\ClienteDuepay.xaml.cs">
+      <DependentUpon>ClienteDuepay.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\ConsultaAvancada.xaml.cs">
       <DependentUpon>ConsultaAvancada.xaml</DependentUpon>
     </Compile>
@@ -647,6 +653,9 @@
     </Compile>
     <Compile Include="Telas\PerguntaVale.xaml.cs">
       <DependentUpon>PerguntaVale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\PermissaoUsuario.xaml.cs">
+      <DependentUpon>PermissaoUsuario.xaml</DependentUpon>
     </Compile>
     <Compile Include="Telas\ReimprimeFecha.xaml.cs">
       <DependentUpon>ReimprimeFecha.xaml</DependentUpon>
@@ -751,6 +760,7 @@
     <Compile Include="ViewModels\CaixaViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Resource Include="SiTEF\Cheque.txt" />
+    <Resource Include="LogoCliente\logo.png" />
     <Content Include="SiTEF\CliSiTef32I.dll" />
     <Content Include="SiTEF\CliSiTef64I.dll" />
     <Resource Include="SiTEF\LEIAME.TXT" />
@@ -877,6 +887,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Telas\ClienteDuepay.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Telas\ConsultaAvancada.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -920,6 +934,10 @@
     <Page Include="Telas\PerguntaVale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\PermissaoUsuario.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Telas\ReimprimeFecha.xaml">
       <SubType>Designer</SubType>

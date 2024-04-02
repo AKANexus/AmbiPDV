@@ -126,8 +126,14 @@
   <data name="ABERTURA_DE_TURNO" xml:space="preserve">
     <value>Abertura de Turno</value>
   </data>
+  <data name="ACESSO_NEGADO" xml:space="preserve">
+    <value>Acesso negado</value>
+  </data>
   <data name="ACESSO_REMOTO" xml:space="preserve">
     <value>Acesso Remoto</value>
+  </data>
+  <data name="ACESSO_RESTRITO" xml:space="preserve">
+    <value>Acesso restrito</value>
   </data>
   <data name="AMBIPDV" xml:space="preserve">
     <value>AmbiPDV</value>
@@ -303,6 +309,9 @@ Se o problema persistir entre em contato com o suporte.</value>
   <data name="ERRO_SAT_SERVIDOR" xml:space="preserve">
     <value>Não foi possivel se comunicar com o aparelho SAT servidor.
 Entre em contato com o suporte.</value>
+  </data>
+  <data name="ERRO_VENDA_CLIENTE_DUEPAY" xml:space="preserve">
+    <value>Não foi possivel adicionar o cliente na venda e por conta disso os dados não serão exibidos no cupom.</value>
   </data>
   <data name="ESTOQUE_VAZIO" xml:space="preserve">
     <value>Estoque Vazio</value>
@@ -483,6 +492,15 @@ O sistema entrara em modo de contigencia e para testar novamente a comunicação
   </data>
   <data name="SENHA_DIGITADA_NAO_E_VALIDA" xml:space="preserve">
     <value>A senha digitada não é válida.</value>
+  </data>
+  <data name="SENHA_INVALIDA_NOTIFICAÇÃO" xml:space="preserve">
+    <value>Senha digitada está inválida. Digite sua senha ou a do supervisor.</value>
+  </data>
+  <data name="SENHA_INVALIDA_SUPER" xml:space="preserve">
+    <value>Senha do supervisor está inválida, por favor, tente novamente.</value>
+  </data>
+  <data name="SENHA_INVALIDA_USER" xml:space="preserve">
+    <value>Senha do usuário selecionado está inválida, por favor, tente novamente.</value>
   </data>
   <data name="SERA_GERADO_UM_RELATORIO" xml:space="preserve">
     <value>Será gerado um relatório ao final da venda.</value>
