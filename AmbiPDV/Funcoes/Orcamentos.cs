@@ -8,6 +8,7 @@ using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using PDV_WPF.Controls;
+using System.Linq;
 
 namespace PDV_WPF
 {
@@ -19,6 +20,7 @@ namespace PDV_WPF
         public List<Orcamento_Produto> produtos { get; set; }
         public int no_orcamento { get; set; }
         public int Cod_Cliente { get; set; }
+        public decimal frete { get; set; } = decimal.Zero;
         public DateTime dt_emissao { get; set; }
         public int cod_transportadora { get; set; }
         public DateTime dt_validade { get; set; }
@@ -136,13 +138,21 @@ namespace PDV_WPF
                 case "DavsClipp":
                     using (var PEDIDO_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PEDIDO_VENDATableAdapter())
                     using (var PEDIDO_TB = new DataSets.FDBDataSetOperSeed.TB_PEDIDO_VENDADataTable())
+                    using (var FRETE_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PED_VENDA_FRETETableAdapter())
+                    using (var FRETE_TB = new DataSets.FDBDataSetOperSeed.TB_PED_VENDA_FRETEDataTable())
                     {
                         try
                         {
-                            PEDIDO_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
+                            FRETE_TA.Connection.ConnectionString = PEDIDO_TA.Connection.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
                             PEDIDO_TA.FillById(PEDIDO_TB, ID_PEDIDO: orcamento);
 
-                            if (PEDIDO_TB.Rows.Count <= 0) return false;
+                            if (PEDIDO_TB.Rows.Count <= 0) 
+                                return false;
+
+                            FRETE_TA.FillById(dataTable: FRETE_TB, ID: orcamento);
+
+                            if (FRETE_TB.Rows.Count > 0)
+                                frete = FRETE_TB.Select(x => x.VLR_FRETE).First();
 
                             no_orcamento = PEDIDO_TB[0]["ID_PEDIDO"].Safeint();
                             Cod_Cliente = PEDIDO_TB[0]["ID_CLIENTE"].Safeint();
@@ -185,6 +195,10 @@ namespace PDV_WPF
         public void Clear()
         {
             produtos.Clear();
+            frete = default;
+            no_orcamento = default;
+            Cod_Cliente = default;
+            origem = default;
         }
 
     }

@@ -363,6 +363,7 @@ namespace PDV_WPF
         public decimal qtde;
         public decimal valorunit;
         public decimal desconto;
+        public decimal outros;
         public decimal trib_est;
         public decimal trib_fed;
         public decimal trib_mun;
@@ -1546,9 +1547,9 @@ namespace PDV_WPF
         public static Dictionary<string, string> ReciboTEF { get; set; }
         public static ClienteDuePayDTO clienteDuePay;
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0, bool recAtacado = false)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal xOutros, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal vUnOri = 0, bool recAtacado = false)
         {
-            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri, recebeuAtacado = recAtacado };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, outros = xOutros, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = vUnOri, recebeuAtacado = recAtacado };
             produtos.Add(prod);
         }
 
@@ -1666,16 +1667,20 @@ namespace PDV_WPF
                         RecebePrint($"(DESCONTO{(prod.recebeuAtacado ? " ATACADO" : "")})", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("C"), italico, direita, 1);
                     }
+                    if (prod.outros > 0)
+                    {
+                        RecebePrint($"(ACRÉSCIMO OUTROS)", italico, esquerda, 0);
+                        RecebePrint("+" + prod.outros.ToString("C"), italico, direita, 1);
+                    }
                     if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
                         RecebePrint(prod.valorunit.ToString("C"), italico, direita, 1);
-
                     }
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
                     total_trib_est += prod.trib_est * prod.valorunit * prod.qtde;
                     total_trib_mun += prod.trib_mun * prod.valorunit * prod.qtde;
-                    subtotal += prod.valortotal - prod.desconto;
+                    subtotal += prod.valortotal - prod.desconto + prod.outros;
                     linha += 1;
                 }
                 //----------------------------------------------vvvvvvvvvvvvvvvvvvvvvv
@@ -2047,9 +2052,9 @@ namespace PDV_WPF
         public static DateTime? TsOperacao;
         public static ClienteDuePayDTO clienteDuePay;
 
-        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0, bool recAtacado = false)
+        public static void RecebeProduto(string Xcodigo, string Xdescricao, string Xtipounid, decimal Xqtde, decimal Xvalorunit, decimal Xdesconto, decimal xOutros, decimal Xtribest, decimal Xtribfed, decimal Xtribmun, decimal valorOri = 0, bool recAtacado = false)
         {
-            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri, recebeuAtacado = recAtacado };
+            Produto prod = new Produto { codigo = Xcodigo, descricao = Xdescricao.TruncateLongString(), tipounid = Xtipounid, qtde = Xqtde, valorunit = Xvalorunit, valortotal = (Xqtde * Xvalorunit).RoundABNT(), desconto = Xdesconto, outros = xOutros, trib_est = Xtribest, trib_fed = Xtribfed, trib_mun = Xtribmun, valorOriginal = valorOri, recebeuAtacado = recAtacado };
             produtos.Add(prod);
         }
 
@@ -2115,12 +2120,17 @@ namespace PDV_WPF
                         RecebePrint($"(DESCONTO{(prod.recebeuAtacado ? " ATACADO" : "")})", italico, esquerda, 0);
                         RecebePrint("-" + prod.desconto.ToString("C"), italico, direita, 1);
                     }
+                    if(prod.outros > 0)
+                    {
+                        RecebePrint($"(ACRÉSCIMO OUTROS)", italico, esquerda, 0);
+                        RecebePrint("+" + prod.outros.ToString("C"), italico, direita, 1);
+                    }
                     if (prod.valorOriginal != default && prod.valorOriginal != prod.valorunit)
                     {
                         RecebePrint("ATACADO - Valor unitário reduzido para", italico, esquerda, 0);
                         RecebePrint(prod.valorunit.ToString("C"), italico, direita, 1);
                     }
-                    subtotal += prod.valortotal - prod.desconto;
+                    subtotal += prod.valortotal - prod.desconto + prod.outros;
                     total_trib_fed += prod.trib_fed * prod.valorunit * prod.qtde;
                     total_trib_est += prod.trib_est * prod.valorunit * prod.qtde;
                     total_trib_mun += prod.trib_mun * prod.valorunit * prod.qtde;

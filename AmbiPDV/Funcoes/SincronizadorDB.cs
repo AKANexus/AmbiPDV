@@ -7724,6 +7724,41 @@ namespace PDV_WPF.Funcoes
 
                                             #endregion Atualizar no servidor a quantidade em estoque
 
+                                            #region Altera pedido/orçamento vinculado a venda cancelada (DAV's)
+
+                                            using (var TB_NFVITEM_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_ITEMTableAdapter())
+                                            using (var TB_NFVENDA_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter())
+                                            using (var TB_NFVITEM_DT = new DataSets.FDBDataSetVenda.TB_NFV_ITEMDataTable())
+                                            using (var TB_PEDVENDA_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PEDIDO_VENDATableAdapter())
+                                            using (var TB_PEDNFVENDA_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PED_VENDA_NFVENDATableAdapter())
+                                            {
+                                                TB_PEDVENDA_TA.Connection = 
+                                                    TB_PEDNFVENDA_TA.Connection = 
+                                                        TB_NFVITEM_TA.Connection = 
+                                                            TB_NFVENDA_TA.Connection = fbConnServ;
+                                                
+                                                TB_NFVITEM_TA.FillByIdNfvenda(dataTable: TB_NFVITEM_DT, 
+                                                                              PIDNFVENDA: (int?)TB_NFVENDA_TA.IdNfVendaByMSN(NF_NUMERO: nfvendaCancelPdv.NF_NUMERO,
+                                                                                                                             NF_SERIE: nfvendaCancelPdv.NF_SERIE,
+                                                                                                                             NF_MODELO: nfvendaCancelPdv.NF_MODELO));
+                                                if (TB_NFVITEM_DT.Rows.Count > 0)
+                                                {
+                                                    log.Debug("Alterando pedido/orçamento vinculado ao cupom cancelado.");
+
+                                                    TB_PEDVENDA_TA.ChangeStatusById(ID_STATUS: 1,
+                                                                                    ID_PEDIDO: TB_PEDNFVENDA_TA.GetPedidoByIdNfvItem(TB_NFVITEM_DT.Select(selector: x => x.ID_NFVITEM).First()) ?? 0); // 1 --> Editando
+
+                                                    foreach (var idNfvItem in TB_NFVITEM_DT.Select(selector: x => x.ID_NFVITEM))
+                                                    {
+                                                        TB_PEDNFVENDA_TA.DeleteByIdNfvItem(ID_NFVITEM: idNfvItem);
+                                                    }
+
+                                                    log.Debug("Pedido/Orçamento desvinculados do cupom cancelado.");
+                                                }
+                                            }                                            
+
+                                            #endregion Altera pedido/orçamento vinculado a venda cancelada (DAV's)
+
                                             #region Indicar que a nfvenda foi synced depois de cancelado (Serv)
 
                                             using (var TB_NFVENDA_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter())

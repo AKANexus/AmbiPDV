@@ -358,7 +358,7 @@ namespace PDV_WPF.Objetos
             {
                 throw new ErroDeValidacaoDeConteudo("Valor de acréscimo inválido. Valor não pode ser menor que zero.");
             }
-            else if (valorOutros > 0)
+            else if (true)
             {
                 _produto.vOutro = valorOutros.ToString("0.00");
             }
@@ -947,7 +947,7 @@ namespace PDV_WPF.Objetos
         /// <param name="noCaixa">Série do Cupom Fiscal</param>
         /// <param name="idVendedor">ID do Vendedor que efetuou a venda</param>
         /// <returns></returns>
-        public int GravaVendaNaBase(int noCaixa, short idVendedor, int nCFe = -1)
+        public int GravaVendaNaBase(int noCaixa, short idVendedor, int nCFe = -1, int dav = 0)
         {
             if (_cFeRetornado is null)
             {
@@ -981,7 +981,7 @@ namespace PDV_WPF.Objetos
                         if (!decimal.TryParse(cfeDeRetorno.infCFe.total.DescAcrEntr.Item, NumberStyles.Currency, CultureInfo.InvariantCulture, out decimal vDesc))
                             throw new Exception("vDesc não pode ser obtido do XML de retorno");
                     }
-                    DataSets.FDBDataSetVenda.SP_TRI_GRAVANFVENDARow nFVendaRow = VENDA_TA.SP_TRI_GRAVANFVENDA(idVendedor, noCaixa.ToString(), tsEmissao, tsEmissao, 2, vTroco, nCFe)[0];
+                    DataSets.FDBDataSetVenda.SP_TRI_GRAVANFVENDARow nFVendaRow = VENDA_TA.SP_TRI_GRAVANFVENDA(idVendedor, noCaixa.ToString(), tsEmissao, tsEmissao, 2, vTroco, nCFe, dav > 0 ? $"DAV Nº {dav}" : null)[0];
                     ID_NFVENDA = nFVendaRow.RID_NFVENDA;
                     NF_NUMERO = nFVendaRow.RNF_NUMERO;
                     log.Debug($"ID_NFVENDA = (int)OPER_TA.SP_TRI_GRAVANFVENDA(0, \"1\", {tsEmissao}, {tsEmissao}, 2, {vTroco});");
@@ -1024,7 +1024,8 @@ namespace PDV_WPF.Objetos
                             Convert.ToDecimal(detalhamento.prod.qCom, CultureInfo.InvariantCulture),
                             Convert.ToDecimal(detalhamento.prod.vDesc, CultureInfo.InvariantCulture) + Convert.ToDecimal(detalhamento.prod.vRatDesc, CultureInfo.InvariantCulture),
                             pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, CultureInfo.InvariantCulture), 
-                            detalhamento.idScannTech);
+                            detalhamento.idScannTech,
+                            Convert.ToDecimal(detalhamento.prod.vOutro, CultureInfo.InvariantCulture));
 
                         if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoICMS)
                         {
@@ -1363,7 +1364,7 @@ namespace PDV_WPF.Objetos
         /// <param name="idVendedor">ID do Vendedor que efetuou a venda</param>
         /// <param name="ECF">Determina se foi usado ECF para fazer a venda</param>
         /// <returns></returns>
-        public virtual (int NF_NUMERO, int ID_NFVENDA) GravaNaoFiscalBase(decimal vTroco, int noCaixa, short idVendedor, bool ECF = false)
+        public virtual (int NF_NUMERO, int ID_NFVENDA) GravaNaoFiscalBase(decimal vTroco, int noCaixa, short idVendedor, bool ECF = false, int dav = 0)
         {
             CFe cfeDeRetorno = RetornaCFe();
             int NF_NUMERO, nItemCup, ID_NFVENDA, ID_CLIENTE = 0;
@@ -1409,11 +1410,11 @@ namespace PDV_WPF.Objetos
                     switch (ECF)
                     {
                         case true:
-                            nFVendaRow = VENDA_TA.SP_TRI_GRAVANFVENDA(idVendedor, "E" + noCaixa.ToString(), tsEmissao, tsEmissao, 2, vTroco, -1)[0];
+                            nFVendaRow = VENDA_TA.SP_TRI_GRAVANFVENDA(idVendedor, "E" + noCaixa.ToString(), tsEmissao, tsEmissao, 2, vTroco, -1, dav > 0 ? $"DAV Nº {dav}" : null)[0];
                             break;
                         case false:
                         default:
-                            nFVendaRow = VENDA_TA.SP_TRI_GRAVANFVENDA(idVendedor, "N" + noCaixa.ToString(), tsEmissao, tsEmissao, 2, vTroco, -1)[0];
+                            nFVendaRow = VENDA_TA.SP_TRI_GRAVANFVENDA(idVendedor, "N" + noCaixa.ToString(), tsEmissao, tsEmissao, 2, vTroco, -1, dav > 0 ? $"DAV Nº {dav}" : null)[0];
                             break;
                     }
                     ID_NFVENDA = nFVendaRow.RID_NFVENDA;
@@ -1439,7 +1440,8 @@ namespace PDV_WPF.Objetos
                             Convert.ToDecimal(detalhamento.prod.qCom, ptBR),
                             Convert.ToDecimal(detalhamento.prod.vDesc, ptBR) + Convert.ToDecimal(detalhamento.prod.vRatDesc, ptBR),
                             pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, ptBR),
-                            detalhamento.idScannTech);
+                            detalhamento.idScannTech,
+                            Convert.ToDecimal(detalhamento.prod.vOutro, ptBR));
                     }
                     catch (Exception ex)
                     {
@@ -2169,7 +2171,7 @@ namespace PDV_WPF.Objetos
             decimal valVenda = 0;
             foreach (envCFeCFeInfCFeDet det in _listaDets)
             {
-                valVenda += (det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal() - det.prod.vDesc.Safedecimal()).RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
+                valVenda += (det.prod.vUnCom.Safedecimal() * det.prod.qCom.Safedecimal() - det.prod.vDesc.Safedecimal()).RoundABNT() + det.prod.vOutro.Safedecimal().RoundABNT() - (det.descAtacado.Safedecimal().RoundABNT());
             }
             return valVenda;
         }
