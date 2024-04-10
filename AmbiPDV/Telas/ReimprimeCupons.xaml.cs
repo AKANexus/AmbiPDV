@@ -237,7 +237,7 @@ namespace PDV_WPF.Telas
                     VendaDEMO.RecebeClienteDuepay(cupom.ClienteDuePay);
                     foreach (var item in Itens_DT)
                     {
-                        VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, item.VLR_DESC, 0, 0, 0, item.PRC_VENDA);
+                        VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, item.VLR_DESC, item.VLR_FRETE, 0, 0, 0, item.PRC_VENDA);
                     }
                     bool prazo = false;
                     foreach (var item in Pagtos_DT)
@@ -333,13 +333,14 @@ namespace PDV_WPF.Telas
 
 
             var Funcoes = new funcoesClass();
-            decimal _qCom = 1, _vUnCom = 1, _vDesc = 0;
+            decimal _qCom = 1, _vUnCom = 1, _vDesc = 0, _vOutros = 0;
             foreach (envCFeCFeInfCFeDet item in cFeDeRetorno.infCFe.det)
             {
 
                 decimal.TryParse(item.prod.qCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _qCom);
                 decimal.TryParse(item.prod.vUnCom, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnCom);
                 decimal.TryParse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vDesc);
+                decimal.TryParse(string.IsNullOrWhiteSpace(item.prod.vOutro) ? "0" : item.prod.vOutro, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vOutros);
 
                 if (!string.IsNullOrWhiteSpace(item.prod.NCM))
                 {
@@ -348,12 +349,12 @@ namespace PDV_WPF.Telas
 
                     decimal _vUnComOri;
                     decimal.TryParse(item.prod.vUnComOri, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture, out _vUnComOri);
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, _vUnComOri);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, _vOutros, taxa_est, taxa_fed, taxa_mun, _vUnComOri);
 
                 }
                 else
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, _vUnCom);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, _vOutros, 0, 0, 0, _vUnCom);
                 }
 
             }

@@ -325,7 +325,7 @@ namespace PDV_WPF.Telas
             //LIMPAR A TELA
             if (!restartingByException) LimparUltimaVenda(); //Se foi um reinicio automatico de venda não precisa limpar venda pendente pois será utilizado para puxar os itens.
             LimparTela();
-            _usouOrcamento = _usouPedido = _usouOS = false; //Caso o cliente "desista" da venda do orçamento limpando os produtos do cupom e posteriormente pressionando F2 ou F3
+            _usouOrcamento = _usouPedido = _usouOS = false; //Caso o cliente "desista" da venda do orçamento cancelando a venda atual com a tecla "F6"
             orcamentoAtual.Clear();
             pedidoAtual?.Clear();
             LimparObjetoDeVendaNovo();
@@ -1340,9 +1340,10 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                foreach (var item in orcamentoAtual.produtos)
+                decimal restoFrete = decimal.Zero;
+                foreach (var item in orcamentoAtual.produtos.Select((value, index) => new { value, index }))
                 {
-                    if (item.QUANT <= 0)
+                    if (item.value.QUANT <= 0)
                     {
                         DialogBox.Show(strings.ORCAMENTO,
                                        DialogBoxButtons.No, DialogBoxIcons.Warn, false,
@@ -1351,13 +1352,30 @@ namespace PDV_WPF.Telas
                         FinalizarVendaNovo();
                         return true;
                     }
+                    
+                    decimal vlrFreteRateioBruto = orcamentoAtual.frete switch
+                    {
+                        0 => 0,
+                        _ => orcamentoAtual.frete / orcamentoAtual.produtos.Count
+                    };
+
+                    decimal vlrFreteRateioRound = vlrFreteRateioBruto.RoundABNT();
+                    restoFrete += vlrFreteRateioRound - vlrFreteRateioBruto;
+
+                    if (item.index == (orcamentoAtual.produtos.Count - 1))
+                    {
+                        vlrFreteRateioRound = restoFrete > 0 ? 
+                            vlrFreteRateioRound - Math.Abs(restoFrete) :
+                            vlrFreteRateioRound + Math.Abs(restoFrete);
+                    }
 
                     //processaItem(cods[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), qtds[i], (decimal)ESTOQUE_TA.SP_TRI_PEGAPRECO(cods[i], qtds[i]), ESTOQUE_TA, EST_PRODUTO_TA);
-                    ProcessarItemNovo(item.ID_ESTOQUE,
-                                      item.VALOR,
-                                      item.QUANT,
-                                      item.DESCONTO,
-                                     $"Orçamento Nº {orcamento}");
+                    ProcessarItemNovo(item.value.ID_ESTOQUE,
+                                      item.value.VALOR,
+                                      item.value.QUANT,
+                                      item.value.DESCONTO,
+                                     $"Orçamento Nº {orcamento}",
+                                      vlrFreteRateioRound);
 
                     numProximoItem += 1;
 
@@ -2642,7 +2660,7 @@ namespace PDV_WPF.Telas
                                         taPedNfVenda.Insert(ID_NFVITEM: nfvItem.ID_NFVITEM, ID_ITEMPED: itemOrcamento.ID_PRODUTO);
                                     });
                                 }
-                                taPedidoServ.FinishById(ID_PEDIDO: orcamentoAtual.no_orcamento);
+                                taPedidoServ.ChangeStatusById(ID_STATUS: 9, ID_PEDIDO: orcamentoAtual.no_orcamento); // 9 --> Finalizado.
                             }
                             break;                       
                         case "AmbiOrcamento":
@@ -2669,7 +2687,8 @@ namespace PDV_WPF.Telas
             finally
             {
                 //if (blnFechadoComSucesso) { usou_orcamento = false; }
-                _usouOrcamento = _usouPedido = _usouOS = false; // Independentemente do resultado deste método, deve indicar o término do uso do orçamento na venda, para não comprometer o funcionamento subsequente.
+                orcamentoAtual.Clear();
+                _usouOrcamento = _usouPedido = _usouOS = false; // Independentemente do resultado deste método, deve indicar o término do uso do orçamento na venda, para não comprometer o funcionamento subsequente.                                
             }
         }
         private void Completed_StoryBoard(object sender, EventArgs a)
@@ -2970,28 +2989,29 @@ namespace PDV_WPF.Telas
 
 
             var Funcoes = new funcoesClass();
-            decimal _qCom, _vUnCom, _vDesc;
+            decimal _qCom, _vUnCom, _vDesc, _vOutros;
             foreach (envCFeCFeInfCFeDet item in cFeDeRetorno.infCFe.det)
             {
                 _qCom = decimal.Parse(item.prod.qCom, ptBR);
                 _vUnCom = decimal.Parse(item.prod.vUnCom, ptBR);
-                _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, ptBR)/* + item.descAtacado*/;
+                _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, ptBR); /* + item.descAtacado*/
+                _vOutros = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vOutro) ? "0" : item.prod.vOutro, ptBR);
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, _vOutros, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
 
                 }
                 else
                 {
-                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
+                    VendaDEMO.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, _vOutros, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                     // item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun));
                 }
             }
 
-            var (nFNumero, ID_NFVENDA) = vendaAtual.GravaNaoFiscalBase(pFechamento.troco, NO_CAIXA, (short?)vendedorId ?? 0, false);
+            var (nFNumero, ID_NFVENDA) = vendaAtual.GravaNaoFiscalBase(pFechamento.troco, NO_CAIXA, (short?)vendedorId ?? 0, false, orcamentoAtual.no_orcamento);
             VendaDEMO.numerodocupom = nFNumero;
 
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
@@ -3668,7 +3688,7 @@ namespace PDV_WPF.Telas
 
 
                 log.Debug("Encerrar Padrão");
-                vendaAtual.GravaNaoFiscalBase(pFechamento.troco, NO_CAIXA, (short?)vendedorId ?? 0, true);
+                vendaAtual.GravaNaoFiscalBase(pFechamento.troco, NO_CAIXA, (short?)vendedorId ?? 0, true, orcamentoAtual.no_orcamento);
 
 
                 txb_Avisos.Text = string.Format("TROCO: {0}", pFechamento.troco.ToString("C2"));
@@ -3924,22 +3944,23 @@ namespace PDV_WPF.Telas
 
 
             var Funcoes = new funcoesClass();
-            decimal _qCom, _vUnCom, _vDesc;
+            decimal _qCom, _vUnCom, _vDesc, _vOutros;
             foreach (envCFeCFeInfCFeDet item in cFeDeRetorno.infCFe.det)
             {
                 _qCom = decimal.Parse(item.prod.qCom, CultureInfo.InvariantCulture);
                 _vUnCom = decimal.Parse(item.prod.vUnCom, CultureInfo.InvariantCulture);
                 _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, CultureInfo.InvariantCulture) + item.descAtacado;
-
+                _vOutros = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vOutro) ? "0" : item.prod.vOutro, CultureInfo.InvariantCulture);
+                
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, _vOutros, 0, 0, 0, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {0}, {0}, {0}");
                 }
                 else
                 {
-                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
+                    VendaImpressa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, _qCom, _vUnCom, _vDesc, _vOutros, taxa_est, taxa_fed, taxa_mun, item.prod.vUnComOri.Safedecimal(), item.atacado);
                     log.Debug($"{item.prod.cProd}, {item.prod.xProd}, {item.prod.uCom}, {_qCom}, {_vUnCom}, {_vDesc}, {taxa_est}, {taxa_fed}, {taxa_mun}");
                 }
 
@@ -3972,7 +3993,7 @@ namespace PDV_WPF.Telas
                 #endregion AmbiMAITRE
             }
 
-            int ID_NFVENDA = vendaAtual.GravaVendaNaBase(NO_CAIXA, (short?)vendedorId ?? 0, nCFe);
+            int ID_NFVENDA = vendaAtual.GravaVendaNaBase(NO_CAIXA, (short?)vendedorId ?? 0, nCFe, orcamentoAtual.no_orcamento);
 
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             {
@@ -5592,7 +5613,7 @@ namespace PDV_WPF.Telas
         }
         private FuncoesFirebird _funcoes = new();
 
-        private void ProcessarItemNovo(int pCodigoItem, decimal pPrecoUnitario, decimal pQuant, decimal pDesconto, string nomeKit = null)
+        private void ProcessarItemNovo(int pCodigoItem, decimal pPrecoUnitario, decimal pQuant, decimal pDesconto, string nomeKit = null, decimal pOutros = 0)
         {
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
@@ -5709,7 +5730,7 @@ namespace PDV_WPF.Telas
                                         dadosDoItem.CFOP,
                                         pPrecoUnitario,
                                         dadosDoItem.RSTR_CEST,
-                                        0,
+                                        pOutros,
                                         pDesconto,
                                         dadosDoItem.UNI_MEDIDA,
                                         pQuant,
@@ -6641,7 +6662,7 @@ namespace PDV_WPF.Telas
                 });
             }// Ativa modo de desconto (Tecla F8)
             /* ---------------*/
-            else if (e.Key == Key.F9 && e.KeyboardDevice.Modifiers == ModifierKeys.None)
+            else if (e.Key == Key.F9 && e.KeyboardDevice.Modifiers == ModifierKeys.None && !_contingencia)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {

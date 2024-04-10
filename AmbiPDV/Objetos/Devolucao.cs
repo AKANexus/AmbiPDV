@@ -139,7 +139,7 @@ namespace PDV_WPF.Objetos
             {
                 throw new ErroDeValidacaoDeConteudo("Valor de acréscimo inválido. Valor não pode ser menor que zero.");
             }
-            else if (valorOutros > 0)
+            else if (true)
             {
                 _produto.vOutro = valorOutros.ToString("0.00");
             }

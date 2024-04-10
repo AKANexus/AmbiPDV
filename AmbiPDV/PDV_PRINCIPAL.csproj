@@ -1139,7 +1139,6 @@
     <None Include="DataSets\FDBDataSetConfig.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>FDBDataSetConfig.Designer.cs</LastGenOutput>
     </None>
     <None Include="DataSets\FDBDataSetConfig.xss">
       <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
