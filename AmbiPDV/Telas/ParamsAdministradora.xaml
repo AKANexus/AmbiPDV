@@ -1,0 +1,29 @@
+﻿<Window x:Class="PDV_WPF.Telas.ParamsAdministradora"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PDV_WPF.Telas"
+        mc:Ignorable="d"
+        Title="ParamsAdministradora" Height="500" Width="400" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" WindowStyle="None">
+    <StackPanel Margin="10">
+        <ListBox ItemsSource="{Binding macCtaAdmin}" Height="200">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="fODACE"></Label>
+                        <ComboBox ItemsSource="{Binding ContasBancarias}" SelectedItem="{Binding CtaSelecionada, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,0,0" Orientation="Horizontal">
+            <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Center" Margin="10" VerticalAlignment="Bottom" MouseDown="but_Confirmar_MouseDown">
+                <Label x:Name="lbl_Da" Style="{StaticResource HoverStyleLabelInBorder}" Content="CONFIRMAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="10" Height="37" Width="185"/>
+            </Border>
+            <Border x:Name="but_Cancelar" Background="#FFFF7272" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="but_Cancelar_MouseDown" Margin="10,0">
+                <Label x:Name="lbl_Nyet" Style="{StaticResource HoverStyleLabelInBorder}" Content="CANCELAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontSize="10"  Height="37" Width="185"/>
+            </Border>
+        </StackPanel>        
+    </StackPanel>
+</Window>

@@ -134,6 +134,29 @@ namespace PDV_WPF.Configuracoes
 
         }
 
+        private static string _vINCULA_MAQ_CTA;
+        public static bool VINCULA_MAQ_CTA
+        {
+            get
+            {
+                switch (_vINCULA_MAQ_CTA)
+                {
+                    case "S":
+                    case "1":
+                        return true;
+                    case "N":
+                    case "0":
+                    default:
+                        return false;
+                }
+            }
+            set
+            {
+                _vINCULA_MAQ_CTA = value ? "S" : "N";
+            }
+
+        }
+
         public static string LAYOUT_SAT { get; set; } = "000";
 
         private static string _iNTERROMPE_NAO_ENCONTRADO;
@@ -647,6 +670,7 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSATLIFESIGNINTERVAL", SATLIFESIGNINTERVAL);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSYSEMITECOMPROVANTE", SYSEMITECOMPROVANTE);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);               
+                fbCommSalvaConfig.Parameters.AddWithValue("@pVINCULA_MAQ_CTA", _vINCULA_MAQ_CTA);               
 
                 fbCommSalvaConfig.CommandText =
                                         "UPDATE OR INSERT INTO TRI_PDV_CONFIG " +
@@ -655,14 +679,14 @@ namespace PDV_WPF.Configuracoes
                                         "MODELO_CUPOM, MENSAGEM_RODAPE, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, " +
                                         " IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, " +
                                         "BALPORTA, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, " +
-                                        "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE) " +
+                                        "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, VINCULA_MAQ_CTA) " +
                                         "VALUES " +
                                         "(@pID_MAC, @pNO_CAIXA, @pEXIGE_SANGRIA, @pVALOR_MAX_CAIXA, @pBLOQUEIA_NO_LIMITE, @pVALOR_DE_FOLGA, @pPERMITE_FOLGA_SANGRIA, " +
                                         "@pINFORMA_MAQUININHA, @pLAYOUT_SAT, @pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
                                         "@pMODELO_CUPOM, @pMENSAGEM_RODAPE, @pMODELO_SAT, @pSATSERVIDOR, @pSAT_CODATIV, @pSIGN_AC, @pSAT_USADO, @pECF_ATIVA, " +
                                         "@pECF_PORTA, @pIMPRESSORA_USB, @pIMPRESSORA_USB_PED, @pPERGUNTA_WHATS, @pUSATEF, @pTEFIP, @pTEFNUMLOJA, @pTEFNUMTERMINAL, " +
                                         "@pTEFPEDECPFPELOPINPAD, @pBALPORTA, @pBALBAUD, @pBALPARITY, @pBALMODELO, @pACFILLPREFIX, @pACFILLMODE, @pACREFERENCIA, @pSYSCOMISSAO, @pSATSERVTIMEOUT, " +
-                                        "@pSATLIFESIGNINTERVAL, @pACFILLDELAY, @pSYSPERGUNTAWHATS, @pSYSPARCELA, @pSYSEMITECOMPROVANTE) " +
+                                        "@pSATLIFESIGNINTERVAL, @pACFILLDELAY, @pSYSPERGUNTAWHATS, @pSYSPARCELA, @pSYSEMITECOMPROVANTE, @pVINCULA_MAQ_CTA) " +
                                         "MATCHING (ID_MAC);";
 
 
@@ -786,6 +810,7 @@ namespace PDV_WPF.Configuracoes
                 _bLOQUEIA_NO_LIMITE = (registro.BLOQUEIA_NO_LIMITE is null) ? "N" : registro.BLOQUEIA_NO_LIMITE;
                 VALOR_DE_FOLGA = (decimal)registro.VALOR_DE_FOLGA;
                 _iNFORMA_MAQUININHA = (registro.INFORMA_MAQUININHA is null) ? "N" : registro.INFORMA_MAQUININHA;
+                _vINCULA_MAQ_CTA = (registro.VINCULA_MAQ_CTA is null) ? "N" : registro.VINCULA_MAQ_CTA;
                 LAYOUT_SAT = (registro.LAYOUT_SAT is null) ? "007" : registro.LAYOUT_SAT;
                 _iNTERROMPE_NAO_ENCONTRADO = (registro.INTERROMPE_NAO_ENCONTRADO is null) ? "N" : registro.INTERROMPE_NAO_ENCONTRADO;
                 _pERMITE_FOLGA_SANGRIA = (registro.PERMITE_FOLGA_SANGRIA is null) ? "N" : registro.PERMITE_FOLGA_SANGRIA;

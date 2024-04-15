@@ -443,7 +443,7 @@
     <Compile Include="DataSets\FDBDataSetConfig.cs">
       <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
     </Compile>
-    <Compile Include="DataSets\FDBDataSetConfig.Designer.cs">
+    <Compile Include="DataSets\FDBDataSetConfig1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>
@@ -641,6 +641,9 @@
     </Compile>
     <Compile Include="Telas\OpcoesDeImpressao.xaml.cs">
       <DependentUpon>OpcoesDeImpressao.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Telas\ParamsAdministradora.xaml.cs">
+      <DependentUpon>ParamsAdministradora.xaml</DependentUpon>
     </Compile>
     <Compile Include="Telas\ParamsTecs.xaml.cs">
       <DependentUpon>ParamsTecs.xaml</DependentUpon>
@@ -919,6 +922,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Telas\ParamsAdministradora.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Telas\ParamsTecs.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -1139,6 +1146,7 @@
     <None Include="DataSets\FDBDataSetConfig.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>FDBDataSetConfig1.Designer.cs</LastGenOutput>
     </None>
     <None Include="DataSets\FDBDataSetConfig.xss">
       <DependentUpon>FDBDataSetConfig.xsd</DependentUpon>

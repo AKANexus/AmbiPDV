@@ -21,6 +21,8 @@ using System.Linq;
 using PDV_WPF.Objetos;
 using System.Diagnostics;
 using System.Globalization;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 
 //TODO: revisar todas as funções "FillBy...()". O ideal é usar stored procedures. Isso em combinação com
 //      índices no banco de dados, o ganho em desempenho é significativo.
@@ -1704,7 +1706,7 @@ namespace PDV_WPF.Funcoes
                             for (int i = 0; i < pendentesUniMed.Length; i++)
                             {
                                 var unRegUnidade = pendentesUniMed[i]["UN_REG"].Safestring();
-                                var operacao = pendentesUniMed[i]["OPERACAO"].Safestring();
+                                var operacao = pendentesUniMed[i]["OPERACAO"].Safestring();                                
 
                                 // Verificar o que deve ser feito com o registro (insert, update ou delete)
                                 if (operacao.Equals("I") || operacao.Equals("U"))
@@ -1790,7 +1792,7 @@ namespace PDV_WPF.Funcoes
                                                 if (deletesPendentesUniMedida.Length <= 0)
                                                 {
                                                     dtAuxSyncDeletesPendentes.Rows.Add(0, 0, "TB_UNI_MEDIDA", "D", shtNumCaixa, null, unRegUnidade);
-                                                }
+                                                }                                                
 
                                                 break;
                                             }
@@ -1866,7 +1868,7 @@ namespace PDV_WPF.Funcoes
                             for (int i = 0; i < pendentesEstoque.Length; i++)
                             {
                                 var idEstoque = pendentesEstoque[i]["ID_REG"].Safeint();
-                                var operacao = pendentesEstoque[i]["OPERACAO"].Safestring();
+                                var operacao = pendentesEstoque[i]["OPERACAO"].Safestring();                                
 
                                 // Verificar o que deve ser feito com o registro (insert, update ou delete)
                                 if (operacao.Equals("I") || operacao.Equals("U"))
@@ -2956,9 +2958,9 @@ namespace PDV_WPF.Funcoes
         }
         public void Sync_TB_FUNC_AUDITORIA_SIS(EnmTipoSync enmTipoSync)
         {
-            if (enmTipoSync != EnmTipoSync.tudo) return; 
+            if (enmTipoSync != EnmTipoSync.tudo) return;
 
-            using(var tblFuncAuditPdv = new FDBDataSetOperSeed.TB_FUNC_AUDITORIA_SISDataTable())
+            using (var tblFuncAuditPdv = new FDBDataSetOperSeed.TB_FUNC_AUDITORIA_SISDataTable())
             using (var taFuncAuditPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_AUDITORIA_SISTableAdapter())
             using (var taFuncAuditServ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_FUNC_AUDITORIA_SISTableAdapter())
             {
@@ -2985,9 +2987,9 @@ namespace PDV_WPF.Funcoes
                         taFuncAuditPdv.SetSynchronized();
                     }
                 }
-                catch(Exception ex)
-                {                    
-                    GravarErroSync("Auditoria do Funcionário(PDV)", tblFuncAuditPdv, ex);                    
+                catch (Exception ex)
+                {
+                    GravarErroSync("Auditoria do Funcionário(PDV)", tblFuncAuditPdv, ex);
                     throw ex;
                 }
             }
@@ -3730,7 +3732,7 @@ namespace PDV_WPF.Funcoes
                                                                                                                  triUsersServ.USERNAME,
                                                                                                                  triUsersServ.PASSWORD,
                                                                                                                  triUsersServ.GERENCIA,
-                                                                                                                 triUsersServ.ATIVO,                                                                                                                 
+                                                                                                                 triUsersServ.ATIVO,
                                                                                                                  DateTime.Now,
                                                                                                                  triUsersServ.PERMISSOES);
 
@@ -4654,7 +4656,7 @@ namespace PDV_WPF.Funcoes
                     DataRow[] pendentesPromosAdicional = dtAuxSyncPendentes.Select($"TABELA = 'TRI_SCANN_ADICIONAL'");
                     for (int i = 0; i < pendentesPromosAdicional.Length; i++)
                     {
-                        var id_sync = pendentesPromosAdicional[i]["ID_REG"].Safestring();
+                        var id_sync = pendentesPromosAdicional[i]["ID_REG"].Safeint();
                         var operacao = pendentesPromosAdicional[i]["OPERACAO"].Safestring();
                         var NO_CAIXA = pendentesPromosAdicional[i]["NO_CAIXA"].Safeshort();
 
@@ -4664,7 +4666,7 @@ namespace PDV_WPF.Funcoes
                             using (var taPromoItensAdicionalServ = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
                             {
                                 taPromoItensAdicionalServ.Connection = fbConnServ;//.ConnectionString = _strConnNetwork;                                
-                                taPromoItensAdicionalServ.FillById(tblPromoAdicionalServ, id_sync.Safeint());
+                                taPromoItensAdicionalServ.FillById(tblPromoAdicionalServ, id_sync);
                                 if (tblPromoAdicionalServ != null && tblPromoAdicionalServ.Rows.Count > 0)
                                 {
                                     using (var taPromoItensAdicionalPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
@@ -4696,11 +4698,10 @@ namespace PDV_WPF.Funcoes
                         {
                             using (var taPromoItensAdicionalPdv = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
                             {
-                                var id = id_sync.Safeint();
                                 taPromoItensAdicionalPdv.Connection = fbConnPdv;
-                                retorno = (int)taPromoItensAdicionalPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id, 0, null, null, operacao, "TRI_SCANN_ADICIONAL");
+                                retorno = (int)taPromoItensAdicionalPdv.SP_TRI_PROMOCOES_ITENS_UPSERT(id_sync, 0, null, null, operacao, "TRI_SCANN_ADICIONAL");
 
-                                if (retorno.Equals(1)) ConfirmarAuxSync(id, "TRI_SCANN_ADICIONAL", operacao, NO_CAIXA);
+                                if (retorno.Equals(1)) ConfirmarAuxSync(id_sync, "TRI_SCANN_ADICIONAL", operacao, NO_CAIXA);
                                 else log.Debug("Rodou SP_TRI_PROMOCOES_ITENS_UPSERT porem não alterou nenhum registro na base local.");
                             }
                         }
@@ -4710,6 +4711,204 @@ namespace PDV_WPF.Funcoes
                 {
                     log.Debug("Erro ao sincronizar tabela TRI_SCANN_ADICIONAL, erro: " + ex);
                 }
+            }
+        }
+
+        public void Sync_TB_BANCO_CTA(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes)
+        {
+            DataRow[] tbBancoCtaPendentes = dtAuxSyncPendentes.Select("TABELA = 'TB_BANCO_CTA'");
+            for (int i = 0; i < tbBancoCtaPendentes.Length; i++)
+            {
+                int id_sync = tbBancoCtaPendentes[i]["ID_REG"].Safeint();
+                string operacao = tbBancoCtaPendentes[i]["OPERACAO"].Safestring();
+                string tabela = tbBancoCtaPendentes[i]["TABELA"].Safestring();
+                short NO_CAIXA = tbBancoCtaPendentes[i]["NO_CAIXA"].Safeshort();
+
+                try
+                {
+                    using (var taBancoCtaPdv = new FDBDataSetTableAdapters.TB_BANCO_CTATableAdapter() { Connection = fbConnPdv })
+                    {
+                        if (operacao.Equals("U") || operacao.Equals("I"))
+                        {
+                            using (var tblBancoCta = new FDBDataSet.TB_BANCO_CTADataTable())
+                            using (var taBancoCtaServ = new FDBDataSetTableAdapters.TB_BANCO_CTATableAdapter())
+                            {
+                                taBancoCtaServ.Connection = fbConnServ;
+                                taBancoCtaServ.FillByIdConta(dataTable: tblBancoCta, ID_CONTA: id_sync);
+
+                                if (tblBancoCta != null && tblBancoCta.Rows.Count > 0)
+                                {
+                                    int registrosAlterados = 0;
+
+                                    foreach (FDBDataSet.TB_BANCO_CTARow banco in tblBancoCta)
+                                    {
+                                        registrosAlterados = taBancoCtaPdv.UpdateOrInsert(ID_CONTA: banco.ID_CONTA,
+                                                                                          DESCRICAO: banco.IsDESCRICAONull() ? null : banco.DESCRICAO,
+                                                                                          AGENCIA: banco.IsAGENCIANull() ? null : banco.AGENCIA,
+                                                                                          CONTA: banco.IsCONTANull() ? null : banco.CONTA,
+                                                                                          STATUS: banco.STATUS,
+                                                                                          ID_BANCO: banco.ID_BANCO,
+                                                                                          ID_CTAPLA: banco.ID_CTAPLA,
+                                                                                          SD_TALAO: banco.SD_TALAO,
+                                                                                          SD_REAL: banco.SD_REAL,
+                                                                                          SD_BANCO: banco.SD_BANCO,
+                                                                                          DT_ULTCONC: banco.IsDT_ULTCONCNull() ? null : banco.DT_ULTCONC,
+                                                                                          ID_AGENTE_FINANCEIRO: banco.IsID_AGENTE_FINANCEIRONull() ? null : banco.ID_AGENTE_FINANCEIRO,
+                                                                                          HABILITAR_RECEBIMENTO: banco.IsHABILITAR_RECEBIMENTONull() ? null : banco.HABILITAR_RECEBIMENTO);
+                                    }
+
+                                    if (registrosAlterados > 0)
+                                        ConfirmarAuxSync(id_sync, tabela, operacao, NO_CAIXA);
+
+                                }
+                                else
+                                {
+                                    if(tbBancoCtaPendentes.CopyToDataTable().Select("OPERACAO = 'D'").Length > 0)
+                                    {
+                                        if (DeleteCascade(fbConnPdv, nameof(FDBDataSet.TB_BANCO_CTARow.ID_CONTA), tabela, id_sync))
+                                            log.Debug("DeleteCascade finalizado com sucesso.");
+                                    }                                    
+
+                                    ConfirmarAuxSync(id_sync, tabela, operacao, NO_CAIXA); // Não ligo se não conseguiu apagar o registro
+                                                                                           // Vou limpar a auxSync de qualquer forma para não enroscar.
+                                }
+
+                            }
+                        }
+                        else
+                        {
+                            switch (operacao)
+                            {
+                                case "D":
+                                    if (DeleteCascade(fbConnPdv, nameof(FDBDataSet.TB_BANCO_CTARow.ID_CONTA), tabela, id_sync))
+                                        log.Debug("DeleteCascade finalizado com sucesso.");
+                                   
+                                    ConfirmarAuxSync(id_sync, tabela, operacao, NO_CAIXA); // Não ligo se não conseguiu apagar o registro
+                                                                                           // Vou limpar a auxSync de qualquer forma para não enroscar;
+                                    break;
+                                default:
+                                    throw new NotImplementedException($"Operação recebida na tabela auxiliar de sincronização para {tabela} não foi identificada. Operação: {operacao}");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Debug("Erro ao sincronizar tabela TB_BANCO_CTA, erro: " + ex);
+                    throw ex;
+                }
+            }
+        }
+
+        
+        /// <summary>
+        /// Método usado para deletar registro de uma tabela e todas as suas dependencias. Use com cuidado.
+        /// </summary>
+        /// <param name="desiredConnection" >Conexão que deseja realizar o delete (local/serv).</param>
+        /// <param name="columnName">Nome da coluna (chave primaria) da tabela que deseja deletar o registro.</param>
+        /// <param name="nativeTable">Nome da tabela que deseja apagar o registro.</param>
+        /// <param name="idExclusion">ID do registro que deseja apagar.</param>
+        /// <returns>True caso consiga apagar todos os registros, false caso ocorra algum erro.</returns>
+        private bool DeleteCascade(FbConnection desiredConnection, string columnName, string nativeTable, dynamic idExclusion)
+        {
+            try
+            {
+                string regexPattern = @"^\d+$";
+                idExclusion = Regex.IsMatch(idExclusion.ToString(), regexPattern) ? (int)idExclusion : $"'{idExclusion}'";
+
+                log.Debug($"DeleteCascade acionado para {nativeTable} com {columnName} = {idExclusion}");
+
+                using (var tblRelationTables = new FDBDataSet.V_RELATION_TABLESDataTable())
+                using (var taRelationTables = new FDBDataSetTableAdapters.V_RELATION_TABLESTableAdapter())
+                {
+                    taRelationTables.Connection = desiredConnection;
+                    taRelationTables.GetDependencies(dataTable: tblRelationTables, TABELA_NATIVA: nativeTable);
+
+                    if (tblRelationTables != null && tblRelationTables.Rows.Count > 0)
+                    {
+                        FbCommand command = new FbCommand();
+                        command.Connection = desiredConnection;
+                        command.CommandType = CommandType.Text;
+                        DataTable dataTable;
+
+                        if (command.Connection.State != ConnectionState.Open)
+                            command.Connection.Open();
+
+                        foreach (var relations in tblRelationTables)
+                        {
+                            dataTable = null;
+
+                            string tabelaDependente = relations.TABELAS_DEPENDENTES.Trim();
+                            string coluna = relations.NOME_COLUNA.Trim();
+
+
+                            if (taRelationTables.GetPrimaryKeyName(TABELA_ANALISADA: tabelaDependente) is string key && key is not null)
+                            {
+                                // Chave primaria da tabela dependente foi capturada com sucesso.                                
+
+                                string primaryKey = key.Trim();
+
+                                dataTable = new DataTable();
+                                command.CommandText = $"SELECT {primaryKey}, {coluna} FROM {tabelaDependente} WHERE {coluna} = {idExclusion}";
+                                dataTable.Load(command.ExecuteReader());
+
+                                if (dataTable.Rows.Count > 0)
+                                {
+                                    if (relations.NULABILIDADE.Trim().Equals("NULL"))
+                                    {
+                                        // Opa, registro dependente pode ser nulo.
+                                        // Sendo assim, será retirado somente a referencia para o registro pai que será excluido.
+
+                                        command.CommandText = $"UPDATE {tabelaDependente} SET {coluna} = NULL WHERE {coluna} = {idExclusion}";
+                                        command.ExecuteNonQuery();
+                                        continue;
+                                    }
+
+                                    // Registro dependente não pode ser nulo.
+                                    // Sendo assim será chamado o DeleteCascade novamente para excluir tanto ela como suas dependencias. 
+
+                                    foreach (DataRow registro in dataTable.Rows)
+                                    {
+                                        if (!DeleteCascade(desiredConnection, primaryKey, tabelaDependente, registro[primaryKey]))
+                                        {
+                                            throw new Exception($"Erro ao apagar registros dependentes da tabela {tabelaDependente} com id {registro[primaryKey]}");
+                                        }
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                // Parece que a tabela dependente não possui chave primaria.
+                                // Sendo assim a mesma não possui outras dependencias, então é delete nela e fodac.
+
+                                command.CommandText = $"DELETE FROM {tabelaDependente} WHERE {coluna} = {idExclusion}";
+                                command.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Terminou de limpar as dependencias, apaga o registro atual/solicitado.
+
+                        command.CommandText = $"DELETE FROM {nativeTable} WHERE {columnName} = {idExclusion}";
+                        command.ExecuteNonQuery();
+                    }
+                    else
+                    {
+                        // Aparentemente é uma tabela sem dependencias.
+                        // Então podemos somente deletar o registro atual/solicitado direto.
+
+                        FbCommand command = new FbCommand();
+                        command.Connection = desiredConnection;
+                        command.CommandType = CommandType.Text;
+                        command.CommandText = $"DELETE FROM {nativeTable} WHERE {columnName} = {idExclusion}";
+                        command.ExecuteNonQuery();
+                    }
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                log.Error($"Exception in DeleteCascate: {ex}.");
+                return false;
             }
         }
 
@@ -4891,7 +5090,10 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.BALMODELO, configServ.ACFILLPREFIX, configServ.ACFILLMODE, configServ.ACREFERENCIA,
                                                                                                             configServ.SYSCOMISSAO, configServ.SATSERVTIMEOUT, configServ.SATLIFESIGNINTERVAL,
                                                                                                             configServ.ACFILLDELAY, configServ.SYSPERGUNTAWHATS, configServ.SYSPARCELA,
-                                                                                                            configServ.SYSEMITECOMPROVANTE, configServ.INFORMA_MAQUININHA, configServ.LAYOUT_SAT);
+                                                                                                            configServ.SYSEMITECOMPROVANTE,
+                                                                                                            configServ.INFORMA_MAQUININHA,
+                                                                                                            configServ.LAYOUT_SAT,
+                                                                                                            configServ.VINCULA_MAQ_CTA);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -4983,6 +5185,128 @@ namespace PDV_WPF.Funcoes
                 {
                     //audit("SINCCONTNETDB>> " + "Erro ao sincronizar: \n\n" + RetornarMensagemErro(ex, true));
                     GravarErroSync("TRI_PDV_CONFIG", tblConfigServ, ex);
+                    throw ex;
+                }
+            }
+        }
+
+        public void sync_TB_PARAMETRO(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes)
+        {
+            using (var tblParametroServ = new FDBDataSet.TB_PARAMETRODataTable())
+            {
+                try
+                {
+                    DataRow[] pendentesParametro = dtAuxSyncPendentes.Select($"TABELA = 'TB_PARAMETRO'");
+
+                    for (int i = 0; i < pendentesParametro.Length; i++)
+                    {
+                        var idParametro = pendentesParametro[i]["ID_REG"].Safeint();
+                        var operacao = pendentesParametro[i]["OPERACAO"].Safestring();
+                        var NO_CAIXA = pendentesParametro[i]["NO_CAIXA"].Safeshort();
+
+                        if (operacao.Equals("I") || operacao.Equals("U"))
+                        {
+                            using (var taParametroServ = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+                            {
+                                taParametroServ.Connection = fbConnServ;
+
+                                taParametroServ.FillByIdParametro(dataTable: tblParametroServ, ID_PARAMETRO: idParametro);
+
+                                if (tblParametroServ != null && tblParametroServ.Rows.Count > 0)
+                                {
+                                    using (var taParametroPdv = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+                                    {
+                                        taParametroPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
+
+                                        foreach (FDBDataSet.TB_PARAMETRORow parametroServ in tblParametroServ)
+                                        {
+
+                                            int intRetornoUpsert = taParametroPdv.UpdateOrInsert(ID_PARAMETRO: parametroServ.ID_PARAMETRO,
+                                                                                                 INFORMACAO: parametroServ.IsINFORMACAONull() ? null : parametroServ.INFORMACAO,
+                                                                                                 CONTEUDO: parametroServ.IsCONTEUDONull() ? null : parametroServ.CONTEUDO,
+                                                                                                 DESCRICAO: parametroServ.IsDESCRICAONull() ? null : parametroServ.DESCRICAO,
+                                                                                                 ID_FUNCIONARIO: parametroServ.ID_FUNCIONARIO);
+
+                                            // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
+                                            if (intRetornoUpsert > 0)
+                                            {
+                                                ConfirmarAuxSync(idParametro,
+                                                                 "TB_PARAMETRO",
+                                                                 operacao,
+                                                                 NO_CAIXA);
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // O item não foi encontrado no servidor.
+                                    // Pode ter sido deletado.
+                                    // Deve constar essa operação em dtAuxSync.
+                                    // Caso contrário, estourar exception.
+
+                                    using (var dtPendentesParametro = pendentesParametro.CopyToDataTable())
+                                    {
+                                        DataRow[] deletesPendentesParametros = dtPendentesParametro.Select($"ID_REG = '{idParametro}' AND OPERACAO = 'D'");
+
+                                        if (deletesPendentesParametros.Length > 0)
+                                        {
+                                            using (var taParametroPdv = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+                                            {
+                                                taParametroPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
+                                                int intRetornoUpsert = taParametroPdv.DeleteByIdParametro(ID_PARAMETRO: idParametro);
+
+                                                // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
+
+                                                ConfirmarAuxSync(idParametro,
+                                                                 "TB_PARAMETRO",
+                                                                 operacao,
+                                                                 NO_CAIXA);
+
+                                            }
+                                        }
+                                        else
+                                        {
+                                            // Ops....
+                                            // Item não encontrado no servidor e não foi deletado?
+                                            // Estourar exception.
+
+                                            throw new DataException($"Erro não esperado: (TB_PARAMETRO) não encontrado no servidor e sem exclusão pendente. \nID do registro: {idParametro}");
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        else
+                        {
+                            switch (operacao)
+                            {
+                                case "D":
+                                    {
+                                        using (var taParametroPdv = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+                                        {
+                                            taParametroPdv.Connection = fbConnPdv; //.ConnectionString = _strConnContingency;
+                                            int intRetornoUpsert = taParametroPdv.DeleteByIdParametro(ID_PARAMETRO: idParametro);
+
+                                            // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.                                           
+                                            ConfirmarAuxSync(idParametro,
+                                                             "TB_PARAMETRO",
+                                                             operacao,
+                                                             NO_CAIXA);
+                                        }
+                                        break;
+                                    }
+                                default:
+                                    throw new NotImplementedException($"Indicação de operação da tabela de auxílio ao sincronizador inválido {operacao}");
+                                    //break;
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //audit("SINCCONTNETDB>> " + "Erro ao sincronizar: \n\n" + RetornarMensagemErro(ex, true));
+                    GravarErroSync("TB_PARAMETRO", tblParametroServ, ex);
                     throw ex;
                 }
             }
@@ -7732,12 +8056,12 @@ namespace PDV_WPF.Funcoes
                                             using (var TB_PEDVENDA_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PEDIDO_VENDATableAdapter())
                                             using (var TB_PEDNFVENDA_TA = new DataSets.FDBDataSetOperSeedTableAdapters.TB_PED_VENDA_NFVENDATableAdapter())
                                             {
-                                                TB_PEDVENDA_TA.Connection = 
-                                                    TB_PEDNFVENDA_TA.Connection = 
-                                                        TB_NFVITEM_TA.Connection = 
+                                                TB_PEDVENDA_TA.Connection =
+                                                    TB_PEDNFVENDA_TA.Connection =
+                                                        TB_NFVITEM_TA.Connection =
                                                             TB_NFVENDA_TA.Connection = fbConnServ;
-                                                
-                                                TB_NFVITEM_TA.FillByIdNfvenda(dataTable: TB_NFVITEM_DT, 
+
+                                                TB_NFVITEM_TA.FillByIdNfvenda(dataTable: TB_NFVITEM_DT,
                                                                               PIDNFVENDA: (int?)TB_NFVENDA_TA.IdNfVendaByMSN(NF_NUMERO: nfvendaCancelPdv.NF_NUMERO,
                                                                                                                              NF_SERIE: nfvendaCancelPdv.NF_SERIE,
                                                                                                                              NF_MODELO: nfvendaCancelPdv.NF_MODELO));
@@ -7755,7 +8079,7 @@ namespace PDV_WPF.Funcoes
 
                                                     log.Debug("Pedido/Orçamento desvinculados do cupom cancelado.");
                                                 }
-                                            }                                            
+                                            }
 
                                             #endregion Altera pedido/orçamento vinculado a venda cancelada (DAV's)
 
@@ -8871,7 +9195,7 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar FuncionarioPapel", ex);
                         throw new SynchException("Erro ao sincronizar FuncionarioPapel", ex);
-                    }                    
+                    }
                     try
                     {
                         Sync_TB_CLIENTE(dtUltimaSyncPdv, fbConnServ, fbConnPdv, dtAuxSyncPendentes, dtAuxSyncDeletesPendentes, shtNumCaixa);
@@ -9005,6 +9329,16 @@ namespace PDV_WPF.Funcoes
                     }
                     try
                     {
+                        Sync_TB_BANCO_CTA(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
+                        log.Debug("Sync_TB_BANCO_CTA sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_BANCO_CTA", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_BANCO_CTA", ex);
+                    }
+                    try
+                    {
                         Sync_TB_MOTIVO_DESO_SIS(fbConnServ, fbConnPdv, dtAuxSyncPendentes, shtNumCaixa);
                         log.Debug("Sync_TB_MOTIVO_DESO_SIS sincronizados");
                     }
@@ -9012,6 +9346,16 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_MOTIVO_DESO_SIS", ex);
+                    }
+                    try
+                    {
+                        sync_TB_PARAMETRO(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
+                        log.Debug("Sync_TB_PARAMETRO sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_PARAMETRO", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_PARAMETRO", ex);
                     }
                     #region Função Desativada
                     //DESATIVADO, TB_FORMA_PAGTO_NFCE É USADA, AO INVÉS 
@@ -10567,7 +10911,7 @@ namespace PDV_WPF.Funcoes
                 Sync_Operacoes_TRI_PDV_TERMINAL_USUARIO_INCOMPLETO(tipoSync);
                 log.Debug("TerminalUsuario sincronizado");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error("Falha ao sincronizar TerminalUsuario", ex);
                 throw new SynchException("Erro ao sincronizar TerminalUsuario", ex);
@@ -10641,7 +10985,7 @@ namespace PDV_WPF.Funcoes
             {
                 Sync_Operacoes_TRI_PDV_SANSUP_PDV_Serv(tipoSync);
                 log.Debug("SanSup sincronizados");
-            }            
+            }
             catch (Exception ex)
             {
                 log.Error("Falha ao sincronizar SanSup", ex);

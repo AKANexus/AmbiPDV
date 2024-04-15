@@ -8,8 +8,8 @@
         xmlns:CurrencyTextBoxControl="clr-namespace:CurrencyTextBoxControl;assembly=CurrencyTextBoxControl"
         x:Class="PDV_WPF.Parametros"
         mc:Ignorable="d"
-        Title="Parametros" Height="725" Width="700" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
-    <StackPanel Width="545" Height="699">
+        Title="Parametros" Height="725" Width="745" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+    <StackPanel Width="580" Height="699">
         <GroupBox Header="Sangria" Padding="0" Margin="10,10,10,5">
             <StackPanel VerticalAlignment="Top" Margin="5,0" Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -17,7 +17,7 @@
                     <CheckBox Content="Bloquear ao atingir limite" Margin="5" x:Name="chk_Bloqueia_Limite" />
                     <CheckBox Content="Permitir margem de sangria" Margin="5" x:Name="chk_Permite_Folga" Checked="chk_Bloqueia_Limite_Checked" Unchecked="chk_Bloqueia_Limite_Unchecked"/>
                 </StackPanel>
-                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+                <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="70,0">
                     <StackPanel Orientation="Horizontal" Margin="2.5">
                         <Label Content="Valor Máximo em Caixa"/>
                         <nexusControls:NexusCurrencyBox Width="90" x:Name="txb_Valor_Max" Language="pt-BR"/>
@@ -38,13 +38,14 @@
                     <CheckBox Content="Usa Comanda?" Margin="5,10,5,5" x:Name="chk_comanda" IsEnabled="True" Visibility="Visible"/>
                     <CheckBox Content="Detalha Desconto?" Margin="5,10,5,5" x:Name="chk_detalhadesconto" IsEnabled="True" Visibility="Visible"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="12,0,10,10" HorizontalAlignment="Center" Height="29" Width="393">
-                    <CheckBox Content="Informar maquininha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_maquininha" IsEnabled="True" Visibility="Visible" Checked="chk_Maquininha_Checked" Unchecked="chk_Maquininha_Unchecked"/>
-                    <CheckBox Content="Modo Bar?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_modobar" IsEnabled="True" Visibility="Visible"/>
-                    <CheckBox Content="Pede Senha?" VerticalAlignment="Center" Margin="5,0,30,0" x:Name="chk_pedesenha" IsEnabled="True" Visibility="Visible"/>
+                <StackPanel Orientation="Horizontal" Margin="12,0,10,10" HorizontalAlignment="Center" Height="29" Width="510">
+                    <CheckBox Content="Vincular maquininha?" VerticalAlignment="Center" Margin="5,0,10,0" x:Name="chk_vincula_maq_cta" IsEnabled="False" MouseRightButtonDown="chk_maq_cta_MouseRight"/>
+                    <CheckBox Content="Informar maquininha?" VerticalAlignment="Center" Margin="5,0,10,0" x:Name="chk_maquininha" IsEnabled="True" Visibility="Visible" Checked="chk_Maquininha_Checked" Unchecked="chk_Maquininha_Unchecked"/>
+                    <CheckBox Content="Modo Bar?" VerticalAlignment="Center" Margin="5,0,10,0" x:Name="chk_modobar" IsEnabled="True" Visibility="Visible"/>
+                    <CheckBox Content="Pede Senha?" VerticalAlignment="Center" Margin="5,0,10,0" x:Name="chk_pedesenha" IsEnabled="True" Visibility="Visible"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Height="24" Margin="8,0,7,0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="250">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="280">
                         <Label Content="Comprovante" Margin="10,0,0,0"/>
                         <ComboBox x:Name="cbb_PerguntaImpressao" HorizontalAlignment="Left" Width="127" VerticalAlignment="Top" FontFamily="Open Sans" Margin="0,0,10,0">
                             <ComboBoxItem Content="Nunca"/>
@@ -61,7 +62,7 @@
                         </ComboBox>
                     </StackPanel>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="467" Visibility="Visible" Margin="36,18,0,0" Height="29">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="462" Visibility="Visible" Margin="0,18,0,0" Height="24">
                     <CheckBox Content="Recargas no Fechamento" Margin="5" x:Name="chk_Recargas" Visibility="Collapsed"/>
                     <Label Visibility="Visible" Content="Comissão" Margin="4,0,0,0"/>
                     <ComboBox Visibility="Visible" x:Name="cbb_Pede_Vend" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" FontFamily="Open Sans">
@@ -69,7 +70,7 @@
                         <ComboBoxItem Content="No ínicio da venda"/>
                         <ComboBoxItem Content="Ao final da venda"/>
                     </ComboBox>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="238">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Width="238" Margin="30,0">
                         <Label Content="Envio p/ Whats" Margin="10,0,0,0"/>
                         <ComboBox x:Name="cbb_Pede_WHATS" HorizontalAlignment="Left" Width="127" VerticalAlignment="Top" FontFamily="Open Sans" Margin="0,0,10,0">
                             <ComboBoxItem Content="Não"/>
@@ -87,7 +88,7 @@
                         <ComboBoxItem>Simples</ComboBoxItem>
                         <ComboBoxItem IsEnabled="False">Completo</ComboBoxItem>
                     </ComboBox>
-                    <Label Content="Desc. Máx. com Senha de Op." Margin="30,0,0,0"/>
+                    <Label Content="Desc. Máx. com Senha de Op." Margin="70,0,0,0"/>
                     <CurrencyTextBoxControl:CurrencyTextBox StringFormat="P0" Width="74" MaxLength="4" x:Name="txb_Desc_Max" VerticalContentAlignment="Center" Height="26" Language="pt-BR"/>
                 </StackPanel>
                 <Label Content="Mensagem de Cortesia" Margin="0,0,0,0" />
@@ -101,13 +102,13 @@
             <StackPanel Orientation="Horizontal">
                 <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" Click="AbreGaveta_dll"/>
                 <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" Click="AbreGaveta_spooler"/>
-                <Label Content="Mod impressora:" Margin="13,8,0,5" FontSize="10"/>
-                <ComboBox Name="cbb_ModImpressora" Width="120" DockPanel.Dock="Top" Margin="-2,0,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">
+                <Label Content="Mod impressora:" Margin="30,8,0,5" FontSize="10"/>
+                <ComboBox Name="cbb_ModImpressora" Width="120" DockPanel.Dock="Top" Margin="0,0,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">
                     <ComboBoxItem Content="EPSON"/>
                 </ComboBox>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Configurações Técnicas" Padding="0" Margin="10,0,10,5">
+        <GroupBox Header="Configurações Técnicas" Padding="0" Margin="10,5,10,5">
             <StackPanel Margin="0" Orientation="Horizontal">
                 <Button Content="Acessar Configurações Extras..." Margin="10,5,0,5" Click="ConfigsTecs_click" Height="23"/>
                 <Label Content="Versão do PDV: H.N.D." x:Name="lbl_Versao" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="15,0,0,0" />
@@ -118,7 +119,7 @@
                 <Button Name="but_Metodos" Content="Métodos de Pagamento" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="7,0" Click="MetodosPgto_click" Height="23"/>
             </StackPanel>
         </GroupBox>
-        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="68,5,67,10" Height="47">
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="68,10,67,10" Height="47">
             <Border x:Name="but_Confirmar" Background="#FF09CAAA" Height="37" Width="185" HorizontalAlignment="Left" MouseDown="confirmar_Click" Margin="10,0">
                 <Label x:Name="lbl_Da" Style="{StaticResource HoverStyleLabelInBorder}" Content="SALVAR" HorizontalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" VerticalAlignment="Center" Foreground="#FFFEFEFE" FontFamily="Open Sans" FontSize="12"  Height="37" Width="185"/>
             </Border>
