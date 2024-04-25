@@ -11,6 +11,9 @@ using System.Linq;
 using System.ComponentModel;
 using FirebirdSql.Data.FirebirdClient;
 using PDV_WPF.Funcoes;
+using PDV_WPF.DataSets;
+using System.Windows.Controls;
+using System.Text.RegularExpressions;
 
 namespace PDV_WPF.Telas
 {
@@ -19,22 +22,23 @@ namespace PDV_WPF.Telas
     /// </summary>
     public partial class ParamsAdministradora : Window
     {
-        public ObservableCollection<MaqCtaItem> macCtaAdmin = new();
-        public List<(short id, string desc)> ContasBancarias;
+        public ObservableCollection<MaqCtaItem> macCtaAdmin { get; } = new();
+        public List<MaqCtaListItem> ContasBancarias;
         private readonly FbConnection ConnecionServ = new();
 
         public ParamsAdministradora()
         {
-            InitializeComponent();
             DataContext = this;
+            InitializeComponent();
             ConnecionServ.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
             PreencheDados();
         }
 
 
-
         private void but_Confirmar_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (SalvarParametrosMaqCta())
+                this.Close();
 
         }
 
@@ -43,8 +47,15 @@ namespace PDV_WPF.Telas
             this.Close();
         }
 
+        private void ComboBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete && sender is ComboBox comboBox)
+                comboBox.SelectedItem = null;
+        }
+
         private void PreencheDados()
-        {            
+        {
+            using (var taCliente = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter())
             using (var taParametros = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
             using (var tblBancos = new FDBDataSet.TB_BANCO_CTADataTable())
             using (var taBancos = new FDBDataSetTableAdapters.TB_BANCO_CTATableAdapter())
@@ -58,72 +69,171 @@ namespace PDV_WPF.Telas
                     taBancos.Connection =
                         taAdmins.Connection =
                             taParametros.Connection =
-                                ConnecionServ;
+                                taCliente.Connection =
+                                    ConnecionServ;
 
-                    taAdmins.Fill(dataTable: tblAdmins);                   
-                    taBancos.Fill(dataTable: tblBancos);                    
+                    taAdmins.Fill(dataTable: tblAdmins);
+                    taBancos.Fill(dataTable: tblBancos);
 
                     if (tblAdmins.Rows.Count > 0 && tblBancos.Rows.Count > 0)
                     {
+                        ContasBancarias = tblBancos.Select(selector: x => new MaqCtaListItem(x.ID_CONTA, x.DESCRICAO)).ToList();
+
                         foreach (var admins in tblAdmins.AsEnumerable().Select(selector: x => (x.ID_ADMINISTRADORA, x.DESCRICAO)))
                         {
-                            //TODO: Para cada maquininha cadastrada, verificar na TB_PARAMETRO se
-                            //existe algum registro com a coluna "INFORMACAO" igual a MAQCTA_{ID_MAQUININHA} (interpolar nome com ID)
-                            //A partir dai pegar o que estiver na coluna "CONTEUDO" que será a conta vinculada.
-                            //Caso não retorne nada então a maquininha não tem vinculos.
+                            // Para cada maquininha cadastrada, verificar na TB_PARAMETRO se
+                            // existe algum registro com a coluna "INFORMACAO" igual a MAQCTA_{ID_MAQUININHA} (interpolar nome com ID).                            
+                            // A partir dai pegar o que estiver na coluna "CONTEUDO" que será a conta vinculada e dias para vencimento.
+                            // Caso não retorne nada então a maquininha não tem vinculos.
 
-                            ContasBancarias = tblBancos.Select(selector: x => (x.ID_CONTA, x.DESCRICAO)).ToList();
-
-                            var idCta = taParametros.GetVinculoCtaMaq(ID_MAQ: $"MAQCTA_{admins.ID_ADMINISTRADORA}");
+                            FDBDataSet.TB_PARAMETRORow paramsConta = taParametros.GetParameter(CONFIG: $"MAQCTA_{admins.ID_ADMINISTRADORA}").FirstOrDefault();
 
                             macCtaAdmin.Add(new MaqCtaItem(descMaquininha: admins.DESCRICAO,
                                                            idMaquininha: admins.ID_ADMINISTRADORA,
                                                            contas: ContasBancarias,
-                                                           idCtaCurrent: idCta.Safeshort()));
+                                                           idCtaCurrent: paramsConta?.CONTEUDO.Split('|') is string[] ctaCurrent && ctaCurrent.Length > 1 ? ctaCurrent[0].Safeshort() : default,
+                                                           idParametro: paramsConta?.ID_PARAMETRO ?? default,
+                                                           vencimento: paramsConta?.CONTEUDO.Split('|') is string[] vencto && vencto.Length > 1 ? vencto[1] : default));
+
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-
+                    MessageBox.Show($"Ocorreu erro ao preencher administradoras e contas bancárias.\n\nException: {ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    this.Close();
                 }
             }
         }
+
+        private bool SalvarParametrosMaqCta()
+        {
+            using (var taParametros = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+            {
+                taParametros.Connection = ConnecionServ;
+
+                try
+                {
+                    foreach (var configs in macCtaAdmin)
+                    {
+                        if (configs.CtaSelecionada != null && configs.IdParametro != 0)
+                        {
+                            taParametros.UpdateOrInsert(ID_PARAMETRO: configs.IdParametro,
+                                                        INFORMACAO: $"MAQCTA_{configs.IdMaquininha}",
+                                                        CONTEUDO: $"{configs.CtaSelecionada.Id}|{configs.DiasVencimento}",
+                                                        DESCRICAO: "Vinculo da maquininha administradora com alguma conta bancaria",
+                                                        ID_FUNCIONARIO: 0);
+                            continue;
+                        }
+
+                        if (configs.CtaSelecionada != null)
+                        {
+                            taParametros.InsertInto(INFORMACAO: $"MAQCTA_{configs.IdMaquininha}",
+                                                    CONTEUDO: $"{configs.CtaSelecionada.Id}|{configs.DiasVencimento}",
+                                                    DESCRICAO: "Vinculo da maquininha administradora com alguma conta bancaria",
+                                                    ID_FUNCIONARIO: 0);
+                            continue;
+                        }
+
+                        if (configs.CtaSelecionada == null & configs.IdParametro != 0)
+                        {
+                            taParametros.DeleteByIdParametro(ID_PARAMETRO: configs.IdParametro);
+                        }
+                    }
+
+                    MessageBox.Show("Vinculo das maquininhas/administradoras alterado com sucesso!\n\n" +
+                                    "Reinicie a aplicação para que as novas configurações sejam utilizadas no PDV.", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Erro ao salvar informações na base de dados.\n\nException: {ex.InnerException.Message ?? ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return false;
+                }
+            }
+        }
+
+        Action<object, TextCompositionEventArgs> TextBox_PreviewTextInput = (sender, e) =>
+        {
+            if(!Regex.IsMatch(e.Text, @"^[0-9]+$"))
+                e.Handled = true;
+        };            
     }
 
     public class MaqCtaItem : INotifyPropertyChanged
-    {       
-        public string DescricaoMaquininha { get; set; }
-        public int IdMaquininha { get; set; }
-
-        private (short idConta, string descricaoConta)? _ctaSelecionada;
-        public (short idConta, string descricaoConta)? CtaSelecionada
+    {
+        private string _descricaoMaquininha;
+        public string DescricaoMaquininha
         {
-            get => _ctaSelecionada; 
+            get
+            {
+                return $"{_descricaoMaquininha}:";
+            }
             set
             {
-                if(_ctaSelecionada == value) return;
+                if (_descricaoMaquininha == value) return;
+                _descricaoMaquininha = value.Length == 32 ? $"{value}.." : value;
+                OnPropertyChanged(nameof(DescricaoMaquininha));
+            }
+        }
+
+        private MaqCtaListItem? _ctaSelecionada;
+        public MaqCtaListItem? CtaSelecionada
+        {
+            get => _ctaSelecionada;
+            set
+            {
+                if (_ctaSelecionada == value) return;
                 _ctaSelecionada = value;
                 OnPropertyChanged(nameof(CtaSelecionada));
             }
         }
-        public List<(short idConta, string descricaoConta)> ContasBancarias { get; set; }
 
+        public List<MaqCtaListItem> ContasBancarias { get; set; }
+        public int IdMaquininha { get; set; }
+        public int IdParametro { get; set; }
 
-        public MaqCtaItem(string descMaquininha, int idMaquininha, List<(short id, string desc)> contas, short idCtaCurrent)
+        public int _diasVencimento;
+        public string DiasVencimento 
         {
-            DescricaoMaquininha = descMaquininha;
+            get => _diasVencimento.ToString();
+            set
+            {
+                if(_diasVencimento.ToString() == value) return;
+                _diasVencimento = value.Safeint();
+                OnPropertyChanged(nameof(DiasVencimento));
+            } 
+        }
+
+
+        public MaqCtaItem(string descMaquininha, int idMaquininha, List<MaqCtaListItem> contas, short idCtaCurrent, int idParametro, string vencimento)
+        {
+            DescricaoMaquininha = descMaquininha.Trunca(32);
             IdMaquininha = idMaquininha;
             ContasBancarias = contas;
-            
-            CtaSelecionada = contas.FirstOrDefault(x => x.id == idCtaCurrent);
+            CtaSelecionada = contas.FirstOrDefault(x => x.Id == idCtaCurrent);
+            IdParametro = idParametro;
+            DiasVencimento = vencimento;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        private void OnPropertyChanged(string propertyName) 
+        private void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+    }
+
+    public class MaqCtaListItem
+    {
+        public short Id { get; set; }
+        public string DescricaoConta { get; set; }
+
+        public MaqCtaListItem(short id, string descricaoConta)
+        {
+            Id = id;
+            DescricaoConta = descricaoConta;
         }
     }
 }

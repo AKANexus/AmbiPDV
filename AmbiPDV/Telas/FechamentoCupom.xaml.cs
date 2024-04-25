@@ -44,7 +44,7 @@ namespace PDV_WPF.Telas
         private bool _painelFechado = true;
         public envCFeCFeInfCFePgto pgto = new envCFeCFeInfCFePgto();
         public List<envCFeCFeInfCFePgtoMP> metodos = new List<envCFeCFeInfCFePgtoMP>();
-        public List<(string, decimal, int)> metodosnew = new List<(string, decimal, int)>();
+        public List<(string, decimal, InfoAdministradora)> metodosnew = new List<(string, decimal, InfoAdministradora)>();
         public List<SiTEFBox> tefUsados = new List<SiTEFBox>();
         //private OperTEF tefAtual;
         public Venda _vendaAtual;
@@ -453,7 +453,7 @@ namespace PDV_WPF.Telas
             nomes_pgtos.Add(strDescricaoMetodo);
 
             pagamentos[idMetodo] += (_valor - troco);
-            metodosnew.Add((strPgCfe, _valor, Administradora.idAdm));
+            metodosnew.Add((strPgCfe, _valor, Administradora.infoAdministradora ?? new InfoAdministradora()));
             metodos.Add(pgto);
             valores_pgtos.Add(_valor);
 
@@ -540,7 +540,7 @@ namespace PDV_WPF.Telas
                             valores_pgtos.Add(_valor);
                             pagamentos[100] += _valor;
                             metodos.Add(pgto);
-                            metodosnew.Add(("99", _valor, Administradora.idAdm));
+                            metodosnew.Add(("99", _valor, Administradora.infoAdministradora ?? new InfoAdministradora()));
                             if (_valor >= valor_a_ser_pago)
                             {
                                 if (_valor == valor_a_ser_pago)

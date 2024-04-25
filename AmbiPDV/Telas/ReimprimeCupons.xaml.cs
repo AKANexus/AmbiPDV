@@ -206,7 +206,7 @@ namespace PDV_WPF.Telas
                             InfoPagtosTA.FillByInfoAdicionaisPagtos(InfoPagtosDT, cupom.ID_NFVENDA);                            
                             foreach(var pagamentos in InfoPagtosDT)
                             {
-                                venda.RecebePagamento(pagamentos.ID_NFCE, pagamentos.VLR_PAGTO, pagamentos.IsID_ADMINISTRADORANull() ? 0 : pagamentos.ID_ADMINISTRADORA, pagamentos.VLR_TROCO);
+                                venda.RecebePagamento(pagamentos.ID_NFCE, pagamentos.VLR_PAGTO, new InfoAdministradora { IdAdmin = pagamentos.ID_ADMINISTRADORA }, pagamentos.VLR_TROCO);
                             }
                             venda.InformaCliente(ItemChoiceType.CPF, null);
                             venda.TotalizaCupom();

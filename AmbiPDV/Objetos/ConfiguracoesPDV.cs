@@ -1,13 +1,17 @@
 ﻿using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.Objetos;
 
 
 namespace PDV_WPF.Configuracoes
@@ -594,6 +598,7 @@ namespace PDV_WPF.Configuracoes
         public static bool SCANNTECH { get; set; }
         public static bool SENHA_REIMPRESSAO { get; set; }
         public static int PREFIX_LISTBOX { get; set; }
+        public static List<InfoAdministradora> PARAMETRO_ADMINISTRADORA { get; set; } = new();
 
         #endregion Propriedades
 
@@ -859,6 +864,48 @@ namespace PDV_WPF.Configuracoes
                 _uSARECARGAS = infoDoSetup.USA_RECARGAS;
                 _uSA_COMANDA = infoDoSetup.USA_COMANDA;
                 DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true: false;
+
+                if (INFORMA_MAQUININHA)
+                {                   
+                    using (var taCartaoAmin = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter())
+                    using (var tblCartaoAdmin = new DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable())
+                    using (var taParametro = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+                    {
+                        taParametro.Connection =
+                            taCartaoAmin.Connection =          
+                                contingencia ? LOCAL_FB_CONN : fbConnectionServ;
+
+                        taCartaoAmin.Fill(dataTable: tblCartaoAdmin);
+                        PARAMETRO_ADMINISTRADORA.Clear();
+
+                        foreach (var cartaoAdmin in tblCartaoAdmin)
+                        {
+                            string contaBancaria = default;
+                            if (VINCULA_MAQ_CTA)
+                                contaBancaria = taParametro.GetParameter(CONFIG: $"MAQCTA_{cartaoAdmin.ID_ADMINISTRADORA}")
+                                                           .Select(selector: x => x.CONTEUDO)
+                                                           .FirstOrDefault();
+
+                            if(!cartaoAdmin.IsDESCRICAONull())
+                                PARAMETRO_ADMINISTRADORA.Add(item: new InfoAdministradora
+                                {
+                                    IdAdmin = cartaoAdmin.ID_ADMINISTRADORA,
+                                    Descricao = cartaoAdmin.DESCRICAO,
+                                    IdConta = contaBancaria?.Split('|') is string[] idConta && idConta.Length > 1 ? idConta[0].Safeint() : default,
+                                    IdCliente = cartaoAdmin.IsID_CLIENTENull() ? 0 : cartaoAdmin.ID_CLIENTE,
+                                    TaxaCredito = cartaoAdmin.IsTAXA_CREDITONull() ? 0: cartaoAdmin.TAXA_CREDITO,
+                                    TaxaDebito = cartaoAdmin.IsTAXA_DEBITONull() ? 0 : cartaoAdmin.TAXA_DEBITO,
+                                    DiasParaVencimento = contaBancaria?.Split('|') is string[] diasVencimento && diasVencimento.Length > 1 ? diasVencimento[1].Safeint() : default
+                                });
+
+                            //PARAMETRO_ADMINISTRADORA.Add(key: cartaoAdmin.DESCRICAO, 
+                            //                            (idAdmin: cartaoAdmin.ID_ADMINISTRADORA, 
+                            //                            idConta: contaBancaria.Safeint(),
+                            //                            idCliente: cartaoAdmin.IsID_CLIENTENull() ? 0 : cartaoAdmin.ID_CLIENTE));
+                        }
+
+                    }
+                }
             }
             catch (Exception ex)
             {

@@ -4143,10 +4143,18 @@ namespace PDV_WPF.Funcoes
                                                     switch (operacao)
                                                     {
                                                         case "I":
-                                                            taAdminsPdv.Insert(AdminsServ.ID_ADMINISTRADORA, AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO);
+                                                            taAdminsPdv.Insert(ID_ADMINISTRADORA: AdminsServ.ID_ADMINISTRADORA, 
+                                                                               ID_CLIENTE: AdminsServ.IsID_CLIENTENull() ? null : AdminsServ.ID_CLIENTE, 
+                                                                               DESCRICAO: AdminsServ.IsDESCRICAONull() ? null : AdminsServ.DESCRICAO, 
+                                                                               TAXA_CREDITO: AdminsServ.IsTAXA_CREDITONull() ? null : AdminsServ.TAXA_CREDITO, 
+                                                                               TAXA_DEBITO: AdminsServ.IsTAXA_DEBITONull() ? null : AdminsServ.TAXA_DEBITO);
                                                             break;
                                                         case "U":
-                                                            taAdminsPdv.UpdateQuery(AdminsServ.ID_CLIENTE, AdminsServ.DESCRICAO, AdminsServ.TAXA_CREDITO, AdminsServ.TAXA_DEBITO, AdminsServ.ID_ADMINISTRADORA);
+                                                            taAdminsPdv.UpdateQuery(ID_CLIENTE: AdminsServ.IsID_CLIENTENull() ? null : AdminsServ.ID_CLIENTE, 
+                                                                                    DESCRICAO: AdminsServ.IsDESCRICAONull() ? null : AdminsServ.DESCRICAO, 
+                                                                                    TAXA_CREDITO: AdminsServ.IsTAXA_CREDITONull() ? null : AdminsServ.TAXA_CREDITO, 
+                                                                                    TAXA_DEBITO: AdminsServ.IsTAXA_DEBITONull() ? null : AdminsServ.TAXA_DEBITO, 
+                                                                                    ID_ADMINISTRADORA: AdminsServ.ID_ADMINISTRADORA);
                                                             break;
                                                     }
                                                 }
@@ -7292,6 +7300,7 @@ namespace PDV_WPF.Funcoes
                                                                 fbCommCtaRecSyncInsertServ.Parameters.Add("@pINV_REFERENCIA", (ctaRecPdv.IsINV_REFERENCIANull() ? null : ctaRecPdv.INV_REFERENCIA));
                                                                 fbCommCtaRecSyncInsertServ.Parameters.Add("@pDT_VENCTO_ORIG", (ctaRecPdv.IsDT_VENCTO_ORIGNull() ? null : (DateTime?)ctaRecPdv.DT_VENCTO_ORIG));
                                                                 fbCommCtaRecSyncInsertServ.Parameters.Add("@pNSU_CARTAO", (ctaRecPdv.IsNSU_CARTAONull() ? null : ctaRecPdv.NSU_CARTAO));
+                                                                fbCommCtaRecSyncInsertServ.Parameters.Add("@pID_CONTA", (ctaRecPdv.IsID_CONTANull() ? null : ctaRecPdv.ID_CONTA));
 
                                                                 #endregion Prepara o comando da SP_TRI_CTAREC_SYNC_INSERT
 

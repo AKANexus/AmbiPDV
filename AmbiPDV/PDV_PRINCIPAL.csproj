@@ -545,6 +545,7 @@
     <Compile Include="Objetos\Devolucao.cs" />
     <Compile Include="Objetos\Emitente.cs" />
     <Compile Include="Objetos\Enums\Enums.cs" />
+    <Compile Include="Objetos\InfoAdministradora.cs" />
     <Compile Include="Objetos\OperacaoSanSup.cs" />
     <Compile Include="Objetos\OperTEF.cs" />
     <Compile Include="Objetos\ParamsDeConfigTEF.cs" />

@@ -3220,6 +3220,8 @@ namespace PDV_WPF {
             
             private global::System.Data.DataColumn columnID_NUMPAG;
             
+            private global::System.Data.DataColumn columnID_CONTA;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TB_CONTA_RECEBERDataTable() {
@@ -3359,6 +3361,14 @@ namespace PDV_WPF {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_CONTAColumn {
+                get {
+                    return this.columnID_CONTA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3394,7 +3404,7 @@ namespace PDV_WPF {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public TB_CONTA_RECEBERRow AddTB_CONTA_RECEBERRow(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, System.DateTime DT_VENCTO_ORIG, string NSU_CARTAO, int ID_NUMPAG) {
+            public TB_CONTA_RECEBERRow AddTB_CONTA_RECEBERRow(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, System.DateTime DT_VENCTO_ORIG, string NSU_CARTAO, int ID_NUMPAG, int ID_CONTA) {
                 TB_CONTA_RECEBERRow rowTB_CONTA_RECEBERRow = ((TB_CONTA_RECEBERRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_CTAREC,
@@ -3409,7 +3419,8 @@ namespace PDV_WPF {
                         INV_REFERENCIA,
                         DT_VENCTO_ORIG,
                         NSU_CARTAO,
-                        ID_NUMPAG};
+                        ID_NUMPAG,
+                        ID_CONTA};
                 rowTB_CONTA_RECEBERRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTB_CONTA_RECEBERRow);
                 return rowTB_CONTA_RECEBERRow;
@@ -3452,6 +3463,7 @@ namespace PDV_WPF {
                 this.columnDT_VENCTO_ORIG = base.Columns["DT_VENCTO_ORIG"];
                 this.columnNSU_CARTAO = base.Columns["NSU_CARTAO"];
                 this.columnID_NUMPAG = base.Columns["ID_NUMPAG"];
+                this.columnID_CONTA = base.Columns["ID_CONTA"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3483,6 +3495,8 @@ namespace PDV_WPF {
                 base.Columns.Add(this.columnNSU_CARTAO);
                 this.columnID_NUMPAG = new global::System.Data.DataColumn("ID_NUMPAG", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_NUMPAG);
+                this.columnID_CONTA = new global::System.Data.DataColumn("ID_CONTA", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CONTA);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnINV_REFERENCIA}, false));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
@@ -3491,7 +3505,7 @@ namespace PDV_WPF {
                 this.columnID_CTAREC.Unique = true;
                 this.columnDOCUMENTO.AllowDBNull = false;
                 this.columnDOCUMENTO.MaxLength = 12;
-                this.columnHISTORICO.MaxLength = 50;
+                this.columnHISTORICO.MaxLength = 100;
                 this.columnDT_EMISSAO.AllowDBNull = false;
                 this.columnDT_VENCTO.AllowDBNull = false;
                 this.columnVLR_CTAREC.AllowDBNull = false;
@@ -12212,6 +12226,22 @@ namespace PDV_WPF {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_CONTA {
+                get {
+                    try {
+                        return ((int)(this[this.tableTB_CONTA_RECEBER.ID_CONTAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CONTA\' na tabela \'TB_CONTA_RECEBER\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_CONTA_RECEBER.ID_CONTAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsHISTORICONull() {
                 return this.IsNull(this.tableTB_CONTA_RECEBER.HISTORICOColumn);
             }
@@ -12268,6 +12298,18 @@ namespace PDV_WPF {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetID_NUMPAGNull() {
                 this[this.tableTB_CONTA_RECEBER.ID_NUMPAGColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsID_CONTANull() {
+                return this.IsNull(this.tableTB_CONTA_RECEBER.ID_CONTAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetID_CONTANull() {
+                this[this.tableTB_CONTA_RECEBER.ID_CONTAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -20869,10 +20911,11 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("INV_REFERENCIA", "INV_REFERENCIA");
             tableMapping.ColumnMappings.Add("DT_VENCTO_ORIG", "DT_VENCTO_ORIG");
             tableMapping.ColumnMappings.Add("NSU_CARTAO", "NSU_CARTAO");
+            tableMapping.ColumnMappings.Add("ID_CONTA", "ID_CONTA");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_CONTA_RECEBER"" WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_CONTA_RECEBER"" WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)) AND ((@IsNull_ID_CONTA = 1 AND ""ID_CONTA"" IS NULL) OR (""ID_CONTA"" = @Original_ID_CONTA)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_CTAREC";
@@ -20884,7 +20927,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -20892,7 +20935,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@IsNull_HISTORICO";
             param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -20900,7 +20943,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -21001,9 +21044,26 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.SourceColumn = "NSU_CARTAO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""TB_CONTA_RECEBER"" (""ID_CTAREC"", ""DOCUMENTO"", ""HISTORICO"", ""DT_EMISSAO"", ""DT_VENCTO"", ""VLR_CTAREC"", ""TIP_CTAREC"", ""ID_PORTADOR"", ""ID_CLIENTE"", ""INV_REFERENCIA"", ""DT_VENCTO_ORIG"", ""NSU_CARTAO"") VALUES (@ID_CTAREC, @DOCUMENTO, @HISTORICO, @DT_EMISSAO, @DT_VENCTO, @VLR_CTAREC, @TIP_CTAREC, @ID_PORTADOR, @ID_CLIENTE, @INV_REFERENCIA, @DT_VENCTO_ORIG, @NSU_CARTAO)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""TB_CONTA_RECEBER"" (""ID_CTAREC"", ""DOCUMENTO"", ""HISTORICO"", ""DT_EMISSAO"", ""DT_VENCTO"", ""VLR_CTAREC"", ""TIP_CTAREC"", ""ID_PORTADOR"", ""ID_CLIENTE"", ""INV_REFERENCIA"", ""DT_VENCTO_ORIG"", ""NSU_CARTAO"", ""ID_CONTA"") VALUES (@ID_CTAREC, @DOCUMENTO, @HISTORICO, @DT_EMISSAO, @DT_VENCTO, @VLR_CTAREC, @TIP_CTAREC, @ID_PORTADOR, @ID_CLIENTE, @INV_REFERENCIA, @DT_VENCTO_ORIG, @NSU_CARTAO, @ID_CONTA)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_CTAREC";
@@ -21014,13 +21074,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             this._adapter.InsertCommand.Parameters.Add(param);
@@ -21084,9 +21144,16 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.IsNullable = true;
             param.SourceColumn = "NSU_CARTAO";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_CONTA_RECEBER"" SET ""ID_CTAREC"" = @ID_CTAREC, ""DOCUMENTO"" = @DOCUMENTO, ""HISTORICO"" = @HISTORICO, ""DT_EMISSAO"" = @DT_EMISSAO, ""DT_VENCTO"" = @DT_VENCTO, ""VLR_CTAREC"" = @VLR_CTAREC, ""TIP_CTAREC"" = @TIP_CTAREC, ""ID_PORTADOR"" = @ID_PORTADOR, ""ID_CLIENTE"" = @ID_CLIENTE, ""INV_REFERENCIA"" = @INV_REFERENCIA, ""DT_VENCTO_ORIG"" = @DT_VENCTO_ORIG, ""NSU_CARTAO"" = @NSU_CARTAO WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_CONTA_RECEBER"" SET ""ID_CTAREC"" = @ID_CTAREC, ""DOCUMENTO"" = @DOCUMENTO, ""HISTORICO"" = @HISTORICO, ""DT_EMISSAO"" = @DT_EMISSAO, ""DT_VENCTO"" = @DT_VENCTO, ""VLR_CTAREC"" = @VLR_CTAREC, ""TIP_CTAREC"" = @TIP_CTAREC, ""ID_PORTADOR"" = @ID_PORTADOR, ""ID_CLIENTE"" = @ID_CLIENTE, ""INV_REFERENCIA"" = @INV_REFERENCIA, ""DT_VENCTO_ORIG"" = @DT_VENCTO_ORIG, ""NSU_CARTAO"" = @NSU_CARTAO, ""ID_CONTA"" = @ID_CONTA WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)) AND ((@IsNull_ID_CONTA = 1 AND ""ID_CONTA"" IS NULL) OR (""ID_CONTA"" = @Original_ID_CONTA)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_CTAREC";
@@ -21097,13 +21164,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             this._adapter.UpdateCommand.Parameters.Add(param);
@@ -21166,6 +21233,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = "NSU_CARTAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_CTAREC";
@@ -21177,7 +21251,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -21185,7 +21259,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@IsNull_HISTORICO";
             param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -21193,7 +21267,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -21292,6 +21366,23 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = "NSU_CARTAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
         }
@@ -21311,7 +21402,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT \"ID_CTAREC\", \"DOCUMENTO\", \"HISTORICO\", \"DT_EMISSAO\", \"DT_VENCTO\", \"VLR_CTA" +
                 "REC\", \"TIP_CTAREC\", \"ID_PORTADOR\", \"ID_CLIENTE\", \"INV_REFERENCIA\", \"DT_VENCTO_OR" +
-                "IG\", \"NSU_CARTAO\" FROM \"TB_CONTA_RECEBER\"";
+                "IG\", \"NSU_CARTAO\", \"ID_CONTA\" FROM \"TB_CONTA_RECEBER\"";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -21455,15 +21546,9 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._commandCollection[7].CommandText = "\"SP_TRI_LANCACONTAREC\"";
             this._commandCollection[7].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "IDCUPOM";
+            param.ParameterName = "IDNFVENDA";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = null;
-            this._commandCollection[7].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "CUPOM";
-            param.Size = 12;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -21477,7 +21562,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "VALOR";
             param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 4;
+            param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -21490,7 +21575,21 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._commandCollection[7].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "DESCRICAO";
-            param.Size = 30;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "NUM_CAIXA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "IDCONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -21696,7 +21795,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_CTAREC, string Original_DOCUMENTO, string Original_HISTORICO, System.DateTime Original_DT_EMISSAO, System.DateTime Original_DT_VENCTO, decimal Original_VLR_CTAREC, string Original_TIP_CTAREC, int Original_ID_PORTADOR, int Original_ID_CLIENTE, string Original_INV_REFERENCIA, global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, string Original_NSU_CARTAO) {
+        public virtual int Delete(int Original_ID_CTAREC, string Original_DOCUMENTO, string Original_HISTORICO, System.DateTime Original_DT_EMISSAO, System.DateTime Original_DT_VENCTO, decimal Original_VLR_CTAREC, string Original_TIP_CTAREC, int Original_ID_PORTADOR, int Original_ID_CLIENTE, string Original_INV_REFERENCIA, global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, string Original_NSU_CARTAO, global::System.Nullable<int> Original_ID_CONTA) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_CTAREC));
             if ((Original_DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("Original_DOCUMENTO");
@@ -21747,6 +21846,14 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                 this.Adapter.DeleteCommand.Parameters[14].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[15].Value = ((string)(Original_NSU_CARTAO));
             }
+            if ((Original_ID_CONTA.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[17].Value = ((int)(Original_ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[17].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -21767,7 +21874,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, string NSU_CARTAO) {
+        public virtual int Insert(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, string NSU_CARTAO, global::System.Nullable<int> ID_CONTA) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_CTAREC));
             if ((DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("DOCUMENTO");
@@ -21810,6 +21917,12 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[11].Value = ((string)(NSU_CARTAO));
             }
+            if ((ID_CONTA.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[12].Value = ((int)(ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -21843,6 +21956,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     string INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, 
                     string NSU_CARTAO, 
+                    global::System.Nullable<int> ID_CONTA, 
                     int Original_ID_CTAREC, 
                     string Original_DOCUMENTO, 
                     string Original_HISTORICO, 
@@ -21854,7 +21968,8 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     int Original_ID_CLIENTE, 
                     string Original_INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, 
-                    string Original_NSU_CARTAO) {
+                    string Original_NSU_CARTAO, 
+                    global::System.Nullable<int> Original_ID_CONTA) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_CTAREC));
             if ((DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("DOCUMENTO");
@@ -21897,55 +22012,69 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(NSU_CARTAO));
             }
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_ID_CTAREC));
+            if ((ID_CONTA.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_ID_CTAREC));
             if ((Original_DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("Original_DOCUMENTO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_DOCUMENTO));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_DOCUMENTO));
             }
             if ((Original_HISTORICO == null)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_HISTORICO));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_HISTORICO));
             }
-            this.Adapter.UpdateCommand.Parameters[16].Value = ((System.DateTime)(Original_DT_EMISSAO));
-            this.Adapter.UpdateCommand.Parameters[17].Value = ((System.DateTime)(Original_DT_VENCTO));
-            this.Adapter.UpdateCommand.Parameters[18].Value = ((decimal)(Original_VLR_CTAREC));
+            this.Adapter.UpdateCommand.Parameters[17].Value = ((System.DateTime)(Original_DT_EMISSAO));
+            this.Adapter.UpdateCommand.Parameters[18].Value = ((System.DateTime)(Original_DT_VENCTO));
+            this.Adapter.UpdateCommand.Parameters[19].Value = ((decimal)(Original_VLR_CTAREC));
             if ((Original_TIP_CTAREC == null)) {
                 throw new global::System.ArgumentNullException("Original_TIP_CTAREC");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(Original_TIP_CTAREC));
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_TIP_CTAREC));
             }
-            this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(Original_ID_PORTADOR));
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_ID_CLIENTE));
+            this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_ID_PORTADOR));
+            this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(Original_ID_CLIENTE));
             if ((Original_INV_REFERENCIA == null)) {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((string)(Original_INV_REFERENCIA));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((string)(Original_INV_REFERENCIA));
             }
             if ((Original_DT_VENCTO_ORIG.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((System.DateTime)(Original_DT_VENCTO_ORIG.Value));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((System.DateTime)(Original_DT_VENCTO_ORIG.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
             }
             if ((Original_NSU_CARTAO == null)) {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((string)(Original_NSU_CARTAO));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((string)(Original_NSU_CARTAO));
+            }
+            if ((Original_ID_CONTA.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((int)(Original_ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -21979,6 +22108,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     string INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, 
                     string NSU_CARTAO, 
+                    global::System.Nullable<int> ID_CONTA, 
                     int Original_ID_CTAREC, 
                     string Original_DOCUMENTO, 
                     string Original_HISTORICO, 
@@ -21990,8 +22120,9 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     int Original_ID_CLIENTE, 
                     string Original_INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, 
-                    string Original_NSU_CARTAO) {
-            return this.Update(Original_ID_CTAREC, DOCUMENTO, HISTORICO, DT_EMISSAO, DT_VENCTO, VLR_CTAREC, TIP_CTAREC, ID_PORTADOR, ID_CLIENTE, INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO, Original_ID_CTAREC, Original_DOCUMENTO, Original_HISTORICO, Original_DT_EMISSAO, Original_DT_VENCTO, Original_VLR_CTAREC, Original_TIP_CTAREC, Original_ID_PORTADOR, Original_ID_CLIENTE, Original_INV_REFERENCIA, Original_DT_VENCTO_ORIG, Original_NSU_CARTAO);
+                    string Original_NSU_CARTAO, 
+                    global::System.Nullable<int> Original_ID_CONTA) {
+            return this.Update(Original_ID_CTAREC, DOCUMENTO, HISTORICO, DT_EMISSAO, DT_VENCTO, VLR_CTAREC, TIP_CTAREC, ID_PORTADOR, ID_CLIENTE, INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO, ID_CONTA, Original_ID_CTAREC, Original_DOCUMENTO, Original_HISTORICO, Original_DT_EMISSAO, Original_DT_VENCTO, Original_VLR_CTAREC, Original_TIP_CTAREC, Original_ID_PORTADOR, Original_ID_CLIENTE, Original_INV_REFERENCIA, Original_DT_VENCTO_ORIG, Original_NSU_CARTAO, Original_ID_CONTA);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -22113,43 +22244,49 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object SP_TRI_LANCACONTAREC(global::System.Nullable<int> IDCUPOM, string CUPOM, global::System.Nullable<global::System.DateTime> VENCIMENTO, global::System.Nullable<decimal> VALOR, global::System.Nullable<int> CLIENTE, string DESCRICAO) {
+        public virtual object SP_TRI_LANCACONTAREC(global::System.Nullable<int> IDNFVENDA, global::System.Nullable<global::System.DateTime> VENCIMENTO, global::System.Nullable<decimal> VALOR, global::System.Nullable<int> CLIENTE, string DESCRICAO, global::System.Nullable<short> NUM_CAIXA, global::System.Nullable<int> IDCONTA) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
-            if ((IDCUPOM.HasValue == true)) {
-                command.Parameters[0].Value = ((int)(IDCUPOM.Value));
+            if ((IDNFVENDA.HasValue == true)) {
+                command.Parameters[0].Value = ((int)(IDNFVENDA.Value));
             }
             else {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
-            if ((CUPOM == null)) {
-                command.Parameters[1].Value = global::System.DBNull.Value;
+            if ((VENCIMENTO.HasValue == true)) {
+                command.Parameters[1].Value = ((System.DateTime)(VENCIMENTO.Value));
             }
             else {
-                command.Parameters[1].Value = ((string)(CUPOM));
+                command.Parameters[1].Value = global::System.DBNull.Value;
             }
-            if ((VENCIMENTO.HasValue == true)) {
-                command.Parameters[2].Value = ((System.DateTime)(VENCIMENTO.Value));
+            if ((VALOR.HasValue == true)) {
+                command.Parameters[2].Value = ((decimal)(VALOR.Value));
             }
             else {
                 command.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((VALOR.HasValue == true)) {
-                command.Parameters[3].Value = ((decimal)(VALOR.Value));
+            if ((CLIENTE.HasValue == true)) {
+                command.Parameters[3].Value = ((int)(CLIENTE.Value));
             }
             else {
                 command.Parameters[3].Value = global::System.DBNull.Value;
             }
-            if ((CLIENTE.HasValue == true)) {
-                command.Parameters[4].Value = ((int)(CLIENTE.Value));
-            }
-            else {
+            if ((DESCRICAO == null)) {
                 command.Parameters[4].Value = global::System.DBNull.Value;
             }
-            if ((DESCRICAO == null)) {
-                command.Parameters[5].Value = global::System.DBNull.Value;
+            else {
+                command.Parameters[4].Value = ((string)(DESCRICAO));
+            }
+            if ((NUM_CAIXA.HasValue == true)) {
+                command.Parameters[5].Value = ((short)(NUM_CAIXA.Value));
             }
             else {
-                command.Parameters[5].Value = ((string)(DESCRICAO));
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            if ((IDCONTA.HasValue == true)) {
+                command.Parameters[6].Value = ((int)(IDCONTA.Value));
+            }
+            else {
+                command.Parameters[6].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -37985,7 +38122,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[5];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[6];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_PARAMETRO";
@@ -38016,26 +38153,20 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[2].Parameters.Add(param);
             this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[3].Connection = this.Connection;
-            this._commandCollection[3].CommandText = "SELECT CONTEUDO FROM TB_PARAMETRO WHERE INFORMACAO = @ID_MAQ";
+            this._commandCollection[3].CommandText = "SELECT FIRST 1 * FROM TB_PARAMETRO\r\nWHERE INFORMACAO = @CONFIG";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@ID_MAQ";
+            param.ParameterName = "@CONFIG";
             param.Size = 30;
             param.IsNullable = true;
             param.SourceColumn = "INFORMACAO";
             this._commandCollection[3].Parameters.Add(param);
             this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[4].Connection = this.Connection;
-            this._commandCollection[4].CommandText = "UPDATE OR INSERT INTO TB_PARAMETRO VALUES (@ID_PARAMETRO, @INFORMACAO, @CONTEUDO," +
-                " @DESCRICAO, @ID_FUNCIONARIO);";
+            this._commandCollection[4].CommandText = "INSERT INTO \"TB_PARAMETRO\" (\"ID_PARAMETRO\", \"INFORMACAO\", \"CONTEUDO\", \"DESCRICAO\"" +
+                ", \"ID_FUNCIONARIO\") VALUES (GEN_ID(GEN_TB_PARAMETRO_ID,1), @INFORMACAO, @CONTEUD" +
+                "O, @DESCRICAO, @ID_FUNCIONARIO)";
             this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@ID_PARAMETRO";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "ID_PARAMETRO";
-            this._commandCollection[4].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@INFORMACAO";
             param.Size = 30;
@@ -38056,11 +38187,48 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[4].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_FUNCIONARIO";
-            param.DbType = global::System.Data.DbType.Int16;
+            param.DbType = global::System.Data.DbType.Int32;
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = "ID_FUNCIONARIO";
             this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "UPDATE OR INSERT INTO TB_PARAMETRO VALUES (@ID_PARAMETRO, @INFORMACAO, @CONTEUDO," +
+                " @DESCRICAO, @ID_FUNCIONARIO);";
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            this._commandCollection[5].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -38088,6 +38256,23 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual FDBDataSet.TB_PARAMETRODataTable GetParameter(string CONFIG) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
+            if ((CONFIG == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(CONFIG));
+            }
+            FDBDataSet.TB_PARAMETRODataTable dataTable = new FDBDataSet.TB_PARAMETRODataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -38146,35 +38331,43 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual string GetVinculoCtaMaq(string ID_MAQ) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[3];
-            if ((ID_MAQ == null)) {
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int InsertInto(string INFORMACAO, string CONTEUDO, string DESCRICAO, int ID_FUNCIONARIO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
+            if ((INFORMACAO == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
             else {
-                command.Parameters[0].Value = ((string)(ID_MAQ));
+                command.Parameters[0].Value = ((string)(INFORMACAO));
             }
+            if ((CONTEUDO == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(CONTEUDO));
+            }
+            if ((DESCRICAO == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(DESCRICAO));
+            }
+            command.Parameters[3].Value = ((int)(ID_FUNCIONARIO));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
                 command.Connection.Open();
             }
-            object returnValue;
+            int returnValue;
             try {
-                returnValue = command.ExecuteScalar();
+                returnValue = command.ExecuteNonQuery();
             }
             finally {
                 if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
                     command.Connection.Close();
                 }
             }
-            if (((returnValue == null) 
-                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
-                return null;
-            }
-            else {
-                return ((string)(returnValue));
-            }
+            return returnValue;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -38182,7 +38375,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int UpdateOrInsert(int ID_PARAMETRO, string INFORMACAO, string CONTEUDO, string DESCRICAO, short ID_FUNCIONARIO) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
             command.Parameters[0].Value = ((int)(ID_PARAMETRO));
             if ((INFORMACAO == null)) {
                 command.Parameters[1].Value = global::System.DBNull.Value;

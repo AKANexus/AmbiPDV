@@ -25503,14 +25503,14 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection[13].CommandText = "\"SP_TRI_CTAREC_MOVTO\"";
             this._commandCollection[13].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "CAIXA";
-            param.DbType = global::System.Data.DbType.Int16;
-            param.Size = 2;
+            param.ParameterName = "PID_MOVTO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[13].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "COO";
+            param.ParameterName = "PID_CTAREC";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
@@ -25947,7 +25947,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection[22].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "DESCRICAO";
-            param.Size = 30;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[22].Parameters.Add(param);
@@ -27659,16 +27659,16 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int SP_TRI_CTAREC_MOVTO(global::System.Nullable<short> CAIXA, global::System.Nullable<int> COO) {
+        public virtual object SP_TRI_CTAREC_MOVTO(global::System.Nullable<int> PID_MOVTO, global::System.Nullable<int> PID_CTAREC) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[13];
-            if ((CAIXA.HasValue == true)) {
-                command.Parameters[0].Value = ((short)(CAIXA.Value));
+            if ((PID_MOVTO.HasValue == true)) {
+                command.Parameters[0].Value = ((int)(PID_MOVTO.Value));
             }
             else {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
-            if ((COO.HasValue == true)) {
-                command.Parameters[1].Value = ((int)(COO.Value));
+            if ((PID_CTAREC.HasValue == true)) {
+                command.Parameters[1].Value = ((int)(PID_CTAREC.Value));
             }
             else {
                 command.Parameters[1].Value = global::System.DBNull.Value;
@@ -27678,16 +27678,22 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
                         != global::System.Data.ConnectionState.Open)) {
                 command.Connection.Open();
             }
-            int returnValue;
+            object returnValue;
             try {
-                returnValue = command.ExecuteNonQuery();
+                returnValue = command.ExecuteScalar();
             }
             finally {
                 if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
                     command.Connection.Close();
                 }
             }
-            return returnValue;
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

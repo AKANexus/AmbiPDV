@@ -2767,21 +2767,21 @@ namespace PDV_WPF.Telas
                 else if (fechamento.DialogResult == true) //Caso o fechamento tenha sido bem sucedido ou é um processo de devolução:
                 {
                     //oldCRT = fechamento.respCRT;                    
-                    foreach ((string strCfePgto, decimal vlrPgto, int idAdm) metodo in fechamento.metodosnew)
+                    foreach ((string strCfePgto, decimal vlrPgto, InfoAdministradora infoAdministradora) metodo in fechamento.metodosnew)
                     {
                         if (metodo.strCfePgto == "05")
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.vencimento, fechamento.id_cliente);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.infoAdministradora, fechamento.vencimento, fechamento.id_cliente);
                         else if (metodo.strCfePgto == "01")
                         {
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm, fechamento.troco);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.infoAdministradora, fechamento.troco);
                             if (ACFILLPREFIX == 1) AbreGavetaDLL();
                         }
                         else if ((metodo.strCfePgto == "04" || metodo.strCfePgto == "03" || metodo.strCfePgto == "10" || metodo.strCfePgto == "11") && USATEF)
                         {
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.infoAdministradora);
                         }
                         else
-                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.idAdm);
+                            vendaAtual.RecebePagamento(metodo.strCfePgto.PadLeft(2, '0'), metodo.vlrPgto, metodo.infoAdministradora);
 
                     }
                     if (Canvas_Desconto.Visibility == Visibility.Visible && Canvas_Desconto.Margin == new Thickness(-0, 0, 0, 0))
