@@ -94,9 +94,10 @@ namespace PDV_WPF.Telas
             
             try
             {
+                int alteracoesRealizadas = default;
                 if (Permissions.First(x => x.IsPermissionTotal).IsChecked)
                 {
-                    taUsersPdv.SetPermissions(PERMISSIONS: (int)Permissoes.PermissaoTotal, USERNAME: Usuario);
+                    alteracoesRealizadas = taUsersPdv.SetPermissions(PERMISSIONS: (int)Permissoes.PermissaoTotal, USERNAME: Usuario);
                 }
                 else
                 {
@@ -106,13 +107,21 @@ namespace PDV_WPF.Telas
                     {
                         newPermissions |= permission.PermissãoFlag;
                     }
-                    
-                    taUsersPdv.SetPermissions(PERMISSIONS: (int)newPermissions, USERNAME: Usuario);                    
+
+                    alteracoesRealizadas = taUsersPdv.SetPermissions(PERMISSIONS: (int)newPermissions, USERNAME: Usuario);                    
                 }
 
-                new SincronizadorDB().SincronizarContingencyNetworkDbs(EnmTipoSync.cadastros, Settings.Default.SegToleranciaUltSync);
-                MessageBox.Show($"Permissões do usuário {Usuario} gravadas com sucesso!   ", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.Close();
+                if(alteracoesRealizadas > 0)
+                {
+                    new SincronizadorDB().SincronizarContingencyNetworkDbs(EnmTipoSync.cadastros, Settings.Default.SegToleranciaUltSync);
+                    MessageBox.Show($"Permissões do usuário {Usuario} gravadas com sucesso!   ", "Informação", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.Close();
+                    return;
+                }
+
+                MessageBox.Show("Não ocorreram erros ao tentar alterar permissões, porem nenhum registro foi modificado. " +
+                                "Caso o problema persista, entre em contato com o suporte.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                
             }
             catch(Exception ex) 
             {
