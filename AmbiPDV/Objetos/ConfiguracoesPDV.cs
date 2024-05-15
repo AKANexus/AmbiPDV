@@ -571,6 +571,7 @@ namespace PDV_WPF.Configuracoes
         public static bool SCANNTECH { get; set; }
         public static bool SENHA_REIMPRESSAO { get; set; }
         public static int PREFIX_LISTBOX { get; set; }
+        public static bool EXIBE_SPLASHSCREEN { get; set; }
 
         #endregion Propriedades
 
@@ -859,7 +860,7 @@ namespace PDV_WPF.Configuracoes
                                                                          AUTORIZADO = ConfiguracoesPDV.PERMITE_CANCELAR_VENDA_EM_CURSO.ToInt(), FECHAMENTO_EXTENDIDO = ConfiguracoesPDV.FECHAMENTO_EXTENDIDO.ToInt(),
                                                                          FORCA_GAVETA = ConfiguracoesPDV.FORÇA_GAVETA.ToInt(), USAORCAMENTO = ConfiguracoesPDV.USA_ORÇAMENTO.ToInt(), SATTIMEOUT = ConfiguracoesPDV.SATTIMEOUT,
                                                                          EXIBEFOTO = ConfiguracoesPDV.EXIBEFOTO.ToInt(), SENHA_PRAZO = ConfiguracoesPDV.SENHA_PRAZO.ToInt(), SENHA_CONSULTA = ConfiguracoesPDV.SENHA_CONSULTA.ToInt(),
-                                                                         SCANNTECH = ConfiguracoesPDV.SCANNTECH.ToInt(), SENHA_REIMPRESSAO = ConfiguracoesPDV.SENHA_REIMPRESSAO.ToInt(), PREFIX_LISTBOX = ConfiguracoesPDV.PREFIX_LISTBOX };
+                                                                         SCANNTECH = ConfiguracoesPDV.SCANNTECH.ToInt(), SENHA_REIMPRESSAO = ConfiguracoesPDV.SENHA_REIMPRESSAO.ToInt(), PREFIX_LISTBOX = ConfiguracoesPDV.PREFIX_LISTBOX, EXIBE_SPLASHSCREEN = ConfiguracoesPDV.EXIBE_SPLASHSCREEN.ToInt() };
 
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = true, Indent = true };
             var XMLPendFinal = new StringBuilder();
@@ -900,5 +901,6 @@ namespace PDV_WPF.Configuracoes
         public int SCANNTECH { get; set; } = 0;
         public int SENHA_REIMPRESSAO { get; set; } = 0;
         public int PREFIX_LISTBOX { get; set; } = 3;
+        public int EXIBE_SPLASHSCREEN { get; set; } = 0;
     }
 }
