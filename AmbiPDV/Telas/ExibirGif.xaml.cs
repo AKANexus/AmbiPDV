@@ -1,18 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using System.IO;
 using System.Reflection;
 using System.Windows.Threading;
+using Clearcove.Logging;
 
 namespace PDV_WPF.Telas
 {
@@ -24,17 +15,26 @@ namespace PDV_WPF.Telas
         private string CaminhoGif = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + @"\Resources\loading_anim.gif";
         DispatcherTimer timer = new DispatcherTimer();
         public static volatile bool stateGif;
+        Logger log = new Logger("Gif");
         //(Assembly.GetExecutingAssembly().Location) + @"\LocalDB\CLIPP.FDB"
         public ExibirGif()
         {
-            stateGif = true;
-            Uri uri = new Uri(CaminhoGif);
-            
-            InitializeComponent();
-            timer.Interval = TimeSpan.FromMilliseconds(2000);
-            timer.Tick += new EventHandler(CheckGifStatus);
-            timer.Start();
-            mediaElement.Source = uri;
+            try
+            {
+                log.Debug($"Exibindo GIF de loading do caminho: {CaminhoGif}");
+                stateGif = true;
+                Uri uri = new Uri(CaminhoGif);
+                InitializeComponent();
+                timer.Interval = TimeSpan.FromMilliseconds(2000);
+                timer.Tick += new EventHandler(CheckGifStatus);
+                timer.Start();
+                mediaElement.Source = uri;
+            }
+            catch(Exception ex) 
+            {
+                log.Error($"Erro ao carregar GIF de {CaminhoGif}. Erro retornado: {ex.InnerException?.Message ?? ex.Message}");
+            }
+           
         }
         private void mediaElement_MediaEnded(object sender, RoutedEventArgs e)
         { 

@@ -42,7 +42,7 @@ namespace PDV_WPF
         private readonly DebounceDispatcher debounceTimer = new DebounceDispatcher();
         //private SiTEFBox vendaTEF;
         Logger log = new Logger("Login");
-        LoadingScreen ls = new LoadingScreen();        
+        LoadingScreen ls = new LoadingScreen();
         public static Thread t1;
 
         #endregion Fields & Properties
@@ -156,10 +156,10 @@ namespace PDV_WPF
             if (e.Key == Key.Enter)
             {
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
-                {                    
+                {
                     confirm_exit = false;
                     if (cbb_Usuario.IsFocused)
-                    {                        
+                    {
                         txb_Senha.Focus();
                         txb_Senha.SelectAll();
                     }
@@ -173,7 +173,7 @@ namespace PDV_WPF
                         {
                             ExibirGif.stateGif = false;
                             log.Error("Erro na abertura do caixa: ", ex);
-                            DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");                            
+                            DialogBox.Show("ERRO AO ABRIR O SISTEMA", DialogBoxButtons.No, DialogBoxIcons.Error, false, "\n", ex.Message, "Entre em contato com o suporte");
                             return;
                         }
                     }
@@ -233,7 +233,7 @@ namespace PDV_WPF
             // melhor jogador de x1 contra o Artur
             //antionte fez frii 
             //antionte feez friiiiiiii
-        }       
+        }
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
@@ -506,9 +506,9 @@ namespace PDV_WPF
                 }
             }
             //homologaTEF = homologacoes.Contains("tef");
-            #if HOMOLOGASAT
+#if HOMOLOGASAT
             homologaSAT = true;
-            #endif
+#endif
             homologaDEVOL = homologacoes.Contains("devol");
             if (args.Contains("/auditoria") == true)// se os argumentos contiverem /auditoria
             {
@@ -617,15 +617,20 @@ namespace PDV_WPF
                 log.Debug("Senha correta.");
                 operador = cbb_Usuario.SelectedItem.ToString();
                 log.Debug($"Operador: {operador}");
-                //SplashScreen ss = new SplashScreen("Resources/loading_anim.gif");
-                //ss.Show(false, false);
+
+                SplashScreen ss = new SplashScreen("Resources/loading.gif");
+                if (EXIBE_SPLASHSCREEN)                                    
+                    ss.Show(false, false);
+                
                 var MainWindow = new Caixa(_contingencia);
-                MainWindow.Show();                
-                //ss.Close(TimeSpan.FromMilliseconds(1));
+                MainWindow.Show();
+
+                ss.Close(TimeSpan.FromMilliseconds(1));
                 this.Close();
                 ExibirGif.stateGif = false;
+                
                 // Gravar no banco local a data do último login válido:
-                (new LicencaDeUsoOffline(90, 15)).SetLastLog();                
+                (new LicencaDeUsoOffline(90, 15)).SetLastLog();
                 return;
                 #endregion Senha correta, segue o jogo.                
             }
