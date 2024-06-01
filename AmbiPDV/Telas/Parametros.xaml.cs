@@ -250,9 +250,12 @@ namespace PDV_WPF
         }
 
         private void chk_maq_cta_MouseRight(object sender, MouseButtonEventArgs e)
-        {            
-            ParamsAdministradora paramsAdministradora = new ParamsAdministradora();
-            paramsAdministradora.ShowDialog();
+        {       
+            if(chk_vincula_maq_cta.IsChecked is bool check && check is true)
+            {
+                ParamsAdministradora paramsAdministradora = new ParamsAdministradora();
+                paramsAdministradora.ShowDialog();
+            }               
         }
 
         #endregion Events

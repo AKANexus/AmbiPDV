@@ -7857,7 +7857,10 @@ namespace PDV_WPF.Funcoes
                                                         catch (Exception ex)
                                                         {
                                                             log.Error($"Erro ao cancelar (excluir) conta a receber no servidor (ID_CTAREC {ctarecServ.ID_CTAREC}).", ex);
-                                                            throw ex;
+                                                            DeleteCascade(desiredConnection: fbConnServ, 
+                                                                          columnName: nameof(ctarecServ.ID_CTAREC), 
+                                                                          nativeTable: nameof(FDBDataSet.TB_CONTA_RECEBER), 
+                                                                          idExclusion: ctarecServ.ID_CTAREC);
                                                         }
                                                     }
                                                     #endregion Apagar conta a receber (TB_CONTA_RECEBER)

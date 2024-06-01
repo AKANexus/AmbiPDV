@@ -14,6 +14,7 @@ using PDV_WPF.Funcoes;
 using PDV_WPF.DataSets;
 using System.Windows.Controls;
 using System.Text.RegularExpressions;
+using System.Runtime.CompilerServices;
 
 namespace PDV_WPF.Telas
 {
@@ -25,6 +26,7 @@ namespace PDV_WPF.Telas
         public ObservableCollection<MaqCtaItem> macCtaAdmin { get; } = new();
         public List<MaqCtaListItem> ContasBancarias;
         private readonly FbConnection ConnecionServ = new();
+        private bool CadastrosCompletos = true;
 
         public ParamsAdministradora()
         {
@@ -32,6 +34,16 @@ namespace PDV_WPF.Telas
             InitializeComponent();
             ConnecionServ.ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG);
             PreencheDados();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            if(!CadastrosCompletos)
+            {
+                MessageBox.Show("Nenhuma administradora e/ou conta báncaria está cadastrada.  \n\n" +
+                                "Cadastre e tente novamente.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                this.Close();
+            }
         }
 
 
@@ -97,6 +109,8 @@ namespace PDV_WPF.Telas
 
                         }
                     }
+                    else
+                        CadastrosCompletos = false;
                 }
                 catch (Exception ex)
                 {
@@ -158,7 +172,7 @@ namespace PDV_WPF.Telas
         {
             if(!Regex.IsMatch(e.Text, @"^[0-9]+$"))
                 e.Handled = true;
-        };            
+        };       
     }
 
     public class MaqCtaItem : INotifyPropertyChanged

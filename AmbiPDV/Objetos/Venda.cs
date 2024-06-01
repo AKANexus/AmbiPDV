@@ -1157,7 +1157,8 @@ namespace PDV_WPF.Objetos
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());
                     }
                 }
-                foreach (var pagamento in cfeDeRetorno.infCFe.pgto.MP)
+
+                foreach (var x in cfeDeRetorno.infCFe.pgto.MP.Select(selector: (pagamento, index) => new { pagamento, index }))
                 {
                     int ID_NUMPAG;
                     try
@@ -1166,42 +1167,27 @@ namespace PDV_WPF.Objetos
                         using var TB_NFV_FMAPAGTO_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
                         using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
                         TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
-                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
-                        //ID_NUMPAG = (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(Decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
-                        if (pagamento.InfoAdmin.IdAdmin <= 0)
-                        {
-                            ID_NUMPAG = idNfce switch
-                            {
-                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null),
-                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, null),
-                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null)
-                            };
-                        }
-                        else
-                        {
-                            ID_NUMPAG = idNfce switch
-                            {
-                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.InfoAdmin.IdAdmin),
-                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, pagamento.InfoAdmin.IdAdmin),
-                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.InfoAdmin.IdAdmin)
-                            };
-                        }
+                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(x.pagamento.cMP)[0]["ID_FMANFCE"];
+                        InfoAdministradora infoAdmin = RetornaCFe().infCFe.pgto.MP[x.index].InfoAdmin; // Pegando InfoAdmin do objeto de venda em memoria pois o retornado pelo SAT não possui essa informação.
 
-                        //ID_NUMPAG = (idNfce == 3) ?
-                        //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3) :
-                        //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
-
-                        if (pagamento.cMP == "03" || pagamento.cMP == "04" && VINCULA_MAQ_CTA)
+                        ID_NUMPAG = idNfce switch
+                        {
+                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
+                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
+                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin)
+                        };
+                       
+                        if ((x.pagamento.cMP == "03" || x.pagamento.cMP == "04") && INFORMA_MAQUININHA && VINCULA_MAQ_CTA && infoAdmin != null)
                         {
                             // Para de gerar contas a receber para cartões                             
 
                             int resultIdConta = 0;
                             int resultIdMovto = 0;
                             string strMensagemLog = "";
-                            (string metodo, decimal valorDescontadoTaxa) = pagamento.cMP switch
+                            (string metodo, decimal valorDescontadoTaxa) = x.pagamento.cMP switch
                             {
-                                "03" => ("Crédito", pagamento.vMP.Safedecimal() - (pagamento.InfoAdmin.TaxaCredito / 100 * pagamento.vMP.Safedecimal()).RoundABNT()),
-                                "04" => ("Débito", pagamento.vMP.Safedecimal() - (pagamento.InfoAdmin.TaxaDebito / 100 * pagamento.vMP.Safedecimal()).RoundABNT()),
+                                "03" => ("Crédito", x.pagamento.vMP.Safedecimal() - (infoAdmin.TaxaCredito / 100 * x.pagamento.vMP.Safedecimal()).RoundABNT()),
+                                "04" => ("Débito", x.pagamento.vMP.Safedecimal() - (infoAdmin.TaxaDebito / 100 * x.pagamento.vMP.Safedecimal()).RoundABNT()),
                                 _ => ("(Pagamento não identificado)", 0)
                             };
 
@@ -1209,24 +1195,26 @@ namespace PDV_WPF.Objetos
                             {
                                 log.Debug("Criando conta a receber para cartão...");
 
-                                DateTime vencimento = DateTime.Now.AddDays(pagamento.InfoAdmin.DiasParaVencimento);
+                                DateTime vencimento = DateTime.Now.AddDays(infoAdmin.DiasParaVencimento);
 
-                                strMensagemLog = String.Format("SP_TRI_LANCACONTAREC(IdNfVenda: {0}, Vecimento: {1}, Valor: {2}, IdCliente: {3}, Descricao: {4}, NumCaixa: {5}, IdConta: {6})",
+                                strMensagemLog = String.Format("SP_TRI_LANCACONTAREC(IdNfVenda: {0}, Vecimento: {1}, Valor: {2}, IdCliente: {3}, Descricao: {4}, NumCaixa: {5}, IdConta: {6}, IdNumPag: {7})",
                                                                ID_NFVENDA,
                                                                vencimento,
                                                                valorDescontadoTaxa,
-                                                               pagamento.InfoAdmin.IdCliente == 0 ? null : pagamento.InfoAdmin.IdCliente,
+                                                               infoAdmin.IdCliente == 0 ? null : infoAdmin.IdCliente,
                                                                $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
                                                                (short)NO_CAIXA,
-                                                               pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta);
+                                                               infoAdmin.IdConta == 0 ? null : infoAdmin.IdConta,
+                                                               ID_NUMPAG);
 
                                 resultIdConta = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(ID_NFVENDA,
                                                                                       vencimento,
                                                                                       valorDescontadoTaxa,
-                                                                                      pagamento.InfoAdmin.IdCliente,
+                                                                                      infoAdmin.IdCliente,
                                                                                       $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
                                                                                       (short)NO_CAIXA,
-                                                                                      pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta);
+                                                                                      infoAdmin.IdConta == 0 ? null : infoAdmin.IdConta,
+                                                                                      ID_NUMPAG);
                             }
                             catch (Exception ex)
                             {
@@ -1376,7 +1364,7 @@ namespace PDV_WPF.Objetos
                         }
                         EndFluxCtaRecCartao:
 
-                        if (pagamento.cMP == "05" && !pagamento.desconto)
+                        if (x.pagamento.cMP == "05" && !x.pagamento.desconto)
                         {
                             string strMensagemErro = "";
                             log.Debug("Venda à prazo AmbiPDV");
@@ -1385,12 +1373,12 @@ namespace PDV_WPF.Objetos
                             try
                             {
                                 ID_CTAREC = (int)CONTAREC_TA.SP_TRI_NFVCTAREC(ID_NFVENDA,
-                                                                              pagamento.vencimento,
+                                                                              x.pagamento.vencimento,
                                                                               ("Venda à prazo AmbiPDV " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                              pagamento.idCliente,
+                                                                              x.pagamento.idCliente,
                                                                               ID_NUMPAG);
 
-                                ID_CLIENTE = pagamento.idCliente;
+                                ID_CLIENTE = x.pagamento.idCliente;
                             }
                             catch (Exception ex)
                             {
@@ -1403,7 +1391,7 @@ namespace PDV_WPF.Objetos
                                 strMensagemErro = string.Format("NFISCAL");
                                 log.Debug(strMensagemErro);
                                 ID_MOVTO = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
-                                                                              Convert.ToDecimal(pagamento.vMP, CultureInfo.InvariantCulture),
+                                                                              Convert.ToDecimal(x.pagamento.vMP, CultureInfo.InvariantCulture),
                                                                               ("Venda à prazo AmbiPDV - Cupom " + ID_NFVENDA.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
                                                                               147, 5);
                             }
@@ -1430,9 +1418,9 @@ namespace PDV_WPF.Objetos
                                 return -1; //deuruim(); ColocarTransacao();
                             }
                         }
-                        if (pagamento.cMP == "19")
+                        if (x.pagamento.cMP == "19")
                         {
-                            ID_CLIENTE = pagamento.idCliente;
+                            ID_CLIENTE = x.pagamento.idCliente;
                         }
                     }
                     catch (Exception ex)
@@ -1611,7 +1599,7 @@ namespace PDV_WPF.Objetos
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
 
 
-                            if (pagamento.cMP == "03" || pagamento.cMP == "04" && VINCULA_MAQ_CTA)
+                            if ((pagamento.cMP == "03" || pagamento.cMP == "04") && INFORMA_MAQUININHA && VINCULA_MAQ_CTA)
                             {
                                 // Para de gerar contas a receber para cartões                             
 
@@ -1626,27 +1614,29 @@ namespace PDV_WPF.Objetos
                                 };
 
                                 try
-                                {                                    
+                                {
                                     log.Debug("Criando conta a receber para cartão...");
-                                    
+
                                     DateTime vencimento = DateTime.Now.AddDays(pagamento.InfoAdmin.DiasParaVencimento);
 
-                                    strMensagemLog = String.Format("SP_TRI_LANCACONTAREC(IdNfVenda: {0}, Vecimento: {1}, Valor: {2}, IdCliente: {3}, Descricao: {4}, NumCaixa: {5}, IdConta: {6})",
+                                    strMensagemLog = String.Format("SP_TRI_LANCACONTAREC(IdNfVenda: {0}, Vecimento: {1}, Valor: {2}, IdCliente: {3}, Descricao: {4}, NumCaixa: {5}, IdConta: {6}, IdNumPag: {7})",
                                                                    ID_NFVENDA,
                                                                    vencimento,
                                                                    valorDescontadoTaxa,
                                                                    pagamento.InfoAdmin.IdCliente == 0 ? null : pagamento.InfoAdmin.IdCliente,
                                                                    $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
                                                                    (short)NO_CAIXA,
-                                                                   pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta);
-                                    
+                                                                   pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta,
+                                                                   ID_NUMPAG);
+
                                     resultIdConta = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(ID_NFVENDA,
                                                                                           vencimento,
                                                                                           valorDescontadoTaxa,
                                                                                           pagamento.InfoAdmin.IdCliente,
                                                                                           $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
                                                                                           (short)NO_CAIXA,
-                                                                                          pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta);
+                                                                                          pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta,
+                                                                                          ID_NUMPAG);
                                 }
                                 catch (Exception ex)
                                 {
@@ -1794,7 +1784,7 @@ namespace PDV_WPF.Objetos
                                     goto EndFluxCtaRecCartao;
                                 }
                             }
-                            EndFluxCtaRecCartao:
+                        EndFluxCtaRecCartao:
 
 
                             if (pagamento.cMP == "05" && !pagamento.desconto)

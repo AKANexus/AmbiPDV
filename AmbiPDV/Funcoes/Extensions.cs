@@ -88,12 +88,10 @@ namespace PDV_WPF.Funcoes
         {
             decimal vResult = 0;
             if (!string.IsNullOrWhiteSpace(vDado))
-            {
-                //if (vDado != "NaN") //TODO: Não é necessário, pois a conversão a seguir já pode estourar e resultar em zero.
-                //{
+            {                
                 try
                 {
-                    vResult = Convert.ToDecimal(vDado);
+                    vResult = Convert.ToDecimal(vDado.Replace('.', ','));
                 }
                 catch
                 {
@@ -328,7 +326,7 @@ namespace PDV_WPF.Funcoes
                 }
                 //if ((string)vDado == "NaN") return vResult; //TODO: Não é necessário, pois a conversão a seguir já pode estourar e resultar em zero.
 
-                vResult = Convert.ToDecimal(vDado);
+                vResult = Convert.ToDecimal(vDado.ToString().Replace('.', ','));
             }
             catch
             {

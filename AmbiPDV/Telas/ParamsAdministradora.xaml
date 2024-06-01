@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PDV_WPF.Telas"
         mc:Ignorable="d" 
         d:DataContext="{d:DesignInstance local:ParamsAdministradora}"
-        Title="ParamsAdministradora" SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize" BorderThickness="1" BorderBrush="Aquamarine">
+        Title="ParamsAdministradora" SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" WindowStyle="None" ResizeMode="NoResize" BorderThickness="1" BorderBrush="Aquamarine" Loaded="Window_Loaded">
     <StackPanel Margin="10">
         <Label Content="Relação Maquininha/Conta" FontStyle="Italic" HorizontalAlignment="Center" Foreground="Gray" FontWeight="Bold" FontSize="15"/>
         <ListBox ItemsSource="{Binding macCtaAdmin}" Padding="3">

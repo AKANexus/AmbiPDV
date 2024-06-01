@@ -453,6 +453,7 @@ namespace PDV_WPF.Telas
             nomes_pgtos.Add(strDescricaoMetodo);
 
             pagamentos[idMetodo] += (_valor - troco);
+            
             metodosnew.Add((strPgCfe, _valor, Administradora.infoAdministradora ?? new InfoAdministradora()));
             metodos.Add(pgto);
             valores_pgtos.Add(_valor);

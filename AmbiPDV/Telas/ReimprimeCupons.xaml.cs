@@ -206,7 +206,7 @@ namespace PDV_WPF.Telas
                             InfoPagtosTA.FillByInfoAdicionaisPagtos(InfoPagtosDT, cupom.ID_NFVENDA);                            
                             foreach(var pagamentos in InfoPagtosDT)
                             {
-                                venda.RecebePagamento(pagamentos.ID_NFCE, pagamentos.VLR_PAGTO, new InfoAdministradora { IdAdmin = pagamentos.ID_ADMINISTRADORA }, pagamentos.VLR_TROCO);
+                                venda.RecebePagamento(pagamentos.ID_NFCE, pagamentos.VLR_PAGTO, new InfoAdministradora { IdAdmin = pagamentos.IsID_ADMINISTRADORANull() ? 0 : pagamentos.ID_ADMINISTRADORA }, pagamentos.VLR_TROCO);
                             }
                             venda.InformaCliente(ItemChoiceType.CPF, null);
                             venda.TotalizaCupom();
@@ -243,7 +243,7 @@ namespace PDV_WPF.Telas
                     foreach (var item in Pagtos_DT)
                     {
                         VendaDEMO.RecebePagamento(item.DESCRICAO, item.VLR_PAGTO);
-                        if (!item.IsDT_VENCTONull())
+                        if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                         {
                             VendaDEMO.cliente = item.NOME;
                             VendaDEMO.vencimento = item.DT_VENCTO;
@@ -434,7 +434,7 @@ namespace PDV_WPF.Telas
             foreach (var item in pagtos_Dt)
             {
                 //VendaDEMO.RecebePagamento(item.DESCRICAO, item.VLR_PAGTO);
-                if (!item.IsDT_VENCTONull())
+                if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                 {
                     VendaImpressa.cliente = item.NOME;
                     VendaImpressa.vencimento = item.DT_VENCTO;

@@ -4448,8 +4448,28 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "ATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAM" +
                 "E = \'TRI_PDV_SYNCED\' AND RDB$DESCRIPTION IS NULL))\r\nthen begin\r\nexecute statemen" +
                 "t \'COMMENT ON COLUMN TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED IS \'\'INDICA SE O REGIS" +
-                "TRO JÁ FOI SINCRONIZADO DO PDV PARA O CLIPP\'\';\';\r\nend\r\n\r\nerro = \'deu certo\';\r\nSU" +
-                "SPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "TRO JÁ FOI SINCRONIZADO DO PDV PARA O CLIPP\'\';\';\r\nend\r\n\r\nerro = \'add view V_RELA" +
+                "TION_TABLES\';\r\nIF (NOT EXISTS (SELECT 1 FROM RDB$RELATIONS WHERE RDB$VIEW_BLR IS" +
+                " NOT NULL AND RDB$RELATION_NAME = \'V_RELATION_TABLES\'))\r\nthen begin\r\nexecute sta" +
+                "tement \'CREATE OR ALTER VIEW V_RELATION_TABLES (TABELAS_DEPENDENTES, TABELA_NATI" +
+                "VA, NOME_COLUNA, TIPO_COLUNA, NULABILIDADE) AS WITH CTe AS ( SELECT detail_relat" +
+                "ion_constraints.RDB$RELATION_NAME AS TABELAS_DEPENDENTES, master_relation_constr" +
+                "aints.RDB$RELATION_NAME AS TABELA_NATIVA, detail_index_segments.RDB$FIELD_NAME A" +
+                "S NOME_COLUNA, detail_relation_constraints.rdb$constraint_type AS TIPO_COLUNA FR" +
+                "OM rdb$relation_constraints detail_relation_constraints LEFT JOIN rdb$index_segm" +
+                "ents detail_index_segments ON detail_relation_constraints.rdb$index_name = detai" +
+                "l_index_segments.rdb$index_name LEFT JOIN rdb$ref_constraints ON detail_relation" +
+                "_constraints.rdb$constraint_name = rdb$ref_constraints.rdb$constraint_name LEFT " +
+                "JOIN rdb$relation_constraints master_relation_constraints ON rdb$ref_constraints" +
+                ".rdb$const_name_uq = master_relation_constraints.rdb$constraint_name LEFT JOIN r" +
+                "db$index_segments master_index_segments ON master_relation_constraints.rdb$index" +
+                "_name = master_index_segments.rdb$index_name WHERE detail_relation_constraints.r" +
+                "db$constraint_type = \'\'FOREIGN KEY\'\' OR detail_relation_constraints.rdb$constrai" +
+                "nt_type = \'\'PRIMARY KEY\'\' ) SELECT CTe.*, CASE detail_fields.RDB$NULL_FLAG WHEN " +
+                "1 THEN \'\'NOT NULL\'\' ELSE \'\'NULL\'\' END AS NULABILIDADE FROM CTe LEFT JOIN RDB$REL" +
+                "ATION_FIELDS detail_fields ON CTe.TABELAS_DEPENDENTES = detail_fields.RDB$RELATI" +
+                "ON_NAME AND CTe.NOME_COLUNA = detail_fields.RDB$FIELD_NAME;\';\r\nend\r\n\r\nerro = \'de" +
+                "u certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
@@ -5003,25 +5023,33 @@ END;";
                 "                                            execute statement \'ALTER TABLE TRI_P" +
                 "DV_CONFIG ADD LAYOUT_SAT VARCHAR(4) DEFAULT \'\'008\'\' NOT NULL;\';\r\n\t\t\t\t\t\tend\r\n\r\n  " +
                 "                                                                                " +
-                "              erro = \'alter from null to 1 in TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNC" +
-                "ED\';\r\n                                                                          " +
-                "                                      IF (EXISTS (SELECT 1 FROM RDB$RELATION_FIE" +
-                "LDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAME = \'TRI_" +
-                "PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                                               " +
-                "                                                                 execute stateme" +
-                "nt \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA_SIS SET TRI_PDV_SYNCED = 1 W" +
-                "HERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t\t\t\t\terro = \'delete UK TRI_PDV" +
-                "_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$INDICES where rdb$index_name = " +
-                "\'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_PDV_D" +
-                "EVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\terro = \'create gen TRI_PDV_DEVO" +
-                "L_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENERATORS WHERE RDB$Generator_na" +
-                "me= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE GENERATOR " +
-                "TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (no" +
-                "t exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t" +
-                "\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVO" +
-                "L BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1) THEN NEW.ID_DEVOLUCAO = GEN_" +
-                "ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t" +
-                "\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "                              erro = \'alter table TRI_PDV_CONFIG add CONFIGS VIN" +
+                "CULA_MAQ_CTA\';\r\n                                                                " +
+                "                                                IF ( NOT EXISTS (SELECT 1 FROM R" +
+                "DB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TRI_PDV_CONFIG\' AND RDB$FIELD_NAME" +
+                " = \'VINCULA_MAQ_CTA\'))\r\n\t\t\t\t\t\tthen begin\r\n                                      " +
+                "                                                                          execut" +
+                "e statement \'ALTER TABLE TRI_PDV_CONFIG ADD VINCULA_MAQ_CTA CHAR(1) DEFAULT \'\'N\'" +
+                "\' NOT NULL\';\r\n\t\t\t\t\t\tend\r\n\r\n                                                     " +
+                "                                           erro = \'alter from null to 1 in TB_FU" +
+                "NC_AUDITORIA_SIS.TRI_PDV_SYNCED\';\r\n                                             " +
+                "                                                                   IF (EXISTS (S" +
+                "ELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SI" +
+                "S\' AND RDB$FIELD_NAME = \'TRI_PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                  " +
+                "                                                                                " +
+                "              execute statement \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA" +
+                "_SIS SET TRI_PDV_SYNCED = 1 WHERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t" +
+                "\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$IN" +
+                "DICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute sta" +
+                "tement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\ter" +
+                "ro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENE" +
+                "RATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE" +
+                " STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger" +
+                " DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RDB$TRIGG" +
+                "ER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER " +
+                "DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1)" +
+                " THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu " +
+                "certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;
@@ -5271,8 +5299,16 @@ END;";
                 "n\r\nEXECUTE STATEMENT \'ALTER TRIGGER TB_PARAMETRO_AUX_SYNC_INS INACTIVE;\';\r\n\r\nerr" +
                 "o = \'disable TB_PARAMETRO_AUX_SYNC_UPD\';\r\nif (exists(select 1 from RDB$TRIGGERS " +
                 "where RDB$TRIGGER_NAME = \'TB_PARAMETRO_AUX_SYNC_UPD\'))\r\nthen\r\nEXECUTE STATEMENT " +
-                "\'ALTER TRIGGER TB_PARAMETRO_AUX_SYNC_UPD INACTIVE;\';\r\n\r\nerro = \'deu certo\';\r\nSUS" +
-                "PEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "\'ALTER TRIGGER TB_PARAMETRO_AUX_SYNC_UPD INACTIVE;\';\r\n\r\nerro = \'disable TB_BANCO" +
+                "_CTA_AUX_SYNC_DEL\';\r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAM" +
+                "E = \'TB_BANCO_CTA_AUX_SYNC_DEL\'))\r\nthen\r\nEXECUTE STATEMENT \'ALTER TRIGGER TB_BAN" +
+                "CO_CTA_AUX_SYNC_DEL INACTIVE;\';\r\n\r\nerro = \'disable TB_BANCO_CTA_AUX_SYNC_INS\';\r\n" +
+                "if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_BANCO_CTA_AUX" +
+                "_SYNC_INS\'))\r\nthen\r\nEXECUTE STATEMENT \'ALTER TRIGGER TB_BANCO_CTA_AUX_SYNC_INS I" +
+                "NACTIVE;\';\r\n\r\nerro = \'disable TB_BANCO_CTA_AUX_SYNC_UPD\';\r\nif (exists(select 1 f" +
+                "rom RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_BANCO_CTA_AUX_SYNC_UPD\'))\r\nthen\r\nE" +
+                "XECUTE STATEMENT \'ALTER TRIGGER TB_BANCO_CTA_AUX_SYNC_UPD INACTIVE;\';\r\n\r\nerro = " +
+                "\'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[6].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[7] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[7].Connection = this.Connection;
@@ -6766,7 +6802,77 @@ END;";
                 "IA;   UPDATE TRI_PDV_USERS   SET GERENCIA = CASE :V_GERENCIA WHEN 0 THEN \'\'NAO\'\'" +
                 " ELSE \'\'SIM\'\' END,  PERMISSOES = CASE :V_GERENCIA WHEN 0 THEN CASE PERMISSOES WH" +
                 "EN -1 THEN 0 ELSE PERMISSOES END ELSE -1 END  WHERE ID_USER = NEW.ID_FUNCIONARIO" +
-                "; END;\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                "; END;\';\r\n\r\nerro = \'drop TB_PARAMETRO_AUX_SYNC_DEL\';           \r\nif (exists(sele" +
+                "ct 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_PARAMETRO_AUX_SYNC_DEL\'))\r\nt" +
+                "hen\r\nEXECUTE STATEMENT \'DROP TRIGGER TB_PARAMETRO_AUX_SYNC_DEL\';\r\nerro = \'create" +
+                " TB_PARAMETRO_AUX_SYNC_DEL\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_PARAMETRO_AUX" +
+                "_SYNC_DEL FOR TB_PARAMETRO BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI" +
+                "_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO" +
+                "_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TA" +
+                "BELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG , CH_REG ) VALUES ( GEN_I" +
+                "D(GEN_PDV_AUX_SYNC_SEQ, 1) , OLD.ID_PARAMETRO , \'\'TB_PARAMETRO\'\' , \'\'D\'\' , :VNUM" +
+                "CAIXA , CURRENT_TIMESTAMP , NULL , NULL , NULL ) ; END END;\';\r\n\r\nerro = \'drop TB" +
+                "_PARAMETRO_AUX_SYNC_INS\';           \r\nif (exists(select 1 from RDB$TRIGGERS wher" +
+                "e RDB$TRIGGER_NAME = \'TB_PARAMETRO_AUX_SYNC_INS\'))\r\nthen\r\nEXECUTE STATEMENT \'DRO" +
+                "P TRIGGER TB_PARAMETRO_AUX_SYNC_INS\';\r\nerro = \'create TB_PARAMETRO_AUX_SYNC_INS\'" +
+                ";\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_PARAMETRO_AUX_SYNC_INS FOR TB_PARAMETRO " +
+                "AFTER INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN " +
+                "FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEG" +
+                "IN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPE" +
+                "R) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), new.ID_PARAMETRO, \'\'TB_PARAMETRO\'\', \'" +
+                "\'I\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END;\';\r\n\r\nerro = \'drop TB_PARAMETRO_AU" +
+                "X_SYNC_UPD\';           \r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER" +
+                "_NAME = \'TB_PARAMETRO_AUX_SYNC_UPD\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGGER TB_" +
+                "PARAMETRO_AUX_SYNC_UPD\';\r\nerro = \'create TB_PARAMETRO_AUX_SYNC_UPD\';\r\nEXECUTE ST" +
+                "ATEMENT \'CREATE TRIGGER TB_PARAMETRO_AUX_SYNC_UPD FOR TB_PARAMETRO AFTER UPDATE " +
+                "AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN IF (old.INFOR" +
+                "MACAO IS DISTINCT FROM new.INFORMACAO OR old.CONTEUDO IS DISTINCT FROM new.CONTE" +
+                "UDO OR old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.ID_FUNCIONARIO IS DIS" +
+                "TINCT FROM new.ID_FUNCIONARIO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFI" +
+                "G ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT (1) FROM TRI_PDV" +
+                "_AUX_SYNC WHERE ID_REG = old.ID_PARAMETRO AND TABELA = \'\'TB_PARAMETRO\'\' AND (OPE" +
+                "RACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN IN" +
+                "SERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VA" +
+                "LUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_PARAMETRO, \'\'TB_PARAMETRO\'\', \'\'U\'\'," +
+                " :VNUMCAIXA, CURRENT_TIMESTAMP); END END END END;\';\r\n\r\nerro = \'drop TB_BANCO_CTA" +
+                "_AUX_SYNC_DEL\';           \r\nif (exists(select 1 from RDB$TRIGGERS where RDB$TRIG" +
+                "GER_NAME = \'TB_BANCO_CTA_AUX_SYNC_DEL\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGGER " +
+                "TB_BANCO_CTA_AUX_SYNC_DEL\';\r\nerro = \'create TB_BANCO_CTA_AUX_SYNC_DEL\';\r\nEXECUTE" +
+                " STATEMENT \'CREATE TRIGGER TB_BANCO_CTA_AUX_SYNC_DEL FOR TB_BANCO_CTA BEFORE DEL" +
+                "ETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELE" +
+                "CT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSER" +
+                "T INTO TRI_PDV_AUX_SYNC ( SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER " +
+                ", UN_REG , SM_REG , CH_REG ) VALUES ( GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , OLD.ID_C" +
+                "ONTA , \'\'TB_BANCO_CTA\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , NULL , NULL ," +
+                " NULL ) ; END END;\';\r\n\r\nerro = \'drop TB_BANCO_CTA_AUX_SYNC_INS\';           \r\nif " +
+                "(exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_BANCO_CTA_AUX_SY" +
+                "NC_INS\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGGER TB_BANCO_CTA_AUX_SYNC_INS\';\r\ner" +
+                "ro = \'create TB_BANCO_CTA_AUX_SYNC_INS\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_B" +
+                "ANCO_CTA_AUX_SYNC_INS FOR TB_BANCO_CTA AFTER INSERT AS DECLARE VNUMCAIXA TYPE OF" +
+                " COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG O" +
+                "RDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_" +
+                "REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1)" +
+                ", new.ID_CONTA, \'\'TB_BANCO_CTA\'\', \'\'I\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END" +
+                ";\';\r\n\r\nerro = \'drop TB_BANCO_CTA_AUX_SYNC_UPD\';           \r\nif (exists(select 1 " +
+                "from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_BANCO_CTA_AUX_SYNC_UPD\'))\r\nthen\r\n" +
+                "EXECUTE STATEMENT \'DROP TRIGGER TB_BANCO_CTA_AUX_SYNC_UPD\';\r\nerro = \'create TB_B" +
+                "ANCO_CTA_AUX_SYNC_UPD\';\r\nEXECUTE STATEMENT \'CREATE TRIGGER TB_BANCO_CTA_AUX_SYNC" +
+                "_UPD FOR TB_BANCO_CTA AFTER UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_C" +
+                "ONFIG.NO_CAIXA; BEGIN IF (old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.AG" +
+                "ENCIA IS DISTINCT FROM new.AGENCIA OR old.CONTA IS DISTINCT FROM new.CONTA OR ol" +
+                "d.STATUS IS DISTINCT FROM new.STATUS OR OLD.ID_BANCO IS DISTINCT FROM NEW.ID_BAN" +
+                "CO OR OLD.ID_CTAPLA IS DISTINCT FROM NEW.ID_CTAPLA OR OLD.SD_TALAO IS DISTINCT F" +
+                "ROM NEW.SD_TALAO OR OLD.SD_REAL IS DISTINCT FROM NEW.SD_REAL OR OLD.SD_BANCO IS " +
+                "DISTINCT FROM NEW.SD_BANCO OR OLD.DT_ULTCONC IS DISTINCT FROM NEW.DT_ULTCONC OR " +
+                "OLD.ID_AGENTE_FINANCEIRO IS DISTINCT FROM NEW.ID_AGENTE_FINANCEIRO OR OLD.HABILI" +
+                "TAR_RECEBIMENTO IS DISTINCT FROM NEW.HABILITAR_RECEBIMENTO) THEN BEGIN FOR SELEC" +
+                "T NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( " +
+                "SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_CONTA AND TABELA = " +
+                "\'\'TB_BANCO_CTA\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUM" +
+                "CAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERAC" +
+                "AO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_CONTA, \'\'T" +
+                "B_BANCO_CTA\'\', \'\'U\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END END END;\';\r\n\r\nerro" +
+                " = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[12] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[12].Connection = this.Connection;
@@ -6959,100 +7065,94 @@ END;";
                 " VALUE FOR GEN_TB_MOVDIARIO_ID FROM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, \'" +
                 "\'Fechamento do caixa \'\' ||:NUMCAIXA || \'\'- \'\' || CURRENT_TIME, \'\'C\'\',:VALOR, 147" +
                 "); END;\';\r\nerro = \'sproc lancamovctarec\';\r\nexecute statement \'CREATE OR ALTER PR" +
-                "OCEDURE SP_TRI_CTAREC_MOVTO (CAIXA SMALLINT, COO INTEGER) AS DECLARE IDCUPOM INT" +
-                "EGER; DECLARE IDCTAREC INTEGER; DECLARE IDMOVDIARIO INTEGER; BEGIN SELECT ID_CUP" +
-                "OM FROM TB_CUPOM WHERE NUM_CAIXA = :CAIXA AND COO = :COO INTO :IDCUPOM; SELECT M" +
-                "AX(ID_CTAREC) FROM TB_CONTA_RECEBER WHERE DOCUMENTO = (CAST(:CAIXA AS VARCHAR(12" +
-                "))||\'\'-\'\'||CAST(:COO AS VARCHAR(12))) INTO :IDCTAREC; SELECT MAX(ID_MOVTO) FROM " +
-                "TB_MOVDIARIO WHERE TIP_MOVTO = \'\'D\'\' AND HISTORICO CONTAINING (CAST(:CAIXA AS VA" +
-                "RCHAR(12))||\'\'-\'\'||CAST(:COO AS VARCHAR(12))) INTO :IDMOVDIARIO; INSERT INTO TB_" +
-                "CTAREC_MOVTO (ID_MOVTO, ID_CTAREC) VALUES(:IDMOVDIARIO, :IDCTAREC); END; \';\r\nerr" +
-                "o = \'sproc checadinemcaixa\';\r\nexecute statement \'CREATE OR ALTER PROCEDURE SP_TR" +
-                "I_VALOREMCAIXA (CAIXA INTEGER) RETURNS (DINHEIROEMCAIXA TYPE OF COLUMN TRI_PDV_O" +
-                "PER.DIN) AS DECLARE VARIABLE DINH TYPE OF COLUMN TRI_PDV_OPER.DIN; DECLARE VARIA" +
-                "BLE SUPR TYPE OF COLUMN TRI_PDV_OPER.DIN; DECLARE VARIABLE SANG TYPE OF COLUMN T" +
-                "RI_PDV_OPER.DIN; BEGIN SELECT FIRST 1 DIN FROM TRI_PDV_OPER WHERE ID_CAIXA = :CA" +
-                "IXA AND ABERTO = \'\'S\'\' INTO :DINH; SELECT FIRST 1 SUPRIMENTOS FROM TRI_PDV_OPER " +
-                "WHERE ID_CAIXA = :CAIXA AND ABERTO = \'\'S\'\' INTO :SUPR; SELECT FIRST 1 SANGRIAS F" +
-                "ROM TRI_PDV_OPER WHERE ID_CAIXA = :CAIXA AND ABERTO = \'\'S\'\' INTO :SANG; DINHEIRO" +
-                "EMCAIXA = :DINH + :SUPR - :SANG; SUSPEND; END;\';\r\nerro = \'sproc conta cupons\';\r\n" +
-                "execute statement \'CREATE OR ALTER PROCEDURE sp_tri_contacupons (NUMCAIXA INTEGE" +
-                "R, STATUS CHAR(1)) RETURNS (QUANT_CUPONS INTEGER) AS DECLARE VARIABLE IDOPER INT" +
-                "EGER; DECLARE VARIABLE DT_ABERT DATE; DECLARE VARIABLE HR_ABERT TIME; BEGIN SELE" +
-                "CT ID_OPER FROM TRI_PDV_OPER WHERE ID_CAIXA = :NUMCAIXA AND ABERTO = \'\'S\'\' INTO " +
-                "IDOPER; HR_ABERT = (SELECT CAST (CURRENTTIME AS TIME) FROM TRI_PDV_OPER WHERE ID" +
-                "_OPER = :IDOPER); DT_ABERT = (SELECT CAST (CURRENTTIME AS DATE) FROM TRI_PDV_OPE" +
-                "R WHERE ID_OPER = :IDOPER); SELECT COUNT (ID_CUPOM) FROM TB_CUPOM WHERE STATUS =" +
-                " :STATUS AND DT_CUPOM >= :DT_ABERT AND HR_CUPOM >= :HR_ABERT INTO QUANT_CUPONS; " +
-                "SUSPEND; END ;\';\r\nerro = \'sproc conta pagamentos\';\r\nexecute statement \'CREATE OR" +
-                " ALTER PROCEDURE SP_TRI_CONTAFMPGTO (NUMCAIXA INTEGER, STATUS CHAR(1)) RETURNS (" +
-                "IDPAGTO_OUT INTEGER, QUANT_CUPONS INTEGER) AS DECLARE VARIABLE IDOPER INTEGER; D" +
-                "ECLARE VARIABLE IDPAGAMENTO INTEGER; DECLARE VARIABLE FMAPGTO SMALLINT; DECLARE " +
-                "VARIABLE TS_ABERT TIMESTAMP; BEGIN SELECT ID_OPER FROM TRI_PDV_OPER WHERE ID_CAI" +
-                "XA =:NUMCAIXA AND ABERTO = \'\'S\'\' INTO IDOPER; TS_ABERT = ( SELECT CURRENTTIME FR" +
-                "OM TRI_PDV_OPER WHERE ID_OPER =:IDOPER); FOR SELECT ID_FMAPGTO FROM TRI_PDV_REL_" +
-                "METODO_PAGTO INTO :FMAPGTO DO BEGIN SELECT COUNT(TB_CUPOM_FMAPAGTO.ID_FMAPAGTO) " +
-                "FROM TB_CUPOM INNER JOIN TB_CUPOM_FMAPAGTO ON (TB_CUPOM_FMAPAGTO.ID_CUPOM = TB_C" +
-                "UPOM.ID_CUPOM) WHERE TB_CUPOM.STATUS = \'\'F\'\' AND TB_CUPOM_FMAPAGTO.ID_FMAPAGTO =" +
-                " :FMAPGTO AND CAST (DT_CUPOM ||\'\' \'\'||HR_CUPOM AS TIMESTAMP) >= :TS_ABERT INTO Q" +
-                "UANT_CUPONS; IDPAGTO_OUT = ( SELECT TRI_PDV_REL_METODO_PAGTO.ID_PAGAMENTO FROM T" +
-                "RI_PDV_REL_METODO_PAGTO WHERE TRI_PDV_REL_METODO_PAGTO.ID_FMAPGTO = :FMAPGTO); S" +
-                "USPEND; END END\';\r\n\t\t\t\t\t\terro = \'sproc novo nsu\';\r\n\t\t\t\t\t\texecute statement \'CREA" +
-                "TE OR ALTER PROCEDURE SP_TRI_SALVA_NSU (CUPOM INTEGER, NSU VARCHAR(40), REDE VAR" +
-                "CHAR(3), AUTORIZ VARCHAR(6), pVLR_OPER NUMERIC(18,4)) AS DECLARE ultimocupom INT" +
-                "EGER; BEGIN SELECT NEXT VALUE FOR GEN_TRI_NSU FROM RDB$DATABASE INTO :ultimocupo" +
-                "m; IF (:ultimocupom IS NULL) THEN ultimocupom = 0; INSERT INTO TRI_PDV_NSU (ID_T" +
-                "EF, ID_CUPOM, NSU, REDE_ADQ, VLR_OPER) VALUES (:ultimocupom, :CUPOM, :NSU, :REDE" +
-                ", :pVLR_OPER); END; \';\r\n\t\t\t\t\t\terro = \'sproc preenche consulta\';\r\n\t\t\t\t\t\texecute s" +
-                "tatement \'CREATE OR ALTER PROCEDURE SP_TRI_PREENCHECONSULTA ( STRING VARCHAR(128" +
-                ") , COD_INT INTEGER ) RETURNS ( ESTOQUE INTEGER , CODBARRA VARCHAR(18) , DESCRIC" +
-                "AO VARCHAR(50) , QTDATUAL TYPE OF COLUMN TRI_PDV_OPER.DIN , PRCVENDA TYPE OF COL" +
-                "UMN TRI_PDV_OPER.DIN , QTDATAC TYPE OF COLUMN TRI_PDV_OPER.DIN , PRCATACADO TYPE" +
-                " OF COLUMN TRI_PDV_OPER.DIN) AS BEGIN FOR SELECT FIRST 30 B.ID_IDENTIFICADOR , B" +
-                ".COD_BARRA , A.DESCRICAO , B.QTD_ATUAL , A.PRC_VENDA , A.QTD_ATACADO , A.PRC_ATA" +
-                "CADO FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR C ON C.ID_ESTOQUE = A.ID_" +
-                "ESTOQUE INNER JOIN TB_EST_PRODUTO B ON B.ID_IDENTIFICADOR = C.ID_IDENTIFICADOR W" +
-                "HERE ( A.STATUS = \'\'A\'\' ) AND ( ( A.DESCRICAO CONTAINING:STRING ) OR ( B.COD_BAR" +
-                "RA =:STRING ) OR ( B.ID_IDENTIFICADOR =:COD_INT ) ) INTO :ESTOQUE , :CODBARRA , " +
-                ":DESCRICAO , :QTDATUAL , :PRCVENDA , :QTDATAC , :PRCATACADO DO SUSPEND ; END\';\r\n" +
-                "\t\t\t\t\t\terro = \'sproc lancamovimento\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER P" +
-                "ROCEDURE SP_TRI_LANCAMOVDIARIO(NUMCAIXA VARCHAR(60), VALOR TYPE OF COLUMN TRI_PD" +
-                "V_OPER.DIN, DESCRICAO_MOV VARCHAR(60), CONTA_ORIGEM SMALLINT, CONTA_DESTINO SMAL" +
-                "LINT) RETURNS (erro smallint) AS DECLARE VARIABLE ultimo_mov INTEGER; BEGIN INSE" +
-                "RT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR_MOVTO, HISTORICO, TIP_MOVTO, VLR_MOV" +
-                "TO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FOR GEN_TB_MOVDIARIO_ID FROM RDB$DATABA" +
-                "SE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO_MOV, \'\'D\'\',:VALOR, :CONTA_DESTINO); " +
-                "INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR_MOVTO, HISTORICO, TIP_MOVTO, VLR" +
-                "_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FOR GEN_TB_MOVDIARIO_ID FROM RDB$DA" +
-                "TABASE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO_MOV, \'\'C\'\',:VALOR, :CONTA_ORIGEM" +
-                "); erro = 1; SUSPEND; WHEN ANY DO BEGIN erro = 0; END END;\';\r\n\t\t\t\t\t\terro = \'spro" +
-                "c lancacontarec\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_LAN" +
-                "CACONTAREC ( IDCUPOM INTEGER , CUPOM VARCHAR(12) , VENCIMENTO DATE , VALOR TYPE " +
-                "OF COLUMN TRI_PDV_OPER.DIN , CLIENTE INTEGER , DESCRICAO VARCHAR(30) ) RETURNS(R" +
-                "ESULTADO INTEGER) AS DECLARE VAR1 INTEGER; DECLARE NUMCAIXA SMALLINT; DECLARE CO" +
-                "O INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_TB_CTAREC_ID FROM RDB$DATABASE INTO:V" +
-                "AR1 ; IF(:VAR1 IS NULL) THEN VAR1 = 0; SELECT NUM_CAIXA, COO FROM TB_CUPOM WHERE" +
-                " ID_CUPOM = :IDCUPOM INTO :NUMCAIXA, :COO ; INSERT INTO TB_CONTA_RECEBER (ID_CTA" +
-                "REC , DOCUMENTO , HISTORICO , DT_EMISSAO , DT_VENCTO , VLR_CTAREC , TIP_CTAREC ," +
-                " ID_PORTADOR , ID_CLIENTE , INV_REFERENCIA ) VALUES (:VAR1 ,(CAST(:NUMCAIXA AS V" +
-                "ARCHAR(12)) ||\'\'-\'\' ||CAST(:COO AS VARCHAR(12))) , :DESCRICAO , CURRENT_DATE , :" +
-                "VENCIMENTO , :VALOR , \'\'C\'\' , 1 , :CLIENTE , \'\'D\'\' || LPAD(:VAR1, 7, \'\'0\'\') || L" +
-                "PAD(:NUMCAIXA, 2, \'\'0\'\') || \'\'X\'\' || LPAD(:IDCUPOM, 7, \'\'0\'\') ) ; INSERT INTO TB" +
-                "_CUPOM_CTAREC (ID_CUPOM , ID_CTAREC ) VALUES (:IDCUPOM , :VAR1 ) ; RESULTADO = 1" +
-                "; SUSPEND; WHEN ANY DO BEGIN RESULTADO = 0; SUSPEND; END END\';\r\n\t\t\t\t\t\terro = \'sp" +
-                "roc lancaitemcupom\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_" +
-                "LANCAITEMCUPOM ( CUPOM INTEGER , NUM_PROD INTEGER , ID_PROD INTEGER , QTD_PROD T" +
-                "YPE OF COLUMN TRI_PDV_OPER.DIN , VLR_PROD TYPE OF COLUMN TRI_PDV_OPER.DIN ) RETU" +
-                "RNS (retIDITEMCUP TYPE OF COLUMN TB_CUPOM_ITEM.ID_ITEMCUP) AS DECLARE VARIABLE I" +
-                "DITEMCUP INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_TB_CUPOM_ITEM_ID FROM RDB$DATA" +
-                "BASE INTO :IDITEMCUP ; IF(IDITEMCUP IS NULL) THEN IDITEMCUP = 0; INSERT INTO TB_" +
-                "CUPOM_ITEM (ID_ITEMCUP , ID_CUPOM , ID_IDENTIF , NUM_ITEM , QTD_ITEM , VLR_UNIT " +
-                ", ITEM_CANCEL , PRC_CUSTO ) VALUES (:IDITEMCUP , :cupom , :id_prod , :num_prod ," +
-                " :qtd_prod , :vlr_prod , \'\'N\'\' , ( SELECT FIRST 1 PRC_CUSTO FROM TB_ESTOQUE INNE" +
-                "R JOIN TB_EST_IDENTIFICADOR ON TB_ESTOQUE.ID_ESTOQUE = TB_EST_IDENTIFICADOR.ID_E" +
-                "STOQUE WHERE TB_EST_IDENTIFICADOR.ID_IDENTIFICADOR = :id_prod ) ) ; retIDITEMCUP" +
-                " = :IDITEMCUP; SUSPEND; END;\';\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t" +
-                "\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "OCEDURE SP_TRI_CTAREC_MOVTO (PID_MOVTO INTEGER, PID_CTAREC INTEGER) RETURNS ( RE" +
+                "GISTROS_INSERIDOS INTEGER ) AS BEGIN INSERT INTO TB_CTAREC_MOVTO (ID_MOVTO, ID_C" +
+                "TAREC) VALUES(:PID_MOVTO, :PID_CTAREC); REGISTROS_INSERIDOS = ROW_COUNT; SUSPEND" +
+                "; END;\';\r\nerro = \'sproc checadinemcaixa\';\r\nexecute statement \'CREATE OR ALTER PR" +
+                "OCEDURE SP_TRI_VALOREMCAIXA (CAIXA INTEGER) RETURNS (DINHEIROEMCAIXA TYPE OF COL" +
+                "UMN TRI_PDV_OPER.DIN) AS DECLARE VARIABLE DINH TYPE OF COLUMN TRI_PDV_OPER.DIN; " +
+                "DECLARE VARIABLE SUPR TYPE OF COLUMN TRI_PDV_OPER.DIN; DECLARE VARIABLE SANG TYP" +
+                "E OF COLUMN TRI_PDV_OPER.DIN; BEGIN SELECT FIRST 1 DIN FROM TRI_PDV_OPER WHERE I" +
+                "D_CAIXA = :CAIXA AND ABERTO = \'\'S\'\' INTO :DINH; SELECT FIRST 1 SUPRIMENTOS FROM " +
+                "TRI_PDV_OPER WHERE ID_CAIXA = :CAIXA AND ABERTO = \'\'S\'\' INTO :SUPR; SELECT FIRST" +
+                " 1 SANGRIAS FROM TRI_PDV_OPER WHERE ID_CAIXA = :CAIXA AND ABERTO = \'\'S\'\' INTO :S" +
+                "ANG; DINHEIROEMCAIXA = :DINH + :SUPR - :SANG; SUSPEND; END;\';\r\nerro = \'sproc con" +
+                "ta cupons\';\r\nexecute statement \'CREATE OR ALTER PROCEDURE sp_tri_contacupons (NU" +
+                "MCAIXA INTEGER, STATUS CHAR(1)) RETURNS (QUANT_CUPONS INTEGER) AS DECLARE VARIAB" +
+                "LE IDOPER INTEGER; DECLARE VARIABLE DT_ABERT DATE; DECLARE VARIABLE HR_ABERT TIM" +
+                "E; BEGIN SELECT ID_OPER FROM TRI_PDV_OPER WHERE ID_CAIXA = :NUMCAIXA AND ABERTO " +
+                "= \'\'S\'\' INTO IDOPER; HR_ABERT = (SELECT CAST (CURRENTTIME AS TIME) FROM TRI_PDV_" +
+                "OPER WHERE ID_OPER = :IDOPER); DT_ABERT = (SELECT CAST (CURRENTTIME AS DATE) FRO" +
+                "M TRI_PDV_OPER WHERE ID_OPER = :IDOPER); SELECT COUNT (ID_CUPOM) FROM TB_CUPOM W" +
+                "HERE STATUS = :STATUS AND DT_CUPOM >= :DT_ABERT AND HR_CUPOM >= :HR_ABERT INTO Q" +
+                "UANT_CUPONS; SUSPEND; END ;\';\r\nerro = \'sproc conta pagamentos\';\r\nexecute stateme" +
+                "nt \'CREATE OR ALTER PROCEDURE SP_TRI_CONTAFMPGTO (NUMCAIXA INTEGER, STATUS CHAR(" +
+                "1)) RETURNS (IDPAGTO_OUT INTEGER, QUANT_CUPONS INTEGER) AS DECLARE VARIABLE IDOP" +
+                "ER INTEGER; DECLARE VARIABLE IDPAGAMENTO INTEGER; DECLARE VARIABLE FMAPGTO SMALL" +
+                "INT; DECLARE VARIABLE TS_ABERT TIMESTAMP; BEGIN SELECT ID_OPER FROM TRI_PDV_OPER" +
+                " WHERE ID_CAIXA =:NUMCAIXA AND ABERTO = \'\'S\'\' INTO IDOPER; TS_ABERT = ( SELECT C" +
+                "URRENTTIME FROM TRI_PDV_OPER WHERE ID_OPER =:IDOPER); FOR SELECT ID_FMAPGTO FROM" +
+                " TRI_PDV_REL_METODO_PAGTO INTO :FMAPGTO DO BEGIN SELECT COUNT(TB_CUPOM_FMAPAGTO." +
+                "ID_FMAPAGTO) FROM TB_CUPOM INNER JOIN TB_CUPOM_FMAPAGTO ON (TB_CUPOM_FMAPAGTO.ID" +
+                "_CUPOM = TB_CUPOM.ID_CUPOM) WHERE TB_CUPOM.STATUS = \'\'F\'\' AND TB_CUPOM_FMAPAGTO." +
+                "ID_FMAPAGTO = :FMAPGTO AND CAST (DT_CUPOM ||\'\' \'\'||HR_CUPOM AS TIMESTAMP) >= :TS" +
+                "_ABERT INTO QUANT_CUPONS; IDPAGTO_OUT = ( SELECT TRI_PDV_REL_METODO_PAGTO.ID_PAG" +
+                "AMENTO FROM TRI_PDV_REL_METODO_PAGTO WHERE TRI_PDV_REL_METODO_PAGTO.ID_FMAPGTO =" +
+                " :FMAPGTO); SUSPEND; END END\';\r\n\t\t\t\t\t\terro = \'sproc novo nsu\';\r\n\t\t\t\t\t\texecute st" +
+                "atement \'CREATE OR ALTER PROCEDURE SP_TRI_SALVA_NSU (CUPOM INTEGER, NSU VARCHAR(" +
+                "40), REDE VARCHAR(3), AUTORIZ VARCHAR(6), pVLR_OPER NUMERIC(18,4)) AS DECLARE ul" +
+                "timocupom INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_TRI_NSU FROM RDB$DATABASE INT" +
+                "O :ultimocupom; IF (:ultimocupom IS NULL) THEN ultimocupom = 0; INSERT INTO TRI_" +
+                "PDV_NSU (ID_TEF, ID_CUPOM, NSU, REDE_ADQ, VLR_OPER) VALUES (:ultimocupom, :CUPOM" +
+                ", :NSU, :REDE, :pVLR_OPER); END; \';\r\n\t\t\t\t\t\terro = \'sproc preenche consulta\';\r\n\t\t" +
+                "\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_PREENCHECONSULTA ( STRIN" +
+                "G VARCHAR(128) , COD_INT INTEGER ) RETURNS ( ESTOQUE INTEGER , CODBARRA VARCHAR(" +
+                "18) , DESCRICAO VARCHAR(50) , QTDATUAL TYPE OF COLUMN TRI_PDV_OPER.DIN , PRCVEND" +
+                "A TYPE OF COLUMN TRI_PDV_OPER.DIN , QTDATAC TYPE OF COLUMN TRI_PDV_OPER.DIN , PR" +
+                "CATACADO TYPE OF COLUMN TRI_PDV_OPER.DIN) AS BEGIN FOR SELECT FIRST 30 B.ID_IDEN" +
+                "TIFICADOR , B.COD_BARRA , A.DESCRICAO , B.QTD_ATUAL , A.PRC_VENDA , A.QTD_ATACAD" +
+                "O , A.PRC_ATACADO FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR C ON C.ID_ES" +
+                "TOQUE = A.ID_ESTOQUE INNER JOIN TB_EST_PRODUTO B ON B.ID_IDENTIFICADOR = C.ID_ID" +
+                "ENTIFICADOR WHERE ( A.STATUS = \'\'A\'\' ) AND ( ( A.DESCRICAO CONTAINING:STRING ) O" +
+                "R ( B.COD_BARRA =:STRING ) OR ( B.ID_IDENTIFICADOR =:COD_INT ) ) INTO :ESTOQUE ," +
+                " :CODBARRA , :DESCRICAO , :QTDATUAL , :PRCVENDA , :QTDATAC , :PRCATACADO DO SUSP" +
+                "END ; END\';\r\n\t\t\t\t\t\terro = \'sproc lancamovimento\';\r\n\t\t\t\t\t\texecute statement \'CREA" +
+                "TE OR ALTER PROCEDURE SP_TRI_LANCAMOVDIARIO(NUMCAIXA VARCHAR(60), VALOR TYPE OF " +
+                "COLUMN TRI_PDV_OPER.DIN, DESCRICAO_MOV VARCHAR(60), CONTA_ORIGEM SMALLINT, CONTA" +
+                "_DESTINO SMALLINT) RETURNS (erro smallint) AS DECLARE VARIABLE ultimo_mov INTEGE" +
+                "R; BEGIN INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR_MOVTO, HISTORICO, TIP_M" +
+                "OVTO, VLR_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FOR GEN_TB_MOVDIARIO_ID FR" +
+                "OM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO_MOV, \'\'D\'\',:VALOR, :CON" +
+                "TA_DESTINO); INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR_MOVTO, HISTORICO, T" +
+                "IP_MOVTO, VLR_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FOR GEN_TB_MOVDIARIO_I" +
+                "D FROM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO_MOV, \'\'C\'\',:VALOR, " +
+                ":CONTA_ORIGEM); erro = 1; SUSPEND; WHEN ANY DO BEGIN erro = 0; END END;\';\r\n\t\t\t\t\t" +
+                "\terro = \'sproc lancacontarec\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDU" +
+                "RE SP_TRI_LANCACONTAREC (IDNFVENDA INTEGER, VENCIMENTO DATE, VALOR NUMERIC(18,4)" +
+                ", CLIENTE INTEGER, DESCRICAO VARCHAR(100), NUM_CAIXA SMALLINT, IDCONTA INTEGER, " +
+                "IDNUMPAG INTEGER) RETURNS ( RESULTADO INTEGER ) AS DECLARE VAR1 INTEGER; DECLARE" +
+                " V_NF_NUMERO TYPE OF COLUMN TB_NFVENDA.NF_NUMERO; DECLARE V_NF_SERIE TYPE OF COL" +
+                "UMN TB_NFVENDA.NF_SERIE; BEGIN SELECT NEXT VALUE FOR GEN_TB_CTAREC_ID FROM RDB$D" +
+                "ATABASE INTO :VAR1 ; IF(:VAR1 IS NULL) THEN VAR1 = 1; SELECT FIRST 1 NF_SERIE, N" +
+                "F_NUMERO FROM TB_NFVENDA WHERE ID_NFVENDA = :IDNFVENDA INTO :V_NF_SERIE, :V_NF_N" +
+                "UMERO; INSERT INTO TB_CONTA_RECEBER (ID_CTAREC , DOCUMENTO , HISTORICO , DT_EMIS" +
+                "SAO , DT_VENCTO , VLR_CTAREC , TIP_CTAREC , ID_PORTADOR , ID_CLIENTE , ID_CONTA)" +
+                " VALUES (:VAR1 , (:V_NF_SERIE || \'\'-\'\' || :V_NF_NUMERO || \'\'/\'\' || :IDNUMPAG) , " +
+                ":DESCRICAO , CURRENT_DATE , :VENCIMENTO , :VALOR , \'\'C\'\' , 1 , :CLIENTE , :IDCON" +
+                "TA); RESULTADO = :VAR1; SUSPEND; WHEN ANY DO BEGIN RESULTADO = 0; SUSPEND; END E" +
+                "ND;\';\r\n\t\t\t\t\t\terro = \'sproc lancaitemcupom\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR " +
+                "ALTER PROCEDURE SP_TRI_LANCAITEMCUPOM ( CUPOM INTEGER , NUM_PROD INTEGER , ID_PR" +
+                "OD INTEGER , QTD_PROD TYPE OF COLUMN TRI_PDV_OPER.DIN , VLR_PROD TYPE OF COLUMN " +
+                "TRI_PDV_OPER.DIN ) RETURNS (retIDITEMCUP TYPE OF COLUMN TB_CUPOM_ITEM.ID_ITEMCUP" +
+                ") AS DECLARE VARIABLE IDITEMCUP INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_TB_CUPO" +
+                "M_ITEM_ID FROM RDB$DATABASE INTO :IDITEMCUP ; IF(IDITEMCUP IS NULL) THEN IDITEMC" +
+                "UP = 0; INSERT INTO TB_CUPOM_ITEM (ID_ITEMCUP , ID_CUPOM , ID_IDENTIF , NUM_ITEM" +
+                " , QTD_ITEM , VLR_UNIT , ITEM_CANCEL , PRC_CUSTO ) VALUES (:IDITEMCUP , :cupom ," +
+                " :id_prod , :num_prod , :qtd_prod , :vlr_prod , \'\'N\'\' , ( SELECT FIRST 1 PRC_CUS" +
+                "TO FROM TB_ESTOQUE INNER JOIN TB_EST_IDENTIFICADOR ON TB_ESTOQUE.ID_ESTOQUE = TB" +
+                "_EST_IDENTIFICADOR.ID_ESTOQUE WHERE TB_EST_IDENTIFICADOR.ID_IDENTIFICADOR = :id_" +
+                "prod ) ) ; retIDITEMCUP = :IDITEMCUP; SUSPEND; END;\';\r\n\t\t\t\t\t\terro = \'deu certo\';" +
+                "\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[16] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[16].Connection = this.Connection;
@@ -7149,252 +7249,252 @@ END;";
                 "ISTORICO , :DT_EMISSAO , :DT_VENCTO , :VLR_CTAREC , :TIP_CTAREC , :ID_PORTADOR ," +
                 " :ID_CLIENTE , :INV_REFERENCIA , :DT_VENCTO_ORIG , :NSU_CARTAO DO SUSPEND; END;\'" +
                 ";\r\n\terro = \'sproc ctarec sync insert\';\r\n\texecute statement \'CREATE OR ALTER PROC" +
-                "EDURE SP_TRI_CTAREC_SYNC_INSERT (pDOCUMENTO VARCHAR(12), pHISTORICO VARCHAR(50)," +
-                " pDT_EMISSAO DATE, pDT_VENCTO DATE, pVLR_CTAREC TYPE OF COLUMN TRI_PDV_OPER.DIN," +
-                " pTIP_CTAREC CHAR(1), pID_PORTADOR INTEGER, pID_CLIENTE INTEGER, pINV_REFERENCIA" +
-                " VARCHAR(18), pDT_VENCTO_ORIG DATE, pNSU_CARTAO VARCHAR(32) ) RETURNS ( rNewIdCt" +
-                "arec INTEGER ) AS DECLARE VARIABLE newIdCtarec INTEGER; BEGIN SELECT NEXT VALUE " +
+                "EDURE SP_TRI_CTAREC_SYNC_INSERT (PDOCUMENTO VARCHAR(12), PHISTORICO VARCHAR(50)," +
+                " PDT_EMISSAO DATE, PDT_VENCTO DATE, PVLR_CTAREC NUMERIC(18,4), PTIP_CTAREC CHAR(" +
+                "1), PID_PORTADOR INTEGER, PID_CLIENTE INTEGER, PINV_REFERENCIA VARCHAR(18), PDT_" +
+                "VENCTO_ORIG DATE, PNSU_CARTAO VARCHAR(32), PID_CONTA INTEGER) RETURNS ( RNEWIDCT" +
+                "AREC INTEGER ) AS DECLARE VARIABLE newIdCtarec INTEGER; BEGIN SELECT NEXT VALUE " +
                 "FOR GEN_TB_CTAREC_ID FROM RDB$DATABASE INTO :newIdCtarec; IF( :newIdCtarec IS NU" +
                 "LL ) THEN newIdCtarec = 0; BEGIN INSERT INTO TB_CONTA_RECEBER ( ID_CTAREC , DOCU" +
                 "MENTO , HISTORICO , DT_EMISSAO , DT_VENCTO , VLR_CTAREC , TIP_CTAREC , ID_PORTAD" +
-                "OR , ID_CLIENTE , INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO ) VALUES ( :newIdCt" +
-                "arec , :pDOCUMENTO , :pHISTORICO , :pDT_EMISSAO , :pDT_VENCTO , :pVLR_CTAREC , :" +
-                "pTIP_CTAREC , :pID_PORTADOR , :pID_CLIENTE , :pINV_REFERENCIA , :pDT_VENCTO_ORIG" +
-                " , :pNSU_CARTAO ); rNewIdCtarec = newIdCtarec; END END;\';\r\n\terro = \'sproc movto " +
-                "get by id_ctarec\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_MOVTO_G" +
-                "ETBY_IDCTAREC (PIDCTAREC INTEGER) RETURNS ( ID_MOVTO INTEGER, DT_MOVTO DATE, HR_" +
-                "MOVTO TIME, HISTORICO VARCHAR(60), TIP_MOVTO CHAR(1), VLR_MOVTO TYPE OF COLUMN T" +
-                "RI_PDV_OPER.DIN, ID_CTAPLA SMALLINT, SYNCED SMALLINT ) AS BEGIN FOR SELECT COALE" +
-                "SCE(a.ID_MOVTO, 0) , a.DT_MOVTO , a.HR_MOVTO , a.HISTORICO , a.TIP_MOVTO , a.VLR" +
-                "_MOVTO , a.ID_CTAPLA , a.SYNCED FROM TB_MOVDIARIO a JOIN TB_CTAREC_MOVTO b ON a." +
-                "ID_MOVTO = b.ID_MOVTO WHERE b.ID_CTAREC =:pIdCtarec INTO :ID_MOVTO , :DT_MOVTO ," +
-                " :HR_MOVTO , :HISTORICO, :TIP_MOVTO, :VLR_MOVTO, :ID_CTAPLA, :SYNCED DO SUSPEND;" +
-                " END\';\r\n\terro = \'sproc movto sync insert\';\r\n\texecute statement \'CREATE OR ALTER " +
-                "PROCEDURE SP_TRI_MOVTO_SYNC_INSERT ( pDT_MOVTO DATE , pHR_MOVTO TIME , pHISTORIC" +
-                "O VARCHAR( 60 ) , pTIP_MOVTO CHAR( 1 ) , pVLR_MOVTO TYPE OF COLUMN TRI_PDV_OPER." +
-                "DIN , pID_CTAPLA SMALLINT , pSYNCED SMALLINT ) RETURNS( rNewIdMovto INTEGER ) AS" +
-                " DECLARE VARIABLE newIdMovto INTEGER; BEGIN BEGIN SELECT NEXT VALUE FOR GEN_TB_M" +
-                "OVDIARIO_ID FROM RDB$DATABASE INTO :newIdMovto ; END IF(:newIdMovto IS NULL ) TH" +
-                "EN newIdMovto = 0; BEGIN INSERT INTO TB_MOVDIARIO ( ID_MOVTO , DT_MOVTO , HR_MOV" +
-                "TO , HISTORICO , TIP_MOVTO , VLR_MOVTO , ID_CTAPLA , SYNCED ) VALUES (:newIdMovt" +
-                "o , :pDT_MOVTO , :pHR_MOVTO , :pHISTORICO , :pTIP_MOVTO , :pVLR_MOVTO , :pID_CTA" +
-                "PLA , :pSYNCED ) ; rNewIdMovto = newIdMovto; END END;\';\r\n\terro = \'sproc movto ge" +
-                "t all unsynced\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_MOVTO_GET" +
-                "ALL_UNSYNCED RETURNS ( ID_MOVTO INTEGER , DT_MOVTO DATE , HR_MOVTO TIME , HISTOR" +
-                "ICO VARCHAR(60) , TIP_MOVTO CHAR(1) , VLR_MOVTO TYPE OF COLUMN TRI_PDV_OPER.DIN " +
-                ", ID_CTAPLA SMALLINT , SYNCED SMALLINT ) AS BEGIN FOR SELECT FIRST 200 COALESCE(" +
-                "a.ID_MOVTO, 0) , a.DT_MOVTO , a.HR_MOVTO , a.HISTORICO , a.TIP_MOVTO , a.VLR_MOV" +
-                "TO , a.ID_CTAPLA , a.SYNCED FROM TB_MOVDIARIO a WHERE ( a.SYNCED IS NULL OR a.SY" +
-                "NCED = 0 ) ORDER BY a.DT_MOVTO , a.HR_MOVTO INTO :ID_MOVTO , :DT_MOVTO , :HR_MOV" +
-                "TO , :HISTORICO , :TIP_MOVTO , :VLR_MOVTO , :ID_CTAPLA , :SYNCED DO BEGIN SUSPEN" +
-                "D; END END;\';\r\n\terro = \'sproc movto set synced\';\r\n\texecute statement \'CREATE OR " +
-                "ALTER PROCEDURE SP_TRI_MOVTOSETSYNCED (pIdMovto INTEGER, pSynced SMALLINT) AS BE" +
-                "GIN UPDATE TB_MOVDIARIO SET SYNCED = :pSynced WHERE ID_MOVTO = :pIdMovto; END;\';" +
-                "\r\n\terro = \'sproc cupom get dynamic sync\';\r\n\texecute statement \'CREATE OR ALTER P" +
-                "ROCEDURE SP_TRI_CUPOM_GETALL_SYNC ( TIP_QUERY SMALLINT ) RETURNS ( ID_CUPOM INTE" +
-                "GER , COO INTEGER , DT_CUPOM DATE , HR_CUPOM TIME , NUM_CAIXA SMALLINT , ID_CLIE" +
-                "NTE INTEGER , ID_VENDEDOR SMALLINT , STATUS CHAR( 1 ) , ID_PARCELA SMALLINT , IN" +
-                "D_CANCEL CHAR( 1 ) , ID_IFS SMALLINT , ID_NATOPE INTEGER , VLR_TROCO TYPE OF COL" +
-                "UMN TRI_PDV_OPER.DIN , VLR_TOTAL TYPE OF COLUMN TRI_PDV_OPER.DIN , VLR_DESC TYPE" +
-                " OF COLUMN TRI_PDV_OPER.DIN , TIP_DESC CHAR( 1 ) , VLR_ACRES TYPE OF COLUMN TRI_" +
-                "PDV_OPER.DIN , GNF INTEGER , CHAVE VARCHAR( 32 ) , TOTAL_TRIBUTOS_IBPT TYPE OF C" +
-                "OLUMN TRI_PDV_OPER.DIN , TOTAL_TRIB_FED TYPE OF COLUMN TRI_PDV_OPER.DIN , TOTAL_" +
-                "TRIB_EST TYPE OF COLUMN TRI_PDV_OPER.DIN , TOTAL_TRIB_MUN TYPE OF COLUMN TRI_PDV" +
-                "_OPER.DIN , SYNCED SMALLINT , QTD_CTAREC INTEGER , ID_MAIT_PEDIDO INTEGER ) AS B" +
-                "EGIN FOR SELECT FIRST 200 COALESCE(a.ID_CUPOM, 0) , a.COO , a.DT_CUPOM , a.HR_CU" +
-                "POM , a.NUM_CAIXA , a.ID_CLIENTE , a.ID_VENDEDOR , a.STATUS , a.ID_PARCELA , a.I" +
-                "ND_CANCEL , a.ID_IFS , a.ID_NATOPE , a.VLR_TROCO , a.VLR_TOTAL , a.VLR_DESC , a." +
-                "TIP_DESC , a.VLR_ACRES , a.GNF , a.CHAVE , a.TOTAL_TRIBUTOS_IBPT , a.TOTAL_TRIB_" +
-                "FED , a.TOTAL_TRIB_EST , a.TOTAL_TRIB_MUN , a.SYNCED , COUNT(b.ID_CTAREC) QTD_CT" +
-                "AREC , c.ID_MAIT_PEDIDO FROM TB_CUPOM a LEFT JOIN TB_CUPOM_CTAREC b ON a.ID_CUPO" +
-                "M = b.ID_CUPOM LEFT JOIN TRI_MAIT_PEDIDO_CUPOM c ON a.ID_CUPOM = c.ID_CUPOM WHER" +
-                "E ( :TIP_QUERY = 0 AND ( ( a.SYNCED IS NULL OR a.SYNCED = 0 ) AND a.STATUS = \'\'F" +
-                "\'\' ) ) OR ( :TIP_QUERY = 1 AND ( a.SYNCED = 1 AND a.STATUS = \'\'C\'\' ) ) GROUP BY " +
-                "a.ID_CUPOM , a.COO , a.DT_CUPOM , a.HR_CUPOM , a.NUM_CAIXA , a.ID_CLIENTE , a.ID" +
-                "_VENDEDOR , a.STATUS , a.ID_PARCELA , a.IND_CANCEL , a.ID_IFS , a.ID_NATOPE , a." +
-                "VLR_TROCO , a.VLR_TOTAL , a.VLR_DESC , a.TIP_DESC , a.VLR_ACRES , a.GNF , a.CHAV" +
-                "E , a.TOTAL_TRIBUTOS_IBPT , a.TOTAL_TRIB_FED , a.TOTAL_TRIB_EST , a.TOTAL_TRIB_M" +
-                "UN , a.SYNCED , c.ID_MAIT_PEDIDO ORDER BY a.DT_CUPOM , a.HR_CUPOM INTO :ID_CUPOM" +
-                " , :COO , :DT_CUPOM , :HR_CUPOM , :NUM_CAIXA , :ID_CLIENTE , :ID_VENDEDOR , :STA" +
-                "TUS , :ID_PARCELA , :IND_CANCEL , :ID_IFS , :ID_NATOPE , :VLR_TROCO , :VLR_TOTAL" +
-                " , :VLR_DESC , :TIP_DESC , :VLR_ACRES , :GNF , :CHAVE , :TOTAL_TRIBUTOS_IBPT , :" +
-                "TOTAL_TRIB_FED , :TOTAL_TRIB_EST , :TOTAL_TRIB_MUN , :SYNCED , :QTD_CTAREC , :ID" +
-                "_MAIT_PEDIDO DO BEGIN SUSPEND ; END END;\';\t\r\n\terro = \'sproc ctarec get by coo an" +
-                "d num_caixa\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_GETBY" +
-                "_COO_NMCAIX ( pCoo INTEGER , pNumcaixa SMALLINT ) RETURNS ( ID_CTAREC INTEGER , " +
-                "DOCUMENTO VARCHAR(12) , HISTORICO VARCHAR(50) , DT_EMISSAO DATE , DT_VENCTO DATE" +
-                " , VLR_CTAREC TYPE OF COLUMN TRI_PDV_OPER.DIN , TIP_CTAREC CHAR(1) , ID_PORTADOR" +
-                " INTEGER , ID_CLIENTE INTEGER , INV_REFERENCIA VARCHAR(18) , DT_VENCTO_ORIG DATE" +
-                " , NSU_CARTAO VARCHAR(32) ) AS BEGIN FOR SELECT a.ID_CTAREC , a.DOCUMENTO , a.HI" +
-                "STORICO , a.DT_EMISSAO , a.DT_VENCTO , a.VLR_CTAREC , a.TIP_CTAREC , a.ID_PORTAD" +
-                "OR , a.ID_CLIENTE , a.INV_REFERENCIA , a.DT_VENCTO_ORIG , a.NSU_CARTAO FROM TB_C" +
-                "ONTA_RECEBER a JOIN TB_CUPOM_CTAREC b ON a.ID_CTAREC = b.ID_CTAREC JOIN TB_CUPOM" +
-                " c ON c.ID_CUPOM = b.ID_CUPOM WHERE c.COO = :pCoo AND c.NUM_CAIXA = :pNumcaixa I" +
-                "NTO :ID_CTAREC , :DOCUMENTO , :HISTORICO , :DT_EMISSAO , :DT_VENCTO , :VLR_CTARE" +
-                "C , :TIP_CTAREC , :ID_PORTADOR , :ID_CLIENTE , :INV_REFERENCIA , :DT_VENCTO_ORIG" +
-                " , :NSU_CARTAO DO SUSPEND ; END;\';\r\n\terro = \'sproc ctarec movto sync delete\';\r\n\t" +
-                "execute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTARECMOVTO_SYNC_DEL( pIdMov" +
-                "to INTEGER, pIdCtarec INTEGER) AS BEGIN DELETE FROM TB_CTAREC_MOVTO WHERE ID_MOV" +
-                "TO = :pIdMovto AND ID_CTAREC= :pIdCtarec; END;\';\r\n\terro = \'sproc cupom ctarec sy" +
-                "nc delete\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOMCTAREC_SY" +
-                "NC_DEL( pCoo INTEGER, pNumcaixa SMALLINT, pIdCtarec INTEGER) AS DECLARE VARIABLE" +
-                " idCupom INTEGER; BEGIN SELECT ID_CUPOM FROM TB_CUPOM WHERE COO = :pCoo AND NUM_" +
-                "CAIXA = :pNumcaixa INTO :idCupom; DELETE FROM TB_CUPOM_CTAREC WHERE ID_CUPOM = :" +
-                "idCupom AND ID_CTAREC= :pIdCtarec; END;\';\r\n\terro = \'sproc movto sync delete\';\r\n\t" +
-                "execute statement \'CREATE OR ALTER PROCEDURE SP_TRI_MOVTO_SYNC_DEL( pIdMovto INT" +
-                "EGER) AS BEGIN DELETE FROM TB_MOVDIARIO WHERE ID_MOVTO = :pIdMovto; END;\';\r\n\terr" +
-                "o = \'sproc cupom fmapagto get by id_cupom\';\r\n\texecute statement \'CREATE OR ALTER" +
-                " PROCEDURE SP_TRI_CUPOMFMAPAGTO_BY_IDCUP( pIdCupom INTEGER ) RETURNS( ID_NUMPAG " +
-                "INTEGER, VLR_PAGTO TYPE OF COLUMN TRI_PDV_OPER.DIN, VLR_ESTORNO TYPE OF COLUMN T" +
-                "RI_PDV_OPER.DIN, IND_ESTORNO CHAR(1), ID_CUPOM INTEGER, ID_FMAPAGTO SMALLINT, CH" +
-                "AVE VARCHAR(32)) AS BEGIN FOR SELECT a.ID_NUMPAG , a.VLR_PAGTO , a.VLR_ESTORNO, " +
-                "a.IND_ESTORNO, a.ID_CUPOM , a.ID_FMAPAGTO, a.CHAVE FROM TB_CUPOM_FMAPAGTO a WHER" +
-                "E a.ID_CUPOM =:pIdCupom INTO :ID_NUMPAG , :VLR_PAGTO , :VLR_ESTORNO, :IND_ESTORN" +
-                "O, :ID_CUPOM , :ID_FMAPAGTO, :CHAVE DO SUSPEND; END;\';\r\n\terro = \'sproc cupom fma" +
-                "pagto sync insert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOMF" +
-                "MAPAGTSYNCINSERT (pVLR_PAGTO TYPE OF COLUMN TRI_PDV_OPER.DIN, pVLR_ESTORNO TYPE " +
-                "OF COLUMN TRI_PDV_OPER.DIN, pIND_ESTORNO CHAR(1), pID_CUPOM INTEGER, pID_FMAPAGT" +
-                "O SMALLINT, pCHAVE VARCHAR(32) ) RETURNS ( rNewIdNumpag INTEGER ) AS DECLARE VAR" +
-                "IABLE newIdNumpag INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_TB_CUPOM_FMAPAGTO_ID " +
-                "FROM RDB$DATABASE INTO :newIdNumpag; IF( :newIdNumpag IS NULL ) THEN newIdNumpag" +
-                " = 0; BEGIN INSERT INTO TB_CUPOM_FMAPAGTO ( ID_NUMPAG , VLR_PAGTO , VLR_ESTORNO," +
-                " IND_ESTORNO, ID_CUPOM , ID_FMAPAGTO, CHAVE ) VALUES ( :newIdNumpag , :pVLR_PAGT" +
-                "O , :pVLR_ESTORNO , :pIND_ESTORNO , :pID_CUPOM , :pID_FMAPAGTO , :pCHAVE ); rNew" +
-                "IdNumpag = newIdNumpag; END END;\';\r\n\terro = \'sproc cupom update by coo and numca" +
-                "ixa\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOM_UPDT_BYCOONUMC" +
-                "AIX (pCOO INTEGER, pCCF INTEGER, pDT_CUPOM DATE, pHR_CUPOM TIME, pNUM_CAIXA SMAL" +
-                "LINT, pID_CLIENTE INTEGER, pID_VENDEDOR SMALLINT, pSTATUS CHAR(1), pID_PARCELA S" +
-                "MALLINT, pIND_CANCEL CHAR(1), pID_IFS SMALLINT, pID_NATOPE INTEGER, pVLR_TROCO T" +
-                "YPE OF COLUMN TRI_PDV_OPER.DIN, pVLR_TOTAL TYPE OF COLUMN TRI_PDV_OPER.DIN, pVLR" +
-                "_DESC TYPE OF COLUMN TRI_PDV_OPER.DIN, pTIP_DESC CHAR(1), pVLR_ACRES TYPE OF COL" +
-                "UMN TRI_PDV_OPER.DIN, pGNF INTEGER, pCHAVE VARCHAR(32), pTOTAL_TRIBUTOS_IBPT TYP" +
-                "E OF COLUMN TRI_PDV_OPER.DIN, pTOTAL_TRIB_FED TYPE OF COLUMN TRI_PDV_OPER.DIN, p" +
-                "TOTAL_TRIB_EST TYPE OF COLUMN TRI_PDV_OPER.DIN, pTOTAL_TRIB_MUN TYPE OF COLUMN T" +
-                "RI_PDV_OPER.DIN, pSYNCED SMALLINT) AS BEGIN UPDATE TB_CUPOM SET CCF =:pCCF , DT_" +
-                "CUPOM =:pDT_CUPOM , HR_CUPOM =:pHR_CUPOM , ID_CLIENTE =:pID_CLIENTE , ID_VENDEDO" +
-                "R =:pID_VENDEDOR , STATUS =:pSTATUS , ID_PARCELA =:pID_PARCELA , IND_CANCEL =:pI" +
-                "ND_CANCEL , ID_IFS =:pID_IFS , ID_NATOPE =:pID_NATOPE , VLR_TROCO =:pVLR_TROCO ," +
-                " VLR_TOTAL =:pVLR_TOTAL , VLR_DESC =:pVLR_DESC , TIP_DESC =:pTIP_DESC , VLR_ACRE" +
-                "S =:pVLR_ACRES , GNF =:pGNF , CHAVE =:pCHAVE , TOTAL_TRIBUTOS_IBPT=:pTOTAL_TRIBU" +
-                "TOS_IBPT , TOTAL_TRIB_FED =:pTOTAL_TRIB_FED , TOTAL_TRIB_EST =:pTOTAL_TRIB_EST ," +
-                " TOTAL_TRIB_MUN =:pTOTAL_TRIB_MUN , SYNCED =:pSYNCED WHERE COO =:pCOO AND NUM_CA" +
-                "IXA=:pNUM_CAIXA; END;\';\r\n\terro = \'sproc cupom get distinct id_ifs num_caixa\';\r\n\t" +
-                "execute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOM_GET_DISTINCT_IFS RETUR" +
-                "NS( ID_IFS INTEGER, CAIXA VARCHAR(6) CHARACTER SET WIN_1252) AS BEGIN FOR SELECT" +
-                " DISTINCT COALESCE(ID_IFS, -1) AS ID_IFS, CAST(COALESCE(NUM_CAIXA, -1) AS VARCHA" +
-                "R(6) CHARACTER SET WIN_1252) AS CAIXA FROM TB_CUPOM ORDER BY ID_IFS INTO :ID_IFS" +
-                " , :CAIXA DO BEGIN SUSPEND; END END;\';\r\n\terro = \'sproc ifs sync insert update\';\r" +
-                "\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_IFS_SYNC_INSERT_UPDT (pID_" +
-                "IFS SMALLINT, pCAIXA VARCHAR(6), pLOJA VARCHAR(3), pFABRICACAO VARCHAR(20), pUSU" +
-                "ARIO CHAR(3), pMARCA VARCHAR(20), pMF CHAR(1), pMODELO VARCHAR(20), pTIPO VARCHA" +
-                "R(7), pDATA_ON DATE, pDATA_OFF DATE, pATIVO CHAR(1), pISS_RATEIO CHAR(1), pSB_DA" +
-                "TAIN DATE, pSB_HORAIN TIME, pSB_VERSAO VARCHAR(8), pCHAVE VARCHAR(32), pCOD_NAC " +
-                "VARCHAR(10), pDATA_TEMP DATE, pNUM_CREDENCIAMENTO VARCHAR(30) ) AS DECLARE VARIA" +
-                "BLE vCountIfs INTEGER; BEGIN SELECT COUNT(1) FROM TB_IFS WHERE ID_IFS = :pID_IFS" +
-                " INTO :vCountIfs; IF( :vCountIfs = 0 ) THEN BEGIN INSERT INTO TB_IFS ( ID_IFS , " +
-                "CAIXA , LOJA , FABRICACAO, USUARIO , MARCA , MF , MODELO , TIPO , DATA_ON , DATA" +
-                "_OFF , ATIVO , ISS_RATEIO, SB_DATAIN , SB_HORAIN , SB_VERSAO , CHAVE , COD_NAC ," +
-                " DATA_TEMP , NUM_CREDENCIAMENTO ) VALUES ( :pID_IFS , :pCAIXA , :pLOJA , :pFABRI" +
-                "CACAO, :pUSUARIO , :pMARCA , :pMF , :pMODELO , :pTIPO , :pDATA_ON , :pDATA_OFF ," +
-                " :pATIVO , :pISS_RATEIO, :pSB_DATAIN , :pSB_HORAIN , :pSB_VERSAO , :pCHAVE , :pC" +
-                "OD_NAC , :pDATA_TEMP , :pNUM_CREDENCIAMENTO ); END ELSE BEGIN UPDATE TB_IFS SET " +
-                "CAIXA =:pCAIXA , LOJA =:pLOJA , FABRICACAO =:pFABRICACAO, USUARIO =:pUSUARIO , M" +
-                "ARCA =:pMARCA , MF =:pMF , MODELO =:pMODELO , TIPO =:pTIPO , DATA_ON =:pDATA_ON " +
-                ", DATA_OFF =:pDATA_OFF , ATIVO =:pATIVO , ISS_RATEIO =:pISS_RATEIO, SB_DATAIN =:" +
-                "pSB_DATAIN , SB_HORAIN =:pSB_HORAIN , SB_VERSAO =:pSB_VERSAO , CHAVE =:pCHAVE , " +
-                "COD_NAC =:pCOD_NAC , DATA_TEMP =:pDATA_TEMP , NUM_CREDENCIAMENTO=:pNUM_CREDENCIA" +
-                "MENTO WHERE ID_IFS=:pID_IFS; END END;\';\r\n\r\n\terro = \'sproc SP_TRI_REL_METD_PAGTO_" +
-                "UPDINST\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_REL_METD_PAGTO_U" +
-                "PDINST (pID_PAGAMENTO INTEGER, pID_FMAPGTO SMALLINT) AS BEGIN UPDATE OR INSERT I" +
-                "NTO TRI_PDV_REL_METODO_PAGTO ( ID_PAGAMENTO, ID_FMAPGTO ) VALUES ( :pID_PAGAMENT" +
-                "O, :pID_FMAPGTO ) MATCHING ( ID_PAGAMENTO, ID_FMAPGTO ); END;\';\r\n\terro = \'sproc " +
-                "SP_TRI_CUPOM_BYPASS_IFS\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_" +
-                "CUPOM_BYPASS_IFS RETURNS( ID_IFS INTEGER, CAIXA VARCHAR(6) CHARACTER SET WIN_125" +
-                "2) AS BEGIN FOR SELECT DISTINCT TB_CUPOM_DISTINCT.ID_IFS, CAST(COUNT(TB_CUPOM_DI" +
-                "STINCT.CAIXA) AS VARCHAR(6) CHARACTER SET WIN_1252) AS QTD_CAIXAS FROM ( SELECT " +
-                "DISTINCT COALESCE(ID_IFS, -1) AS ID_IFS, CAST(COALESCE(NUM_CAIXA, -1) AS VARCHAR" +
-                "(6) CHARACTER SET WIN_1252) AS CAIXA FROM TB_CUPOM ORDER BY ID_IFS) AS TB_CUPOM_" +
-                "DISTINCT GROUP BY TB_CUPOM_DISTINCT.ID_IFS ORDER BY TB_CUPOM_DISTINCT.ID_IFS INT" +
-                "O :ID_IFS , :CAIXA DO BEGIN SUSPEND; END END;\';\r\n\r\n\terro = \'sproc SP_TRI_CUPOMIT" +
-                "EMGET\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOMITEMGET ( pId" +
-                "Cupom INTEGER ) RETURNS ( ID_ITEMCUP TYPE OF COLUMN TB_CUPOM_ITEM.ID_ITEMCUP , I" +
-                "D_CUPOM TYPE OF COLUMN TB_CUPOM_ITEM.ID_CUPOM , ID_IDENTIF TYPE OF COLUMN TB_CUP" +
-                "OM_ITEM.ID_IDENTIF , NUM_ITEM TYPE OF COLUMN TB_CUPOM_ITEM.NUM_ITEM , QTD_ITEM T" +
-                "YPE OF COLUMN TB_CUPOM_ITEM.QTD_ITEM , VLR_UNIT TYPE OF COLUMN TB_CUPOM_ITEM.VLR" +
-                "_UNIT , PRC_CUSTO TYPE OF COLUMN TB_CUPOM_ITEM.PRC_CUSTO , ALI_ICM TYPE OF COLUM" +
-                "N TB_CUPOM_ITEM.ALI_ICM , VLR_ICM TYPE OF COLUMN TB_CUPOM_ITEM.VLR_ICM , COD_TOT" +
-                "ALP TYPE OF COLUMN TB_CUPOM_ITEM.COD_TOTALP , ORD_APLICA TYPE OF COLUMN TB_CUPOM" +
-                "_ITEM.ORD_APLICA , ITEM_CANCEL TYPE OF COLUMN TB_CUPOM_ITEM.ITEM_CANCEL , CST TY" +
-                "PE OF COLUMN TB_CUPOM_ITEM.CST , UNI_MEDIDA TYPE OF COLUMN TB_CUPOM_ITEM.UNI_MED" +
-                "IDA , CASAS_QTD TYPE OF COLUMN TB_CUPOM_ITEM.CASAS_QTD , CASAS_VLR TYPE OF COLUM" +
-                "N TB_CUPOM_ITEM.CASAS_VLR , TIPO_DESC TYPE OF COLUMN TB_CUPOM_ITEM.TIPO_DESC , I" +
-                "AT TYPE OF COLUMN TB_CUPOM_ITEM.IAT , IPPT TYPE OF COLUMN TB_CUPOM_ITEM.IPPT , C" +
-                "OD_BARRA TYPE OF COLUMN TB_CUPOM_ITEM.COD_BARRA , VLR_ACRE TYPE OF COLUMN TB_CUP" +
-                "OM_ITEM.VLR_ACRE , VLR_PIS TYPE OF COLUMN TB_CUPOM_ITEM.VLR_PIS , VLR_COFINS TYP" +
-                "E OF COLUMN TB_CUPOM_ITEM.VLR_COFINS , CHAVE TYPE OF COLUMN TB_CUPOM_ITEM.CHAVE " +
-                ", CST_PIS TYPE OF COLUMN TB_CUPOM_ITEM.CST_PIS , CST_COFINS TYPE OF COLUMN TB_CU" +
-                "POM_ITEM.CST_COFINS , CFOP TYPE OF COLUMN TB_CUPOM_ITEM.CFOP , VLR_TRIBUTOS_IBPT" +
-                " TYPE OF COLUMN TB_CUPOM_ITEM.VLR_TRIBUTOS_IBPT , ALIQ_ENCONT_IBPT TYPE OF COLUM" +
-                "N TB_CUPOM_ITEM.ALIQ_ENCONT_IBPT , DT_ITEM TYPE OF COLUMN TB_CUPOM_ITEM.DT_ITEM " +
-                ", HR_ITEM TYPE OF COLUMN TB_CUPOM_ITEM.HR_ITEM , VLR_TRIB_FED TYPE OF COLUMN TB_" +
-                "CUPOM_ITEM.VLR_TRIB_FED , VLR_TRIB_EST TYPE OF COLUMN TB_CUPOM_ITEM.VLR_TRIB_EST" +
-                " , VLR_TRIB_MUN TYPE OF COLUMN TB_CUPOM_ITEM.VLR_TRIB_MUN , DESCRICAO TYPE OF CO" +
-                "LUMN TB_CUPOM_ITEM.DESCRICAO , ID_MAIT_PEDIDO_ITEM TYPE OF COLUMN TRI_MAIT_PEDID" +
-                "O_ITEM.ID_MAIT_PEDIDO_ITEM , ID_COMPPRO TYPE OF COLUMN TRI_MAIT_PED_ITEM_COMPPRO" +
-                "D.ID_COMPPRO , ID_COMPOSICAO TYPE OF COLUMN TB_EST_COMPOSICAO.ID_COMPOSICAO ) AS" +
-                " BEGIN FOR SELECT COALESCE(a.ID_ITEMCUP, 0) ID_ITEMCUP, a.ID_CUPOM , a.ID_IDENTI" +
-                "F , a.NUM_ITEM , a.QTD_ITEM , a.VLR_UNIT , a.PRC_CUSTO , a.ALI_ICM , a.VLR_ICM ," +
-                " a.COD_TOTALP , a.ORD_APLICA , a.ITEM_CANCEL , a.CST , a.UNI_MEDIDA , a.CASAS_QT" +
-                "D , a.CASAS_VLR , a.TIPO_DESC , a.IAT , a.IPPT , a.COD_BARRA , a.VLR_ACRE , a.VL" +
-                "R_PIS , a.VLR_COFINS , a.CHAVE , a.CST_PIS , a.CST_COFINS , a.CFOP , a.VLR_TRIBU" +
-                "TOS_IBPT , a.ALIQ_ENCONT_IBPT , a.DT_ITEM , a.HR_ITEM , a.VLR_TRIB_FED , a.VLR_T" +
-                "RIB_EST , a.VLR_TRIB_MUN , a.DESCRICAO , c.ID_MAIT_PEDIDO_ITEM , d.ID_COMPPRO, e" +
-                ".ID_COMPOSICAO FROM TB_CUPOM_ITEM a LEFT JOIN TRI_MAIT_PED_ITEM_CUPOM_ITEM b ON " +
-                "a.ID_ITEMCUP = b.ID_ITEMCUP LEFT JOIN TRI_MAIT_PEDIDO_ITEM c ON b.ID_MAIT_PEDIDO" +
-                "_ITEM = c.ID_MAIT_PEDIDO_ITEM LEFT JOIN TRI_MAIT_PED_ITEM_COMPPROD d ON c.ID_MAI" +
-                "T_PEDIDO_ITEM = d.ID_MAIT_PEDIDO_ITEM LEFT JOIN TB_EST_COMPOSICAO e ON e.ID_IDEN" +
-                "TIFICADOR = a.ID_IDENTIF WHERE a.ID_CUPOM =:pIdCupom INTO :ID_ITEMCUP , :ID_CUPO" +
-                "M , :ID_IDENTIF , :NUM_ITEM , :QTD_ITEM , :VLR_UNIT , :PRC_CUSTO , :ALI_ICM , :V" +
-                "LR_ICM , :COD_TOTALP , :ORD_APLICA , :ITEM_CANCEL , :CST , :UNI_MEDIDA , :CASAS_" +
-                "QTD , :CASAS_VLR , :TIPO_DESC , :IAT , :IPPT , :COD_BARRA , :VLR_ACRE , :VLR_PIS" +
-                " , :VLR_COFINS , :CHAVE , :CST_PIS , :CST_COFINS , :CFOP , :VLR_TRIBUTOS_IBPT , " +
-                ":ALIQ_ENCONT_IBPT , :DT_ITEM , :HR_ITEM , :VLR_TRIB_FED , :VLR_TRIB_EST , :VLR_T" +
-                "RIB_MUN , :DESCRICAO , :ID_MAIT_PEDIDO_ITEM , :ID_COMPPRO , :ID_COMPOSICAO DO SU" +
-                "SPEND ; END;\';\r\n\r\n\terro = \'sproc SP_TRI_PRODUTO_RETIRAESTOQUE\';\r\n\texecute statem" +
-                "ent \'CREATE OR ALTER PROCEDURE SP_TRI_PRODUTO_RETIRAESTOQUE ( pQTD_ITEM TYPE OF " +
-                "COLUMN TRI_PDV_OPER.DIN , pID_IDENTIF INTEGER , pID_COMPPRO TYPE OF COLUMN TB_ES" +
-                "T_COMP_PRODUCAO.ID_COMPPRO , pID_COMPOSICAO TYPE OF COLUMN TB_EST_COMPOSICAO.ID_" +
-                "COMPOSICAO ) AS DECLARE VARIABLE vIdIdentifComponente TYPE OF COLUMN TB_EST_COMP" +
-                "_ITEM_USADO.ID_IDENTIFICADOR; DECLARE VARIABLE vQtdItemComponente TYPE OF COLUMN" +
-                " TB_EST_COMP_ITEM_USADO.QTD_ITEM; DECLARE VARIABLE vQtdDif TYPE OF COLUMN TB_EST" +
-                "_PRODUTO.QTD_ATUAL; DECLARE VARIABLE vIdTipoItemEstoque TYPE OF COLUMN TB_ESTOQU" +
-                "E.ID_TIPOITEM; DECLARE VARIABLE vQtdRetirarComponentes TYPE OF COLUMN TB_EST_PRO" +
-                "DUTO.QTD_ATUAL; DECLARE VARIABLE vQtdRetirarComposto TYPE OF COLUMN TB_EST_PRODU" +
-                "TO.QTD_ATUAL; BEGIN SELECT te.ID_TIPOITEM FROM TB_EST_IDENTIFICADOR tei JOIN TB_" +
-                "ESTOQUE te ON te.ID_ESTOQUE = tei.ID_ESTOQUE WHERE tei.ID_IDENTIFICADOR = :pID_I" +
-                "DENTIF INTO :vIdTipoItemEstoque ; IF (:vIdTipoItemEstoque = \'\'9\'\') THEN EXIT; vQ" +
-                "tdItemComponente = 0; vQtdDif = 0; vQtdRetirarComponentes = 0; vQtdRetirarCompos" +
-                "to = 0; IF (:pID_COMPPRO > 0 OR :pID_COMPOSICAO > 0) THEN BEGIN IF (:pQTD_ITEM >" +
-                "= 0) THEN BEGIN SELECT (tep.QTD_ATUAL - :pQTD_ITEM) AS qtd_dif FROM TB_EST_PRODU" +
-                "TO tep WHERE tep.ID_IDENTIFICADOR = :pID_IDENTIF INTO :vQtdDif ; IF (:vQtdDif < " +
-                "0) THEN BEGIN vQtdRetirarComponentes = :vQtdDif * -1; vQtdRetirarComposto = :pQT" +
-                "D_ITEM - :vQtdRetirarComponentes; END END END IF (:vQtdDif >= 0) THEN BEGIN UPDA" +
-                "TE TB_EST_PRODUTO SET QTD_ATUAL = QTD_ATUAL - :pQTD_ITEM WHERE ID_IDENTIFICADOR " +
-                "= :pID_IDENTIF ; END ELSE BEGIN IF (:vQtdRetirarComposto > 0) THEN BEGIN UPDATE " +
-                "TB_EST_PRODUTO SET QTD_ATUAL = QTD_ATUAL - :vQtdRetirarComposto WHERE ID_IDENTIF" +
-                "ICADOR = :pID_IDENTIF ; END IF (:vQtdRetirarComponentes > 0) THEN BEGIN IF (:pID" +
-                "_COMPPRO > 0) THEN BEGIN FOR SELECT teciu.ID_IDENTIFICADOR , teciu.QTD_ITEM FROM" +
-                " TB_EST_COMP_ITEM_USADO teciu WHERE teciu.ID_COMPPROD = :pID_COMPPRO INTO :vIdId" +
-                "entifComponente , :vQtdItemComponente DO BEGIN EXECUTE PROCEDURE SP_TRI_PRODUTO_" +
-                "RETIRAESTOQUE((:vQtdItemComponente * :vQtdRetirarComponentes), :vIdIdentifCompon" +
-                "ente, 0, 0); END END ELSE BEGIN FOR SELECT teci.ID_IDENTIFICADOR, teci.QTD_ITEM " +
-                "FROM TB_EST_COMP_ITEM teci WHERE teci.ID_COMPOSICAO = :pID_COMPOSICAO INTO :vIdI" +
-                "dentifComponente , :vQtdItemComponente DO BEGIN EXECUTE PROCEDURE SP_TRI_PRODUTO" +
-                "_RETIRAESTOQUE((:vQtdItemComponente * :vQtdRetirarComponentes), :vIdIdentifCompo" +
-                "nente, 0, 0); END END END END UPDATE TB_ESTOQUE SET ULT_VENDA = CURRENT_DATE WHE" +
-                "RE ID_ESTOQUE = ( SELECT ID_ESTOQUE FROM TB_EST_IDENTIFICADOR WHERE ID_IDENTIFIC" +
-                "ADOR = :pID_IDENTIF ) ; END;\';\r\n\t\r\n\terro = \'deu certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY" +
-                " DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
+                "OR , ID_CLIENTE , INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO, ID_CONTA) VALUES (" +
+                " :newIdCtarec , :pDOCUMENTO , :pHISTORICO , :pDT_EMISSAO , :pDT_VENCTO , :pVLR_C" +
+                "TAREC , :pTIP_CTAREC , :pID_PORTADOR , :pID_CLIENTE , :pINV_REFERENCIA , :pDT_VE" +
+                "NCTO_ORIG , :pNSU_CARTAO, :pID_CONTA); rNewIdCtarec = newIdCtarec; END END;\';\r\n\t" +
+                "erro = \'sproc movto get by id_ctarec\';\r\n\texecute statement \'CREATE OR ALTER PROC" +
+                "EDURE SP_TRI_MOVTO_GETBY_IDCTAREC (PIDCTAREC INTEGER) RETURNS ( ID_MOVTO INTEGER" +
+                ", DT_MOVTO DATE, HR_MOVTO TIME, HISTORICO VARCHAR(60), TIP_MOVTO CHAR(1), VLR_MO" +
+                "VTO TYPE OF COLUMN TRI_PDV_OPER.DIN, ID_CTAPLA SMALLINT, SYNCED SMALLINT ) AS BE" +
+                "GIN FOR SELECT COALESCE(a.ID_MOVTO, 0) , a.DT_MOVTO , a.HR_MOVTO , a.HISTORICO ," +
+                " a.TIP_MOVTO , a.VLR_MOVTO , a.ID_CTAPLA , a.SYNCED FROM TB_MOVDIARIO a JOIN TB_" +
+                "CTAREC_MOVTO b ON a.ID_MOVTO = b.ID_MOVTO WHERE b.ID_CTAREC =:pIdCtarec INTO :ID" +
+                "_MOVTO , :DT_MOVTO , :HR_MOVTO , :HISTORICO, :TIP_MOVTO, :VLR_MOVTO, :ID_CTAPLA," +
+                " :SYNCED DO SUSPEND; END\';\r\n\terro = \'sproc movto sync insert\';\r\n\texecute stateme" +
+                "nt \'CREATE OR ALTER PROCEDURE SP_TRI_MOVTO_SYNC_INSERT ( pDT_MOVTO DATE , pHR_MO" +
+                "VTO TIME , pHISTORICO VARCHAR( 60 ) , pTIP_MOVTO CHAR( 1 ) , pVLR_MOVTO TYPE OF " +
+                "COLUMN TRI_PDV_OPER.DIN , pID_CTAPLA SMALLINT , pSYNCED SMALLINT ) RETURNS( rNew" +
+                "IdMovto INTEGER ) AS DECLARE VARIABLE newIdMovto INTEGER; BEGIN BEGIN SELECT NEX" +
+                "T VALUE FOR GEN_TB_MOVDIARIO_ID FROM RDB$DATABASE INTO :newIdMovto ; END IF(:new" +
+                "IdMovto IS NULL ) THEN newIdMovto = 0; BEGIN INSERT INTO TB_MOVDIARIO ( ID_MOVTO" +
+                " , DT_MOVTO , HR_MOVTO , HISTORICO , TIP_MOVTO , VLR_MOVTO , ID_CTAPLA , SYNCED " +
+                ") VALUES (:newIdMovto , :pDT_MOVTO , :pHR_MOVTO , :pHISTORICO , :pTIP_MOVTO , :p" +
+                "VLR_MOVTO , :pID_CTAPLA , :pSYNCED ) ; rNewIdMovto = newIdMovto; END END;\';\r\n\ter" +
+                "ro = \'sproc movto get all unsynced\';\r\n\texecute statement \'CREATE OR ALTER PROCED" +
+                "URE SP_TRI_MOVTO_GETALL_UNSYNCED RETURNS ( ID_MOVTO INTEGER , DT_MOVTO DATE , HR" +
+                "_MOVTO TIME , HISTORICO VARCHAR(60) , TIP_MOVTO CHAR(1) , VLR_MOVTO TYPE OF COLU" +
+                "MN TRI_PDV_OPER.DIN , ID_CTAPLA SMALLINT , SYNCED SMALLINT ) AS BEGIN FOR SELECT" +
+                " FIRST 200 COALESCE(a.ID_MOVTO, 0) , a.DT_MOVTO , a.HR_MOVTO , a.HISTORICO , a.T" +
+                "IP_MOVTO , a.VLR_MOVTO , a.ID_CTAPLA , a.SYNCED FROM TB_MOVDIARIO a WHERE ( a.SY" +
+                "NCED IS NULL OR a.SYNCED = 0 ) ORDER BY a.DT_MOVTO , a.HR_MOVTO INTO :ID_MOVTO ," +
+                " :DT_MOVTO , :HR_MOVTO , :HISTORICO , :TIP_MOVTO , :VLR_MOVTO , :ID_CTAPLA , :SY" +
+                "NCED DO BEGIN SUSPEND; END END;\';\r\n\terro = \'sproc movto set synced\';\r\n\texecute s" +
+                "tatement \'CREATE OR ALTER PROCEDURE SP_TRI_MOVTOSETSYNCED (pIdMovto INTEGER, pSy" +
+                "nced SMALLINT) AS BEGIN UPDATE TB_MOVDIARIO SET SYNCED = :pSynced WHERE ID_MOVTO" +
+                " = :pIdMovto; END;\';\r\n\terro = \'sproc cupom get dynamic sync\';\r\n\texecute statemen" +
+                "t \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOM_GETALL_SYNC ( TIP_QUERY SMALLINT ) RET" +
+                "URNS ( ID_CUPOM INTEGER , COO INTEGER , DT_CUPOM DATE , HR_CUPOM TIME , NUM_CAIX" +
+                "A SMALLINT , ID_CLIENTE INTEGER , ID_VENDEDOR SMALLINT , STATUS CHAR( 1 ) , ID_P" +
+                "ARCELA SMALLINT , IND_CANCEL CHAR( 1 ) , ID_IFS SMALLINT , ID_NATOPE INTEGER , V" +
+                "LR_TROCO TYPE OF COLUMN TRI_PDV_OPER.DIN , VLR_TOTAL TYPE OF COLUMN TRI_PDV_OPER" +
+                ".DIN , VLR_DESC TYPE OF COLUMN TRI_PDV_OPER.DIN , TIP_DESC CHAR( 1 ) , VLR_ACRES" +
+                " TYPE OF COLUMN TRI_PDV_OPER.DIN , GNF INTEGER , CHAVE VARCHAR( 32 ) , TOTAL_TRI" +
+                "BUTOS_IBPT TYPE OF COLUMN TRI_PDV_OPER.DIN , TOTAL_TRIB_FED TYPE OF COLUMN TRI_P" +
+                "DV_OPER.DIN , TOTAL_TRIB_EST TYPE OF COLUMN TRI_PDV_OPER.DIN , TOTAL_TRIB_MUN TY" +
+                "PE OF COLUMN TRI_PDV_OPER.DIN , SYNCED SMALLINT , QTD_CTAREC INTEGER , ID_MAIT_P" +
+                "EDIDO INTEGER ) AS BEGIN FOR SELECT FIRST 200 COALESCE(a.ID_CUPOM, 0) , a.COO , " +
+                "a.DT_CUPOM , a.HR_CUPOM , a.NUM_CAIXA , a.ID_CLIENTE , a.ID_VENDEDOR , a.STATUS " +
+                ", a.ID_PARCELA , a.IND_CANCEL , a.ID_IFS , a.ID_NATOPE , a.VLR_TROCO , a.VLR_TOT" +
+                "AL , a.VLR_DESC , a.TIP_DESC , a.VLR_ACRES , a.GNF , a.CHAVE , a.TOTAL_TRIBUTOS_" +
+                "IBPT , a.TOTAL_TRIB_FED , a.TOTAL_TRIB_EST , a.TOTAL_TRIB_MUN , a.SYNCED , COUNT" +
+                "(b.ID_CTAREC) QTD_CTAREC , c.ID_MAIT_PEDIDO FROM TB_CUPOM a LEFT JOIN TB_CUPOM_C" +
+                "TAREC b ON a.ID_CUPOM = b.ID_CUPOM LEFT JOIN TRI_MAIT_PEDIDO_CUPOM c ON a.ID_CUP" +
+                "OM = c.ID_CUPOM WHERE ( :TIP_QUERY = 0 AND ( ( a.SYNCED IS NULL OR a.SYNCED = 0 " +
+                ") AND a.STATUS = \'\'F\'\' ) ) OR ( :TIP_QUERY = 1 AND ( a.SYNCED = 1 AND a.STATUS =" +
+                " \'\'C\'\' ) ) GROUP BY a.ID_CUPOM , a.COO , a.DT_CUPOM , a.HR_CUPOM , a.NUM_CAIXA ," +
+                " a.ID_CLIENTE , a.ID_VENDEDOR , a.STATUS , a.ID_PARCELA , a.IND_CANCEL , a.ID_IF" +
+                "S , a.ID_NATOPE , a.VLR_TROCO , a.VLR_TOTAL , a.VLR_DESC , a.TIP_DESC , a.VLR_AC" +
+                "RES , a.GNF , a.CHAVE , a.TOTAL_TRIBUTOS_IBPT , a.TOTAL_TRIB_FED , a.TOTAL_TRIB_" +
+                "EST , a.TOTAL_TRIB_MUN , a.SYNCED , c.ID_MAIT_PEDIDO ORDER BY a.DT_CUPOM , a.HR_" +
+                "CUPOM INTO :ID_CUPOM , :COO , :DT_CUPOM , :HR_CUPOM , :NUM_CAIXA , :ID_CLIENTE ," +
+                " :ID_VENDEDOR , :STATUS , :ID_PARCELA , :IND_CANCEL , :ID_IFS , :ID_NATOPE , :VL" +
+                "R_TROCO , :VLR_TOTAL , :VLR_DESC , :TIP_DESC , :VLR_ACRES , :GNF , :CHAVE , :TOT" +
+                "AL_TRIBUTOS_IBPT , :TOTAL_TRIB_FED , :TOTAL_TRIB_EST , :TOTAL_TRIB_MUN , :SYNCED" +
+                " , :QTD_CTAREC , :ID_MAIT_PEDIDO DO BEGIN SUSPEND ; END END;\';\t\r\n\terro = \'sproc " +
+                "ctarec get by coo and num_caixa\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE" +
+                " SP_TRI_CTAREC_GETBY_COO_NMCAIX ( pCoo INTEGER , pNumcaixa SMALLINT ) RETURNS ( " +
+                "ID_CTAREC INTEGER , DOCUMENTO VARCHAR(12) , HISTORICO VARCHAR(50) , DT_EMISSAO D" +
+                "ATE , DT_VENCTO DATE , VLR_CTAREC TYPE OF COLUMN TRI_PDV_OPER.DIN , TIP_CTAREC C" +
+                "HAR(1) , ID_PORTADOR INTEGER , ID_CLIENTE INTEGER , INV_REFERENCIA VARCHAR(18) ," +
+                " DT_VENCTO_ORIG DATE , NSU_CARTAO VARCHAR(32) ) AS BEGIN FOR SELECT a.ID_CTAREC " +
+                ", a.DOCUMENTO , a.HISTORICO , a.DT_EMISSAO , a.DT_VENCTO , a.VLR_CTAREC , a.TIP_" +
+                "CTAREC , a.ID_PORTADOR , a.ID_CLIENTE , a.INV_REFERENCIA , a.DT_VENCTO_ORIG , a." +
+                "NSU_CARTAO FROM TB_CONTA_RECEBER a JOIN TB_CUPOM_CTAREC b ON a.ID_CTAREC = b.ID_" +
+                "CTAREC JOIN TB_CUPOM c ON c.ID_CUPOM = b.ID_CUPOM WHERE c.COO = :pCoo AND c.NUM_" +
+                "CAIXA = :pNumcaixa INTO :ID_CTAREC , :DOCUMENTO , :HISTORICO , :DT_EMISSAO , :DT" +
+                "_VENCTO , :VLR_CTAREC , :TIP_CTAREC , :ID_PORTADOR , :ID_CLIENTE , :INV_REFERENC" +
+                "IA , :DT_VENCTO_ORIG , :NSU_CARTAO DO SUSPEND ; END;\';\r\n\terro = \'sproc ctarec mo" +
+                "vto sync delete\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTARECMO" +
+                "VTO_SYNC_DEL( pIdMovto INTEGER, pIdCtarec INTEGER) AS BEGIN DELETE FROM TB_CTARE" +
+                "C_MOVTO WHERE ID_MOVTO = :pIdMovto AND ID_CTAREC= :pIdCtarec; END;\';\r\n\terro = \'s" +
+                "proc cupom ctarec sync delete\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE S" +
+                "P_TRI_CUPOMCTAREC_SYNC_DEL( pCoo INTEGER, pNumcaixa SMALLINT, pIdCtarec INTEGER)" +
+                " AS DECLARE VARIABLE idCupom INTEGER; BEGIN SELECT ID_CUPOM FROM TB_CUPOM WHERE " +
+                "COO = :pCoo AND NUM_CAIXA = :pNumcaixa INTO :idCupom; DELETE FROM TB_CUPOM_CTARE" +
+                "C WHERE ID_CUPOM = :idCupom AND ID_CTAREC= :pIdCtarec; END;\';\r\n\terro = \'sproc mo" +
+                "vto sync delete\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_MOVTO_SY" +
+                "NC_DEL( pIdMovto INTEGER) AS BEGIN DELETE FROM TB_MOVDIARIO WHERE ID_MOVTO = :pI" +
+                "dMovto; END;\';\r\n\terro = \'sproc cupom fmapagto get by id_cupom\';\r\n\texecute statem" +
+                "ent \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOMFMAPAGTO_BY_IDCUP( pIdCupom INTEGER )" +
+                " RETURNS( ID_NUMPAG INTEGER, VLR_PAGTO TYPE OF COLUMN TRI_PDV_OPER.DIN, VLR_ESTO" +
+                "RNO TYPE OF COLUMN TRI_PDV_OPER.DIN, IND_ESTORNO CHAR(1), ID_CUPOM INTEGER, ID_F" +
+                "MAPAGTO SMALLINT, CHAVE VARCHAR(32)) AS BEGIN FOR SELECT a.ID_NUMPAG , a.VLR_PAG" +
+                "TO , a.VLR_ESTORNO, a.IND_ESTORNO, a.ID_CUPOM , a.ID_FMAPAGTO, a.CHAVE FROM TB_C" +
+                "UPOM_FMAPAGTO a WHERE a.ID_CUPOM =:pIdCupom INTO :ID_NUMPAG , :VLR_PAGTO , :VLR_" +
+                "ESTORNO, :IND_ESTORNO, :ID_CUPOM , :ID_FMAPAGTO, :CHAVE DO SUSPEND; END;\';\r\n\terr" +
+                "o = \'sproc cupom fmapagto sync insert\';\r\n\texecute statement \'CREATE OR ALTER PRO" +
+                "CEDURE SP_TRI_CUPOMFMAPAGTSYNCINSERT (pVLR_PAGTO TYPE OF COLUMN TRI_PDV_OPER.DIN" +
+                ", pVLR_ESTORNO TYPE OF COLUMN TRI_PDV_OPER.DIN, pIND_ESTORNO CHAR(1), pID_CUPOM " +
+                "INTEGER, pID_FMAPAGTO SMALLINT, pCHAVE VARCHAR(32) ) RETURNS ( rNewIdNumpag INTE" +
+                "GER ) AS DECLARE VARIABLE newIdNumpag INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_T" +
+                "B_CUPOM_FMAPAGTO_ID FROM RDB$DATABASE INTO :newIdNumpag; IF( :newIdNumpag IS NUL" +
+                "L ) THEN newIdNumpag = 0; BEGIN INSERT INTO TB_CUPOM_FMAPAGTO ( ID_NUMPAG , VLR_" +
+                "PAGTO , VLR_ESTORNO, IND_ESTORNO, ID_CUPOM , ID_FMAPAGTO, CHAVE ) VALUES ( :newI" +
+                "dNumpag , :pVLR_PAGTO , :pVLR_ESTORNO , :pIND_ESTORNO , :pID_CUPOM , :pID_FMAPAG" +
+                "TO , :pCHAVE ); rNewIdNumpag = newIdNumpag; END END;\';\r\n\terro = \'sproc cupom upd" +
+                "ate by coo and numcaixa\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_" +
+                "CUPOM_UPDT_BYCOONUMCAIX (pCOO INTEGER, pCCF INTEGER, pDT_CUPOM DATE, pHR_CUPOM T" +
+                "IME, pNUM_CAIXA SMALLINT, pID_CLIENTE INTEGER, pID_VENDEDOR SMALLINT, pSTATUS CH" +
+                "AR(1), pID_PARCELA SMALLINT, pIND_CANCEL CHAR(1), pID_IFS SMALLINT, pID_NATOPE I" +
+                "NTEGER, pVLR_TROCO TYPE OF COLUMN TRI_PDV_OPER.DIN, pVLR_TOTAL TYPE OF COLUMN TR" +
+                "I_PDV_OPER.DIN, pVLR_DESC TYPE OF COLUMN TRI_PDV_OPER.DIN, pTIP_DESC CHAR(1), pV" +
+                "LR_ACRES TYPE OF COLUMN TRI_PDV_OPER.DIN, pGNF INTEGER, pCHAVE VARCHAR(32), pTOT" +
+                "AL_TRIBUTOS_IBPT TYPE OF COLUMN TRI_PDV_OPER.DIN, pTOTAL_TRIB_FED TYPE OF COLUMN" +
+                " TRI_PDV_OPER.DIN, pTOTAL_TRIB_EST TYPE OF COLUMN TRI_PDV_OPER.DIN, pTOTAL_TRIB_" +
+                "MUN TYPE OF COLUMN TRI_PDV_OPER.DIN, pSYNCED SMALLINT) AS BEGIN UPDATE TB_CUPOM " +
+                "SET CCF =:pCCF , DT_CUPOM =:pDT_CUPOM , HR_CUPOM =:pHR_CUPOM , ID_CLIENTE =:pID_" +
+                "CLIENTE , ID_VENDEDOR =:pID_VENDEDOR , STATUS =:pSTATUS , ID_PARCELA =:pID_PARCE" +
+                "LA , IND_CANCEL =:pIND_CANCEL , ID_IFS =:pID_IFS , ID_NATOPE =:pID_NATOPE , VLR_" +
+                "TROCO =:pVLR_TROCO , VLR_TOTAL =:pVLR_TOTAL , VLR_DESC =:pVLR_DESC , TIP_DESC =:" +
+                "pTIP_DESC , VLR_ACRES =:pVLR_ACRES , GNF =:pGNF , CHAVE =:pCHAVE , TOTAL_TRIBUTO" +
+                "S_IBPT=:pTOTAL_TRIBUTOS_IBPT , TOTAL_TRIB_FED =:pTOTAL_TRIB_FED , TOTAL_TRIB_EST" +
+                " =:pTOTAL_TRIB_EST , TOTAL_TRIB_MUN =:pTOTAL_TRIB_MUN , SYNCED =:pSYNCED WHERE C" +
+                "OO =:pCOO AND NUM_CAIXA=:pNUM_CAIXA; END;\';\r\n\terro = \'sproc cupom get distinct i" +
+                "d_ifs num_caixa\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CUPOM_GE" +
+                "T_DISTINCT_IFS RETURNS( ID_IFS INTEGER, CAIXA VARCHAR(6) CHARACTER SET WIN_1252)" +
+                " AS BEGIN FOR SELECT DISTINCT COALESCE(ID_IFS, -1) AS ID_IFS, CAST(COALESCE(NUM_" +
+                "CAIXA, -1) AS VARCHAR(6) CHARACTER SET WIN_1252) AS CAIXA FROM TB_CUPOM ORDER BY" +
+                " ID_IFS INTO :ID_IFS , :CAIXA DO BEGIN SUSPEND; END END;\';\r\n\terro = \'sproc ifs s" +
+                "ync insert update\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_IFS_SY" +
+                "NC_INSERT_UPDT (pID_IFS SMALLINT, pCAIXA VARCHAR(6), pLOJA VARCHAR(3), pFABRICAC" +
+                "AO VARCHAR(20), pUSUARIO CHAR(3), pMARCA VARCHAR(20), pMF CHAR(1), pMODELO VARCH" +
+                "AR(20), pTIPO VARCHAR(7), pDATA_ON DATE, pDATA_OFF DATE, pATIVO CHAR(1), pISS_RA" +
+                "TEIO CHAR(1), pSB_DATAIN DATE, pSB_HORAIN TIME, pSB_VERSAO VARCHAR(8), pCHAVE VA" +
+                "RCHAR(32), pCOD_NAC VARCHAR(10), pDATA_TEMP DATE, pNUM_CREDENCIAMENTO VARCHAR(30" +
+                ") ) AS DECLARE VARIABLE vCountIfs INTEGER; BEGIN SELECT COUNT(1) FROM TB_IFS WHE" +
+                "RE ID_IFS = :pID_IFS INTO :vCountIfs; IF( :vCountIfs = 0 ) THEN BEGIN INSERT INT" +
+                "O TB_IFS ( ID_IFS , CAIXA , LOJA , FABRICACAO, USUARIO , MARCA , MF , MODELO , T" +
+                "IPO , DATA_ON , DATA_OFF , ATIVO , ISS_RATEIO, SB_DATAIN , SB_HORAIN , SB_VERSAO" +
+                " , CHAVE , COD_NAC , DATA_TEMP , NUM_CREDENCIAMENTO ) VALUES ( :pID_IFS , :pCAIX" +
+                "A , :pLOJA , :pFABRICACAO, :pUSUARIO , :pMARCA , :pMF , :pMODELO , :pTIPO , :pDA" +
+                "TA_ON , :pDATA_OFF , :pATIVO , :pISS_RATEIO, :pSB_DATAIN , :pSB_HORAIN , :pSB_VE" +
+                "RSAO , :pCHAVE , :pCOD_NAC , :pDATA_TEMP , :pNUM_CREDENCIAMENTO ); END ELSE BEGI" +
+                "N UPDATE TB_IFS SET CAIXA =:pCAIXA , LOJA =:pLOJA , FABRICACAO =:pFABRICACAO, US" +
+                "UARIO =:pUSUARIO , MARCA =:pMARCA , MF =:pMF , MODELO =:pMODELO , TIPO =:pTIPO ," +
+                " DATA_ON =:pDATA_ON , DATA_OFF =:pDATA_OFF , ATIVO =:pATIVO , ISS_RATEIO =:pISS_" +
+                "RATEIO, SB_DATAIN =:pSB_DATAIN , SB_HORAIN =:pSB_HORAIN , SB_VERSAO =:pSB_VERSAO" +
+                " , CHAVE =:pCHAVE , COD_NAC =:pCOD_NAC , DATA_TEMP =:pDATA_TEMP , NUM_CREDENCIAM" +
+                "ENTO=:pNUM_CREDENCIAMENTO WHERE ID_IFS=:pID_IFS; END END;\';\r\n\r\n\terro = \'sproc SP" +
+                "_TRI_REL_METD_PAGTO_UPDINST\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_" +
+                "TRI_REL_METD_PAGTO_UPDINST (pID_PAGAMENTO INTEGER, pID_FMAPGTO SMALLINT) AS BEGI" +
+                "N UPDATE OR INSERT INTO TRI_PDV_REL_METODO_PAGTO ( ID_PAGAMENTO, ID_FMAPGTO ) VA" +
+                "LUES ( :pID_PAGAMENTO, :pID_FMAPGTO ) MATCHING ( ID_PAGAMENTO, ID_FMAPGTO ); END" +
+                ";\';\r\n\terro = \'sproc SP_TRI_CUPOM_BYPASS_IFS\';\r\n\texecute statement \'CREATE OR ALT" +
+                "ER PROCEDURE SP_TRI_CUPOM_BYPASS_IFS RETURNS( ID_IFS INTEGER, CAIXA VARCHAR(6) C" +
+                "HARACTER SET WIN_1252) AS BEGIN FOR SELECT DISTINCT TB_CUPOM_DISTINCT.ID_IFS, CA" +
+                "ST(COUNT(TB_CUPOM_DISTINCT.CAIXA) AS VARCHAR(6) CHARACTER SET WIN_1252) AS QTD_C" +
+                "AIXAS FROM ( SELECT DISTINCT COALESCE(ID_IFS, -1) AS ID_IFS, CAST(COALESCE(NUM_C" +
+                "AIXA, -1) AS VARCHAR(6) CHARACTER SET WIN_1252) AS CAIXA FROM TB_CUPOM ORDER BY " +
+                "ID_IFS) AS TB_CUPOM_DISTINCT GROUP BY TB_CUPOM_DISTINCT.ID_IFS ORDER BY TB_CUPOM" +
+                "_DISTINCT.ID_IFS INTO :ID_IFS , :CAIXA DO BEGIN SUSPEND; END END;\';\r\n\r\n\terro = \'" +
+                "sproc SP_TRI_CUPOMITEMGET\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TR" +
+                "I_CUPOMITEMGET ( pIdCupom INTEGER ) RETURNS ( ID_ITEMCUP TYPE OF COLUMN TB_CUPOM" +
+                "_ITEM.ID_ITEMCUP , ID_CUPOM TYPE OF COLUMN TB_CUPOM_ITEM.ID_CUPOM , ID_IDENTIF T" +
+                "YPE OF COLUMN TB_CUPOM_ITEM.ID_IDENTIF , NUM_ITEM TYPE OF COLUMN TB_CUPOM_ITEM.N" +
+                "UM_ITEM , QTD_ITEM TYPE OF COLUMN TB_CUPOM_ITEM.QTD_ITEM , VLR_UNIT TYPE OF COLU" +
+                "MN TB_CUPOM_ITEM.VLR_UNIT , PRC_CUSTO TYPE OF COLUMN TB_CUPOM_ITEM.PRC_CUSTO , A" +
+                "LI_ICM TYPE OF COLUMN TB_CUPOM_ITEM.ALI_ICM , VLR_ICM TYPE OF COLUMN TB_CUPOM_IT" +
+                "EM.VLR_ICM , COD_TOTALP TYPE OF COLUMN TB_CUPOM_ITEM.COD_TOTALP , ORD_APLICA TYP" +
+                "E OF COLUMN TB_CUPOM_ITEM.ORD_APLICA , ITEM_CANCEL TYPE OF COLUMN TB_CUPOM_ITEM." +
+                "ITEM_CANCEL , CST TYPE OF COLUMN TB_CUPOM_ITEM.CST , UNI_MEDIDA TYPE OF COLUMN T" +
+                "B_CUPOM_ITEM.UNI_MEDIDA , CASAS_QTD TYPE OF COLUMN TB_CUPOM_ITEM.CASAS_QTD , CAS" +
+                "AS_VLR TYPE OF COLUMN TB_CUPOM_ITEM.CASAS_VLR , TIPO_DESC TYPE OF COLUMN TB_CUPO" +
+                "M_ITEM.TIPO_DESC , IAT TYPE OF COLUMN TB_CUPOM_ITEM.IAT , IPPT TYPE OF COLUMN TB" +
+                "_CUPOM_ITEM.IPPT , COD_BARRA TYPE OF COLUMN TB_CUPOM_ITEM.COD_BARRA , VLR_ACRE T" +
+                "YPE OF COLUMN TB_CUPOM_ITEM.VLR_ACRE , VLR_PIS TYPE OF COLUMN TB_CUPOM_ITEM.VLR_" +
+                "PIS , VLR_COFINS TYPE OF COLUMN TB_CUPOM_ITEM.VLR_COFINS , CHAVE TYPE OF COLUMN " +
+                "TB_CUPOM_ITEM.CHAVE , CST_PIS TYPE OF COLUMN TB_CUPOM_ITEM.CST_PIS , CST_COFINS " +
+                "TYPE OF COLUMN TB_CUPOM_ITEM.CST_COFINS , CFOP TYPE OF COLUMN TB_CUPOM_ITEM.CFOP" +
+                " , VLR_TRIBUTOS_IBPT TYPE OF COLUMN TB_CUPOM_ITEM.VLR_TRIBUTOS_IBPT , ALIQ_ENCON" +
+                "T_IBPT TYPE OF COLUMN TB_CUPOM_ITEM.ALIQ_ENCONT_IBPT , DT_ITEM TYPE OF COLUMN TB" +
+                "_CUPOM_ITEM.DT_ITEM , HR_ITEM TYPE OF COLUMN TB_CUPOM_ITEM.HR_ITEM , VLR_TRIB_FE" +
+                "D TYPE OF COLUMN TB_CUPOM_ITEM.VLR_TRIB_FED , VLR_TRIB_EST TYPE OF COLUMN TB_CUP" +
+                "OM_ITEM.VLR_TRIB_EST , VLR_TRIB_MUN TYPE OF COLUMN TB_CUPOM_ITEM.VLR_TRIB_MUN , " +
+                "DESCRICAO TYPE OF COLUMN TB_CUPOM_ITEM.DESCRICAO , ID_MAIT_PEDIDO_ITEM TYPE OF C" +
+                "OLUMN TRI_MAIT_PEDIDO_ITEM.ID_MAIT_PEDIDO_ITEM , ID_COMPPRO TYPE OF COLUMN TRI_M" +
+                "AIT_PED_ITEM_COMPPROD.ID_COMPPRO , ID_COMPOSICAO TYPE OF COLUMN TB_EST_COMPOSICA" +
+                "O.ID_COMPOSICAO ) AS BEGIN FOR SELECT COALESCE(a.ID_ITEMCUP, 0) ID_ITEMCUP, a.ID" +
+                "_CUPOM , a.ID_IDENTIF , a.NUM_ITEM , a.QTD_ITEM , a.VLR_UNIT , a.PRC_CUSTO , a.A" +
+                "LI_ICM , a.VLR_ICM , a.COD_TOTALP , a.ORD_APLICA , a.ITEM_CANCEL , a.CST , a.UNI" +
+                "_MEDIDA , a.CASAS_QTD , a.CASAS_VLR , a.TIPO_DESC , a.IAT , a.IPPT , a.COD_BARRA" +
+                " , a.VLR_ACRE , a.VLR_PIS , a.VLR_COFINS , a.CHAVE , a.CST_PIS , a.CST_COFINS , " +
+                "a.CFOP , a.VLR_TRIBUTOS_IBPT , a.ALIQ_ENCONT_IBPT , a.DT_ITEM , a.HR_ITEM , a.VL" +
+                "R_TRIB_FED , a.VLR_TRIB_EST , a.VLR_TRIB_MUN , a.DESCRICAO , c.ID_MAIT_PEDIDO_IT" +
+                "EM , d.ID_COMPPRO, e.ID_COMPOSICAO FROM TB_CUPOM_ITEM a LEFT JOIN TRI_MAIT_PED_I" +
+                "TEM_CUPOM_ITEM b ON a.ID_ITEMCUP = b.ID_ITEMCUP LEFT JOIN TRI_MAIT_PEDIDO_ITEM c" +
+                " ON b.ID_MAIT_PEDIDO_ITEM = c.ID_MAIT_PEDIDO_ITEM LEFT JOIN TRI_MAIT_PED_ITEM_CO" +
+                "MPPROD d ON c.ID_MAIT_PEDIDO_ITEM = d.ID_MAIT_PEDIDO_ITEM LEFT JOIN TB_EST_COMPO" +
+                "SICAO e ON e.ID_IDENTIFICADOR = a.ID_IDENTIF WHERE a.ID_CUPOM =:pIdCupom INTO :I" +
+                "D_ITEMCUP , :ID_CUPOM , :ID_IDENTIF , :NUM_ITEM , :QTD_ITEM , :VLR_UNIT , :PRC_C" +
+                "USTO , :ALI_ICM , :VLR_ICM , :COD_TOTALP , :ORD_APLICA , :ITEM_CANCEL , :CST , :" +
+                "UNI_MEDIDA , :CASAS_QTD , :CASAS_VLR , :TIPO_DESC , :IAT , :IPPT , :COD_BARRA , " +
+                ":VLR_ACRE , :VLR_PIS , :VLR_COFINS , :CHAVE , :CST_PIS , :CST_COFINS , :CFOP , :" +
+                "VLR_TRIBUTOS_IBPT , :ALIQ_ENCONT_IBPT , :DT_ITEM , :HR_ITEM , :VLR_TRIB_FED , :V" +
+                "LR_TRIB_EST , :VLR_TRIB_MUN , :DESCRICAO , :ID_MAIT_PEDIDO_ITEM , :ID_COMPPRO , " +
+                ":ID_COMPOSICAO DO SUSPEND ; END;\';\r\n\r\n\terro = \'sproc SP_TRI_PRODUTO_RETIRAESTOQU" +
+                "E\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_PRODUTO_RETIRAESTOQUE " +
+                "( pQTD_ITEM TYPE OF COLUMN TRI_PDV_OPER.DIN , pID_IDENTIF INTEGER , pID_COMPPRO " +
+                "TYPE OF COLUMN TB_EST_COMP_PRODUCAO.ID_COMPPRO , pID_COMPOSICAO TYPE OF COLUMN T" +
+                "B_EST_COMPOSICAO.ID_COMPOSICAO ) AS DECLARE VARIABLE vIdIdentifComponente TYPE O" +
+                "F COLUMN TB_EST_COMP_ITEM_USADO.ID_IDENTIFICADOR; DECLARE VARIABLE vQtdItemCompo" +
+                "nente TYPE OF COLUMN TB_EST_COMP_ITEM_USADO.QTD_ITEM; DECLARE VARIABLE vQtdDif T" +
+                "YPE OF COLUMN TB_EST_PRODUTO.QTD_ATUAL; DECLARE VARIABLE vIdTipoItemEstoque TYPE" +
+                " OF COLUMN TB_ESTOQUE.ID_TIPOITEM; DECLARE VARIABLE vQtdRetirarComponentes TYPE " +
+                "OF COLUMN TB_EST_PRODUTO.QTD_ATUAL; DECLARE VARIABLE vQtdRetirarComposto TYPE OF" +
+                " COLUMN TB_EST_PRODUTO.QTD_ATUAL; BEGIN SELECT te.ID_TIPOITEM FROM TB_EST_IDENTI" +
+                "FICADOR tei JOIN TB_ESTOQUE te ON te.ID_ESTOQUE = tei.ID_ESTOQUE WHERE tei.ID_ID" +
+                "ENTIFICADOR = :pID_IDENTIF INTO :vIdTipoItemEstoque ; IF (:vIdTipoItemEstoque = " +
+                "\'\'9\'\') THEN EXIT; vQtdItemComponente = 0; vQtdDif = 0; vQtdRetirarComponentes = " +
+                "0; vQtdRetirarComposto = 0; IF (:pID_COMPPRO > 0 OR :pID_COMPOSICAO > 0) THEN BE" +
+                "GIN IF (:pQTD_ITEM >= 0) THEN BEGIN SELECT (tep.QTD_ATUAL - :pQTD_ITEM) AS qtd_d" +
+                "if FROM TB_EST_PRODUTO tep WHERE tep.ID_IDENTIFICADOR = :pID_IDENTIF INTO :vQtdD" +
+                "if ; IF (:vQtdDif < 0) THEN BEGIN vQtdRetirarComponentes = :vQtdDif * -1; vQtdRe" +
+                "tirarComposto = :pQTD_ITEM - :vQtdRetirarComponentes; END END END IF (:vQtdDif >" +
+                "= 0) THEN BEGIN UPDATE TB_EST_PRODUTO SET QTD_ATUAL = QTD_ATUAL - :pQTD_ITEM WHE" +
+                "RE ID_IDENTIFICADOR = :pID_IDENTIF ; END ELSE BEGIN IF (:vQtdRetirarComposto > 0" +
+                ") THEN BEGIN UPDATE TB_EST_PRODUTO SET QTD_ATUAL = QTD_ATUAL - :vQtdRetirarCompo" +
+                "sto WHERE ID_IDENTIFICADOR = :pID_IDENTIF ; END IF (:vQtdRetirarComponentes > 0)" +
+                " THEN BEGIN IF (:pID_COMPPRO > 0) THEN BEGIN FOR SELECT teciu.ID_IDENTIFICADOR ," +
+                " teciu.QTD_ITEM FROM TB_EST_COMP_ITEM_USADO teciu WHERE teciu.ID_COMPPROD = :pID" +
+                "_COMPPRO INTO :vIdIdentifComponente , :vQtdItemComponente DO BEGIN EXECUTE PROCE" +
+                "DURE SP_TRI_PRODUTO_RETIRAESTOQUE((:vQtdItemComponente * :vQtdRetirarComponentes" +
+                "), :vIdIdentifComponente, 0, 0); END END ELSE BEGIN FOR SELECT teci.ID_IDENTIFIC" +
+                "ADOR, teci.QTD_ITEM FROM TB_EST_COMP_ITEM teci WHERE teci.ID_COMPOSICAO = :pID_C" +
+                "OMPOSICAO INTO :vIdIdentifComponente , :vQtdItemComponente DO BEGIN EXECUTE PROC" +
+                "EDURE SP_TRI_PRODUTO_RETIRAESTOQUE((:vQtdItemComponente * :vQtdRetirarComponente" +
+                "s), :vIdIdentifComponente, 0, 0); END END END END UPDATE TB_ESTOQUE SET ULT_VEND" +
+                "A = CURRENT_DATE WHERE ID_ESTOQUE = ( SELECT ID_ESTOQUE FROM TB_EST_IDENTIFICADO" +
+                "R WHERE ID_IDENTIFICADOR = :pID_IDENTIF ) ; END;\';\r\n\t\r\n\terro = \'deu certo\';\r\n\t\r\n" +
+                "\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
             this._commandCollection[16].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[17] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[17].Connection = this.Connection;
@@ -7625,147 +7725,148 @@ END;";
                 "_ENCONTRADO CHAR(1), PMENSAGEM_CORTESIA VARCHAR(100), PICMS_CONT FLOAT, PCSOSN_C" +
                 "ONT FLOAT, PPEDE_CPF INTEGER, PPERMITE_ESTOQUE_NEGATIVO INTEGER, PMODELO_CUPOM S" +
                 "MALLINT, PMENSAGEM_RODAPE VARCHAR(100), PTRI_PDV_DT_UPD TIMESTAMP, PMODELO_SAT I" +
-                "NTEGER, PSATSERVIDOR CHAR(1), PSAT_CODATIV VARCHAR(64), PSIGN_AC BLOB SUB_TYPE 1" +
-                ", PSAT_USADO CHAR(1), PECF_ATIVA CHAR(1), PECF_PORTA VARCHAR(5), PIMPRESSORA_USB" +
-                " VARCHAR(64), PIMPRESSORA_USB_PED VARCHAR(64), PPERGUNTA_WHATS INTEGER, PUSATEF " +
-                "CHAR(1), PTEFIP VARCHAR(15), PTEFNUMLOJA VARCHAR(8), PTEFNUMTERMINAL VARCHAR(8)," +
-                " PTEFPEDECPFPELOPINPAD CHAR(1), PBALPORTA SMALLINT, PBALBITS SMALLINT, PBALBAUD " +
-                "INTEGER, PBALPARITY SMALLINT, PBALMODELO SMALLINT, PACFILLPREFIX SMALLINT, PACFI" +
-                "LLMODE SMALLINT, PACREFERENCIA SMALLINT, PSYSCOMISSAO SMALLINT, PSATSERVTIMEOUT " +
-                "INTEGER, PSATLIFESIGNINTERVAL INTEGER, PACFILLDELAY INTEGER, PSYSPERGUNTAWHATS S" +
-                "MALLINT, PSYSPARCELA SMALLINT, PSYSEMITECOMPROVANTE SMALLINT, PINFORMA_MAQUININH" +
-                "A CHAR(1), PLAYOUT_SAT VARCHAR(4)) RETURNS (RROWSAFFECTED INTEGER) AS BEGIN UPDA" +
-                "TE OR INSERT INTO TRI_PDV_CONFIG (ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAI" +
-                "XA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_EN" +
-                "CONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NE" +
-                "GATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, " +
-                "SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSOR" +
-                "A_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPF" +
-                "PELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFI" +
-                "LLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDE" +
-                "LAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYO" +
-                "UT_SAT) VALUES (:pID_MAC, :pNO_CAIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQ" +
-                "UEIA_NO_LIMITE, :pVALOR_DE_FOLGA, :pPERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCO" +
-                "NTRADO, :pMENSAGEM_CORTESIA, :pICMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ES" +
-                "TOQUE_NEGATIVO, :pMODELO_CUPOM, :pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SA" +
-                "T, :pSATSERVIDOR, :pSAT_CODATIV, :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORT" +
-                "A, :pIMPRESSORA_USB, :pIMPRESSORA_USB_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, " +
-                ":pTEFNUMLOJA, :pTEFNUMTERMINAL, :pTEFPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :" +
-                "pBALBAUD, :pBALPARITY, :pBALMODELO, :pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA" +
-                ", :pSYSCOMISSAO, :pSATSERVTIMEOUT, :pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPE" +
-                "RGUNTAWHATS, :pSYSPARCELA, :pSYSEMITECOMPROVANTE, :pINFORMA_MAQUININHA, :pLAYOUT" +
-                "_SAT) MATCHING (ID_MAC); rRowsAffected = ROW_COUNT; END\';\r\n\r\n\t\t\t\t\t\terro = \'sproc" +
-                " cfopsis get by dt upd\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_" +
-                "TRI_CFOPSIS_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRI" +
-                "CAO VARCHAR(330), RESUMO VARCHAR(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), ES" +
-                "T_BX_AMBOS CHAR(1), DEV_RET CHAR(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELE" +
-                "CT CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_D" +
-                "T_UPD FROM TB_CFOP_SIS WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICA" +
-                "O, :RESUMO, :OBSERVACAO, :EST_BX, :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BE" +
-                "GIN SUSPEND ; END END;\';\r\n\terro = \'sproc cfopsis sync upsert\';\r\n\texecute stateme" +
-                "nt \'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICA" +
-                "O VARCHAR(330), pRESUMO VARCHAR(60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), p" +
-                "EST_BX_AMBOS CHAR(1), pDEV_RET CHAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRow" +
-                "sAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, " +
-                "RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFO" +
-                "P, :pDESCRICAO, :pRESUMO, :pOBSERVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pT" +
-                "RI_PDV_DT_UPD) MATCHING (CFOP) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'" +
-                "sproc fornecedor get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE " +
-                "SP_TRI_FORNEC_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NO" +
-                "ME VARCHAR(60), NOME_FANTA VARCHAR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16)" +
-                ", INSC_MUNIC VARCHAR(16), END_CEP VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD V" +
-                "ARCHAR(40), END_BAIRRO VARCHAR(35), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15" +
-                "), DDD_COMER CHAR(2), FONE_COMER VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL C" +
-                "HAR(2), FONE_CELUL VARCHAR(13), DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CON" +
-                "T VARCHAR(50), EMAIL_NFE VARCHAR(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PR" +
-                "ICOMP DATE, DT_ULTCOMP DATE, ID_CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OP" +
-                "ER.DIN, ID_RAMO SMALLINT, ID_PAIS CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO V" +
-                "ARCHAR(35), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_" +
-                "FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, " +
-                "END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL," +
-                " DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP," +
-                " ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM T" +
-                "B_FORNECEDOR WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_F" +
-                "ANTA, :CNPJ, :INSC_ESTAD, :INSC_MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BA" +
-                "IRRO, :END_NUMERO, :END_COMPLE, :DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL," +
-                " :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_" +
-                "PRICOMP, :DT_ULTCOMP, :ID_CIDADE, :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CON" +
-                "TATO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc fornecedor s" +
-                "ync upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT" +
-                " (pID_FORNEC INTEGER, pNOME VARCHAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(" +
-                "18), pINSC_ESTAD VARCHAR(16), pINSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND" +
-                "_TIPO VARCHAR(15), pEND_LOGRAD VARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO" +
-                " VARCHAR(5), pEND_COMPLE VARCHAR(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13" +
-                "), pFONE_0800 VARCHAR(13), pDDD_CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX" +
-                " CHAR(2), pFONE_FAX VARCHAR(13), pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50)" +
-                ", pSITE VARCHAR(50), pSTATUS VARCHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID" +
-                "_CIDADE CHAR(7), pLIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID" +
-                "_PAIS CHAR(4), pOBSERVACAO BLOB SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UP" +
-                "D TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_F" +
-                "ORNECEDOR (ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, E" +
-                "ND_TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, " +
-                "FONE_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE" +
-                ", STATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACA" +
-                "O, CONTATO, TRI_PDV_DT_UPD) VALUES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :" +
-                "pINSC_ESTAD, :pINSC_MUNIC, :pEND_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :p" +
-                "END_NUMERO, :pEND_COMPLE, :pDDD_COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :" +
-                "pFONE_CELUL, :pDDD_FAX, :pFONE_FAX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS," +
-                " :pDT_PRICOMP, :pDT_ULTCOMP, :pID_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSE" +
-                "RVACAO, :pCONTATO, :pTRI_PDV_DT_UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_C" +
-                "OUNT; END;\';\r\n\t\r\n\terro = \'sproc ctarec set inv_referencia filthy rows\';\r\n\texecut" +
-                "e statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDAT" +
-                "E TB_CONTA_RECEBER a SET a.INV_REFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS V" +
-                "ARCHAR(10)), 5, \'\'0\'\') || LPAD(a.DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA I" +
-                "S null ; END;\';\r\n\t\r\n\terro = \'sproc triusers get by dt upd\';\r\n\texecute statement " +
-                "\'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) R" +
-                "ETURNS (  ID_USER SMALLINT,  USERNAME VARCHAR(64),  PASSWORD VARCHAR(32),  GEREN" +
-                "CIA VARCHAR(8),  ATIVO VARCHAR(8),  TRI_PDV_DT_UPD TIMESTAMP,  PERMISSOES INTEGE" +
-                "R ) AS BEGIN  FOR SELECT  ID_USER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  T" +
-                "RI_PDV_DT_UPD,  PERMISSOES FROM  TRI_PDV_USERS WHERE  TRI_PDV_DT_UPD > :pUltimaS" +
-                "ync INTO  :ID_USER,  :USERNAME,  :\"PASSWORD\",  :GERENCIA,  :ATIVO,  :TRI_PDV_DT_" +
-                "UPD,   :PERMISSOES DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc triusers sync u" +
-                "psert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (P" +
-                "ID_USER SMALLINT, PUSERNAME VARCHAR(64), PPASSWORD VARCHAR(32), PGERENCIA VARCHA" +
-                "R(8), PATIVO VARCHAR(8), PTRI_PDV_DT_UPD TIMESTAMP, PPERMISSOES INTEGER) RETURNS" +
-                " (  RROWSAFFECTED INTEGER ) AS BEGIN  UPDATE  OR INSERT  INTO  TRI_PDV_USERS (ID" +
-                "_USER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES) " +
-                "VALUES (:pID_USER, :pUSERNAME, :pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD" +
-                ", :pPERMISSOES) MATCHING (ID_USER) ;  rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terr" +
-                "o = \'sproc cliente get by dt upd\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDUR" +
-                "E SP_TRI_CLIENTE_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF" +
-                " COLUMN TB_CLIENTE.ID_CLIENTE, ID_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO" +
-                ", DT_CADASTRO TYPE OF COLUMN TB_CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIE" +
-                "NTE.NOME, END_CEP TYPE OF COLUMN TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_" +
-                "CLIENTE.END_TIPO, END_NUMERO TYPE OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TY" +
-                "PE OF COLUMN TB_CLIENTE.END_LOGRAD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAI" +
-                "RRO, END_COMPLE TYPE OF COLUMN TB_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN " +
-                "TB_CLIENTE.DT_PRICOMP, DT_ULTCOMP TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO " +
-                "TYPE OF COLUMN TB_CLIENTE.CONTATO, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMI" +
-                "TE TYPE OF COLUMN TB_CLIENTE.LIMITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RES" +
-                "ID, FONE_RESID TYPE OF COLUMN TB_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB" +
-                "_CLIENTE.DDD_COMER, FONE_COMER TYPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL T" +
-                "YPE OF COLUMN TB_CLIENTE.DDD_CELUL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CE" +
-                "LUL, DDD_FAX TYPE OF COLUMN TB_CLIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIEN" +
-                "TE.FONE_FAX, EMAIL_CONT TYPE OF COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF " +
-                "COLUMN TB_CLIENTE.EMAIL_NFE, ID_CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_T" +
-                "IPO TYPE OF COLUMN TB_CLIENTE.ID_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE." +
-                "ID_FUNCIONARIO, ID_PAIS TYPE OF COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLU" +
-                "MN TB_CLIENTE.MENSAGEM, ID_RAMO TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TY" +
-                "PE OF COLUMN TB_CLIENTE.EMAIL_ADIC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVA" +
-                "CAO, DT_MELHOR_VENCTO TYPE OF COLUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD" +
-                " TYPE OF COLUMN TB_CLIENTE.TRI_PDV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CO" +
-                "NVENIO, DT_CADASTRO, NOME, END_CEP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO" +
-                ", END_COMPLE, DT_PRICOMP, DT_ULTCOMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_R" +
-                "ESID, DDD_COMER, FONE_COMER, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CON" +
-                "T, EMAIL_NFE, ID_CIDADE, ID_TIPO, ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EM" +
-                "AIL_ADIC, OBSERVACAO, DT_MELHOR_VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI" +
-                "_PDV_DT_UPD > :pUltimaSync INTO :ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, " +
-                ":END_CEP, :END_TIPO, :END_NUMERO, :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRI" +
-                "COMP, :DT_ULTCOMP, :CONTATO, :STATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COM" +
-                "ER, :FONE_COMER, :DDD_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMA" +
-                "IL_NFE, :ID_CIDADE, :ID_TIPO, :ID_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :E" +
-                "MAIL_ADIC, :OBSERVACAO, :DT_MELHOR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END" +
-                " END\';\r\n\terro = \'deu certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
+                "NTEGER, PSATSERVIDOR CHAR(1), PSAT_CODATIV VARCHAR(64), PSIGN_AC BLOB SUB_TYPE T" +
+                "EXT, PSAT_USADO CHAR(1), PECF_ATIVA CHAR(1), PECF_PORTA VARCHAR(5), PIMPRESSORA_" +
+                "USB VARCHAR(64), PIMPRESSORA_USB_PED VARCHAR(64), PPERGUNTA_WHATS INTEGER, PUSAT" +
+                "EF CHAR(1), PTEFIP VARCHAR(15), PTEFNUMLOJA VARCHAR(8), PTEFNUMTERMINAL VARCHAR(" +
+                "8), PTEFPEDECPFPELOPINPAD CHAR(1), PBALPORTA SMALLINT, PBALBITS SMALLINT, PBALBA" +
+                "UD INTEGER, PBALPARITY SMALLINT, PBALMODELO SMALLINT, PACFILLPREFIX SMALLINT, PA" +
+                "CFILLMODE SMALLINT, PACREFERENCIA SMALLINT, PSYSCOMISSAO SMALLINT, PSATSERVTIMEO" +
+                "UT INTEGER, PSATLIFESIGNINTERVAL INTEGER, PACFILLDELAY INTEGER, PSYSPERGUNTAWHAT" +
+                "S SMALLINT, PSYSPARCELA SMALLINT, PSYSEMITECOMPROVANTE SMALLINT, PINFORMA_MAQUIN" +
+                "INHA CHAR(1), PLAYOUT_SAT VARCHAR(4), PVINCULA_MAQ_CTA CHAR(1)) RETURNS ( RROWSA" +
+                "FFECTED INTEGER ) AS BEGIN UPDATE OR INSERT INTO TRI_PDV_CONFIG (ID_MAC, NO_CAIX" +
+                "A, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_F" +
+                "OLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CON" +
+                "T, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT" +
+                "_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_P" +
+                "ORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUML" +
+                "OJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY" +
+                ", BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT" +
+                ", SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPRO" +
+                "VANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA) VALUES (:pID_MAC, :pNO_C" +
+                "AIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQUEIA_NO_LIMITE, :pVALOR_DE_FOLGA" +
+                ", :pPERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCONTRADO, :pMENSAGEM_CORTESIA, :pI" +
+                "CMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ESTOQUE_NEGATIVO, :pMODELO_CUPOM, " +
+                ":pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SAT, :pSATSERVIDOR, :pSAT_CODATIV," +
+                " :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORTA, :pIMPRESSORA_USB, :pIMPRESSOR" +
+                "A_USB_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, :pTEFNUMLOJA, :pTEFNUMTERMINAL, " +
+                ":pTEFPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :pBALBAUD, :pBALPARITY, :pBALMODE" +
+                "LO, :pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA, :pSYSCOMISSAO, :pSATSERVTIMEOU" +
+                "T, :pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPERGUNTAWHATS, :pSYSPARCELA, :pSYS" +
+                "EMITECOMPROVANTE, :pINFORMA_MAQUININHA, :pLAYOUT_SAT, :pVINCULA_MAQ_CTA) MATCHIN" +
+                "G (ID_MAC); rRowsAffected = ROW_COUNT; SUSPEND; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc cf" +
+                "opsis get by dt upd\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI" +
+                "_CFOPSIS_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRICAO" +
+                " VARCHAR(330), RESUMO VARCHAR(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), EST_B" +
+                "X_AMBOS CHAR(1), DEV_RET CHAR(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT " +
+                "CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_U" +
+                "PD FROM TB_CFOP_SIS WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICAO, " +
+                ":RESUMO, :OBSERVACAO, :EST_BX, :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BEGIN" +
+                " SUSPEND ; END END;\';\r\n\terro = \'sproc cfopsis sync upsert\';\r\n\texecute statement " +
+                "\'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICAO V" +
+                "ARCHAR(330), pRESUMO VARCHAR(60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), pEST" +
+                "_BX_AMBOS CHAR(1), pDEV_RET CHAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAf" +
+                "fected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, RES" +
+                "UMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFOP, " +
+                ":pDESCRICAO, :pRESUMO, :pOBSERVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pTRI_" +
+                "PDV_DT_UPD) MATCHING (CFOP) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'spr" +
+                "oc fornecedor get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_" +
+                "TRI_FORNEC_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NOME " +
+                "VARCHAR(60), NOME_FANTA VARCHAR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16), I" +
+                "NSC_MUNIC VARCHAR(16), END_CEP VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD VARC" +
+                "HAR(40), END_BAIRRO VARCHAR(35), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15), " +
+                "DDD_COMER CHAR(2), FONE_COMER VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL CHAR" +
+                "(2), FONE_CELUL VARCHAR(13), DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CONT V" +
+                "ARCHAR(50), EMAIL_NFE VARCHAR(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PRICO" +
+                "MP DATE, DT_ULTCOMP DATE, ID_CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OPER." +
+                "DIN, ID_RAMO SMALLINT, ID_PAIS CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO VARC" +
+                "HAR(35), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_FAN" +
+                "TA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, END" +
+                "_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL, DD" +
+                "D_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP, ID" +
+                "_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM TB_F" +
+                "ORNECEDOR WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_FANT" +
+                "A, :CNPJ, :INSC_ESTAD, :INSC_MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BAIRR" +
+                "O, :END_NUMERO, :END_COMPLE, :DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL, :F" +
+                "ONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_PRI" +
+                "COMP, :DT_ULTCOMP, :ID_CIDADE, :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CONTAT" +
+                "O, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc fornecedor sync" +
+                " upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT (p" +
+                "ID_FORNEC INTEGER, pNOME VARCHAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(18)" +
+                ", pINSC_ESTAD VARCHAR(16), pINSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND_TI" +
+                "PO VARCHAR(15), pEND_LOGRAD VARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO VA" +
+                "RCHAR(5), pEND_COMPLE VARCHAR(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13), " +
+                "pFONE_0800 VARCHAR(13), pDDD_CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX CH" +
+                "AR(2), pFONE_FAX VARCHAR(13), pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50), p" +
+                "SITE VARCHAR(50), pSTATUS VARCHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID_CI" +
+                "DADE CHAR(7), pLIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID_PA" +
+                "IS CHAR(4), pOBSERVACAO BLOB SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UPD T" +
+                "IMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_FORN" +
+                "ECEDOR (ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_" +
+                "TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FON" +
+                "E_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, S" +
+                "TATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, " +
+                "CONTATO, TRI_PDV_DT_UPD) VALUES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :pIN" +
+                "SC_ESTAD, :pINSC_MUNIC, :pEND_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :pEND" +
+                "_NUMERO, :pEND_COMPLE, :pDDD_COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :pFO" +
+                "NE_CELUL, :pDDD_FAX, :pFONE_FAX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS, :p" +
+                "DT_PRICOMP, :pDT_ULTCOMP, :pID_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSERVA" +
+                "CAO, :pCONTATO, :pTRI_PDV_DT_UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_COUN" +
+                "T; END;\';\r\n\t\r\n\terro = \'sproc ctarec set inv_referencia filthy rows\';\r\n\texecute s" +
+                "tatement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDATE T" +
+                "B_CONTA_RECEBER a SET a.INV_REFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS VARC" +
+                "HAR(10)), 5, \'\'0\'\') || LPAD(a.DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA IS n" +
+                "ull ; END;\';\r\n\t\r\n\terro = \'sproc triusers get by dt upd\';\r\n\texecute statement \'CR" +
+                "EATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETU" +
+                "RNS (  ID_USER SMALLINT,  USERNAME VARCHAR(64),  PASSWORD VARCHAR(32),  GERENCIA" +
+                " VARCHAR(8),  ATIVO VARCHAR(8),  TRI_PDV_DT_UPD TIMESTAMP,  PERMISSOES INTEGER )" +
+                " AS BEGIN  FOR SELECT  ID_USER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_" +
+                "PDV_DT_UPD,  PERMISSOES FROM  TRI_PDV_USERS WHERE  TRI_PDV_DT_UPD > :pUltimaSync" +
+                " INTO  :ID_USER,  :USERNAME,  :\"PASSWORD\",  :GERENCIA,  :ATIVO,  :TRI_PDV_DT_UPD" +
+                ",   :PERMISSOES DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc triusers sync upse" +
+                "rt\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (PID_" +
+                "USER SMALLINT, PUSERNAME VARCHAR(64), PPASSWORD VARCHAR(32), PGERENCIA VARCHAR(8" +
+                "), PATIVO VARCHAR(8), PTRI_PDV_DT_UPD TIMESTAMP, PPERMISSOES INTEGER) RETURNS ( " +
+                " RROWSAFFECTED INTEGER ) AS BEGIN  UPDATE  OR INSERT  INTO  TRI_PDV_USERS (ID_US" +
+                "ER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES) VAL" +
+                "UES (:pID_USER, :pUSERNAME, :pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD, :" +
+                "pPERMISSOES) MATCHING (ID_USER) ;  rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro =" +
+                " \'sproc cliente get by dt upd\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDURE S" +
+                "P_TRI_CLIENTE_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF CO" +
+                "LUMN TB_CLIENTE.ID_CLIENTE, ID_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO, D" +
+                "T_CADASTRO TYPE OF COLUMN TB_CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIENTE" +
+                ".NOME, END_CEP TYPE OF COLUMN TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_CLI" +
+                "ENTE.END_TIPO, END_NUMERO TYPE OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TYPE " +
+                "OF COLUMN TB_CLIENTE.END_LOGRAD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAIRRO" +
+                ", END_COMPLE TYPE OF COLUMN TB_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN TB_" +
+                "CLIENTE.DT_PRICOMP, DT_ULTCOMP TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO TYP" +
+                "E OF COLUMN TB_CLIENTE.CONTATO, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMITE " +
+                "TYPE OF COLUMN TB_CLIENTE.LIMITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RESID," +
+                " FONE_RESID TYPE OF COLUMN TB_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB_CL" +
+                "IENTE.DDD_COMER, FONE_COMER TYPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL TYPE" +
+                " OF COLUMN TB_CLIENTE.DDD_CELUL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CELUL" +
+                ", DDD_FAX TYPE OF COLUMN TB_CLIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIENTE." +
+                "FONE_FAX, EMAIL_CONT TYPE OF COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF COL" +
+                "UMN TB_CLIENTE.EMAIL_NFE, ID_CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_TIPO" +
+                " TYPE OF COLUMN TB_CLIENTE.ID_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE.ID_" +
+                "FUNCIONARIO, ID_PAIS TYPE OF COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLUMN " +
+                "TB_CLIENTE.MENSAGEM, ID_RAMO TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TYPE " +
+                "OF COLUMN TB_CLIENTE.EMAIL_ADIC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVACAO" +
+                ", DT_MELHOR_VENCTO TYPE OF COLUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD TY" +
+                "PE OF COLUMN TB_CLIENTE.TRI_PDV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CONVE" +
+                "NIO, DT_CADASTRO, NOME, END_CEP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO, E" +
+                "ND_COMPLE, DT_PRICOMP, DT_ULTCOMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_RESI" +
+                "D, DDD_COMER, FONE_COMER, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, " +
+                "EMAIL_NFE, ID_CIDADE, ID_TIPO, ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EMAIL" +
+                "_ADIC, OBSERVACAO, DT_MELHOR_VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI_PD" +
+                "V_DT_UPD > :pUltimaSync INTO :ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, :EN" +
+                "D_CEP, :END_TIPO, :END_NUMERO, :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRICOM" +
+                "P, :DT_ULTCOMP, :CONTATO, :STATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COMER," +
+                " :FONE_COMER, :DDD_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_" +
+                "NFE, :ID_CIDADE, :ID_TIPO, :ID_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :EMAI" +
+                "L_ADIC, :OBSERVACAO, :DT_MELHOR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END EN" +
+                "D\';\r\n\terro = \'deu certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
             this._commandCollection[17].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[18] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[18].Connection = this.Connection;
@@ -9102,78 +9203,77 @@ END;";
                 "_FED , :pVLR_TRIB_EST , :pVLR_TRIB_MUN , :pINCLUIR_FATURA , :pVLR_UNIT , :pVLR_R" +
                 "ETENCAO , :pREFERENCIA,  :pCOD_SCANNTECH) ;  rnewIdNfvItem = newIdNfvItem; END E" +
                 "ND;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_CTAREC_GETBY_IDNFVENDA\';\r\n\t\t\t\t\t\texecute stat" +
-                "ement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_GETBY_IDNFVENDA ( pIdNfvenda INTE" +
-                "GER ) RETURNS ( ID_CTAREC INTEGER , DOCUMENTO VARCHAR(12) , HISTORICO VARCHAR(50" +
-                ") , DT_EMISSAO DATE , DT_VENCTO DATE , VLR_CTAREC TYPE OF COLUMN TRI_PDV_OPER.DI" +
-                "N , TIP_CTAREC CHAR(1) , ID_PORTADOR INTEGER , ID_CLIENTE INTEGER , INV_REFERENC" +
-                "IA VARCHAR(18) , DT_VENCTO_ORIG DATE , NSU_CARTAO VARCHAR(32) , ID_NUMPAG TYPE O" +
-                "F COLUMN TB_NFV_CTAREC.ID_NUMPAG ) AS BEGIN FOR SELECT COALESCE(a.ID_CTAREC, 0) " +
-                ", a.DOCUMENTO , a.HISTORICO , a.DT_EMISSAO , a.DT_VENCTO , a.VLR_CTAREC , a.TIP_" +
-                "CTAREC , a.ID_PORTADOR , a.ID_CLIENTE , a.INV_REFERENCIA , a.DT_VENCTO_ORIG , a." +
-                "NSU_CARTAO , b.ID_NUMPAG FROM TB_CONTA_RECEBER a JOIN TB_NFV_CTAREC b ON a.ID_CT" +
-                "AREC = b.ID_CTAREC WHERE b.ID_NFVENDA =:pIdNfvenda INTO :ID_CTAREC , :DOCUMENTO " +
-                ", :HISTORICO , :DT_EMISSAO , :DT_VENCTO , :VLR_CTAREC , :TIP_CTAREC , :ID_PORTAD" +
-                "OR , :ID_CLIENTE , :INV_REFERENCIA , :DT_VENCTO_ORIG , :NSU_CARTAO , :ID_NUMPAG " +
-                "DO SUSPEND ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_NFVENDA_SETSYNCED\';\r\n\t\t\t\t\t\texe" +
-                "cute statement \'CREATE OR ALTER PROCEDURE SP_TRI_NFVENDA_SETSYNCED ( pIdNfvenda " +
-                "INTEGER , pSynced SMALLINT ) AS BEGIN UPDATE TB_NFVENDA SET SYNCED = :pSynced WH" +
-                "ERE ID_NFVENDA = :pIdNfvenda ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_CTAREC_GETBY" +
-                "_NFNUMSERIE\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_" +
-                "GETBY_NFNUMSERIE ( pNF_NUMERO TYPE OF COLUMN TB_NFVENDA.NF_NUMERO , pNF_SERIE TY" +
-                "PE OF COLUMN TB_NFVENDA.NF_SERIE ) RETURNS ( ID_CTAREC INTEGER , DOCUMENTO VARCH" +
-                "AR(12) , HISTORICO VARCHAR(50) , DT_EMISSAO DATE , DT_VENCTO DATE , VLR_CTAREC T" +
-                "YPE OF COLUMN TRI_PDV_OPER.DIN , TIP_CTAREC CHAR(1) , ID_PORTADOR INTEGER , ID_C" +
-                "LIENTE INTEGER , INV_REFERENCIA VARCHAR(18) , DT_VENCTO_ORIG DATE , NSU_CARTAO V" +
-                "ARCHAR(32) ) AS BEGIN FOR SELECT a.ID_CTAREC , a.DOCUMENTO , a.HISTORICO , a.DT_" +
-                "EMISSAO , a.DT_VENCTO , a.VLR_CTAREC , a.TIP_CTAREC , a.ID_PORTADOR , a.ID_CLIEN" +
-                "TE , a.INV_REFERENCIA , a.DT_VENCTO_ORIG , a.NSU_CARTAO FROM TB_CONTA_RECEBER a " +
-                "JOIN TB_NFV_CTAREC b ON a.ID_CTAREC = b.ID_CTAREC JOIN TB_NFVENDA c ON c.ID_NFVE" +
-                "NDA = b.ID_NFVENDA WHERE c.NF_NUMERO = :pNF_NUMERO AND c.NF_SERIE = :pNF_SERIE I" +
-                "NTO :ID_CTAREC , :DOCUMENTO , :HISTORICO , :DT_EMISSAO , :DT_VENCTO , :VLR_CTARE" +
-                "C , :TIP_CTAREC , :ID_PORTADOR , :ID_CLIENTE , :INV_REFERENCIA , :DT_VENCTO_ORIG" +
-                " , :NSU_CARTAO DO SUSPEND ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_NFV_CTAREC_SYNC" +
-                "_DEL\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_NFV_CTAREC_SYN" +
-                "C_DEL ( pNfNumero TYPE OF COLUMN TB_NFVENDA.NF_NUMERO , pNfSerie TYPE OF COLUMN " +
-                "TB_NFVENDA.NF_SERIE , pIdCtarec TYPE OF COLUMN TB_NFV_CTAREC.ID_CTAREC ) AS DECL" +
-                "ARE VARIABLE idNfvenda TYPE OF COLUMN TB_NFVENDA.ID_NFVENDA; BEGIN SELECT ID_NFV" +
-                "ENDA FROM TB_NFVENDA WHERE NF_NUMERO = :pNfNumero AND NF_SERIE = :pNfSerie AND N" +
-                "F_MODELO = 59 INTO :idNfvenda ; DELETE FROM TB_NFV_CTAREC WHERE ID_NFVENDA = :id" +
-                "Nfvenda AND ID_CTAREC= :pIdCtarec ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_NFV_UPD" +
-                "T_BYNFNUMSERIE\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_NFV_" +
-                "UPDT_BYNFNUMSERIE (PID_NATOPE INTEGER, PID_VENDEDOR SMALLINT, PID_CLIENTE INTEGE" +
-                "R, PNF_NUMERO INTEGER, PNF_SERIE VARCHAR(3), PNF_MODELO VARCHAR(2), PDT_EMISSAO " +
-                "DATE, PDT_SAIDA DATE, PHR_SAIDA TIME, PESPECIE VARCHAR(15), PPES_LIQUID NUMERIC(" +
-                "18,4), PPES_BRUTO NUMERIC(18,4), PID_FMAPGTO SMALLINT, PID_PARCELA SMALLINT, PMA" +
-                "RCA VARCHAR(15), PQTD_VOLUM NUMERIC(18,4), PNUM_VOLUM VARCHAR(15), PVLR_TROCO NU" +
-                "MERIC(18,4), PIND_PRES CHAR(1), PIND_IE_DEST CHAR(1), PDESCONTO_CONDICIONAL CHAR" +
-                "(1), PINF_COMP_FIXA BLOB, PINF_COMP_EDIT BLOB, PENDERECO_ENTREGA CHAR(1), PENVIO" +
-                "_API TIMESTAMP, PSYNCED SMALLINT, PSOMA_FRETE CHAR(1) DEFAULT \'\'N\'\', PPROD_REV C" +
-                "HAR(1) DEFAULT \'\'N\'\', PSTATUS CHAR(1) DEFAULT \'\'E\'\', PENT_SAI CHAR(1) DEFAULT \'\'" +
-                "1\'\', PTIPO_FRETE CHAR(1) DEFAULT \'\'9\'\') AS BEGIN UPDATE TB_NFVENDA SET ID_NATOPE" +
-                " =:pID_NATOPE , ID_VENDEDOR =:pID_VENDEDOR , ID_CLIENTE =:pID_CLIENTE , NF_MODEL" +
-                "O =:pNF_MODELO , DT_EMISSAO =:pDT_EMISSAO , DT_SAIDA =:pDT_SAIDA , HR_SAIDA =:pH" +
-                "R_SAIDA , ESPECIE =:pESPECIE , TIPO_FRETE =:pTIPO_FRETE , PES_LIQUID =:pPES_LIQU" +
-                "ID , PES_BRUTO =:pPES_BRUTO , STATUS =:pSTATUS , ENT_SAI =:pENT_SAI , ID_FMAPGTO" +
-                " =:pID_FMAPGTO , ID_PARCELA =:pID_PARCELA , MARCA =:pMARCA , QTD_VOLUM =:pQTD_VO" +
-                "LUM , NUM_VOLUM =:pNUM_VOLUM , PROD_REV =:pPROD_REV , SOMA_FRETE =:pSOMA_FRETE ," +
-                " VLR_TROCO =:pVLR_TROCO , IND_PRES =:pIND_PRES , IND_IE_DEST =:pIND_IE_DEST , DE" +
-                "SCONTO_CONDICIONAL=:pDESCONTO_CONDICIONAL , INF_COMP_FIXA =:pINF_COMP_FIXA , INF" +
-                "_COMP_EDIT =:pINF_COMP_EDIT , ENDERECO_ENTREGA =:pENDERECO_ENTREGA , ENVIO_API =" +
-                ":pENVIO_API , SYNCED =:pSYNCED WHERE NF_NUMERO = :pNF_NUMERO and NF_SERIE = :pNF" +
-                "_SERIE ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_SAT_GET_BY_IDNFV\';\r\n\t\t\t\t\t\texecute " +
-                "statement \'CREATE OR ALTER PROCEDURE SP_TRI_SAT_GET_BY_IDNFV ( pIdNfvenda TYPE O" +
-                "F COLUMN TB_SAT.ID_NFVENDA ) RETURNS ( ID_REGISTRO TYPE OF COLUMN TB_SAT.ID_REGI" +
-                "STRO , ID_NFVENDA TYPE OF COLUMN TB_SAT.ID_NFVENDA , CHAVE TYPE OF COLUMN TB_SAT" +
-                ".CHAVE , DT_EMISSAO TYPE OF COLUMN TB_SAT.DT_EMISSAO , HR_EMISSAO TYPE OF COLUMN" +
-                " TB_SAT.HR_EMISSAO , STATUS TYPE OF COLUMN TB_SAT.STATUS , STATUS_DES TYPE OF CO" +
-                "LUMN TB_SAT.STATUS_DES , NUMERO_CFE TYPE OF COLUMN TB_SAT.NUMERO_CFE , NUM_SERIE" +
-                "_SAT TYPE OF COLUMN TB_SAT.NUM_SERIE_SAT) AS BEGIN FOR SELECT a.ID_REGISTRO , a." +
-                "ID_NFVENDA , a.CHAVE , a.DT_EMISSAO , a.HR_EMISSAO , a.STATUS , a.STATUS_DES , a" +
-                ".NUMERO_CFE , a.NUM_SERIE_SAT FROM TB_SAT a WHERE a.ID_NFVENDA =:pIdNfvenda INTO" +
-                " :ID_REGISTRO , :ID_NFVENDA , :CHAVE , :DT_EMISSAO , :HR_EMISSAO , :STATUS , :ST" +
-                "ATUS_DES , :NUMERO_CFE , :NUM_SERIE_SAT DO SUSPEND ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'deu" +
-                " certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND" +
-                ";";
+                "ement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_GETBY_IDNFVENDA (PIDNFVENDA INTEG" +
+                "ER) RETURNS ( ID_CTAREC INTEGER, DOCUMENTO VARCHAR(12), HISTORICO VARCHAR(50), D" +
+                "T_EMISSAO DATE, DT_VENCTO DATE, VLR_CTAREC NUMERIC(18,4), TIP_CTAREC CHAR(1), ID" +
+                "_PORTADOR INTEGER, ID_CLIENTE INTEGER, INV_REFERENCIA VARCHAR(18), DT_VENCTO_ORI" +
+                "G DATE, NSU_CARTAO VARCHAR(32), ID_NUMPAG INTEGER, ID_CONTA INTEGER ) AS BEGIN F" +
+                "OR SELECT COALESCE(a.ID_CTAREC, 0) , a.DOCUMENTO , a.HISTORICO , a.DT_EMISSAO , " +
+                "a.DT_VENCTO , a.VLR_CTAREC , a.TIP_CTAREC , a.ID_PORTADOR , a.ID_CLIENTE , a.INV" +
+                "_REFERENCIA , a.DT_VENCTO_ORIG , a.NSU_CARTAO , b.ID_NUMPAG , a.ID_CONTA FROM TB" +
+                "_CONTA_RECEBER a JOIN TB_NFV_CTAREC b ON a.ID_CTAREC = b.ID_CTAREC WHERE b.ID_NF" +
+                "VENDA =:pIdNfvenda INTO :ID_CTAREC , :DOCUMENTO , :HISTORICO , :DT_EMISSAO , :DT" +
+                "_VENCTO , :VLR_CTAREC , :TIP_CTAREC , :ID_PORTADOR , :ID_CLIENTE , :INV_REFERENC" +
+                "IA , :DT_VENCTO_ORIG , :NSU_CARTAO , :ID_NUMPAG, :ID_CONTA DO SUSPEND ; END;\';\r\n" +
+                "\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_NFVENDA_SETSYNCED\';\r\n\t\t\t\t\t\texecute statement \'CREAT" +
+                "E OR ALTER PROCEDURE SP_TRI_NFVENDA_SETSYNCED ( pIdNfvenda INTEGER , pSynced SMA" +
+                "LLINT ) AS BEGIN UPDATE TB_NFVENDA SET SYNCED = :pSynced WHERE ID_NFVENDA = :pId" +
+                "Nfvenda ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_CTAREC_GETBY_NFNUMSERIE\';\r\n\t\t\t\t\t\t" +
+                "execute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_GETBY_NFNUMSERIE ( pN" +
+                "F_NUMERO TYPE OF COLUMN TB_NFVENDA.NF_NUMERO , pNF_SERIE TYPE OF COLUMN TB_NFVEN" +
+                "DA.NF_SERIE ) RETURNS ( ID_CTAREC INTEGER , DOCUMENTO VARCHAR(12) , HISTORICO VA" +
+                "RCHAR(50) , DT_EMISSAO DATE , DT_VENCTO DATE , VLR_CTAREC TYPE OF COLUMN TRI_PDV" +
+                "_OPER.DIN , TIP_CTAREC CHAR(1) , ID_PORTADOR INTEGER , ID_CLIENTE INTEGER , INV_" +
+                "REFERENCIA VARCHAR(18) , DT_VENCTO_ORIG DATE , NSU_CARTAO VARCHAR(32) ) AS BEGIN" +
+                " FOR SELECT a.ID_CTAREC , a.DOCUMENTO , a.HISTORICO , a.DT_EMISSAO , a.DT_VENCTO" +
+                " , a.VLR_CTAREC , a.TIP_CTAREC , a.ID_PORTADOR , a.ID_CLIENTE , a.INV_REFERENCIA" +
+                " , a.DT_VENCTO_ORIG , a.NSU_CARTAO FROM TB_CONTA_RECEBER a JOIN TB_NFV_CTAREC b " +
+                "ON a.ID_CTAREC = b.ID_CTAREC JOIN TB_NFVENDA c ON c.ID_NFVENDA = b.ID_NFVENDA WH" +
+                "ERE c.NF_NUMERO = :pNF_NUMERO AND c.NF_SERIE = :pNF_SERIE INTO :ID_CTAREC , :DOC" +
+                "UMENTO , :HISTORICO , :DT_EMISSAO , :DT_VENCTO , :VLR_CTAREC , :TIP_CTAREC , :ID" +
+                "_PORTADOR , :ID_CLIENTE , :INV_REFERENCIA , :DT_VENCTO_ORIG , :NSU_CARTAO DO SUS" +
+                "PEND ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_NFV_CTAREC_SYNC_DEL\';\r\n\t\t\t\t\t\texecute" +
+                " statement \'CREATE OR ALTER PROCEDURE SP_TRI_NFV_CTAREC_SYNC_DEL ( pNfNumero TYP" +
+                "E OF COLUMN TB_NFVENDA.NF_NUMERO , pNfSerie TYPE OF COLUMN TB_NFVENDA.NF_SERIE ," +
+                " pIdCtarec TYPE OF COLUMN TB_NFV_CTAREC.ID_CTAREC ) AS DECLARE VARIABLE idNfvend" +
+                "a TYPE OF COLUMN TB_NFVENDA.ID_NFVENDA; BEGIN SELECT ID_NFVENDA FROM TB_NFVENDA " +
+                "WHERE NF_NUMERO = :pNfNumero AND NF_SERIE = :pNfSerie AND NF_MODELO = 59 INTO :i" +
+                "dNfvenda ; DELETE FROM TB_NFV_CTAREC WHERE ID_NFVENDA = :idNfvenda AND ID_CTAREC" +
+                "= :pIdCtarec ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc SP_TRI_NFV_UPDT_BYNFNUMSERIE\';\r\n\t\t\t" +
+                "\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_NFV_UPDT_BYNFNUMSERIE (PI" +
+                "D_NATOPE INTEGER, PID_VENDEDOR SMALLINT, PID_CLIENTE INTEGER, PNF_NUMERO INTEGER" +
+                ", PNF_SERIE VARCHAR(3), PNF_MODELO VARCHAR(2), PDT_EMISSAO DATE, PDT_SAIDA DATE," +
+                " PHR_SAIDA TIME, PESPECIE VARCHAR(15), PPES_LIQUID NUMERIC(18,4), PPES_BRUTO NUM" +
+                "ERIC(18,4), PID_FMAPGTO SMALLINT, PID_PARCELA SMALLINT, PMARCA VARCHAR(15), PQTD" +
+                "_VOLUM NUMERIC(18,4), PNUM_VOLUM VARCHAR(15), PVLR_TROCO NUMERIC(18,4), PIND_PRE" +
+                "S CHAR(1), PIND_IE_DEST CHAR(1), PDESCONTO_CONDICIONAL CHAR(1), PINF_COMP_FIXA B" +
+                "LOB, PINF_COMP_EDIT BLOB, PENDERECO_ENTREGA CHAR(1), PENVIO_API TIMESTAMP, PSYNC" +
+                "ED SMALLINT, PSOMA_FRETE CHAR(1) DEFAULT \'\'N\'\', PPROD_REV CHAR(1) DEFAULT \'\'N\'\'," +
+                " PSTATUS CHAR(1) DEFAULT \'\'E\'\', PENT_SAI CHAR(1) DEFAULT \'\'1\'\', PTIPO_FRETE CHAR" +
+                "(1) DEFAULT \'\'9\'\') AS BEGIN UPDATE TB_NFVENDA SET ID_NATOPE =:pID_NATOPE , ID_VE" +
+                "NDEDOR =:pID_VENDEDOR , ID_CLIENTE =:pID_CLIENTE , NF_MODELO =:pNF_MODELO , DT_E" +
+                "MISSAO =:pDT_EMISSAO , DT_SAIDA =:pDT_SAIDA , HR_SAIDA =:pHR_SAIDA , ESPECIE =:p" +
+                "ESPECIE , TIPO_FRETE =:pTIPO_FRETE , PES_LIQUID =:pPES_LIQUID , PES_BRUTO =:pPES" +
+                "_BRUTO , STATUS =:pSTATUS , ENT_SAI =:pENT_SAI , ID_FMAPGTO =:pID_FMAPGTO , ID_P" +
+                "ARCELA =:pID_PARCELA , MARCA =:pMARCA , QTD_VOLUM =:pQTD_VOLUM , NUM_VOLUM =:pNU" +
+                "M_VOLUM , PROD_REV =:pPROD_REV , SOMA_FRETE =:pSOMA_FRETE , VLR_TROCO =:pVLR_TRO" +
+                "CO , IND_PRES =:pIND_PRES , IND_IE_DEST =:pIND_IE_DEST , DESCONTO_CONDICIONAL=:p" +
+                "DESCONTO_CONDICIONAL , INF_COMP_FIXA =:pINF_COMP_FIXA , INF_COMP_EDIT =:pINF_COM" +
+                "P_EDIT , ENDERECO_ENTREGA =:pENDERECO_ENTREGA , ENVIO_API =:pENVIO_API , SYNCED " +
+                "=:pSYNCED WHERE NF_NUMERO = :pNF_NUMERO and NF_SERIE = :pNF_SERIE ; END;\';\r\n\r\n\t\t" +
+                "\t\t\t\terro = \'sproc SP_TRI_SAT_GET_BY_IDNFV\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR " +
+                "ALTER PROCEDURE SP_TRI_SAT_GET_BY_IDNFV ( pIdNfvenda TYPE OF COLUMN TB_SAT.ID_NF" +
+                "VENDA ) RETURNS ( ID_REGISTRO TYPE OF COLUMN TB_SAT.ID_REGISTRO , ID_NFVENDA TYP" +
+                "E OF COLUMN TB_SAT.ID_NFVENDA , CHAVE TYPE OF COLUMN TB_SAT.CHAVE , DT_EMISSAO T" +
+                "YPE OF COLUMN TB_SAT.DT_EMISSAO , HR_EMISSAO TYPE OF COLUMN TB_SAT.HR_EMISSAO , " +
+                "STATUS TYPE OF COLUMN TB_SAT.STATUS , STATUS_DES TYPE OF COLUMN TB_SAT.STATUS_DE" +
+                "S , NUMERO_CFE TYPE OF COLUMN TB_SAT.NUMERO_CFE , NUM_SERIE_SAT TYPE OF COLUMN T" +
+                "B_SAT.NUM_SERIE_SAT) AS BEGIN FOR SELECT a.ID_REGISTRO , a.ID_NFVENDA , a.CHAVE " +
+                ", a.DT_EMISSAO , a.HR_EMISSAO , a.STATUS , a.STATUS_DES , a.NUMERO_CFE , a.NUM_S" +
+                "ERIE_SAT FROM TB_SAT a WHERE a.ID_NFVENDA =:pIdNfvenda INTO :ID_REGISTRO , :ID_N" +
+                "FVENDA , :CHAVE , :DT_EMISSAO , :HR_EMISSAO , :STATUS , :STATUS_DES , :NUMERO_CF" +
+                "E , :NUM_SERIE_SAT DO SUSPEND ; END;\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUS" +
+                "PEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[21].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[22] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[22].Connection = this.Connection;

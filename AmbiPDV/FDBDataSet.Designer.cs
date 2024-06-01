@@ -21593,6 +21593,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "IDNUMPAG";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
             this._commandCollection[8] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[8].Connection = this.Connection;
             this._commandCollection[8].CommandText = "\"SP_TRI_NFVCTAREC\"";
@@ -22244,7 +22251,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object SP_TRI_LANCACONTAREC(global::System.Nullable<int> IDNFVENDA, global::System.Nullable<global::System.DateTime> VENCIMENTO, global::System.Nullable<decimal> VALOR, global::System.Nullable<int> CLIENTE, string DESCRICAO, global::System.Nullable<short> NUM_CAIXA, global::System.Nullable<int> IDCONTA) {
+        public virtual object SP_TRI_LANCACONTAREC(global::System.Nullable<int> IDNFVENDA, global::System.Nullable<global::System.DateTime> VENCIMENTO, global::System.Nullable<decimal> VALOR, global::System.Nullable<int> CLIENTE, string DESCRICAO, global::System.Nullable<short> NUM_CAIXA, global::System.Nullable<int> IDCONTA, global::System.Nullable<int> IDNUMPAG) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
             if ((IDNFVENDA.HasValue == true)) {
                 command.Parameters[0].Value = ((int)(IDNFVENDA.Value));
@@ -22287,6 +22294,12 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             }
             else {
                 command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((IDNUMPAG.HasValue == true)) {
+                command.Parameters[7].Value = ((int)(IDNUMPAG.Value));
+            }
+            else {
+                command.Parameters[7].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
