@@ -205,6 +205,11 @@ namespace PDV_WPF.Funcoes
                 _ => false
             };
             PREFIX_LISTBOX = xmlLido.PREFIX_LISTBOX;
+            EXIBE_SPLASHSCREEN = xmlLido.EXIBE_SPLASHSCREEN switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {
@@ -731,8 +736,8 @@ namespace PDV_WPF.Funcoes
         public static void AbreGavetaSPOOLER()
         {
             try
-            {
-                PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
+            {                 
+                PrintFunc.RecebePrint(IMPRESSORA_USB.Contains("HS") ? "." : " ", PrintFunc.negrito, PrintFunc.centro, 1);
                 PrintFunc.PrintaSpooler();
             }
             catch (Exception ex)

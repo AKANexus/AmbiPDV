@@ -15,6 +15,7 @@ using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using PDV_WPF.Objetos.Enums;
+using System.Runtime.CompilerServices;
 
 namespace PDV_WPF.Telas
 {
@@ -422,8 +423,10 @@ namespace PDV_WPF.Telas
                 }
         }
 
-        private void AcrescentaMetodoPagamento(int idMetodo, decimal _valor, string strPgCfe, SiTEFBox sitefbox = null)
+        private void AcrescentaMetodoPagamento(int idMetodo, decimal _valor, string strPgCfe, SiTEFBox sitefbox = null, [CallerMemberName]string metodoChamador = null)
         {
+            log.Debug($"AcrescentaMetodoPagamento acionado. Metodo chamador: {metodoChamador ?? "Metodo não informado"}");
+
             valor_a_ser_pago = valor_a_ser_pago.Truncate(2);
             if (idMetodo != 1 && _valor > valor_a_ser_pago)
             {
@@ -470,7 +473,14 @@ namespace PDV_WPF.Telas
                 }
                 PendenciasDoTEF pendTef = new PendenciasDoTEF();
                 pendTef.LimpaPendencias(numCupomTEF);
-                this.Dispatcher.Invoke(() => { DialogResult = true; Close(); return; });
+                
+                if (metodoChamador == nameof(Tef_StatusChanged))                
+                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; Close(); return; });                                   
+                else
+                {
+                    DialogResult = true; 
+                    Close();                     
+                }                                          
             }
             else //Caso seja efetuado um pagamento parcial
             {

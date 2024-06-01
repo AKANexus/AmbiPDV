@@ -36846,13 +36846,13 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[8].Parameters.Add(param);
             this._commandCollection[9] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[9].Connection = this.Connection;
-            this._commandCollection[9].CommandText = "SELECT PERMISSOES FROM TRI_PDV_USERS WHERE USERNAME = @USERNAME";
+            this._commandCollection[9].CommandText = "SELECT PERMISSOES FROM TRI_PDV_USERS WHERE UPPER(USERNAME) = UPPER(@USERNAME)";
             this._commandCollection[9].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@USERNAME";
-            param.Size = 64;
+            param.DbType = global::System.Data.DbType.AnsiString;
+            param.Size = 1024;
             param.IsNullable = true;
-            param.SourceColumn = "USERNAME";
             this._commandCollection[9].Parameters.Add(param);
             this._commandCollection[10] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[10].Connection = this.Connection;
@@ -36940,7 +36940,8 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[14].Parameters.Add(param);
             this._commandCollection[15] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[15].Connection = this.Connection;
-            this._commandCollection[15].CommandText = "UPDATE TRI_PDV_USERS\r\nSET PERMISSOES = @PERMISSIONS\r\nWHERE USERNAME = @USERNAME";
+            this._commandCollection[15].CommandText = "UPDATE TRI_PDV_USERS\r\nSET PERMISSOES = @PERMISSIONS\r\nWHERE UPPER(USERNAME) = UPPE" +
+                "R(@USERNAME)";
             this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@PERMISSIONS";
@@ -36951,9 +36952,9 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[15].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@USERNAME";
-            param.Size = 64;
+            param.DbType = global::System.Data.DbType.AnsiString;
+            param.Size = 1024;
             param.IsNullable = true;
-            param.SourceColumn = "USERNAME";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._commandCollection[15].Parameters.Add(param);
             this._commandCollection[16] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
@@ -37484,7 +37485,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual global::System.Nullable<int> GetPermissoes(string USERNAME) {
+        public virtual object GetPermissoes(string USERNAME) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[9];
             if ((USERNAME == null)) {
                 throw new global::System.ArgumentNullException("USERNAME");
@@ -37508,10 +37509,10 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             }
             if (((returnValue == null) 
                         || (returnValue.GetType() == typeof(global::System.DBNull)))) {
-                return new global::System.Nullable<int>();
+                return null;
             }
             else {
-                return new global::System.Nullable<int>(((int)(returnValue)));
+                return ((object)(returnValue));
             }
         }
         
