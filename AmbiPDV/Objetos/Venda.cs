@@ -735,11 +735,11 @@ namespace PDV_WPF.Objetos
 
         public List<ValidationFailure> SetClienteDuepay(ClienteDuePayDTO cliente)
         {
-            if(cliente is not null)
+            if (cliente is not null)
             {
                 ValidationResult result = cliente.Validador.Validate(cliente);
                 if (result.IsValid)
-                {                    
+                {
                     _clienteDuepay = cliente;
                     return null;
                 }
@@ -851,11 +851,11 @@ namespace PDV_WPF.Objetos
         /// </summary>
         /// <param name="codigoMetodo">Código CFE do método de pagamento</param>
         /// <param name="valorMetodo">Valor do método de pagamento</param>
-        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, int idAdministradora, decimal valorTroco = 0)
+        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, InfoAdministradora infoAdmins, decimal valorTroco = 0)
         {
             if (_listaPagamentos is null) _listaPagamentos = new List<envCFeCFeInfCFePgtoMP>();
             if (!_listademetodos.Contains(codigoMetodo)) throw new ErroDeValidacaoDeConteudo("Código do Método de Pagamento informado inválido.");
-            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idADMINS = idAdministradora };
+            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), InfoAdmin = infoAdmins };
             _listaPagamentos.Add(_MP);
             _valTroco = valorTroco;
         }
@@ -867,11 +867,11 @@ namespace PDV_WPF.Objetos
         /// <param name="valorMetodo">Valor do método de pagamento</param>
         /// <param name="vencimento">Vencimento da forma de pagamento</param>
         /// <param name="id_cliente">ID do cliente</param>
-        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, int idAdministradora, DateTime vencimento, int id_cliente)
+        public void RecebePagamento(string codigoMetodo, decimal valorMetodo, InfoAdministradora infoAdmin, DateTime vencimento, int id_cliente)
         {
             if (_listaPagamentos is null) _listaPagamentos = new List<envCFeCFeInfCFePgtoMP>();
             if (!_listademetodos.Contains(codigoMetodo)) throw new ErroDeValidacaoDeConteudo("Código do Método de Pagamento informado inválido.");
-            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idCliente = id_cliente, vencimento = vencimento, idADMINS = idAdministradora };
+            _MP = new envCFeCFeInfCFePgtoMP() { cMP = codigoMetodo.PadLeft(2, '0'), vMP = valorMetodo.ToString("0.00"), idCliente = id_cliente, vencimento = vencimento, InfoAdmin = infoAdmin };
             imprimeViaAssinar = true;
             _listaPagamentos.Add(_MP);
         }
@@ -1023,7 +1023,7 @@ namespace PDV_WPF.Objetos
                             Convert.ToInt16(detalhamento.nItem),
                             Convert.ToDecimal(detalhamento.prod.qCom, CultureInfo.InvariantCulture),
                             Convert.ToDecimal(detalhamento.prod.vDesc, CultureInfo.InvariantCulture) + Convert.ToDecimal(detalhamento.prod.vRatDesc, CultureInfo.InvariantCulture),
-                            pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, CultureInfo.InvariantCulture), 
+                            pCSOSN, 0, 0, Convert.ToDecimal(detalhamento.prod.vUnCom, CultureInfo.InvariantCulture),
                             detalhamento.idScannTech,
                             Convert.ToDecimal(detalhamento.prod.vOutro, CultureInfo.InvariantCulture));
 
@@ -1157,7 +1157,8 @@ namespace PDV_WPF.Objetos
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());
                     }
                 }
-                foreach (var pagamento in cfeDeRetorno.infCFe.pgto.MP)
+
+                foreach (var x in cfeDeRetorno.infCFe.pgto.MP.Select(selector: (pagamento, index) => new { pagamento, index }))
                 {
                     int ID_NUMPAG;
                     try
@@ -1166,121 +1167,204 @@ namespace PDV_WPF.Objetos
                         using var TB_NFV_FMAPAGTO_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDA_FMAPAGTO_NFCETableAdapter();
                         using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
                         TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
-                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
-                        //ID_NUMPAG = (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(Decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
-                        if (pagamento.idADMINS <= 0)
+                        int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(x.pagamento.cMP)[0]["ID_FMANFCE"];
+                        InfoAdministradora infoAdmin = RetornaCFe().infCFe.pgto.MP[x.index].InfoAdmin; // Pegando InfoAdmin do objeto de venda em memoria pois o retornado pelo SAT não possui essa informação.
+
+                        ID_NUMPAG = idNfce switch
                         {
-                            ID_NUMPAG = idNfce switch
+                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
+                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
+                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin)
+                        };
+                       
+                        if ((x.pagamento.cMP == "03" || x.pagamento.cMP == "04") && INFORMA_MAQUININHA && VINCULA_MAQ_CTA && infoAdmin != null)
+                        {
+                            // Para de gerar contas a receber para cartões                             
+
+                            int resultIdConta = 0;
+                            int resultIdMovto = 0;
+                            string strMensagemLog = "";
+                            (string metodo, decimal valorDescontadoTaxa) = x.pagamento.cMP switch
                             {
-                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null),
-                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, null),
-                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, null)
+                                "03" => ("Crédito", x.pagamento.vMP.Safedecimal() - (infoAdmin.TaxaCredito / 100 * x.pagamento.vMP.Safedecimal()).RoundABNT()),
+                                "04" => ("Débito", x.pagamento.vMP.Safedecimal() - (infoAdmin.TaxaDebito / 100 * x.pagamento.vMP.Safedecimal()).RoundABNT()),
+                                _ => ("(Pagamento não identificado)", 0)
                             };
-                        }
-                        else
-                        {
-                            ID_NUMPAG = idNfce switch
+
+                            try
                             {
-                                1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.idADMINS),
-                                3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, pagamento.idADMINS),
-                                _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
-                            };
+                                log.Debug("Criando conta a receber para cartão...");
+
+                                DateTime vencimento = DateTime.Now.AddDays(infoAdmin.DiasParaVencimento);
+
+                                strMensagemLog = String.Format("SP_TRI_LANCACONTAREC(IdNfVenda: {0}, Vecimento: {1}, Valor: {2}, IdCliente: {3}, Descricao: {4}, NumCaixa: {5}, IdConta: {6}, IdNumPag: {7})",
+                                                               ID_NFVENDA,
+                                                               vencimento,
+                                                               valorDescontadoTaxa,
+                                                               infoAdmin.IdCliente == 0 ? null : infoAdmin.IdCliente,
+                                                               $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
+                                                               (short)NO_CAIXA,
+                                                               infoAdmin.IdConta == 0 ? null : infoAdmin.IdConta,
+                                                               ID_NUMPAG);
+
+                                resultIdConta = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(ID_NFVENDA,
+                                                                                      vencimento,
+                                                                                      valorDescontadoTaxa,
+                                                                                      infoAdmin.IdCliente,
+                                                                                      $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
+                                                                                      (short)NO_CAIXA,
+                                                                                      infoAdmin.IdConta == 0 ? null : infoAdmin.IdConta,
+                                                                                      ID_NUMPAG);
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error($"Erro ao gravar conta a receber de cartões: {ex.InnerException.Message ?? ex.Message}");
+                                log.Error($"Procedure utilizada: {strMensagemLog}");
+                                MessageBox.Show("Erro ao gravar conta a receber do cartão utilizado na venda.\n\n" +
+                                                "Nenhuma conta foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                goto EndFluxCtaRecCartao;
+                            }
+
+                            if (resultIdConta <= 0)
+                            {
+                                // Erro grave que detona com o fluxo da venda.
+                                // Pelo menos deixar algumas dicas...
+
+                                log.Error(string.Format("Erro na: {0}\nRetorno: {1}", strMensagemLog, resultIdConta));
+                                MessageBox.Show("Erro ao gravar conta a receber do cartão utilizado na venda.\n\n" +
+                                                "Nenhuma conta foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                goto EndFluxCtaRecCartao;
+                            }
+
+                            try
+                            {
+                                log.Debug("Conta a receber criada com sucesso.");
+                                log.Debug("Lançando na movimento diario...");
+
+                                strMensagemLog = String.Format("SP_TRI_LANCAMOVDIARIO(NUMCAIXA: {0}, VALOR: {1}, DESCRICAO_MOV: {2}, CONTA_ORIGEM: {3}, CONTA_DESTINO: {4})",
+                                                               NO_CAIXA,
+                                                               valorDescontadoTaxa,
+                                                               $"VENDA NO CARTÃO DE {metodo.ToUpper()} AMBIPDV - CUPOM {NF_NUMERO} {DateTime.Now.ToString("HH:mm")}",
+                                                               22, 30);
+
+
+                                resultIdMovto = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO(NO_CAIXA.ToString(),
+                                                                                   valorDescontadoTaxa,
+                                                                                   $"VENDA NO CARTÃO DE {metodo.ToUpper()} AMBIPDV - CUPOM {NF_NUMERO} {DateTime.Now.ToString("HH:mm")}",
+                                                                                   22, 30);
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error($"Erro ao gravar movimento diario referente a conta receber: {ex.InnerException.Message ?? ex.Message}");
+                                log.Error($"Procedure utilizada: {strMensagemLog}");
+
+                                MessageBox.Show("Erro ao gravar movimentação referente à conta a receber.\n\n" +
+                                                "Nenhuma movimentação foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                goto EndFluxCtaRecCartao;
+                            }
+
+                            if (resultIdMovto <= 0)
+                            {
+                                // Erro grave que detona com o fluxo da venda.
+                                // Pelo menos deixar algumas dicas...
+
+                                log.Error(string.Format("Erro na: {0}\nRetorno: {1}", strMensagemLog, resultIdMovto));
+                                MessageBox.Show("Erro ao gravar movimentação referente à conta a receber.\n\n" +
+                                                "Nenhuma movimentação foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                goto EndFluxCtaRecCartao;
+                            }
+
+                            try
+                            {
+                                log.Debug("Movimento diario criado com sucesso.");
+                                log.Debug("Lançando vinculo de movimento com conta a receber (TB_CTAREC_MOVTO)...");
+
+                                strMensagemLog = string.Format("SP_TRI_CTAREC_MOVTO(PID_MOVTO: {0}, PID_CTAREC: {1})", resultIdMovto, resultIdConta);
+
+                                int registrosInseridos = (int)OPER_TA.SP_TRI_CTAREC_MOVTO(resultIdMovto, resultIdConta);
+                                registrosInseridos += (int)OPER_TA.SP_TRI_CTAREC_MOVTO(resultIdMovto + 1, resultIdConta); // Chama novamente para vincular o movimento de credito.
+                                                                                                                          // Normalmente o ID do credito é um depois do debito por isso "+ 1" deve resolver.
+                                                                                                                          // Se não for, fodeu.
+
+                                if (registrosInseridos <= 0)
+                                {
+                                    log.Error("Não foi inserido corretamente vinculo da movDiario com a Conta a receber");
+                                    log.Error($"Procedure utilizada: {strMensagemLog}");
+                                    MessageBox.Show("Erro ao gravar vinculo da movimentação com conta a receber.\n\n" +
+                                                    "Nenhum vinculo foi criado mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                    goto EndFluxCtaRecCartao;
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error($"Erro ao gravar vinculo movDiario com conta receber: {ex.InnerException.Message ?? ex.Message}");
+                                log.Error($"Procedure utilizada: {strMensagemLog}");
+
+                                MessageBox.Show("Erro ao gravar movimentação/conta a receber." +
+                                                "\n\nO fluxo da finalização da venda prosseguirá mas por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                goto EndFluxCtaRecCartao;
+                            }
+
+                            try
+                            {
+                                log.Debug("Vinculo na (TB_CTAREC_MOVTO) criado com sucesso.");
+                                log.Debug("Lançando vinculo de venda com pagamento e conta a receber (TB_NFV_CTAREC)...");
+
+                                using (var fbCommNfvCtarecInsertServ = new FbCommand())
+                                {
+                                    strMensagemLog = string.Format("INSERT INTO TB_NFV_CTAREC VALUES (ID_NFVENDA: {0}, ID_CTAREC: {1}, ID_NUMPAG: {2})",
+                                                                   ID_NFVENDA,
+                                                                   resultIdConta,
+                                                                   ID_NUMPAG);
+
+
+                                    fbCommNfvCtarecInsertServ.Connection = LOCAL_FB_CONN;
+
+                                    if (fbCommNfvCtarecInsertServ.Connection.State != ConnectionState.Open)
+                                        fbCommNfvCtarecInsertServ.Connection.Open();
+
+                                    fbCommNfvCtarecInsertServ.CommandText = "INSERT INTO TB_NFV_CTAREC (ID_NFVENDA, ID_CTAREC, ID_NUMPAG) VALUES (@ID_NFVENDA, @ID_CTAREC, @ID_NUMPAG); ";
+                                    fbCommNfvCtarecInsertServ.CommandType = CommandType.Text;
+
+                                    fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NFVENDA", ID_NFVENDA);
+                                    fbCommNfvCtarecInsertServ.Parameters.Add("@ID_CTAREC", resultIdConta);
+                                    fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NUMPAG", ID_NUMPAG);
+
+                                    // Executa a sproc
+                                    int inseridos = fbCommNfvCtarecInsertServ.ExecuteNonQuery();
+
+                                    if (inseridos <= 0)
+                                    {
+                                        log.Error("Não foi inserido corretamente vinculo do ID da venda com ID da conta a receber e ID do pagamento.");
+                                        log.Error($"SQL utilizado: {strMensagemLog}");
+                                        MessageBox.Show("Erro ao gravar vinculo de venda com conta a receber e pagamento.\n\n" +
+                                                        "Nenhum vinculo foi criado mas o fluxo de finalização da venda prosseguirá. Por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                        goto EndFluxCtaRecCartao;
+                                    }
+
+                                    log.Debug("Vinculo na (TB_NFV_CTAREC) criado com sucesso.");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                log.Error($"Erro ao gravar vinculo ID_NFVENDA com ID_CTAREC e ID_NUMPAG: {ex.InnerException.Message ?? ex.Message}");
+                                log.Error($"Comando utilizado: {strMensagemLog}");
+
+                                MessageBox.Show("Erro ao gravar vinculo de venda com conta a receber e pagamento." +
+                                                "\n\nNenhum vinculo foi criado mas o fluxo da finalização da venda prosseguirá. Por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                goto EndFluxCtaRecCartao;
+                            }
                         }
+                        EndFluxCtaRecCartao:
 
-                        //ID_NUMPAG = (idNfce == 3) ?
-                        //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3) :
-                        //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2);
-
-                        if (pagamento.cMP == "03" || pagamento.cMP == "04")
-                        {
-                            //Pára de gerar contas a receber para cartões
-                            #region Desativado
-                            //    if (item.cMP == "03")
-                            //    {
-                            //        descricao = "TEF/POS - Crédito ";
-                            //    }
-                            //    else if (item.cMP == "04")
-                            //    {
-                            //        descricao = "TEF/POS - Débito ";
-                            //    }
-                            //    audit("NFISCAL", "" + descricao);
-
-                            //    try
-                            //    {
-                            //        strMensagemLogLancaContaRec = String.Format("NFISCAL", "SP_TRI_LANCACONTAREC(Cupom: {0}, Cupom: {1}, Vencimento: {2}, vMP: {3}, {4}, Descrição: {5}",
-                            //                                                    no_cupom,
-                            //                                                    no_cupom.ToString(),
-                            //                                                    fechamento.vencimento,
-                            //                                                    Convert.ToDecimal(item.vMP, ptBR),
-                            //                                                    0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
-                            //        audit(strMensagemLogLancaContaRec);
-                            //        result_contarec = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(no_cupom,
-                            //                                                                no_cupom.ToString(),
-                            //                                                                fechamento.vencimento,
-                            //                                                                item.dec_vMP,
-                            //                                                                0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                            //        MessageBox.Show("Erro ao gravar conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim();
-                            //    }
-
-                            //    if (result_contarec != 1)
-                            //    {
-                            //        //TODO: erro grave que detona com o fluxo da venda.
-                            //        // Pelo menos deixar algumas dicas...
-                            //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaContaRec, result_contarec));
-                            //        MessageBox.Show("Erro ao gravar conta a receber (FinalizaNoSATLocal - Erro ao gerar ContaRec). \n\nPor favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim();
-                            //    }
-
-                            //    try
-                            //    {
-                            //        strMensagemLogLancaMovDiario = String.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}",
-                            //                                                     "x",
-                            //                                                     Convert.ToDecimal(item.vMP, ptBR),
-                            //                                                     (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                            //                                                     147, 5);
-                            //        audit(strMensagemLogLancaMovDiario);
-                            //        result_movdiario = (short)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
-                            //                                                                      Convert.ToDecimal(item.vMP, ptBR),
-                            //                                                                      (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                            //                                                                      147, 5);
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                            //        MessageBox.Show("Erro ao gravar movimentação referente à conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim(); ColocarTransacao();
-                            //    }
-
-                            //    if (result_movdiario != 1)
-                            //    {
-                            //        //TODO: erro grave que detona com o fluxo da venda.
-                            //        // Pelo menos deixar algumas dicas...
-                            //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaMovDiario, result_movdiario));
-                            //        MessageBox.Show("Erro ao gravar movimentação financeira (FinalizaNaoFiscal - Erro ao gerar MovDiario). \n\nPor favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim();
-                            //    }
-
-                            //    try
-                            //    {
-                            //        audit(String.Format("NFISCAL", "SP_TRI_CTAREC_MOVTO (coo: {0}", (short)NO_CAIXA, coo));
-                            //        OPER_TA.SP_TRI_CTAREC_MOVTO((short)NO_CAIXA, coo);
-                            //    }
-                            //    catch (Exception ex)
-                            //    {
-                            //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                            //        MessageBox.Show("Erro ao gravar movimentação/conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                            //        return; //deuruim(); ColocarTransacao();
-                            //    }
-                            #endregion
-                        }
-
-
-                        if (pagamento.cMP == "05" && !pagamento.desconto)
+                        if (x.pagamento.cMP == "05" && !x.pagamento.desconto)
                         {
                             string strMensagemErro = "";
                             log.Debug("Venda à prazo AmbiPDV");
@@ -1289,12 +1373,12 @@ namespace PDV_WPF.Objetos
                             try
                             {
                                 ID_CTAREC = (int)CONTAREC_TA.SP_TRI_NFVCTAREC(ID_NFVENDA,
-                                                                                    pagamento.vencimento,
-                                                                                    ("Venda à prazo AmbiPDV " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                                    pagamento.idCliente,
-                                                                                    ID_NUMPAG
-                                                                                    );
-                                ID_CLIENTE = pagamento.idCliente;
+                                                                              x.pagamento.vencimento,
+                                                                              ("Venda à prazo AmbiPDV " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                                                              x.pagamento.idCliente,
+                                                                              ID_NUMPAG);
+
+                                ID_CLIENTE = x.pagamento.idCliente;
                             }
                             catch (Exception ex)
                             {
@@ -1307,9 +1391,9 @@ namespace PDV_WPF.Objetos
                                 strMensagemErro = string.Format("NFISCAL");
                                 log.Debug(strMensagemErro);
                                 ID_MOVTO = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
-                                                                                        Convert.ToDecimal(pagamento.vMP, CultureInfo.InvariantCulture),
-                                                                                        ("Venda à prazo AmbiPDV - Cupom " + ID_NFVENDA.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                                                                        147, 5);
+                                                                              Convert.ToDecimal(x.pagamento.vMP, CultureInfo.InvariantCulture),
+                                                                              ("Venda à prazo AmbiPDV - Cupom " + ID_NFVENDA.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
+                                                                              147, 5);
                             }
                             catch (Exception ex)
                             {
@@ -1334,9 +1418,9 @@ namespace PDV_WPF.Objetos
                                 return -1; //deuruim(); ColocarTransacao();
                             }
                         }
-                        if(pagamento.cMP == "19")
+                        if (x.pagamento.cMP == "19")
                         {
-                            ID_CLIENTE = pagamento.idCliente;
+                            ID_CLIENTE = x.pagamento.idCliente;
                         }
                     }
                     catch (Exception ex)
@@ -1348,7 +1432,8 @@ namespace PDV_WPF.Objetos
                         MessageBox.Show("Erro ao gravar forma de pagamento. \nSe o problema persistir, entre em contato com a equipe de suporte.");
                         return -1;
                     }
-                    Administradora.idAdm = 0; //Terminei de gravar as administradora, preciso voltar ao estado inicial. (será arrumado mais pra frente)
+
+                    Administradora.infoAdministradora = null; //Terminei de gravar as administradora, desinstancia. (será arrumado posteriormente)               
                 }
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
             }
@@ -1432,7 +1517,7 @@ namespace PDV_WPF.Objetos
                     int ID_NFV_ITEM;
                     nItemCup = int.Parse(detalhamento.nItem);
                     try
-                    {                        
+                    {
                         string pCSOSN = null;
                         ID_NFV_ITEM = (int)OPER_TA.SP_TRI_GRAVANFVITEM(ID_NFVENDA,
                             Convert.ToInt32(detalhamento.prod.cProd),
@@ -1490,7 +1575,7 @@ namespace PDV_WPF.Objetos
                             using var TB_NFVENDA_FMAPAGTO = new DataSets.FDBDataSetVendaTableAdapters.TB_FORMA_PAGTO_NFCETableAdapter();
                             TB_NFV_FMAPAGTO_TA.Connection = CONTAREC_TA.Connection = TB_NFVENDA_FMAPAGTO.Connection = LOCAL_FB_CONN;
                             int idNfce = (short)TB_NFVENDA_FMAPAGTO.GetDataByIdNFCE(pagamento.cMP)[0]["ID_FMANFCE"];
-                            if (pagamento.idADMINS <= 0)
+                            if (pagamento.InfoAdmin.IdAdmin <= 0)
                             {
                                 ID_NUMPAG = idNfce switch
                                 {
@@ -1503,9 +1588,9 @@ namespace PDV_WPF.Objetos
                             {
                                 ID_NUMPAG = idNfce switch
                                 {
-                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.idADMINS), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
-                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.idADMINS),
-                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.idADMINS)
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.InfoAdmin.IdAdmin), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.InfoAdmin.IdAdmin),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.InfoAdmin.IdAdmin)
                                 };
                             }
 
@@ -1514,93 +1599,192 @@ namespace PDV_WPF.Objetos
                             //    (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2);
 
 
-                            if (pagamento.cMP == "03" || pagamento.cMP == "04")
+                            if ((pagamento.cMP == "03" || pagamento.cMP == "04") && INFORMA_MAQUININHA && VINCULA_MAQ_CTA)
                             {
-                                //Pára de gerar contas a receber para cartões
-                                #region Desativado
-                                //    if (item.cMP == "03")
-                                //    {
-                                //        descricao = "TEF/POS - Crédito ";
-                                //    }
-                                //    else if (item.cMP == "04")
-                                //    {
-                                //        descricao = "TEF/POS - Débito ";
-                                //    }
-                                //    audit("NFISCAL", "" + descricao);
+                                // Para de gerar contas a receber para cartões                             
 
-                                //    try
-                                //    {
-                                //        strMensagemLogLancaContaRec = String.Format("NFISCAL", "SP_TRI_LANCACONTAREC(Cupom: {0}, Cupom: {1}, Vencimento: {2}, vMP: {3}, {4}, Descrição: {5}",
-                                //                                                    no_cupom,
-                                //                                                    no_cupom.ToString(),
-                                //                                                    fechamento.vencimento,
-                                //                                                    Convert.ToDecimal(item.vMP, ptBR),
-                                //                                                    0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
-                                //        audit(strMensagemLogLancaContaRec);
-                                //        result_contarec = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(no_cupom,
-                                //                                                                no_cupom.ToString(),
-                                //                                                                fechamento.vencimento,
-                                //                                                                item.dec_vMP,
-                                //                                                                0, (descricao + DateTime.Now.ToShortTimeString()).ToUpper());
-                                //    }
-                                //    catch (Exception ex)
-                                //    {
-                                //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                                //        MessageBox.Show("Erro ao gravar conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                //        return; //deuruim();
-                                //    }
+                                int resultIdConta = 0;
+                                int resultIdMovto = 0;
+                                string strMensagemLog = "";
+                                (string metodo, decimal valorDescontadoTaxa) = pagamento.cMP switch
+                                {
+                                    "03" => ("Crédito", pagamento.vMP.Safedecimal() - (pagamento.InfoAdmin.TaxaCredito / 100 * pagamento.vMP.Safedecimal()).RoundABNT()),
+                                    "04" => ("Débito", pagamento.vMP.Safedecimal() - (pagamento.InfoAdmin.TaxaDebito / 100 * pagamento.vMP.Safedecimal()).RoundABNT()),
+                                    _ => ("(Pagamento não identificado)", 0)
+                                };
 
-                                //    if (result_contarec != 1)
-                                //    {
-                                //        //TODO: erro grave que detona com o fluxo da venda.
-                                //        // Pelo menos deixar algumas dicas...
-                                //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaContaRec, result_contarec));
-                                //        MessageBox.Show("Erro ao gravar conta a receber (FinalizaNoSATLocal - Erro ao gerar ContaRec). \n\nPor favor entre em contato com a equipe de suporte.");
-                                //        return; //deuruim();
-                                //    }
+                                try
+                                {
+                                    log.Debug("Criando conta a receber para cartão...");
 
-                                //    try
-                                //    {
-                                //        strMensagemLogLancaMovDiario = String.Format("NFISCAL", "SP_TRI_LANCAMOVDIARIO({0}, vMP: {1}, Descrição: {2}, {3}, {4}",
-                                //                                                     "x",
-                                //                                                     Convert.ToDecimal(item.vMP, ptBR),
-                                //                                                     (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                //                                                     147, 5);
-                                //        audit(strMensagemLogLancaMovDiario);
-                                //        result_movdiario = (short)OPER_TA.SP_TRI_LANCAMOVDIARIO("x",
-                                //                                                                      Convert.ToDecimal(item.vMP, ptBR),
-                                //                                                                      (descricao + " Cupom " + NO_CAIXA.ToString() + "-" + coo.ToString() + " " + DateTime.Now.ToShortTimeString()).ToUpper(),
-                                //                                                                      147, 5);
-                                //    }
-                                //    catch (Exception ex)
-                                //    {
-                                //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                                //        MessageBox.Show("Erro ao gravar movimentação referente à conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                //        return; //deuruim(); ColocarTransacao();
-                                //    }
+                                    DateTime vencimento = DateTime.Now.AddDays(pagamento.InfoAdmin.DiasParaVencimento);
 
-                                //    if (result_movdiario != 1)
-                                //    {
-                                //        //TODO: erro grave que detona com o fluxo da venda.
-                                //        // Pelo menos deixar algumas dicas...
-                                //        gravarMensagemErro(string.Format("Erro no {0} \n\nRetorno: {1}", strMensagemLogLancaMovDiario, result_movdiario));
-                                //        MessageBox.Show("Erro ao gravar movimentação financeira (FinalizaNaoFiscal - Erro ao gerar MovDiario). \n\nPor favor entre em contato com a equipe de suporte.");
-                                //        return; //deuruim();
-                                //    }
+                                    strMensagemLog = String.Format("SP_TRI_LANCACONTAREC(IdNfVenda: {0}, Vecimento: {1}, Valor: {2}, IdCliente: {3}, Descricao: {4}, NumCaixa: {5}, IdConta: {6}, IdNumPag: {7})",
+                                                                   ID_NFVENDA,
+                                                                   vencimento,
+                                                                   valorDescontadoTaxa,
+                                                                   pagamento.InfoAdmin.IdCliente == 0 ? null : pagamento.InfoAdmin.IdCliente,
+                                                                   $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
+                                                                   (short)NO_CAIXA,
+                                                                   pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta,
+                                                                   ID_NUMPAG);
 
-                                //    try
-                                //    {
-                                //        audit(String.Format("NFISCAL", "SP_TRI_CTAREC_MOVTO (coo: {0}", (short)NO_CAIXA, coo));
-                                //        OPER_TA.SP_TRI_CTAREC_MOVTO((short)NO_CAIXA, coo);
-                                //    }
-                                //    catch (Exception ex)
-                                //    {
-                                //        gravarMensagemErro(RetornarMensagemErro(ex, true));
-                                //        MessageBox.Show("Erro ao gravar movimentação/conta a receber. \n\nSe o problema persistir, por favor entre em contato com a equipe de suporte.");
-                                //        return; //deuruim(); ColocarTransacao();
-                                //    }
-                                #endregion
+                                    resultIdConta = (int)CONTAREC_TA.SP_TRI_LANCACONTAREC(ID_NFVENDA,
+                                                                                          vencimento,
+                                                                                          valorDescontadoTaxa,
+                                                                                          pagamento.InfoAdmin.IdCliente,
+                                                                                          $"Venda POS cartão de {metodo} AmbiPDV {DateTime.Now.ToString("HH:mm")}".ToUpper(),
+                                                                                          (short)NO_CAIXA,
+                                                                                          pagamento.InfoAdmin.IdConta == 0 ? null : pagamento.InfoAdmin.IdConta,
+                                                                                          ID_NUMPAG);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error($"Erro ao gravar conta a receber de cartões: {ex.InnerException.Message ?? ex.Message}");
+                                    log.Error($"Procedure utilizada: {strMensagemLog}");
+                                    MessageBox.Show("Erro ao gravar conta a receber do cartão utilizado na venda.\n\n" +
+                                                    "Nenhuma conta foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                    goto EndFluxCtaRecCartao;
+                                }
+
+                                if (resultIdConta <= 0)
+                                {
+                                    // Erro grave que detona com o fluxo da venda.
+                                    // Pelo menos deixar algumas dicas...
+
+                                    log.Error(string.Format("Erro na: {0}\nRetorno: {1}", strMensagemLog, resultIdConta));
+                                    MessageBox.Show("Erro ao gravar conta a receber do cartão utilizado na venda.\n\n" +
+                                                    "Nenhuma conta foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                                    goto EndFluxCtaRecCartao;
+                                }
+
+                                try
+                                {
+                                    log.Debug("Conta a receber criada com sucesso.");
+                                    log.Debug("Lançando na movimento diario...");
+
+                                    strMensagemLog = String.Format("SP_TRI_LANCAMOVDIARIO(NUMCAIXA: {0}, VALOR: {1}, DESCRICAO_MOV: {2}, CONTA_ORIGEM: {3}, CONTA_DESTINO: {4})",
+                                                                   NO_CAIXA,
+                                                                   valorDescontadoTaxa,
+                                                                   $"VENDA NO CARTÃO DE {metodo.ToUpper()} AMBIPDV - CUPOM {NF_NUMERO} {DateTime.Now.ToString("HH:mm")}",
+                                                                   22, 30);
+
+
+                                    resultIdMovto = (int)OPER_TA.SP_TRI_LANCAMOVDIARIO(NO_CAIXA.ToString(),
+                                                                                       valorDescontadoTaxa,
+                                                                                       $"VENDA NO CARTÃO DE {metodo.ToUpper()} AMBIPDV - CUPOM {NF_NUMERO} {DateTime.Now.ToString("HH:mm")}",
+                                                                                       22, 30);
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error($"Erro ao gravar movimento diario referente a conta receber: {ex.InnerException.Message ?? ex.Message}");
+                                    log.Error($"Procedure utilizada: {strMensagemLog}");
+
+                                    MessageBox.Show("Erro ao gravar movimentação referente à conta a receber.\n\n" +
+                                                    "Nenhuma movimentação foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                    goto EndFluxCtaRecCartao;
+                                }
+
+                                if (resultIdMovto <= 0)
+                                {
+                                    // Erro grave que detona com o fluxo da venda.
+                                    // Pelo menos deixar algumas dicas...
+
+                                    log.Error(string.Format("Erro na: {0}\nRetorno: {1}", strMensagemLog, resultIdMovto));
+                                    MessageBox.Show("Erro ao gravar movimentação referente à conta a receber.\n\n" +
+                                                    "Nenhuma movimentação foi criada mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                    goto EndFluxCtaRecCartao;
+                                }
+
+                                try
+                                {
+                                    log.Debug("Movimento diario criado com sucesso.");
+                                    log.Debug("Lançando vinculo de movimento com conta a receber (TB_CTAREC_MOVTO)...");
+
+                                    strMensagemLog = string.Format("SP_TRI_CTAREC_MOVTO(PID_MOVTO: {0}, PID_CTAREC: {1})", resultIdMovto, resultIdConta);
+
+                                    int registrosInseridos = (int)OPER_TA.SP_TRI_CTAREC_MOVTO(resultIdMovto, resultIdConta);
+                                    registrosInseridos += (int)OPER_TA.SP_TRI_CTAREC_MOVTO(resultIdMovto + 1, resultIdConta); // Chama novamente para vincular o movimento de credito.
+                                                                                                                              // Normalmente o ID do credito é um depois do debito por isso "+ 1" deve resolver.
+                                                                                                                              // Se não for, fodeu.
+
+                                    if (registrosInseridos <= 0)
+                                    {
+                                        log.Error("Não foi inserido corretamente vinculo da movDiario com a Conta a receber");
+                                        log.Error($"Procedure utilizada: {strMensagemLog}");
+                                        MessageBox.Show("Erro ao gravar vinculo da movimentação com conta a receber.\n\n" +
+                                                        "Nenhum vinculo foi criado mas o fluxo de finalização da venda prosseguirá, por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                        goto EndFluxCtaRecCartao;
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error($"Erro ao gravar vinculo movDiario com conta receber: {ex.InnerException.Message ?? ex.Message}");
+                                    log.Error($"Procedure utilizada: {strMensagemLog}");
+
+                                    MessageBox.Show("Erro ao gravar movimentação/conta a receber." +
+                                                    "\n\nO fluxo da finalização da venda prosseguirá mas por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                    goto EndFluxCtaRecCartao;
+                                }
+
+                                try
+                                {
+                                    log.Debug("Vinculo na (TB_CTAREC_MOVTO) criado com sucesso.");
+                                    log.Debug("Lançando vinculo de venda com pagamento e conta a receber (TB_NFV_CTAREC)...");
+
+                                    using (var fbCommNfvCtarecInsertServ = new FbCommand())
+                                    {
+                                        strMensagemLog = string.Format("INSERT INTO TB_NFV_CTAREC VALUES (ID_NFVENDA: {0}, ID_CTAREC: {1}, ID_NUMPAG: {2})",
+                                                                       ID_NFVENDA,
+                                                                       resultIdConta,
+                                                                       ID_NUMPAG);
+
+
+                                        fbCommNfvCtarecInsertServ.Connection = LOCAL_FB_CONN;
+
+                                        if (fbCommNfvCtarecInsertServ.Connection.State != ConnectionState.Open)
+                                            fbCommNfvCtarecInsertServ.Connection.Open();
+
+                                        fbCommNfvCtarecInsertServ.CommandText = "INSERT INTO TB_NFV_CTAREC (ID_NFVENDA, ID_CTAREC, ID_NUMPAG) VALUES (@ID_NFVENDA, @ID_CTAREC, @ID_NUMPAG); ";
+                                        fbCommNfvCtarecInsertServ.CommandType = CommandType.Text;
+
+                                        fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NFVENDA", ID_NFVENDA);
+                                        fbCommNfvCtarecInsertServ.Parameters.Add("@ID_CTAREC", resultIdConta);
+                                        fbCommNfvCtarecInsertServ.Parameters.Add("@ID_NUMPAG", ID_NUMPAG);
+
+                                        // Executa a sproc
+                                        int inseridos = fbCommNfvCtarecInsertServ.ExecuteNonQuery();
+
+                                        if (inseridos <= 0)
+                                        {
+                                            log.Error("Não foi inserido corretamente vinculo do ID da venda com ID da conta a receber e ID do pagamento.");
+                                            log.Error($"SQL utilizado: {strMensagemLog}");
+                                            MessageBox.Show("Erro ao gravar vinculo de venda com conta a receber e pagamento.\n\n" +
+                                                            "Nenhum vinculo foi criado mas o fluxo de finalização da venda prosseguirá. Por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                            goto EndFluxCtaRecCartao;
+                                        }
+
+                                        log.Debug("Vinculo na (TB_NFV_CTAREC) criado com sucesso.");
+                                    }
+                                }
+                                catch (Exception ex)
+                                {
+                                    log.Error($"Erro ao gravar vinculo ID_NFVENDA com ID_CTAREC e ID_NUMPAG: {ex.InnerException.Message ?? ex.Message}");
+                                    log.Error($"Comando utilizado: {strMensagemLog}");
+
+                                    MessageBox.Show("Erro ao gravar vinculo de venda com conta a receber e pagamento." +
+                                                    "\n\nNenhum vinculo foi criado mas o fluxo da finalização da venda prosseguirá. Por favor entre em contato com a equipe de suporte.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+                                    goto EndFluxCtaRecCartao;
+                                }
                             }
+                        EndFluxCtaRecCartao:
 
 
                             if (pagamento.cMP == "05" && !pagamento.desconto)
@@ -1660,7 +1844,7 @@ namespace PDV_WPF.Objetos
                                     return (-1, -1);
                                 }
                             }
-                            if(pagamento.cMP == "19")
+                            if (pagamento.cMP == "19")
                             {
                                 ID_CLIENTE = pagamento.idCliente;
                             }
@@ -1672,7 +1856,8 @@ namespace PDV_WPF.Objetos
                             return (-1, -1);
                         }
                     }
-                    Administradora.idAdm = 0; //Terminei de gravar as administradora, preciso voltar ao estado inicial. (será arrumado mais pra frente)
+
+                    Administradora.infoAdministradora = null; // Terminei de gravar as informações da administradora, desinstancia.
                 }
                 OPER_TA.SP_TRI_ATUALIZANFVENDA(ID_NFVENDA, ID_CLIENTE);
 
@@ -1913,7 +2098,7 @@ namespace PDV_WPF.Objetos
                             case CondicaoAtacado.ApenasIgual:
                                 decimal qtdItensIterados = 0;
                                 foreach (var itemProd in _listaDets.Where(x => x.familia == familia && x.kit is false && x.scannTech is false))
-                                {                                    
+                                {
                                     qtdItensIterados += itemProd.prod.qCom.Safedecimal();
                                     if (qtdItensIterados >= info.QtdAtacado)
                                     {
@@ -1947,7 +2132,7 @@ namespace PDV_WPF.Objetos
         public decimal VerificaScannTech()
         {
             try
-            {               
+            {
                 decimal vlrTotDescScannTech = 0;
                 using (var tblPromoServ = new FDBDataSetOperSeed.SP_TRI_OBTEMPROMOSCANNTECHDataTable())
                 {
@@ -1976,8 +2161,8 @@ namespace PDV_WPF.Objetos
                                 decimal resto = 0;
                                 string tipoPromocao = tblPromoServ[0].TIPO;
 
-                                if (tipoPromocao.Equals("LLEVA_PAGA")) qtdBaseDesconto = tblPromoServ[0].QTD - tblPromoServ[0].DET; 
-                                else qtdBaseDesconto = tblPromoServ[0].QTD;                                
+                                if (tipoPromocao.Equals("LLEVA_PAGA")) qtdBaseDesconto = tblPromoServ[0].QTD - tblPromoServ[0].DET;
+                                else qtdBaseDesconto = tblPromoServ[0].QTD;
 
                                 if (itens.QTD_COMPRADA > tblPromoServ[0].QTD)
                                 {
@@ -1989,7 +2174,7 @@ namespace PDV_WPF.Objetos
                                 {
                                     combosPassados = 1;
                                     totProdCalcularDesc = qtdBaseDesconto;
-                                }                                                             
+                                }
 
                                 if (tipoPromocao.StartsWith("ADICIONAL")) ScannTechAdicional();
                                 else ScannTechPromos();
@@ -2109,7 +2294,7 @@ namespace PDV_WPF.Objetos
                                     }
                                 }
                                 void ScannTechAdicional()
-                                {                                    
+                                {
                                     using (var tblScannAdicional = new FDBDataSetOperSeed.TRI_SCANN_ADICIONALDataTable())
                                     using (var taScannAdicional = new DataSets.FDBDataSetOperSeedTableAdapters.TRI_SCANN_ADICIONALTableAdapter())
                                     {
@@ -2124,13 +2309,13 @@ namespace PDV_WPF.Objetos
                                         {
                                             foreach (var itemAdicional in tblScannAdicional)
                                             {
-                                                foreach(var itemComDesconto in _listaDets.Where(x => x.prod.cEAN == itemAdicional.CODIGOBARRAS && qtdProdutosParaDarDesconto > 0))
+                                                foreach (var itemComDesconto in _listaDets.Where(x => x.prod.cEAN == itemAdicional.CODIGOBARRAS && qtdProdutosParaDarDesconto > 0))
                                                 {
                                                     decimal vlrUnit = itemComDesconto.prod.vUnCom.Safedecimal();
                                                     decimal qtdCompra = itemComDesconto.prod.qCom.Safedecimal();
                                                     decimal vlrDesc = default;
 
-                                                    if (qtdCompra >= qtdProdutosParaDarDesconto) 
+                                                    if (qtdCompra >= qtdProdutosParaDarDesconto)
                                                     {
                                                         vlrDesc = tipoPromocao == "ADICIONAL_DESCUENTO" ? (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtdProdutosParaDarDesconto : vlrUnit * qtdProdutosParaDarDesconto;
                                                         qtdProdutosParaDarDesconto -= qtdProdutosParaDarDesconto;
@@ -2140,12 +2325,12 @@ namespace PDV_WPF.Objetos
                                                         vlrDesc = tipoPromocao == "ADICIONAL_DESCUENTO" ? (tblPromoServ[0].DET / 100 * vlrUnit).RoundABNT() * qtdCompra : vlrUnit * qtdCompra;
                                                         qtdProdutosParaDarDesconto -= qtdCompra;
                                                     }
-                                                                                                                                                       
+
                                                     itemComDesconto.prod.vDesc = vlrDesc.ToString("#0.00");
                                                     vlrTotDescScannTech += vlrDesc;
 
-                                                    if (qtdProdutosParaDarDesconto == 0) break;                                                    
-                                                }                                                
+                                                    if (qtdProdutosParaDarDesconto == 0) break;
+                                                }
                                             }
                                         }
                                         else log.Debug("Não foi encontrado item para receber desconto da promoção `ADICIONAL` da ScannTech.");
@@ -2190,10 +2375,10 @@ namespace PDV_WPF.Objetos
         {
             IdCliente = id;
             Nome = nome;
-            CpfOrCnpj = cpfOrCnpj; 
+            CpfOrCnpj = cpfOrCnpj;
             Telefone = telefone;
             NumeroDaSorte = numeroDaSorte;
-        }               
+        }
     }
 
     public class ClienteDuePayDTOValidator : AbstractValidator<ClienteDuePayDTO>
@@ -2220,7 +2405,7 @@ namespace PDV_WPF.Objetos
                 .WithMessage("Telefone do cliente não pode estar em branco");
 
             RuleFor(x => x.NumeroDaSorte)
-                .NotEqual(0)              
+                .NotEqual(0)
                 .WithMessage("Número da sorte não pode estar em branco");
 
         }

@@ -134,6 +134,8 @@ namespace PDV_WPF.DataSets {
         
         private global::System.Data.DataRelation relationTRI_PDV_DEVOL_FK1;
         
+        private global::System.Data.DataRelation relationFK_FMAPAGTO_NFVENDA1;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -986,6 +988,7 @@ namespace PDV_WPF.DataSets {
             this.relationFK_NFVENDA_SAT1 = this.Relations["FK_NFVENDA_SAT1"];
             this.relationFK_NFVENDA1 = this.Relations["FK_NFVENDA1"];
             this.relationTRI_PDV_DEVOL_FK1 = this.Relations["TRI_PDV_DEVOL_FK1"];
+            this.relationFK_FMAPAGTO_NFVENDA1 = this.Relations["FK_FMAPAGTO_NFVENDA1"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1154,6 +1157,10 @@ namespace PDV_WPF.DataSets {
                         this.tableCupomItensTable.ID_NFVITEMColumn}, new global::System.Data.DataColumn[] {
                         this.tableTRI_PDV_DEVOL.ID_NFVITEMColumn}, false);
             this.Relations.Add(this.relationTRI_PDV_DEVOL_FK1);
+            this.relationFK_FMAPAGTO_NFVENDA1 = new global::System.Data.DataRelation("FK_FMAPAGTO_NFVENDA1", new global::System.Data.DataColumn[] {
+                        this.tableTB_FORMA_PAGTO_NFCE.ID_FMANFCEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableCupomPgtosTable.ID_FMANFCEColumn}, false);
+            this.Relations.Add(this.relationFK_FMAPAGTO_NFVENDA1);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11372,6 +11379,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnNOME;
             
+            private global::System.Data.DataColumn columnID_FMANFCE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CupomPgtosTableDataTable() {
@@ -11439,6 +11448,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_FMANFCEColumn {
+                get {
+                    return this.columnID_FMANFCE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -11474,13 +11491,17 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CupomPgtosTableRow AddCupomPgtosTableRow(string DESCRICAO, decimal VLR_PAGTO, System.DateTime DT_VENCTO, string NOME) {
+            public CupomPgtosTableRow AddCupomPgtosTableRow(string DESCRICAO, decimal VLR_PAGTO, System.DateTime DT_VENCTO, string NOME, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1) {
                 CupomPgtosTableRow rowCupomPgtosTableRow = ((CupomPgtosTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         DESCRICAO,
                         VLR_PAGTO,
                         DT_VENCTO,
-                        NOME};
+                        NOME,
+                        null};
+                if ((parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1 != null)) {
+                    columnValuesArray[4] = parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1[0];
+                }
                 rowCupomPgtosTableRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowCupomPgtosTableRow);
                 return rowCupomPgtosTableRow;
@@ -11507,6 +11528,7 @@ namespace PDV_WPF.DataSets {
                 this.columnVLR_PAGTO = base.Columns["VLR_PAGTO"];
                 this.columnDT_VENCTO = base.Columns["DT_VENCTO"];
                 this.columnNOME = base.Columns["NOME"];
+                this.columnID_FMANFCE = base.Columns["ID_FMANFCE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11520,9 +11542,12 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnDT_VENCTO);
                 this.columnNOME = new global::System.Data.DataColumn("NOME", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnNOME);
+                this.columnID_FMANFCE = new global::System.Data.DataColumn("ID_FMANFCE", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_FMANFCE);
                 this.columnDESCRICAO.MaxLength = 40;
                 this.columnVLR_PAGTO.AllowDBNull = false;
                 this.columnNOME.MaxLength = 60;
+                this.columnID_FMANFCE.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -18918,6 +18943,17 @@ namespace PDV_WPF.DataSets {
                     return ((TB_NFVENDA_FMAPAGTO_NFCERow[])(base.GetChildRows(this.Table.ChildRelations["FK_FMAPAGTO_NFVENDA"])));
                 }
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public CupomPgtosTableRow[] GetCupomPgtosTableRows() {
+                if ((this.Table.ChildRelations["FK_FMAPAGTO_NFVENDA1"] == null)) {
+                    return new CupomPgtosTableRow[0];
+                }
+                else {
+                    return ((CupomPgtosTableRow[])(base.GetChildRows(this.Table.ChildRelations["FK_FMAPAGTO_NFVENDA1"])));
+                }
+            }
         }
         
         /// <summary>
@@ -21747,6 +21783,28 @@ namespace PDV_WPF.DataSets {
                 }
                 set {
                     this[this.tableCupomPgtosTable.NOMEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short ID_FMANFCE {
+                get {
+                    return ((short)(this[this.tableCupomPgtosTable.ID_FMANFCEColumn]));
+                }
+                set {
+                    this[this.tableCupomPgtosTable.ID_FMANFCEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_FORMA_PAGTO_NFCERow TB_FORMA_PAGTO_NFCERow {
+                get {
+                    return ((TB_FORMA_PAGTO_NFCERow)(this.GetParentRow(this.Table.ParentRelations["FK_FMAPAGTO_NFVENDA1"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_FMAPAGTO_NFVENDA1"]);
                 }
             }
             
@@ -25503,14 +25561,14 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection[13].CommandText = "\"SP_TRI_CTAREC_MOVTO\"";
             this._commandCollection[13].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "CAIXA";
-            param.DbType = global::System.Data.DbType.Int16;
-            param.Size = 2;
+            param.ParameterName = "PID_MOVTO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[13].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "COO";
+            param.ParameterName = "PID_CTAREC";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
@@ -25947,7 +26005,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection[22].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "DESCRICAO";
-            param.Size = 30;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[22].Parameters.Add(param);
@@ -27659,16 +27717,16 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual int SP_TRI_CTAREC_MOVTO(global::System.Nullable<short> CAIXA, global::System.Nullable<int> COO) {
+        public virtual object SP_TRI_CTAREC_MOVTO(global::System.Nullable<int> PID_MOVTO, global::System.Nullable<int> PID_CTAREC) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[13];
-            if ((CAIXA.HasValue == true)) {
-                command.Parameters[0].Value = ((short)(CAIXA.Value));
+            if ((PID_MOVTO.HasValue == true)) {
+                command.Parameters[0].Value = ((int)(PID_MOVTO.Value));
             }
             else {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
-            if ((COO.HasValue == true)) {
-                command.Parameters[1].Value = ((int)(COO.Value));
+            if ((PID_CTAREC.HasValue == true)) {
+                command.Parameters[1].Value = ((int)(PID_CTAREC.Value));
             }
             else {
                 command.Parameters[1].Value = global::System.DBNull.Value;
@@ -27678,16 +27736,22 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
                         != global::System.Data.ConnectionState.Open)) {
                 command.Connection.Open();
             }
-            int returnValue;
+            object returnValue;
             try {
-                returnValue = command.ExecuteNonQuery();
+                returnValue = command.ExecuteScalar();
             }
             finally {
                 if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
                     command.Connection.Close();
                 }
             }
-            return returnValue;
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((object)(returnValue));
+            }
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -49718,6 +49782,7 @@ ORDER BY NUM_ITEM";
             tableMapping.ColumnMappings.Add("VLR_PAGTO", "VLR_PAGTO");
             tableMapping.ColumnMappings.Add("DT_VENCTO", "DT_VENCTO");
             tableMapping.ColumnMappings.Add("NOME", "NOME");
+            tableMapping.ColumnMappings.Add("ID_FMANFCE", "ID_FMANFCE");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -49734,9 +49799,9 @@ ORDER BY NUM_ITEM";
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT B.DESCRICAO, A.VLR_PAGTO, D.DT_VENCTO, E.NOME FROM TB_NFVENDA_FMAPAGTO_NFCE A
+            this._commandCollection[0].CommandText = @"SELECT B.ID_FMANFCE, B.DESCRICAO, A.VLR_PAGTO, D.DT_VENCTO, E.NOME FROM TB_NFVENDA_FMAPAGTO_NFCE A
 JOIN TB_FORMA_PAGTO_NFCE B ON A.ID_FMANFCE = B.ID_FMANFCE
-LEFT JOIN TB_NFV_CTAREC C ON A.ID_NFVENDA = C.ID_NFVENDA
+LEFT JOIN TB_NFV_CTAREC C ON A.ID_NFVENDA = C.ID_NFVENDA AND A.ID_NUMPAG = C.ID_NUMPAG
 LEFT JOIN TB_CONTA_RECEBER D ON C.ID_CTAREC = D.ID_CTAREC
 LEFT JOIN TB_CLIENTE E ON D.ID_CLIENTE = E.ID_CLIENTE
 WHERE A.ID_NFVENDA = @Param1";

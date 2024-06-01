@@ -20,7 +20,7 @@ namespace PDV_ORCAMENTO.Telas
 
         //FDBOrcaDataSetTableAdapters.SP_TRI_PREENCHECONSULTA_TIPDESCTableAdapter Estoque_TA = new FDBOrcaDataSetTableAdapters.SP_TRI_PREENCHECONSULTA_TIPDESCTableAdapter();
         //private FbConnection SERVER_FB_CONN = new FbConnection { ConnectionString = Properties.Settings.Default.NetworkDB };
-        public int codigo;
+        public dynamic codigo;
 
         private DebounceDispatcher debounceTimer = new DebounceDispatcher();
 
@@ -222,7 +222,7 @@ namespace PDV_ORCAMENTO.Telas
             {
                 if (MessageBox.Show("Deseja utilizar o campo 'REFERÊNCIA' nesta consulta?", "Confirmação", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {                    
-                    codigo = referencia.Safeint();
+                    codigo = referencia.Safestring();
                     DialogResult = true;
                     this.Close();
                 }

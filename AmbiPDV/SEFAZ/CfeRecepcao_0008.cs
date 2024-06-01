@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDV_WPF.Objetos;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -2226,8 +2227,11 @@ namespace CfeRecepcao_0008
             get => dec_vMPField;
             set => dec_vMPField = value;
         }
+        //[XmlIgnore]
+        //public int idADMINS { get; set; }
+
         [XmlIgnore]
-        public int idADMINS { get; set; }
+        public InfoAdministradora InfoAdmin { get; set; }
     }
 
     /// <remarks/>

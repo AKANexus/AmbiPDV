@@ -136,10 +136,13 @@ namespace PDV_WPF
         {
             chk_usatef.IsChecked = false;
             chk_usatef.IsEnabled = false;
+            chk_vincula_maq_cta.IsEnabled = true;
         }
         private void chk_Maquininha_Unchecked(object sender, RoutedEventArgs e)
         {
             chk_usatef.IsEnabled = true;
+            chk_vincula_maq_cta.IsChecked = false;
+            chk_vincula_maq_cta.IsEnabled = false;
         }
         private void confirmar_Click(object sender, MouseButtonEventArgs e)
         {
@@ -184,6 +187,7 @@ namespace PDV_WPF
                 cbb_Pede_CPF.SelectedIndex = PEDE_CPF;
                 cbb_Pede_Vend.SelectedIndex = SYSCOMISSAO;
                 chk_maquininha.IsChecked = INFORMA_MAQUININHA;
+                chk_vincula_maq_cta.IsChecked = VINCULA_MAQ_CTA;
                 chk_Interrompe_Nao_Encontrado.IsChecked = INTERROMPE_NAO_ENCONTRADO;
                 chk_Permite_Venda_Negativa.IsChecked = PERMITE_ESTOQUE_NEGATIVO;
                 cbb_Mod_CUP.SelectedIndex = (int)MODELO_CUPOM;
@@ -224,6 +228,7 @@ namespace PDV_WPF
                 cbb_Pede_CPF.SelectedIndex = 0;
                 cbb_Pede_Vend.SelectedIndex = 0;
                 chk_maquininha.IsChecked = false;
+                chk_vincula_maq_cta.IsChecked = false;
                 chk_Interrompe_Nao_Encontrado.IsChecked = false;
                 chk_Permite_Venda_Negativa.IsChecked = false;
                 cbb_Mod_CUP.SelectedIndex = 0;
@@ -242,6 +247,15 @@ namespace PDV_WPF
                 if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
                 return;
             }
+        }
+
+        private void chk_maq_cta_MouseRight(object sender, MouseButtonEventArgs e)
+        {       
+            if(chk_vincula_maq_cta.IsChecked is bool check && check is true)
+            {
+                ParamsAdministradora paramsAdministradora = new ParamsAdministradora();
+                paramsAdministradora.ShowDialog();
+            }               
         }
 
         #endregion Events
@@ -312,6 +326,7 @@ namespace PDV_WPF
             NO_CAIXA = txb_No_Caixa.Text.Safeint();
             PEDE_CPF = cbb_Pede_CPF.SelectedIndex;
             INFORMA_MAQUININHA = chk_maquininha.IsChecked ?? false;
+            VINCULA_MAQ_CTA = chk_vincula_maq_cta.IsChecked ?? false;
             INTERROMPE_NAO_ENCONTRADO = chk_Interrompe_Nao_Encontrado.IsChecked ?? false;
             PERMITE_ESTOQUE_NEGATIVO = chk_Permite_Venda_Negativa.IsChecked;
             MODELO_CUPOM = ModeloCupom.Simples;
@@ -336,6 +351,6 @@ namespace PDV_WPF
 
             if (!SalvaConfigsNaBase()) MessageBox.Show("Erro ao gravar dados.");
         }
-        #endregion Methods       
+        #endregion Methods               
     }
 }

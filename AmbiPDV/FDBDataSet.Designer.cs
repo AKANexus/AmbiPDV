@@ -72,6 +72,12 @@ namespace PDV_WPF {
         
         private TRI_PDV_USERSDataTable tableTRI_PDV_USERS;
         
+        private TB_PARAMETRODataTable tableTB_PARAMETRO;
+        
+        private TB_BANCO_CTADataTable tableTB_BANCO_CTA;
+        
+        private V_RELATION_TABLESDataTable tableV_RELATION_TABLES;
+        
         private global::System.Data.DataRelation relationFK_CUPOM_ITEM;
         
         private global::System.Data.DataRelation relationTRI_PDV_NSU_TB_CUPOM_FK;
@@ -187,6 +193,15 @@ namespace PDV_WPF {
                 }
                 if ((ds.Tables["TRI_PDV_USERS"] != null)) {
                     base.Tables.Add(new TRI_PDV_USERSDataTable(ds.Tables["TRI_PDV_USERS"]));
+                }
+                if ((ds.Tables["TB_PARAMETRO"] != null)) {
+                    base.Tables.Add(new TB_PARAMETRODataTable(ds.Tables["TB_PARAMETRO"]));
+                }
+                if ((ds.Tables["TB_BANCO_CTA"] != null)) {
+                    base.Tables.Add(new TB_BANCO_CTADataTable(ds.Tables["TB_BANCO_CTA"]));
+                }
+                if ((ds.Tables["V_RELATION_TABLES"] != null)) {
+                    base.Tables.Add(new V_RELATION_TABLESDataTable(ds.Tables["V_RELATION_TABLES"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -448,6 +463,36 @@ namespace PDV_WPF {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TB_PARAMETRODataTable TB_PARAMETRO {
+            get {
+                return this.tableTB_PARAMETRO;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TB_BANCO_CTADataTable TB_BANCO_CTA {
+            get {
+                return this.tableTB_BANCO_CTA;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public V_RELATION_TABLESDataTable V_RELATION_TABLES {
+            get {
+                return this.tableV_RELATION_TABLES;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -584,6 +629,15 @@ namespace PDV_WPF {
                 }
                 if ((ds.Tables["TRI_PDV_USERS"] != null)) {
                     base.Tables.Add(new TRI_PDV_USERSDataTable(ds.Tables["TRI_PDV_USERS"]));
+                }
+                if ((ds.Tables["TB_PARAMETRO"] != null)) {
+                    base.Tables.Add(new TB_PARAMETRODataTable(ds.Tables["TB_PARAMETRO"]));
+                }
+                if ((ds.Tables["TB_BANCO_CTA"] != null)) {
+                    base.Tables.Add(new TB_BANCO_CTADataTable(ds.Tables["TB_BANCO_CTA"]));
+                }
+                if ((ds.Tables["V_RELATION_TABLES"] != null)) {
+                    base.Tables.Add(new V_RELATION_TABLESDataTable(ds.Tables["V_RELATION_TABLES"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -762,6 +816,24 @@ namespace PDV_WPF {
                     this.tableTRI_PDV_USERS.InitVars();
                 }
             }
+            this.tableTB_PARAMETRO = ((TB_PARAMETRODataTable)(base.Tables["TB_PARAMETRO"]));
+            if ((initTable == true)) {
+                if ((this.tableTB_PARAMETRO != null)) {
+                    this.tableTB_PARAMETRO.InitVars();
+                }
+            }
+            this.tableTB_BANCO_CTA = ((TB_BANCO_CTADataTable)(base.Tables["TB_BANCO_CTA"]));
+            if ((initTable == true)) {
+                if ((this.tableTB_BANCO_CTA != null)) {
+                    this.tableTB_BANCO_CTA.InitVars();
+                }
+            }
+            this.tableV_RELATION_TABLES = ((V_RELATION_TABLESDataTable)(base.Tables["V_RELATION_TABLES"]));
+            if ((initTable == true)) {
+                if ((this.tableV_RELATION_TABLES != null)) {
+                    this.tableV_RELATION_TABLES.InitVars();
+                }
+            }
             this.relationFK_CUPOM_ITEM = this.Relations["FK_CUPOM_ITEM"];
             this.relationTRI_PDV_NSU_TB_CUPOM_FK = this.Relations["TRI_PDV_NSU_TB_CUPOM_FK"];
             this.relationFK_CTAREC_CUPOM = this.Relations["FK_CTAREC_CUPOM"];
@@ -828,6 +900,12 @@ namespace PDV_WPF {
             base.Tables.Add(this.tableSP_TRI_CONTANFVPAGTO);
             this.tableTRI_PDV_USERS = new TRI_PDV_USERSDataTable();
             base.Tables.Add(this.tableTRI_PDV_USERS);
+            this.tableTB_PARAMETRO = new TB_PARAMETRODataTable();
+            base.Tables.Add(this.tableTB_PARAMETRO);
+            this.tableTB_BANCO_CTA = new TB_BANCO_CTADataTable();
+            base.Tables.Add(this.tableTB_BANCO_CTA);
+            this.tableV_RELATION_TABLES = new V_RELATION_TABLESDataTable();
+            base.Tables.Add(this.tableV_RELATION_TABLES);
             this.relationFK_CUPOM_ITEM = new global::System.Data.DataRelation("FK_CUPOM_ITEM", new global::System.Data.DataColumn[] {
                         this.tableTB_CUPOM.ID_CUPOMColumn}, new global::System.Data.DataColumn[] {
                         this.tableTB_CUPOM_ITEM.ID_CUPOMColumn}, false);
@@ -1008,6 +1086,24 @@ namespace PDV_WPF {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeTB_PARAMETRO() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeTB_BANCO_CTA() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeV_RELATION_TABLES() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -1132,6 +1228,15 @@ namespace PDV_WPF {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void TRI_PDV_USERSRowChangeEventHandler(object sender, TRI_PDV_USERSRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void TB_PARAMETRORowChangeEventHandler(object sender, TB_PARAMETRORowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void TB_BANCO_CTARowChangeEventHandler(object sender, TB_BANCO_CTARowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void V_RELATION_TABLESRowChangeEventHandler(object sender, V_RELATION_TABLESRowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -3115,6 +3220,8 @@ namespace PDV_WPF {
             
             private global::System.Data.DataColumn columnID_NUMPAG;
             
+            private global::System.Data.DataColumn columnID_CONTA;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TB_CONTA_RECEBERDataTable() {
@@ -3254,6 +3361,14 @@ namespace PDV_WPF {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_CONTAColumn {
+                get {
+                    return this.columnID_CONTA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3289,7 +3404,7 @@ namespace PDV_WPF {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public TB_CONTA_RECEBERRow AddTB_CONTA_RECEBERRow(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, System.DateTime DT_VENCTO_ORIG, string NSU_CARTAO, int ID_NUMPAG) {
+            public TB_CONTA_RECEBERRow AddTB_CONTA_RECEBERRow(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, System.DateTime DT_VENCTO_ORIG, string NSU_CARTAO, int ID_NUMPAG, int ID_CONTA) {
                 TB_CONTA_RECEBERRow rowTB_CONTA_RECEBERRow = ((TB_CONTA_RECEBERRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_CTAREC,
@@ -3304,7 +3419,8 @@ namespace PDV_WPF {
                         INV_REFERENCIA,
                         DT_VENCTO_ORIG,
                         NSU_CARTAO,
-                        ID_NUMPAG};
+                        ID_NUMPAG,
+                        ID_CONTA};
                 rowTB_CONTA_RECEBERRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTB_CONTA_RECEBERRow);
                 return rowTB_CONTA_RECEBERRow;
@@ -3347,6 +3463,7 @@ namespace PDV_WPF {
                 this.columnDT_VENCTO_ORIG = base.Columns["DT_VENCTO_ORIG"];
                 this.columnNSU_CARTAO = base.Columns["NSU_CARTAO"];
                 this.columnID_NUMPAG = base.Columns["ID_NUMPAG"];
+                this.columnID_CONTA = base.Columns["ID_CONTA"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3378,6 +3495,8 @@ namespace PDV_WPF {
                 base.Columns.Add(this.columnNSU_CARTAO);
                 this.columnID_NUMPAG = new global::System.Data.DataColumn("ID_NUMPAG", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_NUMPAG);
+                this.columnID_CONTA = new global::System.Data.DataColumn("ID_CONTA", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CONTA);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnINV_REFERENCIA}, false));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
@@ -3386,7 +3505,7 @@ namespace PDV_WPF {
                 this.columnID_CTAREC.Unique = true;
                 this.columnDOCUMENTO.AllowDBNull = false;
                 this.columnDOCUMENTO.MaxLength = 12;
-                this.columnHISTORICO.MaxLength = 50;
+                this.columnHISTORICO.MaxLength = 100;
                 this.columnDT_EMISSAO.AllowDBNull = false;
                 this.columnDT_VENCTO.AllowDBNull = false;
                 this.columnVLR_CTAREC.AllowDBNull = false;
@@ -10124,6 +10243,1076 @@ namespace PDV_WPF {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TB_PARAMETRODataTable : global::System.Data.TypedTableBase<TB_PARAMETRORow> {
+            
+            private global::System.Data.DataColumn columnID_PARAMETRO;
+            
+            private global::System.Data.DataColumn columnINFORMACAO;
+            
+            private global::System.Data.DataColumn columnCONTEUDO;
+            
+            private global::System.Data.DataColumn columnDESCRICAO;
+            
+            private global::System.Data.DataColumn columnID_FUNCIONARIO;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRODataTable() {
+                this.TableName = "TB_PARAMETRO";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal TB_PARAMETRODataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected TB_PARAMETRODataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_PARAMETROColumn {
+                get {
+                    return this.columnID_PARAMETRO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn INFORMACAOColumn {
+                get {
+                    return this.columnINFORMACAO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CONTEUDOColumn {
+                get {
+                    return this.columnCONTEUDO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DESCRICAOColumn {
+                get {
+                    return this.columnDESCRICAO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_FUNCIONARIOColumn {
+                get {
+                    return this.columnID_FUNCIONARIO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRORow this[int index] {
+                get {
+                    return ((TB_PARAMETRORow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_PARAMETRORowChangeEventHandler TB_PARAMETRORowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_PARAMETRORowChangeEventHandler TB_PARAMETRORowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_PARAMETRORowChangeEventHandler TB_PARAMETRORowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_PARAMETRORowChangeEventHandler TB_PARAMETRORowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddTB_PARAMETRORow(TB_PARAMETRORow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRORow AddTB_PARAMETRORow(int ID_PARAMETRO, string INFORMACAO, string CONTEUDO, string DESCRICAO, short ID_FUNCIONARIO) {
+                TB_PARAMETRORow rowTB_PARAMETRORow = ((TB_PARAMETRORow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        ID_PARAMETRO,
+                        INFORMACAO,
+                        CONTEUDO,
+                        DESCRICAO,
+                        ID_FUNCIONARIO};
+                rowTB_PARAMETRORow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTB_PARAMETRORow);
+                return rowTB_PARAMETRORow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRORow FindByID_PARAMETRO(int ID_PARAMETRO) {
+                return ((TB_PARAMETRORow)(this.Rows.Find(new object[] {
+                            ID_PARAMETRO})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                TB_PARAMETRODataTable cln = ((TB_PARAMETRODataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TB_PARAMETRODataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnID_PARAMETRO = base.Columns["ID_PARAMETRO"];
+                this.columnINFORMACAO = base.Columns["INFORMACAO"];
+                this.columnCONTEUDO = base.Columns["CONTEUDO"];
+                this.columnDESCRICAO = base.Columns["DESCRICAO"];
+                this.columnID_FUNCIONARIO = base.Columns["ID_FUNCIONARIO"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnID_PARAMETRO = new global::System.Data.DataColumn("ID_PARAMETRO", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_PARAMETRO);
+                this.columnINFORMACAO = new global::System.Data.DataColumn("INFORMACAO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnINFORMACAO);
+                this.columnCONTEUDO = new global::System.Data.DataColumn("CONTEUDO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCONTEUDO);
+                this.columnDESCRICAO = new global::System.Data.DataColumn("DESCRICAO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDESCRICAO);
+                this.columnID_FUNCIONARIO = new global::System.Data.DataColumn("ID_FUNCIONARIO", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_FUNCIONARIO);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnID_PARAMETRO}, true));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
+                                this.columnINFORMACAO}, false));
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint3", new global::System.Data.DataColumn[] {
+                                this.columnID_FUNCIONARIO}, false));
+                this.columnID_PARAMETRO.AllowDBNull = false;
+                this.columnID_PARAMETRO.Unique = true;
+                this.columnINFORMACAO.Unique = true;
+                this.columnINFORMACAO.MaxLength = 30;
+                this.columnCONTEUDO.MaxLength = 100;
+                this.columnDESCRICAO.MaxLength = 100;
+                this.columnID_FUNCIONARIO.AllowDBNull = false;
+                this.columnID_FUNCIONARIO.Unique = true;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRORow NewTB_PARAMETRORow() {
+                return ((TB_PARAMETRORow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TB_PARAMETRORow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(TB_PARAMETRORow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TB_PARAMETRORowChanged != null)) {
+                    this.TB_PARAMETRORowChanged(this, new TB_PARAMETRORowChangeEvent(((TB_PARAMETRORow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TB_PARAMETRORowChanging != null)) {
+                    this.TB_PARAMETRORowChanging(this, new TB_PARAMETRORowChangeEvent(((TB_PARAMETRORow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TB_PARAMETRORowDeleted != null)) {
+                    this.TB_PARAMETRORowDeleted(this, new TB_PARAMETRORowChangeEvent(((TB_PARAMETRORow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TB_PARAMETRORowDeleting != null)) {
+                    this.TB_PARAMETRORowDeleting(this, new TB_PARAMETRORowChangeEvent(((TB_PARAMETRORow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveTB_PARAMETRORow(TB_PARAMETRORow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                FDBDataSet ds = new FDBDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TB_PARAMETRODataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TB_BANCO_CTADataTable : global::System.Data.TypedTableBase<TB_BANCO_CTARow> {
+            
+            private global::System.Data.DataColumn columnID_CONTA;
+            
+            private global::System.Data.DataColumn columnDESCRICAO;
+            
+            private global::System.Data.DataColumn columnAGENCIA;
+            
+            private global::System.Data.DataColumn columnCONTA;
+            
+            private global::System.Data.DataColumn columnSTATUS;
+            
+            private global::System.Data.DataColumn columnID_BANCO;
+            
+            private global::System.Data.DataColumn columnID_CTAPLA;
+            
+            private global::System.Data.DataColumn columnSD_TALAO;
+            
+            private global::System.Data.DataColumn columnSD_REAL;
+            
+            private global::System.Data.DataColumn columnSD_BANCO;
+            
+            private global::System.Data.DataColumn columnDT_ULTCONC;
+            
+            private global::System.Data.DataColumn columnID_AGENTE_FINANCEIRO;
+            
+            private global::System.Data.DataColumn columnHABILITAR_RECEBIMENTO;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTADataTable() {
+                this.TableName = "TB_BANCO_CTA";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal TB_BANCO_CTADataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected TB_BANCO_CTADataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_CONTAColumn {
+                get {
+                    return this.columnID_CONTA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DESCRICAOColumn {
+                get {
+                    return this.columnDESCRICAO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn AGENCIAColumn {
+                get {
+                    return this.columnAGENCIA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn CONTAColumn {
+                get {
+                    return this.columnCONTA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn STATUSColumn {
+                get {
+                    return this.columnSTATUS;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_BANCOColumn {
+                get {
+                    return this.columnID_BANCO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_CTAPLAColumn {
+                get {
+                    return this.columnID_CTAPLA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SD_TALAOColumn {
+                get {
+                    return this.columnSD_TALAO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SD_REALColumn {
+                get {
+                    return this.columnSD_REAL;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn SD_BANCOColumn {
+                get {
+                    return this.columnSD_BANCO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DT_ULTCONCColumn {
+                get {
+                    return this.columnDT_ULTCONC;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_AGENTE_FINANCEIROColumn {
+                get {
+                    return this.columnID_AGENTE_FINANCEIRO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn HABILITAR_RECEBIMENTOColumn {
+                get {
+                    return this.columnHABILITAR_RECEBIMENTO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTARow this[int index] {
+                get {
+                    return ((TB_BANCO_CTARow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_BANCO_CTARowChangeEventHandler TB_BANCO_CTARowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_BANCO_CTARowChangeEventHandler TB_BANCO_CTARowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_BANCO_CTARowChangeEventHandler TB_BANCO_CTARowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_BANCO_CTARowChangeEventHandler TB_BANCO_CTARowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddTB_BANCO_CTARow(TB_BANCO_CTARow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTARow AddTB_BANCO_CTARow(short ID_CONTA, string DESCRICAO, string AGENCIA, string CONTA, string STATUS, short ID_BANCO, short ID_CTAPLA, decimal SD_TALAO, decimal SD_REAL, decimal SD_BANCO, System.DateTime DT_ULTCONC, int ID_AGENTE_FINANCEIRO, string HABILITAR_RECEBIMENTO) {
+                TB_BANCO_CTARow rowTB_BANCO_CTARow = ((TB_BANCO_CTARow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        ID_CONTA,
+                        DESCRICAO,
+                        AGENCIA,
+                        CONTA,
+                        STATUS,
+                        ID_BANCO,
+                        ID_CTAPLA,
+                        SD_TALAO,
+                        SD_REAL,
+                        SD_BANCO,
+                        DT_ULTCONC,
+                        ID_AGENTE_FINANCEIRO,
+                        HABILITAR_RECEBIMENTO};
+                rowTB_BANCO_CTARow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTB_BANCO_CTARow);
+                return rowTB_BANCO_CTARow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTARow FindByID_CONTA(short ID_CONTA) {
+                return ((TB_BANCO_CTARow)(this.Rows.Find(new object[] {
+                            ID_CONTA})));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                TB_BANCO_CTADataTable cln = ((TB_BANCO_CTADataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TB_BANCO_CTADataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnID_CONTA = base.Columns["ID_CONTA"];
+                this.columnDESCRICAO = base.Columns["DESCRICAO"];
+                this.columnAGENCIA = base.Columns["AGENCIA"];
+                this.columnCONTA = base.Columns["CONTA"];
+                this.columnSTATUS = base.Columns["STATUS"];
+                this.columnID_BANCO = base.Columns["ID_BANCO"];
+                this.columnID_CTAPLA = base.Columns["ID_CTAPLA"];
+                this.columnSD_TALAO = base.Columns["SD_TALAO"];
+                this.columnSD_REAL = base.Columns["SD_REAL"];
+                this.columnSD_BANCO = base.Columns["SD_BANCO"];
+                this.columnDT_ULTCONC = base.Columns["DT_ULTCONC"];
+                this.columnID_AGENTE_FINANCEIRO = base.Columns["ID_AGENTE_FINANCEIRO"];
+                this.columnHABILITAR_RECEBIMENTO = base.Columns["HABILITAR_RECEBIMENTO"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnID_CONTA = new global::System.Data.DataColumn("ID_CONTA", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CONTA);
+                this.columnDESCRICAO = new global::System.Data.DataColumn("DESCRICAO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDESCRICAO);
+                this.columnAGENCIA = new global::System.Data.DataColumn("AGENCIA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnAGENCIA);
+                this.columnCONTA = new global::System.Data.DataColumn("CONTA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCONTA);
+                this.columnSTATUS = new global::System.Data.DataColumn("STATUS", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSTATUS);
+                this.columnID_BANCO = new global::System.Data.DataColumn("ID_BANCO", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_BANCO);
+                this.columnID_CTAPLA = new global::System.Data.DataColumn("ID_CTAPLA", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CTAPLA);
+                this.columnSD_TALAO = new global::System.Data.DataColumn("SD_TALAO", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSD_TALAO);
+                this.columnSD_REAL = new global::System.Data.DataColumn("SD_REAL", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSD_REAL);
+                this.columnSD_BANCO = new global::System.Data.DataColumn("SD_BANCO", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnSD_BANCO);
+                this.columnDT_ULTCONC = new global::System.Data.DataColumn("DT_ULTCONC", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDT_ULTCONC);
+                this.columnID_AGENTE_FINANCEIRO = new global::System.Data.DataColumn("ID_AGENTE_FINANCEIRO", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_AGENTE_FINANCEIRO);
+                this.columnHABILITAR_RECEBIMENTO = new global::System.Data.DataColumn("HABILITAR_RECEBIMENTO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnHABILITAR_RECEBIMENTO);
+                this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
+                                this.columnID_CONTA}, true));
+                this.columnID_CONTA.AllowDBNull = false;
+                this.columnID_CONTA.Unique = true;
+                this.columnDESCRICAO.MaxLength = 40;
+                this.columnAGENCIA.MaxLength = 10;
+                this.columnCONTA.MaxLength = 20;
+                this.columnSTATUS.AllowDBNull = false;
+                this.columnSTATUS.MaxLength = 1;
+                this.columnID_BANCO.AllowDBNull = false;
+                this.columnID_CTAPLA.AllowDBNull = false;
+                this.columnSD_TALAO.AllowDBNull = false;
+                this.columnSD_REAL.AllowDBNull = false;
+                this.columnSD_BANCO.AllowDBNull = false;
+                this.columnHABILITAR_RECEBIMENTO.MaxLength = 1;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTARow NewTB_BANCO_CTARow() {
+                return ((TB_BANCO_CTARow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TB_BANCO_CTARow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(TB_BANCO_CTARow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TB_BANCO_CTARowChanged != null)) {
+                    this.TB_BANCO_CTARowChanged(this, new TB_BANCO_CTARowChangeEvent(((TB_BANCO_CTARow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TB_BANCO_CTARowChanging != null)) {
+                    this.TB_BANCO_CTARowChanging(this, new TB_BANCO_CTARowChangeEvent(((TB_BANCO_CTARow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TB_BANCO_CTARowDeleted != null)) {
+                    this.TB_BANCO_CTARowDeleted(this, new TB_BANCO_CTARowChangeEvent(((TB_BANCO_CTARow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TB_BANCO_CTARowDeleting != null)) {
+                    this.TB_BANCO_CTARowDeleting(this, new TB_BANCO_CTARowChangeEvent(((TB_BANCO_CTARow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveTB_BANCO_CTARow(TB_BANCO_CTARow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                FDBDataSet ds = new FDBDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TB_BANCO_CTADataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class V_RELATION_TABLESDataTable : global::System.Data.TypedTableBase<V_RELATION_TABLESRow> {
+            
+            private global::System.Data.DataColumn columnTABELAS_DEPENDENTES;
+            
+            private global::System.Data.DataColumn columnTABELA_NATIVA;
+            
+            private global::System.Data.DataColumn columnNOME_COLUNA;
+            
+            private global::System.Data.DataColumn columnTIPO_COLUNA;
+            
+            private global::System.Data.DataColumn columnNULABILIDADE;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public V_RELATION_TABLESDataTable() {
+                this.TableName = "V_RELATION_TABLES";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal V_RELATION_TABLESDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected V_RELATION_TABLESDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TABELAS_DEPENDENTESColumn {
+                get {
+                    return this.columnTABELAS_DEPENDENTES;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TABELA_NATIVAColumn {
+                get {
+                    return this.columnTABELA_NATIVA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NOME_COLUNAColumn {
+                get {
+                    return this.columnNOME_COLUNA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TIPO_COLUNAColumn {
+                get {
+                    return this.columnTIPO_COLUNA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn NULABILIDADEColumn {
+                get {
+                    return this.columnNULABILIDADE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public V_RELATION_TABLESRow this[int index] {
+                get {
+                    return ((V_RELATION_TABLESRow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event V_RELATION_TABLESRowChangeEventHandler V_RELATION_TABLESRowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event V_RELATION_TABLESRowChangeEventHandler V_RELATION_TABLESRowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event V_RELATION_TABLESRowChangeEventHandler V_RELATION_TABLESRowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event V_RELATION_TABLESRowChangeEventHandler V_RELATION_TABLESRowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddV_RELATION_TABLESRow(V_RELATION_TABLESRow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public V_RELATION_TABLESRow AddV_RELATION_TABLESRow(string TABELAS_DEPENDENTES, string TABELA_NATIVA, string NOME_COLUNA, string TIPO_COLUNA, string NULABILIDADE) {
+                V_RELATION_TABLESRow rowV_RELATION_TABLESRow = ((V_RELATION_TABLESRow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        TABELAS_DEPENDENTES,
+                        TABELA_NATIVA,
+                        NOME_COLUNA,
+                        TIPO_COLUNA,
+                        NULABILIDADE};
+                rowV_RELATION_TABLESRow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowV_RELATION_TABLESRow);
+                return rowV_RELATION_TABLESRow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                V_RELATION_TABLESDataTable cln = ((V_RELATION_TABLESDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new V_RELATION_TABLESDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnTABELAS_DEPENDENTES = base.Columns["TABELAS_DEPENDENTES"];
+                this.columnTABELA_NATIVA = base.Columns["TABELA_NATIVA"];
+                this.columnNOME_COLUNA = base.Columns["NOME_COLUNA"];
+                this.columnTIPO_COLUNA = base.Columns["TIPO_COLUNA"];
+                this.columnNULABILIDADE = base.Columns["NULABILIDADE"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnTABELAS_DEPENDENTES = new global::System.Data.DataColumn("TABELAS_DEPENDENTES", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTABELAS_DEPENDENTES);
+                this.columnTABELA_NATIVA = new global::System.Data.DataColumn("TABELA_NATIVA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTABELA_NATIVA);
+                this.columnNOME_COLUNA = new global::System.Data.DataColumn("NOME_COLUNA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNOME_COLUNA);
+                this.columnTIPO_COLUNA = new global::System.Data.DataColumn("TIPO_COLUNA", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTIPO_COLUNA);
+                this.columnNULABILIDADE = new global::System.Data.DataColumn("NULABILIDADE", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnNULABILIDADE);
+                this.columnTABELAS_DEPENDENTES.MaxLength = 31;
+                this.columnTABELA_NATIVA.MaxLength = 31;
+                this.columnNOME_COLUNA.MaxLength = 31;
+                this.columnTIPO_COLUNA.MaxLength = 11;
+                this.columnNULABILIDADE.ReadOnly = true;
+                this.columnNULABILIDADE.MaxLength = 8;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public V_RELATION_TABLESRow NewV_RELATION_TABLESRow() {
+                return ((V_RELATION_TABLESRow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new V_RELATION_TABLESRow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(V_RELATION_TABLESRow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.V_RELATION_TABLESRowChanged != null)) {
+                    this.V_RELATION_TABLESRowChanged(this, new V_RELATION_TABLESRowChangeEvent(((V_RELATION_TABLESRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.V_RELATION_TABLESRowChanging != null)) {
+                    this.V_RELATION_TABLESRowChanging(this, new V_RELATION_TABLESRowChangeEvent(((V_RELATION_TABLESRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.V_RELATION_TABLESRowDeleted != null)) {
+                    this.V_RELATION_TABLESRowDeleted(this, new V_RELATION_TABLESRowChangeEvent(((V_RELATION_TABLESRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.V_RELATION_TABLESRowDeleting != null)) {
+                    this.V_RELATION_TABLESRowDeleting(this, new V_RELATION_TABLESRowChangeEvent(((V_RELATION_TABLESRow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveV_RELATION_TABLESRow(V_RELATION_TABLESRow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                FDBDataSet ds = new FDBDataSet();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "V_RELATION_TABLESDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class TRI_PDV_LOGRow : global::System.Data.DataRow {
@@ -11037,6 +12226,22 @@ namespace PDV_WPF {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_CONTA {
+                get {
+                    try {
+                        return ((int)(this[this.tableTB_CONTA_RECEBER.ID_CONTAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CONTA\' na tabela \'TB_CONTA_RECEBER\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_CONTA_RECEBER.ID_CONTAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsHISTORICONull() {
                 return this.IsNull(this.tableTB_CONTA_RECEBER.HISTORICOColumn);
             }
@@ -11093,6 +12298,18 @@ namespace PDV_WPF {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetID_NUMPAGNull() {
                 this[this.tableTB_CONTA_RECEBER.ID_NUMPAGColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsID_CONTANull() {
+                return this.IsNull(this.tableTB_CONTA_RECEBER.ID_CONTAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetID_CONTANull() {
+                this[this.tableTB_CONTA_RECEBER.ID_CONTAColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15326,6 +16543,542 @@ namespace PDV_WPF {
         }
         
         /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class TB_PARAMETRORow : global::System.Data.DataRow {
+            
+            private TB_PARAMETRODataTable tableTB_PARAMETRO;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal TB_PARAMETRORow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTB_PARAMETRO = ((TB_PARAMETRODataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_PARAMETRO {
+                get {
+                    return ((int)(this[this.tableTB_PARAMETRO.ID_PARAMETROColumn]));
+                }
+                set {
+                    this[this.tableTB_PARAMETRO.ID_PARAMETROColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string INFORMACAO {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_PARAMETRO.INFORMACAOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'INFORMACAO\' na tabela \'TB_PARAMETRO\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_PARAMETRO.INFORMACAOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CONTEUDO {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_PARAMETRO.CONTEUDOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'CONTEUDO\' na tabela \'TB_PARAMETRO\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_PARAMETRO.CONTEUDOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DESCRICAO {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_PARAMETRO.DESCRICAOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'DESCRICAO\' na tabela \'TB_PARAMETRO\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_PARAMETRO.DESCRICAOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short ID_FUNCIONARIO {
+                get {
+                    return ((short)(this[this.tableTB_PARAMETRO.ID_FUNCIONARIOColumn]));
+                }
+                set {
+                    this[this.tableTB_PARAMETRO.ID_FUNCIONARIOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsINFORMACAONull() {
+                return this.IsNull(this.tableTB_PARAMETRO.INFORMACAOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetINFORMACAONull() {
+                this[this.tableTB_PARAMETRO.INFORMACAOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCONTEUDONull() {
+                return this.IsNull(this.tableTB_PARAMETRO.CONTEUDOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCONTEUDONull() {
+                this[this.tableTB_PARAMETRO.CONTEUDOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDESCRICAONull() {
+                return this.IsNull(this.tableTB_PARAMETRO.DESCRICAOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDESCRICAONull() {
+                this[this.tableTB_PARAMETRO.DESCRICAOColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class TB_BANCO_CTARow : global::System.Data.DataRow {
+            
+            private TB_BANCO_CTADataTable tableTB_BANCO_CTA;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal TB_BANCO_CTARow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTB_BANCO_CTA = ((TB_BANCO_CTADataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short ID_CONTA {
+                get {
+                    return ((short)(this[this.tableTB_BANCO_CTA.ID_CONTAColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.ID_CONTAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string DESCRICAO {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_BANCO_CTA.DESCRICAOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'DESCRICAO\' na tabela \'TB_BANCO_CTA\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.DESCRICAOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string AGENCIA {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_BANCO_CTA.AGENCIAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'AGENCIA\' na tabela \'TB_BANCO_CTA\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.AGENCIAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string CONTA {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_BANCO_CTA.CONTAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'CONTA\' na tabela \'TB_BANCO_CTA\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.CONTAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string STATUS {
+                get {
+                    return ((string)(this[this.tableTB_BANCO_CTA.STATUSColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.STATUSColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short ID_BANCO {
+                get {
+                    return ((short)(this[this.tableTB_BANCO_CTA.ID_BANCOColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.ID_BANCOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short ID_CTAPLA {
+                get {
+                    return ((short)(this[this.tableTB_BANCO_CTA.ID_CTAPLAColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.ID_CTAPLAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal SD_TALAO {
+                get {
+                    return ((decimal)(this[this.tableTB_BANCO_CTA.SD_TALAOColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.SD_TALAOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal SD_REAL {
+                get {
+                    return ((decimal)(this[this.tableTB_BANCO_CTA.SD_REALColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.SD_REALColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal SD_BANCO {
+                get {
+                    return ((decimal)(this[this.tableTB_BANCO_CTA.SD_BANCOColumn]));
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.SD_BANCOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime DT_ULTCONC {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableTB_BANCO_CTA.DT_ULTCONCColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'DT_ULTCONC\' na tabela \'TB_BANCO_CTA\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.DT_ULTCONCColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_AGENTE_FINANCEIRO {
+                get {
+                    try {
+                        return ((int)(this[this.tableTB_BANCO_CTA.ID_AGENTE_FINANCEIROColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_AGENTE_FINANCEIRO\' na tabela \'TB_BANCO_CTA\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.ID_AGENTE_FINANCEIROColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string HABILITAR_RECEBIMENTO {
+                get {
+                    try {
+                        return ((string)(this[this.tableTB_BANCO_CTA.HABILITAR_RECEBIMENTOColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'HABILITAR_RECEBIMENTO\' na tabela \'TB_BANCO_CTA\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_BANCO_CTA.HABILITAR_RECEBIMENTOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDESCRICAONull() {
+                return this.IsNull(this.tableTB_BANCO_CTA.DESCRICAOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDESCRICAONull() {
+                this[this.tableTB_BANCO_CTA.DESCRICAOColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsAGENCIANull() {
+                return this.IsNull(this.tableTB_BANCO_CTA.AGENCIAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetAGENCIANull() {
+                this[this.tableTB_BANCO_CTA.AGENCIAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsCONTANull() {
+                return this.IsNull(this.tableTB_BANCO_CTA.CONTAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetCONTANull() {
+                this[this.tableTB_BANCO_CTA.CONTAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDT_ULTCONCNull() {
+                return this.IsNull(this.tableTB_BANCO_CTA.DT_ULTCONCColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDT_ULTCONCNull() {
+                this[this.tableTB_BANCO_CTA.DT_ULTCONCColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsID_AGENTE_FINANCEIRONull() {
+                return this.IsNull(this.tableTB_BANCO_CTA.ID_AGENTE_FINANCEIROColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetID_AGENTE_FINANCEIRONull() {
+                this[this.tableTB_BANCO_CTA.ID_AGENTE_FINANCEIROColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsHABILITAR_RECEBIMENTONull() {
+                return this.IsNull(this.tableTB_BANCO_CTA.HABILITAR_RECEBIMENTOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetHABILITAR_RECEBIMENTONull() {
+                this[this.tableTB_BANCO_CTA.HABILITAR_RECEBIMENTOColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class V_RELATION_TABLESRow : global::System.Data.DataRow {
+            
+            private V_RELATION_TABLESDataTable tableV_RELATION_TABLES;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal V_RELATION_TABLESRow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableV_RELATION_TABLES = ((V_RELATION_TABLESDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TABELAS_DEPENDENTES {
+                get {
+                    try {
+                        return ((string)(this[this.tableV_RELATION_TABLES.TABELAS_DEPENDENTESColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'TABELAS_DEPENDENTES\' na tabela \'V_RELATION_TABLES\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableV_RELATION_TABLES.TABELAS_DEPENDENTESColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TABELA_NATIVA {
+                get {
+                    try {
+                        return ((string)(this[this.tableV_RELATION_TABLES.TABELA_NATIVAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'TABELA_NATIVA\' na tabela \'V_RELATION_TABLES\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableV_RELATION_TABLES.TABELA_NATIVAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NOME_COLUNA {
+                get {
+                    try {
+                        return ((string)(this[this.tableV_RELATION_TABLES.NOME_COLUNAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'NOME_COLUNA\' na tabela \'V_RELATION_TABLES\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableV_RELATION_TABLES.NOME_COLUNAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TIPO_COLUNA {
+                get {
+                    try {
+                        return ((string)(this[this.tableV_RELATION_TABLES.TIPO_COLUNAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'TIPO_COLUNA\' na tabela \'V_RELATION_TABLES\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableV_RELATION_TABLES.TIPO_COLUNAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string NULABILIDADE {
+                get {
+                    try {
+                        return ((string)(this[this.tableV_RELATION_TABLES.NULABILIDADEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'NULABILIDADE\' na tabela \'V_RELATION_TABLES\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableV_RELATION_TABLES.NULABILIDADEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTABELAS_DEPENDENTESNull() {
+                return this.IsNull(this.tableV_RELATION_TABLES.TABELAS_DEPENDENTESColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTABELAS_DEPENDENTESNull() {
+                this[this.tableV_RELATION_TABLES.TABELAS_DEPENDENTESColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTABELA_NATIVANull() {
+                return this.IsNull(this.tableV_RELATION_TABLES.TABELA_NATIVAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTABELA_NATIVANull() {
+                this[this.tableV_RELATION_TABLES.TABELA_NATIVAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNOME_COLUNANull() {
+                return this.IsNull(this.tableV_RELATION_TABLES.NOME_COLUNAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNOME_COLUNANull() {
+                this[this.tableV_RELATION_TABLES.NOME_COLUNAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTIPO_COLUNANull() {
+                return this.IsNull(this.tableV_RELATION_TABLES.TIPO_COLUNAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTIPO_COLUNANull() {
+                this[this.tableV_RELATION_TABLES.TIPO_COLUNAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsNULABILIDADENull() {
+                return this.IsNull(this.tableV_RELATION_TABLES.NULABILIDADEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetNULABILIDADENull() {
+                this[this.tableV_RELATION_TABLES.NULABILIDADEColumn] = global::System.Convert.DBNull;
+            }
+        }
+        
+        /// <summary>
         ///Row event argument class
         ///</summary>
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
@@ -16127,6 +17880,108 @@ namespace PDV_WPF {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_USERSRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class TB_PARAMETRORowChangeEvent : global::System.EventArgs {
+            
+            private TB_PARAMETRORow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRORowChangeEvent(TB_PARAMETRORow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARAMETRORow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class TB_BANCO_CTARowChangeEvent : global::System.EventArgs {
+            
+            private TB_BANCO_CTARow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTARowChangeEvent(TB_BANCO_CTARow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_BANCO_CTARow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class V_RELATION_TABLESRowChangeEvent : global::System.EventArgs {
+            
+            private V_RELATION_TABLESRow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public V_RELATION_TABLESRowChangeEvent(V_RELATION_TABLESRow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public V_RELATION_TABLESRow Row {
                 get {
                     return this.eventRow;
                 }
@@ -19056,10 +20911,11 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             tableMapping.ColumnMappings.Add("INV_REFERENCIA", "INV_REFERENCIA");
             tableMapping.ColumnMappings.Add("DT_VENCTO_ORIG", "DT_VENCTO_ORIG");
             tableMapping.ColumnMappings.Add("NSU_CARTAO", "NSU_CARTAO");
+            tableMapping.ColumnMappings.Add("ID_CONTA", "ID_CONTA");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_CONTA_RECEBER"" WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_CONTA_RECEBER"" WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)) AND ((@IsNull_ID_CONTA = 1 AND ""ID_CONTA"" IS NULL) OR (""ID_CONTA"" = @Original_ID_CONTA)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_CTAREC";
@@ -19071,7 +20927,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -19079,7 +20935,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@IsNull_HISTORICO";
             param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -19087,7 +20943,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.DeleteCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -19188,9 +21044,26 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.SourceColumn = "NSU_CARTAO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""TB_CONTA_RECEBER"" (""ID_CTAREC"", ""DOCUMENTO"", ""HISTORICO"", ""DT_EMISSAO"", ""DT_VENCTO"", ""VLR_CTAREC"", ""TIP_CTAREC"", ""ID_PORTADOR"", ""ID_CLIENTE"", ""INV_REFERENCIA"", ""DT_VENCTO_ORIG"", ""NSU_CARTAO"") VALUES (@ID_CTAREC, @DOCUMENTO, @HISTORICO, @DT_EMISSAO, @DT_VENCTO, @VLR_CTAREC, @TIP_CTAREC, @ID_PORTADOR, @ID_CLIENTE, @INV_REFERENCIA, @DT_VENCTO_ORIG, @NSU_CARTAO)";
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""TB_CONTA_RECEBER"" (""ID_CTAREC"", ""DOCUMENTO"", ""HISTORICO"", ""DT_EMISSAO"", ""DT_VENCTO"", ""VLR_CTAREC"", ""TIP_CTAREC"", ""ID_PORTADOR"", ""ID_CLIENTE"", ""INV_REFERENCIA"", ""DT_VENCTO_ORIG"", ""NSU_CARTAO"", ""ID_CONTA"") VALUES (@ID_CTAREC, @DOCUMENTO, @HISTORICO, @DT_EMISSAO, @DT_VENCTO, @VLR_CTAREC, @TIP_CTAREC, @ID_PORTADOR, @ID_CLIENTE, @INV_REFERENCIA, @DT_VENCTO_ORIG, @NSU_CARTAO, @ID_CONTA)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_CTAREC";
@@ -19201,13 +21074,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             this._adapter.InsertCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             this._adapter.InsertCommand.Parameters.Add(param);
@@ -19271,9 +21144,16 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.IsNullable = true;
             param.SourceColumn = "NSU_CARTAO";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_CONTA_RECEBER"" SET ""ID_CTAREC"" = @ID_CTAREC, ""DOCUMENTO"" = @DOCUMENTO, ""HISTORICO"" = @HISTORICO, ""DT_EMISSAO"" = @DT_EMISSAO, ""DT_VENCTO"" = @DT_VENCTO, ""VLR_CTAREC"" = @VLR_CTAREC, ""TIP_CTAREC"" = @TIP_CTAREC, ""ID_PORTADOR"" = @ID_PORTADOR, ""ID_CLIENTE"" = @ID_CLIENTE, ""INV_REFERENCIA"" = @INV_REFERENCIA, ""DT_VENCTO_ORIG"" = @DT_VENCTO_ORIG, ""NSU_CARTAO"" = @NSU_CARTAO WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_CONTA_RECEBER"" SET ""ID_CTAREC"" = @ID_CTAREC, ""DOCUMENTO"" = @DOCUMENTO, ""HISTORICO"" = @HISTORICO, ""DT_EMISSAO"" = @DT_EMISSAO, ""DT_VENCTO"" = @DT_VENCTO, ""VLR_CTAREC"" = @VLR_CTAREC, ""TIP_CTAREC"" = @TIP_CTAREC, ""ID_PORTADOR"" = @ID_PORTADOR, ""ID_CLIENTE"" = @ID_CLIENTE, ""INV_REFERENCIA"" = @INV_REFERENCIA, ""DT_VENCTO_ORIG"" = @DT_VENCTO_ORIG, ""NSU_CARTAO"" = @NSU_CARTAO, ""ID_CONTA"" = @ID_CONTA WHERE ((""ID_CTAREC"" = @Original_ID_CTAREC) AND (""DOCUMENTO"" = @Original_DOCUMENTO) AND ((@IsNull_HISTORICO = 1 AND ""HISTORICO"" IS NULL) OR (""HISTORICO"" = @Original_HISTORICO)) AND (""DT_EMISSAO"" = @Original_DT_EMISSAO) AND (""DT_VENCTO"" = @Original_DT_VENCTO) AND (""VLR_CTAREC"" = @Original_VLR_CTAREC) AND (""TIP_CTAREC"" = @Original_TIP_CTAREC) AND (""ID_PORTADOR"" = @Original_ID_PORTADOR) AND (""ID_CLIENTE"" = @Original_ID_CLIENTE) AND ((@IsNull_INV_REFERENCIA = 1 AND ""INV_REFERENCIA"" IS NULL) OR (""INV_REFERENCIA"" = @Original_INV_REFERENCIA)) AND ((@IsNull_DT_VENCTO_ORIG = 1 AND ""DT_VENCTO_ORIG"" IS NULL) OR (""DT_VENCTO_ORIG"" = @Original_DT_VENCTO_ORIG)) AND ((@IsNull_NSU_CARTAO = 1 AND ""NSU_CARTAO"" IS NULL) OR (""NSU_CARTAO"" = @Original_NSU_CARTAO)) AND ((@IsNull_ID_CONTA = 1 AND ""ID_CONTA"" IS NULL) OR (""ID_CONTA"" = @Original_ID_CONTA)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_CTAREC";
@@ -19284,13 +21164,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             this._adapter.UpdateCommand.Parameters.Add(param);
@@ -19353,6 +21233,13 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = "NSU_CARTAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_CTAREC";
@@ -19364,7 +21251,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_DOCUMENTO";
-            param.Size = 12;
+            param.Size = 25;
             param.IsNullable = true;
             param.SourceColumn = "DOCUMENTO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -19372,7 +21259,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@IsNull_HISTORICO";
             param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -19380,7 +21267,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_HISTORICO";
-            param.Size = 50;
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = "HISTORICO";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
@@ -19479,6 +21366,23 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = "NSU_CARTAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
         }
@@ -19498,7 +21402,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT \"ID_CTAREC\", \"DOCUMENTO\", \"HISTORICO\", \"DT_EMISSAO\", \"DT_VENCTO\", \"VLR_CTA" +
                 "REC\", \"TIP_CTAREC\", \"ID_PORTADOR\", \"ID_CLIENTE\", \"INV_REFERENCIA\", \"DT_VENCTO_OR" +
-                "IG\", \"NSU_CARTAO\" FROM \"TB_CONTA_RECEBER\"";
+                "IG\", \"NSU_CARTAO\", \"ID_CONTA\" FROM \"TB_CONTA_RECEBER\"";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -19642,15 +21546,9 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._commandCollection[7].CommandText = "\"SP_TRI_LANCACONTAREC\"";
             this._commandCollection[7].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "IDCUPOM";
+            param.ParameterName = "IDNFVENDA";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = null;
-            this._commandCollection[7].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "CUPOM";
-            param.Size = 12;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -19664,7 +21562,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "VALOR";
             param.DbType = global::System.Data.DbType.Decimal;
-            param.Size = 4;
+            param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -19677,7 +21575,28 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             this._commandCollection[7].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "DESCRICAO";
-            param.Size = 30;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "NUM_CAIXA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "IDCONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[7].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "IDNUMPAG";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[7].Parameters.Add(param);
@@ -19883,7 +21802,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_CTAREC, string Original_DOCUMENTO, string Original_HISTORICO, System.DateTime Original_DT_EMISSAO, System.DateTime Original_DT_VENCTO, decimal Original_VLR_CTAREC, string Original_TIP_CTAREC, int Original_ID_PORTADOR, int Original_ID_CLIENTE, string Original_INV_REFERENCIA, global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, string Original_NSU_CARTAO) {
+        public virtual int Delete(int Original_ID_CTAREC, string Original_DOCUMENTO, string Original_HISTORICO, System.DateTime Original_DT_EMISSAO, System.DateTime Original_DT_VENCTO, decimal Original_VLR_CTAREC, string Original_TIP_CTAREC, int Original_ID_PORTADOR, int Original_ID_CLIENTE, string Original_INV_REFERENCIA, global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, string Original_NSU_CARTAO, global::System.Nullable<int> Original_ID_CONTA) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_CTAREC));
             if ((Original_DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("Original_DOCUMENTO");
@@ -19934,6 +21853,14 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                 this.Adapter.DeleteCommand.Parameters[14].Value = ((object)(0));
                 this.Adapter.DeleteCommand.Parameters[15].Value = ((string)(Original_NSU_CARTAO));
             }
+            if ((Original_ID_CONTA.HasValue == true)) {
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[17].Value = ((int)(Original_ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[16].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[17].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -19954,7 +21881,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, string NSU_CARTAO) {
+        public virtual int Insert(int ID_CTAREC, string DOCUMENTO, string HISTORICO, System.DateTime DT_EMISSAO, System.DateTime DT_VENCTO, decimal VLR_CTAREC, string TIP_CTAREC, int ID_PORTADOR, int ID_CLIENTE, string INV_REFERENCIA, global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, string NSU_CARTAO, global::System.Nullable<int> ID_CONTA) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_CTAREC));
             if ((DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("DOCUMENTO");
@@ -19997,6 +21924,12 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             else {
                 this.Adapter.InsertCommand.Parameters[11].Value = ((string)(NSU_CARTAO));
             }
+            if ((ID_CONTA.HasValue == true)) {
+                this.Adapter.InsertCommand.Parameters[12].Value = ((int)(ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -20030,6 +21963,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     string INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, 
                     string NSU_CARTAO, 
+                    global::System.Nullable<int> ID_CONTA, 
                     int Original_ID_CTAREC, 
                     string Original_DOCUMENTO, 
                     string Original_HISTORICO, 
@@ -20041,7 +21975,8 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     int Original_ID_CLIENTE, 
                     string Original_INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, 
-                    string Original_NSU_CARTAO) {
+                    string Original_NSU_CARTAO, 
+                    global::System.Nullable<int> Original_ID_CONTA) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_CTAREC));
             if ((DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("DOCUMENTO");
@@ -20084,55 +22019,69 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[11].Value = ((string)(NSU_CARTAO));
             }
-            this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(Original_ID_CTAREC));
+            if ((ID_CONTA.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((int)(ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[13].Value = ((int)(Original_ID_CTAREC));
             if ((Original_DOCUMENTO == null)) {
                 throw new global::System.ArgumentNullException("Original_DOCUMENTO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[13].Value = ((string)(Original_DOCUMENTO));
+                this.Adapter.UpdateCommand.Parameters[14].Value = ((string)(Original_DOCUMENTO));
             }
             if ((Original_HISTORICO == null)) {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[15].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[16].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[14].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[15].Value = ((string)(Original_HISTORICO));
+                this.Adapter.UpdateCommand.Parameters[15].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[16].Value = ((string)(Original_HISTORICO));
             }
-            this.Adapter.UpdateCommand.Parameters[16].Value = ((System.DateTime)(Original_DT_EMISSAO));
-            this.Adapter.UpdateCommand.Parameters[17].Value = ((System.DateTime)(Original_DT_VENCTO));
-            this.Adapter.UpdateCommand.Parameters[18].Value = ((decimal)(Original_VLR_CTAREC));
+            this.Adapter.UpdateCommand.Parameters[17].Value = ((System.DateTime)(Original_DT_EMISSAO));
+            this.Adapter.UpdateCommand.Parameters[18].Value = ((System.DateTime)(Original_DT_VENCTO));
+            this.Adapter.UpdateCommand.Parameters[19].Value = ((decimal)(Original_VLR_CTAREC));
             if ((Original_TIP_CTAREC == null)) {
                 throw new global::System.ArgumentNullException("Original_TIP_CTAREC");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[19].Value = ((string)(Original_TIP_CTAREC));
+                this.Adapter.UpdateCommand.Parameters[20].Value = ((string)(Original_TIP_CTAREC));
             }
-            this.Adapter.UpdateCommand.Parameters[20].Value = ((int)(Original_ID_PORTADOR));
-            this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_ID_CLIENTE));
+            this.Adapter.UpdateCommand.Parameters[21].Value = ((int)(Original_ID_PORTADOR));
+            this.Adapter.UpdateCommand.Parameters[22].Value = ((int)(Original_ID_CLIENTE));
             if ((Original_INV_REFERENCIA == null)) {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[23].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[24].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[22].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[23].Value = ((string)(Original_INV_REFERENCIA));
+                this.Adapter.UpdateCommand.Parameters[23].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[24].Value = ((string)(Original_INV_REFERENCIA));
             }
             if ((Original_DT_VENCTO_ORIG.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[25].Value = ((System.DateTime)(Original_DT_VENCTO_ORIG.Value));
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[26].Value = ((System.DateTime)(Original_DT_VENCTO_ORIG.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[24].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[25].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[25].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[26].Value = global::System.DBNull.Value;
             }
             if ((Original_NSU_CARTAO == null)) {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[27].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[28].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[26].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[27].Value = ((string)(Original_NSU_CARTAO));
+                this.Adapter.UpdateCommand.Parameters[27].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[28].Value = ((string)(Original_NSU_CARTAO));
+            }
+            if ((Original_ID_CONTA.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[30].Value = ((int)(Original_ID_CONTA.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[29].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[30].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -20166,6 +22115,7 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     string INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> DT_VENCTO_ORIG, 
                     string NSU_CARTAO, 
+                    global::System.Nullable<int> ID_CONTA, 
                     int Original_ID_CTAREC, 
                     string Original_DOCUMENTO, 
                     string Original_HISTORICO, 
@@ -20177,8 +22127,9 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
                     int Original_ID_CLIENTE, 
                     string Original_INV_REFERENCIA, 
                     global::System.Nullable<global::System.DateTime> Original_DT_VENCTO_ORIG, 
-                    string Original_NSU_CARTAO) {
-            return this.Update(Original_ID_CTAREC, DOCUMENTO, HISTORICO, DT_EMISSAO, DT_VENCTO, VLR_CTAREC, TIP_CTAREC, ID_PORTADOR, ID_CLIENTE, INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO, Original_ID_CTAREC, Original_DOCUMENTO, Original_HISTORICO, Original_DT_EMISSAO, Original_DT_VENCTO, Original_VLR_CTAREC, Original_TIP_CTAREC, Original_ID_PORTADOR, Original_ID_CLIENTE, Original_INV_REFERENCIA, Original_DT_VENCTO_ORIG, Original_NSU_CARTAO);
+                    string Original_NSU_CARTAO, 
+                    global::System.Nullable<int> Original_ID_CONTA) {
+            return this.Update(Original_ID_CTAREC, DOCUMENTO, HISTORICO, DT_EMISSAO, DT_VENCTO, VLR_CTAREC, TIP_CTAREC, ID_PORTADOR, ID_CLIENTE, INV_REFERENCIA, DT_VENCTO_ORIG, NSU_CARTAO, ID_CONTA, Original_ID_CTAREC, Original_DOCUMENTO, Original_HISTORICO, Original_DT_EMISSAO, Original_DT_VENCTO, Original_VLR_CTAREC, Original_TIP_CTAREC, Original_ID_PORTADOR, Original_ID_CLIENTE, Original_INV_REFERENCIA, Original_DT_VENCTO_ORIG, Original_NSU_CARTAO, Original_ID_CONTA);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -20300,43 +22251,55 @@ namespace PDV_WPF.FDBDataSetTableAdapters {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object SP_TRI_LANCACONTAREC(global::System.Nullable<int> IDCUPOM, string CUPOM, global::System.Nullable<global::System.DateTime> VENCIMENTO, global::System.Nullable<decimal> VALOR, global::System.Nullable<int> CLIENTE, string DESCRICAO) {
+        public virtual object SP_TRI_LANCACONTAREC(global::System.Nullable<int> IDNFVENDA, global::System.Nullable<global::System.DateTime> VENCIMENTO, global::System.Nullable<decimal> VALOR, global::System.Nullable<int> CLIENTE, string DESCRICAO, global::System.Nullable<short> NUM_CAIXA, global::System.Nullable<int> IDCONTA, global::System.Nullable<int> IDNUMPAG) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[7];
-            if ((IDCUPOM.HasValue == true)) {
-                command.Parameters[0].Value = ((int)(IDCUPOM.Value));
+            if ((IDNFVENDA.HasValue == true)) {
+                command.Parameters[0].Value = ((int)(IDNFVENDA.Value));
             }
             else {
                 command.Parameters[0].Value = global::System.DBNull.Value;
             }
-            if ((CUPOM == null)) {
-                command.Parameters[1].Value = global::System.DBNull.Value;
+            if ((VENCIMENTO.HasValue == true)) {
+                command.Parameters[1].Value = ((System.DateTime)(VENCIMENTO.Value));
             }
             else {
-                command.Parameters[1].Value = ((string)(CUPOM));
+                command.Parameters[1].Value = global::System.DBNull.Value;
             }
-            if ((VENCIMENTO.HasValue == true)) {
-                command.Parameters[2].Value = ((System.DateTime)(VENCIMENTO.Value));
+            if ((VALOR.HasValue == true)) {
+                command.Parameters[2].Value = ((decimal)(VALOR.Value));
             }
             else {
                 command.Parameters[2].Value = global::System.DBNull.Value;
             }
-            if ((VALOR.HasValue == true)) {
-                command.Parameters[3].Value = ((decimal)(VALOR.Value));
+            if ((CLIENTE.HasValue == true)) {
+                command.Parameters[3].Value = ((int)(CLIENTE.Value));
             }
             else {
                 command.Parameters[3].Value = global::System.DBNull.Value;
             }
-            if ((CLIENTE.HasValue == true)) {
-                command.Parameters[4].Value = ((int)(CLIENTE.Value));
-            }
-            else {
+            if ((DESCRICAO == null)) {
                 command.Parameters[4].Value = global::System.DBNull.Value;
             }
-            if ((DESCRICAO == null)) {
-                command.Parameters[5].Value = global::System.DBNull.Value;
+            else {
+                command.Parameters[4].Value = ((string)(DESCRICAO));
+            }
+            if ((NUM_CAIXA.HasValue == true)) {
+                command.Parameters[5].Value = ((short)(NUM_CAIXA.Value));
             }
             else {
-                command.Parameters[5].Value = ((string)(DESCRICAO));
+                command.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            if ((IDCONTA.HasValue == true)) {
+                command.Parameters[6].Value = ((int)(IDCONTA.Value));
+            }
+            else {
+                command.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            if ((IDNUMPAG.HasValue == true)) {
+                command.Parameters[7].Value = ((int)(IDNUMPAG.Value));
+            }
+            else {
+                command.Parameters[7].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -35829,6 +37792,1793 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
     }
     
     /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class TB_PARAMETROTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbDataAdapter _adapter;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbConnection _connection;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbTransaction _transaction;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public TB_PARAMETROTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected internal global::FirebirdSql.Data.FirebirdClient.FbDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public global::FirebirdSql.Data.FirebirdClient.FbConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::FirebirdSql.Data.FirebirdClient.FbCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::FirebirdSql.Data.FirebirdClient.FbTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected global::FirebirdSql.Data.FirebirdClient.FbCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::FirebirdSql.Data.FirebirdClient.FbDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "TB_PARAMETRO";
+            tableMapping.ColumnMappings.Add("ID_PARAMETRO", "ID_PARAMETRO");
+            tableMapping.ColumnMappings.Add("INFORMACAO", "INFORMACAO");
+            tableMapping.ColumnMappings.Add("CONTEUDO", "CONTEUDO");
+            tableMapping.ColumnMappings.Add("DESCRICAO", "DESCRICAO");
+            tableMapping.ColumnMappings.Add("ID_FUNCIONARIO", "ID_FUNCIONARIO");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_PARAMETRO"" WHERE ((""ID_PARAMETRO"" = @Original_ID_PARAMETRO) AND ((@IsNull_INFORMACAO = 1 AND ""INFORMACAO"" IS NULL) OR (""INFORMACAO"" = @Original_INFORMACAO)) AND ((@IsNull_CONTEUDO = 1 AND ""CONTEUDO"" IS NULL) OR (""CONTEUDO"" = @Original_CONTEUDO)) AND ((@IsNull_DESCRICAO = 1 AND ""DESCRICAO"" IS NULL) OR (""DESCRICAO"" = @Original_DESCRICAO)) AND (""ID_FUNCIONARIO"" = @Original_ID_FUNCIONARIO))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_INFORMACAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_CONTEUDO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DESCRICAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_PARAMETRO\" (\"ID_PARAMETRO\", \"INFORMACAO\", \"CONTEUDO\", \"DESCRICAO\"" +
+                ", \"ID_FUNCIONARIO\") VALUES (@ID_PARAMETRO, @INFORMACAO, @CONTEUDO, @DESCRICAO, @" +
+                "ID_FUNCIONARIO)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_PARAMETRO"" SET ""ID_PARAMETRO"" = @ID_PARAMETRO, ""INFORMACAO"" = @INFORMACAO, ""CONTEUDO"" = @CONTEUDO, ""DESCRICAO"" = @DESCRICAO, ""ID_FUNCIONARIO"" = @ID_FUNCIONARIO WHERE ((""ID_PARAMETRO"" = @Original_ID_PARAMETRO) AND ((@IsNull_INFORMACAO = 1 AND ""INFORMACAO"" IS NULL) OR (""INFORMACAO"" = @Original_INFORMACAO)) AND ((@IsNull_CONTEUDO = 1 AND ""CONTEUDO"" IS NULL) OR (""CONTEUDO"" = @Original_CONTEUDO)) AND ((@IsNull_DESCRICAO = 1 AND ""DESCRICAO"" IS NULL) OR (""DESCRICAO"" = @Original_DESCRICAO)) AND (""ID_FUNCIONARIO"" = @Original_ID_FUNCIONARIO))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_INFORMACAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_CONTEUDO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DESCRICAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::FirebirdSql.Data.FirebirdClient.FbConnection();
+            this._connection.ConnectionString = global::PDV_WPF.Properties.Settings.Default.FDBConnString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[6];
+            this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT * FROM TB_PARAMETRO";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "DELETE FROM TB_PARAMETRO WHERE ID_PARAMETRO = @ID_PARAMETRO";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT CONTEUDO, DESCRICAO, ID_FUNCIONARIO, ID_PARAMETRO, INFORMACAO FROM TB_PARA" +
+                "METRO WHERE (ID_PARAMETRO = @ID_PARAMETRO)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "SELECT FIRST 1 * FROM TB_PARAMETRO\r\nWHERE INFORMACAO = @CONFIG";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONFIG";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "INSERT INTO \"TB_PARAMETRO\" (\"ID_PARAMETRO\", \"INFORMACAO\", \"CONTEUDO\", \"DESCRICAO\"" +
+                ", \"ID_FUNCIONARIO\") VALUES (GEN_ID(GEN_TB_PARAMETRO_ID,1), @INFORMACAO, @CONTEUD" +
+                "O, @DESCRICAO, @ID_FUNCIONARIO)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "UPDATE OR INSERT INTO TB_PARAMETRO VALUES (@ID_PARAMETRO, @INFORMACAO, @CONTEUDO," +
+                " @DESCRICAO, @ID_FUNCIONARIO);";
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_PARAMETRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_PARAMETRO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@INFORMACAO";
+            param.Size = 30;
+            param.IsNullable = true;
+            param.SourceColumn = "INFORMACAO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTEUDO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTEUDO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_FUNCIONARIO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_FUNCIONARIO";
+            this._commandCollection[5].Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(FDBDataSet.TB_PARAMETRODataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByIdParametro(FDBDataSet.TB_PARAMETRODataTable dataTable, int ID_PARAMETRO) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_PARAMETRO));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual FDBDataSet.TB_PARAMETRODataTable GetParameter(string CONFIG) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
+            if ((CONFIG == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(CONFIG));
+            }
+            FDBDataSet.TB_PARAMETRODataTable dataTable = new FDBDataSet.TB_PARAMETRODataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSet.TB_PARAMETRODataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSet dataSet) {
+            return this.Adapter.Update(dataSet, "TB_PARAMETRO");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteByIdParametro(int ID_PARAMETRO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            command.Parameters[0].Value = ((int)(ID_PARAMETRO));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int InsertInto(string INFORMACAO, string CONTEUDO, string DESCRICAO, int ID_FUNCIONARIO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
+            if ((INFORMACAO == null)) {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[0].Value = ((string)(INFORMACAO));
+            }
+            if ((CONTEUDO == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(CONTEUDO));
+            }
+            if ((DESCRICAO == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(DESCRICAO));
+            }
+            command.Parameters[3].Value = ((int)(ID_FUNCIONARIO));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int UpdateOrInsert(int ID_PARAMETRO, string INFORMACAO, string CONTEUDO, string DESCRICAO, short ID_FUNCIONARIO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
+            command.Parameters[0].Value = ((int)(ID_PARAMETRO));
+            if ((INFORMACAO == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(INFORMACAO));
+            }
+            if ((CONTEUDO == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(CONTEUDO));
+            }
+            if ((DESCRICAO == null)) {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[3].Value = ((string)(DESCRICAO));
+            }
+            command.Parameters[4].Value = ((short)(ID_FUNCIONARIO));
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class TB_BANCO_CTATableAdapter : global::System.ComponentModel.Component {
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbDataAdapter _adapter;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbConnection _connection;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbTransaction _transaction;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public TB_BANCO_CTATableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected internal global::FirebirdSql.Data.FirebirdClient.FbDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public global::FirebirdSql.Data.FirebirdClient.FbConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::FirebirdSql.Data.FirebirdClient.FbCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::FirebirdSql.Data.FirebirdClient.FbTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected global::FirebirdSql.Data.FirebirdClient.FbCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::FirebirdSql.Data.FirebirdClient.FbDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "TB_BANCO_CTA";
+            tableMapping.ColumnMappings.Add("ID_CONTA", "ID_CONTA");
+            tableMapping.ColumnMappings.Add("DESCRICAO", "DESCRICAO");
+            tableMapping.ColumnMappings.Add("AGENCIA", "AGENCIA");
+            tableMapping.ColumnMappings.Add("CONTA", "CONTA");
+            tableMapping.ColumnMappings.Add("STATUS", "STATUS");
+            tableMapping.ColumnMappings.Add("ID_BANCO", "ID_BANCO");
+            tableMapping.ColumnMappings.Add("ID_CTAPLA", "ID_CTAPLA");
+            tableMapping.ColumnMappings.Add("SD_TALAO", "SD_TALAO");
+            tableMapping.ColumnMappings.Add("SD_REAL", "SD_REAL");
+            tableMapping.ColumnMappings.Add("SD_BANCO", "SD_BANCO");
+            tableMapping.ColumnMappings.Add("DT_ULTCONC", "DT_ULTCONC");
+            tableMapping.ColumnMappings.Add("ID_AGENTE_FINANCEIRO", "ID_AGENTE_FINANCEIRO");
+            tableMapping.ColumnMappings.Add("HABILITAR_RECEBIMENTO", "HABILITAR_RECEBIMENTO");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.DeleteCommand.Connection = this.Connection;
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_BANCO_CTA"" WHERE ((""ID_CONTA"" = @Original_ID_CONTA) AND ((@IsNull_DESCRICAO = 1 AND ""DESCRICAO"" IS NULL) OR (""DESCRICAO"" = @Original_DESCRICAO)) AND ((@IsNull_AGENCIA = 1 AND ""AGENCIA"" IS NULL) OR (""AGENCIA"" = @Original_AGENCIA)) AND ((@IsNull_CONTA = 1 AND ""CONTA"" IS NULL) OR (""CONTA"" = @Original_CONTA)) AND (""STATUS"" = @Original_STATUS) AND (""ID_BANCO"" = @Original_ID_BANCO) AND (""ID_CTAPLA"" = @Original_ID_CTAPLA) AND (""SD_TALAO"" = @Original_SD_TALAO) AND (""SD_REAL"" = @Original_SD_REAL) AND (""SD_BANCO"" = @Original_SD_BANCO) AND ((@IsNull_DT_ULTCONC = 1 AND ""DT_ULTCONC"" IS NULL) OR (""DT_ULTCONC"" = @Original_DT_ULTCONC)) AND ((@IsNull_ID_AGENTE_FINANCEIRO = 1 AND ""ID_AGENTE_FINANCEIRO"" IS NULL) OR (""ID_AGENTE_FINANCEIRO"" = @Original_ID_AGENTE_FINANCEIRO)) AND ((@IsNull_HABILITAR_RECEBIMENTO = 1 AND ""HABILITAR_RECEBIMENTO"" IS NULL) OR (""HABILITAR_RECEBIMENTO"" = @Original_HABILITAR_RECEBIMENTO)))";
+            this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DESCRICAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DESCRICAO";
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_AGENCIA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_AGENCIA";
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_CONTA";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_BANCO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_BANCO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CTAPLA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTAPLA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_SD_TALAO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_TALAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_SD_REAL";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_REAL";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_SD_BANCO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_BANCO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_HABILITAR_RECEBIMENTO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_HABILITAR_RECEBIMENTO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = @"INSERT INTO ""TB_BANCO_CTA"" (""ID_CONTA"", ""DESCRICAO"", ""AGENCIA"", ""CONTA"", ""STATUS"", ""ID_BANCO"", ""ID_CTAPLA"", ""SD_TALAO"", ""SD_REAL"", ""SD_BANCO"", ""DT_ULTCONC"", ""ID_AGENTE_FINANCEIRO"", ""HABILITAR_RECEBIMENTO"") VALUES (@ID_CONTA, @DESCRICAO, @AGENCIA, @CONTA, @STATUS, @ID_BANCO, @ID_CTAPLA, @SD_TALAO, @SD_REAL, @SD_BANCO, @DT_ULTCONC, @ID_AGENTE_FINANCEIRO, @HABILITAR_RECEBIMENTO)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@AGENCIA";
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTA";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_BANCO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_BANCO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CTAPLA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTAPLA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_TALAO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_TALAO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_REAL";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_REAL";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_BANCO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_BANCO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@HABILITAR_RECEBIMENTO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.UpdateCommand.Connection = this.Connection;
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_BANCO_CTA"" SET ""ID_CONTA"" = @ID_CONTA, ""DESCRICAO"" = @DESCRICAO, ""AGENCIA"" = @AGENCIA, ""CONTA"" = @CONTA, ""STATUS"" = @STATUS, ""ID_BANCO"" = @ID_BANCO, ""ID_CTAPLA"" = @ID_CTAPLA, ""SD_TALAO"" = @SD_TALAO, ""SD_REAL"" = @SD_REAL, ""SD_BANCO"" = @SD_BANCO, ""DT_ULTCONC"" = @DT_ULTCONC, ""ID_AGENTE_FINANCEIRO"" = @ID_AGENTE_FINANCEIRO, ""HABILITAR_RECEBIMENTO"" = @HABILITAR_RECEBIMENTO WHERE ((""ID_CONTA"" = @Original_ID_CONTA) AND ((@IsNull_DESCRICAO = 1 AND ""DESCRICAO"" IS NULL) OR (""DESCRICAO"" = @Original_DESCRICAO)) AND ((@IsNull_AGENCIA = 1 AND ""AGENCIA"" IS NULL) OR (""AGENCIA"" = @Original_AGENCIA)) AND ((@IsNull_CONTA = 1 AND ""CONTA"" IS NULL) OR (""CONTA"" = @Original_CONTA)) AND (""STATUS"" = @Original_STATUS) AND (""ID_BANCO"" = @Original_ID_BANCO) AND (""ID_CTAPLA"" = @Original_ID_CTAPLA) AND (""SD_TALAO"" = @Original_SD_TALAO) AND (""SD_REAL"" = @Original_SD_REAL) AND (""SD_BANCO"" = @Original_SD_BANCO) AND ((@IsNull_DT_ULTCONC = 1 AND ""DT_ULTCONC"" IS NULL) OR (""DT_ULTCONC"" = @Original_DT_ULTCONC)) AND ((@IsNull_ID_AGENTE_FINANCEIRO = 1 AND ""ID_AGENTE_FINANCEIRO"" IS NULL) OR (""ID_AGENTE_FINANCEIRO"" = @Original_ID_AGENTE_FINANCEIRO)) AND ((@IsNull_HABILITAR_RECEBIMENTO = 1 AND ""HABILITAR_RECEBIMENTO"" IS NULL) OR (""HABILITAR_RECEBIMENTO"" = @Original_HABILITAR_RECEBIMENTO)))";
+            this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@AGENCIA";
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTA";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_BANCO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_BANCO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CTAPLA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTAPLA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_TALAO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_TALAO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_REAL";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_REAL";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_BANCO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_BANCO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@HABILITAR_RECEBIMENTO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DESCRICAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DESCRICAO";
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_AGENCIA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_AGENCIA";
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_CONTA";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_BANCO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_BANCO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_CTAPLA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTAPLA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_SD_TALAO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_TALAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_SD_REAL";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_REAL";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_SD_BANCO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_BANCO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_HABILITAR_RECEBIMENTO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_HABILITAR_RECEBIMENTO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::FirebirdSql.Data.FirebirdClient.FbConnection();
+            this._connection.ConnectionString = global::PDV_WPF.Properties.Settings.Default.FDBConnString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[4];
+            this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT * FROM TB_BANCO_CTA WHERE STATUS = \'A\'";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "DELETE FROM TB_CONTA_CTA WHERE ID_CONTA = @ID_CONTA";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Object;
+            param.Size = 1024;
+            param.IsNullable = true;
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT * FROM TB_BANCO_CTA WHERE ID_CONTA = @ID_CONTA";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "UPDATE OR INSERT INTO TB_BANCO_CTA VALUES (@ID_CONTA, @DESCRICAO, @AGENCIA, @CONT" +
+                "A, @STATUS, @ID_BANCO, @ID_CTAPLA, @SD_TALAO, @SD_REAL, @SD_BANCO, @DT_ULTCONC, " +
+                "@ID_AGENTE_FINANCEIRO, @HABILITAR_RECEBIMENTO)";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CONTA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CONTA";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DESCRICAO";
+            param.Size = 40;
+            param.IsNullable = true;
+            param.SourceColumn = "DESCRICAO";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@AGENCIA";
+            param.Size = 10;
+            param.IsNullable = true;
+            param.SourceColumn = "AGENCIA";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@CONTA";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "CONTA";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@STATUS";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "STATUS";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_BANCO";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_BANCO";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_CTAPLA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_CTAPLA";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_TALAO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_TALAO";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_REAL";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_REAL";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@SD_BANCO";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "SD_BANCO";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_ULTCONC";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_ULTCONC";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_AGENTE_FINANCEIRO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_AGENTE_FINANCEIRO";
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@HABILITAR_RECEBIMENTO";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "HABILITAR_RECEBIMENTO";
+            this._commandCollection[3].Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(FDBDataSet.TB_BANCO_CTADataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByIdConta(FDBDataSet.TB_BANCO_CTADataTable dataTable, int ID_CONTA) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_CONTA));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSet.TB_BANCO_CTADataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSet dataSet) {
+            return this.Adapter.Update(dataSet, "TB_BANCO_CTA");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, false)]
+        public virtual int DeleteByIdConta(object ID_CONTA) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            if ((ID_CONTA == null)) {
+                throw new global::System.ArgumentNullException("ID_CONTA");
+            }
+            else {
+                command.Parameters[0].Value = ((object)(ID_CONTA));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int UpdateOrInsert(short ID_CONTA, string DESCRICAO, string AGENCIA, string CONTA, string STATUS, short ID_BANCO, short ID_CTAPLA, decimal SD_TALAO, decimal SD_REAL, decimal SD_BANCO, global::System.Nullable<global::System.DateTime> DT_ULTCONC, global::System.Nullable<int> ID_AGENTE_FINANCEIRO, string HABILITAR_RECEBIMENTO) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[3];
+            command.Parameters[0].Value = ((short)(ID_CONTA));
+            if ((DESCRICAO == null)) {
+                command.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[1].Value = ((string)(DESCRICAO));
+            }
+            if ((AGENCIA == null)) {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[2].Value = ((string)(AGENCIA));
+            }
+            if ((CONTA == null)) {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[3].Value = ((string)(CONTA));
+            }
+            if ((STATUS == null)) {
+                throw new global::System.ArgumentNullException("STATUS");
+            }
+            else {
+                command.Parameters[4].Value = ((string)(STATUS));
+            }
+            command.Parameters[5].Value = ((short)(ID_BANCO));
+            command.Parameters[6].Value = ((short)(ID_CTAPLA));
+            command.Parameters[7].Value = ((decimal)(SD_TALAO));
+            command.Parameters[8].Value = ((decimal)(SD_REAL));
+            command.Parameters[9].Value = ((decimal)(SD_BANCO));
+            if ((DT_ULTCONC.HasValue == true)) {
+                command.Parameters[10].Value = ((System.DateTime)(DT_ULTCONC.Value));
+            }
+            else {
+                command.Parameters[10].Value = global::System.DBNull.Value;
+            }
+            if ((ID_AGENTE_FINANCEIRO.HasValue == true)) {
+                command.Parameters[11].Value = ((int)(ID_AGENTE_FINANCEIRO.Value));
+            }
+            else {
+                command.Parameters[11].Value = global::System.DBNull.Value;
+            }
+            if ((HABILITAR_RECEBIMENTO == null)) {
+                command.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[12].Value = ((string)(HABILITAR_RECEBIMENTO));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+    }
+    
+    /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class V_RELATION_TABLESTableAdapter : global::System.ComponentModel.Component {
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbDataAdapter _adapter;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbConnection _connection;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbTransaction _transaction;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public V_RELATION_TABLESTableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected internal global::FirebirdSql.Data.FirebirdClient.FbDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public global::FirebirdSql.Data.FirebirdClient.FbConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::FirebirdSql.Data.FirebirdClient.FbCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::FirebirdSql.Data.FirebirdClient.FbTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected global::FirebirdSql.Data.FirebirdClient.FbCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::FirebirdSql.Data.FirebirdClient.FbDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "V_RELATION_TABLES";
+            tableMapping.ColumnMappings.Add("TABELAS_DEPENDENTES", "TABELAS_DEPENDENTES");
+            tableMapping.ColumnMappings.Add("TABELA_NATIVA", "TABELA_NATIVA");
+            tableMapping.ColumnMappings.Add("NOME_COLUNA", "NOME_COLUNA");
+            tableMapping.ColumnMappings.Add("TIPO_COLUNA", "TIPO_COLUNA");
+            tableMapping.ColumnMappings.Add("NULABILIDADE", "NULABILIDADE");
+            this._adapter.TableMappings.Add(tableMapping);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::FirebirdSql.Data.FirebirdClient.FbConnection();
+            this._connection.ConnectionString = global::PDV_WPF.Properties.Settings.Default.FDBConnString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[3];
+            this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT * FROM V_RELATION_TABLES";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "SELECT * FROM V_RELATION_TABLES WHERE (TABELA_NATIVA = @TABELA_NATIVA) AND (TIPO_" +
+                "COLUNA = \'FOREIGN KEY\')";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@TABELA_NATIVA";
+            param.Size = 93;
+            param.IsNullable = true;
+            param.SourceColumn = "TABELA_NATIVA";
+            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "SELECT NOME_COLUNA FROM V_RELATION_TABLES WHERE TABELAS_DEPENDENTES = @TABELA_ANA" +
+                "LISADA AND TIPO_COLUNA = \'PRIMARY KEY\'";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@TABELA_ANALISADA";
+            param.Size = 31;
+            param.IsNullable = true;
+            param.SourceColumn = "TABELAS_DEPENDENTES";
+            this._commandCollection[2].Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(FDBDataSet.V_RELATION_TABLESDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int GetDependencies(FDBDataSet.V_RELATION_TABLESDataTable dataTable, string TABELA_NATIVA) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            if ((TABELA_NATIVA == null)) {
+                this.Adapter.SelectCommand.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[0].Value = ((string)(TABELA_NATIVA));
+            }
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual string GetPrimaryKeyName(string TABELA_ANALISADA) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
+            if ((TABELA_ANALISADA == null)) {
+                command.Parameters[0].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[0].Value = ((string)(TABELA_ANALISADA));
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            object returnValue;
+            try {
+                returnValue = command.ExecuteScalar();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            if (((returnValue == null) 
+                        || (returnValue.GetType() == typeof(global::System.DBNull)))) {
+                return null;
+            }
+            else {
+                return ((string)(returnValue));
+            }
+        }
+    }
+    
+    /// <summary>
     ///TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -35875,6 +39625,10 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         private TRI_PDV_SAT_XMLTableAdapter _tRI_PDV_SAT_XMLTableAdapter;
         
         private TRI_PDV_USERSTableAdapter _tRI_PDV_USERSTableAdapter;
+        
+        private TB_PARAMETROTableAdapter _tB_PARAMETROTableAdapter;
+        
+        private TB_BANCO_CTATableAdapter _tB_BANCO_CTATableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -36145,6 +39899,34 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public TB_PARAMETROTableAdapter TB_PARAMETROTableAdapter {
+            get {
+                return this._tB_PARAMETROTableAdapter;
+            }
+            set {
+                this._tB_PARAMETROTableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public TB_BANCO_CTATableAdapter TB_BANCO_CTATableAdapter {
+            get {
+                return this._tB_BANCO_CTATableAdapter;
+            }
+            set {
+                this._tB_BANCO_CTATableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -36234,6 +40016,14 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                             && (this._tRI_PDV_USERSTableAdapter.Connection != null))) {
                     return this._tRI_PDV_USERSTableAdapter.Connection;
                 }
+                if (((this._tB_PARAMETROTableAdapter != null) 
+                            && (this._tB_PARAMETROTableAdapter.Connection != null))) {
+                    return this._tB_PARAMETROTableAdapter.Connection;
+                }
+                if (((this._tB_BANCO_CTATableAdapter != null) 
+                            && (this._tB_BANCO_CTATableAdapter.Connection != null))) {
+                    return this._tB_BANCO_CTATableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -36301,6 +40091,12 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                 if ((this._tRI_PDV_USERSTableAdapter != null)) {
                     count = (count + 1);
                 }
+                if ((this._tB_PARAMETROTableAdapter != null)) {
+                    count = (count + 1);
+                }
+                if ((this._tB_BANCO_CTATableAdapter != null)) {
+                    count = (count + 1);
+                }
                 return count;
             }
         }
@@ -36345,6 +40141,24 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._tRI_PDV_LOGTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_PARAMETROTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_PARAMETRO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_PARAMETROTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tRI_PDV_USERSTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_USERS.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tRI_PDV_USERSTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -36393,12 +40207,21 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tRI_PDV_SETUPTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_SETUP.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tB_BANCO_CTATableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_BANCO_CTA.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tRI_PDV_SETUPTableAdapter.Update(updatedRows));
+                    result = (result + this._tB_BANCO_CTATableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_CUPOM_FMAPAGTOTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CUPOM_FMAPAGTO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_CUPOM_FMAPAGTOTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -36456,21 +40279,12 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tB_CUPOM_FMAPAGTOTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CUPOM_FMAPAGTO.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tRI_PDV_SETUPTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_SETUP.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CUPOM_FMAPAGTOTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
-            if ((this._tRI_PDV_USERSTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_USERS.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tRI_PDV_USERSTableAdapter.Update(updatedRows));
+                    result = (result + this._tRI_PDV_SETUPTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -36516,6 +40330,22 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                     allAddedRows.AddRange(addedRows);
                 }
             }
+            if ((this._tB_PARAMETROTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_PARAMETRO.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_PARAMETROTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tRI_PDV_USERSTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_USERS.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tRI_PDV_USERSTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
             if ((this._tRI_PDV_SAT_XMLTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_SAT_XML.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
@@ -36556,11 +40386,19 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tRI_PDV_SETUPTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_SETUP.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tB_BANCO_CTATableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_BANCO_CTA.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tRI_PDV_SETUPTableAdapter.Update(addedRows));
+                    result = (result + this._tB_BANCO_CTATableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_CUPOM_FMAPAGTOTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CUPOM_FMAPAGTO.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_CUPOM_FMAPAGTOTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -36612,19 +40450,11 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tB_CUPOM_FMAPAGTOTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CUPOM_FMAPAGTO.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tRI_PDV_SETUPTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_SETUP.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CUPOM_FMAPAGTOTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
-            if ((this._tRI_PDV_USERSTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_USERS.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tRI_PDV_USERSTableAdapter.Update(addedRows));
+                    result = (result + this._tRI_PDV_SETUPTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -36638,19 +40468,11 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateDeletedRows(FDBDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._tRI_PDV_USERSTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_USERS.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tRI_PDV_SETUPTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_SETUP.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tRI_PDV_USERSTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
-            if ((this._tB_CUPOM_FMAPAGTOTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_CUPOM_FMAPAGTO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_CUPOM_FMAPAGTOTableAdapter.Update(deletedRows));
+                    result = (result + this._tRI_PDV_SETUPTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -36702,11 +40524,19 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tRI_PDV_SETUPTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_SETUP.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_CUPOM_FMAPAGTOTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_CUPOM_FMAPAGTO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tRI_PDV_SETUPTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_CUPOM_FMAPAGTOTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_BANCO_CTATableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_BANCO_CTA.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_BANCO_CTATableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -36747,6 +40577,22 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._tRI_PDV_SAT_XMLTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tRI_PDV_USERSTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_USERS.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tRI_PDV_USERSTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_PARAMETROTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_PARAMETRO.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_PARAMETROTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -36908,6 +40754,16 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             }
             if (((this._tRI_PDV_USERSTableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._tRI_PDV_USERSTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
+                        "cadeia de conexão.");
+            }
+            if (((this._tB_PARAMETROTableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._tB_PARAMETROTableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
+                        "cadeia de conexão.");
+            }
+            if (((this._tB_BANCO_CTATableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._tB_BANCO_CTATableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
                         "cadeia de conexão.");
             }
@@ -37105,6 +40961,24 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                         adaptersWithAcceptChangesDuringUpdate.Add(this._tRI_PDV_USERSTableAdapter.Adapter);
                     }
                 }
+                if ((this._tB_PARAMETROTableAdapter != null)) {
+                    revertConnections.Add(this._tB_PARAMETROTableAdapter, this._tB_PARAMETROTableAdapter.Connection);
+                    this._tB_PARAMETROTableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(workConnection));
+                    this._tB_PARAMETROTableAdapter.Transaction = ((global::FirebirdSql.Data.FirebirdClient.FbTransaction)(workTransaction));
+                    if (this._tB_PARAMETROTableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._tB_PARAMETROTableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._tB_PARAMETROTableAdapter.Adapter);
+                    }
+                }
+                if ((this._tB_BANCO_CTATableAdapter != null)) {
+                    revertConnections.Add(this._tB_BANCO_CTATableAdapter, this._tB_BANCO_CTATableAdapter.Connection);
+                    this._tB_BANCO_CTATableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(workConnection));
+                    this._tB_BANCO_CTATableAdapter.Transaction = ((global::FirebirdSql.Data.FirebirdClient.FbTransaction)(workTransaction));
+                    if (this._tB_BANCO_CTATableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._tB_BANCO_CTATableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._tB_BANCO_CTATableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -37234,6 +41108,14 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
                 if ((this._tRI_PDV_USERSTableAdapter != null)) {
                     this._tRI_PDV_USERSTableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tRI_PDV_USERSTableAdapter]));
                     this._tRI_PDV_USERSTableAdapter.Transaction = null;
+                }
+                if ((this._tB_PARAMETROTableAdapter != null)) {
+                    this._tB_PARAMETROTableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tB_PARAMETROTableAdapter]));
+                    this._tB_PARAMETROTableAdapter.Transaction = null;
+                }
+                if ((this._tB_BANCO_CTATableAdapter != null)) {
+                    this._tB_BANCO_CTATableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tB_BANCO_CTATableAdapter]));
+                    this._tB_BANCO_CTATableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];

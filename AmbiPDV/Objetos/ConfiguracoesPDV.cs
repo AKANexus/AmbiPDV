@@ -1,13 +1,17 @@
 ﻿using DeclaracoesDllSat;
 using FirebirdSql.Data.FirebirdClient;
 using System;
+using System.Collections.Generic;
+using System.Data;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
 using System.Xml.Serialization;
 using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
+using PDV_WPF.Objetos;
 
 
 namespace PDV_WPF.Configuracoes
@@ -130,6 +134,29 @@ namespace PDV_WPF.Configuracoes
             set
             {
                 _iNFORMA_MAQUININHA = value ? "S" : "N";
+            }
+
+        }
+
+        private static string _vINCULA_MAQ_CTA;
+        public static bool VINCULA_MAQ_CTA
+        {
+            get
+            {
+                switch (_vINCULA_MAQ_CTA)
+                {
+                    case "S":
+                    case "1":
+                        return true;
+                    case "N":
+                    case "0":
+                    default:
+                        return false;
+                }
+            }
+            set
+            {
+                _vINCULA_MAQ_CTA = value ? "S" : "N";
             }
 
         }
@@ -571,6 +598,7 @@ namespace PDV_WPF.Configuracoes
         public static bool SCANNTECH { get; set; }
         public static bool SENHA_REIMPRESSAO { get; set; }
         public static int PREFIX_LISTBOX { get; set; }
+        public static List<InfoAdministradora> PARAMETRO_ADMINISTRADORA { get; set; } = new();
         public static bool EXIBE_SPLASHSCREEN { get; set; }
 
         #endregion Propriedades
@@ -648,6 +676,7 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSATLIFESIGNINTERVAL", SATLIFESIGNINTERVAL);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSYSEMITECOMPROVANTE", SYSEMITECOMPROVANTE);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);               
+                fbCommSalvaConfig.Parameters.AddWithValue("@pVINCULA_MAQ_CTA", _vINCULA_MAQ_CTA);               
 
                 fbCommSalvaConfig.CommandText =
                                         "UPDATE OR INSERT INTO TRI_PDV_CONFIG " +
@@ -656,14 +685,14 @@ namespace PDV_WPF.Configuracoes
                                         "MODELO_CUPOM, MENSAGEM_RODAPE, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, " +
                                         " IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, " +
                                         "BALPORTA, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, " +
-                                        "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE) " +
+                                        "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, VINCULA_MAQ_CTA) " +
                                         "VALUES " +
                                         "(@pID_MAC, @pNO_CAIXA, @pEXIGE_SANGRIA, @pVALOR_MAX_CAIXA, @pBLOQUEIA_NO_LIMITE, @pVALOR_DE_FOLGA, @pPERMITE_FOLGA_SANGRIA, " +
                                         "@pINFORMA_MAQUININHA, @pLAYOUT_SAT, @pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
                                         "@pMODELO_CUPOM, @pMENSAGEM_RODAPE, @pMODELO_SAT, @pSATSERVIDOR, @pSAT_CODATIV, @pSIGN_AC, @pSAT_USADO, @pECF_ATIVA, " +
                                         "@pECF_PORTA, @pIMPRESSORA_USB, @pIMPRESSORA_USB_PED, @pPERGUNTA_WHATS, @pUSATEF, @pTEFIP, @pTEFNUMLOJA, @pTEFNUMTERMINAL, " +
                                         "@pTEFPEDECPFPELOPINPAD, @pBALPORTA, @pBALBAUD, @pBALPARITY, @pBALMODELO, @pACFILLPREFIX, @pACFILLMODE, @pACREFERENCIA, @pSYSCOMISSAO, @pSATSERVTIMEOUT, " +
-                                        "@pSATLIFESIGNINTERVAL, @pACFILLDELAY, @pSYSPERGUNTAWHATS, @pSYSPARCELA, @pSYSEMITECOMPROVANTE) " +
+                                        "@pSATLIFESIGNINTERVAL, @pACFILLDELAY, @pSYSPERGUNTAWHATS, @pSYSPARCELA, @pSYSEMITECOMPROVANTE, @pVINCULA_MAQ_CTA) " +
                                         "MATCHING (ID_MAC);";
 
 
@@ -787,6 +816,7 @@ namespace PDV_WPF.Configuracoes
                 _bLOQUEIA_NO_LIMITE = (registro.BLOQUEIA_NO_LIMITE is null) ? "N" : registro.BLOQUEIA_NO_LIMITE;
                 VALOR_DE_FOLGA = (decimal)registro.VALOR_DE_FOLGA;
                 _iNFORMA_MAQUININHA = (registro.INFORMA_MAQUININHA is null) ? "N" : registro.INFORMA_MAQUININHA;
+                _vINCULA_MAQ_CTA = (registro.VINCULA_MAQ_CTA is null) ? "N" : registro.VINCULA_MAQ_CTA;
                 LAYOUT_SAT = (registro.LAYOUT_SAT is null) ? "007" : registro.LAYOUT_SAT;
                 _iNTERROMPE_NAO_ENCONTRADO = (registro.INTERROMPE_NAO_ENCONTRADO is null) ? "N" : registro.INTERROMPE_NAO_ENCONTRADO;
                 _pERMITE_FOLGA_SANGRIA = (registro.PERMITE_FOLGA_SANGRIA is null) ? "N" : registro.PERMITE_FOLGA_SANGRIA;
@@ -835,6 +865,48 @@ namespace PDV_WPF.Configuracoes
                 _uSARECARGAS = infoDoSetup.USA_RECARGAS;
                 _uSA_COMANDA = infoDoSetup.USA_COMANDA;
                 DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true: false;
+
+                if (INFORMA_MAQUININHA)
+                {                   
+                    using (var taCartaoAmin = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter())
+                    using (var tblCartaoAdmin = new DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable())
+                    using (var taParametro = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
+                    {
+                        taParametro.Connection =
+                            taCartaoAmin.Connection =          
+                                contingencia ? LOCAL_FB_CONN : fbConnectionServ;
+
+                        taCartaoAmin.Fill(dataTable: tblCartaoAdmin);
+                        PARAMETRO_ADMINISTRADORA.Clear();
+
+                        foreach (var cartaoAdmin in tblCartaoAdmin)
+                        {
+                            string contaBancaria = default;
+                            if (VINCULA_MAQ_CTA)
+                                contaBancaria = taParametro.GetParameter(CONFIG: $"MAQCTA_{cartaoAdmin.ID_ADMINISTRADORA}")
+                                                           .Select(selector: x => x.CONTEUDO)
+                                                           .FirstOrDefault();
+
+                            if(!cartaoAdmin.IsDESCRICAONull())
+                                PARAMETRO_ADMINISTRADORA.Add(item: new InfoAdministradora
+                                {
+                                    IdAdmin = cartaoAdmin.ID_ADMINISTRADORA,
+                                    Descricao = cartaoAdmin.DESCRICAO,
+                                    IdConta = contaBancaria?.Split('|') is string[] idConta && idConta.Length > 1 ? idConta[0].Safeint() : default,
+                                    IdCliente = cartaoAdmin.IsID_CLIENTENull() ? 0 : cartaoAdmin.ID_CLIENTE,
+                                    TaxaCredito = cartaoAdmin.IsTAXA_CREDITONull() ? 0: cartaoAdmin.TAXA_CREDITO,
+                                    TaxaDebito = cartaoAdmin.IsTAXA_DEBITONull() ? 0 : cartaoAdmin.TAXA_DEBITO,
+                                    DiasParaVencimento = contaBancaria?.Split('|') is string[] diasVencimento && diasVencimento.Length > 1 ? diasVencimento[1].Safeint() : default
+                                });
+
+                            //PARAMETRO_ADMINISTRADORA.Add(key: cartaoAdmin.DESCRICAO, 
+                            //                            (idAdmin: cartaoAdmin.ID_ADMINISTRADORA, 
+                            //                            idConta: contaBancaria.Safeint(),
+                            //                            idCliente: cartaoAdmin.IsID_CLIENTENull() ? 0 : cartaoAdmin.ID_CLIENTE));
+                        }
+
+                    }
+                }
             }
             catch (Exception ex)
             {
