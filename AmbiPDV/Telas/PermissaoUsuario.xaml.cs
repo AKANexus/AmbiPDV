@@ -119,8 +119,9 @@ namespace PDV_WPF.Telas
                     return;
                 }
 
-                MessageBox.Show("Não ocorreram erros ao tentar alterar permissões, porem nenhum registro foi modificado. " +
-                                "Caso o problema persista, entre em contato com o suporte.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Não ocorreram erros ao tentar alterar permissões, porem nenhum registro foi modificado.\n\n" +
+                                "-> Verifique se o funcionario está cadastrado corretamente.\n" +
+                                "-> Verifique se a senha do funcionário já foi definida.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
                 
             }
             catch(Exception ex) 
