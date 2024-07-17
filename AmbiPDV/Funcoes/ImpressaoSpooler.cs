@@ -30,6 +30,7 @@ using DarumaDLL = LocalDarumaFrameworkDLL.UnsafeNativeMethods;
 using TB_CUPOMTableAdapter = PDV_WPF.DataSets.FDBDataSetVendaTableAdapters.TB_CUPOMTableAdapter;
 using RestSharp;
 using System.Windows.Documents;
+using System.IO;
 
 namespace PDV_WPF
 {
@@ -46,7 +47,7 @@ namespace PDV_WPF
         public string linha;
         public Font fonte;
         public StringFormat alinhamento;
-        public int quebralinha;
+        public int quebralinha;        
     }
     public class PrintFunc
     {
@@ -140,6 +141,19 @@ namespace PDV_WPF
                 }
                 else
                 {
+                    if (currentUsedHeight == 0f && line.linha != " " && line.linha != "." && Emitente.LogoCliente != null)
+                    {
+                        using (MemoryStream ms = new MemoryStream(Emitente.LogoCliente))
+                        using (Image logoCliente = Image.FromStream(ms))
+                        {
+                            double proporcao = (double)50 / logoCliente.Height;
+                            int newWidth = (int)(proporcao * logoCliente.Width);
+                            ev.Graphics.DrawImage(image: logoCliente, x: (largura_pagina - newWidth) / 2, y: 0, width: newWidth, height: 50);
+                            size.Height = 60;
+                            currentUsedHeight += size.Height * line.quebralinha;
+                        }
+                    }
+
                     ev.Graphics.DrawString(line.linha, line.fonte, Brushes.Black, new RectangleF(0, currentUsedHeight, largura_pagina, 99999999), line.alinhamento);
                     size = ev.Graphics.MeasureString(line.linha, line.fonte);
                 }

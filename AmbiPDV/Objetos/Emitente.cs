@@ -8,7 +8,6 @@ using System.IO;
 using System.Linq;
 using static PDV_WPF.Funcoes.Statics;
 
-
 namespace PDV_WPF.Objetos
 {
     public static class Emitente
@@ -84,9 +83,10 @@ namespace PDV_WPF.Objetos
             }
         }
         public static string Cidade { get; private set; }
+        public static byte[] LogoCliente { get; set; }
 
         private static List<string> _listaErros = new List<string>();
-        
+
         public static List<string> ListaErro
         {
             get
@@ -98,7 +98,7 @@ namespace PDV_WPF.Objetos
             {
                 try
                 {
-                    Dictionary<string, string> iniEmitente = File.ReadAllLines("emitente.ini").ToDictionary(x=>x.Split('=')[0], x=>x.Split('=')[1]);
+                    Dictionary<string, string> iniEmitente = File.ReadAllLines("emitente.ini").ToDictionary(x => x.Split('=')[0], x => x.Split('=')[1]);
                     _razaoSocial = iniEmitente["RazaoSocial"];
                     _nomeFantasia = iniEmitente["NomeFantasia"];
                     _cEP = iniEmitente["CEP"];
@@ -153,8 +153,9 @@ namespace PDV_WPF.Objetos
                 _email = row.IsEMAIL_CONTNull() ? "" : row.EMAIL_CONT;
                 StrSimples = row.SIMPLES;
                 _infoCarregada = true;
+                LogoCliente = row.IsLOGONull() ? null : row.LOGO;
                 return true;
             }
-        }
+        }       
     }
 }

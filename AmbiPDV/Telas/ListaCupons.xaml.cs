@@ -342,18 +342,22 @@ namespace PDV_WPF.Telas
 
             using (var TB_NFVENDA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFVENDATableAdapter())
             using (var TB_SAT_CANC = new DataSets.FDBDataSetVendaTableAdapters.TB_SAT_CANCTableAdapter())
+            using (var TB_SAT = new DataSets.FDBDataSetVendaTableAdapters.TB_SATTableAdapter())
             using (var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) })
             {
-                TB_NFVENDA.Connection = TB_SAT_CANC.Connection = LOCAL_FB_CONN;
+                TB_NFVENDA.Connection = TB_SAT_CANC.Connection = TB_SAT.Connection = LOCAL_FB_CONN;
                 TB_NFVENDA.SetaCanceladoPorIDNFVenda(cupomSAT.ID_NFVENDA);
                 TB_SAT_CANC.Insert(0,
-                    cupomSAT.ID_REGISTRO,
-                    DateTime.Today,
-                    DateTime.Now,
-                    int.Parse(retornoCanc.infCFe.ide.nCFe),
-                    retornoCanc.infCFe.chCanc,
-                    retornoCanc.infCFe.ide.nserieSAT,
-                    null);
+                                   cupomSAT.ID_REGISTRO,
+                                   DateTime.Today,
+                                   DateTime.Now,
+                                   int.Parse(retornoCanc.infCFe.ide.nCFe),
+                                   retornoCanc.infCFe.Id.Replace("CFe", string.Empty),
+                                   retornoCanc.infCFe.ide.nserieSAT,
+                                   null);
+                TB_SAT.ChangeStatus(STATUS: "07000",
+                                    STATUS_DES: "Cupom cancelado com sucesso + conteúdo CF-e-SAT cancelado",
+                                    CHAVE: cupomSAT.CHAVE_CFE);
             }
 
             //DesfazerPagamento(cupomSAT.ID_NFVENDA);
