@@ -4,14 +4,13 @@ using System.Security.Cryptography;
 using System.Windows;
 using System.Windows.Input;
 using static PDV_WPF.Funcoes.Statics;
-using PDV_WPF.ViewModels;
 using static PDV_WPF.Configuracoes.ConfiguracoesPDV;
 using PDV_WPF.Objetos.Enums;
 using System.Reflection;
 using PDV_WPF.Funcoes;
 using PDV_WPF.Properties;
-using System.ComponentModel;
-using System.Web.UI.WebControls.WebParts;
+using System.Collections.ObjectModel;
+using System.Data;
 
 namespace PDV_WPF.Telas
 {
@@ -26,9 +25,10 @@ namespace PDV_WPF.Telas
         public enum nivelDeAcesso { Nenhum, Funcionario, Gerente }
         public nivelDeAcesso NivelAcesso { get; set; }
         private string Acao { get; set; }
-        private Permissoes? PermissaoAtual { get; set; } = null;
+        private Permissoes? PermissaoAtual { get; set; } = null;        
+        public ObservableCollection<string> Funcionarios { get; set; }          
 
-        private DebounceDispatcher debounceTimer = new DebounceDispatcher();
+        private DebounceDispatcher debounceTimer = new DebounceDispatcher();        
 
         #endregion Fields & Properties
 
@@ -42,7 +42,16 @@ namespace PDV_WPF.Telas
         }
 
         public perguntaSenha(string acao, Permissoes permissaoRequisitada)
-        {
+        {            
+            using(var taPdvUsers = new FDBDataSetTableAdapters.TRI_PDV_USERSTableAdapter())
+            {
+                taPdvUsers.Connection.ConnectionString = MontaStringDeConexao("localhost", localpath);
+                EnumerableRowCollection<string> users = taPdvUsers.GetUsersPdv().Select(selector: x => x.USERNAME);
+                Funcionarios = new ObservableCollection<string>();
+                foreach (var user in users)
+                    Funcionarios.Add(user);
+            }
+
             StartPasswordClass(acao);
             lbl_dica.Content = "DIGITE UMA SENHA GERENCIAL PARA CONTINUAR";
             panel_Usuarios.Visibility = Visibility.Visible;
@@ -158,7 +167,7 @@ namespace PDV_WPF.Telas
             InitializeComponent();            
             lbl_Acao.Text = acao.ToUpper();
             Acao = acao;
-            DataContext = new MainViewModel(true, false);
+            DataContext = this;
         }
 
         private void RegisterAccessManage(FbConnection connection, string accessLevel, int id)

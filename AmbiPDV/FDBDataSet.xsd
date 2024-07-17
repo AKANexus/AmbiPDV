@@ -2500,6 +2500,16 @@ WHERE (ID_USER = 0) AND ("PASSWORD" = @PASSWORD)</CommandText>
                   </DbCommand>
                 </SelectCommand>
               </DbSource>
+              <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="TRI_PDV_USERS" DbObjectType="Table" GenerateMethods="Get" GenerateShortCommands="true" GeneratorGetMethodName="GetUsersPdv" GetMethodModifier="Public" GetMethodName="GetUsersPdv" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetUsersPdv" UserSourceName="GetUsersPdv">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="true">
+                    <CommandText>SELECT * FROM TRI_PDV_USERS WHERE ID_USER = 0 AND PASSWORD &lt;&gt; ''
+UNION ALL
+SELECT * FROM TRI_PDV_USERS WHERE PASSWORD != '' AND ATIVO = 'SIM' AND ID_USER &lt;&gt; 0</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
               <DbSource ConnectionRef="FDBConnString (Settings)" DbObjectName="" DbObjectType="Unknown" GenerateShortCommands="true" GeneratorSourceName="NovoUsuario" Modifier="Public" Name="NovoUsuario" QueryType="NoData" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetDataBy9" UserSourceName="NovoUsuario">
                 <InsertCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
@@ -3125,7 +3135,7 @@ WHERE INFORMACAO = @CONFIG</CommandText>
                 </xs:simpleType>
               </xs:element>
               <xs:element name="ID_NUMPAG" msprop:Generator_ColumnPropNameInTable="ID_NUMPAGColumn" msprop:Generator_ColumnPropNameInRow="ID_NUMPAG" msprop:Generator_UserColumnName="ID_NUMPAG" msprop:Generator_ColumnVarNameInTable="columnID_NUMPAG" type="xs:int" default="0" minOccurs="0" />
-              <xs:element name="ID_CONTA" msprop:Generator_UserColumnName="ID_CONTA" msprop:Generator_ColumnPropNameInTable="ID_CONTAColumn" msprop:Generator_ColumnPropNameInRow="ID_CONTA" msprop:Generator_ColumnVarNameInTable="columnID_CONTA" type="xs:int" minOccurs="0" />
+              <xs:element name="ID_CONTA" msprop:Generator_ColumnPropNameInTable="ID_CONTAColumn" msprop:Generator_ColumnPropNameInRow="ID_CONTA" msprop:Generator_UserColumnName="ID_CONTA" msprop:Generator_ColumnVarNameInTable="columnID_CONTA" type="xs:int" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>

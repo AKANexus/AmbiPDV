@@ -261,9 +261,9 @@ namespace PDV_WPF.Telas
             return false;
         }
 
-        private void txb_Metodo_KeyDown(object sender, KeyEventArgs e)        
+        private void txb_Metodo_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter)            
+            if (e.Key == Key.Enter)
             {
                 int.TryParse(txb_Metodo.Text, out int _result);
                 switch (ValidarMetodo(_result))
@@ -276,7 +276,7 @@ namespace PDV_WPF.Telas
                         else
                         {
                             stp_Parcelas.Visibility = Visibility.Hidden;
-                        }                                                                      
+                        }
                         metodo = _result;
                         txb_Valor.Focus();
                         txb_Valor.SelectAll();
@@ -385,7 +385,7 @@ namespace PDV_WPF.Telas
                             return;
                     }
                 }
-            }            
+            }
 
             if (strPgCfe == "17")
             {
@@ -415,7 +415,7 @@ namespace PDV_WPF.Telas
             if (e.status == StatusTEF.Confirmado)
                 try
                 {
-	                AcrescentaMetodoPagamento(idMetodo: e.idMetodo, _valor: e.Valor, strPgCfe: Metodos_DT.First(x => x.ID_FMANFCE == e.idMetodo).ID_NFCE, sitefbox: tefAtual);
+                    AcrescentaMetodoPagamento(idMetodo: e.idMetodo, _valor: e.Valor, strPgCfe: Metodos_DT.First(x => x.ID_FMANFCE == e.idMetodo).ID_NFCE, sitefbox: tefAtual);
                 }
                 catch (Exception ex)
                 {
@@ -423,7 +423,7 @@ namespace PDV_WPF.Telas
                 }
         }
 
-        private void AcrescentaMetodoPagamento(int idMetodo, decimal _valor, string strPgCfe, SiTEFBox sitefbox = null, [CallerMemberName]string metodoChamador = null)
+        private void AcrescentaMetodoPagamento(int idMetodo, decimal _valor, string strPgCfe, SiTEFBox sitefbox = null, [CallerMemberName] string metodoChamador = null)
         {
             log.Debug($"AcrescentaMetodoPagamento acionado. Metodo chamador: {metodoChamador ?? "Metodo não informado"}");
 
@@ -435,9 +435,9 @@ namespace PDV_WPF.Telas
             envCFeCFeInfCFePgtoMP pgto = new envCFeCFeInfCFePgtoMP()
             {
                 cMP = strPgCfe.PadLeft(2, '0'),
-                dec_vMP = (_valor),                
+                dec_vMP = (_valor),
                 vMP = (_valor).ToString("0.00"),
-                desconto = false               
+                desconto = false
             };
             if (strPgCfe == "05")
             {
@@ -456,7 +456,7 @@ namespace PDV_WPF.Telas
             nomes_pgtos.Add(strDescricaoMetodo);
 
             pagamentos[idMetodo] += (_valor - troco);
-            
+
             metodosnew.Add((strPgCfe, _valor, Administradora.infoAdministradora ?? new InfoAdministradora()));
             metodos.Add(pgto);
             valores_pgtos.Add(_valor);
@@ -473,14 +473,14 @@ namespace PDV_WPF.Telas
                 }
                 PendenciasDoTEF pendTef = new PendenciasDoTEF();
                 pendTef.LimpaPendencias(numCupomTEF);
-                
-                if (metodoChamador == nameof(Tef_StatusChanged))                
-                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; Close(); return; });                                   
+
+                if (metodoChamador == nameof(Tef_StatusChanged))
+                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; Close(); return; });
                 else
                 {
-                    DialogResult = true; 
-                    Close();                     
-                }                                          
+                    DialogResult = true;
+                    Close();
+                }
             }
             else //Caso seja efetuado um pagamento parcial
             {
@@ -615,7 +615,7 @@ namespace PDV_WPF.Telas
                         txb_Valor.Value = valor_a_ser_pago;
                         txb_Metodo.Focus();
                         return;
-                    }                    
+                    }
                     var senha = new perguntaSenha("Aplicando Desconto na Venda", Permissoes.DescontoVenda);
                     senha.ShowDialog();
                     if (senha.DialogResult == false)
@@ -734,7 +734,7 @@ namespace PDV_WPF.Telas
                     case false:
                         desconto = (pd.porcentagem) * _vendaAtual.ValorDaVenda().RoundABNT();
                         break;
-                }               
+                }
                 valor_a_ser_pago = (_vendaAtual.ValorDaVenda().RoundABNT() - desconto);
                 txb_Desconto.Value = desconto;
                 stp_Desconto.Visibility = Visibility.Visible;
@@ -792,22 +792,25 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Enter)
             {
-                int.TryParse(txb_Metodo.Text, out int _result);
-                switch (_result)
-                {
-                    case 3:
-                    case 4:                    
-                        if (INFORMA_MAQUININHA == true)
-                        {
-                            Administradora adm = new Administradora();
-                            adm.ShowDialog();                            
-                        }
-                        break;
-                }
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
+                    int.TryParse(txb_Metodo.Text, out int _result);
+                    switch (_result)
+                    {
+                        case 3:
+                        case 4:
+                            if (INFORMA_MAQUININHA == true)
+                            {
+                                log.Debug("Informando administradora de cartão...");
+                                Administradora adm = new Administradora();
+                                adm.ShowDialog();
+                                log.Debug($"Administradora: {Administradora.infoAdministradora?.Descricao ?? "Não informado."}");
+                            }
+                            break;
+                    }
+
                     //int.TryParse(txb_Metodo.Text, out int _result);
-                if (_result == 3 && SYSPARCELA.ToBool())
+                    if (_result == 3 && SYSPARCELA.ToBool())
                     {
                         txb_parcelas.Focus();
                         return;
@@ -828,24 +831,24 @@ namespace PDV_WPF.Telas
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {            
-            if (taxaAdicionada && DialogResult != true) _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);            
+        {
+            if (taxaAdicionada && DialogResult != true) _vendaAtual.RemoveProduto(_vendaAtual.nItemCupom - 1);
 
             if (fechouManualmente)
             {
-                foreach(var itemComDesc in _vendaAtual._listaDets.Where(l => l.atacado is true || l.scannTech is true))
+                foreach (var itemComDesc in _vendaAtual._listaDets.Where(l => l.atacado is true || l.scannTech is true))
                 {
-                    itemComDesc.prod.vUnCom = itemComDesc.prod.vUnComOri ?? itemComDesc.prod.vUnCom;                    
+                    itemComDesc.prod.vUnCom = itemComDesc.prod.vUnComOri ?? itemComDesc.prod.vUnCom;
                     itemComDesc.prod.vDesc = "0,00";
-                    itemComDesc.atacado = false;                    
+                    itemComDesc.atacado = false;
                 }
             }
         }
         public void VerificaVlrTotal()
-        {            
+        {
             if (_vlrTotalVenda > valor_a_ser_pago)
             {
-                descNaVenda = _vlrTotalVenda - valor_a_ser_pago;                          
+                descNaVenda = _vlrTotalVenda - valor_a_ser_pago;
                 //txt_Vlr.Text = descNaVenda.ToString("C");
                 //txbDesc.Visibility = Visibility.Visible;
             }

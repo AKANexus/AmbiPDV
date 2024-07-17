@@ -36734,7 +36734,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[17];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[18];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TRI_PDV_USERS";
@@ -36856,58 +36856,52 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[9].Parameters.Add(param);
             this._commandCollection[10] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[10].Connection = this.Connection;
-            this._commandCollection[10].CommandText = "UPDATE OR INSERT INTO TRI_PDV_USERS\r\n                         (ID_USER, USERNAME," +
+            this._commandCollection[10].CommandText = "SELECT * FROM TRI_PDV_USERS WHERE ID_USER = 0 AND PASSWORD <> \'\'\r\nUNION ALL\r\nSELE" +
+                "CT * FROM TRI_PDV_USERS WHERE PASSWORD != \'\' AND ATIVO = \'SIM\' AND ID_USER <> 0";
+            this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[11].Connection = this.Connection;
+            this._commandCollection[11].CommandText = "UPDATE OR INSERT INTO TRI_PDV_USERS\r\n                         (ID_USER, USERNAME," +
                 " \"PASSWORD\", GERENCIA, PERMISSOES)\r\nVALUES        (@ID, @Username, @Senha, @Gere" +
                 ", @Permissoes)";
-            this._commandCollection[10].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 10;
             param.IsNullable = true;
             param.SourceColumn = "ID_USER";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Username";
             param.Size = 64;
             param.IsNullable = true;
             param.SourceColumn = "USERNAME";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Senha";
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = "PASSWORD";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Gere";
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "GERENCIA";
-            this._commandCollection[10].Parameters.Add(param);
+            this._commandCollection[11].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Permissoes";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 10;
             param.IsNullable = true;
             param.SourceColumn = "PERMISSOES";
-            this._commandCollection[10].Parameters.Add(param);
-            this._commandCollection[11] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[11].Connection = this.Connection;
-            this._commandCollection[11].CommandText = "SELECT\r\n\tPASSWORD\r\nFROM\r\n\tTRI_PDV_USERS\r\nRIGHT OUTER JOIN TB_FUNCIONARIO ON\r\n\tTRI" +
-                "_PDV_USERS.ID_USER = TB_FUNCIONARIO.ID_FUNCIONARIO\r\nWHERE\r\n\t(TRI_PDV_USERS.USERN" +
-                "AME = @Param1)";
-            this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Param1";
-            param.Size = 64;
-            param.IsNullable = true;
-            param.SourceColumn = "USERNAME";
             this._commandCollection[11].Parameters.Add(param);
             this._commandCollection[12] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[12].Connection = this.Connection;
-            this._commandCollection[12].CommandText = "SELECT        ID_USER\r\nFROM            TRI_PDV_USERS\r\nWHERE        (USERNAME = UP" +
-                "PER(@Param1))";
+            this._commandCollection[12].CommandText = "SELECT\r\n\tPASSWORD\r\nFROM\r\n\tTRI_PDV_USERS\r\nRIGHT OUTER JOIN TB_FUNCIONARIO ON\r\n\tTRI" +
+                "_PDV_USERS.ID_USER = TB_FUNCIONARIO.ID_FUNCIONARIO\r\nWHERE\r\n\t(TRI_PDV_USERS.USERN" +
+                "AME = @Param1)";
             this._commandCollection[12].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Param1";
@@ -36917,95 +36911,106 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             this._commandCollection[12].Parameters.Add(param);
             this._commandCollection[13] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[13].Connection = this.Connection;
-            this._commandCollection[13].CommandText = "SELECT        USERNAME\r\nFROM            TRI_PDV_USERS\r\nWHERE        (\"PASSWORD\" =" +
-                " @Param1)";
+            this._commandCollection[13].CommandText = "SELECT        ID_USER\r\nFROM            TRI_PDV_USERS\r\nWHERE        (USERNAME = UP" +
+                "PER(@Param1))";
             this._commandCollection[13].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Param1";
+            param.Size = 64;
+            param.IsNullable = true;
+            param.SourceColumn = "USERNAME";
+            this._commandCollection[13].Parameters.Add(param);
+            this._commandCollection[14] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[14].Connection = this.Connection;
+            this._commandCollection[14].CommandText = "SELECT        USERNAME\r\nFROM            TRI_PDV_USERS\r\nWHERE        (\"PASSWORD\" =" +
+                " @Param1)";
+            this._commandCollection[14].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Param1";
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = "PASSWORD";
-            this._commandCollection[13].Parameters.Add(param);
-            this._commandCollection[14] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[14].Connection = this.Connection;
-            this._commandCollection[14].CommandText = "SELECT        USERNAME\r\nFROM            TRI_PDV_USERS\r\nWHERE        (ID_USER = @P" +
+            this._commandCollection[14].Parameters.Add(param);
+            this._commandCollection[15] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[15].Connection = this.Connection;
+            this._commandCollection[15].CommandText = "SELECT        USERNAME\r\nFROM            TRI_PDV_USERS\r\nWHERE        (ID_USER = @P" +
                 "aram1)";
-            this._commandCollection[14].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Param1";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = "ID_USER";
-            this._commandCollection[14].Parameters.Add(param);
-            this._commandCollection[15] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[15].Connection = this.Connection;
-            this._commandCollection[15].CommandText = "UPDATE TRI_PDV_USERS\r\nSET PERMISSOES = @PERMISSIONS\r\nWHERE UPPER(USERNAME) = UPPE" +
+            this._commandCollection[15].Parameters.Add(param);
+            this._commandCollection[16] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[16].Connection = this.Connection;
+            this._commandCollection[16].CommandText = "UPDATE TRI_PDV_USERS\r\nSET PERMISSOES = @PERMISSIONS\r\nWHERE UPPER(USERNAME) = UPPE" +
                 "R(@USERNAME)";
-            this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[16].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@PERMISSIONS";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "PERMISSOES";
-            this._commandCollection[15].Parameters.Add(param);
+            this._commandCollection[16].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@USERNAME";
             param.DbType = global::System.Data.DbType.AnsiString;
             param.Size = 1024;
             param.IsNullable = true;
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
-            this._commandCollection[15].Parameters.Add(param);
-            this._commandCollection[16] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
-            this._commandCollection[16].Connection = this.Connection;
-            this._commandCollection[16].CommandText = "\"SP_TRI_TRIUSERS_UPSERT\"";
-            this._commandCollection[16].CommandType = global::System.Data.CommandType.StoredProcedure;
+            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[17].Connection = this.Connection;
+            this._commandCollection[17].CommandText = "\"SP_TRI_TRIUSERS_UPSERT\"";
+            this._commandCollection[17].CommandType = global::System.Data.CommandType.StoredProcedure;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PID_USER";
             param.DbType = global::System.Data.DbType.Int16;
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PUSERNAME";
             param.Size = 64;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PPASSWORD";
             param.Size = 32;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PGERENCIA";
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PATIVO";
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PTRI_PDV_DT_UPD";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "PPERMISSOES";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = null;
-            this._commandCollection[16].Parameters.Add(param);
+            this._commandCollection[17].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -37052,6 +37057,17 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual FDBDataSet.TRI_PDV_USERSDataTable GetUsersPdv() {
+            this.Adapter.SelectCommand = this.CommandCollection[10];
+            FDBDataSet.TRI_PDV_USERSDataTable dataTable = new FDBDataSet.TRI_PDV_USERSDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -37521,7 +37537,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int NovoUsuario(int ID, string Username, string Senha, string Gere, int Permissoes) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[10];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[11];
             command.Parameters[0].Value = ((int)(ID));
             if ((Username == null)) {
                 throw new global::System.ArgumentNullException("Username");
@@ -37563,7 +37579,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual string PegaHashPorUser(string Param1) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[11];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[12];
             if ((Param1 == null)) {
                 throw new global::System.ArgumentNullException("Param1");
             }
@@ -37597,7 +37613,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual global::System.Nullable<short> PegaIdPorUser(string Param1) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[12];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[13];
             if ((Param1 == null)) {
                 throw new global::System.ArgumentNullException("Param1");
             }
@@ -37631,7 +37647,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual string PegaUserporHash(string Param1) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[13];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[14];
             if ((Param1 == null)) {
                 throw new global::System.ArgumentNullException("Param1");
             }
@@ -37665,7 +37681,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual string PegaUserPorId(int Param1) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[14];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[15];
             command.Parameters[0].Value = ((int)(Param1));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -37695,7 +37711,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
         public virtual int SetPermissions(int PERMISSIONS, string USERNAME) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[15];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[16];
             command.Parameters[0].Value = ((int)(PERMISSIONS));
             if ((USERNAME == null)) {
                 throw new global::System.ArgumentNullException("USERNAME");
@@ -37724,7 +37740,7 @@ SET                ID_DUMMY = @pID_DUMMY, VERSAO = @pVERSAO, ULTIMA_SYNC = @pULT
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         public virtual object SP_TRI_TRIUSERS_UPSERT(global::System.Nullable<short> PID_USER, string PUSERNAME, string PPASSWORD, string PGERENCIA, string PATIVO, global::System.Nullable<global::System.DateTime> PTRI_PDV_DT_UPD, global::System.Nullable<int> PPERMISSOES) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[16];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[17];
             if ((PID_USER.HasValue == true)) {
                 command.Parameters[0].Value = ((short)(PID_USER.Value));
             }
