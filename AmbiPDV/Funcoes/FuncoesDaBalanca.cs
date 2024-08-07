@@ -1,6 +1,7 @@
 ﻿using PDV_WPF.Properties;
 using System;
 using System.IO.Ports;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using Clearcove.Logging;
@@ -63,7 +64,7 @@ namespace Balancas
                         PegaPeso(0, pesoStr, "");
                         _log.Info($"PegaPeso retornou e preencheu pesoStr com {pesoStr}");
                         Decimal.TryParse(pesoStr.ToString(), out decimal peso);
-                        _log.Info($"O peso obtido foi {peso} (que corresponde ao peso {peso/1000}. Só fechar a porta agora.");
+                        _log.Info($"O peso obtido foi {peso} (que corresponde ao peso {peso / 1000}. Só fechar a porta agora.");
                         retorno = FechaPorta();
                         _log.Info($"FechaPorta retornou {retorno}");
                         if (retorno == 1)
@@ -132,6 +133,8 @@ namespace Balancas
         {
             decimal peso = 0;
 
+            private Logger _log = new Logger(typeof(Balanca));
+
             SerialPort PORTA = new SerialPort($"COM{BALPORTA}", BALBAUD.Safeint(), ((Parity)Enum.ToObject(typeof(Parity), BALPARITY)), BALBITS);
             /*Paridade:
              * 0 = Nenhuma
@@ -161,10 +164,16 @@ namespace Balancas
             {
                 // Show all the incoming data in the port's buffer
                 string receivedString = PORTA.ReadExisting();
-                if (receivedString.Length < 5) return;
+                byte[] receivedBuffer = Encoding.ASCII.GetBytes(receivedString);
+                _log.Debug(receivedString);
+                var indexStart = Array.IndexOf(receivedBuffer, 0x02);
+                var indexEnd = Array.IndexOf(receivedBuffer, 0x03);
+                byte[] processedBytes = receivedBuffer.Skip(indexStart).Take(indexEnd - indexStart).ToArray();
                 try
                 {
-                    peso = receivedString.Substring(1, 5).Safedecimal();
+                    if (processedBytes[0] == 'N' || processedBytes[0] == 'I' || processedBytes[0] == 'S')
+                        return;
+                    peso = Encoding.ASCII.GetString(processedBytes).Safedecimal();
                 }
                 catch (Exception)
                 {
