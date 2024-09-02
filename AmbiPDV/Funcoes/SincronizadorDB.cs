@@ -6799,6 +6799,7 @@ namespace PDV_WPF.Funcoes
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_NFVENDA", newIdNfvenda);
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_FMANFCE", nfvendaFmapagtoNfcePdv.ID_FMANFCE);
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_PARCELA", nfvendaFmapagtoNfcePdv.ID_PARCELA);
+                                                            fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pTROCO", nfvendaFmapagtoNfcePdv.TROCO);
                                                             fbCommNfvendaFmapagtoNfceSyncInsert.Parameters.Add("@pID_ADMINISTRADORA", idAdmins);
 
                                                             #endregion Prepara o comando da SP_TRI_NFV_FMAPAGT_SYNC_INSERT

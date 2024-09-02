@@ -136,6 +136,8 @@ namespace PDV_WPF.DataSets {
         
         private global::System.Data.DataRelation relationFK_FMAPAGTO_NFVENDA1;
         
+        private global::System.Data.DataRelation relationFK_FMAPGTO_NFCE_ID_PARCELA;
+        
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -989,6 +991,7 @@ namespace PDV_WPF.DataSets {
             this.relationFK_NFVENDA1 = this.Relations["FK_NFVENDA1"];
             this.relationTRI_PDV_DEVOL_FK1 = this.Relations["TRI_PDV_DEVOL_FK1"];
             this.relationFK_FMAPAGTO_NFVENDA1 = this.Relations["FK_FMAPAGTO_NFVENDA1"];
+            this.relationFK_FMAPGTO_NFCE_ID_PARCELA = this.Relations["FK_FMAPGTO_NFCE_ID_PARCELA"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1161,6 +1164,10 @@ namespace PDV_WPF.DataSets {
                         this.tableTB_FORMA_PAGTO_NFCE.ID_FMANFCEColumn}, new global::System.Data.DataColumn[] {
                         this.tableCupomPgtosTable.ID_FMANFCEColumn}, false);
             this.Relations.Add(this.relationFK_FMAPAGTO_NFVENDA1);
+            this.relationFK_FMAPGTO_NFCE_ID_PARCELA = new global::System.Data.DataRelation("FK_FMAPGTO_NFCE_ID_PARCELA", new global::System.Data.DataColumn[] {
+                        this.tableTB_PARCELAMENTO.ID_PARCELAColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTB_NFVENDA_FMAPAGTO_NFCE.ID_PARCELAColumn}, false);
+            this.Relations.Add(this.relationFK_FMAPGTO_NFCE_ID_PARCELA);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -3858,6 +3865,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnID_PARCELA;
             
+            private global::System.Data.DataColumn columnTROCO;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TB_NFVENDA_FMAPAGTO_NFCEDataTable() {
@@ -3933,6 +3942,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TROCOColumn {
+                get {
+                    return this.columnTROCO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -3968,19 +3985,23 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public TB_NFVENDA_FMAPAGTO_NFCERow AddTB_NFVENDA_FMAPAGTO_NFCERow(int ID_NUMPAG, decimal VLR_PAGTO, TB_NFVENDARow parentTB_NFVENDARowByFK_NFVENDA_FMAPAGTO, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA, short ID_PARCELA) {
+            public TB_NFVENDA_FMAPAGTO_NFCERow AddTB_NFVENDA_FMAPAGTO_NFCERow(int ID_NUMPAG, decimal VLR_PAGTO, TB_NFVENDARow parentTB_NFVENDARowByFK_NFVENDA_FMAPAGTO, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA, TB_PARCELAMENTORow parentTB_PARCELAMENTORowByFK_FMAPGTO_NFCE_ID_PARCELA, string TROCO) {
                 TB_NFVENDA_FMAPAGTO_NFCERow rowTB_NFVENDA_FMAPAGTO_NFCERow = ((TB_NFVENDA_FMAPAGTO_NFCERow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_NUMPAG,
                         VLR_PAGTO,
                         null,
                         null,
-                        ID_PARCELA};
+                        null,
+                        TROCO};
                 if ((parentTB_NFVENDARowByFK_NFVENDA_FMAPAGTO != null)) {
                     columnValuesArray[2] = parentTB_NFVENDARowByFK_NFVENDA_FMAPAGTO[0];
                 }
                 if ((parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA != null)) {
                     columnValuesArray[3] = parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA[0];
+                }
+                if ((parentTB_PARCELAMENTORowByFK_FMAPGTO_NFCE_ID_PARCELA != null)) {
+                    columnValuesArray[4] = parentTB_PARCELAMENTORowByFK_FMAPGTO_NFCE_ID_PARCELA[0];
                 }
                 rowTB_NFVENDA_FMAPAGTO_NFCERow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTB_NFVENDA_FMAPAGTO_NFCERow);
@@ -4016,6 +4037,7 @@ namespace PDV_WPF.DataSets {
                 this.columnID_NFVENDA = base.Columns["ID_NFVENDA"];
                 this.columnID_FMANFCE = base.Columns["ID_FMANFCE"];
                 this.columnID_PARCELA = base.Columns["ID_PARCELA"];
+                this.columnTROCO = base.Columns["TROCO"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4031,6 +4053,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnID_FMANFCE);
                 this.columnID_PARCELA = new global::System.Data.DataColumn("ID_PARCELA", typeof(short), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_PARCELA);
+                this.columnTROCO = new global::System.Data.DataColumn("TROCO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTROCO);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_NUMPAG}, true));
                 this.columnID_NUMPAG.AllowDBNull = false;
@@ -4039,6 +4063,7 @@ namespace PDV_WPF.DataSets {
                 this.columnID_NFVENDA.AllowDBNull = false;
                 this.columnID_FMANFCE.AllowDBNull = false;
                 this.columnID_PARCELA.AllowDBNull = false;
+                this.columnTROCO.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11381,6 +11406,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnID_FMANFCE;
             
+            private global::System.Data.DataColumn columnTROCO;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CupomPgtosTableDataTable() {
@@ -11456,6 +11483,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn TROCOColumn {
+                get {
+                    return this.columnTROCO;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -11491,14 +11526,15 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CupomPgtosTableRow AddCupomPgtosTableRow(string DESCRICAO, decimal VLR_PAGTO, System.DateTime DT_VENCTO, string NOME, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1) {
+            public CupomPgtosTableRow AddCupomPgtosTableRow(string DESCRICAO, decimal VLR_PAGTO, System.DateTime DT_VENCTO, string NOME, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1, string TROCO) {
                 CupomPgtosTableRow rowCupomPgtosTableRow = ((CupomPgtosTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         DESCRICAO,
                         VLR_PAGTO,
                         DT_VENCTO,
                         NOME,
-                        null};
+                        null,
+                        TROCO};
                 if ((parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1 != null)) {
                     columnValuesArray[4] = parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1[0];
                 }
@@ -11529,6 +11565,7 @@ namespace PDV_WPF.DataSets {
                 this.columnDT_VENCTO = base.Columns["DT_VENCTO"];
                 this.columnNOME = base.Columns["NOME"];
                 this.columnID_FMANFCE = base.Columns["ID_FMANFCE"];
+                this.columnTROCO = base.Columns["TROCO"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11544,10 +11581,13 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnNOME);
                 this.columnID_FMANFCE = new global::System.Data.DataColumn("ID_FMANFCE", typeof(short), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_FMANFCE);
+                this.columnTROCO = new global::System.Data.DataColumn("TROCO", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnTROCO);
                 this.columnDESCRICAO.MaxLength = 40;
                 this.columnVLR_PAGTO.AllowDBNull = false;
                 this.columnNOME.MaxLength = 60;
                 this.columnID_FMANFCE.AllowDBNull = false;
+                this.columnTROCO.MaxLength = 100;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -15636,6 +15676,17 @@ namespace PDV_WPF.DataSets {
                     return ((TB_NFVENDARow[])(base.GetChildRows(this.Table.ChildRelations["FK_PARCELAMENTO_SIS_NFV"])));
                 }
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFVENDA_FMAPAGTO_NFCERow[] GetTB_NFVENDA_FMAPAGTO_NFCERows() {
+                if ((this.Table.ChildRelations["FK_FMAPGTO_NFCE_ID_PARCELA"] == null)) {
+                    return new TB_NFVENDA_FMAPAGTO_NFCERow[0];
+                }
+                else {
+                    return ((TB_NFVENDA_FMAPAGTO_NFCERow[])(base.GetChildRows(this.Table.ChildRelations["FK_FMAPGTO_NFCE_ID_PARCELA"])));
+                }
+            }
         }
         
         /// <summary>
@@ -15780,6 +15831,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TROCO {
+                get {
+                    if (this.IsTROCONull()) {
+                        return null;
+                    }
+                    else {
+                        return ((string)(this[this.tableTB_NFVENDA_FMAPAGTO_NFCE.TROCOColumn]));
+                    }
+                }
+                set {
+                    this[this.tableTB_NFVENDA_FMAPAGTO_NFCE.TROCOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TB_NFVENDARow TB_NFVENDARow {
                 get {
                     return ((TB_NFVENDARow)(this.GetParentRow(this.Table.ParentRelations["FK_NFVENDA_FMAPAGTO"])));
@@ -15809,6 +15876,29 @@ namespace PDV_WPF.DataSets {
                 set {
                     this.SetParentRow(value, this.Table.ParentRelations["FK_NFVENDA_FMAPAGTO1"]);
                 }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_PARCELAMENTORow TB_PARCELAMENTORow {
+                get {
+                    return ((TB_PARCELAMENTORow)(this.GetParentRow(this.Table.ParentRelations["FK_FMAPGTO_NFCE_ID_PARCELA"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_FMAPGTO_NFCE_ID_PARCELA"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTROCONull() {
+                return this.IsNull(this.tableTB_NFVENDA_FMAPAGTO_NFCE.TROCOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTROCONull() {
+                this[this.tableTB_NFVENDA_FMAPAGTO_NFCE.TROCOColumn] = global::System.Convert.DBNull;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -21799,6 +21889,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string TROCO {
+                get {
+                    if (this.IsTROCONull()) {
+                        return null;
+                    }
+                    else {
+                        return ((string)(this[this.tableCupomPgtosTable.TROCOColumn]));
+                    }
+                }
+                set {
+                    this[this.tableCupomPgtosTable.TROCOColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TB_FORMA_PAGTO_NFCERow TB_FORMA_PAGTO_NFCERow {
                 get {
                     return ((TB_FORMA_PAGTO_NFCERow)(this.GetParentRow(this.Table.ParentRelations["FK_FMAPAGTO_NFVENDA1"])));
@@ -21842,6 +21948,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetNOMENull() {
                 this[this.tableCupomPgtosTable.NOMEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsTROCONull() {
+                return this.IsNull(this.tableCupomPgtosTable.TROCOColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetTROCONull() {
+                this[this.tableCupomPgtosTable.TROCOColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -33655,13 +33773,11 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             tableMapping.ColumnMappings.Add("ID_NFVENDA", "ID_NFVENDA");
             tableMapping.ColumnMappings.Add("ID_FMANFCE", "ID_FMANFCE");
             tableMapping.ColumnMappings.Add("ID_PARCELA", "ID_PARCELA");
+            tableMapping.ColumnMappings.Add("PIX_COD_AUTORIZACAO", "TROCO");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM \"TB_NFVENDA_FMAPAGTO_NFCE\" WHERE ((\"ID_NUMPAG\" = @Original_ID_NUMPAG)" +
-                " AND (\"VLR_PAGTO\" = @Original_VLR_PAGTO) AND (\"ID_NFVENDA\" = @Original_ID_NFVEND" +
-                "A) AND (\"ID_FMANFCE\" = @Original_ID_FMANFCE) AND (\"ID_PARCELA\" = @Original_ID_PA" +
-                "RCELA))";
+            this._adapter.DeleteCommand.CommandText = @"DELETE FROM ""TB_NFVENDA_FMAPAGTO_NFCE"" WHERE ((""ID_NUMPAG"" = @Original_ID_NUMPAG) AND (""VLR_PAGTO"" = @Original_VLR_PAGTO) AND (""ID_NFVENDA"" = @Original_ID_NFVENDA) AND (""ID_FMANFCE"" = @Original_ID_FMANFCE) AND (""ID_PARCELA"" = @Original_ID_PARCELA) AND ((@IsNull_PIX_COD_AUTORIZACAO = 1 AND ""PIX_COD_AUTORIZACAO"" IS NULL) OR (""PIX_COD_AUTORIZACAO"" = @Original_PIX_COD_AUTORIZACAO)))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NUMPAG";
@@ -33703,11 +33819,27 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.SourceColumn = "ID_PARCELA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_PIX_COD_AUTORIZACAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "PIX_COD_AUTORIZACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PIX_COD_AUTORIZACAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "PIX_COD_AUTORIZACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO \"TB_NFVENDA_FMAPAGTO_NFCE\" (\"ID_NUMPAG\", \"VLR_PAGTO\", \"ID_NFVENDA\", \"" +
-                "ID_FMANFCE\", \"ID_PARCELA\") VALUES (@ID_NUMPAG, @VLR_PAGTO, @ID_NFVENDA, @ID_FMAN" +
-                "FCE, @ID_PARCELA)";
+                "ID_FMANFCE\", \"ID_PARCELA\", \"PIX_COD_AUTORIZACAO\") VALUES (@ID_NUMPAG, @VLR_PAGTO" +
+                ", @ID_NFVENDA, @ID_FMANFCE, @ID_PARCELA, @PIX_COD_AUTORIZACAO)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NUMPAG";
@@ -33744,9 +33876,15 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.IsNullable = true;
             param.SourceColumn = "ID_PARCELA";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PIX_COD_AUTORIZACAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "PIX_COD_AUTORIZACAO";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_NFVENDA_FMAPAGTO_NFCE"" SET ""ID_NUMPAG"" = @ID_NUMPAG, ""VLR_PAGTO"" = @VLR_PAGTO, ""ID_NFVENDA"" = @ID_NFVENDA, ""ID_FMANFCE"" = @ID_FMANFCE, ""ID_PARCELA"" = @ID_PARCELA WHERE ((""ID_NUMPAG"" = @Original_ID_NUMPAG) AND (""VLR_PAGTO"" = @Original_VLR_PAGTO) AND (""ID_NFVENDA"" = @Original_ID_NFVENDA) AND (""ID_FMANFCE"" = @Original_ID_FMANFCE) AND (""ID_PARCELA"" = @Original_ID_PARCELA))";
+            this._adapter.UpdateCommand.CommandText = @"UPDATE ""TB_NFVENDA_FMAPAGTO_NFCE"" SET ""ID_NUMPAG"" = @ID_NUMPAG, ""VLR_PAGTO"" = @VLR_PAGTO, ""ID_NFVENDA"" = @ID_NFVENDA, ""ID_FMANFCE"" = @ID_FMANFCE, ""ID_PARCELA"" = @ID_PARCELA, ""PIX_COD_AUTORIZACAO"" = @PIX_COD_AUTORIZACAO WHERE ((""ID_NUMPAG"" = @Original_ID_NUMPAG) AND (""VLR_PAGTO"" = @Original_VLR_PAGTO) AND (""ID_NFVENDA"" = @Original_ID_NFVENDA) AND (""ID_FMANFCE"" = @Original_ID_FMANFCE) AND (""ID_PARCELA"" = @Original_ID_PARCELA) AND ((@IsNull_PIX_COD_AUTORIZACAO = 1 AND ""PIX_COD_AUTORIZACAO"" IS NULL) OR (""PIX_COD_AUTORIZACAO"" = @Original_PIX_COD_AUTORIZACAO)))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NUMPAG";
@@ -33782,6 +33920,12 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.Size = 2;
             param.IsNullable = true;
             param.SourceColumn = "ID_PARCELA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PIX_COD_AUTORIZACAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "PIX_COD_AUTORIZACAO";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_NUMPAG";
@@ -33823,6 +33967,22 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.SourceColumn = "ID_PARCELA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@IsNull_PIX_COD_AUTORIZACAO";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "PIX_COD_AUTORIZACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            param.SourceColumnNullMapping = true;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PIX_COD_AUTORIZACAO";
+            param.Size = 100;
+            param.IsNullable = true;
+            param.SourceColumn = "PIX_COD_AUTORIZACAO";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -33838,7 +33998,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[4];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT * FROM TB_NFVENDA_FMAPAGTO_NFCE";
+            this._commandCollection[0].CommandText = "SELECT ID_NUMPAG, VLR_PAGTO, ID_NFVENDA, ID_FMANFCE, ID_PARCELA, PIX_COD_AUTORIZA" +
+                "CAO FROM TB_NFVENDA_FMAPAGTO_NFCE";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -33892,6 +34053,12 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             param.ParameterName = "PID_PARCELA";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PTROCO";
+            param.Size = 100;
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[3].Parameters.Add(param);
@@ -33969,12 +34136,20 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_ID_NUMPAG, decimal Original_VLR_PAGTO, int Original_ID_NFVENDA, short Original_ID_FMANFCE, short Original_ID_PARCELA) {
+        public virtual int Delete(int Original_ID_NUMPAG, decimal Original_VLR_PAGTO, int Original_ID_NFVENDA, short Original_ID_FMANFCE, short Original_ID_PARCELA, string Original_PIX_COD_AUTORIZACAO) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_ID_NUMPAG));
             this.Adapter.DeleteCommand.Parameters[1].Value = ((decimal)(Original_VLR_PAGTO));
             this.Adapter.DeleteCommand.Parameters[2].Value = ((int)(Original_ID_NFVENDA));
             this.Adapter.DeleteCommand.Parameters[3].Value = ((short)(Original_ID_FMANFCE));
             this.Adapter.DeleteCommand.Parameters[4].Value = ((short)(Original_ID_PARCELA));
+            if ((Original_PIX_COD_AUTORIZACAO == null)) {
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(1));
+                this.Adapter.DeleteCommand.Parameters[6].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[5].Value = ((object)(0));
+                this.Adapter.DeleteCommand.Parameters[6].Value = ((string)(Original_PIX_COD_AUTORIZACAO));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -33995,12 +34170,18 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int ID_NUMPAG, decimal VLR_PAGTO, int ID_NFVENDA, short ID_FMANFCE, short ID_PARCELA) {
+        public virtual int Insert(int ID_NUMPAG, decimal VLR_PAGTO, int ID_NFVENDA, short ID_FMANFCE, short ID_PARCELA, string PIX_COD_AUTORIZACAO) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(ID_NUMPAG));
             this.Adapter.InsertCommand.Parameters[1].Value = ((decimal)(VLR_PAGTO));
             this.Adapter.InsertCommand.Parameters[2].Value = ((int)(ID_NFVENDA));
             this.Adapter.InsertCommand.Parameters[3].Value = ((short)(ID_FMANFCE));
             this.Adapter.InsertCommand.Parameters[4].Value = ((short)(ID_PARCELA));
+            if ((PIX_COD_AUTORIZACAO == null)) {
+                this.Adapter.InsertCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[5].Value = ((string)(PIX_COD_AUTORIZACAO));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -34021,17 +34202,31 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int ID_NUMPAG, decimal VLR_PAGTO, int ID_NFVENDA, short ID_FMANFCE, short ID_PARCELA, int Original_ID_NUMPAG, decimal Original_VLR_PAGTO, int Original_ID_NFVENDA, short Original_ID_FMANFCE, short Original_ID_PARCELA) {
+        public virtual int Update(int ID_NUMPAG, decimal VLR_PAGTO, int ID_NFVENDA, short ID_FMANFCE, short ID_PARCELA, string PIX_COD_AUTORIZACAO, int Original_ID_NUMPAG, decimal Original_VLR_PAGTO, int Original_ID_NFVENDA, short Original_ID_FMANFCE, short Original_ID_PARCELA, string Original_PIX_COD_AUTORIZACAO) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(ID_NUMPAG));
             this.Adapter.UpdateCommand.Parameters[1].Value = ((decimal)(VLR_PAGTO));
             this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(ID_NFVENDA));
             this.Adapter.UpdateCommand.Parameters[3].Value = ((short)(ID_FMANFCE));
             this.Adapter.UpdateCommand.Parameters[4].Value = ((short)(ID_PARCELA));
-            this.Adapter.UpdateCommand.Parameters[5].Value = ((int)(Original_ID_NUMPAG));
-            this.Adapter.UpdateCommand.Parameters[6].Value = ((decimal)(Original_VLR_PAGTO));
-            this.Adapter.UpdateCommand.Parameters[7].Value = ((int)(Original_ID_NFVENDA));
-            this.Adapter.UpdateCommand.Parameters[8].Value = ((short)(Original_ID_FMANFCE));
-            this.Adapter.UpdateCommand.Parameters[9].Value = ((short)(Original_ID_PARCELA));
+            if ((PIX_COD_AUTORIZACAO == null)) {
+                this.Adapter.UpdateCommand.Parameters[5].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(PIX_COD_AUTORIZACAO));
+            }
+            this.Adapter.UpdateCommand.Parameters[6].Value = ((int)(Original_ID_NUMPAG));
+            this.Adapter.UpdateCommand.Parameters[7].Value = ((decimal)(Original_VLR_PAGTO));
+            this.Adapter.UpdateCommand.Parameters[8].Value = ((int)(Original_ID_NFVENDA));
+            this.Adapter.UpdateCommand.Parameters[9].Value = ((short)(Original_ID_FMANFCE));
+            this.Adapter.UpdateCommand.Parameters[10].Value = ((short)(Original_ID_PARCELA));
+            if ((Original_PIX_COD_AUTORIZACAO == null)) {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[12].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[11].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[12].Value = ((string)(Original_PIX_COD_AUTORIZACAO));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -34052,8 +34247,8 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(decimal VLR_PAGTO, int ID_NFVENDA, short ID_FMANFCE, short ID_PARCELA, int Original_ID_NUMPAG, decimal Original_VLR_PAGTO, int Original_ID_NFVENDA, short Original_ID_FMANFCE, short Original_ID_PARCELA) {
-            return this.Update(Original_ID_NUMPAG, VLR_PAGTO, ID_NFVENDA, ID_FMANFCE, ID_PARCELA, Original_ID_NUMPAG, Original_VLR_PAGTO, Original_ID_NFVENDA, Original_ID_FMANFCE, Original_ID_PARCELA);
+        public virtual int Update(decimal VLR_PAGTO, int ID_NFVENDA, short ID_FMANFCE, short ID_PARCELA, string PIX_COD_AUTORIZACAO, int Original_ID_NUMPAG, decimal Original_VLR_PAGTO, int Original_ID_NFVENDA, short Original_ID_FMANFCE, short Original_ID_PARCELA, string Original_PIX_COD_AUTORIZACAO) {
+            return this.Update(Original_ID_NUMPAG, VLR_PAGTO, ID_NFVENDA, ID_FMANFCE, ID_PARCELA, PIX_COD_AUTORIZACAO, Original_ID_NUMPAG, Original_VLR_PAGTO, Original_ID_NFVENDA, Original_ID_FMANFCE, Original_ID_PARCELA, Original_PIX_COD_AUTORIZACAO);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -34088,7 +34283,7 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
-        public virtual object SP_TRI_NFVFMAPGTO_INSERT(global::System.Nullable<decimal> PVALOR, global::System.Nullable<int> PID_NFVENDA, global::System.Nullable<int> PID_FMANFCE, global::System.Nullable<int> PID_PARCELA, global::System.Nullable<int> PID_ADMINISTRADORA) {
+        public virtual object SP_TRI_NFVFMAPGTO_INSERT(global::System.Nullable<decimal> PVALOR, global::System.Nullable<int> PID_NFVENDA, global::System.Nullable<int> PID_FMANFCE, global::System.Nullable<int> PID_PARCELA, string PTROCO, global::System.Nullable<int> PID_ADMINISTRADORA) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[3];
             if ((PVALOR.HasValue == true)) {
                 command.Parameters[0].Value = ((decimal)(PVALOR.Value));
@@ -34114,11 +34309,17 @@ WHERE        (ID_CAIXA = @Param1) AND (ABERTO = 'S')";
             else {
                 command.Parameters[3].Value = global::System.DBNull.Value;
             }
-            if ((PID_ADMINISTRADORA.HasValue == true)) {
-                command.Parameters[4].Value = ((int)(PID_ADMINISTRADORA.Value));
+            if ((PTROCO == null)) {
+                command.Parameters[4].Value = global::System.DBNull.Value;
             }
             else {
-                command.Parameters[4].Value = global::System.DBNull.Value;
+                command.Parameters[4].Value = ((string)(PTROCO));
+            }
+            if ((PID_ADMINISTRADORA.HasValue == true)) {
+                command.Parameters[5].Value = ((int)(PID_ADMINISTRADORA.Value));
+            }
+            else {
+                command.Parameters[5].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -49848,6 +50049,7 @@ ORDER BY NUM_ITEM";
             tableMapping.ColumnMappings.Add("DT_VENCTO", "DT_VENCTO");
             tableMapping.ColumnMappings.Add("NOME", "NOME");
             tableMapping.ColumnMappings.Add("ID_FMANFCE", "ID_FMANFCE");
+            tableMapping.ColumnMappings.Add("TROCO", "TROCO");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -49864,15 +50066,15 @@ ORDER BY NUM_ITEM";
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT B.ID_FMANFCE, B.DESCRICAO, A.VLR_PAGTO, D.DT_VENCTO, E.NOME FROM TB_NFVENDA_FMAPAGTO_NFCE A
+            this._commandCollection[0].CommandText = @"SELECT B.ID_FMANFCE, B.DESCRICAO, A.VLR_PAGTO, A.PIX_COD_AUTORIZACAO AS TROCO, D.DT_VENCTO, E.NOME FROM TB_NFVENDA_FMAPAGTO_NFCE A
 JOIN TB_FORMA_PAGTO_NFCE B ON A.ID_FMANFCE = B.ID_FMANFCE
 LEFT JOIN TB_NFV_CTAREC C ON A.ID_NFVENDA = C.ID_NFVENDA AND A.ID_NUMPAG = C.ID_NUMPAG
 LEFT JOIN TB_CONTA_RECEBER D ON C.ID_CTAREC = D.ID_CTAREC
 LEFT JOIN TB_CLIENTE E ON D.ID_CLIENTE = E.ID_CLIENTE
-WHERE A.ID_NFVENDA = @Param1";
+WHERE A.ID_NFVENDA = @ID_NFVENDA";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Param1";
+            param.ParameterName = "@ID_NFVENDA";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
@@ -49884,9 +50086,9 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int FillByNFVenda(FDBDataSetVenda.CupomPgtosTableDataTable dataTable, int Param1) {
+        public virtual int FillByNFVenda(FDBDataSetVenda.CupomPgtosTableDataTable dataTable, int ID_NFVENDA) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(Param1));
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_NFVENDA));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }

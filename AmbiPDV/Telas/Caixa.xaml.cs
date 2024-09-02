@@ -263,7 +263,11 @@ namespace PDV_WPF.Telas
             {
                 if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))
                 {
-                    ProcessarTextoNoACBox();
+                    debounceTimer.Debounce(interval: 250, action: (p) =>
+                    {
+                        e.Handled = true;
+                        ProcessarTextoNoACBox();
+                    });                    
                 }
                 if (e.Key == Key.PageUp)
                 {
@@ -2498,9 +2502,7 @@ namespace PDV_WPF.Telas
                         erroVenda = true;
                         return;
                     }
-                    VendaDEMO.produtos.Clear();
-                    VendaDEMO.pagamentos.Clear();
-                    VendaDEMO.clienteDuePay = null;
+                    VendaDEMO.Clear();
                 }
                 return;
             }//Caso tente lançar um cupom NF sem configurar uma impressora.
@@ -2511,9 +2513,7 @@ namespace PDV_WPF.Telas
                     erroVenda = true;
                     return;
                 }
-                VendaDEMO.produtos.Clear();
-                VendaDEMO.pagamentos.Clear();
-                VendaDEMO.clienteDuePay = null;
+                VendaDEMO.Clear();
             }
             LimparUltimaVenda();
             log.Debug("Verificando se o caixa já está em modo de contigencia na finalização da venda Não Fiscal(...)");

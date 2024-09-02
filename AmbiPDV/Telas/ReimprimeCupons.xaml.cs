@@ -239,10 +239,14 @@ namespace PDV_WPF.Telas
                     {
                         VendaDEMO.RecebeProduto(item.ID_IDENTIFICADOR.ToString(), item.DESCRICAO, item.UNI_MEDIDA, item.QTD_ITEM, item.PRC_VENDA, item.VLR_DESC, item.VLR_FRETE, 0, 0, 0, item.PRC_VENDA);
                     }
+
                     bool prazo = false;
+                    decimal troco = 0;
                     foreach (var item in Pagtos_DT)
                     {
                         VendaDEMO.RecebePagamento(item.DESCRICAO, item.VLR_PAGTO);
+                        troco += item.ID_FMANFCE == 1 ? item.TROCO.Safedecimal() : 0;
+
                         if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                         {
                             VendaDEMO.cliente = item.NOME;
@@ -252,6 +256,7 @@ namespace PDV_WPF.Telas
                             prazo = true;
                         }
                     }
+                    VendaDEMO.troco = troco.ToString();
 
                     loadingProccess.progress.Report("Imprimindo");
                     switch (prazo)

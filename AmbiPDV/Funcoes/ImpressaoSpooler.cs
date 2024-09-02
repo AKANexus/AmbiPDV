@@ -1715,10 +1715,10 @@ namespace PDV_WPF
                     RecebePrint(met.NomeMetodo, corpo, esquerda, 0);
                     RecebePrint(met.ValorDoPgto.ToString("C"), corpo, direita, 1);
                 }
-                if (troco != "0,00")
+                if (troco.Safedecimal() > 0)
                 {
-                    RecebePrint("TROCO R$", corpo, esquerda, 0);
-                    RecebePrint(troco, corpo, direita, 1);
+                    RecebePrint("TROCO", corpo, esquerda, 0);
+                    RecebePrint($"R$ {troco}", corpo, direita, 1);
                 }
                 else
                 {
@@ -1855,6 +1855,15 @@ namespace PDV_WPF
         {
             pagamentos.Clear();
             produtos.Clear();
+            numerodocupom = no_pedido = default;
+            chavenfe = vendedor = assinaturaQRCODE = troco = cliente = default;
+            observacaoFisco = default;
+            valor_prazo = desconto = default;
+            vencimento = default;
+            TsOperacao = default;
+            prazo = default;
+            ReciboTEF = default;
+            clienteDuePay = default;
         }
 
     }
@@ -2164,14 +2173,16 @@ namespace PDV_WPF
                     RecebePrint(subtotal.ToString("C"), titulo, direita, 1);
                 }
                 foreach (MetodoPagamento met in pagamentos)
-                {
+                {                  
                     RecebePrint(met.NomeMetodo, corpo, esquerda, 0);
-                    RecebePrint(met.ValorDoPgto.ToString("C"), corpo, direita, 1);
+                    RecebePrint(met.NomeMetodo.ToLower().Equals("dinheiro") && operadorStr.Equals("REIMPRESSÃO") ?
+                      (met.ValorDoPgto + troco.Safedecimal()).ToString("C") :
+                       met.ValorDoPgto.ToString("C"), corpo, direita, 1);
                 }
-                if (troco != "0,00" && troco != null)
+                if (troco.Safedecimal() > 0)
                 {
-                    RecebePrint("TROCO R$", corpo, esquerda, 0);
-                    RecebePrint(troco, corpo, direita, 1);
+                    RecebePrint("TROCO", corpo, esquerda, 0);
+                    RecebePrint($"R$ {troco}", corpo, direita, 1);
                 }
                 else
                 {
@@ -2274,7 +2285,14 @@ namespace PDV_WPF
         {
             pagamentos.Clear();
             produtos.Clear();
-            prazo = false;
+            numerodocupom = no_pedido = default;
+            chavenfe = vendedor = assinaturaQRCODE = troco = cliente = default;
+            observacaoFisco = default;
+            valor_prazo = desconto = default;
+            vencimento = default;
+            TsOperacao = default;
+            prazo = default;
+            clienteDuePay = default;
         }
     }
 

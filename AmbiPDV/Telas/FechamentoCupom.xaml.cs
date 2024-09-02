@@ -16,6 +16,7 @@ using static PDV_WPF.Funcoes.Extensions;
 using static PDV_WPF.Funcoes.Statics;
 using PDV_WPF.Objetos.Enums;
 using System.Runtime.CompilerServices;
+using System.Transactions;
 
 namespace PDV_WPF.Telas
 {
@@ -43,6 +44,7 @@ namespace PDV_WPF.Telas
         private decimal valor_pago;
         private bool _modoTeste;
         private bool _painelFechado = true;
+        private bool _processando;
         public envCFeCFeInfCFePgto pgto = new envCFeCFeInfCFePgto();
         public List<envCFeCFeInfCFePgtoMP> metodos = new List<envCFeCFeInfCFePgtoMP>();
         public List<(string, decimal, InfoAdministradora)> metodosnew = new List<(string, decimal, InfoAdministradora)>();
@@ -292,6 +294,7 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Enter)
             {
+                _processando = true;
                 ProcessarMetodoDePagamento();
             }
         }
@@ -475,10 +478,11 @@ namespace PDV_WPF.Telas
                 pendTef.LimpaPendencias(numCupomTEF);
 
                 if (metodoChamador == nameof(Tef_StatusChanged))
-                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; Close(); return; });
+                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; _processando = false; Close(); return; });
                 else
                 {
                     DialogResult = true;
+                    _processando = false;
                     Close();
                 }
             }
@@ -495,6 +499,7 @@ namespace PDV_WPF.Telas
                     txb_Metodo.Focus();
                     txb_Valor.Value = valor_a_ser_pago;
                 });
+                _processando = false;
             }
         }
 
@@ -792,6 +797,7 @@ namespace PDV_WPF.Telas
         {
             if (e.Key == Key.Enter)
             {
+                _processando = true;
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
                     int.TryParse(txb_Metodo.Text, out int _result);
@@ -816,13 +822,13 @@ namespace PDV_WPF.Telas
                         return;
                     }
                     ProcessarMetodoDePagamento();
-                });
+                });                
             }
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape)
+            if (e.Key == Key.Escape && _processando == false)
             {
                 fechouManualmente = true;
                 DialogResult = false;

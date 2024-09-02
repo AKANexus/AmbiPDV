@@ -1172,9 +1172,9 @@ namespace PDV_WPF.Objetos
 
                         ID_NUMPAG = idNfce switch
                         {
-                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
-                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
-                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin)
+                            1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture) - decimal.Parse(cfeDeRetorno.infCFe.pgto.vTroco, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, x.pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.vTroco != "0.00" ? cfeDeRetorno.infCFe.pgto.vTroco : null, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
+                            3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, x.pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.vTroco != "0.00" ? cfeDeRetorno.infCFe.pgto.vTroco : null, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
+                            _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, x.pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.vTroco != "0.00" ? cfeDeRetorno.infCFe.pgto.vTroco : null, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin)
                         };
                        
                         if ((x.pagamento.cMP == "03" || x.pagamento.cMP == "04") && INFORMA_MAQUININHA && VINCULA_MAQ_CTA && infoAdmin != null)
@@ -1579,18 +1579,18 @@ namespace PDV_WPF.Objetos
                             {
                                 ID_NUMPAG = idNfce switch
                                 {
-                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, null), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
-                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, null),
-                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, null)
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.dTroco > 0 ? cfeDeRetorno.infCFe.pgto.dTroco.ToString() : null , null), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.dTroco > 0 ? cfeDeRetorno.infCFe.pgto.dTroco.ToString() : null, null),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.dTroco > 0 ? cfeDeRetorno.infCFe.pgto.dTroco.ToString() : null, null)
                                 };
                             }
                             else
                             {
                                 ID_NUMPAG = idNfce switch
                                 {
-                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.InfoAdmin.IdAdmin), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
-                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.InfoAdmin.IdAdmin),
-                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.InfoAdmin.IdAdmin)
+                                    1 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR) - cfeDeRetorno.infCFe.pgto.dTroco, ID_NFVENDA, idNfce, 2, pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.dTroco > 0 ? cfeDeRetorno.infCFe.pgto.dTroco.ToString() : null, pagamento.InfoAdmin.IdAdmin), //Agora essa procedure preenche tanto a TB_NFVENDA_FMAPAGTO_NFCE como a TB_NFCE_BANDEIRA, preenchimento OK.
+                                    3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 3, pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.dTroco > 0 ? cfeDeRetorno.infCFe.pgto.dTroco.ToString() : null, pagamento.InfoAdmin.IdAdmin),
+                                    _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(pagamento.vMP, ptBR), ID_NFVENDA, idNfce, 2, pagamento.cMP == "01" && cfeDeRetorno.infCFe.pgto.dTroco > 0 ? cfeDeRetorno.infCFe.pgto.dTroco.ToString() : null, pagamento.InfoAdmin.IdAdmin)
                                 };
                             }
 
