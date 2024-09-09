@@ -263,7 +263,11 @@ namespace PDV_WPF.Telas
             {
                 if (e.Key == Key.Enter && !string.IsNullOrWhiteSpace(combobox.Text))
                 {
-                    ProcessarTextoNoACBox();
+                    debounceTimer.Debounce(interval: 200, action: (p) =>
+                    {
+                        e.Handled = true;
+                        ProcessarTextoNoACBox();
+                    });                    
                 }
                 if (e.Key == Key.PageUp)
                 {
@@ -851,7 +855,7 @@ namespace PDV_WPF.Telas
                 txb_TotProd.Clear();
                 _modo_consulta = true;
                 lbl_Marquee.Visibility = Visibility.Hidden;
-                lbl_Cortesia.Content = "";
+                lbl_Cortesia.Content = "Bipe o produto que deseja consultar";
                 txb_Avisos.Text = "MODO DE CONSULTA";
                 txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF09CAAA"));
             }
@@ -868,13 +872,17 @@ namespace PDV_WPF.Telas
                     txb_Avisos.Text = "CUPOM ABERTO";
                 }
 
-                lbl_Cortesia.Content = null;
+                lbl_Cortesia.Content = _emTransacao && vendaAtual._listaDets.Count > 0 ? 
+                    vendaAtual._listaDets.Last().prod.xProd : "";
+                txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = _nightmode ?
+                          new SolidColorBrush((Color)ColorConverter.ConvertFromString("#cbcccd")) :
+                          new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF333333"));
+
                 txb_ValorUnit.Clear();
                 txb_Qtde.Clear();
                 txb_TotGer.Text = total1;
                 txb_TotProd.Text = total2;
                 _modo_consulta = false;
-                txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FF333333"));
                 ChecarPorSangria();
             }
         }
@@ -922,27 +930,30 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AlternarModoEscuro()
         {
-            //var bc = new BrushConverter();
-            //if (!_nightmode)
-            //{
-            //    MainWindow.Background = new SolidColorBrush(Colors.Black);
-            //    richTextBox1.Background = ACBox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#FF454545");
-            //    MainWindow.Foreground = ACBox.Foreground = richTextBox1.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = new SolidColorBrush(Colors.White);
-            //    rec_Logo.Fill = (Brush)bc.ConvertFrom("#7F292929");
-            //    ACBox.Text = string.Empty;
-            //    _nightmode = true;
-            //}
-            //else
-            //{
-            //    MainWindow.Background = Brushes.White;
+            var bc = new BrushConverter();
+            if (!_nightmode)
+            {
+                MainWindow.Background = (Brush)bc.ConvertFrom("#20212a");
+                Canvas_Menu.Background = (Brush)bc.ConvertFrom("#393c4b");
+                richTextBox1.Background = combobox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#FF454545");
+                MainWindow.Foreground = combobox.Foreground = richTextBox1.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = lbl_Logoff.Foreground = lbl_TextoLogoff.Foreground = (Brush)bc.ConvertFrom("#cbcccd");
+                rec_Logo.Fill = (Brush)bc.ConvertFrom("#7F292929");
+                combobox.Text = string.Empty;
+                _nightmode = true;
+            }
+            else
+            {
+                MainWindow.Background = Brushes.White;
 
-            //    richTextBox1.Background = ACBox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#E4FFFFFF");
-            //    MainWindow.Foreground = (Brush)bc.ConvertFrom("#FF4D4D4D");
-            //    richTextBox1.Foreground = ACBox.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = (Brush)bc.ConvertFrom("#FF333333");
-            //    rec_Logo.Fill = (Brush)bc.ConvertFrom("#7FFFFFFF");
-            //    ACBox.Text = string.Empty;
-            //    _nightmode = false;
-            //}
+                richTextBox1.Background = combobox.Background = txb_Qtde.Background = txb_Avisos.Background = txb_TotGer.Background = txb_TotProd.Background = txb_ValorUnit.Background = (Brush)bc.ConvertFrom("#E4FFFFFF");
+                MainWindow.Foreground = (Brush)bc.ConvertFrom("#FF4D4D4D");
+                richTextBox1.Foreground = combobox.Foreground = txb_Avisos.Foreground = txb_Qtde.Foreground = txb_TotGer.Foreground = txb_TotProd.Foreground = txb_ValorUnit.Foreground = (Brush)bc.ConvertFrom("#FF333333");
+                lbl_Logoff.Foreground = lbl_TextoLogoff.Foreground = new SolidColorBrush(Colors.Gray);
+                rec_Logo.Fill = (Brush)bc.ConvertFrom("#7FFFFFFF");
+                Canvas_Menu.Background = (Brush)bc.ConvertFrom("#FF09CAAA");
+                combobox.Text = string.Empty;
+                _nightmode = false;
+            }
         }
 
         /// <summary>
@@ -6892,6 +6903,11 @@ namespace PDV_WPF.Telas
                     combobox.Text = null;
                 }
             }//Minimiza o programa
+            else if(e.Key == Key.N && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)
+            {
+                e.Handled = true;
+                AlternarModoEscuro();
+            }
             /* ---------------*/
             else if (e.Key == Key.O && e.KeyboardDevice.Modifiers == ModifierKeys.Control)
             {
