@@ -2763,7 +2763,7 @@
                     <MarkupType>HTML</MarkupType>
                     <Style>
                       <FontFamily>Open Sans</FontFamily>
-                      <FontSize>8pt</FontSize>
+                      <FontSize>12pt</FontSize>
                     </Style>
                   </TextRun>
                 </TextRuns>
