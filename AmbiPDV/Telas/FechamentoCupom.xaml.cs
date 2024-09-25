@@ -42,8 +42,7 @@ namespace PDV_WPF.Telas
         public decimal valor_a_ser_pago;
         private decimal valor_pago;
         private bool _modoTeste;
-        private bool _painelFechado = true;
-        private bool _processando;
+        private bool _painelFechado = true;        
         public envCFeCFeInfCFePgto pgto = new envCFeCFeInfCFePgto();
         public List<envCFeCFeInfCFePgtoMP> metodos = new List<envCFeCFeInfCFePgtoMP>();
         public List<(string, decimal, InfoAdministradora)> metodosnew = new List<(string, decimal, InfoAdministradora)>();
@@ -291,9 +290,8 @@ namespace PDV_WPF.Telas
 
         private void txb_Parcelas_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && !_processando)
-            {
-                _processando = true;
+            if (e.Key == Key.Enter)
+            {                
                 ProcessarMetodoDePagamento();
             }
         }
@@ -477,11 +475,10 @@ namespace PDV_WPF.Telas
                 pendTef.LimpaPendencias(numCupomTEF);
 
                 if (metodoChamador == nameof(Tef_StatusChanged))
-                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; _processando = false; Close(); return; });
+                    Application.Current.Dispatcher.Invoke(() => { DialogResult = true; Close(); return; });
                 else
                 {
-                    DialogResult = true;
-                    _processando = false;
+                    DialogResult = true;                    
                     Close();
                 }
             }
@@ -496,8 +493,7 @@ namespace PDV_WPF.Telas
                     txb_Metodo.Clear();
                     txb_Valor.Clear();
                     txb_Metodo.Focus();
-                    txb_Valor.Value = valor_a_ser_pago;
-                    _processando = false;
+                    txb_Valor.Value = valor_a_ser_pago;                    
                 });                
             }
         }
@@ -794,11 +790,11 @@ namespace PDV_WPF.Telas
 
         private void txb_Valor_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Enter && !_processando)
-            {
-                _processando = true;
+            if (e.Key == Key.Enter)
+            {                
                 debounceTimer.Debounce(250, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
+                    e.Handled = true;
                     int.TryParse(txb_Metodo.Text, out int _result);
                     switch (_result)
                     {
@@ -817,8 +813,7 @@ namespace PDV_WPF.Telas
                     //int.TryParse(txb_Metodo.Text, out int _result);
                     if (_result == 3 && SYSPARCELA.ToBool())
                     {
-                        txb_parcelas.Focus();
-                        _processando = false;
+                        txb_parcelas.Focus();                        
                         return;
                     }
                     ProcessarMetodoDePagamento();
@@ -828,7 +823,7 @@ namespace PDV_WPF.Telas
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape && !_processando)
+            if (e.Key == Key.Escape)
             {
                 fechouManualmente = true;
                 DialogResult = false;

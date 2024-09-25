@@ -985,7 +985,7 @@ namespace PDV_WPF
 
                 try
                 {
-                    versao_IBPT_server = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/VER_IBPT");
+                    versao_IBPT_server = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/VER_IBPT");                    
                 }
                 catch (Exception ex)
                 {
@@ -1089,7 +1089,7 @@ namespace PDV_WPF
                 }
             }
             log.Debug("Tabela IBPT carregada com sucesso.");
-            if(!backupAcionado) AtualizarIBPT(true);
+            //if(!backupAcionado) AtualizarIBPT(true);
         }
 
         /// <summary>

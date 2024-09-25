@@ -126,7 +126,7 @@ namespace PDV_WPF
                 this.Title = NOMESOFTWARE + " - Login";
                 lbl_Versao.Text = " - " + Assembly.GetExecutingAssembly().GetName().Version.ToString() + strings.VERSAO_ADENDO;
                 //progress.Report("Aplicando controle de licenca");
-                AplicarControleLicenca();
+                //AplicarControleLicenca();
                 log.Debug($"AplicarControleLicenca successful");
                 //ss.Close(TimeSpan.FromMilliseconds(1));
                 ls.Close();
@@ -285,8 +285,9 @@ namespace PDV_WPF
             string[] textobaixado;
             try
             {
-                using var client = new WebClient();
-                textobaixado = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/loginstring").Split('¿');
+                //using var client = new WebClient();
+                //textobaixado = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/loginstring").Split('¿');
+                textobaixado = "BEM VINDO|Bem vindo ao AMBIPDV. Mais um produto de excelência da Trilha Informática à sua disposição. Conecte-se à internet para obter as notícias mais recentes!".Split('¿');
             }
             catch (Exception)
             {

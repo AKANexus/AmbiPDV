@@ -90,7 +90,7 @@ namespace PDV_ORCAMENTO
             string[] textobaixado;
             try
             {
-                textobaixado = client.DownloadString("http://www.trilhast.com.br/arq/loginstring").Split('¿');
+                textobaixado = client.DownloadString("http://www.ambisoft.com.br/AmbiPDV/loginstring").Split('¿');
             }
             catch (WebException)
             {
