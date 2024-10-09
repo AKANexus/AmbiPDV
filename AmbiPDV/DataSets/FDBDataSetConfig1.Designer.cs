@@ -7107,52 +7107,53 @@ END;";
                 ", :NSU, :REDE, :pVLR_OPER); END; \';\r\n\t\t\t\t\t\terro = \'sproc preenche consulta\';\r\n\t\t" +
                 "\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_PREENCHECONSULTA ( STRIN" +
                 "G VARCHAR(128) , COD_INT INTEGER ) RETURNS ( ESTOQUE INTEGER , CODBARRA VARCHAR(" +
-                "18) , DESCRICAO VARCHAR(50) , QTDATUAL TYPE OF COLUMN TRI_PDV_OPER.DIN , PRCVEND" +
-                "A TYPE OF COLUMN TRI_PDV_OPER.DIN , QTDATAC TYPE OF COLUMN TRI_PDV_OPER.DIN , PR" +
-                "CATACADO TYPE OF COLUMN TRI_PDV_OPER.DIN) AS BEGIN FOR SELECT FIRST 30 B.ID_IDEN" +
-                "TIFICADOR , B.COD_BARRA , A.DESCRICAO , B.QTD_ATUAL , A.PRC_VENDA , A.QTD_ATACAD" +
-                "O , A.PRC_ATACADO FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR C ON C.ID_ES" +
-                "TOQUE = A.ID_ESTOQUE INNER JOIN TB_EST_PRODUTO B ON B.ID_IDENTIFICADOR = C.ID_ID" +
-                "ENTIFICADOR WHERE ( A.STATUS = \'\'A\'\' ) AND ( ( A.DESCRICAO CONTAINING:STRING ) O" +
-                "R ( B.COD_BARRA =:STRING ) OR ( B.ID_IDENTIFICADOR =:COD_INT ) ) INTO :ESTOQUE ," +
-                " :CODBARRA , :DESCRICAO , :QTDATUAL , :PRCVENDA , :QTDATAC , :PRCATACADO DO SUSP" +
-                "END ; END\';\r\n\t\t\t\t\t\terro = \'sproc lancamovimento\';\r\n\t\t\t\t\t\texecute statement \'CREA" +
-                "TE OR ALTER PROCEDURE SP_TRI_LANCAMOVDIARIO(NUMCAIXA VARCHAR(60), VALOR TYPE OF " +
-                "COLUMN TRI_PDV_OPER.DIN, DESCRICAO_MOV VARCHAR(60), CONTA_ORIGEM SMALLINT, CONTA" +
-                "_DESTINO SMALLINT) RETURNS (erro smallint) AS DECLARE VARIABLE ultimo_mov INTEGE" +
-                "R; BEGIN INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR_MOVTO, HISTORICO, TIP_M" +
-                "OVTO, VLR_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FOR GEN_TB_MOVDIARIO_ID FR" +
-                "OM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO_MOV, \'\'D\'\',:VALOR, :CON" +
-                "TA_DESTINO); INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR_MOVTO, HISTORICO, T" +
-                "IP_MOVTO, VLR_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FOR GEN_TB_MOVDIARIO_I" +
-                "D FROM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO_MOV, \'\'C\'\',:VALOR, " +
-                ":CONTA_ORIGEM); erro = 1; SUSPEND; WHEN ANY DO BEGIN erro = 0; END END;\';\r\n\t\t\t\t\t" +
-                "\terro = \'sproc lancacontarec\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDU" +
-                "RE SP_TRI_LANCACONTAREC (IDNFVENDA INTEGER, VENCIMENTO DATE, VALOR NUMERIC(18,4)" +
-                ", CLIENTE INTEGER, DESCRICAO VARCHAR(100), NUM_CAIXA SMALLINT, IDCONTA INTEGER, " +
-                "IDNUMPAG INTEGER) RETURNS ( RESULTADO INTEGER ) AS DECLARE VAR1 INTEGER; DECLARE" +
-                " V_NF_NUMERO TYPE OF COLUMN TB_NFVENDA.NF_NUMERO; DECLARE V_NF_SERIE TYPE OF COL" +
-                "UMN TB_NFVENDA.NF_SERIE; BEGIN SELECT NEXT VALUE FOR GEN_TB_CTAREC_ID FROM RDB$D" +
-                "ATABASE INTO :VAR1 ; IF(:VAR1 IS NULL) THEN VAR1 = 1; SELECT FIRST 1 NF_SERIE, N" +
-                "F_NUMERO FROM TB_NFVENDA WHERE ID_NFVENDA = :IDNFVENDA INTO :V_NF_SERIE, :V_NF_N" +
-                "UMERO; INSERT INTO TB_CONTA_RECEBER (ID_CTAREC , DOCUMENTO , HISTORICO , DT_EMIS" +
-                "SAO , DT_VENCTO , VLR_CTAREC , TIP_CTAREC , ID_PORTADOR , ID_CLIENTE , ID_CONTA)" +
-                " VALUES (:VAR1 , (:V_NF_SERIE || \'\'-\'\' || :V_NF_NUMERO || \'\'/\'\' || :IDNUMPAG) , " +
-                ":DESCRICAO , CURRENT_DATE , :VENCIMENTO , :VALOR , \'\'C\'\' , 1 , :CLIENTE , :IDCON" +
-                "TA); RESULTADO = :VAR1; SUSPEND; WHEN ANY DO BEGIN RESULTADO = 0; SUSPEND; END E" +
-                "ND;\';\r\n\t\t\t\t\t\terro = \'sproc lancaitemcupom\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR " +
-                "ALTER PROCEDURE SP_TRI_LANCAITEMCUPOM ( CUPOM INTEGER , NUM_PROD INTEGER , ID_PR" +
-                "OD INTEGER , QTD_PROD TYPE OF COLUMN TRI_PDV_OPER.DIN , VLR_PROD TYPE OF COLUMN " +
-                "TRI_PDV_OPER.DIN ) RETURNS (retIDITEMCUP TYPE OF COLUMN TB_CUPOM_ITEM.ID_ITEMCUP" +
-                ") AS DECLARE VARIABLE IDITEMCUP INTEGER; BEGIN SELECT NEXT VALUE FOR GEN_TB_CUPO" +
-                "M_ITEM_ID FROM RDB$DATABASE INTO :IDITEMCUP ; IF(IDITEMCUP IS NULL) THEN IDITEMC" +
-                "UP = 0; INSERT INTO TB_CUPOM_ITEM (ID_ITEMCUP , ID_CUPOM , ID_IDENTIF , NUM_ITEM" +
-                " , QTD_ITEM , VLR_UNIT , ITEM_CANCEL , PRC_CUSTO ) VALUES (:IDITEMCUP , :cupom ," +
-                " :id_prod , :num_prod , :qtd_prod , :vlr_prod , \'\'N\'\' , ( SELECT FIRST 1 PRC_CUS" +
-                "TO FROM TB_ESTOQUE INNER JOIN TB_EST_IDENTIFICADOR ON TB_ESTOQUE.ID_ESTOQUE = TB" +
-                "_EST_IDENTIFICADOR.ID_ESTOQUE WHERE TB_EST_IDENTIFICADOR.ID_IDENTIFICADOR = :id_" +
-                "prod ) ) ; retIDITEMCUP = :IDITEMCUP; SUSPEND; END;\';\r\n\t\t\t\t\t\terro = \'deu certo\';" +
-                "\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "18) , DESCRICAO TYPE OF COLUMN TB_ESTOQUE.DESCRICAO , QTDATUAL TYPE OF COLUMN TR" +
+                "I_PDV_OPER.DIN , PRCVENDA TYPE OF COLUMN TRI_PDV_OPER.DIN , QTDATAC TYPE OF COLU" +
+                "MN TRI_PDV_OPER.DIN , PRCATACADO TYPE OF COLUMN TRI_PDV_OPER.DIN) AS BEGIN FOR S" +
+                "ELECT FIRST 30 B.ID_IDENTIFICADOR , B.COD_BARRA , A.DESCRICAO , B.QTD_ATUAL , A." +
+                "PRC_VENDA , A.QTD_ATACADO , A.PRC_ATACADO FROM TB_ESTOQUE A INNER JOIN TB_EST_ID" +
+                "ENTIFICADOR C ON C.ID_ESTOQUE = A.ID_ESTOQUE INNER JOIN TB_EST_PRODUTO B ON B.ID" +
+                "_IDENTIFICADOR = C.ID_IDENTIFICADOR WHERE ( A.STATUS = \'\'A\'\' ) AND ( ( A.DESCRIC" +
+                "AO CONTAINING:STRING ) OR ( B.COD_BARRA =:STRING ) OR ( B.ID_IDENTIFICADOR =:COD" +
+                "_INT ) ) INTO :ESTOQUE , :CODBARRA , :DESCRICAO , :QTDATUAL , :PRCVENDA , :QTDAT" +
+                "AC , :PRCATACADO DO SUSPEND ; END\';\r\n\t\t\t\t\t\terro = \'sproc lancamovimento\';\r\n\t\t\t\t\t" +
+                "\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_LANCAMOVDIARIO(NUMCAIXA VAR" +
+                "CHAR(60), VALOR TYPE OF COLUMN TRI_PDV_OPER.DIN, DESCRICAO_MOV VARCHAR(60), CONT" +
+                "A_ORIGEM SMALLINT, CONTA_DESTINO SMALLINT) RETURNS (erro smallint) AS DECLARE VA" +
+                "RIABLE ultimo_mov INTEGER; BEGIN INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO, HR" +
+                "_MOVTO, HISTORICO, TIP_MOVTO, VLR_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALUE FO" +
+                "R GEN_TB_MOVDIARIO_ID FROM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, :DESCRICAO" +
+                "_MOV, \'\'D\'\',:VALOR, :CONTA_DESTINO); INSERT INTO TB_MOVDIARIO(ID_MOVTO, DT_MOVTO" +
+                ", HR_MOVTO, HISTORICO, TIP_MOVTO, VLR_MOVTO, ID_CTAPLA) VALUES((SELECT NEXT VALU" +
+                "E FOR GEN_TB_MOVDIARIO_ID FROM RDB$DATABASE), CURRENT_DATE, CURRENT_TIME, :DESCR" +
+                "ICAO_MOV, \'\'C\'\',:VALOR, :CONTA_ORIGEM); erro = 1; SUSPEND; WHEN ANY DO BEGIN err" +
+                "o = 0; END END;\';\r\n\t\t\t\t\t\terro = \'sproc lancacontarec\';\r\n\t\t\t\t\t\texecute statement " +
+                "\'CREATE OR ALTER PROCEDURE SP_TRI_LANCACONTAREC (IDNFVENDA INTEGER, VENCIMENTO D" +
+                "ATE, VALOR NUMERIC(18,4), CLIENTE INTEGER, DESCRICAO VARCHAR(100), NUM_CAIXA SMA" +
+                "LLINT, IDCONTA INTEGER, IDNUMPAG INTEGER) RETURNS ( RESULTADO INTEGER ) AS DECLA" +
+                "RE VAR1 INTEGER; DECLARE V_NF_NUMERO TYPE OF COLUMN TB_NFVENDA.NF_NUMERO; DECLAR" +
+                "E V_NF_SERIE TYPE OF COLUMN TB_NFVENDA.NF_SERIE; BEGIN SELECT NEXT VALUE FOR GEN" +
+                "_TB_CTAREC_ID FROM RDB$DATABASE INTO :VAR1 ; IF(:VAR1 IS NULL) THEN VAR1 = 1; SE" +
+                "LECT FIRST 1 NF_SERIE, NF_NUMERO FROM TB_NFVENDA WHERE ID_NFVENDA = :IDNFVENDA I" +
+                "NTO :V_NF_SERIE, :V_NF_NUMERO; INSERT INTO TB_CONTA_RECEBER (ID_CTAREC , DOCUMEN" +
+                "TO , HISTORICO , DT_EMISSAO , DT_VENCTO , VLR_CTAREC , TIP_CTAREC , ID_PORTADOR " +
+                ", ID_CLIENTE , ID_CONTA) VALUES (:VAR1 , (:V_NF_SERIE || \'\'-\'\' || :V_NF_NUMERO |" +
+                "| \'\'/\'\' || :IDNUMPAG) , :DESCRICAO , CURRENT_DATE , :VENCIMENTO , :VALOR , \'\'C\'\'" +
+                " , 1 , :CLIENTE , :IDCONTA); RESULTADO = :VAR1; SUSPEND; WHEN ANY DO BEGIN RESUL" +
+                "TADO = 0; SUSPEND; END END;\';\r\n\t\t\t\t\t\terro = \'sproc lancaitemcupom\';\r\n\t\t\t\t\t\texecu" +
+                "te statement \'CREATE OR ALTER PROCEDURE SP_TRI_LANCAITEMCUPOM ( CUPOM INTEGER , " +
+                "NUM_PROD INTEGER , ID_PROD INTEGER , QTD_PROD TYPE OF COLUMN TRI_PDV_OPER.DIN , " +
+                "VLR_PROD TYPE OF COLUMN TRI_PDV_OPER.DIN ) RETURNS (retIDITEMCUP TYPE OF COLUMN " +
+                "TB_CUPOM_ITEM.ID_ITEMCUP) AS DECLARE VARIABLE IDITEMCUP INTEGER; BEGIN SELECT NE" +
+                "XT VALUE FOR GEN_TB_CUPOM_ITEM_ID FROM RDB$DATABASE INTO :IDITEMCUP ; IF(IDITEMC" +
+                "UP IS NULL) THEN IDITEMCUP = 0; INSERT INTO TB_CUPOM_ITEM (ID_ITEMCUP , ID_CUPOM" +
+                " , ID_IDENTIF , NUM_ITEM , QTD_ITEM , VLR_UNIT , ITEM_CANCEL , PRC_CUSTO ) VALUE" +
+                "S (:IDITEMCUP , :cupom , :id_prod , :num_prod , :qtd_prod , :vlr_prod , \'\'N\'\' , " +
+                "( SELECT FIRST 1 PRC_CUSTO FROM TB_ESTOQUE INNER JOIN TB_EST_IDENTIFICADOR ON TB" +
+                "_ESTOQUE.ID_ESTOQUE = TB_EST_IDENTIFICADOR.ID_ESTOQUE WHERE TB_EST_IDENTIFICADOR" +
+                ".ID_IDENTIFICADOR = :id_prod ) ) ; retIDITEMCUP = :IDITEMCUP; SUSPEND; END;\';\r\n\t" +
+                "\t\t\t\t\terro = \'deu certo\';\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\r\n\t\t\t\t" +
+                "\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[15].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[16] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[16].Connection = this.Connection;
