@@ -86,7 +86,7 @@ namespace PDV_WPF.Telas
                         {    
                             if(PermissaoAtual is null)
                             {
-                                if(ChecaHash(txb_Senha.Password, (string)taUsersPdv.PegaHashPorUser(operador)) || taUsersPdv.ChecaSenhaSupervisor(GenerateHash(txb_Senha.Password)).Safeint() > 0)
+                                if(ChecaHash(txb_Senha.Password, (string)taUsersPdv.PegaHashPorUser(operador.ToUpper())) || taUsersPdv.ChecaSenhaSupervisor(GenerateHash(txb_Senha.Password)).Safeint() > 0)
                                 {
                                     DialogResult = true;
                                     NivelAcesso = nivelDeAcesso.Funcionario;
@@ -100,7 +100,7 @@ namespace PDV_WPF.Telas
                             }
                             if (taUsersPdv.ChecaSenhaSupervisor(GenerateHash(txb_Senha.Password)).Safeint() > 0)
                             {
-                                RegisterAccessManage(LOCAL_FB_CONN, "SUPERVISOR", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text) ?? 0);                                                             
+                                RegisterAccessManage(LOCAL_FB_CONN, "SUPERVISOR", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text.ToUpper()) ?? 0);                                                             
                                 return;
                             }
                             DialogBox.Show(strings.ACESSO_RESTRITO,
@@ -110,18 +110,18 @@ namespace PDV_WPF.Telas
                             return;
                         }
 
-                        if(ChecaHash(txb_Senha.Password, (string)taUsersPdv.PegaHashPorUser(cbb_Usuario.Text)))
+                        if(ChecaHash(txb_Senha.Password, (string)taUsersPdv.PegaHashPorUser(cbb_Usuario.Text.ToUpper())))
                         {
                             if (taUsersPdv.ChecaPriv(cbb_Usuario.Text).Safeint() > 0)
                             {
-                                RegisterAccessManage(LOCAL_FB_CONN, "GERENTE", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text) ?? 0);
+                                RegisterAccessManage(LOCAL_FB_CONN, "GERENTE", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text.ToUpper()) ?? 0);
                                 return;
                             }
 
                             Permissoes permissoesUsuario = (Permissoes)taUsersPdv.GetPermissoes(USERNAME: cbb_Usuario.Text);
                             if((permissoesUsuario & PermissaoAtual) != 0)
                             {
-                                RegisterAccessManage(LOCAL_FB_CONN, "USUARIO", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text) ?? 0);
+                                RegisterAccessManage(LOCAL_FB_CONN, "USUARIO", (int?)taUsersPdv.PegaIdPorUser(cbb_Usuario.Text.ToUpper()) ?? 0);
                                 return;
                             }
 
