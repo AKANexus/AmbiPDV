@@ -134,7 +134,7 @@ namespace PDV_WPF.Telas
         private readonly List<Key> konami = new();
         private readonly List<Key> nghtmd = new() { Key.Up, Key.Up, Key.Down, Key.Down, Key.Left, Key.Right, Key.Left, Key.Right, Key.B, Key.B, Key.A, Key.A };
         private readonly Regex rgxQtd = new(@"(\d+\*)");
-        private readonly Regex rgxNumberAcBox = new(@"[0-9]");
+        private readonly Regex rgxNumberAcBox = new(@"^\d+$");
         public string numeroWhats;//HACK
         private enum tipoDesconto { Nenhum, Absoluto, Percentual }
         private enum statusSangria { Normal, Folga, Excesso }
@@ -294,7 +294,7 @@ namespace PDV_WPF.Telas
         {
             if (combobox.Text.Length > 0)
             {
-                if (rgxNumberAcBox.IsMatch(combobox.Text.Substring(0))) combobox.MinimumPrefixLength = 50;
+                if (rgxNumberAcBox.IsMatch(combobox.Text)) combobox.MinimumPrefixLength = 100;
                 else combobox.MinimumPrefixLength = PREFIX_LISTBOX;
                 AplicarSelecaoDeQuantidade();
             }
