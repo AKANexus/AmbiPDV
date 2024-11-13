@@ -101,17 +101,30 @@
                                                             BorderBrush="{TemplateBinding BorderBrush}"
                                                             BorderThickness="{TemplateBinding BorderThickness}"
                                                             CornerRadius="6">
-                                                        <MenuItem Name="geraCfe" Header="Gerar CF-e" Click="geraCfe_Click" IsEnabled="{Binding ActivateContextMenu}">
-                                                            <MenuItem.Style>
-                                                                <Style TargetType="MenuItem">
-                                                                    <Style.Triggers>
-                                                                        <Trigger Property="IsMouseOver" Value="True">
-                                                                            <Setter Property="Foreground" Value="DarkBlue"/>
-                                                                        </Trigger>
-                                                                    </Style.Triggers>
-                                                                </Style>
-                                                            </MenuItem.Style>
-                                                        </MenuItem>
+                                                        <StackPanel>
+                                                            <MenuItem Name="geraCfe" Header="Gerar CF-e" Click="geraCfe_Click" IsEnabled="{Binding ActivateContextMenu}">
+                                                                <MenuItem.Style>
+                                                                    <Style TargetType="MenuItem">
+                                                                        <Style.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Foreground" Value="DarkBlue"/>
+                                                                            </Trigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </MenuItem.Style>
+                                                            </MenuItem>
+                                                            <MenuItem Name="detalhesVenda" Header="Detalhes da venda" Click="detalhesVenda_Click">
+                                                                <MenuItem.Style>
+                                                                    <Style TargetType="MenuItem">
+                                                                        <Style.Triggers>
+                                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                                <Setter Property="Foreground" Value="DarkBlue"/>
+                                                                            </Trigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </MenuItem.Style>
+                                                            </MenuItem>
+                                                        </StackPanel>
                                                     </Border>
                                                 </ControlTemplate>
                                             </ContextMenu.Template>

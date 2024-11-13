@@ -635,6 +635,9 @@
     <Compile Include="Telas\BalancaBox.xaml.cs">
       <DependentUpon>BalancaBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\DetalhesVenda.xaml.cs">
+      <DependentUpon>DetalhesVenda.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\ExibirGif.xaml.cs">
       <DependentUpon>ExibirGif.xaml</DependentUpon>
     </Compile>
@@ -910,6 +913,10 @@
     <Page Include="Telas\BalancaBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Telas\DetalhesVenda.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Telas\ExibirGif.xaml">
       <SubType>Designer</SubType>
