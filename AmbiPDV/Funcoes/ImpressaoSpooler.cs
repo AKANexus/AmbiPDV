@@ -1867,6 +1867,14 @@ namespace PDV_WPF
             produtos.Clear();
         }
 
+        public static void ClearInfoPrazo()
+        {
+            prazo = default;
+            valor_prazo = default;
+            valor_pendente_prazo = default;
+            vencimento = default;
+            cliente = default;
+        }
     }
     public class ComprovanteTEF
     {
@@ -2292,6 +2300,15 @@ namespace PDV_WPF
             pagamentos.Clear();
             produtos.Clear();
             prazo = false;
+        }
+
+        public static void ClearInfoPrazo()
+        {
+            prazo = default;
+            valor_prazo = default;
+            valor_pendente_prazo = default;
+            vencimento = default;
+            cliente = default;
         }
     }
 

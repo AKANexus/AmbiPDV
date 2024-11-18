@@ -246,11 +246,15 @@ namespace PDV_WPF.Telas
                         VendaDEMO.RecebePagamento(item.DESCRICAO, item.VLR_PAGTO);
                         if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                         {
-                            VendaDEMO.cliente = item.NOME;
-                            VendaDEMO.vencimento = item.DT_VENCTO;
-                            VendaDEMO.valor_prazo = item.VLR_PAGTO;
-                            VendaDEMO.TsOperacao = cupom.TS_Venda;
-                            prazo = true;
+                            using (var contaRecTA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter() { Connection = LOCAL_FB_CONN })
+                            {
+                                VendaDEMO.cliente = item.NOME;
+                                VendaDEMO.vencimento = item.DT_VENCTO;
+                                VendaDEMO.valor_prazo = item.VLR_PAGTO;
+                                VendaDEMO.TsOperacao = cupom.TS_Venda;
+                                VendaDEMO.valor_pendente_prazo = (contaRecTA.SomaCtasEmAberto(item.ID_CLIENTE) ?? item.VLR_PAGTO) - item.VLR_PAGTO;
+                                prazo = true;
+                            }                            
                         }
                     }
 
@@ -265,6 +269,9 @@ namespace PDV_WPF.Telas
                             VendaDEMO.IMPRIME(0, new CFe());
                             break;
                     }
+
+                    VendaDEMO.Clear();
+                    VendaDEMO.ClearInfoPrazo();
                 }
                 else
                 {
@@ -437,11 +444,15 @@ namespace PDV_WPF.Telas
                 //VendaDEMO.RecebePagamento(item.DESCRICAO, item.VLR_PAGTO);
                 if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                 {
-                    VendaImpressa.cliente = item.NOME;
-                    VendaImpressa.vencimento = item.DT_VENCTO;
-                    VendaImpressa.valor_prazo = item.VLR_PAGTO;
-                    VendaImpressa.TsOperacao = cupom.TS_Venda;
-                    prazo = true;
+                    using (var contaRecTA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter() {  Connection = LOCAL_FB_CONN })
+                    {
+                        VendaImpressa.cliente = item.NOME;
+                        VendaImpressa.vencimento = item.DT_VENCTO;
+                        VendaImpressa.valor_prazo = item.VLR_PAGTO;
+                        VendaImpressa.TsOperacao = cupom.TS_Venda;
+                        VendaImpressa.valor_pendente_prazo = (contaRecTA.SomaCtasEmAberto(item.ID_CLIENTE) ?? item.VLR_PAGTO) - item.VLR_PAGTO;
+                        prazo = true;
+                    }                    
                 }
             }
             switch (prazo)
@@ -454,6 +465,10 @@ namespace PDV_WPF.Telas
                     VendaImpressa.IMPRIME(0, cFeDeRetorno);
                     break;
             }
+
+            VendaImpressa.Clear();
+            VendaImpressa.ClearInfoPrazo();
+
             return true;
         }
 

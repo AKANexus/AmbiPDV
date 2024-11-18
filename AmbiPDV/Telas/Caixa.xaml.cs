@@ -3364,6 +3364,7 @@ namespace PDV_WPF.Telas
             //}
             #endregion PERGUNTAWHATS
             VendaDEMO.Clear();
+            VendaDEMO.ClearInfoPrazo();
             vendedorId = null;
             return true;
         }
@@ -4547,6 +4548,7 @@ namespace PDV_WPF.Telas
                 DialogBox.Show(strings.GRAVACAO_DE_XML, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.ARQUIVO_XML_MOVIDO, strings.ENTRE_EM_CONTATO_COM_CONTADOR, strings.NAO_ENTRE_EM_CONTATO_SEM_VERIFICAR_COM_CONTADOR);
             }
             VendaImpressa.Clear();
+            VendaImpressa.ClearInfoPrazo();
 
             return true;
         }

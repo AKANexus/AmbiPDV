@@ -11423,6 +11423,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnID_FMANFCE;
             
+            private global::System.Data.DataColumn columnID_CLIENTE;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public CupomPgtosTableDataTable() {
@@ -11498,6 +11500,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_CLIENTEColumn {
+                get {
+                    return this.columnID_CLIENTE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -11533,14 +11543,15 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-            public CupomPgtosTableRow AddCupomPgtosTableRow(string DESCRICAO, decimal VLR_PAGTO, System.DateTime DT_VENCTO, string NOME, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1) {
+            public CupomPgtosTableRow AddCupomPgtosTableRow(string DESCRICAO, decimal VLR_PAGTO, System.DateTime DT_VENCTO, string NOME, TB_FORMA_PAGTO_NFCERow parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1, int ID_CLIENTE) {
                 CupomPgtosTableRow rowCupomPgtosTableRow = ((CupomPgtosTableRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         DESCRICAO,
                         VLR_PAGTO,
                         DT_VENCTO,
                         NOME,
-                        null};
+                        null,
+                        ID_CLIENTE};
                 if ((parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1 != null)) {
                     columnValuesArray[4] = parentTB_FORMA_PAGTO_NFCERowByFK_FMAPAGTO_NFVENDA1[0];
                 }
@@ -11571,6 +11582,7 @@ namespace PDV_WPF.DataSets {
                 this.columnDT_VENCTO = base.Columns["DT_VENCTO"];
                 this.columnNOME = base.Columns["NOME"];
                 this.columnID_FMANFCE = base.Columns["ID_FMANFCE"];
+                this.columnID_CLIENTE = base.Columns["ID_CLIENTE"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -11586,6 +11598,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnNOME);
                 this.columnID_FMANFCE = new global::System.Data.DataColumn("ID_FMANFCE", typeof(short), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_FMANFCE);
+                this.columnID_CLIENTE = new global::System.Data.DataColumn("ID_CLIENTE", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_CLIENTE);
                 this.columnDESCRICAO.MaxLength = 40;
                 this.columnVLR_PAGTO.AllowDBNull = false;
                 this.columnNOME.MaxLength = 60;
@@ -22160,6 +22174,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_CLIENTE {
+                get {
+                    try {
+                        return ((int)(this[this.tableCupomPgtosTable.ID_CLIENTEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_CLIENTE\' na tabela \'CupomPgtosTable\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableCupomPgtosTable.ID_CLIENTEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TB_FORMA_PAGTO_NFCERow TB_FORMA_PAGTO_NFCERow {
                 get {
                     return ((TB_FORMA_PAGTO_NFCERow)(this.GetParentRow(this.Table.ParentRelations["FK_FMAPAGTO_NFVENDA1"])));
@@ -22203,6 +22233,18 @@ namespace PDV_WPF.DataSets {
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public void SetNOMENull() {
                 this[this.tableCupomPgtosTable.NOMEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsID_CLIENTENull() {
+                return this.IsNull(this.tableCupomPgtosTable.ID_CLIENTEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetID_CLIENTENull() {
+                this[this.tableCupomPgtosTable.ID_CLIENTEColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -50341,6 +50383,7 @@ ORDER BY NUM_ITEM";
             tableMapping.ColumnMappings.Add("DT_VENCTO", "DT_VENCTO");
             tableMapping.ColumnMappings.Add("NOME", "NOME");
             tableMapping.ColumnMappings.Add("ID_FMANFCE", "ID_FMANFCE");
+            tableMapping.ColumnMappings.Add("ID_CLIENTE", "ID_CLIENTE");
             this._adapter.TableMappings.Add(tableMapping);
         }
         
@@ -50357,15 +50400,15 @@ ORDER BY NUM_ITEM";
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[1];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT B.ID_FMANFCE, B.DESCRICAO, A.VLR_PAGTO, D.DT_VENCTO, E.NOME FROM TB_NFVENDA_FMAPAGTO_NFCE A
+            this._commandCollection[0].CommandText = @"SELECT B.ID_FMANFCE, B.DESCRICAO, A.VLR_PAGTO, D.DT_VENCTO, E.NOME, E.ID_CLIENTE FROM TB_NFVENDA_FMAPAGTO_NFCE A
 JOIN TB_FORMA_PAGTO_NFCE B ON A.ID_FMANFCE = B.ID_FMANFCE
 LEFT JOIN TB_NFV_CTAREC C ON A.ID_NFVENDA = C.ID_NFVENDA AND A.ID_NUMPAG = C.ID_NUMPAG
 LEFT JOIN TB_CONTA_RECEBER D ON C.ID_CTAREC = D.ID_CTAREC
 LEFT JOIN TB_CLIENTE E ON D.ID_CLIENTE = E.ID_CLIENTE
-WHERE A.ID_NFVENDA = @Param1";
+WHERE A.ID_NFVENDA = @ID_NFVENDA";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@Param1";
+            param.ParameterName = "@ID_NFVENDA";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
@@ -50377,9 +50420,9 @@ WHERE A.ID_NFVENDA = @Param1";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int FillByNFVenda(FDBDataSetVenda.CupomPgtosTableDataTable dataTable, int Param1) {
+        public virtual int FillByNFVenda(FDBDataSetVenda.CupomPgtosTableDataTable dataTable, int ID_NFVENDA) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
-            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(Param1));
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_NFVENDA));
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
