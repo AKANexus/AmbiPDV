@@ -28,6 +28,7 @@ using Clearcove.Logging;
 using PDV_WPF.FDBDataSetTableAdapters;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace PDV_WPF.Telas
 {
@@ -60,8 +61,8 @@ namespace PDV_WPF.Telas
             using var Cupons_DT = new DataSets.FDBDataSetVenda.CuponsDataTableDataTable();
             using var Cupons_TA = new DataSets.FDBDataSetVendaTableAdapters.CuponsDataTableAdapter();
             //Cupons_TA.Connection = LOCAL_FB_CONN;
-            
-            Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());               
+
+            Cupons_TA.FillByCupons(Cupons_DT, dt_Inicial, dt_Final, NO_CAIXA.ToString());
 
             foreach (DataSets.FDBDataSetVenda.CuponsDataTableRow cupomRow in Cupons_DT.Rows)
             {
@@ -74,12 +75,12 @@ namespace PDV_WPF.Telas
                     TS_Venda = cupomRow.TS_SAIDA,
                     ID_NFVENDA = cupomRow.ID_NFVENDA,
                     NF_SERIE = cupomRow.NF_SERIE,
-                    NF_MODELO = cupomRow.NF_MODELO,                    
-                    ClienteDuePay = cupomRow.IsOBSERVACAONull() ? null : cupomRow.OBSERVACAO == "CLIENTE DUEPAY" ? new ClienteDuePayDTO(id: cupomRow.ID_CLIENTE, 
-                                                                                                                                        nome: cupomRow.NOME, 
-                                                                                                                                        cpfOrCnpj: cupomRow.IsDOC_CLIENTENull() ? "Doc não informado." : cupomRow.DOC_CLIENTE, 
+                    NF_MODELO = cupomRow.NF_MODELO,
+                    ClienteDuePay = cupomRow.IsOBSERVACAONull() ? null : cupomRow.OBSERVACAO == "CLIENTE DUEPAY" ? new ClienteDuePayDTO(id: cupomRow.ID_CLIENTE,
+                                                                                                                                        nome: cupomRow.NOME,
+                                                                                                                                        cpfOrCnpj: cupomRow.IsDOC_CLIENTENull() ? "Doc não informado." : cupomRow.DOC_CLIENTE,
                                                                                                                                         telefone: cupomRow.IsTEL_CLIENTENull() ? "Telefone não informado." : cupomRow.TEL_CLIENTE,
-                                                                                                                                        numeroDaSorte: cupomRow.MENSAGEM.Safeint()) : null                 
+                                                                                                                                        numeroDaSorte: cupomRow.MENSAGEM.Safeint()) : null
                 };
                 listaVendas.Add(cupom);
             }
@@ -92,7 +93,7 @@ namespace PDV_WPF.Telas
             loadingProccess = new();
             loadingProccess.Show();
             this.IsEnabled = false;
-            
+
             await Task.Run(() =>
             {
                 loadingProccess.progress.Report("Carregando venda");
@@ -102,12 +103,12 @@ namespace PDV_WPF.Telas
                 using var Itens_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomItensTableAdapter();
                 using var Pagtos_TA = new DataSets.FDBDataSetVendaTableAdapters.CupomPgtosTableAdapter();
                 Itens_TA.FillByNFVenda(Itens_DT, cupom.ID_NFVENDA);
-                Pagtos_TA.FillByNFVenda(Pagtos_DT, cupom.ID_NFVENDA);                                
+                Pagtos_TA.FillByNFVenda(Pagtos_DT, cupom.ID_NFVENDA);
 
                 if (cupom.NF_SERIE.Contains("E") || cupom.NF_SERIE.Contains("N"))
                 {
                     #region Converte NF em F
-                                      
+
                     string CNPJSH = "30737989000181";
                     string CNPJdaVenda = Emitente.CNPJ;
                     string IEdaVenda = Emitente.IE;
@@ -203,8 +204,8 @@ namespace PDV_WPF.Telas
                         using var InfoPagtosDT = new FDBDataSetVenda.OutrasInfoPagtoTableDataTable();
                         using (var InfoPagtosTA = new OutrasInfoPagtoTableAdapter())
                         {
-                            InfoPagtosTA.FillByInfoAdicionaisPagtos(InfoPagtosDT, cupom.ID_NFVENDA);                            
-                            foreach(var pagamentos in InfoPagtosDT)
+                            InfoPagtosTA.FillByInfoAdicionaisPagtos(InfoPagtosDT, cupom.ID_NFVENDA);
+                            foreach (var pagamentos in InfoPagtosDT)
                             {
                                 venda.RecebePagamento(pagamentos.ID_NFCE, pagamentos.VLR_PAGTO, new InfoAdministradora { IdAdmin = pagamentos.IsID_ADMINISTRADORANull() ? 0 : pagamentos.ID_ADMINISTRADORA }, pagamentos.VLR_TROCO);
                             }
@@ -220,11 +221,11 @@ namespace PDV_WPF.Telas
                         {
                             Dispatcher.Invoke(() =>
                             {
-                                this.IsEnabled = true;                                
+                                this.IsEnabled = true;
                                 loadingProccess.Close();
-                                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.CFE_CONVERTIDO);                                
+                                DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Info, false, strings.CFE_CONVERTIDO);
                                 converteuCupom = true;
-                                this.Close();                                
+                                this.Close();
                             });
                             return;
                         }
@@ -279,7 +280,7 @@ namespace PDV_WPF.Telas
                     {
                         loadingProccess.progress.Report("Imprimindo");
                         ReimprimeXML(chave, Pagtos_DT, cupom);
-                    }                        
+                    }
                     return;
                 }
             });
@@ -367,7 +368,7 @@ namespace PDV_WPF.Telas
                 string strMensagemLogLancaContaRec = string.Empty;
                 string strMensagemLogLancaMovDiario = string.Empty;
                 //var _vMP = 0m;
-                decimal valor_prazo = 0;                
+                decimal valor_prazo = 0;
 
                 using (var CONTAREC_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter())
                 using (var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter())
@@ -382,7 +383,7 @@ namespace PDV_WPF.Telas
                         VendaImpressa.RecebePagamento(_metodos_de_pagamento[item.cMP.ToString()], vMP);
                         if (item.cMP == "05")
                         {
-                            valor_prazo = item.dec_vMP;                           
+                            valor_prazo = item.dec_vMP;
                         }
                     }
                 }
@@ -408,7 +409,7 @@ namespace PDV_WPF.Telas
                 if (!(cFeDeRetorno.infCFe.infAdic is null) && !(cFeDeRetorno.infCFe.obsFisco is null))
                 {
                     VendaImpressa.observacaoFisco = (cFeDeRetorno.infCFe.obsFisco[0].xCampo, cFeDeRetorno.infCFe.obsFisco[0].xTexto);
-                }                
+                }
                 //try
                 //{
                 //    if (vendaAtual.imprimeViaAssinar)
@@ -446,13 +447,13 @@ namespace PDV_WPF.Telas
             switch (prazo)
             {
                 case true:
-                    VendaImpressa.IMPRIME(1, cFeDeRetorno); 
+                    VendaImpressa.IMPRIME(1, cFeDeRetorno);
                     VendaImpressa.IMPRIME(1, null);
                     break;
                 default:
                     VendaImpressa.IMPRIME(0, cFeDeRetorno);
                     break;
-            }            
+            }
             return true;
         }
 
@@ -461,14 +462,14 @@ namespace PDV_WPF.Telas
             loadingProccess.progress.Report("Gerando CF-e");
 
             string _XML_ = "", codigoDeRetorno = "", xmlret = "";
-            string[] retorno = null;           
+            string[] retorno = null;
             byte[] bytes = null;
             var serializer = new XmlSerializer(typeof(CFe));
 
             try
             {
                 var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = false, Indent = false };
-                var XmlFinal = new StringBuilder();                
+                var XmlFinal = new StringBuilder();
                 using (var xwriter2 = XmlWriter.Create(XmlFinal, settings))
                 {
                     var xns = new XmlSerializerNamespaces();
@@ -478,7 +479,7 @@ namespace PDV_WPF.Telas
                 }
                 _XML_ = XmlFinal.ToString().Replace(',', '.').Replace("utf-16", "utf-8");
                 File.WriteAllText(@"SAT_LOG\NfParaF.xml", _XML_);
-                
+
                 //HACK: Trecho pra garantir que o encoding da string (???) seja em UTF-8.
                 // Se não executar essa conversão string -> bytes -> string com encoding, pode acontecer o erro de validação 6010|1999|Erro não identificado, com erro de conversão UTF-8.
                 // O bug é deflagrado quando a descrição de algum produto contém pelo menos um caracter diacrítico.
@@ -486,7 +487,7 @@ namespace PDV_WPF.Telas
                 bytes = Encoding.Default.GetBytes(_XML_);
                 _XML_ = Encoding.UTF8.GetString(bytes);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 log.Error($"Erro ao serializar objeto CFe. Erro --> {ex.InnerException.Message ?? ex.Message} ");
                 Dispatcher.Invoke(() =>
@@ -527,7 +528,7 @@ namespace PDV_WPF.Telas
                 }
             }
             else
-            {                
+            {
                 bool comunicouSatServidor = true;
                 Dispatcher.Invoke(() =>
                 {
@@ -550,7 +551,7 @@ namespace PDV_WPF.Telas
                             if (attemptSatServidor < 3)
                             {
                                 attemptSatServidor++;
-                                    goto StartSearchSatServidor;
+                                goto StartSearchSatServidor;
                             }
                             log.Debug("Após 3 tentativas SatServiddor falhou em todas, segue a vida.");
                             DialogBox.Show(strings.SAT_SERVIDOR, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_SAT_SERVIDOR);
@@ -578,19 +579,19 @@ namespace PDV_WPF.Telas
                     }
                 });
 
-                if (!comunicouSatServidor) return false;              
+                if (!comunicouSatServidor) return false;
             }
-            
+
             if (retorno.Length < 2)
             {
                 log.Debug($"Retorno do SAT era invalido. Retorno --> {string.Join(" | ", retorno)}");
                 Dispatcher.Invoke(() =>
                 {
                     this.IsEnabled = true;
-                    loadingProccess.Close();                    
+                    loadingProccess.Close();
                     DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, strings.ERRO_GENERICO_SAT);
                     this.Focus();
-                });                
+                });
                 return false;
             }
             if (codigoDeRetorno != "06000")
@@ -599,8 +600,8 @@ namespace PDV_WPF.Telas
                 Dispatcher.Invoke(() =>
                 {
                     this.IsEnabled = true;
-                    loadingProccess.Close();  
-                    
+                    loadingProccess.Close();
+
                     DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, codigoDeRetorno switch
                     {
                         "06001" => "Código de ativação inválido.",
@@ -616,16 +617,16 @@ namespace PDV_WPF.Telas
                         "06098" => "SAT ocupado, aguarde para tentar novamente.",
                         _ => $"ERRO DESCONHECIDO. Ligue para (11) 4304-7778 e informe erro {retorno[1]}",
                     });
-                });                
+                });
                 return false;
             }
 
             //-------------------------> QUANDO RETORNO 06000 <-------------------------
 
-            if (!loadingProccess.IsVisible) Dispatcher.Invoke(() => loadingProccess.Show() );
-            
+            if (!loadingProccess.IsVisible) Dispatcher.Invoke(() => loadingProccess.Show());
+
             try
-            {                
+            {
                 xmlret = Encoding.UTF8.GetString(Convert.FromBase64String(retorno[6].ToString()));
                 CFe cFeDeRetorno;
 
@@ -672,7 +673,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                     return true;
-                }                                
+                }
             }
             catch (Exception ex)
             {
@@ -683,7 +684,7 @@ namespace PDV_WPF.Telas
                     loadingProccess.Close();
                     DialogBox.Show(strings.CFE, DialogBoxButtons.No, DialogBoxIcons.Error, false, "Erro ao desserializar objeto CF-e");
                     this.Focus();
-                });                                
+                });
                 return false;
             }
             return false;
@@ -711,17 +712,17 @@ namespace PDV_WPF.Telas
 
                     OPER_TA.SP_TRI_GRAVASAT(idAlteradoPdv, CFeRetorno.infCFe.Id.Substring(3), int.Parse(CFeRetorno.infCFe.ide.nCFe), CFeRetorno.infCFe.ide.nserieSAT);
                     TB_NFV_ITEM_TA.FillByIdNfvenda(TB_NFV_ITEM_DT, idAlteradoPdv);
-                    
+
                     foreach (var detalhamento in CFeRetorno.infCFe.det)
                     {
                         #region SalvaICMS
 
                         if (detalhamento.imposto.Item is envCFeCFeInfCFeDetImpostoICMS)
-                        {                            
+                        {
                             envCFeCFeInfCFeDetImpostoICMS iCMS = (envCFeCFeInfCFeDetImpostoICMS)detalhamento.imposto.Item;
                             using var TB_NFV_ITEM_ICMS = new TB_NFV_ITEM_ICMSTableAdapter { Connection = LOCAL_FB_CONN };
                             if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN102 ICMSSN102) //SIMPLES NACIONAL = CSOSN 102, 300, 400, 500 E OUTROS
-                            {                                
+                            {
                                 TB_NFV_ITEM_ICMS.Insert(TB_NFV_ITEM_DT.First(currentTable => currentTable.NUM_ITEM == int.Parse(detalhamento.nItem)).ID_NFVITEM, 0, 0, "000", 0, 0);
                             }
                             else if (iCMS.Item is envCFeCFeInfCFeDetImpostoICMSICMSSN900 ICMSSN900) //SIMPLES NACIONAL = CSOSN 900
@@ -751,20 +752,20 @@ namespace PDV_WPF.Telas
                                     decimal.TryParse(detalhamento.prod.vProd.Replace('.', ','), out decimal vProd);
                                     decimal VLR_BC_ICMS = Math.Round(POR_BC_ICMS / 100 * vProd, 2);
 
-                                    TB_NFV_ITEM_ICMS.Insert(TB_NFV_ITEM_DT.First(currentTable => currentTable.NUM_ITEM == int.Parse(detalhamento.nItem)).ID_NFVITEM, 
-                                                            VLR_BC_ICMS, 
-                                                            POR_BC_ICMS, 
-                                                            ICMS00.Orig + ICMS00.CST, 
+                                    TB_NFV_ITEM_ICMS.Insert(TB_NFV_ITEM_DT.First(currentTable => currentTable.NUM_ITEM == int.Parse(detalhamento.nItem)).ID_NFVITEM,
+                                                            VLR_BC_ICMS,
+                                                            POR_BC_ICMS,
+                                                            ICMS00.Orig + ICMS00.CST,
                                                             ALIQ_ICMS,
                                                             decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture));
                                 }
                                 else //Cobrado integralmente
                                 {
                                     TB_NFV_ITEM_ICMS.Insert(TB_NFV_ITEM_DT.First(currentTable => currentTable.NUM_ITEM == int.Parse(detalhamento.nItem)).ID_NFVITEM,
-                                                            decimal.Parse(detalhamento.prod.vItem, CultureInfo.InvariantCulture), 
-                                                            100, 
-                                                            ICMS00.Orig + ICMS00.CST, 
-                                                            decimal.Parse(ICMS00.pICMS, CultureInfo.InvariantCulture), 
+                                                            decimal.Parse(detalhamento.prod.vItem, CultureInfo.InvariantCulture),
+                                                            100,
+                                                            ICMS00.Orig + ICMS00.CST,
+                                                            decimal.Parse(ICMS00.pICMS, CultureInfo.InvariantCulture),
                                                             decimal.Parse(ICMS00.vICMS, CultureInfo.InvariantCulture));
                                 }
                             }
@@ -836,10 +837,10 @@ namespace PDV_WPF.Telas
                 };
             }
             catch (Exception ex)
-            {                
+            {
                 log.Error($"Erro ao atualizar informações para base de dados. Erro: --> {ex.InnerException.Message ?? ex.Message}");
                 return false;
-            }            
+            }
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
@@ -849,7 +850,8 @@ namespace PDV_WPF.Telas
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key == Key.Escape) this.Close();
+            if (e.Key == Key.Escape) 
+                this.Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -873,8 +875,20 @@ namespace PDV_WPF.Telas
         }
 
         private void geraCfe_Click(object sender, RoutedEventArgs e)
-        {            
-            ReimprimeCupom((ReimpressaoVenda)dgv_Cupons.SelectedItem, true);
+        {
+            ReimprimeCupom((ReimpressaoVenda)dgv_Cupons.SelectedItem, gerarCFe: true);
+        }
+
+        private void detalhesVenda_Click(object sender, RoutedEventArgs e)
+        {
+            if (dgv_Cupons.SelectedItem is ReimpressaoVenda vendaSelecionada)
+            {
+                this.IsEnabled = false;
+                DetalhesVenda detalhes = new(venda: vendaSelecionada);
+                detalhes.ShowDialog();
+                this.IsEnabled = true;
+                this.Focus();
+            }
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
