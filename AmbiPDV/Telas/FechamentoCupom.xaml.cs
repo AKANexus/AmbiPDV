@@ -39,6 +39,7 @@ namespace PDV_WPF.Telas
         public int id_cliente;
         public string nome_cliente;
         public DateTime vencimento;
+        public decimal valor_pendente_prazo;
         public decimal valor_a_ser_pago;
         private decimal valor_pago;
         private bool _modoTeste;
@@ -373,6 +374,7 @@ namespace PDV_WPF.Telas
                         case true:
                             nome_cliente = PC.nome_cliente;
                             id_cliente = PC.id_cliente;
+                            valor_pendente_prazo = PC.valor_pendente_prazo;
                             if (PC.vencimento != null)
                             {
                                 vencimento = (DateTime)PC.vencimento;

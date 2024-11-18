@@ -3075,6 +3075,7 @@ namespace PDV_WPF.Telas
                         VendaDEMO.cliente = pFechamento.nome_cliente;
                         VendaDEMO.vencimento = pFechamento.vencimento;
                         VendaDEMO.valor_prazo = valor_prazo;
+                        VendaDEMO.valor_pendente_prazo = pFechamento.valor_pendente_prazo;
                         venda_prazo += 1;
                     }
                 }
@@ -4064,6 +4065,7 @@ namespace PDV_WPF.Telas
                         VendaImpressa.cliente = pFechamento.nome_cliente;
                         VendaImpressa.vencimento = pFechamento.vencimento;
                         VendaImpressa.valor_prazo = valor_prazo;
+                        VendaImpressa.valor_pendente_prazo = pFechamento.valor_pendente_prazo;
                         venda_prazo += 1;
                     }
                 }

@@ -18,6 +18,7 @@ namespace PDV_WPF.Telas
         public int id_cliente { get; set; }
         public string nome_cliente { get; set; }
         public DateTime? vencimento { get; set; }
+        public decimal valor_pendente_prazo { get; set; }
         private bool _modoteste;
         private readonly decimal _vlrPagto;
 
@@ -145,16 +146,19 @@ namespace PDV_WPF.Telas
                         }
                     }
 
+                    nome_cliente = cbb_Cliente.SelectedItem.ToString();
+                    vencimento = dtp_Vencimento.SelectedDate;
+                    valor_pendente_prazo = ContaReceber_TA.SomaCtasEmAberto(id_cliente) ?? 0;
+
                     if (!clienteRow.IsLIMITENull() && clienteRow.LIMITE > 0 &&
-                        clienteRow.LIMITE - ContaReceber_TA.SomaCtasEmAberto(id_cliente) < _vlrPagto)
+                        clienteRow.LIMITE - valor_pendente_prazo < _vlrPagto)
                     {
                         DialogBox.Show("Limite insuficiente", DialogBoxButtons.No, DialogBoxIcons.Info, false,
                             "Cliente não possui limite de crédito disponível para a venda");
                         return;
                     }
-                }
-                nome_cliente = cbb_Cliente.SelectedItem.ToString();
-                vencimento = dtp_Vencimento.SelectedDate;
+                }  
+                
                 DialogResult = true;
                 Close();
             }
