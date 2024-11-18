@@ -1550,6 +1550,7 @@ namespace PDV_WPF
         public static string assinaturaQRCODE;
         public static string troco;
         public static decimal valor_prazo;
+        public static decimal valor_prazo_pendente;
         public static decimal desconto;
         public static string cliente;
         public static (string, string) observacaoFisco;
@@ -1819,8 +1820,10 @@ namespace PDV_WPF
                 {
                     RecebePrint("Cupom: " + numerodocupom, corpo, esquerda, 1);
                     RecebePrint("Venda a prazo no valor: " + valor_prazo.ToString("C2"), negrito, esquerda, 1);
+                    RecebePrint("Total pagamentos pendentes: " + (valor_prazo_pendente + valor_prazo).ToString("C2"), negrito, esquerda, 1);
                 }
-                RecebePrint("Vencimento: " + vencimento.ToShortDateString(), titulo, esquerda, 2);
+                RecebePrint("Vencimento: " + vencimento.ToShortDateString(), titulo, esquerda, 1);
+                if(cFeDeRetorno is not null) RecebePrint("Total pagamentos pendentes: " + (valor_prazo_pendente + valor_prazo).ToString("C2"), negrito, esquerda, 2);
                 RecebePrint("  ", titulo, centro, 1);
                 if (cFeDeRetorno is null)
                 { RecebePrint("Assinatura:_____________________________", titulo, esquerda, 2); }
@@ -2056,6 +2059,7 @@ namespace PDV_WPF
         public static string assinaturaQRCODE;
         public static string troco;
         public static decimal valor_prazo;
+        public static decimal valor_prazo_pendente;
         public static decimal desconto;
         public static string cliente;
         public static (string, string) observacaoFisco;
@@ -2239,8 +2243,10 @@ namespace PDV_WPF
                 {
                     RecebePrint("Cupom: " + numerodocupom, corpo, esquerda, 1);
                     RecebePrint("Venda a prazo no valor: " + valor_prazo.ToString("C2"), negrito, esquerda, 1);
+                    RecebePrint("Total pagamentos pendentes: " + (valor_prazo_pendente + valor_prazo).ToString("C2"), negrito, esquerda, 1);
                 }
-                RecebePrint("Vencimento: " + vencimento.ToShortDateString(), titulo, esquerda, 2);
+                RecebePrint("Vencimento desta compra: " + vencimento.ToShortDateString(), titulo, esquerda, 1);
+                if (cFeDeRetorno is not null) RecebePrint("Total pagamentos pendentes: " + (valor_prazo_pendente + valor_prazo).ToString("C2"), negrito, esquerda, 2);
                 RecebePrint("  ", titulo, centro, 1);
                 if (cFeDeRetorno is null)
                 { RecebePrint("Assinatura:_____________________________", titulo, esquerda, 2); }
