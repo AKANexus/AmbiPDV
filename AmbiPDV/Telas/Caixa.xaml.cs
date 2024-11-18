@@ -3075,7 +3075,6 @@ namespace PDV_WPF.Telas
                         VendaDEMO.cliente = pFechamento.nome_cliente;
                         VendaDEMO.vencimento = pFechamento.vencimento;
                         VendaDEMO.valor_prazo = valor_prazo;
-                        VendaDEMO.valor_prazo_pendente = pFechamento.valor_Aprazo_pendente;
                         venda_prazo += 1;
                     }
                 }
@@ -3364,8 +3363,6 @@ namespace PDV_WPF.Telas
             //}
             #endregion PERGUNTAWHATS
             VendaDEMO.Clear();
-            VendaDEMO.valor_prazo = default;
-            VendaDEMO.valor_prazo_pendente = default;
             vendedorId = null;
             return true;
         }
@@ -4067,7 +4064,6 @@ namespace PDV_WPF.Telas
                         VendaImpressa.cliente = pFechamento.nome_cliente;
                         VendaImpressa.vencimento = pFechamento.vencimento;
                         VendaImpressa.valor_prazo = valor_prazo;
-                        VendaImpressa.valor_prazo_pendente = pFechamento.valor_Aprazo_pendente;
                         venda_prazo += 1;
                     }
                 }
@@ -4548,11 +4544,7 @@ namespace PDV_WPF.Telas
             {
                 DialogBox.Show(strings.GRAVACAO_DE_XML, DialogBoxButtons.No, DialogBoxIcons.Warn, false, strings.ARQUIVO_XML_MOVIDO, strings.ENTRE_EM_CONTATO_COM_CONTADOR, strings.NAO_ENTRE_EM_CONTATO_SEM_VERIFICAR_COM_CONTADOR);
             }
-
             VendaImpressa.Clear();
-            VendaImpressa.prazo = default;
-            VendaImpressa.valor_prazo = default;
-            VendaImpressa.valor_prazo_pendente = default;
 
             return true;
         }
