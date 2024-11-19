@@ -3076,6 +3076,7 @@ namespace PDV_WPF.Telas
                         VendaDEMO.vencimento = pFechamento.vencimento;
                         VendaDEMO.valor_prazo = valor_prazo;
                         VendaDEMO.valor_pendente_prazo = pFechamento.valor_pendente_prazo;
+                        VendaDEMO.nao_informar_prazo_somado = pFechamento.nao_informar_prazo_somado;
                         venda_prazo += 1;
                     }
                 }
@@ -4067,6 +4068,7 @@ namespace PDV_WPF.Telas
                         VendaImpressa.vencimento = pFechamento.vencimento;
                         VendaImpressa.valor_prazo = valor_prazo;
                         VendaImpressa.valor_pendente_prazo = pFechamento.valor_pendente_prazo;
+                        VendaImpressa.nao_informar_prazo_somado = pFechamento.nao_informar_prazo_somado;
                         venda_prazo += 1;
                     }
                 }

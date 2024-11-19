@@ -19,6 +19,7 @@ namespace PDV_WPF.Telas
         public string nome_cliente { get; set; }
         public DateTime? vencimento { get; set; }
         public decimal valor_pendente_prazo { get; set; }
+        public bool nao_informar_prazo_somado { get; set; }
         private bool _modoteste;
         private readonly decimal _vlrPagto;
 
@@ -146,19 +147,26 @@ namespace PDV_WPF.Telas
                         }
                     }
 
-                    nome_cliente = cbb_Cliente.SelectedItem.ToString();
-                    vencimento = dtp_Vencimento.SelectedDate;
-                    valor_pendente_prazo = ContaReceber_TA.SomaCtasEmAberto(id_cliente) ?? 0;
-
-                    if (!clienteRow.IsLIMITENull() && clienteRow.LIMITE > 0 &&
-                        clienteRow.LIMITE - valor_pendente_prazo < _vlrPagto)
+                    if (!Caixa._contingencia)
                     {
-                        DialogBox.Show("Limite insuficiente", DialogBoxButtons.No, DialogBoxIcons.Info, false,
-                            "Cliente não possui limite de crédito disponível para a venda");
-                        return;
+                        valor_pendente_prazo = ContaReceber_TA.SomaCtasEmAberto(id_cliente) ?? 0;
+
+                        if (!clienteRow.IsLIMITENull() && clienteRow.LIMITE > 0 &&
+                            clienteRow.LIMITE - valor_pendente_prazo < _vlrPagto)
+                        {
+                            DialogBox.Show("Limite insuficiente", DialogBoxButtons.No, DialogBoxIcons.Info, false,
+                                "Cliente não possui limite de crédito disponível para a venda");
+                            return;
+                        }
                     }
-                }  
-                
+                    else
+                        nao_informar_prazo_somado = true;
+
+                }
+
+                nome_cliente = cbb_Cliente.SelectedItem.ToString();
+                vencimento = dtp_Vencimento.SelectedDate;
+
                 DialogResult = true;
                 Close();
             }
