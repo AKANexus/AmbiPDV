@@ -247,8 +247,13 @@ namespace PDV_WPF.Telas
                         if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                         {
                             if (!Caixa._contingencia)
+                            {
                                 using (var contaRecTA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter())
+                                {
                                     VendaDEMO.valor_pendente_prazo = (contaRecTA.SomaCtasEmAberto(item.ID_CLIENTE) ?? item.VLR_PAGTO) - item.VLR_PAGTO;
+                                    VendaDEMO.nao_informar_prazo_somado = false;
+                                }                                    
+                            }                                
                             else
                                 VendaDEMO.nao_informar_prazo_somado = true;
 
@@ -447,8 +452,13 @@ namespace PDV_WPF.Telas
                 if (!item.IsDT_VENCTONull() && item.ID_FMANFCE == 5)
                 {
                     if (!Caixa._contingencia)
+                    {
                         using (var contaRecTA = new DataSets.FDBDataSetVendaTableAdapters.TB_CONTA_RECEBERTableAdapter())
+                        {
                             VendaImpressa.valor_pendente_prazo = (contaRecTA.SomaCtasEmAberto(item.ID_CLIENTE) ?? item.VLR_PAGTO) - item.VLR_PAGTO;
+                            VendaImpressa.nao_informar_prazo_somado = false;
+                        }                            
+                    }                        
                     else
                         VendaImpressa.nao_informar_prazo_somado = true;
 

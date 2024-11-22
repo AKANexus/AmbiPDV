@@ -158,6 +158,7 @@ namespace PDV_WPF.Telas
                                 "Cliente não possui limite de crédito disponível para a venda");
                             return;
                         }
+                        nao_informar_prazo_somado = false;
                     }
                     else
                         nao_informar_prazo_somado = true;
