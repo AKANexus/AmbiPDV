@@ -21,7 +21,8 @@ namespace PDV_WPF.Telas
         public string DtEmissao { get; set; }
         public string HrEmissao { get; set; }
         public string ValorTotal { get; set; }
-        public StringBuilder Pagamentos { get; set; } = new();
+        public StringBuilder SbPagamentos { get; set; } = new();
+        public string Pagamentos => SbPagamentos.ToString();
         public string StatusVenda { get; set; }
         public string TipoVenda => NfSerie.Contains(value: "N") ? "Não fiscal" : "Fiscal";
 
@@ -48,10 +49,10 @@ namespace PDV_WPF.Telas
 
                 foreach (var pagamento in detalhesPagtosDt)
                 {
-                    if (Pagamentos.Length > 0)
-                        Pagamentos.Append(value: $", {pagamento.DESCRICAO}");
+                    if (SbPagamentos.Length > 0)
+                        SbPagamentos.Append(value: $", {pagamento.DESCRICAO}");
                     else
-                        Pagamentos.Append(value: $"{pagamento.DESCRICAO}");                    
+                        SbPagamentos.Append(value: $"{pagamento.DESCRICAO}");                    
                 }
             }
         }
