@@ -165,10 +165,11 @@ namespace Balancas
                 // Show all the incoming data in the port's buffer
                 string receivedString = PORTA.ReadExisting();
                 byte[] receivedBuffer = Encoding.ASCII.GetBytes(receivedString);
-                _log.Debug(receivedString);
-                var indexStart = Array.IndexOf(receivedBuffer, 0x02);
-                var indexEnd = Array.IndexOf(receivedBuffer, 0x03);
-                byte[] processedBytes = receivedBuffer.Skip(indexStart).Take(indexEnd - indexStart).ToArray();
+                _log.Debug("receivedString: " + receivedString);
+                var indexStart = Array.IndexOf(receivedBuffer, (byte)0x02);
+                var indexEnd = Array.IndexOf(receivedBuffer, (byte)0x03);
+                byte[] processedBytes = receivedBuffer.Skip(indexStart+1).Take(indexEnd-indexStart).ToArray();
+                _log.Debug("processedBytes" + String.Join("¬", processedBytes));
                 try
                 {
                     if (processedBytes[0] == 'N' || processedBytes[0] == 'I' || processedBytes[0] == 'S')
