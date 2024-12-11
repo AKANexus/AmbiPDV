@@ -11275,7 +11275,7 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnVLR_FRETE);
                 this.columnNUM_ITEM.AllowDBNull = false;
                 this.columnID_IDENTIFICADOR.AllowDBNull = false;
-                this.columnDESCRICAO.MaxLength = 50;
+                this.columnDESCRICAO.MaxLength = 150;
                 this.columnQTD_ITEM.AllowDBNull = false;
                 this.columnUNI_MEDIDA.MaxLength = 3;
                 this.columnID_NFVITEM.AllowDBNull = false;
