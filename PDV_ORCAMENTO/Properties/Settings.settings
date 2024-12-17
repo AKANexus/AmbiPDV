@@ -6,18 +6,10 @@
       <Value Profile="(Default)">1</Value>
     </Setting>
     <Setting Name="NetworkDB" Type="System.String" Scope="User">
-      <Value Profile="(Default)">initial catalog=M:\TRILHEIROS\D - Bases de Clientes\Samuca\CLIPP.FDB;data source=localhost;user id=SYSDBA;Password=masterkey;charset=WIN1252</Value>
+      <Value Profile="(Default)">initial catalog=C:\Users\TRILHA SISTEMA\Desktop\BASESCANNTECH\CLIPP.FDB;data source=localhost;user id=SYSDBA;Password=masterkey;charset=WIN1252</Value>
     </Setting>
     <Setting Name="NomeSoftware" Type="System.String" Scope="User">
       <Value Profile="(Default)">Ambi Orçamento</Value>
-    </Setting>
-    <Setting Name="FDBOrcaConnString" Type="(Connection string)" Scope="Application">
-      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
-&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
-  &lt;ConnectionString&gt;initial catalog=M:\TRILHEIROS\D - Bases de Clientes\Samuca\CLIPP.FDB;data source=localhost;user id=SYSDBA;Password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
-  &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
-&lt;/SerializableConnectionString&gt;</DesignTimeValue>
-      <Value Profile="(Default)">initial catalog=M:\TRILHEIROS\D - Bases de Clientes\Samuca\CLIPP.FDB;data source=localhost;user id=SYSDBA;Password=masterkey;charset=WIN1252</Value>
     </Setting>
     <Setting Name="ImpressoraUSB" Type="System.String" Scope="User">
       <Value Profile="(Default)">CutePDF Writer</Value>
@@ -33,6 +25,14 @@
     </Setting>
     <Setting Name="TipoImpressora" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="FDBOrcaConnString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;initial catalog=C:\Users\TRILHA SISTEMA\Desktop\BASESCANNTECH\CLIPP.FDB;data source=localhost;user id=SYSDBA;Password=masterkey;charset=WIN1252&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;FirebirdSql.Data.FirebirdClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">initial catalog=C:\Users\TRILHA SISTEMA\Desktop\BASESCANNTECH\CLIPP.FDB;data source=localhost;user id=SYSDBA;Password=masterkey;charset=WIN1252</Value>
     </Setting>
   </Settings>
 </SettingsFile>
