@@ -31,7 +31,7 @@ namespace PDV_WPF
         private string _versao;
 
         private enum ModeloImpressora { EPSON }
-        private DebounceDispatcher debounceTimer = new DebounceDispatcher();        
+        private DebounceDispatcher debounceTimer = new DebounceDispatcher();
         #endregion Fields & Properties
 
         #region (De)Constructor
@@ -57,7 +57,9 @@ namespace PDV_WPF
         {
             //if (txb_No_Caixa.Text.Safeint() <= 0)
             //    MessageBox.Show("Preencha o numero do caixa antes.");
-            GravaConfiguracoes();
+            if (!GravaConfiguracoes())
+                return;
+
             (new PCA()).ShowDialog();
         }
 
@@ -152,7 +154,9 @@ namespace PDV_WPF
             {
                 if (VerificaConfigs())
                 {
-                    GravaConfiguracoes();
+                    if (!GravaConfiguracoes())
+                        return;
+
                     DialogResult = true;
                     this.Close();
                 }
@@ -254,12 +258,12 @@ namespace PDV_WPF
         }
 
         private void chk_maq_cta_MouseRight(object sender, MouseButtonEventArgs e)
-        {       
-            if(chk_vincula_maq_cta.IsChecked is bool check && check is true)
+        {
+            if (chk_vincula_maq_cta.IsChecked is bool check && check is true)
             {
                 ParamsAdministradora paramsAdministradora = new ParamsAdministradora();
                 paramsAdministradora.ShowDialog();
-            }               
+            }
         }
 
         #endregion Events
@@ -320,7 +324,7 @@ namespace PDV_WPF
             return true;
         }
 
-        private void GravaConfiguracoes()
+        private bool GravaConfiguracoes()
         {
             EXIGE_SANGRIA = chk_Exige_Sangria.IsChecked ?? false;
             VALOR_MAX_CAIXA = txb_Valor_Max.Value;
@@ -354,7 +358,20 @@ namespace PDV_WPF
 
             CONFIGURADO = true;
 
-            if (!SalvaConfigsNaBase()) MessageBox.Show("Erro ao gravar dados.");
+            if (!SalvaConfigsNaBase())
+            {
+                DialogBox.Show(title: "Error config",
+                               dbbuttons: DialogBoxButtons.Yes,
+                               dbicons: DialogBoxIcons.Error,
+                               showtimestamp: false, linhas: strings.ERRO_CONFIG);
+                return false;
+            }
+
+            DialogBox.Show(title: "Sucesso",
+                           dbbuttons: DialogBoxButtons.Yes,
+                           dbicons: DialogBoxIcons.Info,
+                           showtimestamp: false, linhas: strings.CONFIGS_SALVAS);
+            return true;
         }
         #endregion Methods               
     }
