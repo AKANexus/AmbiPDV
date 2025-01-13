@@ -377,6 +377,8 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnVINCULA_MAQ_CTA;
             
+            private global::System.Data.DataColumn columnCOMANDO_GAVETA;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGDataTable() {
@@ -804,6 +806,14 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn COMANDO_GAVETAColumn {
+                get {
+                    return this.columnCOMANDO_GAVETA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -888,7 +898,8 @@ namespace PDV_WPF.DataSets {
                         short SYSEMITECOMPROVANTE, 
                         string INFORMA_MAQUININHA, 
                         string LAYOUT_SAT, 
-                        string VINCULA_MAQ_CTA) {
+                        string VINCULA_MAQ_CTA, 
+                        short COMANDO_GAVETA) {
                 TRI_PDV_CONFIGRow rowTRI_PDV_CONFIGRow = ((TRI_PDV_CONFIGRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_MAC,
@@ -939,7 +950,8 @@ namespace PDV_WPF.DataSets {
                         SYSEMITECOMPROVANTE,
                         INFORMA_MAQUININHA,
                         LAYOUT_SAT,
-                        VINCULA_MAQ_CTA};
+                        VINCULA_MAQ_CTA,
+                        COMANDO_GAVETA};
                 rowTRI_PDV_CONFIGRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTRI_PDV_CONFIGRow);
                 return rowTRI_PDV_CONFIGRow;
@@ -1018,6 +1030,7 @@ namespace PDV_WPF.DataSets {
                 this.columnINFORMA_MAQUININHA = base.Columns["INFORMA_MAQUININHA"];
                 this.columnLAYOUT_SAT = base.Columns["LAYOUT_SAT"];
                 this.columnVINCULA_MAQ_CTA = base.Columns["VINCULA_MAQ_CTA"];
+                this.columnCOMANDO_GAVETA = base.Columns["COMANDO_GAVETA"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1121,6 +1134,8 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnLAYOUT_SAT);
                 this.columnVINCULA_MAQ_CTA = new global::System.Data.DataColumn("VINCULA_MAQ_CTA", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVINCULA_MAQ_CTA);
+                this.columnCOMANDO_GAVETA = new global::System.Data.DataColumn("COMANDO_GAVETA", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCOMANDO_GAVETA);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_MAC}, true));
                 this.columnID_MAC.AllowDBNull = false;
@@ -1178,6 +1193,7 @@ namespace PDV_WPF.DataSets {
                 this.columnLAYOUT_SAT.MaxLength = 3;
                 this.columnVINCULA_MAQ_CTA.AllowDBNull = false;
                 this.columnVINCULA_MAQ_CTA.MaxLength = 1;
+                this.columnCOMANDO_GAVETA.AllowDBNull = false;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1949,6 +1965,17 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short COMANDO_GAVETA {
+                get {
+                    return ((short)(this[this.tableTRI_PDV_CONFIG.COMANDO_GAVETAColumn]));
+                }
+                set {
+                    this[this.tableTRI_PDV_CONFIG.COMANDO_GAVETAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsMENSAGEM_CORTESIANull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.MENSAGEM_CORTESIAColumn);
             }
@@ -2372,6 +2399,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             tableMapping.ColumnMappings.Add("INFORMA_MAQUININHA", "INFORMA_MAQUININHA");
             tableMapping.ColumnMappings.Add("LAYOUT_SAT", "LAYOUT_SAT");
             tableMapping.ColumnMappings.Add("VINCULA_MAQ_CTA", "VINCULA_MAQ_CTA");
+            tableMapping.ColumnMappings.Add("COMANDO_GAVETA", "COMANDO_GAVETA");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -2416,7 +2444,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "NTAWHATS) AND (\"SYSPARCELA\" = @Original_SYSPARCELA) AND (\"SYSEMITECOMPROVANTE\" =" +
                 " @Original_SYSEMITECOMPROVANTE) AND (\"INFORMA_MAQUININHA\" = @Original_INFORMA_MA" +
                 "QUININHA) AND (\"LAYOUT_SAT\" = @Original_LAYOUT_SAT) AND (\"VINCULA_MAQ_CTA\" = @Or" +
-                "iginal_VINCULA_MAQ_CTA))";
+                "iginal_VINCULA_MAQ_CTA) AND (\"COMANDO_GAVETA\" = @Original_COMANDO_GAVETA))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_MAC";
@@ -2933,6 +2961,14 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.SourceColumn = "VINCULA_MAQ_CTA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO \"TRI_PDV_CONFIG\" (\"ID_MAC\", \"NO_CAIXA\", \"EXIGE_SANGRIA\", \"VALOR_MAX_C" +
@@ -2945,17 +2981,17 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 " \"BALBITS\", \"BALBAUD\", \"BALPARITY\", \"BALMODELO\", \"ACFILLPREFIX\", \"ACFILLMODE\", \"" +
                 "ACREFERENCIA\", \"SYSCOMISSAO\", \"SATSERVTIMEOUT\", \"SATLIFESIGNINTERVAL\", \"ACFILLDE" +
                 "LAY\", \"SYSPERGUNTAWHATS\", \"SYSPARCELA\", \"SYSEMITECOMPROVANTE\", \"INFORMA_MAQUININ" +
-                "HA\", \"LAYOUT_SAT\", \"VINCULA_MAQ_CTA\") VALUES (@ID_MAC, @NO_CAIXA, @EXIGE_SANGRIA" +
-                ", @VALOR_MAX_CAIXA, @BLOQUEIA_NO_LIMITE, @VALOR_DE_FOLGA, @PERMITE_FOLGA_SANGRIA" +
-                ", @INTERROMPE_NAO_ENCONTRADO, @MENSAGEM_CORTESIA, @ICMS_CONT, @CSOSN_CONT, @PEDE" +
-                "_CPF, @PERMITE_ESTOQUE_NEGATIVO, @MODELO_CUPOM, @MENSAGEM_RODAPE, @TRI_PDV_DT_UP" +
-                "D, @MODELO_SAT, @SATSERVIDOR, @SAT_CODATIV, @SIGN_AC, @SAT_USADO, @ECF_ATIVA, @E" +
-                "CF_PORTA, @IMPRESSORA_USB, @IMPRESSORA_USB_PED, @PERGUNTA_WHATS, @USATEF, @TEFIP" +
-                ", @TEFNUMLOJA, @TEFNUMTERMINAL, @TEFPEDECPFPELOPINPAD, @BALPORTA, @BALBITS, @BAL" +
-                "BAUD, @BALPARITY, @BALMODELO, @ACFILLPREFIX, @ACFILLMODE, @ACREFERENCIA, @SYSCOM" +
-                "ISSAO, @SATSERVTIMEOUT, @SATLIFESIGNINTERVAL, @ACFILLDELAY, @SYSPERGUNTAWHATS, @" +
-                "SYSPARCELA, @SYSEMITECOMPROVANTE, @INFORMA_MAQUININHA, @LAYOUT_SAT, @VINCULA_MAQ" +
-                "_CTA)";
+                "HA\", \"LAYOUT_SAT\", \"VINCULA_MAQ_CTA\", \"COMANDO_GAVETA\") VALUES (@ID_MAC, @NO_CAI" +
+                "XA, @EXIGE_SANGRIA, @VALOR_MAX_CAIXA, @BLOQUEIA_NO_LIMITE, @VALOR_DE_FOLGA, @PER" +
+                "MITE_FOLGA_SANGRIA, @INTERROMPE_NAO_ENCONTRADO, @MENSAGEM_CORTESIA, @ICMS_CONT, " +
+                "@CSOSN_CONT, @PEDE_CPF, @PERMITE_ESTOQUE_NEGATIVO, @MODELO_CUPOM, @MENSAGEM_RODA" +
+                "PE, @TRI_PDV_DT_UPD, @MODELO_SAT, @SATSERVIDOR, @SAT_CODATIV, @SIGN_AC, @SAT_USA" +
+                "DO, @ECF_ATIVA, @ECF_PORTA, @IMPRESSORA_USB, @IMPRESSORA_USB_PED, @PERGUNTA_WHAT" +
+                "S, @USATEF, @TEFIP, @TEFNUMLOJA, @TEFNUMTERMINAL, @TEFPEDECPFPELOPINPAD, @BALPOR" +
+                "TA, @BALBITS, @BALBAUD, @BALPARITY, @BALMODELO, @ACFILLPREFIX, @ACFILLMODE, @ACR" +
+                "EFERENCIA, @SYSCOMISSAO, @SATSERVTIMEOUT, @SATLIFESIGNINTERVAL, @ACFILLDELAY, @S" +
+                "YSPERGUNTAWHATS, @SYSPARCELA, @SYSEMITECOMPROVANTE, @INFORMA_MAQUININHA, @LAYOUT" +
+                "_SAT, @VINCULA_MAQ_CTA, @COMANDO_GAVETA)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_MAC";
@@ -3277,6 +3313,13 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.IsNullable = true;
             param.SourceColumn = "VINCULA_MAQ_CTA";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = "UPDATE \"TRI_PDV_CONFIG\" SET \"ID_MAC\" = @ID_MAC, \"NO_CAIXA\" = @NO_CAIXA, \"EXIGE_SA" +
@@ -3299,48 +3342,49 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "ERVAL\" = @SATLIFESIGNINTERVAL, \"ACFILLDELAY\" = @ACFILLDELAY, \"SYSPERGUNTAWHATS\" " +
                 "= @SYSPERGUNTAWHATS, \"SYSPARCELA\" = @SYSPARCELA, \"SYSEMITECOMPROVANTE\" = @SYSEMI" +
                 "TECOMPROVANTE, \"INFORMA_MAQUININHA\" = @INFORMA_MAQUININHA, \"LAYOUT_SAT\" = @LAYOU" +
-                "T_SAT, \"VINCULA_MAQ_CTA\" = @VINCULA_MAQ_CTA WHERE ((\"ID_MAC\" = @Original_ID_MAC)" +
-                " AND (\"NO_CAIXA\" = @Original_NO_CAIXA) AND (\"EXIGE_SANGRIA\" = @Original_EXIGE_SA" +
-                "NGRIA) AND (\"VALOR_MAX_CAIXA\" = @Original_VALOR_MAX_CAIXA) AND (\"BLOQUEIA_NO_LIM" +
-                "ITE\" = @Original_BLOQUEIA_NO_LIMITE) AND (\"VALOR_DE_FOLGA\" = @Original_VALOR_DE_" +
-                "FOLGA) AND (\"PERMITE_FOLGA_SANGRIA\" = @Original_PERMITE_FOLGA_SANGRIA) AND (\"INT" +
-                "ERROMPE_NAO_ENCONTRADO\" = @Original_INTERROMPE_NAO_ENCONTRADO) AND ((@IsNull_MEN" +
-                "SAGEM_CORTESIA = 1 AND \"MENSAGEM_CORTESIA\" IS NULL) OR (\"MENSAGEM_CORTESIA\" = @O" +
-                "riginal_MENSAGEM_CORTESIA)) AND ((@IsNull_ICMS_CONT = 1 AND \"ICMS_CONT\" IS NULL)" +
-                " OR (\"ICMS_CONT\" = @Original_ICMS_CONT)) AND ((@IsNull_CSOSN_CONT = 1 AND \"CSOSN" +
-                "_CONT\" IS NULL) OR (\"CSOSN_CONT\" = @Original_CSOSN_CONT)) AND (\"PEDE_CPF\" = @Ori" +
-                "ginal_PEDE_CPF) AND (\"PERMITE_ESTOQUE_NEGATIVO\" = @Original_PERMITE_ESTOQUE_NEGA" +
-                "TIVO) AND (\"MODELO_CUPOM\" = @Original_MODELO_CUPOM) AND ((@IsNull_MENSAGEM_RODAP" +
-                "E = 1 AND \"MENSAGEM_RODAPE\" IS NULL) OR (\"MENSAGEM_RODAPE\" = @Original_MENSAGEM_" +
-                "RODAPE)) AND ((@IsNull_TRI_PDV_DT_UPD = 1 AND \"TRI_PDV_DT_UPD\" IS NULL) OR (\"TRI" +
-                "_PDV_DT_UPD\" = @Original_TRI_PDV_DT_UPD)) AND ((@IsNull_MODELO_SAT = 1 AND \"MODE" +
-                "LO_SAT\" IS NULL) OR (\"MODELO_SAT\" = @Original_MODELO_SAT)) AND ((@IsNull_SATSERV" +
-                "IDOR = 1 AND \"SATSERVIDOR\" IS NULL) OR (\"SATSERVIDOR\" = @Original_SATSERVIDOR)) " +
-                "AND ((@IsNull_SAT_CODATIV = 1 AND \"SAT_CODATIV\" IS NULL) OR (\"SAT_CODATIV\" = @Or" +
-                "iginal_SAT_CODATIV)) AND ((@IsNull_SAT_USADO = 1 AND \"SAT_USADO\" IS NULL) OR (\"S" +
-                "AT_USADO\" = @Original_SAT_USADO)) AND ((@IsNull_ECF_ATIVA = 1 AND \"ECF_ATIVA\" IS" +
-                " NULL) OR (\"ECF_ATIVA\" = @Original_ECF_ATIVA)) AND ((@IsNull_ECF_PORTA = 1 AND \"" +
-                "ECF_PORTA\" IS NULL) OR (\"ECF_PORTA\" = @Original_ECF_PORTA)) AND ((@IsNull_IMPRES" +
-                "SORA_USB = 1 AND \"IMPRESSORA_USB\" IS NULL) OR (\"IMPRESSORA_USB\" = @Original_IMPR" +
-                "ESSORA_USB)) AND ((@IsNull_IMPRESSORA_USB_PED = 1 AND \"IMPRESSORA_USB_PED\" IS NU" +
-                "LL) OR (\"IMPRESSORA_USB_PED\" = @Original_IMPRESSORA_USB_PED)) AND (\"PERGUNTA_WHA" +
-                "TS\" = @Original_PERGUNTA_WHATS) AND (\"USATEF\" = @Original_USATEF) AND ((@IsNull_" +
-                "TEFIP = 1 AND \"TEFIP\" IS NULL) OR (\"TEFIP\" = @Original_TEFIP)) AND ((@IsNull_TEF" +
-                "NUMLOJA = 1 AND \"TEFNUMLOJA\" IS NULL) OR (\"TEFNUMLOJA\" = @Original_TEFNUMLOJA)) " +
-                "AND ((@IsNull_TEFNUMTERMINAL = 1 AND \"TEFNUMTERMINAL\" IS NULL) OR (\"TEFNUMTERMIN" +
-                "AL\" = @Original_TEFNUMTERMINAL)) AND ((@IsNull_TEFPEDECPFPELOPINPAD = 1 AND \"TEF" +
-                "PEDECPFPELOPINPAD\" IS NULL) OR (\"TEFPEDECPFPELOPINPAD\" = @Original_TEFPEDECPFPEL" +
-                "OPINPAD)) AND (\"BALPORTA\" = @Original_BALPORTA) AND (\"BALBITS\" = @Original_BALBI" +
-                "TS) AND (\"BALBAUD\" = @Original_BALBAUD) AND (\"BALPARITY\" = @Original_BALPARITY) " +
-                "AND (\"BALMODELO\" = @Original_BALMODELO) AND (\"ACFILLPREFIX\" = @Original_ACFILLPR" +
-                "EFIX) AND (\"ACFILLMODE\" = @Original_ACFILLMODE) AND (\"ACREFERENCIA\" = @Original_" +
-                "ACREFERENCIA) AND (\"SYSCOMISSAO\" = @Original_SYSCOMISSAO) AND (\"SATSERVTIMEOUT\" " +
-                "= @Original_SATSERVTIMEOUT) AND (\"SATLIFESIGNINTERVAL\" = @Original_SATLIFESIGNIN" +
-                "TERVAL) AND (\"ACFILLDELAY\" = @Original_ACFILLDELAY) AND (\"SYSPERGUNTAWHATS\" = @O" +
-                "riginal_SYSPERGUNTAWHATS) AND (\"SYSPARCELA\" = @Original_SYSPARCELA) AND (\"SYSEMI" +
-                "TECOMPROVANTE\" = @Original_SYSEMITECOMPROVANTE) AND (\"INFORMA_MAQUININHA\" = @Ori" +
-                "ginal_INFORMA_MAQUININHA) AND (\"LAYOUT_SAT\" = @Original_LAYOUT_SAT) AND (\"VINCUL" +
-                "A_MAQ_CTA\" = @Original_VINCULA_MAQ_CTA))";
+                "T_SAT, \"VINCULA_MAQ_CTA\" = @VINCULA_MAQ_CTA, \"COMANDO_GAVETA\" = @COMANDO_GAVETA " +
+                "WHERE ((\"ID_MAC\" = @Original_ID_MAC) AND (\"NO_CAIXA\" = @Original_NO_CAIXA) AND (" +
+                "\"EXIGE_SANGRIA\" = @Original_EXIGE_SANGRIA) AND (\"VALOR_MAX_CAIXA\" = @Original_VA" +
+                "LOR_MAX_CAIXA) AND (\"BLOQUEIA_NO_LIMITE\" = @Original_BLOQUEIA_NO_LIMITE) AND (\"V" +
+                "ALOR_DE_FOLGA\" = @Original_VALOR_DE_FOLGA) AND (\"PERMITE_FOLGA_SANGRIA\" = @Origi" +
+                "nal_PERMITE_FOLGA_SANGRIA) AND (\"INTERROMPE_NAO_ENCONTRADO\" = @Original_INTERROM" +
+                "PE_NAO_ENCONTRADO) AND ((@IsNull_MENSAGEM_CORTESIA = 1 AND \"MENSAGEM_CORTESIA\" I" +
+                "S NULL) OR (\"MENSAGEM_CORTESIA\" = @Original_MENSAGEM_CORTESIA)) AND ((@IsNull_IC" +
+                "MS_CONT = 1 AND \"ICMS_CONT\" IS NULL) OR (\"ICMS_CONT\" = @Original_ICMS_CONT)) AND" +
+                " ((@IsNull_CSOSN_CONT = 1 AND \"CSOSN_CONT\" IS NULL) OR (\"CSOSN_CONT\" = @Original" +
+                "_CSOSN_CONT)) AND (\"PEDE_CPF\" = @Original_PEDE_CPF) AND (\"PERMITE_ESTOQUE_NEGATI" +
+                "VO\" = @Original_PERMITE_ESTOQUE_NEGATIVO) AND (\"MODELO_CUPOM\" = @Original_MODELO" +
+                "_CUPOM) AND ((@IsNull_MENSAGEM_RODAPE = 1 AND \"MENSAGEM_RODAPE\" IS NULL) OR (\"ME" +
+                "NSAGEM_RODAPE\" = @Original_MENSAGEM_RODAPE)) AND ((@IsNull_TRI_PDV_DT_UPD = 1 AN" +
+                "D \"TRI_PDV_DT_UPD\" IS NULL) OR (\"TRI_PDV_DT_UPD\" = @Original_TRI_PDV_DT_UPD)) AN" +
+                "D ((@IsNull_MODELO_SAT = 1 AND \"MODELO_SAT\" IS NULL) OR (\"MODELO_SAT\" = @Origina" +
+                "l_MODELO_SAT)) AND ((@IsNull_SATSERVIDOR = 1 AND \"SATSERVIDOR\" IS NULL) OR (\"SAT" +
+                "SERVIDOR\" = @Original_SATSERVIDOR)) AND ((@IsNull_SAT_CODATIV = 1 AND \"SAT_CODAT" +
+                "IV\" IS NULL) OR (\"SAT_CODATIV\" = @Original_SAT_CODATIV)) AND ((@IsNull_SAT_USADO" +
+                " = 1 AND \"SAT_USADO\" IS NULL) OR (\"SAT_USADO\" = @Original_SAT_USADO)) AND ((@IsN" +
+                "ull_ECF_ATIVA = 1 AND \"ECF_ATIVA\" IS NULL) OR (\"ECF_ATIVA\" = @Original_ECF_ATIVA" +
+                ")) AND ((@IsNull_ECF_PORTA = 1 AND \"ECF_PORTA\" IS NULL) OR (\"ECF_PORTA\" = @Origi" +
+                "nal_ECF_PORTA)) AND ((@IsNull_IMPRESSORA_USB = 1 AND \"IMPRESSORA_USB\" IS NULL) O" +
+                "R (\"IMPRESSORA_USB\" = @Original_IMPRESSORA_USB)) AND ((@IsNull_IMPRESSORA_USB_PE" +
+                "D = 1 AND \"IMPRESSORA_USB_PED\" IS NULL) OR (\"IMPRESSORA_USB_PED\" = @Original_IMP" +
+                "RESSORA_USB_PED)) AND (\"PERGUNTA_WHATS\" = @Original_PERGUNTA_WHATS) AND (\"USATEF" +
+                "\" = @Original_USATEF) AND ((@IsNull_TEFIP = 1 AND \"TEFIP\" IS NULL) OR (\"TEFIP\" =" +
+                " @Original_TEFIP)) AND ((@IsNull_TEFNUMLOJA = 1 AND \"TEFNUMLOJA\" IS NULL) OR (\"T" +
+                "EFNUMLOJA\" = @Original_TEFNUMLOJA)) AND ((@IsNull_TEFNUMTERMINAL = 1 AND \"TEFNUM" +
+                "TERMINAL\" IS NULL) OR (\"TEFNUMTERMINAL\" = @Original_TEFNUMTERMINAL)) AND ((@IsNu" +
+                "ll_TEFPEDECPFPELOPINPAD = 1 AND \"TEFPEDECPFPELOPINPAD\" IS NULL) OR (\"TEFPEDECPFP" +
+                "ELOPINPAD\" = @Original_TEFPEDECPFPELOPINPAD)) AND (\"BALPORTA\" = @Original_BALPOR" +
+                "TA) AND (\"BALBITS\" = @Original_BALBITS) AND (\"BALBAUD\" = @Original_BALBAUD) AND " +
+                "(\"BALPARITY\" = @Original_BALPARITY) AND (\"BALMODELO\" = @Original_BALMODELO) AND " +
+                "(\"ACFILLPREFIX\" = @Original_ACFILLPREFIX) AND (\"ACFILLMODE\" = @Original_ACFILLMO" +
+                "DE) AND (\"ACREFERENCIA\" = @Original_ACREFERENCIA) AND (\"SYSCOMISSAO\" = @Original" +
+                "_SYSCOMISSAO) AND (\"SATSERVTIMEOUT\" = @Original_SATSERVTIMEOUT) AND (\"SATLIFESIG" +
+                "NINTERVAL\" = @Original_SATLIFESIGNINTERVAL) AND (\"ACFILLDELAY\" = @Original_ACFIL" +
+                "LDELAY) AND (\"SYSPERGUNTAWHATS\" = @Original_SYSPERGUNTAWHATS) AND (\"SYSPARCELA\" " +
+                "= @Original_SYSPARCELA) AND (\"SYSEMITECOMPROVANTE\" = @Original_SYSEMITECOMPROVAN" +
+                "TE) AND (\"INFORMA_MAQUININHA\" = @Original_INFORMA_MAQUININHA) AND (\"LAYOUT_SAT\" " +
+                "= @Original_LAYOUT_SAT) AND (\"VINCULA_MAQ_CTA\" = @Original_VINCULA_MAQ_CTA) AND " +
+                "(\"COMANDO_GAVETA\" = @Original_COMANDO_GAVETA))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_MAC";
@@ -3661,6 +3705,13 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = "VINCULA_MAQ_CTA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_MAC";
@@ -4177,6 +4228,14 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.SourceColumn = "VINCULA_MAQ_CTA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4192,7 +4251,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[51];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT ""ID_MAC"", ""NO_CAIXA"", ""EXIGE_SANGRIA"", ""VALOR_MAX_CAIXA"", ""BLOQUEIA_NO_LIMITE"", ""VALOR_DE_FOLGA"", ""PERMITE_FOLGA_SANGRIA"", ""INTERROMPE_NAO_ENCONTRADO"", ""MENSAGEM_CORTESIA"", ""ICMS_CONT"", ""CSOSN_CONT"", ""PEDE_CPF"", ""PERMITE_ESTOQUE_NEGATIVO"", ""MODELO_CUPOM"", ""MENSAGEM_RODAPE"", ""TRI_PDV_DT_UPD"", ""MODELO_SAT"", ""SATSERVIDOR"", ""SAT_CODATIV"", ""SIGN_AC"", ""SAT_USADO"", ""ECF_ATIVA"", ""ECF_PORTA"", ""IMPRESSORA_USB"", ""IMPRESSORA_USB_PED"", ""PERGUNTA_WHATS"", ""USATEF"", ""TEFIP"", ""TEFNUMLOJA"", ""TEFNUMTERMINAL"", ""TEFPEDECPFPELOPINPAD"", ""BALPORTA"", ""BALBITS"", ""BALBAUD"", ""BALPARITY"", ""BALMODELO"", ""ACFILLPREFIX"", ""ACFILLMODE"", ""ACREFERENCIA"", ""SYSCOMISSAO"", ""SATSERVTIMEOUT"", ""SATLIFESIGNINTERVAL"", ""ACFILLDELAY"", ""SYSPERGUNTAWHATS"", ""SYSPARCELA"", ""SYSEMITECOMPROVANTE"", ""INFORMA_MAQUININHA"", ""LAYOUT_SAT"", ""VINCULA_MAQ_CTA"" FROM ""TRI_PDV_CONFIG""";
+            this._commandCollection[0].CommandText = @"SELECT ""ID_MAC"", ""NO_CAIXA"", ""EXIGE_SANGRIA"", ""VALOR_MAX_CAIXA"", ""BLOQUEIA_NO_LIMITE"", ""VALOR_DE_FOLGA"", ""PERMITE_FOLGA_SANGRIA"", ""INTERROMPE_NAO_ENCONTRADO"", ""MENSAGEM_CORTESIA"", ""ICMS_CONT"", ""CSOSN_CONT"", ""PEDE_CPF"", ""PERMITE_ESTOQUE_NEGATIVO"", ""MODELO_CUPOM"", ""MENSAGEM_RODAPE"", ""TRI_PDV_DT_UPD"", ""MODELO_SAT"", ""SATSERVIDOR"", ""SAT_CODATIV"", ""SIGN_AC"", ""SAT_USADO"", ""ECF_ATIVA"", ""ECF_PORTA"", ""IMPRESSORA_USB"", ""IMPRESSORA_USB_PED"", ""PERGUNTA_WHATS"", ""USATEF"", ""TEFIP"", ""TEFNUMLOJA"", ""TEFNUMTERMINAL"", ""TEFPEDECPFPELOPINPAD"", ""BALPORTA"", ""BALBITS"", ""BALBAUD"", ""BALPARITY"", ""BALMODELO"", ""ACFILLPREFIX"", ""ACFILLMODE"", ""ACREFERENCIA"", ""SYSCOMISSAO"", ""SATSERVTIMEOUT"", ""SATLIFESIGNINTERVAL"", ""ACFILLDELAY"", ""SYSPERGUNTAWHATS"", ""SYSPARCELA"", ""SYSEMITECOMPROVANTE"", ""INFORMA_MAQUININHA"", ""LAYOUT_SAT"", ""VINCULA_MAQ_CTA"", ""COMANDO_GAVETA"" FROM ""TRI_PDV_CONFIG""";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -5031,25 +5090,34 @@ END;";
                 "                                                                          execut" +
                 "e statement \'ALTER TABLE TRI_PDV_CONFIG ADD VINCULA_MAQ_CTA CHAR(1) DEFAULT \'\'N\'" +
                 "\' NOT NULL\';\r\n\t\t\t\t\t\tend\r\n\r\n                                                     " +
-                "                                           erro = \'alter from null to 1 in TB_FU" +
-                "NC_AUDITORIA_SIS.TRI_PDV_SYNCED\';\r\n                                             " +
-                "                                                                   IF (EXISTS (S" +
-                "ELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SI" +
-                "S\' AND RDB$FIELD_NAME = \'TRI_PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                  " +
+                "                                           erro = \'alter table TRI_PDV_CONFIG ad" +
+                "d CONFIGS COMANDO_GAVETA\';\r\n                                                    " +
+                "                                                            IF ( NOT EXISTS (SEL" +
+                "ECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TRI_PDV_CONFIG\' AND RD" +
+                "B$FIELD_NAME = \'COMANDO_GAVETA\'))\r\n\t\t\t\t\t\tthen begin\r\n                           " +
                 "                                                                                " +
-                "              execute statement \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA" +
-                "_SIS SET TRI_PDV_SYNCED = 1 WHERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t" +
-                "\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$IN" +
-                "DICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute sta" +
-                "tement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\ter" +
-                "ro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENE" +
-                "RATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE" +
-                " STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger" +
-                " DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RDB$TRIGG" +
-                "ER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER " +
-                "DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1)" +
-                " THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu " +
-                "certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "     execute statement \'ALTER TABLE TRI_PDV_CONFIG ADD COMANDO_GAVETA SMALLINT D" +
+                "EFAULT 0 NOT NULL\';\r\n\t\t\t\t\t\tend\r\n\r\n                                              " +
+                "                                                  erro = \'alter from null to 1 i" +
+                "n TB_FUNC_AUDITORIA_SIS.TRI_PDV_SYNCED\';\r\n                                      " +
+                "                                                                          IF (EX" +
+                "ISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDIT" +
+                "ORIA_SIS\' AND RDB$FIELD_NAME = \'TRI_PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n           " +
+                "                                                                                " +
+                "                     execute statement \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AU" +
+                "DITORIA_SIS SET TRI_PDV_SYNCED = 1 WHERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\ten" +
+                "d\r\n\r\n\t\t\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from" +
+                " RDB$INDICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texec" +
+                "ute statement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t" +
+                "\t\t\t\t\terro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM R" +
+                "DB$GENERATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\t" +
+                "EXECUTE STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create " +
+                "trigger DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RD" +
+                "B$TRIGGER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE T" +
+                "RIGGER DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCA" +
+                "O = -1) THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro " +
+                "= \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;" +
+                "";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;
@@ -7735,139 +7803,140 @@ END;";
                 "CFILLMODE SMALLINT, PACREFERENCIA SMALLINT, PSYSCOMISSAO SMALLINT, PSATSERVTIMEO" +
                 "UT INTEGER, PSATLIFESIGNINTERVAL INTEGER, PACFILLDELAY INTEGER, PSYSPERGUNTAWHAT" +
                 "S SMALLINT, PSYSPARCELA SMALLINT, PSYSEMITECOMPROVANTE SMALLINT, PINFORMA_MAQUIN" +
-                "INHA CHAR(1), PLAYOUT_SAT VARCHAR(4), PVINCULA_MAQ_CTA CHAR(1)) RETURNS ( RROWSA" +
-                "FFECTED INTEGER ) AS BEGIN UPDATE OR INSERT INTO TRI_PDV_CONFIG (ID_MAC, NO_CAIX" +
-                "A, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_F" +
-                "OLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CON" +
-                "T, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT" +
-                "_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_P" +
-                "ORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUML" +
-                "OJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY" +
-                ", BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT" +
-                ", SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPRO" +
-                "VANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA) VALUES (:pID_MAC, :pNO_C" +
-                "AIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQUEIA_NO_LIMITE, :pVALOR_DE_FOLGA" +
-                ", :pPERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCONTRADO, :pMENSAGEM_CORTESIA, :pI" +
-                "CMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ESTOQUE_NEGATIVO, :pMODELO_CUPOM, " +
-                ":pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SAT, :pSATSERVIDOR, :pSAT_CODATIV," +
-                " :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORTA, :pIMPRESSORA_USB, :pIMPRESSOR" +
-                "A_USB_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, :pTEFNUMLOJA, :pTEFNUMTERMINAL, " +
-                ":pTEFPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :pBALBAUD, :pBALPARITY, :pBALMODE" +
-                "LO, :pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA, :pSYSCOMISSAO, :pSATSERVTIMEOU" +
-                "T, :pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPERGUNTAWHATS, :pSYSPARCELA, :pSYS" +
-                "EMITECOMPROVANTE, :pINFORMA_MAQUININHA, :pLAYOUT_SAT, :pVINCULA_MAQ_CTA) MATCHIN" +
-                "G (ID_MAC); rRowsAffected = ROW_COUNT; SUSPEND; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc cf" +
-                "opsis get by dt upd\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI" +
-                "_CFOPSIS_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRICAO" +
-                " VARCHAR(330), RESUMO VARCHAR(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), EST_B" +
-                "X_AMBOS CHAR(1), DEV_RET CHAR(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT " +
-                "CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_U" +
-                "PD FROM TB_CFOP_SIS WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICAO, " +
-                ":RESUMO, :OBSERVACAO, :EST_BX, :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BEGIN" +
-                " SUSPEND ; END END;\';\r\n\terro = \'sproc cfopsis sync upsert\';\r\n\texecute statement " +
-                "\'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICAO V" +
-                "ARCHAR(330), pRESUMO VARCHAR(60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), pEST" +
-                "_BX_AMBOS CHAR(1), pDEV_RET CHAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAf" +
-                "fected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, RES" +
-                "UMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFOP, " +
-                ":pDESCRICAO, :pRESUMO, :pOBSERVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pTRI_" +
-                "PDV_DT_UPD) MATCHING (CFOP) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'spr" +
-                "oc fornecedor get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_" +
-                "TRI_FORNEC_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NOME " +
-                "VARCHAR(60), NOME_FANTA VARCHAR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16), I" +
-                "NSC_MUNIC VARCHAR(16), END_CEP VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD VARC" +
-                "HAR(40), END_BAIRRO VARCHAR(35), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15), " +
-                "DDD_COMER CHAR(2), FONE_COMER VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL CHAR" +
-                "(2), FONE_CELUL VARCHAR(13), DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CONT V" +
-                "ARCHAR(50), EMAIL_NFE VARCHAR(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PRICO" +
-                "MP DATE, DT_ULTCOMP DATE, ID_CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OPER." +
-                "DIN, ID_RAMO SMALLINT, ID_PAIS CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO VARC" +
-                "HAR(35), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_FAN" +
-                "TA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, END" +
-                "_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL, DD" +
-                "D_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP, ID" +
-                "_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM TB_F" +
-                "ORNECEDOR WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_FANT" +
-                "A, :CNPJ, :INSC_ESTAD, :INSC_MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BAIRR" +
-                "O, :END_NUMERO, :END_COMPLE, :DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL, :F" +
-                "ONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_PRI" +
-                "COMP, :DT_ULTCOMP, :ID_CIDADE, :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CONTAT" +
-                "O, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc fornecedor sync" +
-                " upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT (p" +
-                "ID_FORNEC INTEGER, pNOME VARCHAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(18)" +
-                ", pINSC_ESTAD VARCHAR(16), pINSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND_TI" +
-                "PO VARCHAR(15), pEND_LOGRAD VARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO VA" +
-                "RCHAR(5), pEND_COMPLE VARCHAR(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13), " +
-                "pFONE_0800 VARCHAR(13), pDDD_CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX CH" +
-                "AR(2), pFONE_FAX VARCHAR(13), pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50), p" +
-                "SITE VARCHAR(50), pSTATUS VARCHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID_CI" +
-                "DADE CHAR(7), pLIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID_PA" +
-                "IS CHAR(4), pOBSERVACAO BLOB SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UPD T" +
-                "IMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_FORN" +
-                "ECEDOR (ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_" +
-                "TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FON" +
-                "E_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, S" +
-                "TATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, " +
-                "CONTATO, TRI_PDV_DT_UPD) VALUES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :pIN" +
-                "SC_ESTAD, :pINSC_MUNIC, :pEND_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :pEND" +
-                "_NUMERO, :pEND_COMPLE, :pDDD_COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :pFO" +
-                "NE_CELUL, :pDDD_FAX, :pFONE_FAX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS, :p" +
-                "DT_PRICOMP, :pDT_ULTCOMP, :pID_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSERVA" +
-                "CAO, :pCONTATO, :pTRI_PDV_DT_UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_COUN" +
-                "T; END;\';\r\n\t\r\n\terro = \'sproc ctarec set inv_referencia filthy rows\';\r\n\texecute s" +
-                "tatement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDATE T" +
-                "B_CONTA_RECEBER a SET a.INV_REFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS VARC" +
-                "HAR(10)), 5, \'\'0\'\') || LPAD(a.DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA IS n" +
-                "ull ; END;\';\r\n\t\r\n\terro = \'sproc triusers get by dt upd\';\r\n\texecute statement \'CR" +
-                "EATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETU" +
-                "RNS (  ID_USER SMALLINT,  USERNAME VARCHAR(64),  PASSWORD VARCHAR(32),  GERENCIA" +
-                " VARCHAR(8),  ATIVO VARCHAR(8),  TRI_PDV_DT_UPD TIMESTAMP,  PERMISSOES INTEGER )" +
-                " AS BEGIN  FOR SELECT  ID_USER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_" +
-                "PDV_DT_UPD,  PERMISSOES FROM  TRI_PDV_USERS WHERE  TRI_PDV_DT_UPD > :pUltimaSync" +
-                " INTO  :ID_USER,  :USERNAME,  :\"PASSWORD\",  :GERENCIA,  :ATIVO,  :TRI_PDV_DT_UPD" +
-                ",   :PERMISSOES DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc triusers sync upse" +
-                "rt\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (PID_" +
-                "USER SMALLINT, PUSERNAME VARCHAR(64), PPASSWORD VARCHAR(32), PGERENCIA VARCHAR(8" +
-                "), PATIVO VARCHAR(8), PTRI_PDV_DT_UPD TIMESTAMP, PPERMISSOES INTEGER) RETURNS ( " +
-                " RROWSAFFECTED INTEGER ) AS BEGIN  UPDATE  OR INSERT  INTO  TRI_PDV_USERS (ID_US" +
-                "ER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES) VAL" +
-                "UES (:pID_USER, :pUSERNAME, :pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD, :" +
-                "pPERMISSOES) MATCHING (ID_USER) ;  rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro =" +
-                " \'sproc cliente get by dt upd\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDURE S" +
-                "P_TRI_CLIENTE_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF CO" +
-                "LUMN TB_CLIENTE.ID_CLIENTE, ID_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO, D" +
-                "T_CADASTRO TYPE OF COLUMN TB_CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIENTE" +
-                ".NOME, END_CEP TYPE OF COLUMN TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_CLI" +
-                "ENTE.END_TIPO, END_NUMERO TYPE OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TYPE " +
-                "OF COLUMN TB_CLIENTE.END_LOGRAD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAIRRO" +
-                ", END_COMPLE TYPE OF COLUMN TB_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN TB_" +
-                "CLIENTE.DT_PRICOMP, DT_ULTCOMP TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO TYP" +
-                "E OF COLUMN TB_CLIENTE.CONTATO, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMITE " +
-                "TYPE OF COLUMN TB_CLIENTE.LIMITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RESID," +
-                " FONE_RESID TYPE OF COLUMN TB_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB_CL" +
-                "IENTE.DDD_COMER, FONE_COMER TYPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL TYPE" +
-                " OF COLUMN TB_CLIENTE.DDD_CELUL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CELUL" +
-                ", DDD_FAX TYPE OF COLUMN TB_CLIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIENTE." +
-                "FONE_FAX, EMAIL_CONT TYPE OF COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF COL" +
-                "UMN TB_CLIENTE.EMAIL_NFE, ID_CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_TIPO" +
-                " TYPE OF COLUMN TB_CLIENTE.ID_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE.ID_" +
-                "FUNCIONARIO, ID_PAIS TYPE OF COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLUMN " +
-                "TB_CLIENTE.MENSAGEM, ID_RAMO TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TYPE " +
-                "OF COLUMN TB_CLIENTE.EMAIL_ADIC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVACAO" +
-                ", DT_MELHOR_VENCTO TYPE OF COLUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD TY" +
-                "PE OF COLUMN TB_CLIENTE.TRI_PDV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CONVE" +
-                "NIO, DT_CADASTRO, NOME, END_CEP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO, E" +
-                "ND_COMPLE, DT_PRICOMP, DT_ULTCOMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_RESI" +
-                "D, DDD_COMER, FONE_COMER, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, " +
-                "EMAIL_NFE, ID_CIDADE, ID_TIPO, ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EMAIL" +
-                "_ADIC, OBSERVACAO, DT_MELHOR_VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI_PD" +
-                "V_DT_UPD > :pUltimaSync INTO :ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, :EN" +
-                "D_CEP, :END_TIPO, :END_NUMERO, :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRICOM" +
-                "P, :DT_ULTCOMP, :CONTATO, :STATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COMER," +
-                " :FONE_COMER, :DDD_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_" +
-                "NFE, :ID_CIDADE, :ID_TIPO, :ID_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :EMAI" +
-                "L_ADIC, :OBSERVACAO, :DT_MELHOR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END EN" +
-                "D\';\r\n\terro = \'deu certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
+                "INHA CHAR(1), PLAYOUT_SAT VARCHAR(4), PVINCULA_MAQ_CTA CHAR(1), PCOMANDO_GAVETA " +
+                "SMALLINT) RETURNS ( RROWSAFFECTED INTEGER ) AS BEGIN UPDATE OR INSERT INTO TRI_P" +
+                "DV_CONFIG (ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE," +
+                " VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORT" +
+                "ESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, M" +
+                "ENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, S" +
+                "AT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHA" +
+                "TS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, B" +
+                "ALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, S" +
+                "YSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, " +
+                "SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA" +
+                ", COMANDO_GAVETA) VALUES (:pID_MAC, :pNO_CAIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAI" +
+                "XA, :pBLOQUEIA_NO_LIMITE, :pVALOR_DE_FOLGA, :pPERMITE_FOLGA_SANGRIA, :pINTERROMP" +
+                "E_NAO_ENCONTRADO, :pMENSAGEM_CORTESIA, :pICMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :p" +
+                "PERMITE_ESTOQUE_NEGATIVO, :pMODELO_CUPOM, :pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :" +
+                "pMODELO_SAT, :pSATSERVIDOR, :pSAT_CODATIV, :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, " +
+                ":pECF_PORTA, :pIMPRESSORA_USB, :pIMPRESSORA_USB_PED, :pPERGUNTA_WHATS, :pUSATEF," +
+                " :pTEFIP, :pTEFNUMLOJA, :pTEFNUMTERMINAL, :pTEFPEDECPFPELOPINPAD, :pBALPORTA, :p" +
+                "BALBITS, :pBALBAUD, :pBALPARITY, :pBALMODELO, :pACFILLPREFIX, :pACFILLMODE, :pAC" +
+                "REFERENCIA, :pSYSCOMISSAO, :pSATSERVTIMEOUT, :pSATLIFESIGNINTERVAL, :pACFILLDELA" +
+                "Y, :pSYSPERGUNTAWHATS, :pSYSPARCELA, :pSYSEMITECOMPROVANTE, :pINFORMA_MAQUININHA" +
+                ", :pLAYOUT_SAT, :pVINCULA_MAQ_CTA, :pCOMANDO_GAVETA) MATCHING (ID_MAC); rRowsAff" +
+                "ected = ROW_COUNT; SUSPEND; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc cfopsis get by dt upd\'" +
+                ";\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_GETBY_DTUPD" +
+                " (pUltimaSync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRICAO VARCHAR(330), RESUM" +
+                "O VARCHAR(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), EST_BX_AMBOS CHAR(1), DEV" +
+                "_RET CHAR(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT CFOP, DESCRICAO, RES" +
+                "UMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD FROM TB_CFOP_SIS " +
+                "WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICAO, :RESUMO, :OBSERVACAO" +
+                ", :EST_BX, :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\'" +
+                ";\r\n\terro = \'sproc cfopsis sync upsert\';\r\n\texecute statement \'CREATE OR ALTER PRO" +
+                "CEDURE SP_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICAO VARCHAR(330), pRESUMO" +
+                " VARCHAR(60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), pEST_BX_AMBOS CHAR(1), p" +
+                "DEV_RET CHAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS B" +
+                "EGIN UPDATE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST" +
+                "_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFOP, :pDESCRICAO, :pRESUM" +
+                "O, :pOBSERVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pTRI_PDV_DT_UPD) MATCHING" +
+                " (CFOP) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc fornecedor get by" +
+                " dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_GETBY_DTU" +
+                "PD (pUltimaSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NOME VARCHAR(60), NOME_FA" +
+                "NTA VARCHAR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16), INSC_MUNIC VARCHAR(16" +
+                "), END_CEP VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD VARCHAR(40), END_BAIRRO " +
+                "VARCHAR(35), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15), DDD_COMER CHAR(2), F" +
+                "ONE_COMER VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL CHAR(2), FONE_CELUL VARC" +
+                "HAR(13), DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CONT VARCHAR(50), EMAIL_NF" +
+                "E VARCHAR(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PRICOMP DATE, DT_ULTCOMP " +
+                "DATE, ID_CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, ID_RAMO SMALLIN" +
+                "T, ID_PAIS CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO VARCHAR(35), TRI_PDV_DT_" +
+                "UPD TIMESTAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD" +
+                ", INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE," +
+                " DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMA" +
+                "IL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_" +
+                "RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM TB_FORNECEDOR WHERE TRI_" +
+                "PDV_DT_UPD > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_FANTA, :CNPJ, :INSC_ESTA" +
+                "D, :INSC_MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BAIRRO, :END_NUMERO, :END" +
+                "_COMPLE, :DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL, :FONE_CELUL, :DDD_FAX," +
+                " :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_PRICOMP, :DT_ULTCOMP, :" +
+                "ID_CIDADE, :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CONTATO, :TRI_PDV_DT_UPD D" +
+                "O BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc fornecedor sync upsert\';\r\n\texecute " +
+                "statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT (pID_FORNEC INTEGER, p" +
+                "NOME VARCHAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(18), pINSC_ESTAD VARCHA" +
+                "R(16), pINSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND_TIPO VARCHAR(15), pEND" +
+                "_LOGRAD VARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO VARCHAR(5), pEND_COMPL" +
+                "E VARCHAR(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13), pFONE_0800 VARCHAR(1" +
+                "3), pDDD_CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX CHAR(2), pFONE_FAX VAR" +
+                "CHAR(13), pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50), pSITE VARCHAR(50), pS" +
+                "TATUS VARCHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID_CIDADE CHAR(7), pLIMIT" +
+                "E TYPE OF COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID_PAIS CHAR(4), pOBSERVA" +
+                "CAO BLOB SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (r" +
+                "RowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_FORNECEDOR (ID_FORNEC, N" +
+                "OME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, EN" +
+                "D_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, F" +
+                "ONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, D" +
+                "T_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_" +
+                "UPD) VALUES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :pINSC_ESTAD, :pINSC_MUN" +
+                "IC, :pEND_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :pEND_NUMERO, :pEND_COMPL" +
+                "E, :pDDD_COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :pFONE_CELUL, :pDDD_FAX," +
+                " :pFONE_FAX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS, :pDT_PRICOMP, :pDT_ULT" +
+                "COMP, :pID_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSERVACAO, :pCONTATO, :pTR" +
+                "I_PDV_DT_UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro " +
+                "= \'sproc ctarec set inv_referencia filthy rows\';\r\n\texecute statement \'CREATE OR " +
+                "ALTER PROCEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDATE TB_CONTA_RECEBER a SE" +
+                "T a.INV_REFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS VARCHAR(10)), 5, \'\'0\'\') " +
+                "|| LPAD(a.DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA IS null ; END;\';\r\n\t\r\n\ter" +
+                "ro = \'sproc triusers get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCED" +
+                "URE SP_TRI_TRIUSERS_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (  ID_USER SMALL" +
+                "INT,  USERNAME VARCHAR(64),  PASSWORD VARCHAR(32),  GERENCIA VARCHAR(8),  ATIVO " +
+                "VARCHAR(8),  TRI_PDV_DT_UPD TIMESTAMP,  PERMISSOES INTEGER ) AS BEGIN  FOR SELEC" +
+                "T  ID_USER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISS" +
+                "OES FROM  TRI_PDV_USERS WHERE  TRI_PDV_DT_UPD > :pUltimaSync INTO  :ID_USER,  :U" +
+                "SERNAME,  :\"PASSWORD\",  :GERENCIA,  :ATIVO,  :TRI_PDV_DT_UPD,   :PERMISSOES DO B" +
+                "EGIN SUSPEND ; END END;\';\r\n\terro = \'sproc triusers sync upsert\';\r\n\texecute state" +
+                "ment \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (PID_USER SMALLINT, PUSER" +
+                "NAME VARCHAR(64), PPASSWORD VARCHAR(32), PGERENCIA VARCHAR(8), PATIVO VARCHAR(8)" +
+                ", PTRI_PDV_DT_UPD TIMESTAMP, PPERMISSOES INTEGER) RETURNS (  RROWSAFFECTED INTEG" +
+                "ER ) AS BEGIN  UPDATE  OR INSERT  INTO  TRI_PDV_USERS (ID_USER,  USERNAME,  \"PAS" +
+                "SWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES) VALUES (:pID_USER, :pUS" +
+                "ERNAME, :pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD, :pPERMISSOES) MATCHIN" +
+                "G (ID_USER) ;  rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc cliente get " +
+                "by dt upd\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDURE SP_TRI_CLIENTE_GETBY_" +
+                "DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF COLUMN TB_CLIENTE.ID_C" +
+                "LIENTE, ID_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO, DT_CADASTRO TYPE OF C" +
+                "OLUMN TB_CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIENTE.NOME, END_CEP TYPE " +
+                "OF COLUMN TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_CLIENTE.END_TIPO, END_N" +
+                "UMERO TYPE OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TYPE OF COLUMN TB_CLIENTE" +
+                ".END_LOGRAD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAIRRO, END_COMPLE TYPE OF" +
+                " COLUMN TB_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN TB_CLIENTE.DT_PRICOMP, " +
+                "DT_ULTCOMP TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO TYPE OF COLUMN TB_CLIEN" +
+                "TE.CONTATO, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMITE TYPE OF COLUMN TB_CL" +
+                "IENTE.LIMITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RESID, FONE_RESID TYPE OF " +
+                "COLUMN TB_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB_CLIENTE.DDD_COMER, FON" +
+                "E_COMER TYPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL TYPE OF COLUMN TB_CLIENT" +
+                "E.DDD_CELUL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CELUL, DDD_FAX TYPE OF CO" +
+                "LUMN TB_CLIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIENTE.FONE_FAX, EMAIL_CONT" +
+                " TYPE OF COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF COLUMN TB_CLIENTE.EMAIL" +
+                "_NFE, ID_CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_TIPO TYPE OF COLUMN TB_C" +
+                "LIENTE.ID_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE.ID_FUNCIONARIO, ID_PAIS" +
+                " TYPE OF COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLUMN TB_CLIENTE.MENSAGEM," +
+                " ID_RAMO TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TYPE OF COLUMN TB_CLIENTE" +
+                ".EMAIL_ADIC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVACAO, DT_MELHOR_VENCTO T" +
+                "YPE OF COLUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD TYPE OF COLUMN TB_CLIE" +
+                "NTE.TRI_PDV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CONVENIO, DT_CADASTRO, NO" +
+                "ME, END_CEP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO, END_COMPLE, DT_PRICOM" +
+                "P, DT_ULTCOMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_RESID, DDD_COMER, FONE_C" +
+                "OMER, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, ID_CIDADE" +
+                ", ID_TIPO, ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EMAIL_ADIC, OBSERVACAO, D" +
+                "T_MELHOR_VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI_PDV_DT_UPD > :pUltimaS" +
+                "ync INTO :ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, :END_CEP, :END_TIPO, :E" +
+                "ND_NUMERO, :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRICOMP, :DT_ULTCOMP, :CON" +
+                "TATO, :STATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COMER, :FONE_COMER, :DDD_C" +
+                "ELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :ID_CIDADE, :ID" +
+                "_TIPO, :ID_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :EMAIL_ADIC, :OBSERVACAO," +
+                " :DT_MELHOR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END END\';\r\n\terro = \'deu ce" +
+                "rto\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
             this._commandCollection[17].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[18] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[18].Connection = this.Connection;
@@ -9605,7 +9674,7 @@ END;";
             this._commandCollection[24].Parameters.Add(param);
             this._commandCollection[25] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[25].Connection = this.Connection;
-            this._commandCollection[25].CommandText = @"SELECT ACFILLDELAY, ACFILLMODE, ACFILLPREFIX, ACREFERENCIA, BALBAUD, BALBITS, BALMODELO, BALPARITY, BALPORTA, BLOQUEIA_NO_LIMITE, CSOSN_CONT, ECF_ATIVA, ECF_PORTA, EXIGE_SANGRIA, ICMS_CONT, ID_MAC, IMPRESSORA_USB, IMPRESSORA_USB_PED, INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, LAYOUT_SAT, MENSAGEM_CORTESIA, MENSAGEM_RODAPE, MODELO_CUPOM, MODELO_SAT, NO_CAIXA, PEDE_CPF, PERGUNTA_WHATS, PERMITE_ESTOQUE_NEGATIVO, PERMITE_FOLGA_SANGRIA, SATLIFESIGNINTERVAL, SATSERVIDOR, SATSERVTIMEOUT, SAT_CODATIV, SAT_USADO, SIGN_AC, SYSCOMISSAO, SYSEMITECOMPROVANTE, SYSPARCELA, SYSPERGUNTAWHATS, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, TRI_PDV_DT_UPD, USATEF, VALOR_DE_FOLGA, VALOR_MAX_CAIXA, VINCULA_MAQ_CTA FROM TRI_PDV_CONFIG WHERE (ID_MAC = @param)";
+            this._commandCollection[25].CommandText = @"SELECT ACFILLDELAY, ACFILLMODE, ACFILLPREFIX, ACREFERENCIA, BALBAUD, BALBITS, BALMODELO, BALPARITY, BALPORTA, BLOQUEIA_NO_LIMITE, COMANDO_GAVETA, CSOSN_CONT, ECF_ATIVA, ECF_PORTA, EXIGE_SANGRIA, ICMS_CONT, ID_MAC, IMPRESSORA_USB, IMPRESSORA_USB_PED, INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, LAYOUT_SAT, MENSAGEM_CORTESIA, MENSAGEM_RODAPE, MODELO_CUPOM, MODELO_SAT, NO_CAIXA, PEDE_CPF, PERGUNTA_WHATS, PERMITE_ESTOQUE_NEGATIVO, PERMITE_FOLGA_SANGRIA, SATLIFESIGNINTERVAL, SATSERVIDOR, SATSERVTIMEOUT, SAT_CODATIV, SAT_USADO, SIGN_AC, SYSCOMISSAO, SYSEMITECOMPROVANTE, SYSPARCELA, SYSPERGUNTAWHATS, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, TRI_PDV_DT_UPD, USATEF, VALOR_DE_FOLGA, VALOR_MAX_CAIXA, VINCULA_MAQ_CTA, COMANDO_GAVETA FROM TRI_PDV_CONFIG WHERE (ID_MAC = @param)";
             this._commandCollection[25].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@param";
@@ -9977,6 +10046,13 @@ END;";
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[31].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PCOMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[31].Parameters.Add(param);
             this._commandCollection[32] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[32].Connection = this.Connection;
             this._commandCollection[32].CommandText = "\"SP_TRI_CRIATABELAS\"";
@@ -10225,7 +10301,8 @@ END;";
                     short Original_SYSEMITECOMPROVANTE, 
                     string Original_INFORMA_MAQUININHA, 
                     string Original_LAYOUT_SAT, 
-                    string Original_VINCULA_MAQ_CTA) {
+                    string Original_VINCULA_MAQ_CTA, 
+                    short Original_COMANDO_GAVETA) {
             if ((Original_ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("Original_ID_MAC");
             }
@@ -10438,6 +10515,7 @@ END;";
             else {
                 this.Adapter.DeleteCommand.Parameters[64].Value = ((string)(Original_VINCULA_MAQ_CTA));
             }
+            this.Adapter.DeleteCommand.Parameters[65].Value = ((short)(Original_COMANDO_GAVETA));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -10507,7 +10585,8 @@ END;";
                     short SYSEMITECOMPROVANTE, 
                     string INFORMA_MAQUININHA, 
                     string LAYOUT_SAT, 
-                    string VINCULA_MAQ_CTA) {
+                    string VINCULA_MAQ_CTA, 
+                    short COMANDO_GAVETA) {
             if ((ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("ID_MAC");
             }
@@ -10692,6 +10771,7 @@ END;";
             else {
                 this.Adapter.InsertCommand.Parameters[48].Value = ((string)(VINCULA_MAQ_CTA));
             }
+            this.Adapter.InsertCommand.Parameters[49].Value = ((short)(COMANDO_GAVETA));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -10762,6 +10842,7 @@ END;";
                     string INFORMA_MAQUININHA, 
                     string LAYOUT_SAT, 
                     string VINCULA_MAQ_CTA, 
+                    short COMANDO_GAVETA, 
                     string Original_ID_MAC, 
                     short Original_NO_CAIXA, 
                     string Original_EXIGE_SANGRIA, 
@@ -10809,7 +10890,8 @@ END;";
                     short Original_SYSEMITECOMPROVANTE, 
                     string Original_INFORMA_MAQUININHA, 
                     string Original_LAYOUT_SAT, 
-                    string Original_VINCULA_MAQ_CTA) {
+                    string Original_VINCULA_MAQ_CTA, 
+                    short Original_COMANDO_GAVETA) {
             if ((ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("ID_MAC");
             }
@@ -10994,218 +11076,220 @@ END;";
             else {
                 this.Adapter.UpdateCommand.Parameters[48].Value = ((string)(VINCULA_MAQ_CTA));
             }
+            this.Adapter.UpdateCommand.Parameters[49].Value = ((short)(COMANDO_GAVETA));
             if ((Original_ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("Original_ID_MAC");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((string)(Original_ID_MAC));
+                this.Adapter.UpdateCommand.Parameters[50].Value = ((string)(Original_ID_MAC));
             }
-            this.Adapter.UpdateCommand.Parameters[50].Value = ((short)(Original_NO_CAIXA));
+            this.Adapter.UpdateCommand.Parameters[51].Value = ((short)(Original_NO_CAIXA));
             if ((Original_EXIGE_SANGRIA == null)) {
                 throw new global::System.ArgumentNullException("Original_EXIGE_SANGRIA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((string)(Original_EXIGE_SANGRIA));
+                this.Adapter.UpdateCommand.Parameters[52].Value = ((string)(Original_EXIGE_SANGRIA));
             }
-            this.Adapter.UpdateCommand.Parameters[52].Value = ((double)(Original_VALOR_MAX_CAIXA));
+            this.Adapter.UpdateCommand.Parameters[53].Value = ((double)(Original_VALOR_MAX_CAIXA));
             if ((Original_BLOQUEIA_NO_LIMITE == null)) {
                 throw new global::System.ArgumentNullException("Original_BLOQUEIA_NO_LIMITE");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((string)(Original_BLOQUEIA_NO_LIMITE));
+                this.Adapter.UpdateCommand.Parameters[54].Value = ((string)(Original_BLOQUEIA_NO_LIMITE));
             }
-            this.Adapter.UpdateCommand.Parameters[54].Value = ((double)(Original_VALOR_DE_FOLGA));
+            this.Adapter.UpdateCommand.Parameters[55].Value = ((double)(Original_VALOR_DE_FOLGA));
             if ((Original_PERMITE_FOLGA_SANGRIA == null)) {
                 throw new global::System.ArgumentNullException("Original_PERMITE_FOLGA_SANGRIA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((string)(Original_PERMITE_FOLGA_SANGRIA));
+                this.Adapter.UpdateCommand.Parameters[56].Value = ((string)(Original_PERMITE_FOLGA_SANGRIA));
             }
             if ((Original_INTERROMPE_NAO_ENCONTRADO == null)) {
                 throw new global::System.ArgumentNullException("Original_INTERROMPE_NAO_ENCONTRADO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((string)(Original_INTERROMPE_NAO_ENCONTRADO));
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((string)(Original_INTERROMPE_NAO_ENCONTRADO));
             }
             if ((Original_MENSAGEM_CORTESIA == null)) {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[58].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[59].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((string)(Original_MENSAGEM_CORTESIA));
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[59].Value = ((string)(Original_MENSAGEM_CORTESIA));
             }
             if ((Original_ICMS_CONT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[60].Value = ((float)(Original_ICMS_CONT.Value));
+                this.Adapter.UpdateCommand.Parameters[60].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[61].Value = ((float)(Original_ICMS_CONT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[60].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[60].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[61].Value = global::System.DBNull.Value;
             }
             if ((Original_CSOSN_CONT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[62].Value = ((float)(Original_CSOSN_CONT.Value));
+                this.Adapter.UpdateCommand.Parameters[62].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[63].Value = ((float)(Original_CSOSN_CONT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[62].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[62].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[63].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[63].Value = ((int)(Original_PEDE_CPF));
-            this.Adapter.UpdateCommand.Parameters[64].Value = ((int)(Original_PERMITE_ESTOQUE_NEGATIVO));
-            this.Adapter.UpdateCommand.Parameters[65].Value = ((short)(Original_MODELO_CUPOM));
+            this.Adapter.UpdateCommand.Parameters[64].Value = ((int)(Original_PEDE_CPF));
+            this.Adapter.UpdateCommand.Parameters[65].Value = ((int)(Original_PERMITE_ESTOQUE_NEGATIVO));
+            this.Adapter.UpdateCommand.Parameters[66].Value = ((short)(Original_MODELO_CUPOM));
             if ((Original_MENSAGEM_RODAPE == null)) {
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[67].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[67].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[68].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[67].Value = ((string)(Original_MENSAGEM_RODAPE));
+                this.Adapter.UpdateCommand.Parameters[67].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[68].Value = ((string)(Original_MENSAGEM_RODAPE));
             }
             if ((Original_TRI_PDV_DT_UPD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[69].Value = ((System.DateTime)(Original_TRI_PDV_DT_UPD.Value));
+                this.Adapter.UpdateCommand.Parameters[69].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[70].Value = ((System.DateTime)(Original_TRI_PDV_DT_UPD.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[69].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[69].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[70].Value = global::System.DBNull.Value;
             }
             if ((Original_MODELO_SAT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[70].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[71].Value = ((int)(Original_MODELO_SAT.Value));
+                this.Adapter.UpdateCommand.Parameters[71].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[72].Value = ((int)(Original_MODELO_SAT.Value));
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[70].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[71].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[71].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[72].Value = global::System.DBNull.Value;
             }
             if ((Original_SATSERVIDOR == null)) {
-                this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[73].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[73].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[74].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[73].Value = ((string)(Original_SATSERVIDOR));
+                this.Adapter.UpdateCommand.Parameters[73].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[74].Value = ((string)(Original_SATSERVIDOR));
             }
             if ((Original_SAT_CODATIV == null)) {
-                this.Adapter.UpdateCommand.Parameters[74].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[75].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[75].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[76].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[74].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[75].Value = ((string)(Original_SAT_CODATIV));
+                this.Adapter.UpdateCommand.Parameters[75].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[76].Value = ((string)(Original_SAT_CODATIV));
             }
             if ((Original_SAT_USADO == null)) {
-                this.Adapter.UpdateCommand.Parameters[76].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[77].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[77].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[78].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[76].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[77].Value = ((string)(Original_SAT_USADO));
+                this.Adapter.UpdateCommand.Parameters[77].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[78].Value = ((string)(Original_SAT_USADO));
             }
             if ((Original_ECF_ATIVA == null)) {
-                this.Adapter.UpdateCommand.Parameters[78].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[79].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[79].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[80].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[78].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[79].Value = ((string)(Original_ECF_ATIVA));
+                this.Adapter.UpdateCommand.Parameters[79].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[80].Value = ((string)(Original_ECF_ATIVA));
             }
             if ((Original_ECF_PORTA == null)) {
-                this.Adapter.UpdateCommand.Parameters[80].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[81].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[81].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[82].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[80].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[81].Value = ((string)(Original_ECF_PORTA));
+                this.Adapter.UpdateCommand.Parameters[81].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[82].Value = ((string)(Original_ECF_PORTA));
             }
             if ((Original_IMPRESSORA_USB == null)) {
-                this.Adapter.UpdateCommand.Parameters[82].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[83].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[83].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[84].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[82].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[83].Value = ((string)(Original_IMPRESSORA_USB));
+                this.Adapter.UpdateCommand.Parameters[83].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[84].Value = ((string)(Original_IMPRESSORA_USB));
             }
             if ((Original_IMPRESSORA_USB_PED == null)) {
-                this.Adapter.UpdateCommand.Parameters[84].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[85].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[85].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[86].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[84].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[85].Value = ((string)(Original_IMPRESSORA_USB_PED));
+                this.Adapter.UpdateCommand.Parameters[85].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[86].Value = ((string)(Original_IMPRESSORA_USB_PED));
             }
-            this.Adapter.UpdateCommand.Parameters[86].Value = ((int)(Original_PERGUNTA_WHATS));
+            this.Adapter.UpdateCommand.Parameters[87].Value = ((int)(Original_PERGUNTA_WHATS));
             if ((Original_USATEF == null)) {
                 throw new global::System.ArgumentNullException("Original_USATEF");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[87].Value = ((string)(Original_USATEF));
+                this.Adapter.UpdateCommand.Parameters[88].Value = ((string)(Original_USATEF));
             }
             if ((Original_TEFIP == null)) {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[89].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[89].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[90].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[89].Value = ((string)(Original_TEFIP));
+                this.Adapter.UpdateCommand.Parameters[89].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[90].Value = ((string)(Original_TEFIP));
             }
             if ((Original_TEFNUMLOJA == null)) {
-                this.Adapter.UpdateCommand.Parameters[90].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[91].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[91].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[92].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[90].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[91].Value = ((string)(Original_TEFNUMLOJA));
+                this.Adapter.UpdateCommand.Parameters[91].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[92].Value = ((string)(Original_TEFNUMLOJA));
             }
             if ((Original_TEFNUMTERMINAL == null)) {
-                this.Adapter.UpdateCommand.Parameters[92].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[93].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[93].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[94].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[92].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[93].Value = ((string)(Original_TEFNUMTERMINAL));
+                this.Adapter.UpdateCommand.Parameters[93].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[94].Value = ((string)(Original_TEFNUMTERMINAL));
             }
             if ((Original_TEFPEDECPFPELOPINPAD == null)) {
-                this.Adapter.UpdateCommand.Parameters[94].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[95].Value = global::System.DBNull.Value;
+                this.Adapter.UpdateCommand.Parameters[95].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[96].Value = global::System.DBNull.Value;
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[94].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[95].Value = ((string)(Original_TEFPEDECPFPELOPINPAD));
+                this.Adapter.UpdateCommand.Parameters[95].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[96].Value = ((string)(Original_TEFPEDECPFPELOPINPAD));
             }
-            this.Adapter.UpdateCommand.Parameters[96].Value = ((short)(Original_BALPORTA));
-            this.Adapter.UpdateCommand.Parameters[97].Value = ((short)(Original_BALBITS));
-            this.Adapter.UpdateCommand.Parameters[98].Value = ((int)(Original_BALBAUD));
-            this.Adapter.UpdateCommand.Parameters[99].Value = ((short)(Original_BALPARITY));
-            this.Adapter.UpdateCommand.Parameters[100].Value = ((short)(Original_BALMODELO));
-            this.Adapter.UpdateCommand.Parameters[101].Value = ((short)(Original_ACFILLPREFIX));
-            this.Adapter.UpdateCommand.Parameters[102].Value = ((short)(Original_ACFILLMODE));
-            this.Adapter.UpdateCommand.Parameters[103].Value = ((short)(Original_ACREFERENCIA));
-            this.Adapter.UpdateCommand.Parameters[104].Value = ((short)(Original_SYSCOMISSAO));
-            this.Adapter.UpdateCommand.Parameters[105].Value = ((int)(Original_SATSERVTIMEOUT));
-            this.Adapter.UpdateCommand.Parameters[106].Value = ((int)(Original_SATLIFESIGNINTERVAL));
-            this.Adapter.UpdateCommand.Parameters[107].Value = ((int)(Original_ACFILLDELAY));
-            this.Adapter.UpdateCommand.Parameters[108].Value = ((short)(Original_SYSPERGUNTAWHATS));
-            this.Adapter.UpdateCommand.Parameters[109].Value = ((short)(Original_SYSPARCELA));
-            this.Adapter.UpdateCommand.Parameters[110].Value = ((short)(Original_SYSEMITECOMPROVANTE));
+            this.Adapter.UpdateCommand.Parameters[97].Value = ((short)(Original_BALPORTA));
+            this.Adapter.UpdateCommand.Parameters[98].Value = ((short)(Original_BALBITS));
+            this.Adapter.UpdateCommand.Parameters[99].Value = ((int)(Original_BALBAUD));
+            this.Adapter.UpdateCommand.Parameters[100].Value = ((short)(Original_BALPARITY));
+            this.Adapter.UpdateCommand.Parameters[101].Value = ((short)(Original_BALMODELO));
+            this.Adapter.UpdateCommand.Parameters[102].Value = ((short)(Original_ACFILLPREFIX));
+            this.Adapter.UpdateCommand.Parameters[103].Value = ((short)(Original_ACFILLMODE));
+            this.Adapter.UpdateCommand.Parameters[104].Value = ((short)(Original_ACREFERENCIA));
+            this.Adapter.UpdateCommand.Parameters[105].Value = ((short)(Original_SYSCOMISSAO));
+            this.Adapter.UpdateCommand.Parameters[106].Value = ((int)(Original_SATSERVTIMEOUT));
+            this.Adapter.UpdateCommand.Parameters[107].Value = ((int)(Original_SATLIFESIGNINTERVAL));
+            this.Adapter.UpdateCommand.Parameters[108].Value = ((int)(Original_ACFILLDELAY));
+            this.Adapter.UpdateCommand.Parameters[109].Value = ((short)(Original_SYSPERGUNTAWHATS));
+            this.Adapter.UpdateCommand.Parameters[110].Value = ((short)(Original_SYSPARCELA));
+            this.Adapter.UpdateCommand.Parameters[111].Value = ((short)(Original_SYSEMITECOMPROVANTE));
             if ((Original_INFORMA_MAQUININHA == null)) {
                 throw new global::System.ArgumentNullException("Original_INFORMA_MAQUININHA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[111].Value = ((string)(Original_INFORMA_MAQUININHA));
+                this.Adapter.UpdateCommand.Parameters[112].Value = ((string)(Original_INFORMA_MAQUININHA));
             }
             if ((Original_LAYOUT_SAT == null)) {
                 throw new global::System.ArgumentNullException("Original_LAYOUT_SAT");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[112].Value = ((string)(Original_LAYOUT_SAT));
+                this.Adapter.UpdateCommand.Parameters[113].Value = ((string)(Original_LAYOUT_SAT));
             }
             if ((Original_VINCULA_MAQ_CTA == null)) {
                 throw new global::System.ArgumentNullException("Original_VINCULA_MAQ_CTA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[113].Value = ((string)(Original_VINCULA_MAQ_CTA));
+                this.Adapter.UpdateCommand.Parameters[114].Value = ((string)(Original_VINCULA_MAQ_CTA));
             }
+            this.Adapter.UpdateCommand.Parameters[115].Value = ((short)(Original_COMANDO_GAVETA));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -11275,6 +11359,7 @@ END;";
                     string INFORMA_MAQUININHA, 
                     string LAYOUT_SAT, 
                     string VINCULA_MAQ_CTA, 
+                    short COMANDO_GAVETA, 
                     string Original_ID_MAC, 
                     short Original_NO_CAIXA, 
                     string Original_EXIGE_SANGRIA, 
@@ -11322,8 +11407,9 @@ END;";
                     short Original_SYSEMITECOMPROVANTE, 
                     string Original_INFORMA_MAQUININHA, 
                     string Original_LAYOUT_SAT, 
-                    string Original_VINCULA_MAQ_CTA) {
-            return this.Update(Original_ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA, Original_ID_MAC, Original_NO_CAIXA, Original_EXIGE_SANGRIA, Original_VALOR_MAX_CAIXA, Original_BLOQUEIA_NO_LIMITE, Original_VALOR_DE_FOLGA, Original_PERMITE_FOLGA_SANGRIA, Original_INTERROMPE_NAO_ENCONTRADO, Original_MENSAGEM_CORTESIA, Original_ICMS_CONT, Original_CSOSN_CONT, Original_PEDE_CPF, Original_PERMITE_ESTOQUE_NEGATIVO, Original_MODELO_CUPOM, Original_MENSAGEM_RODAPE, Original_TRI_PDV_DT_UPD, Original_MODELO_SAT, Original_SATSERVIDOR, Original_SAT_CODATIV, Original_SAT_USADO, Original_ECF_ATIVA, Original_ECF_PORTA, Original_IMPRESSORA_USB, Original_IMPRESSORA_USB_PED, Original_PERGUNTA_WHATS, Original_USATEF, Original_TEFIP, Original_TEFNUMLOJA, Original_TEFNUMTERMINAL, Original_TEFPEDECPFPELOPINPAD, Original_BALPORTA, Original_BALBITS, Original_BALBAUD, Original_BALPARITY, Original_BALMODELO, Original_ACFILLPREFIX, Original_ACFILLMODE, Original_ACREFERENCIA, Original_SYSCOMISSAO, Original_SATSERVTIMEOUT, Original_SATLIFESIGNINTERVAL, Original_ACFILLDELAY, Original_SYSPERGUNTAWHATS, Original_SYSPARCELA, Original_SYSEMITECOMPROVANTE, Original_INFORMA_MAQUININHA, Original_LAYOUT_SAT, Original_VINCULA_MAQ_CTA);
+                    string Original_VINCULA_MAQ_CTA, 
+                    short Original_COMANDO_GAVETA) {
+            return this.Update(Original_ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA, COMANDO_GAVETA, Original_ID_MAC, Original_NO_CAIXA, Original_EXIGE_SANGRIA, Original_VALOR_MAX_CAIXA, Original_BLOQUEIA_NO_LIMITE, Original_VALOR_DE_FOLGA, Original_PERMITE_FOLGA_SANGRIA, Original_INTERROMPE_NAO_ENCONTRADO, Original_MENSAGEM_CORTESIA, Original_ICMS_CONT, Original_CSOSN_CONT, Original_PEDE_CPF, Original_PERMITE_ESTOQUE_NEGATIVO, Original_MODELO_CUPOM, Original_MENSAGEM_RODAPE, Original_TRI_PDV_DT_UPD, Original_MODELO_SAT, Original_SATSERVIDOR, Original_SAT_CODATIV, Original_SAT_USADO, Original_ECF_ATIVA, Original_ECF_PORTA, Original_IMPRESSORA_USB, Original_IMPRESSORA_USB_PED, Original_PERGUNTA_WHATS, Original_USATEF, Original_TEFIP, Original_TEFNUMLOJA, Original_TEFNUMTERMINAL, Original_TEFPEDECPFPELOPINPAD, Original_BALPORTA, Original_BALBITS, Original_BALBAUD, Original_BALPARITY, Original_BALMODELO, Original_ACFILLPREFIX, Original_ACFILLMODE, Original_ACREFERENCIA, Original_SYSCOMISSAO, Original_SATSERVTIMEOUT, Original_SATLIFESIGNINTERVAL, Original_ACFILLDELAY, Original_SYSPERGUNTAWHATS, Original_SYSPARCELA, Original_SYSEMITECOMPROVANTE, Original_INFORMA_MAQUININHA, Original_LAYOUT_SAT, Original_VINCULA_MAQ_CTA, Original_COMANDO_GAVETA);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12124,7 +12210,8 @@ END;";
                     global::System.Nullable<short> PSYSEMITECOMPROVANTE, 
                     string PINFORMA_MAQUININHA, 
                     string PLAYOUT_SAT, 
-                    string PVINCULA_MAQ_CTA) {
+                    string PVINCULA_MAQ_CTA, 
+                    global::System.Nullable<short> PCOMANDO_GAVETA) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[31];
             if ((PID_MAC == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
@@ -12419,6 +12506,12 @@ END;";
             }
             else {
                 command.Parameters[48].Value = ((string)(PVINCULA_MAQ_CTA));
+            }
+            if ((PCOMANDO_GAVETA.HasValue == true)) {
+                command.Parameters[49].Value = ((short)(PCOMANDO_GAVETA.Value));
+            }
+            else {
+                command.Parameters[49].Value = global::System.DBNull.Value;
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 

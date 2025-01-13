@@ -38,4 +38,10 @@ namespace PDV_WPF.Objetos.Enums
 
         PermissaoTotal = ~Nenhum //262143 or -1
     }
+
+    public enum ComandoGaveta
+    {
+        Empty = 0,
+        Caracter = 1
+    }
 }

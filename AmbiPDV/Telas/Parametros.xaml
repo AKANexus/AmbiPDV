@@ -100,11 +100,12 @@
         </GroupBox>
         <GroupBox Header="Gaveta $" Margin="10,0" Height="61" Visibility="Visible">
             <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" Click="AbreGaveta_dll"/>
-                <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" Click="AbreGaveta_spooler"/>
-                <Label Content="Mod impressora:" Margin="30,8,0,5" FontSize="10"/>
-                <ComboBox Name="cbb_ModImpressora" Width="120" DockPanel.Dock="Top" Margin="0,0,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">
-                    <ComboBoxItem Content="EPSON"/>
+                <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" IsEnabled="False" IsChecked="False"/>
+                <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" IsChecked="True"/>
+                <Label Content="Comando abertura:" Margin="30,8,0,5" FontSize="10"/>
+                <ComboBox Name="cbb_ComandAbertura" Width="120" DockPanel.Dock="Top" Margin="0,0,0,0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">
+                    <ComboBoxItem Content="Enviar vazio"/>
+                    <ComboBoxItem Content="Enviar caracter"/>
                 </ComboBox>
             </StackPanel>
         </GroupBox>
