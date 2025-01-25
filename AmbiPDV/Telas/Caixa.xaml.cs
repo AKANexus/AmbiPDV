@@ -768,18 +768,7 @@ namespace PDV_WPF.Telas
                 {
                     return;
                 }
-                switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                {
-                    case 0:
-                        AbreGavetaSPOOLER();
-                        break;
-                    case 1:
-                        AbreGavetaDLL();
-                        break;
-                    default:
-                        AbreGavetaSPOOLER();
-                        break;
-                }
+                AbreGavetaSPOOLER();
                 var ss = new SangSupr();
                 ss.ShowDialog();
                 using var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter();
@@ -2212,18 +2201,7 @@ namespace PDV_WPF.Telas
                 {
                     if (IMPRESSORA_USB != "Nenhuma")
                     {
-                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                        {
-                            case 0:
-                                AbreGavetaSPOOLER();
-                                break;
-                            case 1:
-                                AbreGavetaDLL();
-                                break;
-                            default:
-                                AbreGavetaSPOOLER();
-                                break;
-                        }
+                        AbreGavetaSPOOLER();
                     }
                     log.Debug($"Abrindo novo FechamentoCaixa" + udx_pdv_oper.timestamp.ToString());
                     var fc = new FechamentoCaixa(udx_pdv_oper.timestamp);
@@ -3202,18 +3180,7 @@ namespace PDV_WPF.Telas
                     vendaAtual.imprimeViaCliente = false;
                     if (FORÇA_GAVETA)
                     {
-                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                        {
-                            case 0:
-                                AbreGavetaSPOOLER();
-                                break;
-                            case 1:
-                                AbreGavetaDLL();
-                                break;
-                            default:
-                                AbreGavetaSPOOLER();
-                                break;
-                        }
+                        AbreGavetaSPOOLER();
                     }
                     break;
 
@@ -4425,18 +4392,7 @@ namespace PDV_WPF.Telas
                     vendaAtual.imprimeViaCliente = false;
                     if (FORÇA_GAVETA)
                     {
-                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                        {
-                            case 0:
-                                AbreGavetaSPOOLER();
-                                break;
-                            case 1:
-                                AbreGavetaDLL();
-                                break;
-                            default:
-                                AbreGavetaSPOOLER();
-                                break;
-                        }
+                        AbreGavetaSPOOLER();
                     }
                     break;
                 case DecisaoWhats.ImpressaoNormal:
@@ -6875,18 +6831,7 @@ namespace PDV_WPF.Telas
                     {
                         if (IMPRESSORA_USB != "Nenhuma")
                         {
-                            switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                            {
-                                case 0:
-                                    AbreGavetaSPOOLER();
-                                    break;
-                                case 1:
-                                    AbreGavetaDLL();
-                                    break;
-                                default:
-                                    AbreGavetaSPOOLER();
-                                    break;
-                            }
+                            AbreGavetaSPOOLER();
                         }
                         else if (ECF_ATIVA)
                         {
