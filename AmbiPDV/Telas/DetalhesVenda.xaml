@@ -49,7 +49,7 @@
                 <Label Grid.Row="5" Grid.Column="1" Content="{Binding DtEmissao}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <Label Grid.Row="6" Grid.Column="1" Content="{Binding HrEmissao}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <Label Grid.Row="7" Grid.Column="1" Content="{Binding ValorTotal}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
-                <Label Grid.Row="8" Grid.Column="1" Content="{Binding Pagamentos}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
+                <Label Grid.Row="8" Grid.Column="1" Content="{Binding SbPagamentos}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <Label Grid.Row="9" Grid.Column="1" Content="{Binding StatusVenda}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
                 <Label Grid.Row="10" Grid.Column="1" Content="{Binding TipoVenda}" FontSize="15" VerticalAlignment="Center" HorizontalAlignment="Left" />
             </Grid>
