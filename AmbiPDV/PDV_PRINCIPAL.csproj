@@ -656,6 +656,9 @@
     <Compile Include="Telas\ParamsTecs.xaml.cs">
       <DependentUpon>ParamsTecs.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Telas\PerguntaLote.xaml.cs">
+      <DependentUpon>PerguntaLote.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Telas\PerguntaNumWhats.xaml.cs">
       <DependentUpon>PerguntaNumWhats.xaml</DependentUpon>
     </Compile>
@@ -939,6 +942,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Telas\ParamsTecs.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Telas\PerguntaLote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -12,6 +12,7 @@ using System.Windows.Documents;
 using static PDV_WPF.REMENDOOOOO.FuncoesFirebird;
 using System.Management.Instrumentation;
 using PDV_WPF.Funcoes;
+using System.Web.Security;
 
 namespace PDV_WPF.REMENDOOOOO
 {
@@ -204,7 +205,7 @@ namespace PDV_WPF.REMENDOOOOO
                 $"SELECT A.DESCRICAO, A.CFOP, A.UNI_MEDIDA, C.COD_NCM, C.COD_BARRA, C.CSOSN_CFE, " +
                 $"C.CST_CFE, A.CST_PIS, A.CST_COFINS, A.PIS, A.COFINS, COALESCE(D.UF_SP, 0) AS RUF_SP, " +
                 $"COALESCE(D.BASE_ICMS, 0)AS RBASE_ICMS, COALESCE(E.ISS_ALIQ, 0) AS RALIQ_ISS, " +
-                $"A.ID_TIPOITEM, C.COD_CEST, A.OBSERVACAO, F.DESCRICAO AS COR, G.DESCRICAO AS TAMANHO FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR B ON " +
+                $"A.ID_TIPOITEM, C.COD_CEST, A.OBSERVACAO, F.DESCRICAO AS COR, G.DESCRICAO AS TAMANHO, C.CONTROLA_LOTE_VENDA, C.BAIXA_LOTE_PDV FROM TB_ESTOQUE A INNER JOIN TB_EST_IDENTIFICADOR B ON " +
                 $"(A.ID_ESTOQUE = B.ID_ESTOQUE) LEFT JOIN TB_TAXA_UF D ON A.ID_CTI_CFE = D.ID_CTI " +
                 $"LEFT JOIN TB_EST_PRODUTO C ON B.ID_IDENTIFICADOR = C.ID_IDENTIFICADOR LEFT JOIN " +
                 $"TB_EST_SERVICO E ON E.ID_IDENTIFICADOR = B.ID_IDENTIFICADOR LEFT JOIN TB_EST_PROD_NIVEL1 F ON " +
@@ -234,7 +235,7 @@ namespace PDV_WPF.REMENDOOOOO
                     taPromoServ.Connection = connection;
                     string parametro = row["COD_BARRA"].ToString();
                     int? idScannTech = (int?)taPromoServ.ScalarByCod(parametro); //gambiarraa da poha mas fodace                    
-                                                                                             
+
                     return new DadosDoItem
                     {
                         DESCRICAO = row["DESCRICAO"] is DBNull ? "ITEM AVULSO" : row["DESCRICAO"] as string ?? "ITEM AVULSO",
@@ -256,7 +257,9 @@ namespace PDV_WPF.REMENDOOOOO
                         OBSERVACAO = row["OBSERVACAO"] is DBNull ? "Trabalho de corno do caralho" : row["OBSERVACAO"] as string ?? string.Empty,
                         COR = row["COR"] is DBNull ? string.Empty : " - " + row["COR"] ?? string.Empty,
                         TAMANHO = row["TAMANHO"] is DBNull ? string.Empty : " / " + row["TAMANHO"] ?? string.Empty,
-                        ID_SCANNTECH = idScannTech
+                        ID_SCANNTECH = idScannTech,
+                        CONTROLA_LOTE_VENDA = row["CONTROLA_LOTE_VENDA"] is DBNull ? default : (string?)row["CONTROLA_LOTE_VENDA"] ?? default,
+                        BAIXA_LOTE_PDV = row["BAIXA_LOTE_PDV"] is DBNull ? default : (string?)row["BAIXA_LOTE_PDV"] ?? default
                     };
                 }
             }
@@ -673,5 +676,17 @@ public class DadosDoItem
     public string COR { get; set; }
     public string TAMANHO { get; set; }
     public int?  ID_SCANNTECH { get; set; }
+
+    /// <remarks> Possiveis valores:
+    /// <para>S - Sim</para>
+    /// <para>N - Não</para>
+    /// </remarks>
+    public string CONTROLA_LOTE_VENDA { get; set; }
+
+    /// <remarks> Possiveis valores:
+    /// <para>A - Automática</para>
+    /// <para>M - Manual</para>
+    /// </remarks>
+    public string BAIXA_LOTE_PDV { get; set; }
 }
 

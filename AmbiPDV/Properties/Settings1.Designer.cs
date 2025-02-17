@@ -12,7 +12,7 @@ namespace PDV_WPF.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.12.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.11.0.0")]
     public sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -119,8 +119,8 @@ namespace PDV_WPF.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("data source=localhost;initial catalog=\"C:\\Users\\TRILHA SISTEMA\\Desktop\\BASESCANNT" +
-            "ECH\\CLIPP.FDB\";user id=SYSDBA;password=masterkey;charset=WIN1252")]
+        [global::System.Configuration.DefaultSettingValueAttribute("data source=localhost;initial catalog=\"C:\\Users\\Usuario\\Desktop\\BASE DE DADOS\\CLI" +
+            "PP.FDB\";user id=SYSDBA;password=masterkey;charset=WIN1252")]
         public string FDBConnString {
             get {
                 return ((string)(this["FDBConnString"]));

@@ -5591,11 +5591,30 @@ namespace PDV_WPF.Telas
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
             bool importadoKit = nomeKit is not null ? true : false;
+            string[] identificadoresLote = default;
 
             var dadosDoItem = _funcoes.ObtemDadosDoItem(pCodigoItem, LOCAL_FB_CONN);
             if (dadosDoItem is null)
             {
                 throw new Exception("dadosDoItem era vazio");
+            }
+
+            if (dadosDoItem.BAIXA_LOTE_PDV == "M")
+            {
+                this.IsEnabled = false;
+                PerguntaLote perguntaLote = new(idIdentificador: pCodigoItem, descricaoitem: dadosDoItem.DESCRICAO, quantidadeItem: pQuant);
+                perguntaLote.ShowDialog();
+                if (perguntaLote.DialogResult == false)
+                {
+                    log.Warn(message: $"Item {dadosDoItem.DESCRICAO}|{pCodigoItem} exige identificação do lote porem não foi informado.");
+                    DialogBox.Show(title: "Atenção", DialogBoxButtons.No, DialogBoxIcons.Warn, false, linhas: "O produto passado exige que seja informado o número do lote.");
+                    this.IsEnabled = true;
+                    combobox.Text = string.Empty;
+                    combobox.Focus();               
+                    return;
+                }
+                this.IsEnabled = true;
+                identificadoresLote = perguntaLote.IdentificadoresLote;
             }
 
             //using var dadosDoItem = new DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMDataTable();
@@ -5694,7 +5713,7 @@ namespace PDV_WPF.Telas
             }
             else
             {
-                log.Debug("Recebendo Novo Produto em vendaAtual");
+                log.Debug("Recebendo Novo Produto em vendaAtual");               
 
                 vendaAtual.RecebeNovoProduto(
                                         pCodigoItem,
@@ -5702,7 +5721,7 @@ namespace PDV_WPF.Telas
                                         dadosDoItem.COD_NCM,
                                         dadosDoItem.CFOP,
                                         pPrecoUnitario,
-                                        dadosDoItem.RSTR_CEST,
+                                        dadosDoItem.RSTR_CEST,                                     
                                         pOutros,
                                         pDesconto,
                                         dadosDoItem.UNI_MEDIDA,
@@ -5710,7 +5729,10 @@ namespace PDV_WPF.Telas
                                         dadosDoItem.COD_BARRA,
                                         famiglia,
                                         importadoKit,
-                                        dadosDoItem.ID_SCANNTECH);
+                                        dadosDoItem.ID_SCANNTECH,
+                                        controlaLoteVenda: dadosDoItem.CONTROLA_LOTE_VENDA,
+                                        baixaLotePdv: dadosDoItem.BAIXA_LOTE_PDV,
+                                        identificadorLote: identificadoresLote);
                 log.Debug("vendaAtual.RecebeNovoProduto concluído");
                 switch (dadosDoItem.RID_TIPOITEM == "9")
                 {

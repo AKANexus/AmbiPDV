@@ -88,6 +88,8 @@ namespace PDV_WPF.DataSets {
         
         private DatalhesVendaTableDataTable tableDatalhesVendaTable;
         
+        private TB_NFV_LOTEDataTable tableTB_NFV_LOTE;
+        
         private global::System.Data.DataRelation relationFK_CUPOM_PARCELAMENTO;
         
         private global::System.Data.DataRelation relationFK_CONTA_RECEBER_MOVDIARIO;
@@ -139,6 +141,10 @@ namespace PDV_WPF.DataSets {
         private global::System.Data.DataRelation relationFK_FMAPAGTO_NFVENDA1;
         
         private global::System.Data.DataRelation relationFK_FMAPAGTO_NFVENDA2;
+        
+        private global::System.Data.DataRelation relationFK_NFC_LOTE;
+        
+        private global::System.Data.DataRelation relationFK_NFV_ITENS_LOTE;
         
         private global::System.Data.SchemaSerializationMode _schemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
         
@@ -263,6 +269,9 @@ namespace PDV_WPF.DataSets {
                 }
                 if ((ds.Tables["DatalhesVendaTable"] != null)) {
                     base.Tables.Add(new DatalhesVendaTableDataTable(ds.Tables["DatalhesVendaTable"]));
+                }
+                if ((ds.Tables["TB_NFV_LOTE"] != null)) {
+                    base.Tables.Add(new TB_NFV_LOTEDataTable(ds.Tables["TB_NFV_LOTE"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -604,6 +613,16 @@ namespace PDV_WPF.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Browsable(false)]
+        [global::System.ComponentModel.DesignerSerializationVisibility(global::System.ComponentModel.DesignerSerializationVisibility.Content)]
+        public TB_NFV_LOTEDataTable TB_NFV_LOTE {
+            get {
+                return this.tableTB_NFV_LOTE;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.BrowsableAttribute(true)]
         [global::System.ComponentModel.DesignerSerializationVisibilityAttribute(global::System.ComponentModel.DesignerSerializationVisibility.Visible)]
         public override global::System.Data.SchemaSerializationMode SchemaSerializationMode {
@@ -764,6 +783,9 @@ namespace PDV_WPF.DataSets {
                 }
                 if ((ds.Tables["DatalhesVendaTable"] != null)) {
                     base.Tables.Add(new DatalhesVendaTableDataTable(ds.Tables["DatalhesVendaTable"]));
+                }
+                if ((ds.Tables["TB_NFV_LOTE"] != null)) {
+                    base.Tables.Add(new TB_NFV_LOTEDataTable(ds.Tables["TB_NFV_LOTE"]));
                 }
                 this.DataSetName = ds.DataSetName;
                 this.Prefix = ds.Prefix;
@@ -990,6 +1012,12 @@ namespace PDV_WPF.DataSets {
                     this.tableDatalhesVendaTable.InitVars();
                 }
             }
+            this.tableTB_NFV_LOTE = ((TB_NFV_LOTEDataTable)(base.Tables["TB_NFV_LOTE"]));
+            if ((initTable == true)) {
+                if ((this.tableTB_NFV_LOTE != null)) {
+                    this.tableTB_NFV_LOTE.InitVars();
+                }
+            }
             this.relationFK_CUPOM_PARCELAMENTO = this.Relations["FK_CUPOM_PARCELAMENTO"];
             this.relationFK_CONTA_RECEBER_MOVDIARIO = this.Relations["FK_CONTA_RECEBER_MOVDIARIO"];
             this.relationFK_NFVENDA_FMAPAGTO = this.Relations["FK_NFVENDA_FMAPAGTO"];
@@ -1016,6 +1044,8 @@ namespace PDV_WPF.DataSets {
             this.relationTRI_PDV_DEVOL_FK1 = this.Relations["TRI_PDV_DEVOL_FK1"];
             this.relationFK_FMAPAGTO_NFVENDA1 = this.Relations["FK_FMAPAGTO_NFVENDA1"];
             this.relationFK_FMAPAGTO_NFVENDA2 = this.Relations["FK_FMAPAGTO_NFVENDA2"];
+            this.relationFK_NFC_LOTE = this.Relations["FK_NFC_LOTE"];
+            this.relationFK_NFV_ITENS_LOTE = this.Relations["FK_NFV_ITENS_LOTE"];
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1090,6 +1120,8 @@ namespace PDV_WPF.DataSets {
             base.Tables.Add(this.tableCuponsDataTable);
             this.tableDatalhesVendaTable = new DatalhesVendaTableDataTable();
             base.Tables.Add(this.tableDatalhesVendaTable);
+            this.tableTB_NFV_LOTE = new TB_NFV_LOTEDataTable();
+            base.Tables.Add(this.tableTB_NFV_LOTE);
             this.relationFK_CUPOM_PARCELAMENTO = new global::System.Data.DataRelation("FK_CUPOM_PARCELAMENTO", new global::System.Data.DataColumn[] {
                         this.tableTB_PARCELAMENTO.ID_PARCELAColumn}, new global::System.Data.DataColumn[] {
                         this.tableTB_CUPOM.ID_PARCELAColumn}, false);
@@ -1194,6 +1226,14 @@ namespace PDV_WPF.DataSets {
                         this.tableDatalhesVendaTable.ID_FMANFCEColumn}, new global::System.Data.DataColumn[] {
                         this.tableTB_NFVENDA_FMAPAGTO_NFCE.ID_FMANFCEColumn}, false);
             this.Relations.Add(this.relationFK_FMAPAGTO_NFVENDA2);
+            this.relationFK_NFC_LOTE = new global::System.Data.DataRelation("FK_NFC_LOTE", new global::System.Data.DataColumn[] {
+                        this.tableTB_LOTE.ID_LOTEColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTB_NFV_LOTE.ID_LOTEColumn}, false);
+            this.Relations.Add(this.relationFK_NFC_LOTE);
+            this.relationFK_NFV_ITENS_LOTE = new global::System.Data.DataRelation("FK_NFV_ITENS_LOTE", new global::System.Data.DataColumn[] {
+                        this.tableTB_NFV_ITEM.ID_NFVITEMColumn}, new global::System.Data.DataColumn[] {
+                        this.tableTB_NFV_LOTE.ID_NFVITEMColumn}, false);
+            this.Relations.Add(this.relationFK_NFV_ITENS_LOTE);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1390,6 +1430,12 @@ namespace PDV_WPF.DataSets {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private bool ShouldSerializeTB_NFV_LOTE() {
+            return false;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void SchemaChanged(object sender, global::System.ComponentModel.CollectionChangeEventArgs e) {
             if ((e.Action == global::System.ComponentModel.CollectionChangeAction.Remove)) {
                 this.InitVars();
@@ -1538,6 +1584,9 @@ namespace PDV_WPF.DataSets {
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public delegate void DatalhesVendaTableRowChangeEventHandler(object sender, DatalhesVendaTableRowChangeEvent e);
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public delegate void TB_NFV_LOTERowChangeEventHandler(object sender, TB_NFV_LOTERowChangeEvent e);
         
         /// <summary>
         ///Represents the strongly named DataTable class.
@@ -14681,6 +14730,317 @@ namespace PDV_WPF.DataSets {
         }
         
         /// <summary>
+        ///Represents the strongly named DataTable class.
+        ///</summary>
+        [global::System.Serializable()]
+        [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
+        public partial class TB_NFV_LOTEDataTable : global::System.Data.TypedTableBase<TB_NFV_LOTERow> {
+            
+            private global::System.Data.DataColumn columnID_LOTE;
+            
+            private global::System.Data.DataColumn columnID_NFVITEM;
+            
+            private global::System.Data.DataColumn columnDT_BAIXA;
+            
+            private global::System.Data.DataColumn columnQTIDADE;
+            
+            private global::System.Data.DataColumn columnID_RECEITAFARMA;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTEDataTable() {
+                this.TableName = "TB_NFV_LOTE";
+                this.BeginInit();
+                this.InitClass();
+                this.EndInit();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal TB_NFV_LOTEDataTable(global::System.Data.DataTable table) {
+                this.TableName = table.TableName;
+                if ((table.CaseSensitive != table.DataSet.CaseSensitive)) {
+                    this.CaseSensitive = table.CaseSensitive;
+                }
+                if ((table.Locale.ToString() != table.DataSet.Locale.ToString())) {
+                    this.Locale = table.Locale;
+                }
+                if ((table.Namespace != table.DataSet.Namespace)) {
+                    this.Namespace = table.Namespace;
+                }
+                this.Prefix = table.Prefix;
+                this.MinimumCapacity = table.MinimumCapacity;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected TB_NFV_LOTEDataTable(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+                    base(info, context) {
+                this.InitVars();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_LOTEColumn {
+                get {
+                    return this.columnID_LOTE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_NFVITEMColumn {
+                get {
+                    return this.columnID_NFVITEM;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn DT_BAIXAColumn {
+                get {
+                    return this.columnDT_BAIXA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn QTIDADEColumn {
+                get {
+                    return this.columnQTIDADE;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn ID_RECEITAFARMAColumn {
+                get {
+                    return this.columnID_RECEITAFARMA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            [global::System.ComponentModel.Browsable(false)]
+            public int Count {
+                get {
+                    return this.Rows.Count;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERow this[int index] {
+                get {
+                    return ((TB_NFV_LOTERow)(this.Rows[index]));
+                }
+            }
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_NFV_LOTERowChangeEventHandler TB_NFV_LOTERowChanging;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_NFV_LOTERowChangeEventHandler TB_NFV_LOTERowChanged;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_NFV_LOTERowChangeEventHandler TB_NFV_LOTERowDeleting;
+            
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public event TB_NFV_LOTERowChangeEventHandler TB_NFV_LOTERowDeleted;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void AddTB_NFV_LOTERow(TB_NFV_LOTERow row) {
+                this.Rows.Add(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERow AddTB_NFV_LOTERow(TB_LOTERow parentTB_LOTERowByFK_NFC_LOTE, TB_NFV_ITEMRow parentTB_NFV_ITEMRowByFK_NFV_ITENS_LOTE, System.DateTime DT_BAIXA, decimal QTIDADE, int ID_RECEITAFARMA) {
+                TB_NFV_LOTERow rowTB_NFV_LOTERow = ((TB_NFV_LOTERow)(this.NewRow()));
+                object[] columnValuesArray = new object[] {
+                        null,
+                        null,
+                        DT_BAIXA,
+                        QTIDADE,
+                        ID_RECEITAFARMA};
+                if ((parentTB_LOTERowByFK_NFC_LOTE != null)) {
+                    columnValuesArray[0] = parentTB_LOTERowByFK_NFC_LOTE[0];
+                }
+                if ((parentTB_NFV_ITEMRowByFK_NFV_ITENS_LOTE != null)) {
+                    columnValuesArray[1] = parentTB_NFV_ITEMRowByFK_NFV_ITENS_LOTE[0];
+                }
+                rowTB_NFV_LOTERow.ItemArray = columnValuesArray;
+                this.Rows.Add(rowTB_NFV_LOTERow);
+                return rowTB_NFV_LOTERow;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public override global::System.Data.DataTable Clone() {
+                TB_NFV_LOTEDataTable cln = ((TB_NFV_LOTEDataTable)(base.Clone()));
+                cln.InitVars();
+                return cln;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataTable CreateInstance() {
+                return new TB_NFV_LOTEDataTable();
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal void InitVars() {
+                this.columnID_LOTE = base.Columns["ID_LOTE"];
+                this.columnID_NFVITEM = base.Columns["ID_NFVITEM"];
+                this.columnDT_BAIXA = base.Columns["DT_BAIXA"];
+                this.columnQTIDADE = base.Columns["QTIDADE"];
+                this.columnID_RECEITAFARMA = base.Columns["ID_RECEITAFARMA"];
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            private void InitClass() {
+                this.columnID_LOTE = new global::System.Data.DataColumn("ID_LOTE", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_LOTE);
+                this.columnID_NFVITEM = new global::System.Data.DataColumn("ID_NFVITEM", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_NFVITEM);
+                this.columnDT_BAIXA = new global::System.Data.DataColumn("DT_BAIXA", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnDT_BAIXA);
+                this.columnQTIDADE = new global::System.Data.DataColumn("QTIDADE", typeof(decimal), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnQTIDADE);
+                this.columnID_RECEITAFARMA = new global::System.Data.DataColumn("ID_RECEITAFARMA", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnID_RECEITAFARMA);
+                this.columnID_LOTE.AllowDBNull = false;
+                this.columnID_NFVITEM.AllowDBNull = false;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERow NewTB_NFV_LOTERow() {
+                return ((TB_NFV_LOTERow)(this.NewRow()));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Data.DataRow NewRowFromBuilder(global::System.Data.DataRowBuilder builder) {
+                return new TB_NFV_LOTERow(builder);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override global::System.Type GetRowType() {
+                return typeof(TB_NFV_LOTERow);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanged(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanged(e);
+                if ((this.TB_NFV_LOTERowChanged != null)) {
+                    this.TB_NFV_LOTERowChanged(this, new TB_NFV_LOTERowChangeEvent(((TB_NFV_LOTERow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowChanging(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowChanging(e);
+                if ((this.TB_NFV_LOTERowChanging != null)) {
+                    this.TB_NFV_LOTERowChanging(this, new TB_NFV_LOTERowChangeEvent(((TB_NFV_LOTERow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleted(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleted(e);
+                if ((this.TB_NFV_LOTERowDeleted != null)) {
+                    this.TB_NFV_LOTERowDeleted(this, new TB_NFV_LOTERowChangeEvent(((TB_NFV_LOTERow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            protected override void OnRowDeleting(global::System.Data.DataRowChangeEventArgs e) {
+                base.OnRowDeleting(e);
+                if ((this.TB_NFV_LOTERowDeleting != null)) {
+                    this.TB_NFV_LOTERowDeleting(this, new TB_NFV_LOTERowChangeEvent(((TB_NFV_LOTERow)(e.Row)), e.Action));
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void RemoveTB_NFV_LOTERow(TB_NFV_LOTERow row) {
+                this.Rows.Remove(row);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
+                global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
+                global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
+                FDBDataSetVenda ds = new FDBDataSetVenda();
+                global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
+                any1.Namespace = "http://www.w3.org/2001/XMLSchema";
+                any1.MinOccurs = new decimal(0);
+                any1.MaxOccurs = decimal.MaxValue;
+                any1.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any1);
+                global::System.Xml.Schema.XmlSchemaAny any2 = new global::System.Xml.Schema.XmlSchemaAny();
+                any2.Namespace = "urn:schemas-microsoft-com:xml-diffgram-v1";
+                any2.MinOccurs = new decimal(1);
+                any2.ProcessContents = global::System.Xml.Schema.XmlSchemaContentProcessing.Lax;
+                sequence.Items.Add(any2);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute1 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute1.Name = "namespace";
+                attribute1.FixedValue = ds.Namespace;
+                type.Attributes.Add(attribute1);
+                global::System.Xml.Schema.XmlSchemaAttribute attribute2 = new global::System.Xml.Schema.XmlSchemaAttribute();
+                attribute2.Name = "tableTypeName";
+                attribute2.FixedValue = "TB_NFV_LOTEDataTable";
+                type.Attributes.Add(attribute2);
+                type.Particle = sequence;
+                global::System.Xml.Schema.XmlSchema dsSchema = ds.GetSchemaSerializable();
+                if (xs.Contains(dsSchema.TargetNamespace)) {
+                    global::System.IO.MemoryStream s1 = new global::System.IO.MemoryStream();
+                    global::System.IO.MemoryStream s2 = new global::System.IO.MemoryStream();
+                    try {
+                        global::System.Xml.Schema.XmlSchema schema = null;
+                        dsSchema.Write(s1);
+                        for (global::System.Collections.IEnumerator schemas = xs.Schemas(dsSchema.TargetNamespace).GetEnumerator(); schemas.MoveNext(); ) {
+                            schema = ((global::System.Xml.Schema.XmlSchema)(schemas.Current));
+                            s2.SetLength(0);
+                            schema.Write(s2);
+                            if ((s1.Length == s2.Length)) {
+                                s1.Position = 0;
+                                s2.Position = 0;
+                                for (; ((s1.Position != s1.Length) 
+                                            && (s1.ReadByte() == s2.ReadByte())); ) {
+                                    ;
+                                }
+                                if ((s1.Position == s1.Length)) {
+                                    return type;
+                                }
+                            }
+                        }
+                    }
+                    finally {
+                        if ((s1 != null)) {
+                            s1.Close();
+                        }
+                        if ((s2 != null)) {
+                            s2.Close();
+                        }
+                    }
+                }
+                xs.Add(dsSchema);
+                return type;
+            }
+        }
+        
+        /// <summary>
         ///Represents strongly named DataRow class.
         ///</summary>
         public partial class TRI_PDV_OPERRow : global::System.Data.DataRow {
@@ -21379,6 +21739,17 @@ namespace PDV_WPF.DataSets {
                     return ((TRI_PDV_DEVOLRow[])(base.GetChildRows(this.Table.ChildRelations["TRI_PDV_DEVOL_FK"])));
                 }
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERow[] GetTB_NFV_LOTERows() {
+                if ((this.Table.ChildRelations["FK_NFV_ITENS_LOTE"] == null)) {
+                    return new TB_NFV_LOTERow[0];
+                }
+                else {
+                    return ((TB_NFV_LOTERow[])(base.GetChildRows(this.Table.ChildRelations["FK_NFV_ITENS_LOTE"])));
+                }
+            }
         }
         
         /// <summary>
@@ -22890,6 +23261,17 @@ namespace PDV_WPF.DataSets {
             public void SetID_SNGPC_INVENTNull() {
                 this[this.tableTB_LOTE.ID_SNGPC_INVENTColumn] = global::System.Convert.DBNull;
             }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERow[] GetTB_NFV_LOTERows() {
+                if ((this.Table.ChildRelations["FK_NFC_LOTE"] == null)) {
+                    return new TB_NFV_LOTERow[0];
+                }
+                else {
+                    return ((TB_NFV_LOTERow[])(base.GetChildRows(this.Table.ChildRelations["FK_NFC_LOTE"])));
+                }
+            }
         }
         
         /// <summary>
@@ -23690,6 +24072,149 @@ namespace PDV_WPF.DataSets {
                 else {
                     return ((TB_NFVENDA_FMAPAGTO_NFCERow[])(base.GetChildRows(this.Table.ChildRelations["FK_FMAPAGTO_NFVENDA2"])));
                 }
+            }
+        }
+        
+        /// <summary>
+        ///Represents strongly named DataRow class.
+        ///</summary>
+        public partial class TB_NFV_LOTERow : global::System.Data.DataRow {
+            
+            private TB_NFV_LOTEDataTable tableTB_NFV_LOTE;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            internal TB_NFV_LOTERow(global::System.Data.DataRowBuilder rb) : 
+                    base(rb) {
+                this.tableTB_NFV_LOTE = ((TB_NFV_LOTEDataTable)(this.Table));
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_LOTE {
+                get {
+                    return ((int)(this[this.tableTB_NFV_LOTE.ID_LOTEColumn]));
+                }
+                set {
+                    this[this.tableTB_NFV_LOTE.ID_LOTEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_NFVITEM {
+                get {
+                    return ((int)(this[this.tableTB_NFV_LOTE.ID_NFVITEMColumn]));
+                }
+                set {
+                    this[this.tableTB_NFV_LOTE.ID_NFVITEMColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public System.DateTime DT_BAIXA {
+                get {
+                    try {
+                        return ((global::System.DateTime)(this[this.tableTB_NFV_LOTE.DT_BAIXAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'DT_BAIXA\' na tabela \'TB_NFV_LOTE\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_NFV_LOTE.DT_BAIXAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public decimal QTIDADE {
+                get {
+                    try {
+                        return ((decimal)(this[this.tableTB_NFV_LOTE.QTIDADEColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'QTIDADE\' na tabela \'TB_NFV_LOTE\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_NFV_LOTE.QTIDADEColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public int ID_RECEITAFARMA {
+                get {
+                    try {
+                        return ((int)(this[this.tableTB_NFV_LOTE.ID_RECEITAFARMAColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("O valor da coluna \'ID_RECEITAFARMA\' na tabela \'TB_NFV_LOTE\' é DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableTB_NFV_LOTE.ID_RECEITAFARMAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_LOTERow TB_LOTERow {
+                get {
+                    return ((TB_LOTERow)(this.GetParentRow(this.Table.ParentRelations["FK_NFC_LOTE"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_NFC_LOTE"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_ITEMRow TB_NFV_ITEMRow {
+                get {
+                    return ((TB_NFV_ITEMRow)(this.GetParentRow(this.Table.ParentRelations["FK_NFV_ITENS_LOTE"])));
+                }
+                set {
+                    this.SetParentRow(value, this.Table.ParentRelations["FK_NFV_ITENS_LOTE"]);
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsDT_BAIXANull() {
+                return this.IsNull(this.tableTB_NFV_LOTE.DT_BAIXAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetDT_BAIXANull() {
+                this[this.tableTB_NFV_LOTE.DT_BAIXAColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsQTIDADENull() {
+                return this.IsNull(this.tableTB_NFV_LOTE.QTIDADEColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetQTIDADENull() {
+                this[this.tableTB_NFV_LOTE.QTIDADEColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public bool IsID_RECEITAFARMANull() {
+                return this.IsNull(this.tableTB_NFV_LOTE.ID_RECEITAFARMAColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public void SetID_RECEITAFARMANull() {
+                this[this.tableTB_NFV_LOTE.ID_RECEITAFARMAColumn] = global::System.Convert.DBNull;
             }
         }
         
@@ -24767,6 +25292,40 @@ namespace PDV_WPF.DataSets {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public DatalhesVendaTableRow Row {
+                get {
+                    return this.eventRow;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataRowAction Action {
+                get {
+                    return this.eventAction;
+                }
+            }
+        }
+        
+        /// <summary>
+        ///Row event argument class
+        ///</summary>
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public class TB_NFV_LOTERowChangeEvent : global::System.EventArgs {
+            
+            private TB_NFV_LOTERow eventRow;
+            
+            private global::System.Data.DataRowAction eventAction;
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERowChangeEvent(TB_NFV_LOTERow row, global::System.Data.DataRowAction action) {
+                this.eventRow = row;
+                this.eventAction = action;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public TB_NFV_LOTERow Row {
                 get {
                     return this.eventRow;
                 }
@@ -52048,26 +52607,26 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[3];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[6];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_LOTE";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "SELECT * FROM TB_LOTE WHERE ID_LOTE = @ID_LOTE";
+            this._commandCollection[1].CommandText = "SELECT FIRST 1 * FROM TB_LOTE WHERE ID_IDENTIFICADOR = @ID_IDENTIFICADOR AND QTD_" +
+                "ATUAL > 0 ORDER BY DT_VALIDAD";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@ID_LOTE";
+            param.ParameterName = "@ID_IDENTIFICADOR";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
-            param.SourceColumn = "ID_LOTE";
+            param.SourceColumn = "ID_IDENTIFICADOR";
             this._commandCollection[1].Parameters.Add(param);
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "UPDATE OR INSERT INTO TB_LOTE VALUES (@ID_LOTE, @NUM_LOTE, @DT_VALIDAD, @ID_IDENT" +
-                "IFICADOR, @QTD_ATUAL, @DT_FABRICACAO, @QTD_RESERV, @ID_SNGPC_INVENT)";
+            this._commandCollection[2].CommandText = "SELECT * FROM TB_LOTE WHERE ID_LOTE = @ID_LOTE";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_LOTE";
@@ -52076,54 +52635,103 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
             param.IsNullable = true;
             param.SourceColumn = "ID_LOTE";
             this._commandCollection[2].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@NUM_LOTE";
-            param.Size = 20;
-            param.IsNullable = true;
-            param.SourceColumn = "NUM_LOTE";
-            this._commandCollection[2].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@DT_VALIDAD";
-            param.DbType = global::System.Data.DbType.DateTime;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "DT_VALIDAD";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[3].Connection = this.Connection;
+            this._commandCollection[3].CommandText = "SELECT FIRST 1 * FROM TB_LOTE WHERE ID_IDENTIFICADOR = @ID_IDENTIFICADOR AND NUM_" +
+                "LOTE = @NUM_LOTE";
+            this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_IDENTIFICADOR";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "ID_IDENTIFICADOR";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[3].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@NUM_LOTE";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "NUM_LOTE";
+            this._commandCollection[3].Parameters.Add(param);
+            this._commandCollection[4] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[4].Connection = this.Connection;
+            this._commandCollection[4].CommandText = "UPDATE OR INSERT INTO TB_LOTE VALUES (@ID_LOTE, @NUM_LOTE, @DT_VALIDAD, @ID_IDENT" +
+                "IFICADOR, @QTD_ATUAL, @DT_FABRICACAO, @QTD_RESERV, @ID_SNGPC_INVENT)";
+            this._commandCollection[4].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_LOTE";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_LOTE";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@NUM_LOTE";
+            param.Size = 20;
+            param.IsNullable = true;
+            param.SourceColumn = "NUM_LOTE";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_VALIDAD";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_VALIDAD";
+            this._commandCollection[4].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_IDENTIFICADOR";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_IDENTIFICADOR";
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@QTD_ATUAL";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "QTD_ATUAL";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DT_FABRICACAO";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "DT_FABRICACAO";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@QTD_RESERV";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "QTD_RESERV";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_SNGPC_INVENT";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "ID_SNGPC_INVENT";
-            this._commandCollection[2].Parameters.Add(param);
+            this._commandCollection[4].Parameters.Add(param);
+            this._commandCollection[5] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[5].Connection = this.Connection;
+            this._commandCollection[5].CommandText = "UPDATE TB_LOTE \r\nSET QTD_ATUAL = @QTD_ATUAL\r\nWHERE ID_LOTE = @ID_LOTE";
+            this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@QTD_ATUAL";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "QTD_ATUAL";
+            this._commandCollection[5].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_LOTE";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_LOTE";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._commandCollection[5].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -52143,9 +52751,43 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
-        public virtual int FillByIdLote(FDBDataSetVenda.TB_LOTEDataTable dataTable, int ID_LOTE) {
+        public virtual int FillByIdIdentificador(FDBDataSetVenda.TB_LOTEDataTable dataTable, int ID_IDENTIFICADOR) {
             this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_IDENTIFICADOR));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByIdLote(FDBDataSetVenda.TB_LOTEDataTable dataTable, int ID_LOTE) {
+            this.Adapter.SelectCommand = this.CommandCollection[2];
             this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_LOTE));
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, false)]
+        public virtual int FillByNumLote(FDBDataSetVenda.TB_LOTEDataTable dataTable, int ID_IDENTIFICADOR, string NUM_LOTE) {
+            this.Adapter.SelectCommand = this.CommandCollection[3];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_IDENTIFICADOR));
+            if ((NUM_LOTE == null)) {
+                this.Adapter.SelectCommand.Parameters[1].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.SelectCommand.Parameters[1].Value = ((string)(NUM_LOTE));
+            }
             if ((this.ClearBeforeFill == true)) {
                 dataTable.Clear();
             }
@@ -52158,7 +52800,7 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int UpdateOrInsert(int ID_LOTE, string NUM_LOTE, global::System.Nullable<global::System.DateTime> DT_VALIDAD, int ID_IDENTIFICADOR, decimal QTD_ATUAL, global::System.Nullable<global::System.DateTime> DT_FABRICACAO, global::System.Nullable<decimal> QTD_RESERV, global::System.Nullable<int> ID_SNGPC_INVENT) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[4];
             command.Parameters[0].Value = ((int)(ID_LOTE));
             if ((NUM_LOTE == null)) {
                 command.Parameters[1].Value = global::System.DBNull.Value;
@@ -52192,6 +52834,31 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
             else {
                 command.Parameters[7].Value = global::System.DBNull.Value;
             }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, false)]
+        public virtual int UpdateQtdAtual(decimal QTD_ATUAL, int ID_LOTE) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[5];
+            command.Parameters[0].Value = ((decimal)(QTD_ATUAL));
+            command.Parameters[1].Value = ((int)(ID_LOTE));
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -53178,6 +53845,318 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
     }
     
     /// <summary>
+    ///Represents the connection and commands used to retrieve and save data.
+    ///</summary>
+    [global::System.ComponentModel.DesignerCategoryAttribute("code")]
+    [global::System.ComponentModel.ToolboxItem(true)]
+    [global::System.ComponentModel.DataObjectAttribute(true)]
+    [global::System.ComponentModel.DesignerAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterDesigner, Microsoft.VSDesigner" +
+        ", Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")]
+    [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+    public partial class TB_NFV_LOTETableAdapter : global::System.ComponentModel.Component {
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbDataAdapter _adapter;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbConnection _connection;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbTransaction _transaction;
+        
+        private global::FirebirdSql.Data.FirebirdClient.FbCommand[] _commandCollection;
+        
+        private bool _clearBeforeFill;
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public TB_NFV_LOTETableAdapter() {
+            this.ClearBeforeFill = true;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected internal global::FirebirdSql.Data.FirebirdClient.FbDataAdapter Adapter {
+            get {
+                if ((this._adapter == null)) {
+                    this.InitAdapter();
+                }
+                return this._adapter;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public global::FirebirdSql.Data.FirebirdClient.FbConnection Connection {
+            get {
+                if ((this._connection == null)) {
+                    this.InitConnection();
+                }
+                return this._connection;
+            }
+            set {
+                this._connection = value;
+                if ((this.Adapter.InsertCommand != null)) {
+                    this.Adapter.InsertCommand.Connection = value;
+                }
+                if ((this.Adapter.DeleteCommand != null)) {
+                    this.Adapter.DeleteCommand.Connection = value;
+                }
+                if ((this.Adapter.UpdateCommand != null)) {
+                    this.Adapter.UpdateCommand.Connection = value;
+                }
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    if ((this.CommandCollection[i] != null)) {
+                        ((global::FirebirdSql.Data.FirebirdClient.FbCommand)(this.CommandCollection[i])).Connection = value;
+                    }
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        internal global::FirebirdSql.Data.FirebirdClient.FbTransaction Transaction {
+            get {
+                return this._transaction;
+            }
+            set {
+                this._transaction = value;
+                for (int i = 0; (i < this.CommandCollection.Length); i = (i + 1)) {
+                    this.CommandCollection[i].Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.DeleteCommand != null))) {
+                    this.Adapter.DeleteCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.InsertCommand != null))) {
+                    this.Adapter.InsertCommand.Transaction = this._transaction;
+                }
+                if (((this.Adapter != null) 
+                            && (this.Adapter.UpdateCommand != null))) {
+                    this.Adapter.UpdateCommand.Transaction = this._transaction;
+                }
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        protected global::FirebirdSql.Data.FirebirdClient.FbCommand[] CommandCollection {
+            get {
+                if ((this._commandCollection == null)) {
+                    this.InitCommandCollection();
+                }
+                return this._commandCollection;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        public bool ClearBeforeFill {
+            get {
+                return this._clearBeforeFill;
+            }
+            set {
+                this._clearBeforeFill = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitAdapter() {
+            this._adapter = new global::FirebirdSql.Data.FirebirdClient.FbDataAdapter();
+            global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
+            tableMapping.SourceTable = "Table";
+            tableMapping.DataSetTable = "TB_NFV_LOTE";
+            tableMapping.ColumnMappings.Add("ID_LOTE", "ID_LOTE");
+            tableMapping.ColumnMappings.Add("ID_NFVITEM", "ID_NFVITEM");
+            tableMapping.ColumnMappings.Add("DT_BAIXA", "DT_BAIXA");
+            tableMapping.ColumnMappings.Add("QTIDADE", "QTIDADE");
+            tableMapping.ColumnMappings.Add("ID_RECEITAFARMA", "ID_RECEITAFARMA");
+            this._adapter.TableMappings.Add(tableMapping);
+            this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._adapter.InsertCommand.Connection = this.Connection;
+            this._adapter.InsertCommand.CommandText = "UPDATE OR INSERT INTO \"TB_NFV_LOTE\" VALUES (@ID_LOTE, @ID_NFVITEM, @DT_BAIXA, @QT" +
+                "IDADE, @ID_RECEITAFARMA) MATCHING (@ID_LOTE, @ID_NFVITEM)";
+            this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_LOTE";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_LOTE";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_NFVITEM";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NFVITEM";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_BAIXA";
+            param.DbType = global::System.Data.DbType.Date;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_BAIXA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@QTIDADE";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "QTIDADE";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_RECEITAFARMA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_RECEITAFARMA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitConnection() {
+            this._connection = new global::FirebirdSql.Data.FirebirdClient.FbConnection();
+            this._connection.ConnectionString = global::PDV_WPF.Properties.Settings.Default.FDBConnString;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        private void InitCommandCollection() {
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
+            this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[0].Connection = this.Connection;
+            this._commandCollection[0].CommandText = "SELECT * FROM TB_NFV_LOTE";
+            this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
+            this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[1].Connection = this.Connection;
+            this._commandCollection[1].CommandText = "INSERT INTO \"TB_NFV_LOTE\" VALUES (@ID_LOTE, @ID_NFVITEM, @DT_BAIXA, @QTIDADE, @ID" +
+                "_RECEITAFARMA)";
+            this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
+            global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_LOTE";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_LOTE";
+            this._commandCollection[1].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_NFVITEM";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NFVITEM";
+            this._commandCollection[1].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@DT_BAIXA";
+            param.DbType = global::System.Data.DbType.DateTime;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "DT_BAIXA";
+            this._commandCollection[1].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@QTIDADE";
+            param.DbType = global::System.Data.DbType.Decimal;
+            param.Size = 8;
+            param.IsNullable = true;
+            param.SourceColumn = "QTIDADE";
+            this._commandCollection[1].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_RECEITAFARMA";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_RECEITAFARMA";
+            this._commandCollection[1].Parameters.Add(param);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
+        public virtual int Fill(FDBDataSetVenda.TB_NFV_LOTEDataTable dataTable) {
+            this.Adapter.SelectCommand = this.CommandCollection[0];
+            if ((this.ClearBeforeFill == true)) {
+                dataTable.Clear();
+            }
+            int returnValue = this.Adapter.Fill(dataTable);
+            return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSetVenda.TB_NFV_LOTEDataTable dataTable) {
+            return this.Adapter.Update(dataTable);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(FDBDataSetVenda dataSet) {
+            return this.Adapter.Update(dataSet, "TB_NFV_LOTE");
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow dataRow) {
+            return this.Adapter.Update(new global::System.Data.DataRow[] {
+                        dataRow});
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        public virtual int Update(global::System.Data.DataRow[] dataRows) {
+            return this.Adapter.Update(dataRows);
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
+        public virtual int UpdateOrInsert(int ID_LOTE, int ID_NFVITEM, global::System.Nullable<global::System.DateTime> DT_BAIXA, global::System.Nullable<decimal> QTIDADE, global::System.Nullable<int> ID_RECEITAFARMA) {
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            command.Parameters[0].Value = ((int)(ID_LOTE));
+            command.Parameters[1].Value = ((int)(ID_NFVITEM));
+            if ((DT_BAIXA.HasValue == true)) {
+                command.Parameters[2].Value = ((System.DateTime)(DT_BAIXA.Value));
+            }
+            else {
+                command.Parameters[2].Value = global::System.DBNull.Value;
+            }
+            if ((QTIDADE.HasValue == true)) {
+                command.Parameters[3].Value = ((decimal)(QTIDADE.Value));
+            }
+            else {
+                command.Parameters[3].Value = global::System.DBNull.Value;
+            }
+            if ((ID_RECEITAFARMA.HasValue == true)) {
+                command.Parameters[4].Value = ((int)(ID_RECEITAFARMA.Value));
+            }
+            else {
+                command.Parameters[4].Value = global::System.DBNull.Value;
+            }
+            global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
+            if (((command.Connection.State & global::System.Data.ConnectionState.Open) 
+                        != global::System.Data.ConnectionState.Open)) {
+                command.Connection.Open();
+            }
+            int returnValue;
+            try {
+                returnValue = command.ExecuteNonQuery();
+            }
+            finally {
+                if ((previousConnectionState == global::System.Data.ConnectionState.Closed)) {
+                    command.Connection.Close();
+                }
+            }
+            return returnValue;
+        }
+    }
+    
+    /// <summary>
     ///TableAdapterManager is used to coordinate TableAdapters in the dataset to enable Hierarchical Update scenarios
     ///</summary>
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
@@ -53224,6 +54203,8 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         private TRI_PDV_DEVOLTableAdapter _tRI_PDV_DEVOLTableAdapter;
         
         private TB_NFCE_BANDEIRATableAdapter _tB_NFCE_BANDEIRATableAdapter;
+        
+        private TB_NFV_LOTETableAdapter _tB_NFV_LOTETableAdapter;
         
         private bool _backupDataSetBeforeUpdate;
         
@@ -53494,6 +54475,20 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.EditorAttribute("Microsoft.VSDesigner.DataSource.Design.TableAdapterManagerPropertyEditor, Microso" +
+            "ft.VSDesigner, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3" +
+            "a", "System.Drawing.Design.UITypeEditor")]
+        public TB_NFV_LOTETableAdapter TB_NFV_LOTETableAdapter {
+            get {
+                return this._tB_NFV_LOTETableAdapter;
+            }
+            set {
+                this._tB_NFV_LOTETableAdapter = value;
+            }
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public bool BackupDataSetBeforeUpdate {
             get {
                 return this._backupDataSetBeforeUpdate;
@@ -53583,6 +54578,10 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                             && (this._tB_NFCE_BANDEIRATableAdapter.Connection != null))) {
                     return this._tB_NFCE_BANDEIRATableAdapter.Connection;
                 }
+                if (((this._tB_NFV_LOTETableAdapter != null) 
+                            && (this._tB_NFV_LOTETableAdapter.Connection != null))) {
+                    return this._tB_NFV_LOTETableAdapter.Connection;
+                }
                 return null;
             }
             set {
@@ -53650,6 +54649,9 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                 if ((this._tB_NFCE_BANDEIRATableAdapter != null)) {
                     count = (count + 1);
                 }
+                if ((this._tB_NFV_LOTETableAdapter != null)) {
+                    count = (count + 1);
+                }
                 return count;
             }
         }
@@ -53697,21 +54699,21 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tB_CONTA_RECEBERTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TB_CONTA_RECEBER.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
-                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
-                if (((updatedRows != null) 
-                            && (0 < updatedRows.Length))) {
-                    result = (result + this._tB_CONTA_RECEBERTableAdapter.Update(updatedRows));
-                    allChangedRows.AddRange(updatedRows);
-                }
-            }
             if ((this._tB_NFV_ITEMTableAdapter != null)) {
                 global::System.Data.DataRow[] updatedRows = dataSet.TB_NFV_ITEM.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._tB_NFV_ITEMTableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tB_CONTA_RECEBERTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_CONTA_RECEBER.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tB_CONTA_RECEBERTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -53730,6 +54732,15 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
                     result = (result + this._tB_NFCE_BANDEIRATableAdapter.Update(updatedRows));
+                    allChangedRows.AddRange(updatedRows);
+                }
+            }
+            if ((this._tRI_PDV_OPERTableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_OPER.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+                updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
+                if (((updatedRows != null) 
+                            && (0 < updatedRows.Length))) {
+                    result = (result + this._tRI_PDV_OPERTableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -53814,12 +54825,12 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                     allChangedRows.AddRange(updatedRows);
                 }
             }
-            if ((this._tRI_PDV_OPERTableAdapter != null)) {
-                global::System.Data.DataRow[] updatedRows = dataSet.TRI_PDV_OPER.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
+            if ((this._tB_NFV_LOTETableAdapter != null)) {
+                global::System.Data.DataRow[] updatedRows = dataSet.TB_NFV_LOTE.Select(null, null, global::System.Data.DataViewRowState.ModifiedCurrent);
                 updatedRows = this.GetRealUpdatedRows(updatedRows, allAddedRows);
                 if (((updatedRows != null) 
                             && (0 < updatedRows.Length))) {
-                    result = (result + this._tRI_PDV_OPERTableAdapter.Update(updatedRows));
+                    result = (result + this._tB_NFV_LOTETableAdapter.Update(updatedRows));
                     allChangedRows.AddRange(updatedRows);
                 }
             }
@@ -53865,19 +54876,19 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tB_CONTA_RECEBERTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TB_CONTA_RECEBER.Select(null, null, global::System.Data.DataViewRowState.Added);
-                if (((addedRows != null) 
-                            && (0 < addedRows.Length))) {
-                    result = (result + this._tB_CONTA_RECEBERTableAdapter.Update(addedRows));
-                    allAddedRows.AddRange(addedRows);
-                }
-            }
             if ((this._tB_NFV_ITEMTableAdapter != null)) {
                 global::System.Data.DataRow[] addedRows = dataSet.TB_NFV_ITEM.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._tB_NFV_ITEMTableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tB_CONTA_RECEBERTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_CONTA_RECEBER.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tB_CONTA_RECEBERTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -53894,6 +54905,14 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
                     result = (result + this._tB_NFCE_BANDEIRATableAdapter.Update(addedRows));
+                    allAddedRows.AddRange(addedRows);
+                }
+            }
+            if ((this._tRI_PDV_OPERTableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_OPER.Select(null, null, global::System.Data.DataViewRowState.Added);
+                if (((addedRows != null) 
+                            && (0 < addedRows.Length))) {
+                    result = (result + this._tRI_PDV_OPERTableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -53969,11 +54988,11 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                     allAddedRows.AddRange(addedRows);
                 }
             }
-            if ((this._tRI_PDV_OPERTableAdapter != null)) {
-                global::System.Data.DataRow[] addedRows = dataSet.TRI_PDV_OPER.Select(null, null, global::System.Data.DataViewRowState.Added);
+            if ((this._tB_NFV_LOTETableAdapter != null)) {
+                global::System.Data.DataRow[] addedRows = dataSet.TB_NFV_LOTE.Select(null, null, global::System.Data.DataViewRowState.Added);
                 if (((addedRows != null) 
                             && (0 < addedRows.Length))) {
-                    result = (result + this._tRI_PDV_OPERTableAdapter.Update(addedRows));
+                    result = (result + this._tB_NFV_LOTETableAdapter.Update(addedRows));
                     allAddedRows.AddRange(addedRows);
                 }
             }
@@ -53987,11 +55006,11 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private int UpdateDeletedRows(FDBDataSetVenda dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
-            if ((this._tRI_PDV_OPERTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_OPER.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+            if ((this._tB_NFV_LOTETableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_NFV_LOTE.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
-                    result = (result + this._tRI_PDV_OPERTableAdapter.Update(deletedRows));
+                    result = (result + this._tB_NFV_LOTETableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -54067,6 +55086,14 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
+            if ((this._tRI_PDV_OPERTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TRI_PDV_OPER.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tRI_PDV_OPERTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
             if ((this._tB_NFCE_BANDEIRATableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.TB_NFCE_BANDEIRA.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
@@ -54083,19 +55110,19 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                     allChangedRows.AddRange(deletedRows);
                 }
             }
-            if ((this._tB_NFV_ITEMTableAdapter != null)) {
-                global::System.Data.DataRow[] deletedRows = dataSet.TB_NFV_ITEM.Select(null, null, global::System.Data.DataViewRowState.Deleted);
-                if (((deletedRows != null) 
-                            && (0 < deletedRows.Length))) {
-                    result = (result + this._tB_NFV_ITEMTableAdapter.Update(deletedRows));
-                    allChangedRows.AddRange(deletedRows);
-                }
-            }
             if ((this._tB_CONTA_RECEBERTableAdapter != null)) {
                 global::System.Data.DataRow[] deletedRows = dataSet.TB_CONTA_RECEBER.Select(null, null, global::System.Data.DataViewRowState.Deleted);
                 if (((deletedRows != null) 
                             && (0 < deletedRows.Length))) {
                     result = (result + this._tB_CONTA_RECEBERTableAdapter.Update(deletedRows));
+                    allChangedRows.AddRange(deletedRows);
+                }
+            }
+            if ((this._tB_NFV_ITEMTableAdapter != null)) {
+                global::System.Data.DataRow[] deletedRows = dataSet.TB_NFV_ITEM.Select(null, null, global::System.Data.DataViewRowState.Deleted);
+                if (((deletedRows != null) 
+                            && (0 < deletedRows.Length))) {
+                    result = (result + this._tB_NFV_ITEMTableAdapter.Update(deletedRows));
                     allChangedRows.AddRange(deletedRows);
                 }
             }
@@ -54257,6 +55284,11 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
             }
             if (((this._tB_NFCE_BANDEIRATableAdapter != null) 
                         && (this.MatchTableAdapterConnection(this._tB_NFCE_BANDEIRATableAdapter.Connection) == false))) {
+                throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
+                        "cadeia de conexão.");
+            }
+            if (((this._tB_NFV_LOTETableAdapter != null) 
+                        && (this.MatchTableAdapterConnection(this._tB_NFV_LOTETableAdapter.Connection) == false))) {
                 throw new global::System.ArgumentException("Todos os TableAdapters gerenciados por um TableAdapterManager devem usar a mesma " +
                         "cadeia de conexão.");
             }
@@ -54454,6 +55486,15 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                         adaptersWithAcceptChangesDuringUpdate.Add(this._tB_NFCE_BANDEIRATableAdapter.Adapter);
                     }
                 }
+                if ((this._tB_NFV_LOTETableAdapter != null)) {
+                    revertConnections.Add(this._tB_NFV_LOTETableAdapter, this._tB_NFV_LOTETableAdapter.Connection);
+                    this._tB_NFV_LOTETableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(workConnection));
+                    this._tB_NFV_LOTETableAdapter.Transaction = ((global::FirebirdSql.Data.FirebirdClient.FbTransaction)(workTransaction));
+                    if (this._tB_NFV_LOTETableAdapter.Adapter.AcceptChangesDuringUpdate) {
+                        this._tB_NFV_LOTETableAdapter.Adapter.AcceptChangesDuringUpdate = false;
+                        adaptersWithAcceptChangesDuringUpdate.Add(this._tB_NFV_LOTETableAdapter.Adapter);
+                    }
+                }
                 // 
                 //---- Perform updates -----------
                 //
@@ -54583,6 +55624,10 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
                 if ((this._tB_NFCE_BANDEIRATableAdapter != null)) {
                     this._tB_NFCE_BANDEIRATableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tB_NFCE_BANDEIRATableAdapter]));
                     this._tB_NFCE_BANDEIRATableAdapter.Transaction = null;
+                }
+                if ((this._tB_NFV_LOTETableAdapter != null)) {
+                    this._tB_NFV_LOTETableAdapter.Connection = ((global::FirebirdSql.Data.FirebirdClient.FbConnection)(revertConnections[this._tB_NFV_LOTETableAdapter]));
+                    this._tB_NFV_LOTETableAdapter.Transaction = null;
                 }
                 if ((0 < adaptersWithAcceptChangesDuringUpdate.Count)) {
                     global::System.Data.Common.DataAdapter[] adapters = new System.Data.Common.DataAdapter[adaptersWithAcceptChangesDuringUpdate.Count];
