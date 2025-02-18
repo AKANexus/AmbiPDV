@@ -7314,6 +7314,37 @@ namespace PDV_WPF.Funcoes
                                                         #endregion Atualizar no PDV a quantidade em estoque
 
                                                         #endregion Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+
+                                                        #region Registrar lote vendido e atualiza-lo (2025-02-18)
+
+                                                        using (var taNfvLotePdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_LOTETableAdapter() { Connection = fbConnPdv, Transaction = fbTransactPdv })
+                                                        {
+                                                            var dtNfvLote = taNfvLotePdv.GetByIdNfvItem(ID_NFVITEM: nfvItem.ID_NFVITEM);
+                                                            if (dtNfvLote.Rows.Count > 0)
+                                                            {
+                                                                using (var taNfvLoteServ = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_LOTETableAdapter() { Connection = fbConnServ, Transaction = fbTransactServ })
+                                                                using (var taLoteServ = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter() { Connection = fbConnServ, Transaction = fbTransactServ })
+                                                                using (var dtLote = new FDBDataSetVenda.TB_LOTEDataTable())
+                                                                {
+                                                                    foreach (var nfvLotePdv in dtNfvLote)
+                                                                    {
+                                                                        taLoteServ.FillByIdLote(dataTable: dtLote, ID_LOTE: nfvLotePdv.ID_LOTE);
+                                                                        var loteServidor = dtLote[0];
+
+                                                                        taNfvLoteServ.UpdateOrInsert(ID_LOTE: loteServidor.ID_LOTE,
+                                                                            ID_NFVITEM: newIdNfvItem,
+                                                                            DT_BAIXA: nfvLotePdv.DT_BAIXA,
+                                                                            QTIDADE: nfvLotePdv.QTIDADE,
+                                                                            ID_RECEITAFARMA: nfvLotePdv.IsID_RECEITAFARMANull() ? null : nfvLotePdv.ID_RECEITAFARMA);
+
+                                                                        taLoteServ.UpdateQtdAtual(QTD_ATUAL: loteServidor.QTD_ATUAL - nfvLotePdv.QTIDADE,
+                                                                            ID_LOTE: loteServidor.ID_LOTE);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        #endregion Registrar lote vendido e atualiza-lo (2025-02-18)
                                                     }
 
                                                     #endregion Consultar os itens da nfvenda do PDV

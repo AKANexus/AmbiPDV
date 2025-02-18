@@ -52626,7 +52626,7 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
             this._commandCollection[1].Parameters.Add(param);
             this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[2].Connection = this.Connection;
-            this._commandCollection[2].CommandText = "SELECT * FROM TB_LOTE WHERE ID_LOTE = @ID_LOTE";
+            this._commandCollection[2].CommandText = "SELECT FIRST 1 * FROM TB_LOTE WHERE ID_LOTE = @ID_LOTE";
             this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_LOTE";
@@ -52638,7 +52638,7 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
             this._commandCollection[3] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[3].Connection = this.Connection;
             this._commandCollection[3].CommandText = "SELECT FIRST 1 * FROM TB_LOTE WHERE ID_IDENTIFICADOR = @ID_IDENTIFICADOR AND NUM_" +
-                "LOTE = @NUM_LOTE";
+                "LOTE = @NUM_LOTE\r\nAND QTD_ATUAL > 0";
             this._commandCollection[3].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_IDENTIFICADOR";
@@ -54023,51 +54023,62 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitCommandCollection() {
-            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[2];
+            this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[3];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
             this._commandCollection[0].CommandText = "SELECT * FROM TB_NFV_LOTE";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
-            this._commandCollection[1].CommandText = "INSERT INTO \"TB_NFV_LOTE\" VALUES (@ID_LOTE, @ID_NFVITEM, @DT_BAIXA, @QTIDADE, @ID" +
-                "_RECEITAFARMA)";
+            this._commandCollection[1].CommandText = "SELECT * FROM TB_NFV_LOTE WHERE ID_NFVITEM = @ID_NFVITEM";
             this._commandCollection[1].CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
-            param.ParameterName = "@ID_LOTE";
-            param.DbType = global::System.Data.DbType.Int32;
-            param.Size = 4;
-            param.IsNullable = true;
-            param.SourceColumn = "ID_LOTE";
-            this._commandCollection[1].Parameters.Add(param);
-            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_NFVITEM";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "ID_NFVITEM";
             this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
+            this._commandCollection[2].Connection = this.Connection;
+            this._commandCollection[2].CommandText = "INSERT INTO \"TB_NFV_LOTE\" VALUES (@ID_LOTE, @ID_NFVITEM, @DT_BAIXA, @QTIDADE, @ID" +
+                "_RECEITAFARMA)";
+            this._commandCollection[2].CommandType = global::System.Data.CommandType.Text;
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_LOTE";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_LOTE";
+            this._commandCollection[2].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@ID_NFVITEM";
+            param.DbType = global::System.Data.DbType.Int32;
+            param.Size = 4;
+            param.IsNullable = true;
+            param.SourceColumn = "ID_NFVITEM";
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@DT_BAIXA";
             param.DbType = global::System.Data.DbType.DateTime;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "DT_BAIXA";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@QTIDADE";
             param.DbType = global::System.Data.DbType.Decimal;
             param.Size = 8;
             param.IsNullable = true;
             param.SourceColumn = "QTIDADE";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_RECEITAFARMA";
             param.DbType = global::System.Data.DbType.Int32;
             param.Size = 4;
             param.IsNullable = true;
             param.SourceColumn = "ID_RECEITAFARMA";
-            this._commandCollection[1].Parameters.Add(param);
+            this._commandCollection[2].Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -54081,6 +54092,18 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
             }
             int returnValue = this.Adapter.Fill(dataTable);
             return returnValue;
+        }
+        
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+        [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
+        [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, false)]
+        public virtual FDBDataSetVenda.TB_NFV_LOTEDataTable GetByIdNfvItem(int ID_NFVITEM) {
+            this.Adapter.SelectCommand = this.CommandCollection[1];
+            this.Adapter.SelectCommand.Parameters[0].Value = ((int)(ID_NFVITEM));
+            FDBDataSetVenda.TB_NFV_LOTEDataTable dataTable = new FDBDataSetVenda.TB_NFV_LOTEDataTable();
+            this.Adapter.Fill(dataTable);
+            return dataTable;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -54117,7 +54140,7 @@ WHERE A.ID_NFVENDA = @ID_NFVENDA";
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, false)]
         public virtual int UpdateOrInsert(int ID_LOTE, int ID_NFVITEM, global::System.Nullable<global::System.DateTime> DT_BAIXA, global::System.Nullable<decimal> QTIDADE, global::System.Nullable<int> ID_RECEITAFARMA) {
-            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[1];
+            global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[2];
             command.Parameters[0].Value = ((int)(ID_LOTE));
             command.Parameters[1].Value = ((int)(ID_NFVITEM));
             if ((DT_BAIXA.HasValue == true)) {

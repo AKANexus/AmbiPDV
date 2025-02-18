@@ -1544,7 +1544,7 @@ namespace PDV_WPF.Objetos
                                        RetornarMensagemErro(ex, false));
                         return (-1, -1);
                     }
-                    #region CONTROLA_LOTE_DESATIVADO
+                    #region CONTROLA_LOTE
                     if (detalhamento.controlaLoteVenda == "S")
                     {
                         log.Debug(message: "Controla lote acionado para o item: " + detalhamento.prod.xProd);
@@ -1603,7 +1603,8 @@ namespace PDV_WPF.Objetos
                                         int idIdentificador = detalhamento.prod.cProd.Safeint();
                                         foreach (string identificadorLote in detalhamento.identificadoresLote)
                                         {
-                                            while (qtdARetirar > 0)
+                                            bool proximoLote = false;
+                                            while (qtdARetirar > 0 && !proximoLote)
                                             {
                                                 LOTE_TA.FillByNumLote(dataTable: LOTE_DT, ID_IDENTIFICADOR: idIdentificador, NUM_LOTE: identificadorLote);
                                                 if (LOTE_DT.Rows.Count == 1)
@@ -1630,13 +1631,14 @@ namespace PDV_WPF.Objetos
                                                         LOTE_TA.UpdateQtdAtual(QTD_ATUAL: 0,
                                                             ID_LOTE: loteSelecionado.ID_LOTE);
                                                         qtdARetirar -= loteSelecionado.QTD_ATUAL;
+                                                        proximoLote = true;
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    log.Warn(message: $"Não foi encontrado lote com o identificador informado \"{identificadorLote}\" " +
+                                                    log.Warn(message: $"Não foi encontrado lote com quantidade maior que zero com o identificador informado \"{identificadorLote}\" " +
                                                         $"para o produto {detalhamento.prod.xProd}|{idIdentificador}");
-                                                    break;
+                                                    proximoLote = true;
                                                 }
                                             }
                                         }
@@ -1665,6 +1667,7 @@ namespace PDV_WPF.Objetos
                     //    log.Debug("Erro ao tentar rodar a procedure SP_REM_CONTROLALOTE, ERRO: " + ex);
                     //}
                     #endregion
+
                     if (nItemCup <= 0)
                     {
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());
