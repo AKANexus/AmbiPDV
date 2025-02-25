@@ -5169,7 +5169,8 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.INFORMA_MAQUININHA,
                                                                                                             configServ.LAYOUT_SAT,
                                                                                                             configServ.VINCULA_MAQ_CTA,
-                                                                                                            configServ.COMANDO_GAVETA);
+                                                                                                            configServ.COMANDO_GAVETA,
+                                                                                                            configServ.PERMITE_NAO_FISCAL);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))

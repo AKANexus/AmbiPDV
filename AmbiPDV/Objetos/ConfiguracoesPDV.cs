@@ -163,6 +163,14 @@ namespace PDV_WPF.Configuracoes
 
         }
 
+        public static ComandoGaveta COMANDO_GAVETA { get; set; }
+
+        public static bool PERMITE_NAO_FISCAL 
+        {
+            get => _pERMITE_NAO_FISCAL == "S" ? true : false; 
+            set => _pERMITE_NAO_FISCAL = value ? "S" : "N"; 
+        }
+
         public static string LAYOUT_SAT { get; set; } = "000";
 
         private static string _iNTERROMPE_NAO_ENCONTRADO;
@@ -529,6 +537,8 @@ namespace PDV_WPF.Configuracoes
         }
 
         private static string _pEDESENHACANCEL;
+        private static string _pERMITE_NAO_FISCAL;
+
         public static bool PEDESENHACANCEL
         {
             get
@@ -601,8 +611,7 @@ namespace PDV_WPF.Configuracoes
         public static bool SENHA_REIMPRESSAO { get; set; }
         public static int PREFIX_LISTBOX { get; set; }
         public static List<InfoAdministradora> PARAMETRO_ADMINISTRADORA { get; set; } = new();
-        public static bool EXIBE_SPLASHSCREEN { get; set; }
-        public static ComandoGaveta COMANDO_GAVETA { get; set; }
+        public static bool EXIBE_SPLASHSCREEN { get; set; }        
 
         #endregion Propriedades
 
@@ -681,6 +690,7 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);               
                 fbCommSalvaConfig.Parameters.AddWithValue("@pVINCULA_MAQ_CTA", _vINCULA_MAQ_CTA);               
                 fbCommSalvaConfig.Parameters.AddWithValue("@pCOMANDO_GAVETA", (short)COMANDO_GAVETA);               
+                fbCommSalvaConfig.Parameters.AddWithValue("@pPERMITE_NAO_FISCAL", _pERMITE_NAO_FISCAL);               
 
                 fbCommSalvaConfig.CommandText =
                                         "UPDATE OR INSERT INTO TRI_PDV_CONFIG " +
@@ -689,14 +699,14 @@ namespace PDV_WPF.Configuracoes
                                         "MODELO_CUPOM, MENSAGEM_RODAPE, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, " +
                                         " IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, " +
                                         "BALPORTA, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, " +
-                                        "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, VINCULA_MAQ_CTA, COMANDO_GAVETA) " +
+                                        "SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, VINCULA_MAQ_CTA, COMANDO_GAVETA, PERMITE_NAO_FISCAL) " +
                                         "VALUES " +
                                         "(@pID_MAC, @pNO_CAIXA, @pEXIGE_SANGRIA, @pVALOR_MAX_CAIXA, @pBLOQUEIA_NO_LIMITE, @pVALOR_DE_FOLGA, @pPERMITE_FOLGA_SANGRIA, " +
                                         "@pINFORMA_MAQUININHA, @pLAYOUT_SAT, @pINTERROMPE_NAO_ENCONTRADO, @pMENSAGEM_CORTESIA, @pICMS_CONT, @pCSOSN_CONT, @pPEDE_CPF, @pPERMITE_ESTOQUE_NEGATIVO, " +
                                         "@pMODELO_CUPOM, @pMENSAGEM_RODAPE, @pMODELO_SAT, @pSATSERVIDOR, @pSAT_CODATIV, @pSIGN_AC, @pSAT_USADO, @pECF_ATIVA, " +
                                         "@pECF_PORTA, @pIMPRESSORA_USB, @pIMPRESSORA_USB_PED, @pPERGUNTA_WHATS, @pUSATEF, @pTEFIP, @pTEFNUMLOJA, @pTEFNUMTERMINAL, " +
                                         "@pTEFPEDECPFPELOPINPAD, @pBALPORTA, @pBALBAUD, @pBALPARITY, @pBALMODELO, @pACFILLPREFIX, @pACFILLMODE, @pACREFERENCIA, @pSYSCOMISSAO, @pSATSERVTIMEOUT, " +
-                                        "@pSATLIFESIGNINTERVAL, @pACFILLDELAY, @pSYSPERGUNTAWHATS, @pSYSPARCELA, @pSYSEMITECOMPROVANTE, @pVINCULA_MAQ_CTA, @pCOMANDO_GAVETA) " +
+                                        "@pSATLIFESIGNINTERVAL, @pACFILLDELAY, @pSYSPERGUNTAWHATS, @pSYSPARCELA, @pSYSEMITECOMPROVANTE, @pVINCULA_MAQ_CTA, @pCOMANDO_GAVETA, @pPERMITE_NAO_FISCAL) " +
                                         "MATCHING (ID_MAC);";
 
 
@@ -870,6 +880,7 @@ namespace PDV_WPF.Configuracoes
                 _uSA_COMANDA = infoDoSetup.USA_COMANDA;
                 DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true: false;
                 COMANDO_GAVETA = (ComandoGaveta)registro.COMANDO_GAVETA;
+                _pERMITE_NAO_FISCAL = registro.PERMITE_NAO_FISCAL;
 
                 if (INFORMA_MAQUININHA)
                 {                   

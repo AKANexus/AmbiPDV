@@ -6563,7 +6563,7 @@ namespace PDV_WPF.Telas
                 }
             }
             /* ---------------*/
-            else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma")
+            else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma" && PERMITE_NAO_FISCAL)
             {
                 debounceTimer.Debounce(125, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {

@@ -220,6 +220,7 @@ namespace PDV_WPF
                 rb_Spooler.IsChecked = ACFILLPREFIX switch { 0 => true, 1 => false, _ => true };
                 rb_Dll.IsChecked = ACFILLPREFIX is 1 ? true : false;
                 cbb_ComandAbertura.SelectedIndex = (short)COMANDO_GAVETA;
+                chk_Permite_Nao_Fiscal.IsChecked = PERMITE_NAO_FISCAL;
                 //if (ACFILLPREFIX is 0) cbb_ModImpressora.IsEnabled = false;
                 //if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
                 return;
@@ -251,6 +252,7 @@ namespace PDV_WPF
                 rb_Spooler.IsChecked = ACFILLPREFIX switch { 0 => true, 1 => false, _ => true };
                 rb_Dll.IsChecked = ACFILLPREFIX is 1 ? true : false;
                 cbb_ComandAbertura.SelectedIndex = 0;
+                chk_Permite_Nao_Fiscal.IsChecked = false;
                 //if (ACFILLPREFIX is 0) cbb_ModImpressora.IsEnabled = false;
                 //if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
                 return;
@@ -354,6 +356,7 @@ namespace PDV_WPF
             PERGUNTA_WHATS = (PerguntaWhatsEnum)cbb_Pede_WHATS.SelectedIndex;
             ACFILLPREFIX = rb_Spooler.IsChecked is true ? (short)0 : (short)1;
             COMANDO_GAVETA = (ComandoGaveta)cbb_ComandAbertura.SelectedIndex;
+            PERMITE_NAO_FISCAL = chk_Permite_Nao_Fiscal.IsChecked ?? false;
             //if(ACFILLPREFIX is 1) ACFILLDELAY = cbb_ModImpressora.SelectedIndex;
 
             CONFIGURADO = true;
