@@ -83,7 +83,7 @@
                     <CheckBox Content="Permite venda com estoque negativo" FontFamily="Open Sans" Margin="5" x:Name="chk_Permite_Venda_Negativa" IsThreeState="True" IsChecked="{x:Null}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                 </StackPanel>
                 <StackPanel HorizontalAlignment="Center" Margin="0,5">
-                    <CheckBox Content="Permitir venda não fiscal" x:Name="chk_Permite_Nao_Fiscal"/>
+                    <CheckBox Content="Permitir venda provisória" x:Name="chk_Permite_Nao_Fiscal"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <Label Content="Mod. Cupom:" Padding="5, 0" VerticalContentAlignment="Center"/>
