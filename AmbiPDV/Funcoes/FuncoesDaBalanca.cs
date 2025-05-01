@@ -164,14 +164,21 @@ namespace Balancas
             {
                 // Show all the incoming data in the port's buffer
                 string receivedString = PORTA.ReadExisting();
+
+                if (receivedString == null || receivedString.Length < 7)
+                    return;
+
                 byte[] receivedBuffer = Encoding.ASCII.GetBytes(receivedString);
-                _log.Debug("receivedString: " + receivedString);
+                _log.Debug("Retorno leitura da porta (receivedString): " + receivedString);
                 var indexStart = Array.IndexOf(receivedBuffer, (byte)0x02);
                 var indexEnd = Array.IndexOf(receivedBuffer, (byte)0x03);
-                byte[] processedBytes = receivedBuffer.Skip(indexStart+1).Take(indexEnd-indexStart).ToArray();
-                _log.Debug("processedBytes" + String.Join("¬", processedBytes));
+                _log.Debug("Indice do caracter de inicio (indexStart (STX)): " + indexStart);
+                _log.Debug("Indice do caracter de fim (indexEnd (ETX)): " + indexEnd);
+                byte[] processedBytes = receivedBuffer.Skip(indexStart + 1).Take(indexEnd - indexStart - 1).ToArray();
+                _log.Debug("Bytes entre inicio e fim retornados (processedBytes): " + String.Join("-", processedBytes));
                 try
                 {
+                    _log.Debug($"Valor retornado em texto: {Encoding.ASCII.GetString(processedBytes)}");
                     if (processedBytes[0] == 'N' || processedBytes[0] == 'I' || processedBytes[0] == 'S')
                         return;
                     peso = Encoding.ASCII.GetString(processedBytes).Safedecimal();
@@ -184,7 +191,7 @@ namespace Balancas
             public void Dispose()
             {
                 if (PORTA.IsOpen)
-                { PORTA.Close(); }
+                    PORTA.Close();
             }
 
         }
