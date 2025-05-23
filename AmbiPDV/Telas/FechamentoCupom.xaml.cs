@@ -673,7 +673,7 @@ namespace PDV_WPF.Telas
                                 itemRow.IsCOD_NCMNull() ? "" : itemRow.COD_NCM,
                                 itemRow.CFOP,
                                 _vendaAtual.ValorDaVenda() * taxaServico.taxa,
-                                itemRow.IsRSTR_CESTNull() ? "" : itemRow.RSTR_CEST,
+                                itemRow.IsRSTR_CESTNull() ? "" : itemRow.RSTR_CEST,              
                                 0, 0, "UN", 1, itemRow.IsCOD_BARRANull() ? "" : itemRow.COD_BARRA
                                 );
                             _vendaAtual.RecebePIS(

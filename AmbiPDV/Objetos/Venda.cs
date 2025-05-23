@@ -262,7 +262,10 @@ namespace PDV_WPF.Objetos
                                       string GTIN = null,
                                       string familia = null,
                                       bool importadoKit = false,
-                                      int? idScannTechh = null)
+                                      int? idScannTechh = null,
+                                      string controlaLoteVenda = null,
+                                      string baixaLotePdv = null,
+                                      string[] identificadorLote = null)
         {
             _det = new envCFeCFeInfCFeDet();
             _produto = new envCFeCFeInfCFeDetProd
@@ -374,6 +377,9 @@ namespace PDV_WPF.Objetos
             _det.kit = importadoKit;
             _det.familia = familia;
             _produtoRecebido = true;
+            _det.controlaLoteVenda = controlaLoteVenda;
+            _det.baixaLotePdv = baixaLotePdv;
+            _det.identificadoresLote = identificadorLote;
         }
 
 
@@ -1176,7 +1182,7 @@ namespace PDV_WPF.Objetos
                             3 => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 3, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin),
                             _ => (int)TB_NFV_FMAPAGTO_TA.SP_TRI_NFVFMAPGTO_INSERT(decimal.Parse(x.pagamento.vMP, CultureInfo.InvariantCulture), ID_NFVENDA, idNfce, 2, infoAdmin?.IdAdmin == 0 ? null : infoAdmin?.IdAdmin)
                         };
-                       
+
                         if ((x.pagamento.cMP == "03" || x.pagamento.cMP == "04") && INFORMA_MAQUININHA && VINCULA_MAQ_CTA && infoAdmin != null)
                         {
                             // Para de gerar contas a receber para cartões                             
@@ -1362,7 +1368,7 @@ namespace PDV_WPF.Objetos
                                 goto EndFluxCtaRecCartao;
                             }
                         }
-                        EndFluxCtaRecCartao:
+                    EndFluxCtaRecCartao:
 
                         if (x.pagamento.cMP == "05" && !x.pagamento.desconto)
                         {
@@ -1538,7 +1544,110 @@ namespace PDV_WPF.Objetos
                                        RetornarMensagemErro(ex, false));
                         return (-1, -1);
                     }
-                    #region CONTROLA_LOTE_DESATIVADO
+                    #region CONTROLA_LOTE
+                    if (detalhamento.controlaLoteVenda == "S")
+                    {
+                        log.Debug(message: "Controla lote acionado para o item: " + detalhamento.prod.xProd);
+                        using (var NFV_LOTE_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_LOTETableAdapter() { Connection = LOCAL_FB_CONN })
+                        using (var LOTE_TA = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter() { Connection = LOCAL_FB_CONN })
+                        using (var LOTE_DT = new DataSets.FDBDataSetVenda.TB_LOTEDataTable())
+                        {
+                            switch (detalhamento.baixaLotePdv)
+                            {
+                                default:
+                                case "A":
+                                    {
+                                        log.Debug(message: "Configurado para baixa de lote automática");
+                                        decimal qtdARetirar = detalhamento.prod.qCom.Safedecimal();
+                                        while (qtdARetirar > 0)
+                                        {
+                                            LOTE_TA.FillByIdIdentificador(dataTable: LOTE_DT, ID_IDENTIFICADOR: detalhamento.prod.cProd.Safeint());
+                                            if (LOTE_DT.Rows.Count == 1)
+                                            {
+                                                var loteSelecionado = LOTE_DT[0];
+                                                if (loteSelecionado.QTD_ATUAL >= qtdARetirar)
+                                                {
+                                                    NFV_LOTE_TA.UpdateOrInsert(ID_LOTE: loteSelecionado.ID_LOTE,
+                                                        ID_NFVITEM: ID_NFV_ITEM,
+                                                        DT_BAIXA: DateTime.Now,
+                                                        QTIDADE: qtdARetirar,
+                                                        ID_RECEITAFARMA: null);
+                                                    LOTE_TA.UpdateQtdAtual(QTD_ATUAL: loteSelecionado.QTD_ATUAL - qtdARetirar,
+                                                        ID_LOTE: loteSelecionado.ID_LOTE);
+                                                    qtdARetirar = 0;
+                                                }
+                                                else
+                                                {
+                                                    NFV_LOTE_TA.UpdateOrInsert(ID_LOTE: loteSelecionado.ID_LOTE,
+                                                        ID_NFVITEM: ID_NFV_ITEM,
+                                                        DT_BAIXA: DateTime.Now,
+                                                        QTIDADE: loteSelecionado.QTD_ATUAL,
+                                                        ID_RECEITAFARMA: null);
+                                                    LOTE_TA.UpdateQtdAtual(QTD_ATUAL: 0,
+                                                        ID_LOTE: loteSelecionado.ID_LOTE);
+                                                    qtdARetirar -= loteSelecionado.QTD_ATUAL;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                log.Warn(message: $"Não foi encontrado lotes com quantidade maior que 0 para o item: {detalhamento.prod.xProd}|{detalhamento.prod.cProd}");
+                                                break;
+                                            }
+                                        }
+                                        break;
+                                    }
+                                case "M":
+                                    {
+                                        log.Debug(message: "Configurado para baixa de lote manual");
+                                        decimal qtdARetirar = detalhamento.prod.qCom.Safedecimal();
+                                        int idIdentificador = detalhamento.prod.cProd.Safeint();
+                                        foreach (string identificadorLote in detalhamento.identificadoresLote)
+                                        {
+                                            bool proximoLote = false;
+                                            while (qtdARetirar > 0 && !proximoLote)
+                                            {
+                                                LOTE_TA.FillByNumLote(dataTable: LOTE_DT, ID_IDENTIFICADOR: idIdentificador, NUM_LOTE: identificadorLote);
+                                                if (LOTE_DT.Rows.Count == 1)
+                                                {
+                                                    var loteSelecionado = LOTE_DT[0];
+                                                    if (loteSelecionado.QTD_ATUAL >= qtdARetirar)
+                                                    {
+                                                        NFV_LOTE_TA.UpdateOrInsert(ID_LOTE: loteSelecionado.ID_LOTE,
+                                                            ID_NFVITEM: ID_NFV_ITEM,
+                                                            DT_BAIXA: DateTime.Now,
+                                                            QTIDADE: qtdARetirar,
+                                                            ID_RECEITAFARMA: null);
+                                                        LOTE_TA.UpdateQtdAtual(QTD_ATUAL: loteSelecionado.QTD_ATUAL - qtdARetirar,
+                                                            ID_LOTE: loteSelecionado.ID_LOTE);
+                                                        qtdARetirar = 0;
+                                                    }
+                                                    else
+                                                    {
+                                                        NFV_LOTE_TA.UpdateOrInsert(ID_LOTE: loteSelecionado.ID_LOTE,
+                                                            ID_NFVITEM: ID_NFV_ITEM,
+                                                            DT_BAIXA: DateTime.Now,
+                                                            QTIDADE: loteSelecionado.QTD_ATUAL,
+                                                            ID_RECEITAFARMA: null);
+                                                        LOTE_TA.UpdateQtdAtual(QTD_ATUAL: 0,
+                                                            ID_LOTE: loteSelecionado.ID_LOTE);
+                                                        qtdARetirar -= loteSelecionado.QTD_ATUAL;
+                                                        proximoLote = true;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    log.Warn(message: $"Não foi encontrado lote com quantidade maior que zero com o identificador informado \"{identificadorLote}\" " +
+                                                        $"para o produto {detalhamento.prod.xProd}|{idIdentificador}");
+                                                    proximoLote = true;
+                                                }
+                                            }
+                                        }
+                                        break;
+                                    }
+                            }
+                        }
+                    }
+
                     //try
                     //{
                     //    if (Caixa._contingencia == false)
@@ -1558,6 +1667,7 @@ namespace PDV_WPF.Objetos
                     //    log.Debug("Erro ao tentar rodar a procedure SP_REM_CONTROLALOTE, ERRO: " + ex);
                     //}
                     #endregion
+
                     if (nItemCup <= 0)
                     {
                         throw new Exception("O ID de retorno do item de cupom é menor ou igual a zero: " + nItemCup.ToString());

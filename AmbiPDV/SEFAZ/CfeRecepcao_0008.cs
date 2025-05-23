@@ -733,6 +733,9 @@ namespace CfeRecepcao_0008
             get => decimal.Parse(prod.qCom);
             set => prod.qCom = value.ToString("N3");
         }
+        [XmlIgnoreAttribute()] public string controlaLoteVenda;
+        [XmlIgnoreAttribute()] public string baixaLotePdv;
+        [XmlIgnoreAttribute()] public string[] identificadoresLote;
         //---------------------------------//-------------------------------------
         //Fim dos campos ignorados.
 

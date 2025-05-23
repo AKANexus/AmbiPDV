@@ -377,6 +377,10 @@ namespace PDV_WPF.DataSets {
             
             private global::System.Data.DataColumn columnVINCULA_MAQ_CTA;
             
+            private global::System.Data.DataColumn columnCOMANDO_GAVETA;
+            
+            private global::System.Data.DataColumn columnPERMITE_NAO_FISCAL;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public TRI_PDV_CONFIGDataTable() {
@@ -804,6 +808,22 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn COMANDO_GAVETAColumn {
+                get {
+                    return this.columnCOMANDO_GAVETA;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public global::System.Data.DataColumn PERMITE_NAO_FISCALColumn {
+                get {
+                    return this.columnPERMITE_NAO_FISCAL;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -888,7 +908,9 @@ namespace PDV_WPF.DataSets {
                         short SYSEMITECOMPROVANTE, 
                         string INFORMA_MAQUININHA, 
                         string LAYOUT_SAT, 
-                        string VINCULA_MAQ_CTA) {
+                        string VINCULA_MAQ_CTA, 
+                        short COMANDO_GAVETA, 
+                        string PERMITE_NAO_FISCAL) {
                 TRI_PDV_CONFIGRow rowTRI_PDV_CONFIGRow = ((TRI_PDV_CONFIGRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         ID_MAC,
@@ -939,7 +961,9 @@ namespace PDV_WPF.DataSets {
                         SYSEMITECOMPROVANTE,
                         INFORMA_MAQUININHA,
                         LAYOUT_SAT,
-                        VINCULA_MAQ_CTA};
+                        VINCULA_MAQ_CTA,
+                        COMANDO_GAVETA,
+                        PERMITE_NAO_FISCAL};
                 rowTRI_PDV_CONFIGRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowTRI_PDV_CONFIGRow);
                 return rowTRI_PDV_CONFIGRow;
@@ -1018,6 +1042,8 @@ namespace PDV_WPF.DataSets {
                 this.columnINFORMA_MAQUININHA = base.Columns["INFORMA_MAQUININHA"];
                 this.columnLAYOUT_SAT = base.Columns["LAYOUT_SAT"];
                 this.columnVINCULA_MAQ_CTA = base.Columns["VINCULA_MAQ_CTA"];
+                this.columnCOMANDO_GAVETA = base.Columns["COMANDO_GAVETA"];
+                this.columnPERMITE_NAO_FISCAL = base.Columns["PERMITE_NAO_FISCAL"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1121,6 +1147,10 @@ namespace PDV_WPF.DataSets {
                 base.Columns.Add(this.columnLAYOUT_SAT);
                 this.columnVINCULA_MAQ_CTA = new global::System.Data.DataColumn("VINCULA_MAQ_CTA", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnVINCULA_MAQ_CTA);
+                this.columnCOMANDO_GAVETA = new global::System.Data.DataColumn("COMANDO_GAVETA", typeof(short), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnCOMANDO_GAVETA);
+                this.columnPERMITE_NAO_FISCAL = new global::System.Data.DataColumn("PERMITE_NAO_FISCAL", typeof(string), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnPERMITE_NAO_FISCAL);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnID_MAC}, true));
                 this.columnID_MAC.AllowDBNull = false;
@@ -1178,6 +1208,9 @@ namespace PDV_WPF.DataSets {
                 this.columnLAYOUT_SAT.MaxLength = 3;
                 this.columnVINCULA_MAQ_CTA.AllowDBNull = false;
                 this.columnVINCULA_MAQ_CTA.MaxLength = 1;
+                this.columnCOMANDO_GAVETA.AllowDBNull = false;
+                this.columnPERMITE_NAO_FISCAL.AllowDBNull = false;
+                this.columnPERMITE_NAO_FISCAL.MaxLength = 1;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1949,6 +1982,28 @@ namespace PDV_WPF.DataSets {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public short COMANDO_GAVETA {
+                get {
+                    return ((short)(this[this.tableTRI_PDV_CONFIG.COMANDO_GAVETAColumn]));
+                }
+                set {
+                    this[this.tableTRI_PDV_CONFIG.COMANDO_GAVETAColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
+            public string PERMITE_NAO_FISCAL {
+                get {
+                    return ((string)(this[this.tableTRI_PDV_CONFIG.PERMITE_NAO_FISCALColumn]));
+                }
+                set {
+                    this[this.tableTRI_PDV_CONFIG.PERMITE_NAO_FISCALColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
             public bool IsMENSAGEM_CORTESIANull() {
                 return this.IsNull(this.tableTRI_PDV_CONFIG.MENSAGEM_CORTESIAColumn);
             }
@@ -2372,6 +2427,8 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             tableMapping.ColumnMappings.Add("INFORMA_MAQUININHA", "INFORMA_MAQUININHA");
             tableMapping.ColumnMappings.Add("LAYOUT_SAT", "LAYOUT_SAT");
             tableMapping.ColumnMappings.Add("VINCULA_MAQ_CTA", "VINCULA_MAQ_CTA");
+            tableMapping.ColumnMappings.Add("COMANDO_GAVETA", "COMANDO_GAVETA");
+            tableMapping.ColumnMappings.Add("PERMITE_NAO_FISCAL", "PERMITE_NAO_FISCAL");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -2416,7 +2473,8 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "NTAWHATS) AND (\"SYSPARCELA\" = @Original_SYSPARCELA) AND (\"SYSEMITECOMPROVANTE\" =" +
                 " @Original_SYSEMITECOMPROVANTE) AND (\"INFORMA_MAQUININHA\" = @Original_INFORMA_MA" +
                 "QUININHA) AND (\"LAYOUT_SAT\" = @Original_LAYOUT_SAT) AND (\"VINCULA_MAQ_CTA\" = @Or" +
-                "iginal_VINCULA_MAQ_CTA))";
+                "iginal_VINCULA_MAQ_CTA) AND (\"COMANDO_GAVETA\" = @Original_COMANDO_GAVETA) AND (\"" +
+                "PERMITE_NAO_FISCAL\" = @Original_PERMITE_NAO_FISCAL))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             global::FirebirdSql.Data.FirebirdClient.FbParameter param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_MAC";
@@ -2933,6 +2991,21 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.SourceColumn = "VINCULA_MAQ_CTA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PERMITE_NAO_FISCAL";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERMITE_NAO_FISCAL";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.DeleteCommand.Parameters.Add(param);
             this._adapter.InsertCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
             this._adapter.InsertCommand.CommandText = "INSERT INTO \"TRI_PDV_CONFIG\" (\"ID_MAC\", \"NO_CAIXA\", \"EXIGE_SANGRIA\", \"VALOR_MAX_C" +
@@ -2945,17 +3018,18 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 " \"BALBITS\", \"BALBAUD\", \"BALPARITY\", \"BALMODELO\", \"ACFILLPREFIX\", \"ACFILLMODE\", \"" +
                 "ACREFERENCIA\", \"SYSCOMISSAO\", \"SATSERVTIMEOUT\", \"SATLIFESIGNINTERVAL\", \"ACFILLDE" +
                 "LAY\", \"SYSPERGUNTAWHATS\", \"SYSPARCELA\", \"SYSEMITECOMPROVANTE\", \"INFORMA_MAQUININ" +
-                "HA\", \"LAYOUT_SAT\", \"VINCULA_MAQ_CTA\") VALUES (@ID_MAC, @NO_CAIXA, @EXIGE_SANGRIA" +
-                ", @VALOR_MAX_CAIXA, @BLOQUEIA_NO_LIMITE, @VALOR_DE_FOLGA, @PERMITE_FOLGA_SANGRIA" +
-                ", @INTERROMPE_NAO_ENCONTRADO, @MENSAGEM_CORTESIA, @ICMS_CONT, @CSOSN_CONT, @PEDE" +
-                "_CPF, @PERMITE_ESTOQUE_NEGATIVO, @MODELO_CUPOM, @MENSAGEM_RODAPE, @TRI_PDV_DT_UP" +
-                "D, @MODELO_SAT, @SATSERVIDOR, @SAT_CODATIV, @SIGN_AC, @SAT_USADO, @ECF_ATIVA, @E" +
-                "CF_PORTA, @IMPRESSORA_USB, @IMPRESSORA_USB_PED, @PERGUNTA_WHATS, @USATEF, @TEFIP" +
-                ", @TEFNUMLOJA, @TEFNUMTERMINAL, @TEFPEDECPFPELOPINPAD, @BALPORTA, @BALBITS, @BAL" +
-                "BAUD, @BALPARITY, @BALMODELO, @ACFILLPREFIX, @ACFILLMODE, @ACREFERENCIA, @SYSCOM" +
-                "ISSAO, @SATSERVTIMEOUT, @SATLIFESIGNINTERVAL, @ACFILLDELAY, @SYSPERGUNTAWHATS, @" +
-                "SYSPARCELA, @SYSEMITECOMPROVANTE, @INFORMA_MAQUININHA, @LAYOUT_SAT, @VINCULA_MAQ" +
-                "_CTA)";
+                "HA\", \"LAYOUT_SAT\", \"VINCULA_MAQ_CTA\", \"COMANDO_GAVETA\", \"PERMITE_NAO_FISCAL\") VA" +
+                "LUES (@ID_MAC, @NO_CAIXA, @EXIGE_SANGRIA, @VALOR_MAX_CAIXA, @BLOQUEIA_NO_LIMITE," +
+                " @VALOR_DE_FOLGA, @PERMITE_FOLGA_SANGRIA, @INTERROMPE_NAO_ENCONTRADO, @MENSAGEM_" +
+                "CORTESIA, @ICMS_CONT, @CSOSN_CONT, @PEDE_CPF, @PERMITE_ESTOQUE_NEGATIVO, @MODELO" +
+                "_CUPOM, @MENSAGEM_RODAPE, @TRI_PDV_DT_UPD, @MODELO_SAT, @SATSERVIDOR, @SAT_CODAT" +
+                "IV, @SIGN_AC, @SAT_USADO, @ECF_ATIVA, @ECF_PORTA, @IMPRESSORA_USB, @IMPRESSORA_U" +
+                "SB_PED, @PERGUNTA_WHATS, @USATEF, @TEFIP, @TEFNUMLOJA, @TEFNUMTERMINAL, @TEFPEDE" +
+                "CPFPELOPINPAD, @BALPORTA, @BALBITS, @BALBAUD, @BALPARITY, @BALMODELO, @ACFILLPRE" +
+                "FIX, @ACFILLMODE, @ACREFERENCIA, @SYSCOMISSAO, @SATSERVTIMEOUT, @SATLIFESIGNINTE" +
+                "RVAL, @ACFILLDELAY, @SYSPERGUNTAWHATS, @SYSPARCELA, @SYSEMITECOMPROVANTE, @INFOR" +
+                "MA_MAQUININHA, @LAYOUT_SAT, @VINCULA_MAQ_CTA, @COMANDO_GAVETA, @PERMITE_NAO_FISC" +
+                "AL)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_MAC";
@@ -3277,6 +3351,19 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.IsNullable = true;
             param.SourceColumn = "VINCULA_MAQ_CTA";
             this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            this._adapter.InsertCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PERMITE_NAO_FISCAL";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERMITE_NAO_FISCAL";
+            this._adapter.InsertCommand.Parameters.Add(param);
             this._adapter.UpdateCommand = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
             this._adapter.UpdateCommand.CommandText = "UPDATE \"TRI_PDV_CONFIG\" SET \"ID_MAC\" = @ID_MAC, \"NO_CAIXA\" = @NO_CAIXA, \"EXIGE_SA" +
@@ -3299,7 +3386,8 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "ERVAL\" = @SATLIFESIGNINTERVAL, \"ACFILLDELAY\" = @ACFILLDELAY, \"SYSPERGUNTAWHATS\" " +
                 "= @SYSPERGUNTAWHATS, \"SYSPARCELA\" = @SYSPARCELA, \"SYSEMITECOMPROVANTE\" = @SYSEMI" +
                 "TECOMPROVANTE, \"INFORMA_MAQUININHA\" = @INFORMA_MAQUININHA, \"LAYOUT_SAT\" = @LAYOU" +
-                "T_SAT, \"VINCULA_MAQ_CTA\" = @VINCULA_MAQ_CTA WHERE ((\"ID_MAC\" = @Original_ID_MAC)" +
+                "T_SAT, \"VINCULA_MAQ_CTA\" = @VINCULA_MAQ_CTA, \"COMANDO_GAVETA\" = @COMANDO_GAVETA," +
+                " \"PERMITE_NAO_FISCAL\" = @PERMITE_NAO_FISCAL WHERE ((\"ID_MAC\" = @Original_ID_MAC)" +
                 " AND (\"NO_CAIXA\" = @Original_NO_CAIXA) AND (\"EXIGE_SANGRIA\" = @Original_EXIGE_SA" +
                 "NGRIA) AND (\"VALOR_MAX_CAIXA\" = @Original_VALOR_MAX_CAIXA) AND (\"BLOQUEIA_NO_LIM" +
                 "ITE\" = @Original_BLOQUEIA_NO_LIMITE) AND (\"VALOR_DE_FOLGA\" = @Original_VALOR_DE_" +
@@ -3340,7 +3428,8 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
                 "riginal_SYSPERGUNTAWHATS) AND (\"SYSPARCELA\" = @Original_SYSPARCELA) AND (\"SYSEMI" +
                 "TECOMPROVANTE\" = @Original_SYSEMITECOMPROVANTE) AND (\"INFORMA_MAQUININHA\" = @Ori" +
                 "ginal_INFORMA_MAQUININHA) AND (\"LAYOUT_SAT\" = @Original_LAYOUT_SAT) AND (\"VINCUL" +
-                "A_MAQ_CTA\" = @Original_VINCULA_MAQ_CTA))";
+                "A_MAQ_CTA\" = @Original_VINCULA_MAQ_CTA) AND (\"COMANDO_GAVETA\" = @Original_COMAND" +
+                "O_GAVETA) AND (\"PERMITE_NAO_FISCAL\" = @Original_PERMITE_NAO_FISCAL))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@ID_MAC";
@@ -3661,6 +3750,19 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.Size = 1;
             param.IsNullable = true;
             param.SourceColumn = "VINCULA_MAQ_CTA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@PERMITE_NAO_FISCAL";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERMITE_NAO_FISCAL";
             this._adapter.UpdateCommand.Parameters.Add(param);
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@Original_ID_MAC";
@@ -4177,6 +4279,21 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             param.SourceColumn = "VINCULA_MAQ_CTA";
             param.SourceVersion = global::System.Data.DataRowVersion.Original;
             this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_COMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = "COMANDO_GAVETA";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "@Original_PERMITE_NAO_FISCAL";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = "PERMITE_NAO_FISCAL";
+            param.SourceVersion = global::System.Data.DataRowVersion.Original;
+            this._adapter.UpdateCommand.Parameters.Add(param);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -4192,7 +4309,7 @@ namespace PDV_WPF.DataSets.FDBDataSetConfigTableAdapters {
             this._commandCollection = new global::FirebirdSql.Data.FirebirdClient.FbCommand[51];
             this._commandCollection[0] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = @"SELECT ""ID_MAC"", ""NO_CAIXA"", ""EXIGE_SANGRIA"", ""VALOR_MAX_CAIXA"", ""BLOQUEIA_NO_LIMITE"", ""VALOR_DE_FOLGA"", ""PERMITE_FOLGA_SANGRIA"", ""INTERROMPE_NAO_ENCONTRADO"", ""MENSAGEM_CORTESIA"", ""ICMS_CONT"", ""CSOSN_CONT"", ""PEDE_CPF"", ""PERMITE_ESTOQUE_NEGATIVO"", ""MODELO_CUPOM"", ""MENSAGEM_RODAPE"", ""TRI_PDV_DT_UPD"", ""MODELO_SAT"", ""SATSERVIDOR"", ""SAT_CODATIV"", ""SIGN_AC"", ""SAT_USADO"", ""ECF_ATIVA"", ""ECF_PORTA"", ""IMPRESSORA_USB"", ""IMPRESSORA_USB_PED"", ""PERGUNTA_WHATS"", ""USATEF"", ""TEFIP"", ""TEFNUMLOJA"", ""TEFNUMTERMINAL"", ""TEFPEDECPFPELOPINPAD"", ""BALPORTA"", ""BALBITS"", ""BALBAUD"", ""BALPARITY"", ""BALMODELO"", ""ACFILLPREFIX"", ""ACFILLMODE"", ""ACREFERENCIA"", ""SYSCOMISSAO"", ""SATSERVTIMEOUT"", ""SATLIFESIGNINTERVAL"", ""ACFILLDELAY"", ""SYSPERGUNTAWHATS"", ""SYSPARCELA"", ""SYSEMITECOMPROVANTE"", ""INFORMA_MAQUININHA"", ""LAYOUT_SAT"", ""VINCULA_MAQ_CTA"" FROM ""TRI_PDV_CONFIG""";
+            this._commandCollection[0].CommandText = @"SELECT ""ID_MAC"", ""NO_CAIXA"", ""EXIGE_SANGRIA"", ""VALOR_MAX_CAIXA"", ""BLOQUEIA_NO_LIMITE"", ""VALOR_DE_FOLGA"", ""PERMITE_FOLGA_SANGRIA"", ""INTERROMPE_NAO_ENCONTRADO"", ""MENSAGEM_CORTESIA"", ""ICMS_CONT"", ""CSOSN_CONT"", ""PEDE_CPF"", ""PERMITE_ESTOQUE_NEGATIVO"", ""MODELO_CUPOM"", ""MENSAGEM_RODAPE"", ""TRI_PDV_DT_UPD"", ""MODELO_SAT"", ""SATSERVIDOR"", ""SAT_CODATIV"", ""SIGN_AC"", ""SAT_USADO"", ""ECF_ATIVA"", ""ECF_PORTA"", ""IMPRESSORA_USB"", ""IMPRESSORA_USB_PED"", ""PERGUNTA_WHATS"", ""USATEF"", ""TEFIP"", ""TEFNUMLOJA"", ""TEFNUMTERMINAL"", ""TEFPEDECPFPELOPINPAD"", ""BALPORTA"", ""BALBITS"", ""BALBAUD"", ""BALPARITY"", ""BALMODELO"", ""ACFILLPREFIX"", ""ACFILLMODE"", ""ACREFERENCIA"", ""SYSCOMISSAO"", ""SATSERVTIMEOUT"", ""SATLIFESIGNINTERVAL"", ""ACFILLDELAY"", ""SYSPERGUNTAWHATS"", ""SYSPARCELA"", ""SYSEMITECOMPROVANTE"", ""INFORMA_MAQUININHA"", ""LAYOUT_SAT"", ""VINCULA_MAQ_CTA"", ""COMANDO_GAVETA"", ""PERMITE_NAO_FISCAL"" FROM ""TRI_PDV_CONFIG""";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[1] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[1].Connection = this.Connection;
@@ -5031,25 +5148,45 @@ END;";
                 "                                                                          execut" +
                 "e statement \'ALTER TABLE TRI_PDV_CONFIG ADD VINCULA_MAQ_CTA CHAR(1) DEFAULT \'\'N\'" +
                 "\' NOT NULL\';\r\n\t\t\t\t\t\tend\r\n\r\n                                                     " +
-                "                                           erro = \'alter from null to 1 in TB_FU" +
-                "NC_AUDITORIA_SIS.TRI_PDV_SYNCED\';\r\n                                             " +
-                "                                                                   IF (EXISTS (S" +
-                "ELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SI" +
-                "S\' AND RDB$FIELD_NAME = \'TRI_PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                  " +
+                "                                           erro = \'alter table TRI_PDV_CONFIG ad" +
+                "d CONFIGS COMANDO_GAVETA\';\r\n                                                    " +
+                "                                                            IF ( NOT EXISTS (SEL" +
+                "ECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TRI_PDV_CONFIG\' AND RD" +
+                "B$FIELD_NAME = \'COMANDO_GAVETA\'))\r\n\t\t\t\t\t\tthen begin\r\n                           " +
                 "                                                                                " +
-                "              execute statement \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA" +
-                "_SIS SET TRI_PDV_SYNCED = 1 WHERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t" +
-                "\t\t\t\terro = \'delete UK TRI_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$IN" +
-                "DICES where rdb$index_name = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute sta" +
-                "tement \'ALTER TABLE TRI_PDV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\ter" +
-                "ro = \'create gen TRI_PDV_DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENE" +
-                "RATORS WHERE RDB$Generator_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE" +
-                " STATEMENT \'CREATE GENERATOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger" +
-                " DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif (not exists(select 1 from RDB$TRIGGERS where RDB$TRIGG" +
-                "ER_NAME = \'DEVOL_ID_NEW\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER " +
-                "DEVOL_ID_NEW FOR TRI_PDV_DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1)" +
-                " THEN NEW.ID_DEVOLUCAO = GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu " +
-                "certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "     execute statement \'ALTER TABLE TRI_PDV_CONFIG ADD COMANDO_GAVETA SMALLINT D" +
+                "EFAULT 0 NOT NULL\';\r\n\t\t\t\t\t\tend\r\n\r\n                                              " +
+                "                                                  erro = \'alter table TRI_PDV_CO" +
+                "NFIG add CONFIGS PERMITE_NAO_FISCAL\';\r\n                                         " +
+                "                                                                       IF ( NOT " +
+                "EXISTS (SELECT 1 FROM RDB$RELATION_FIELDS WHERE RDB$RELATION_NAME = \'TRI_PDV_CON" +
+                "FIG\' AND RDB$FIELD_NAME = \'PERMITE_NAO_FISCAL\'))\r\n\t\t\t\t\t\tthen begin\r\n            " +
+                "                                                                                " +
+                "                    execute statement \'ALTER TABLE TRI_PDV_CONFIG \nADD PERMITE_N" +
+                "AO_FISCAL CHAR(1) DEFAULT \'\'S\'\' NOT NULL\';\r\n                                    " +
+                "                                                                            exec" +
+                "ute statement \'ALTER TABLE TRI_PDV_CONFIG \nADD CONSTRAINT chk_permite_nao_fiscal" +
+                " CHECK (PERMITE_NAO_FISCAL = \'\'S\'\' OR PERMITE_NAO_FISCAL = \'\'N\'\')\';\r\n\t\t\t\t\t\tend\r\n" +
+                "\r\n                                                                              " +
+                "                  erro = \'alter from null to 1 in TB_FUNC_AUDITORIA_SIS.TRI_PDV_" +
+                "SYNCED\';\r\n                                                                      " +
+                "                                          IF (EXISTS (SELECT 1 FROM RDB$RELATION" +
+                "_FIELDS WHERE RDB$RELATION_NAME = \'TB_FUNC_AUDITORIA_SIS\' AND RDB$FIELD_NAME = \'" +
+                "TRI_PDV_SYNCED\'))\r\n\t\t\t\t\t\tthen begin\r\n                                           " +
+                "                                                                     execute sta" +
+                "tement \'EXECUTE BLOCK AS BEGIN UPDATE TB_FUNC_AUDITORIA_SIS SET TRI_PDV_SYNCED =" +
+                " 1 WHERE TRI_PDV_SYNCED IS NULL; END\';\r\n\t\t\t\t\t\tend\r\n\r\n\t\t\t\t\t\terro = \'delete UK TRI" +
+                "_PDV_DEVOL_PK\';\r\n\t\t\t\t\t\tif (exists (select 1 from RDB$INDICES where rdb$index_nam" +
+                "e = \'TRI_PDV_DEVOL_PK\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\texecute statement \'ALTER TABLE TRI_P" +
+                "DV_DEVOL DROP CONSTRAINT TRI_PDV_DEVOL_PK\';\r\n\r\n\t\t\t\t\t\terro = \'create gen TRI_PDV_" +
+                "DEVOL_ID\';\r\n\t\t\t\t\t\tif (NOT exists(SELECT 1 FROM RDB$GENERATORS WHERE RDB$Generato" +
+                "r_name= \'TRI_PDV_DEVOL_ID\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE GENERA" +
+                "TOR TRI_PDV_DEVOL_ID;\';\r\n\r\n\t\t\t\t\t\terro = \'create trigger DEVOL_ID_NEW\';\r\n\t\t\t\t\t\tif" +
+                " (not exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'DEVOL_ID_NEW\')" +
+                ")\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER DEVOL_ID_NEW FOR TRI_PDV_" +
+                "DEVOL BEFORE INSERT AS BEGIN IF (NEW.ID_DEVOLUCAO = -1) THEN NEW.ID_DEVOLUCAO = " +
+                "GEN_ID(TRI_PDV_DEVOL_ID,1); END\';\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\r\n\t\t\t\t\t\tSUSPEND;" +
+                "\r\n\t\t\t\t\t\tWHEN ANY DO BEGIN\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
             this._commandCollection[5].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[6] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[6].Connection = this.Connection;
@@ -5598,306 +5735,308 @@ END;";
                 "B_ESTPROD_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER" +
                 " TB_ESTPROD_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create tb_estprod_aux_upd_sync_up" +
                 "d\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ESTPROD_AUX_UPD_SYNC_UPD FOR TB_" +
-                "EST_PRODUTO ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CON" +
-                "FIG.NO_CAIXA ; BEGIN IF (old.DESC_CMPL IS DISTINCT FROM new.DESC_CMPL OR old.COD" +
-                "_BARRA IS DISTINCT FROM new.COD_BARRA OR old.REFERENCIA IS DISTINCT FROM new.REF" +
-                "ERENCIA OR old.QTD_ATUAL IS DISTINCT FROM new.QTD_ATUAL OR old.PESO IS DISTINCT " +
-                "FROM new.PESO OR old.IPI IS DISTINCT FROM new.IPI OR old.CF IS DISTINCT FROM new" +
-                ".CF OR old.IAT IS DISTINCT FROM new.IAT OR old.IPPT IS DISTINCT FROM new.IPPT OR" +
-                " old.COD_NCM IS DISTINCT FROM new.COD_NCM OR old.ID_NIVEL1 IS DISTINCT FROM new." +
-                "ID_NIVEL1 OR old.ID_NIVEL2 IS DISTINCT FROM new.ID_NIVEL2 OR old.MVA IS DISTINCT" +
-                " FROM new.MVA OR old.CST_IPI IS DISTINCT FROM new.CST_IPI OR old.FOTO IS DISTINC" +
-                "T FROM new.FOTO OR old.CSOSN IS DISTINCT FROM new.CSOSN OR old.CSOSN_CFE IS DIST" +
-                "INCT FROM new.CSOSN_CFE OR old.ANP IS DISTINCT FROM new.ANP OR old.EXTIPI IS DIS" +
-                "TINCT FROM new.EXTIPI OR old.CST IS DISTINCT FROM new.CST OR old.FCI IS DISTINCT" +
-                " FROM new.FCI OR old.COD_CEST IS DISTINCT FROM new.COD_CEST OR old.CENQ IS DISTI" +
-                "NCT FROM new.CENQ OR old.VLR_IPI IS DISTINCT FROM new.VLR_IPI) THEN BEGIN FOR SE" +
-                "LECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF " +
-                "((SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_IDENTIFICADOR AND" +
-                " TABELA = \'\'TB_EST_PRODUTO\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_C" +
-                "AIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , " +
-                "TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) ," +
-                " old.ID_IDENTIFICADOR , \'\'TB_EST_PRODUTO\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMEST" +
-                "AMP) ; END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop tb_estprod_aux_upd_sync_del\';\r\n\t" +
-                "\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ESTPROD_" +
-                "AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ESTPRO" +
-                "D_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create tb_estprod_aux_upd_sync_del\';\r\n\t\t\t\t\t" +
-                "\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ESTPROD_AUX_UPD_SYNC_DEL FOR TB_EST_PRODUT" +
-                "O ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAI" +
-                "XA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCA" +
-                "IXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAI" +
-                "XA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1), old.ID_IDENTIFICADOR, \'\'TB_E" +
-                "ST_PRODUTO\'\', \'\'D\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = " +
-                "\'drop tb_fornec_aux_upd_sync_ins\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS " +
-                "where RDB$TRIGGER_NAME = \'TB_FORNEC_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECU" +
-                "TE STATEMENT \'DROP TRIGGER TB_FORNEC_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create T" +
-                "B_FORNEC_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FORNEC_A" +
-                "UX_UPD_SYNC_INS FOR TB_FORNECEDOR ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE" +
-                " OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFI" +
-                "G ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ ," +
-                "ID_REG ,TABELA ,OPERACAO ,NO_CAIXA ,TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ" +
-                ", 1) ,new.ID_FORNEC ,\'\'TB_FORNECEDOR\'\' ,\'\'I\'\' ,:VNUMCAIXA ,CURRENT_TIMESTAMP); E" +
-                "ND END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FORNEC_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(s" +
-                "elect 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FORNEC_AUX_UPD_SYNC_UPD\')" +
-                ")\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FORNEC_AUX_UPD_SYNC_UPD;" +
-                "\';\r\n\t\t\t\t\t\terro = \'create TB_FORNEC_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'" +
-                "CREATE TRIGGER TB_FORNEC_AUX_UPD_SYNC_UPD FOR TB_FORNECEDOR ACTIVE BEFORE UPDATE" +
-                " AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (old.NOM" +
-                "E IS DISTINCT FROM new.NOME OR old.NOME_FANTA IS DISTINCT FROM new.NOME_FANTA OR" +
-                " old.CNPJ IS DISTINCT FROM new.CNPJ OR old.INSC_ESTAD IS DISTINCT FROM new.INSC_" +
-                "ESTAD OR old.INSC_MUNIC IS DISTINCT FROM new.INSC_MUNIC OR old.END_CEP IS DISTIN" +
-                "CT FROM new.END_CEP OR old.END_TIPO IS DISTINCT FROM new.END_TIPO OR old.END_LOG" +
-                "RAD IS DISTINCT FROM new.END_LOGRAD OR old.END_BAIRRO IS DISTINCT FROM new.END_B" +
-                "AIRRO OR old.END_NUMERO IS DISTINCT FROM new.END_NUMERO OR old.END_COMPLE IS DIS" +
-                "TINCT FROM new.END_COMPLE OR old.DDD_COMER IS DISTINCT FROM new.DDD_COMER OR old" +
-                ".FONE_COMER IS DISTINCT FROM new.FONE_COMER OR old.FONE_0800 IS DISTINCT FROM ne" +
-                "w.FONE_0800 OR old.DDD_CELUL IS DISTINCT FROM new.DDD_CELUL OR old.FONE_CELUL IS" +
-                " DISTINCT FROM new.FONE_CELUL OR old.DDD_FAX IS DISTINCT FROM new.DDD_FAX OR old" +
-                ".FONE_FAX IS DISTINCT FROM new.FONE_FAX OR old.EMAIL_CONT IS DISTINCT FROM new.E" +
-                "MAIL_CONT OR old.EMAIL_NFE IS DISTINCT FROM new.EMAIL_NFE OR old.SITE IS DISTINC" +
-                "T FROM new.SITE OR old.STATUS IS DISTINCT FROM new.STATUS OR old.DT_PRICOMP IS D" +
-                "ISTINCT FROM new.DT_PRICOMP OR old.DT_ULTCOMP IS DISTINCT FROM new.DT_ULTCOMP OR" +
-                " old.ID_CIDADE IS DISTINCT FROM new.ID_CIDADE OR old.LIMITE IS DISTINCT FROM new" +
-                ".LIMITE OR old.ID_RAMO IS DISTINCT FROM new.ID_RAMO OR old.ID_PAIS IS DISTINCT F" +
-                "ROM new.ID_PAIS OR old.OBSERVACAO IS DISTINCT FROM new.OBSERVACAO OR old.CONTATO" +
-                " IS DISTINCT FROM new.CONTATO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFI" +
-                "G ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) FROM TRI_PDV_A" +
-                "UX_SYNC WHERE ID_REG = old.ID_FORNEC AND TABELA = \'\'TB_FORNECEDOR\'\' AND (OPERACA" +
-                "O = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT" +
-                " INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) V" +
-                "ALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_FORNEC ,\'\'TB_FORNECEDOR\'\' ,\'\'U\'\'" +
-                " , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB" +
-                "_FORNEC_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RD" +
-                "B$TRIGGER_NAME = \'TB_FORNEC_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATE" +
-                "MENT \'DROP TRIGGER TB_FORNEC_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_FORNEC" +
-                "_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FORNEC_AUX_UPD_S" +
-                "YNC_DEL FOR TB_FORNECEDOR ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLU" +
-                "MN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER" +
-                " BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG" +
-                " , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1" +
-                ") , old.ID_FORNEC , \'\'TB_FORNECEDOR\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) " +
-                "; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ESTGRUPO_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exi" +
-                "sts(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ESTGRUPO_AUX_UPD_SYN" +
-                "C_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ESTGRUPO_AUX_UPD_" +
-                "SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_ESTGRUPO_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE " +
-                "STATEMENT \'CREATE TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_INS FOR TB_EST_GRUPO ACTIVE B" +
-                "EFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN" +
-                " FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BE" +
-                "GIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , " +
-                "TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , new.ID_GRUPO ,\'\'TB_EST_GRUPO\'" +
-                "\' ,\'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB" +
-                "_ESTGRUPO_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where " +
-                "RDB$TRIGGER_NAME = \'TB_ESTGRUPO_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE S" +
-                "TATEMENT \'DROP TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_" +
-                "ESTGRUPO_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ESTGRUPO" +
-                "_AUX_UPD_SYNC_UPD FOR TB_EST_GRUPO ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYP" +
-                "E OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (old.DESCRICAO IS DISTINCT FROM n" +
-                "ew.DESCRICAO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAI" +
-                "XA INTO :VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_" +
-                "REG = old.ID_GRUPO AND TABELA = \'\'TB_EST_GRUPO\'\' AND (OPERACAO = \'\'I\'\' OR OPERAC" +
-                "AO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_S" +
-                "YNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_P" +
-                "DV_AUX_SYNC_SEQ, 1) , old.ID_GRUPO ,\'\'TB_EST_GRUPO\'\' ,\'\'U\'\' , :VNUMCAIXA , CURRE" +
-                "NT_TIMESTAMP) ; END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ESTGRUPO_AUX_UPD_SYN" +
-                "C_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'T" +
-                "B_ESTGRUPO_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGE" +
-                "R TB_ESTGRUPO_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_ESTGRUPO_AUX_UPD_SYNC" +
-                "_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_DEL FOR" +
-                " TB_EST_GRUPO ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_C" +
-                "ONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA" +
-                " INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , " +
-                "OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_G" +
-                "RUPO , \'\'TB_EST_GRUPO\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n" +
-                "\r\n\t\t\t\t\t\terro = \'drop TB_CLIENTE_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 fr" +
-                "om RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_CLIENTE_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\t" +
-                "then\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_CLIENTE_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t" +
-                "\t\terro = \'create TB_CLIENTE_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE " +
-                "TRIGGER TB_CLIENTE_AUX_UPD_SYNC_INS FOR TB_CLIENTE ACTIVE BEFORE INSERT AS DECLA" +
-                "RE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA F" +
-                "ROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PD" +
-                "V_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_I" +
-                "D(GEN_PDV_AUX_SYNC_SEQ, 1) , new.ID_CLIENTE , \'\'TB_CLIENTE\'\' , \'\'I\'\' , :VNUMCAIX" +
-                "A , CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_CLIENTE_AUX_UPD_SYNC" +
-                "_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB" +
-                "_CLIENTE_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER " +
-                "TB_CLIENTE_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_CLIENTE_AUX_UPD_SYNC_UPD" +
-                "\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_CLIENTE_AUX_UPD_SYNC_UPD FOR TB_C" +
-                "LIENTE ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.N" +
-                "O_CAIXA; BEGIN IF (old.ID_CONVENIO IS DISTINCT FROM new.ID_CONVENIO OR old.DT_CA" +
-                "DASTRO IS DISTINCT FROM new.DT_CADASTRO OR old.NOME IS DISTINCT FROM new.NOME OR" +
-                " old.END_CEP IS DISTINCT FROM new.END_CEP OR old.END_TIPO IS DISTINCT FROM new.E" +
-                "ND_TIPO OR old.END_NUMERO IS DISTINCT FROM new.END_NUMERO OR old.END_LOGRAD IS D" +
-                "ISTINCT FROM new.END_LOGRAD OR old.END_BAIRRO IS DISTINCT FROM new.END_BAIRRO OR" +
-                " old.END_COMPLE IS DISTINCT FROM new.END_COMPLE OR old.DT_PRICOMP IS DISTINCT FR" +
-                "OM new.DT_PRICOMP OR old.DT_ULTCOMP IS DISTINCT FROM new.DT_ULTCOMP OR old.CONTA" +
-                "TO IS DISTINCT FROM new.CONTATO OR old.STATUS IS DISTINCT FROM new.STATUS OR old" +
-                ".LIMITE IS DISTINCT FROM new.LIMITE OR old.DDD_RESID IS DISTINCT FROM new.DDD_RE" +
-                "SID OR old.FONE_RESID IS DISTINCT FROM new.FONE_RESID OR old.DDD_COMER IS DISTIN" +
-                "CT FROM new.DDD_COMER OR old.FONE_COMER IS DISTINCT FROM new.FONE_COMER OR old.D" +
-                "DD_CELUL IS DISTINCT FROM new.DDD_CELUL OR old.FONE_CELUL IS DISTINCT FROM new.F" +
-                "ONE_CELUL OR old.DDD_FAX IS DISTINCT FROM new.DDD_FAX OR old.FONE_FAX IS DISTINC" +
-                "T FROM new.FONE_FAX OR old.EMAIL_CONT IS DISTINCT FROM new.EMAIL_CONT OR old.EMA" +
-                "IL_NFE IS DISTINCT FROM new.EMAIL_NFE OR old.ID_CIDADE IS DISTINCT FROM new.ID_C" +
-                "IDADE OR old.ID_TIPO IS DISTINCT FROM new.ID_TIPO OR old.ID_FUNCIONARIO IS DISTI" +
-                "NCT FROM new.ID_FUNCIONARIO OR old.ID_PAIS IS DISTINCT FROM new.ID_PAIS OR old.M" +
-                "ENSAGEM IS DISTINCT FROM new.MENSAGEM OR old.ID_RAMO IS DISTINCT FROM new.ID_RAM" +
-                "O OR old.EMAIL_ADIC IS DISTINCT FROM new.EMAIL_ADIC OR old.OBSERVACAO IS DISTINC" +
-                "T FROM new.OBSERVACAO OR old.DT_MELHOR_VENCTO IS DISTINCT FROM new.DT_MELHOR_VEN" +
-                "CTO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :" +
-                "VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old" +
-                ".ID_CLIENTE AND TABELA = \'\'TB_CLIENTE\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'" +
-                "\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ " +
-                ", ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SY" +
-                "NC_SEQ, 1) , old.ID_CLIENTE , \'\'TB_CLIENTE\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIME" +
-                "STAMP); END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_CLIENTE_AUX_UPD_SYNC_DEL\';\r\n" +
-                "\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_CLIENTE" +
-                "_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_CLIEN" +
-                "TE_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_CLIENTE_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t" +
-                "\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_CLIENTE_AUX_UPD_SYNC_DEL FOR TB_CLIENTE A" +
-                "CTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA;" +
-                " BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA" +
-                " DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CA" +
-                "IXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_CLIENTE , \'\'TB_CL" +
-                "IENTE\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'d" +
-                "rop TB_ADMIN_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS whe" +
-                "re RDB$TRIGGER_NAME = \'TB_ADMIN_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE S" +
-                "TATEMENT \'DROP TRIGGER TB_ADMIN_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_ADM" +
-                "IN_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ADMIN_AUX_UPD_" +
-                "SYNC_INS FOR TB_CARTAO_ADMINISTRADORA BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF" +
-                " COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG O" +
-                "RDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ ,ID_" +
-                "REG ,TABELA ,OPERACAO ,NO_CAIXA ,TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1" +
-                ") ,NEW.ID_ADMINISTRADORA ,\'\'TB_CARTAO_ADMINISTRADORA\'\' ,\'\'I\'\' ,:VNUMCAIXA ,CURRE" +
-                "NT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ADMIN_AUX_UPD_SYNC_UPD\';\r\n\t\t\t" +
-                "\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ADMIN_AUX_" +
-                "UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ADMIN_AUX_" +
-                "UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_ADMIN_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE" +
-                " STATEMENT \'CREATE TRIGGER TB_ADMIN_AUX_UPD_SYNC_UPD FOR TB_CARTAO_ADMINISTRADOR" +
-                "A BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BE" +
-                "GIN IF (OLD.ID_CLIENTE IS DISTINCT FROM new.ID_CLIENTE OR old.DESCRICAO IS DISTI" +
-                "NCT FROM new.DESCRICAO OR old.TAXA_CREDITO IS DISTINCT FROM new.TAXA_CREDITO OR " +
-                "old.TAXA_DEBITO IS DISTINCT FROM new.TAXA_DEBITO) THEN BEGIN FOR SELECT NO_CAIXA" +
-                " FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COU" +
-                "NT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_ADMINISTRADORA AND TABELA = \'\'" +
-                "TB_CARTAO_ADMINISTRADORA\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAI" +
-                "XA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TA" +
-                "BELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , " +
-                "old.ID_ADMINISTRADORA , \'\'TB_CARTAO_ADMINISTRADORA\'\' , \'\'U\'\' , :VNUMCAIXA , CURR" +
-                "ENT_TIMESTAMP) ; END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ADMIN_AUX_UPD_SYNC_" +
-                "DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_" +
-                "ADMIN_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_" +
-                "ADMIN_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_ADMIN_AUX_UPD_SYNC_DEL\';\r\n\t\t\t" +
-                "\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ADMIN_AUX_UPD_SYNC_DEL FOR TB_CARTAO_ADM" +
-                "INISTRADORA BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_" +
-                "CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VN" +
-                "UMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO " +
-                ", NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_ADMINISTR" +
-                "ADORA , \'\'TB_CARTAO_ADMINISTRADORA\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ;" +
-                " END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUNC_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(s" +
-                "elect 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FUNC_AUX_UPD_SYNC_INS\'))\r" +
-                "\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FUNC_AUX_UPD_SYNC_INS;\';\r\n" +
-                "\t\t\t\t\t\terro = \'create TB_FUNC_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE" +
-                " TRIGGER TB_FUNC_AUX_UPD_SYNC_INS FOR TB_FUNCIONARIO ACTIVE BEFORE INSERT AS DEC" +
-                "LARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA" +
-                " FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_" +
-                "PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN" +
-                "_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , new.ID_FUNCIONARIO , \'\'TB_FUNCIONARIO\'\' , \'\'I\'\' ," +
-                " :VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUNC_AUX_U" +
-                "PD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAM" +
-                "E = \'TB_FUNC_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIG" +
-                "GER TB_FUNC_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_FUNC_AUX_UPD_SYNC_UPD\';" +
-                "\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FUNC_AUX_UPD_SYNC_UPD FOR TB_FUNCIO" +
-                "NARIO ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO" +
-                "_CAIXA ; BEGIN IF (old.ID_FUNCIONARIO IS DISTINCT FROM new.ID_FUNCIONARIO OR old" +
-                ".ID_CIDADE IS DISTINCT FROM new.ID_CIDADE OR old.N_REGISTRO IS DISTINCT FROM new" +
-                ".N_REGISTRO OR old.CPF IS DISTINCT FROM new.CPF OR old.NOME IS DISTINCT FROM new" +
-                ".NOME OR old.RG IS DISTINCT FROM new.RG OR old.END_CEP IS DISTINCT FROM new.END_" +
-                "CEP OR old.END_TIPO IS DISTINCT FROM new.END_TIPO OR old.END_LOGRAD IS DISTINCT " +
-                "FROM new.END_LOGRAD OR old.END_NUMERO IS DISTINCT FROM new.END_NUMERO OR old.END" +
-                "_COMPLE IS DISTINCT FROM new.END_COMPLE OR old.END_BAIRRO IS DISTINCT FROM new.E" +
-                "ND_BAIRRO OR old.DDD IS DISTINCT FROM new.DDD OR old.FONE IS DISTINCT FROM new.F" +
-                "ONE OR old.CELULAR IS DISTINCT FROM new.CELULAR OR old.EMAIL IS DISTINCT FROM ne" +
-                "w.EMAIL OR old.SALARIO IS DISTINCT FROM new.SALARIO OR old.EXTRA IS DISTINCT FRO" +
-                "M new.EXTRA OR old.DATA_NASCT IS DISTINCT FROM new.DATA_NASCT OR old.DATA_ADMIS " +
-                "IS DISTINCT FROM new.DATA_ADMIS OR old.DATA_DEMIS IS DISTINCT FROM new.DATA_DEMI" +
-                "S OR old.RAMAL IS DISTINCT FROM new.RAMAL OR old.SENHA IS DISTINCT FROM new.SENH" +
-                "A OR old.IP IS DISTINCT FROM new.IP OR old.STATUS IS DISTINCT FROM new.STATUS OR" +
-                " old.ID_SETOR IS DISTINCT FROM new.ID_SETOR OR old.ID_CARGO IS DISTINCT FROM new" +
-                ".ID_CARGO OR old.FOTO IS DISTINCT FROM new.FOTO OR old.PIS IS DISTINCT FROM new." +
-                "PIS OR old.APELIDO IS DISTINCT FROM new.APELIDO OR old.OBSERVACAO IS DISTINCT FR" +
-                "OM new.OBSERVACAO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY N" +
-                "O_CAIXA INTO :VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHER" +
-                "E ID_REG = old.ID_FUNCIONARIO AND TABELA = \'\'TB_FUNCIONARIO\'\' AND (OPERACAO = \'\'" +
-                "I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO " +
-                "TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES " +
-                "(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_FUNCIONARIO , \'\'TB_FUNCIONARIO\'\' , \'\'U" +
-                "\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop " +
-                "TB_FUNC_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RD" +
-                "B$TRIGGER_NAME = \'TB_FUNC_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEME" +
-                "NT \'DROP TRIGGER TB_FUNC_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_FUNC_AUX_U" +
-                "PD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FUNC_AUX_UPD_SYNC_DEL " +
-                "FOR TB_FUNCIONARIO ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_" +
-                "PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_C" +
-                "AIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABEL" +
-                "A , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old." +
-                "ID_FUNCIONARIO , \'\'TB_FUNCIONARIO\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); E" +
-                "ND END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_UNIMED_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(s" +
-                "elect 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_UNIMED_AUX_UPD_SYNC_INS\')" +
-                ")\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_UNIMED_AUX_UPD_SYNC_INS;" +
-                "\';\r\n\t\t\t\t\t\terro = \'create TB_UNIMED_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'" +
-                "CREATE TRIGGER TB_UNIMED_AUX_UPD_SYNC_INS FOR TB_UNI_MEDIDA ACTIVE BEFORE INSERT" +
-                " AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT " +
-                "NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT I" +
-                "NTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN" +
-                "_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , 0 , \'\'TB_UNI_MEDIDA\'\' , \'\'I\'\' , " +
-                ":VNUMCAIXA , CURRENT_TIMESTAMP , CAST (new.UNIDADE AS VARCHAR(100))) ; END END;\'" +
-                ";\r\n\r\n\t\t\t\t\t\terro = \'drop TB_UNIMED_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 " +
-                "from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_UNIMED_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t" +
-                "\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_UNIMED_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t" +
-                "\t\terro = \'create TB_UNIMED_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE T" +
-                "RIGGER TB_UNIMED_AUX_UPD_SYNC_UPD FOR TB_UNI_MEDIDA ACTIVE BEFORE UPDATE AS DECL" +
-                "ARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (old.UNIDADE IS " +
-                "DISTINCT FROM new.UNIDADE OR old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old" +
-                ".CONVERSOR IS DISTINCT FROM new.CONVERSOR OR old.STATUS IS DISTINCT FROM new.STA" +
-                "TUS OR old.UNIDADE_EX IS DISTINCT FROM new.UNIDADE_EX) THEN BEGIN FOR SELECT NO_" +
-                "CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ((SELECT" +
-                " COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE UN_REG = old.UNIDADE AND TABELA = \'\'TB_UNI" +
-                "_MEDIDA\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) " +
-                "= 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO ," +
-                " NO_CAIXA , TS_OPER , UN_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , 0 , \'\'TB" +
-                "_UNI_MEDIDA\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , old.UNIDADE) ; END END " +
-                "END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_UNIMED_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(" +
-                "select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_UNIMED_AUX_UPD_SYNC_DEL\'" +
-                "))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_UNIMED_AUX_UPD_SYNC_DEL" +
-                ";\';\r\n\t\t\t\t\t\terro = \'create TB_UNIMED_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT " +
-                "\'CREATE TRIGGER TB_UNIMED_AUX_UPD_SYNC_DEL FOR TB_UNI_MEDIDA ACTIVE BEFORE DELET" +
-                "E AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT" +
-                " NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT " +
-                "INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , U" +
-                "N_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , 0 , \'\'TB_UNI_MEDIDA\'\' , \'\'D\'\' , " +
-                ":VNUMCAIXA , CURRENT_TIMESTAMP , old.UNIDADE) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop" +
-                " TB_FUNCPAPEL_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS wh" +
-                "ere RDB$TRIGGER_NAME = \'TB_FUNCPAPEL_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXEC" +
-                "UTE STATEMENT \'DROP TRIGGER TB_FUNCPAPEL_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'crea" +
-                "te TB_FUNCPAPEL_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_F" +
-                "UNCPAPEL_AUX_UPD_SYNC_INS FOR TB_FUNC_PAPEL ACTIVE BEFORE INSERT AS DECLARE VNUM" +
-                "CAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TR" +
-                "I_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_" +
-                "SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG) V" +
-                "ALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , new.ID_FUNCIONARIO , \'\'TB_FUNC_PAPEL\'\' " +
-                ", \'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , new.ID_PAPEL) ; END END;\';\r\n\r\n" +
-                "\t\t\t\t\t\terro = \'drop TB_FUNCPAPEL_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 fr" +
-                "om RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FUNCPAPEL_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t" +
-                "\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FUNCPAPEL_AUX_UPD_SYNC_DEL;\';\r\n" +
-                "\t\t\t\t\t\terro = \'create TB_FUNCPAPEL_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'C" +
-                "REATE TRIGGER TB_FUNCPAPEL_AUX_UPD_SYNC_DEL FOR TB_FUNC_PAPEL ACTIVE BEFORE DELE" +
-                "TE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELEC" +
-                "T NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT" +
-                " INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , " +
-                "UN_REG , SM_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_FUNCIONARIO , \'" +
-                "\'TB_FUNC_PAPEL\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , null , old.ID_PAPEL)" +
-                " ; END END;\';\t\t\t\t\t\t\r\n\r\n\t\t\t\t\t\terro = \'deu certo\';\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY" +
-                " DO\r\n\t\t\t\t\t\tBEGIN\r\n\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND;";
+                "EST_PRODUTO BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_" +
+                "CAIXA ; BEGIN IF (old.DESC_CMPL IS DISTINCT FROM new.DESC_CMPL OR old.COD_BARRA " +
+                "IS DISTINCT FROM new.COD_BARRA OR old.REFERENCIA IS DISTINCT FROM new.REFERENCIA" +
+                " OR old.QTD_ATUAL IS DISTINCT FROM new.QTD_ATUAL OR old.PESO IS DISTINCT FROM ne" +
+                "w.PESO OR old.IPI IS DISTINCT FROM new.IPI OR old.CF IS DISTINCT FROM new.CF OR " +
+                "old.IAT IS DISTINCT FROM new.IAT OR old.IPPT IS DISTINCT FROM new.IPPT OR old.CO" +
+                "D_NCM IS DISTINCT FROM new.COD_NCM OR old.ID_NIVEL1 IS DISTINCT FROM new.ID_NIVE" +
+                "L1 OR old.ID_NIVEL2 IS DISTINCT FROM new.ID_NIVEL2 OR old.MVA IS DISTINCT FROM n" +
+                "ew.MVA OR old.CST_IPI IS DISTINCT FROM new.CST_IPI OR old.FOTO IS DISTINCT FROM " +
+                "new.FOTO OR old.CSOSN IS DISTINCT FROM new.CSOSN OR old.CSOSN_CFE IS DISTINCT FR" +
+                "OM new.CSOSN_CFE OR old.ANP IS DISTINCT FROM new.ANP OR old.EXTIPI IS DISTINCT F" +
+                "ROM new.EXTIPI OR old.CST IS DISTINCT FROM new.CST OR old.FCI IS DISTINCT FROM n" +
+                "ew.FCI OR old.COD_CEST IS DISTINCT FROM new.COD_CEST OR old.CENQ IS DISTINCT FRO" +
+                "M new.CENQ OR old.VLR_IPI IS DISTINCT FROM new.VLR_IPI OR OLD.CONTROLA_LOTE_VEND" +
+                "A IS DISTINCT FROM NEW.CONTROLA_LOTE_VENDA OR OLD.BAIXA_LOTE_PDV IS DISTINCT FRO" +
+                "M NEW.BAIXA_LOTE_PDV) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER B" +
+                "Y NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT (1) FROM TRI_PDV_AUX_SYNC" +
+                " WHERE ID_REG = old.ID_IDENTIFICADOR AND TABELA = \'\'TB_EST_PRODUTO\'\' AND (OPERAC" +
+                "AO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSER" +
+                "T INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) " +
+                "VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_IDENTIFICADOR , \'\'TB_EST_PRODUT" +
+                "O\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END END END END;\';\r\n\r\n\t\t\t\t\t\terro " +
+                "= \'drop tb_estprod_aux_upd_sync_del\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGE" +
+                "RS where RDB$TRIGGER_NAME = \'TB_ESTPROD_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tE" +
+                "XECUTE STATEMENT \'DROP TRIGGER TB_ESTPROD_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'cre" +
+                "ate tb_estprod_aux_upd_sync_del\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ES" +
+                "TPROD_AUX_UPD_SYNC_DEL FOR TB_EST_PRODUTO ACTIVE BEFORE DELETE AS DECLARE VNUMCA" +
+                "IXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_P" +
+                "DV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYN" +
+                "C (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_S" +
+                "YNC_SEQ,1), old.ID_IDENTIFICADOR, \'\'TB_EST_PRODUTO\'\', \'\'D\'\', :VNUMCAIXA, CURRENT" +
+                "_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop tb_fornec_aux_upd_sync_ins\';\r\n\t\t\t\t" +
+                "\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FORNEC_AUX_" +
+                "UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FORNEC_AUX" +
+                "_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_FORNEC_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECU" +
+                "TE STATEMENT \'CREATE TRIGGER TB_FORNEC_AUX_UPD_SYNC_INS FOR TB_FORNECEDOR ACTIVE" +
+                " BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGI" +
+                "N FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO B" +
+                "EGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ ,ID_REG ,TABELA ,OPERACAO ,NO_CAIXA ,TS_O" +
+                "PER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) ,new.ID_FORNEC ,\'\'TB_FORNECEDOR\'\' ," +
+                "\'\'I\'\' ,:VNUMCAIXA ,CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FORNE" +
+                "C_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIG" +
+                "GER_NAME = \'TB_FORNEC_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'" +
+                "DROP TRIGGER TB_FORNEC_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_FORNEC_AUX_U" +
+                "PD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FORNEC_AUX_UPD_SYNC_UP" +
+                "D FOR TB_FORNECEDOR ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI" +
+                "_PDV_CONFIG.NO_CAIXA ; BEGIN IF (old.NOME IS DISTINCT FROM new.NOME OR old.NOME_" +
+                "FANTA IS DISTINCT FROM new.NOME_FANTA OR old.CNPJ IS DISTINCT FROM new.CNPJ OR o" +
+                "ld.INSC_ESTAD IS DISTINCT FROM new.INSC_ESTAD OR old.INSC_MUNIC IS DISTINCT FROM" +
+                " new.INSC_MUNIC OR old.END_CEP IS DISTINCT FROM new.END_CEP OR old.END_TIPO IS D" +
+                "ISTINCT FROM new.END_TIPO OR old.END_LOGRAD IS DISTINCT FROM new.END_LOGRAD OR o" +
+                "ld.END_BAIRRO IS DISTINCT FROM new.END_BAIRRO OR old.END_NUMERO IS DISTINCT FROM" +
+                " new.END_NUMERO OR old.END_COMPLE IS DISTINCT FROM new.END_COMPLE OR old.DDD_COM" +
+                "ER IS DISTINCT FROM new.DDD_COMER OR old.FONE_COMER IS DISTINCT FROM new.FONE_CO" +
+                "MER OR old.FONE_0800 IS DISTINCT FROM new.FONE_0800 OR old.DDD_CELUL IS DISTINCT" +
+                " FROM new.DDD_CELUL OR old.FONE_CELUL IS DISTINCT FROM new.FONE_CELUL OR old.DDD" +
+                "_FAX IS DISTINCT FROM new.DDD_FAX OR old.FONE_FAX IS DISTINCT FROM new.FONE_FAX " +
+                "OR old.EMAIL_CONT IS DISTINCT FROM new.EMAIL_CONT OR old.EMAIL_NFE IS DISTINCT F" +
+                "ROM new.EMAIL_NFE OR old.SITE IS DISTINCT FROM new.SITE OR old.STATUS IS DISTINC" +
+                "T FROM new.STATUS OR old.DT_PRICOMP IS DISTINCT FROM new.DT_PRICOMP OR old.DT_UL" +
+                "TCOMP IS DISTINCT FROM new.DT_ULTCOMP OR old.ID_CIDADE IS DISTINCT FROM new.ID_C" +
+                "IDADE OR old.LIMITE IS DISTINCT FROM new.LIMITE OR old.ID_RAMO IS DISTINCT FROM " +
+                "new.ID_RAMO OR old.ID_PAIS IS DISTINCT FROM new.ID_PAIS OR old.OBSERVACAO IS DIS" +
+                "TINCT FROM new.OBSERVACAO OR old.CONTATO IS DISTINCT FROM new.CONTATO) THEN BEGI" +
+                "N FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO B" +
+                "EGIN IF ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_FORNEC AND" +
+                " TABELA = \'\'TB_FORNECEDOR\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CA" +
+                "IXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , T" +
+                "ABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) ," +
+                " old.ID_FORNEC ,\'\'TB_FORNECEDOR\'\' ,\'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END" +
+                " END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FORNEC_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (ex" +
+                "ists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FORNEC_AUX_UPD_SYNC" +
+                "_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FORNEC_AUX_UPD_SYN" +
+                "C_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_FORNEC_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATE" +
+                "MENT \'CREATE TRIGGER TB_FORNEC_AUX_UPD_SYNC_DEL FOR TB_FORNECEDOR ACTIVE BEFORE " +
+                "DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR S" +
+                "ELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IN" +
+                "SERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPE" +
+                "R) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_FORNEC , \'\'TB_FORNECEDOR\'\' , " +
+                "\'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ES" +
+                "TGRUPO_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB" +
+                "$TRIGGER_NAME = \'TB_ESTGRUPO_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STAT" +
+                "EMENT \'DROP TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_EST" +
+                "GRUPO_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ESTGRUPO_AU" +
+                "X_UPD_SYNC_INS FOR TB_EST_GRUPO ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE O" +
+                "F COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG" +
+                " ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , " +
+                "ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC" +
+                "_SEQ, 1) , new.ID_GRUPO ,\'\'TB_EST_GRUPO\'\' ,\'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAM" +
+                "P) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ESTGRUPO_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (" +
+                "exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ESTGRUPO_AUX_UPD_" +
+                "SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ESTGRUPO_AUX_U" +
+                "PD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_ESTGRUPO_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECU" +
+                "TE STATEMENT \'CREATE TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_UPD FOR TB_EST_GRUPO ACTIV" +
+                "E BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BE" +
+                "GIN IF (old.DESCRICAO IS DISTINCT FROM new.DESCRICAO) THEN BEGIN FOR SELECT NO_C" +
+                "AIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ((SELECT " +
+                "COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_GRUPO AND TABELA = \'\'TB_EST" +
+                "_GRUPO\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) =" +
+                " 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , " +
+                "NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_GRUPO ,\'\'TB" +
+                "_EST_GRUPO\'\' ,\'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END END END;\';\r\n\r\n\t\t" +
+                "\t\t\t\terro = \'drop TB_ESTGRUPO_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from " +
+                "RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ESTGRUPO_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tth" +
+                "en\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t" +
+                "\terro = \'create TB_ESTGRUPO_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE " +
+                "TRIGGER TB_ESTGRUPO_AUX_UPD_SYNC_DEL FOR TB_EST_GRUPO ACTIVE BEFORE DELETE AS DE" +
+                "CLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAI" +
+                "XA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TR" +
+                "I_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (G" +
+                "EN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_GRUPO , \'\'TB_EST_GRUPO\'\' , \'\'D\'\' , :VNUMC" +
+                "AIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_CLIENTE_AUX_UPD_" +
+                "SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME =" +
+                " \'TB_CLIENTE_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIG" +
+                "GER TB_CLIENTE_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_CLIENTE_AUX_UPD_SYNC" +
+                "_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_CLIENTE_AUX_UPD_SYNC_INS FOR " +
+                "TB_CLIENTE ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONF" +
+                "IG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INT" +
+                "O :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPER" +
+                "ACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , new.ID_CLIE" +
+                "NTE , \'\'TB_CLIENTE\'\' , \'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t" +
+                "\t\t\t\terro = \'drop TB_CLIENTE_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from R" +
+                "DB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_CLIENTE_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen" +
+                "\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_CLIENTE_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\ter" +
+                "ro = \'create TB_CLIENTE_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIG" +
+                "GER TB_CLIENTE_AUX_UPD_SYNC_UPD FOR TB_CLIENTE ACTIVE BEFORE UPDATE AS DECLARE V" +
+                "NUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN IF (old.ID_CONVENIO IS DI" +
+                "STINCT FROM new.ID_CONVENIO OR old.DT_CADASTRO IS DISTINCT FROM new.DT_CADASTRO " +
+                "OR old.NOME IS DISTINCT FROM new.NOME OR old.END_CEP IS DISTINCT FROM new.END_CE" +
+                "P OR old.END_TIPO IS DISTINCT FROM new.END_TIPO OR old.END_NUMERO IS DISTINCT FR" +
+                "OM new.END_NUMERO OR old.END_LOGRAD IS DISTINCT FROM new.END_LOGRAD OR old.END_B" +
+                "AIRRO IS DISTINCT FROM new.END_BAIRRO OR old.END_COMPLE IS DISTINCT FROM new.END" +
+                "_COMPLE OR old.DT_PRICOMP IS DISTINCT FROM new.DT_PRICOMP OR old.DT_ULTCOMP IS D" +
+                "ISTINCT FROM new.DT_ULTCOMP OR old.CONTATO IS DISTINCT FROM new.CONTATO OR old.S" +
+                "TATUS IS DISTINCT FROM new.STATUS OR old.LIMITE IS DISTINCT FROM new.LIMITE OR o" +
+                "ld.DDD_RESID IS DISTINCT FROM new.DDD_RESID OR old.FONE_RESID IS DISTINCT FROM n" +
+                "ew.FONE_RESID OR old.DDD_COMER IS DISTINCT FROM new.DDD_COMER OR old.FONE_COMER " +
+                "IS DISTINCT FROM new.FONE_COMER OR old.DDD_CELUL IS DISTINCT FROM new.DDD_CELUL " +
+                "OR old.FONE_CELUL IS DISTINCT FROM new.FONE_CELUL OR old.DDD_FAX IS DISTINCT FRO" +
+                "M new.DDD_FAX OR old.FONE_FAX IS DISTINCT FROM new.FONE_FAX OR old.EMAIL_CONT IS" +
+                " DISTINCT FROM new.EMAIL_CONT OR old.EMAIL_NFE IS DISTINCT FROM new.EMAIL_NFE OR" +
+                " old.ID_CIDADE IS DISTINCT FROM new.ID_CIDADE OR old.ID_TIPO IS DISTINCT FROM ne" +
+                "w.ID_TIPO OR old.ID_FUNCIONARIO IS DISTINCT FROM new.ID_FUNCIONARIO OR old.ID_PA" +
+                "IS IS DISTINCT FROM new.ID_PAIS OR old.MENSAGEM IS DISTINCT FROM new.MENSAGEM OR" +
+                " old.ID_RAMO IS DISTINCT FROM new.ID_RAMO OR old.EMAIL_ADIC IS DISTINCT FROM new" +
+                ".EMAIL_ADIC OR old.OBSERVACAO IS DISTINCT FROM new.OBSERVACAO OR old.DT_MELHOR_V" +
+                "ENCTO IS DISTINCT FROM new.DT_MELHOR_VENCTO) THEN BEGIN FOR SELECT NO_CAIXA FROM" +
+                " TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) " +
+                "FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_CLIENTE AND TABELA = \'\'TB_CLIENTE\'\' " +
+                "AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN " +
+                "BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA " +
+                ", TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_CLIENTE , \'\'TB_CLIEN" +
+                "TE\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END END END END;\';\r\n\r\n\t\t\t\t\t\terro" +
+                " = \'drop TB_CLIENTE_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGG" +
+                "ERS where RDB$TRIGGER_NAME = \'TB_CLIENTE_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\t" +
+                "EXECUTE STATEMENT \'DROP TRIGGER TB_CLIENTE_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'cr" +
+                "eate TB_CLIENTE_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_C" +
+                "LIENTE_AUX_UPD_SYNC_DEL FOR TB_CLIENTE ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA" +
+                " TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_" +
+                "CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (" +
+                "SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AU" +
+                "X_SYNC_SEQ,1) , old.ID_CLIENTE , \'\'TB_CLIENTE\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_T" +
+                "IMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_ADMIN_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\ti" +
+                "f (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ADMIN_AUX_UPD_" +
+                "SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ADMIN_AUX_UPD_" +
+                "SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_ADMIN_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STA" +
+                "TEMENT \'CREATE TRIGGER TB_ADMIN_AUX_UPD_SYNC_INS FOR TB_CARTAO_ADMINISTRADORA BE" +
+                "FORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN F" +
+                "OR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGI" +
+                "N INSERT INTO TRI_PDV_AUX_SYNC (SEQ ,ID_REG ,TABELA ,OPERACAO ,NO_CAIXA ,TS_OPER" +
+                ") VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) ,NEW.ID_ADMINISTRADORA ,\'\'TB_CARTAO_AD" +
+                "MINISTRADORA\'\' ,\'\'I\'\' ,:VNUMCAIXA ,CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro " +
+                "= \'drop TB_ADMIN_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS" +
+                " where RDB$TRIGGER_NAME = \'TB_ADMIN_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECU" +
+                "TE STATEMENT \'DROP TRIGGER TB_ADMIN_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB" +
+                "_ADMIN_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_ADMIN_AUX_" +
+                "UPD_SYNC_UPD FOR TB_CARTAO_ADMINISTRADORA BEFORE UPDATE AS DECLARE VNUMCAIXA TYP" +
+                "E OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (OLD.ID_CLIENTE IS DISTINCT FROM " +
+                "new.ID_CLIENTE OR old.DESCRICAO IS DISTINCT FROM new.DESCRICAO OR old.TAXA_CREDI" +
+                "TO IS DISTINCT FROM new.TAXA_CREDITO OR old.TAXA_DEBITO IS DISTINCT FROM new.TAX" +
+                "A_DEBITO) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA I" +
+                "NTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG" +
+                " = old.ID_ADMINISTRADORA AND TABELA = \'\'TB_CARTAO_ADMINISTRADORA\'\' AND (OPERACAO" +
+                " = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT " +
+                "INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VA" +
+                "LUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.ID_ADMINISTRADORA , \'\'TB_CARTAO_ADMI" +
+                "NISTRADORA\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END END END;\';\r\n\r\n\t" +
+                "\t\t\t\t\terro = \'drop TB_ADMIN_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RD" +
+                "B$TRIGGERS where RDB$TRIGGER_NAME = \'TB_ADMIN_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t" +
+                "\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_ADMIN_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = " +
+                "\'create TB_ADMIN_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_" +
+                "ADMIN_AUX_UPD_SYNC_DEL FOR TB_CARTAO_ADMINISTRADORA BEFORE DELETE AS DECLARE VNU" +
+                "MCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM T" +
+                "RI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX" +
+                "_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN" +
+                "_PDV_AUX_SYNC_SEQ, 1) , old.ID_ADMINISTRADORA , \'\'TB_CARTAO_ADMINISTRADORA\'\' , \'" +
+                "\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUN" +
+                "C_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIG" +
+                "GER_NAME = \'TB_FUNC_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DR" +
+                "OP TRIGGER TB_FUNC_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_FUNC_AUX_UPD_SYN" +
+                "C_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FUNC_AUX_UPD_SYNC_INS FOR TB" +
+                "_FUNCIONARIO ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CO" +
+                "NFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA I" +
+                "NTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OP" +
+                "ERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , new.ID_FU" +
+                "NCIONARIO , \'\'TB_FUNCIONARIO\'\' , \'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END EN" +
+                "D;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUNC_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1" +
+                " from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FUNC_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\t" +
+                "then\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FUNC_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\te" +
+                "rro = \'create TB_FUNC_AUX_UPD_SYNC_UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGE" +
+                "R TB_FUNC_AUX_UPD_SYNC_UPD FOR TB_FUNCIONARIO ACTIVE BEFORE UPDATE AS DECLARE VN" +
+                "UMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA ; BEGIN IF (old.ID_FUNCIONARIO IS" +
+                " DISTINCT FROM new.ID_FUNCIONARIO OR old.ID_CIDADE IS DISTINCT FROM new.ID_CIDAD" +
+                "E OR old.N_REGISTRO IS DISTINCT FROM new.N_REGISTRO OR old.CPF IS DISTINCT FROM " +
+                "new.CPF OR old.NOME IS DISTINCT FROM new.NOME OR old.RG IS DISTINCT FROM new.RG " +
+                "OR old.END_CEP IS DISTINCT FROM new.END_CEP OR old.END_TIPO IS DISTINCT FROM new" +
+                ".END_TIPO OR old.END_LOGRAD IS DISTINCT FROM new.END_LOGRAD OR old.END_NUMERO IS" +
+                " DISTINCT FROM new.END_NUMERO OR old.END_COMPLE IS DISTINCT FROM new.END_COMPLE " +
+                "OR old.END_BAIRRO IS DISTINCT FROM new.END_BAIRRO OR old.DDD IS DISTINCT FROM ne" +
+                "w.DDD OR old.FONE IS DISTINCT FROM new.FONE OR old.CELULAR IS DISTINCT FROM new." +
+                "CELULAR OR old.EMAIL IS DISTINCT FROM new.EMAIL OR old.SALARIO IS DISTINCT FROM " +
+                "new.SALARIO OR old.EXTRA IS DISTINCT FROM new.EXTRA OR old.DATA_NASCT IS DISTINC" +
+                "T FROM new.DATA_NASCT OR old.DATA_ADMIS IS DISTINCT FROM new.DATA_ADMIS OR old.D" +
+                "ATA_DEMIS IS DISTINCT FROM new.DATA_DEMIS OR old.RAMAL IS DISTINCT FROM new.RAMA" +
+                "L OR old.SENHA IS DISTINCT FROM new.SENHA OR old.IP IS DISTINCT FROM new.IP OR o" +
+                "ld.STATUS IS DISTINCT FROM new.STATUS OR old.ID_SETOR IS DISTINCT FROM new.ID_SE" +
+                "TOR OR old.ID_CARGO IS DISTINCT FROM new.ID_CARGO OR old.FOTO IS DISTINCT FROM n" +
+                "ew.FOTO OR old.PIS IS DISTINCT FROM new.PIS OR old.APELIDO IS DISTINCT FROM new." +
+                "APELIDO OR old.OBSERVACAO IS DISTINCT FROM new.OBSERVACAO) THEN BEGIN FOR SELECT" +
+                " NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF ((SE" +
+                "LECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_FUNCIONARIO AND TABELA" +
+                " = \'\'TB_FUNCIONARIO\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = " +
+                ":VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA " +
+                ", OPERACAO , NO_CAIXA , TS_OPER) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , old.I" +
+                "D_FUNCIONARIO , \'\'TB_FUNCIONARIO\'\' , \'\'U\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP) ; E" +
+                "ND END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUNC_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (ex" +
+                "ists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FUNC_AUX_UPD_SYNC_D" +
+                "EL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FUNC_AUX_UPD_SYNC_DE" +
+                "L;\';\r\n\t\t\t\t\t\terro = \'create TB_FUNC_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'" +
+                "CREATE TRIGGER TB_FUNC_AUX_UPD_SYNC_DEL FOR TB_FUNCIONARIO ACTIVE BEFORE DELETE " +
+                "AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO" +
+                "_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INT" +
+                "O TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER) VALUE" +
+                "S (GEN_ID(GEN_PDV_AUX_SYNC_SEQ,1) , old.ID_FUNCIONARIO , \'\'TB_FUNCIONARIO\'\' , \'\'" +
+                "D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP); END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_UNIME" +
+                "D_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIG" +
+                "GER_NAME = \'TB_UNIMED_AUX_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'" +
+                "DROP TRIGGER TB_UNIMED_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_UNIMED_AUX_U" +
+                "PD_SYNC_INS\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_UNIMED_AUX_UPD_SYNC_IN" +
+                "S FOR TB_UNI_MEDIDA ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI" +
+                "_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO" +
+                "_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TAB" +
+                "ELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SE" +
+                "Q, 1) , 0 , \'\'TB_UNI_MEDIDA\'\' , \'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , CAST (n" +
+                "ew.UNIDADE AS VARCHAR(100))) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_UNIMED_AUX_UP" +
+                "D_SYNC_UPD\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME" +
+                " = \'TB_UNIMED_AUX_UPD_SYNC_UPD\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRI" +
+                "GGER TB_UNIMED_AUX_UPD_SYNC_UPD;\';\r\n\t\t\t\t\t\terro = \'create TB_UNIMED_AUX_UPD_SYNC_" +
+                "UPD\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_UNIMED_AUX_UPD_SYNC_UPD FOR TB" +
+                "_UNI_MEDIDA ACTIVE BEFORE UPDATE AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CON" +
+                "FIG.NO_CAIXA ; BEGIN IF (old.UNIDADE IS DISTINCT FROM new.UNIDADE OR old.DESCRIC" +
+                "AO IS DISTINCT FROM new.DESCRICAO OR old.CONVERSOR IS DISTINCT FROM new.CONVERSO" +
+                "R OR old.STATUS IS DISTINCT FROM new.STATUS OR old.UNIDADE_EX IS DISTINCT FROM n" +
+                "ew.UNIDADE_EX) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CA" +
+                "IXA INTO :VNUMCAIXA DO BEGIN IF ((SELECT COUNT(1) FROM TRI_PDV_AUX_SYNC WHERE UN" +
+                "_REG = old.UNIDADE AND TABELA = \'\'TB_UNI_MEDIDA\'\' AND (OPERACAO = \'\'I\'\' OR OPERA" +
+                "CAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_" +
+                "SYNC (SEQ , ID_REG , TABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG) VALUES (GE" +
+                "N_ID(GEN_PDV_AUX_SYNC_SEQ, 1) , 0 , \'\'TB_UNI_MEDIDA\'\' , \'\'U\'\' , :VNUMCAIXA , CUR" +
+                "RENT_TIMESTAMP , old.UNIDADE) ; END END END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_UNIM" +
+                "ED_AUX_UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRI" +
+                "GGER_NAME = \'TB_UNIMED_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT " +
+                "\'DROP TRIGGER TB_UNIMED_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_UNIMED_AUX_" +
+                "UPD_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_UNIMED_AUX_UPD_SYNC_D" +
+                "EL FOR TB_UNI_MEDIDA ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN TR" +
+                "I_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY N" +
+                "O_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TA" +
+                "BELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_S" +
+                "EQ,1) , 0 , \'\'TB_UNI_MEDIDA\'\' , \'\'D\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP , old.UNI" +
+                "DADE) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUNCPAPEL_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t\t\t" +
+                "if (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_FUNCPAPEL_AUX" +
+                "_UPD_SYNC_INS\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TRIGGER TB_FUNCPAPEL" +
+                "_AUX_UPD_SYNC_INS;\';\r\n\t\t\t\t\t\terro = \'create TB_FUNCPAPEL_AUX_UPD_SYNC_INS\';\r\n\t\t\t\t" +
+                "\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FUNCPAPEL_AUX_UPD_SYNC_INS FOR TB_FUNC_PA" +
+                "PEL ACTIVE BEFORE INSERT AS DECLARE VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_C" +
+                "AIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNU" +
+                "MCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , TABELA , OPERACAO ," +
+                " NO_CAIXA , TS_OPER , UN_REG , SM_REG) VALUES (GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1) ," +
+                " new.ID_FUNCIONARIO , \'\'TB_FUNC_PAPEL\'\' , \'\'I\'\' , :VNUMCAIXA , CURRENT_TIMESTAMP" +
+                " , null , new.ID_PAPEL) ; END END;\';\r\n\r\n\t\t\t\t\t\terro = \'drop TB_FUNCPAPEL_AUX_UPD_" +
+                "SYNC_DEL\';\r\n\t\t\t\t\t\tif (exists(select 1 from RDB$TRIGGERS where RDB$TRIGGER_NAME =" +
+                " \'TB_FUNCPAPEL_AUX_UPD_SYNC_DEL\'))\r\n\t\t\t\t\t\tthen\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'DROP TR" +
+                "IGGER TB_FUNCPAPEL_AUX_UPD_SYNC_DEL;\';\r\n\t\t\t\t\t\terro = \'create TB_FUNCPAPEL_AUX_UP" +
+                "D_SYNC_DEL\';\r\n\t\t\t\t\t\tEXECUTE STATEMENT \'CREATE TRIGGER TB_FUNCPAPEL_AUX_UPD_SYNC_" +
+                "DEL FOR TB_FUNC_PAPEL ACTIVE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE OF COLUMN T" +
+                "RI_PDV_CONFIG.NO_CAIXA ; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFIG ORDER BY " +
+                "NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ , ID_REG , T" +
+                "ABELA , OPERACAO , NO_CAIXA , TS_OPER , UN_REG , SM_REG) VALUES (GEN_ID(GEN_PDV_" +
+                "AUX_SYNC_SEQ,1) , old.ID_FUNCIONARIO , \'\'TB_FUNC_PAPEL\'\' , \'\'D\'\' , :VNUMCAIXA , " +
+                "CURRENT_TIMESTAMP , null , old.ID_PAPEL) ; END END;\';\t\t\t\t\t\t\r\n\r\n\t\t\t\t\t\terro = \'deu" +
+                " certo\';\r\n\t\t\t\t\t\tSUSPEND;\r\n\t\t\t\t\t\tWHEN ANY DO\r\n\t\t\t\t\t\tBEGIN\r\n\r\n\t\t\t\t\t\tEND\r\n\t\t\t\t\t\tEND" +
+                ";";
             this._commandCollection[8].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[9] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[9].Connection = this.Connection;
@@ -6872,7 +7011,39 @@ END;";
                 "CAIXA) = 0) THEN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERAC" +
                 "AO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_CONTA, \'\'T" +
                 "B_BANCO_CTA\'\', \'\'U\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END END END;\';\r\n\r\nerro" +
-                " = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
+                " = \'drop TB_LOTE_SYNC_DEL\';           \r\nif (exists(select 1 from RDB$TRIGGERS wh" +
+                "ere RDB$TRIGGER_NAME = \'TB_LOTE_SYNC_DEL\'))\r\nthen\r\nEXECUTE STATEMENT \'DROP TRIGG" +
+                "ER TB_LOTE_SYNC_DEL\';\r\nerro = \'create TB_LOTE_SYNC_DEL\';\r\nEXECUTE STATEMENT \'CRE" +
+                "ATE TRIGGER TB_LOTE_SYNC_DEL FOR TB_LOTE BEFORE DELETE AS DECLARE VNUMCAIXA TYPE" +
+                " OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONFI" +
+                "G ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, " +
+                "ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ," +
+                " 1), old.ID_LOTE, \'\'TB_LOTE\'\', \'\'D\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); END END;\';" +
+                "\r\n\r\nerro = \'drop TB_LOTE_SYNC_INS\';           \r\nif (exists(select 1 from RDB$TRI" +
+                "GGERS where RDB$TRIGGER_NAME = \'TB_LOTE_SYNC_INS\'))\r\nthen\r\nEXECUTE STATEMENT \'DR" +
+                "OP TRIGGER TB_LOTE_SYNC_INS\';\r\nerro = \'create TB_LOTE_SYNC_INS\';\r\nEXECUTE STATEM" +
+                "ENT \'CREATE TRIGGER TB_LOTE_SYNC_INS FOR TB_LOTE BEFORE INSERT AS DECLARE VNUMCA" +
+                "IXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN FOR SELECT NO_CAIXA FROM TRI_P" +
+                "DV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN INSERT INTO TRI_PDV_AUX_SYN" +
+                "C (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_S" +
+                "YNC_SEQ, 1), new.ID_LOTE, \'\'TB_LOTE\'\', \'\'I\'\', :VNUMCAIXA, CURRENT_TIMESTAMP); EN" +
+                "D END;\';\r\n\r\nerro = \'drop TB_LOTE_SYNC_UPD\';           \r\nif (exists(select 1 from" +
+                " RDB$TRIGGERS where RDB$TRIGGER_NAME = \'TB_LOTE_SYNC_UPD\'))\r\nthen\r\nEXECUTE STATE" +
+                "MENT \'DROP TRIGGER TB_LOTE_SYNC_UPD\';\r\nerro = \'create TB_LOTE_SYNC_UPD\';\r\nEXECUT" +
+                "E STATEMENT \'CREATE TRIGGER TB_LOTE_SYNC_UPD FOR TB_LOTE BEFORE UPDATE AS DECLAR" +
+                "E VNUMCAIXA TYPE OF COLUMN TRI_PDV_CONFIG.NO_CAIXA; BEGIN IF (old.NUM_LOTE IS DI" +
+                "STINCT FROM new.NUM_LOTE OR old.DT_VALIDAD IS DISTINCT FROM new.DT_VALIDAD OR ol" +
+                "d.ID_IDENTIFICADOR IS DISTINCT FROM new.ID_IDENTIFICADOR OR old.QTD_ATUAL IS DIS" +
+                "TINCT FROM new.QTD_ATUAL OR old.DT_FABRICACAO IS DISTINCT FROM new.DT_FABRICACAO" +
+                " OR old.QTD_RESERV IS DISTINCT FROM new.QTD_RESERV OR old.ID_SNGPC_INVENT IS DIS" +
+                "TINCT FROM new.ID_SNGPC_INVENT) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONF" +
+                "IG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT (1) FROM TRI_PD" +
+                "V_AUX_SYNC WHERE ID_REG = old.ID_LOTE AND TABELA = \'\'TB_LOTE\'\' AND (OPERACAO = \'" +
+                "\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO" +
+                " TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_" +
+                "ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_LOTE, \'\'TB_LOTE\'\', \'\'U\'\', :VNUMCAIXA, CURREN" +
+                "T_TIMESTAMP); END END END END;\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\n" +
+                "BEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[12] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[12].Connection = this.Connection;
@@ -7735,139 +7906,141 @@ END;";
                 "CFILLMODE SMALLINT, PACREFERENCIA SMALLINT, PSYSCOMISSAO SMALLINT, PSATSERVTIMEO" +
                 "UT INTEGER, PSATLIFESIGNINTERVAL INTEGER, PACFILLDELAY INTEGER, PSYSPERGUNTAWHAT" +
                 "S SMALLINT, PSYSPARCELA SMALLINT, PSYSEMITECOMPROVANTE SMALLINT, PINFORMA_MAQUIN" +
-                "INHA CHAR(1), PLAYOUT_SAT VARCHAR(4), PVINCULA_MAQ_CTA CHAR(1)) RETURNS ( RROWSA" +
-                "FFECTED INTEGER ) AS BEGIN UPDATE OR INSERT INTO TRI_PDV_CONFIG (ID_MAC, NO_CAIX" +
-                "A, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_F" +
-                "OLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CON" +
-                "T, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT" +
-                "_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_P" +
-                "ORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUML" +
-                "OJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY" +
-                ", BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT" +
-                ", SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPRO" +
-                "VANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA) VALUES (:pID_MAC, :pNO_C" +
-                "AIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQUEIA_NO_LIMITE, :pVALOR_DE_FOLGA" +
-                ", :pPERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCONTRADO, :pMENSAGEM_CORTESIA, :pI" +
-                "CMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ESTOQUE_NEGATIVO, :pMODELO_CUPOM, " +
-                ":pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SAT, :pSATSERVIDOR, :pSAT_CODATIV," +
-                " :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORTA, :pIMPRESSORA_USB, :pIMPRESSOR" +
-                "A_USB_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, :pTEFNUMLOJA, :pTEFNUMTERMINAL, " +
-                ":pTEFPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :pBALBAUD, :pBALPARITY, :pBALMODE" +
-                "LO, :pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA, :pSYSCOMISSAO, :pSATSERVTIMEOU" +
-                "T, :pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPERGUNTAWHATS, :pSYSPARCELA, :pSYS" +
-                "EMITECOMPROVANTE, :pINFORMA_MAQUININHA, :pLAYOUT_SAT, :pVINCULA_MAQ_CTA) MATCHIN" +
-                "G (ID_MAC); rRowsAffected = ROW_COUNT; SUSPEND; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc cf" +
-                "opsis get by dt upd\';\r\n\t\t\t\t\t\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI" +
-                "_CFOPSIS_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRICAO" +
-                " VARCHAR(330), RESUMO VARCHAR(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), EST_B" +
-                "X_AMBOS CHAR(1), DEV_RET CHAR(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT " +
-                "CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_U" +
-                "PD FROM TB_CFOP_SIS WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICAO, " +
-                ":RESUMO, :OBSERVACAO, :EST_BX, :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BEGIN" +
-                " SUSPEND ; END END;\';\r\n\terro = \'sproc cfopsis sync upsert\';\r\n\texecute statement " +
-                "\'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICAO V" +
-                "ARCHAR(330), pRESUMO VARCHAR(60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), pEST" +
-                "_BX_AMBOS CHAR(1), pDEV_RET CHAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAf" +
-                "fected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, RES" +
-                "UMO, OBSERVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFOP, " +
-                ":pDESCRICAO, :pRESUMO, :pOBSERVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pTRI_" +
-                "PDV_DT_UPD) MATCHING (CFOP) ; rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'spr" +
-                "oc fornecedor get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_" +
-                "TRI_FORNEC_GETBY_DTUPD (pUltimaSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NOME " +
-                "VARCHAR(60), NOME_FANTA VARCHAR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16), I" +
-                "NSC_MUNIC VARCHAR(16), END_CEP VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD VARC" +
-                "HAR(40), END_BAIRRO VARCHAR(35), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15), " +
-                "DDD_COMER CHAR(2), FONE_COMER VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL CHAR" +
-                "(2), FONE_CELUL VARCHAR(13), DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CONT V" +
-                "ARCHAR(50), EMAIL_NFE VARCHAR(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PRICO" +
-                "MP DATE, DT_ULTCOMP DATE, ID_CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OPER." +
-                "DIN, ID_RAMO SMALLINT, ID_PAIS CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO VARC" +
-                "HAR(35), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_FAN" +
-                "TA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, END" +
-                "_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL, DD" +
-                "D_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP, ID" +
-                "_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM TB_F" +
-                "ORNECEDOR WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_FANT" +
-                "A, :CNPJ, :INSC_ESTAD, :INSC_MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BAIRR" +
-                "O, :END_NUMERO, :END_COMPLE, :DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL, :F" +
-                "ONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_PRI" +
-                "COMP, :DT_ULTCOMP, :ID_CIDADE, :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CONTAT" +
-                "O, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc fornecedor sync" +
-                " upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT (p" +
-                "ID_FORNEC INTEGER, pNOME VARCHAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(18)" +
-                ", pINSC_ESTAD VARCHAR(16), pINSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND_TI" +
-                "PO VARCHAR(15), pEND_LOGRAD VARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO VA" +
-                "RCHAR(5), pEND_COMPLE VARCHAR(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13), " +
-                "pFONE_0800 VARCHAR(13), pDDD_CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX CH" +
-                "AR(2), pFONE_FAX VARCHAR(13), pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50), p" +
-                "SITE VARCHAR(50), pSTATUS VARCHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID_CI" +
-                "DADE CHAR(7), pLIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID_PA" +
-                "IS CHAR(4), pOBSERVACAO BLOB SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UPD T" +
-                "IMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_FORN" +
-                "ECEDOR (ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_" +
-                "TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FON" +
-                "E_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, S" +
-                "TATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, " +
-                "CONTATO, TRI_PDV_DT_UPD) VALUES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :pIN" +
-                "SC_ESTAD, :pINSC_MUNIC, :pEND_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :pEND" +
-                "_NUMERO, :pEND_COMPLE, :pDDD_COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :pFO" +
-                "NE_CELUL, :pDDD_FAX, :pFONE_FAX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS, :p" +
-                "DT_PRICOMP, :pDT_ULTCOMP, :pID_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSERVA" +
-                "CAO, :pCONTATO, :pTRI_PDV_DT_UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_COUN" +
-                "T; END;\';\r\n\t\r\n\terro = \'sproc ctarec set inv_referencia filthy rows\';\r\n\texecute s" +
-                "tatement \'CREATE OR ALTER PROCEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDATE T" +
-                "B_CONTA_RECEBER a SET a.INV_REFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS VARC" +
-                "HAR(10)), 5, \'\'0\'\') || LPAD(a.DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA IS n" +
-                "ull ; END;\';\r\n\t\r\n\terro = \'sproc triusers get by dt upd\';\r\n\texecute statement \'CR" +
-                "EATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETU" +
-                "RNS (  ID_USER SMALLINT,  USERNAME VARCHAR(64),  PASSWORD VARCHAR(32),  GERENCIA" +
-                " VARCHAR(8),  ATIVO VARCHAR(8),  TRI_PDV_DT_UPD TIMESTAMP,  PERMISSOES INTEGER )" +
-                " AS BEGIN  FOR SELECT  ID_USER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_" +
-                "PDV_DT_UPD,  PERMISSOES FROM  TRI_PDV_USERS WHERE  TRI_PDV_DT_UPD > :pUltimaSync" +
-                " INTO  :ID_USER,  :USERNAME,  :\"PASSWORD\",  :GERENCIA,  :ATIVO,  :TRI_PDV_DT_UPD" +
-                ",   :PERMISSOES DO BEGIN SUSPEND ; END END;\';\r\n\terro = \'sproc triusers sync upse" +
-                "rt\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (PID_" +
-                "USER SMALLINT, PUSERNAME VARCHAR(64), PPASSWORD VARCHAR(32), PGERENCIA VARCHAR(8" +
-                "), PATIVO VARCHAR(8), PTRI_PDV_DT_UPD TIMESTAMP, PPERMISSOES INTEGER) RETURNS ( " +
-                " RROWSAFFECTED INTEGER ) AS BEGIN  UPDATE  OR INSERT  INTO  TRI_PDV_USERS (ID_US" +
-                "ER,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES) VAL" +
-                "UES (:pID_USER, :pUSERNAME, :pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD, :" +
-                "pPERMISSOES) MATCHING (ID_USER) ;  rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro =" +
-                " \'sproc cliente get by dt upd\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDURE S" +
-                "P_TRI_CLIENTE_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF CO" +
-                "LUMN TB_CLIENTE.ID_CLIENTE, ID_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO, D" +
-                "T_CADASTRO TYPE OF COLUMN TB_CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIENTE" +
-                ".NOME, END_CEP TYPE OF COLUMN TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_CLI" +
-                "ENTE.END_TIPO, END_NUMERO TYPE OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TYPE " +
-                "OF COLUMN TB_CLIENTE.END_LOGRAD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAIRRO" +
-                ", END_COMPLE TYPE OF COLUMN TB_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN TB_" +
-                "CLIENTE.DT_PRICOMP, DT_ULTCOMP TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO TYP" +
-                "E OF COLUMN TB_CLIENTE.CONTATO, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMITE " +
-                "TYPE OF COLUMN TB_CLIENTE.LIMITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RESID," +
-                " FONE_RESID TYPE OF COLUMN TB_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB_CL" +
-                "IENTE.DDD_COMER, FONE_COMER TYPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL TYPE" +
-                " OF COLUMN TB_CLIENTE.DDD_CELUL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CELUL" +
-                ", DDD_FAX TYPE OF COLUMN TB_CLIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIENTE." +
-                "FONE_FAX, EMAIL_CONT TYPE OF COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF COL" +
-                "UMN TB_CLIENTE.EMAIL_NFE, ID_CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_TIPO" +
-                " TYPE OF COLUMN TB_CLIENTE.ID_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE.ID_" +
-                "FUNCIONARIO, ID_PAIS TYPE OF COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLUMN " +
-                "TB_CLIENTE.MENSAGEM, ID_RAMO TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TYPE " +
-                "OF COLUMN TB_CLIENTE.EMAIL_ADIC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVACAO" +
-                ", DT_MELHOR_VENCTO TYPE OF COLUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD TY" +
-                "PE OF COLUMN TB_CLIENTE.TRI_PDV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CONVE" +
-                "NIO, DT_CADASTRO, NOME, END_CEP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO, E" +
-                "ND_COMPLE, DT_PRICOMP, DT_ULTCOMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_RESI" +
-                "D, DDD_COMER, FONE_COMER, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, " +
-                "EMAIL_NFE, ID_CIDADE, ID_TIPO, ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EMAIL" +
-                "_ADIC, OBSERVACAO, DT_MELHOR_VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI_PD" +
-                "V_DT_UPD > :pUltimaSync INTO :ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, :EN" +
-                "D_CEP, :END_TIPO, :END_NUMERO, :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRICOM" +
-                "P, :DT_ULTCOMP, :CONTATO, :STATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COMER," +
-                " :FONE_COMER, :DDD_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_" +
-                "NFE, :ID_CIDADE, :ID_TIPO, :ID_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :EMAI" +
-                "L_ADIC, :OBSERVACAO, :DT_MELHOR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END EN" +
-                "D\';\r\n\terro = \'deu certo\';\r\n\t\r\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
+                "INHA CHAR(1), PLAYOUT_SAT VARCHAR(4), PVINCULA_MAQ_CTA CHAR(1), PCOMANDO_GAVETA " +
+                "SMALLINT, PPERMITE_NAO_FISCAL CHAR(1)) RETURNS ( RROWSAFFECTED INTEGER ) AS BEGI" +
+                "N UPDATE OR INSERT INTO TRI_PDV_CONFIG (ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_M" +
+                "AX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_" +
+                "NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTO" +
+                "QUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERV" +
+                "IDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMP" +
+                "RESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFP" +
+                "EDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX" +
+                ", ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, AC" +
+                "FILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA" +
+                ", LAYOUT_SAT, VINCULA_MAQ_CTA, COMANDO_GAVETA, PERMITE_NAO_FISCAL) VALUES (:pID_" +
+                "MAC, :pNO_CAIXA, :pEXIGE_SANGRIA, :pVALOR_MAX_CAIXA, :pBLOQUEIA_NO_LIMITE, :pVAL" +
+                "OR_DE_FOLGA, :pPERMITE_FOLGA_SANGRIA, :pINTERROMPE_NAO_ENCONTRADO, :pMENSAGEM_CO" +
+                "RTESIA, :pICMS_CONT, :pCSOSN_CONT, :pPEDE_CPF, :pPERMITE_ESTOQUE_NEGATIVO, :pMOD" +
+                "ELO_CUPOM, :pMENSAGEM_RODAPE, :pTRI_PDV_DT_UPD, :pMODELO_SAT, :pSATSERVIDOR, :pS" +
+                "AT_CODATIV, :pSIGN_AC, :pSAT_USADO, :pECF_ATIVA, :pECF_PORTA, :pIMPRESSORA_USB, " +
+                ":pIMPRESSORA_USB_PED, :pPERGUNTA_WHATS, :pUSATEF, :pTEFIP, :pTEFNUMLOJA, :pTEFNU" +
+                "MTERMINAL, :pTEFPEDECPFPELOPINPAD, :pBALPORTA, :pBALBITS, :pBALBAUD, :pBALPARITY" +
+                ", :pBALMODELO, :pACFILLPREFIX, :pACFILLMODE, :pACREFERENCIA, :pSYSCOMISSAO, :pSA" +
+                "TSERVTIMEOUT, :pSATLIFESIGNINTERVAL, :pACFILLDELAY, :pSYSPERGUNTAWHATS, :pSYSPAR" +
+                "CELA, :pSYSEMITECOMPROVANTE, :pINFORMA_MAQUININHA, :pLAYOUT_SAT, :pVINCULA_MAQ_C" +
+                "TA, :pCOMANDO_GAVETA, :pPERMITE_NAO_FISCAL) MATCHING (ID_MAC); rRowsAffected = R" +
+                "OW_COUNT; SUSPEND; END;\';\r\n\r\n\t\t\t\t\t\terro = \'sproc cfopsis get by dt upd\';\r\n\t\t\t\t\t\t" +
+                "execute statement \'CREATE OR ALTER PROCEDURE SP_TRI_CFOPSIS_GETBY_DTUPD (pUltima" +
+                "Sync TIMESTAMP) RETURNS (CFOP VARCHAR(4), DESCRICAO VARCHAR(330), RESUMO VARCHAR" +
+                "(60), OBSERVACAO VARCHAR(50), EST_BX CHAR(1), EST_BX_AMBOS CHAR(1), DEV_RET CHAR" +
+                "(1), TRI_PDV_DT_UPD TIMESTAMP) AS BEGIN FOR SELECT CFOP, DESCRICAO, RESUMO, OBSE" +
+                "RVACAO, EST_BX, EST_BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD FROM TB_CFOP_SIS WHERE TRI" +
+                "_PDV_DT_UPD > :pUltimaSync INTO :CFOP, :DESCRICAO, :RESUMO, :OBSERVACAO, :EST_BX" +
+                ", :EST_BX_AMBOS, :DEV_RET, :TRI_PDV_DT_UPD DO BEGIN SUSPEND ; END END;\';\r\n\terro " +
+                "= \'sproc cfopsis sync upsert\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP" +
+                "_TRI_CFOPSIS_UPSERT (pCFOP VARCHAR(4), pDESCRICAO VARCHAR(330), pRESUMO VARCHAR(" +
+                "60), pOBSERVACAO VARCHAR(50), pEST_BX CHAR(1), pEST_BX_AMBOS CHAR(1), pDEV_RET C" +
+                "HAR(1), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAffected INTEGER) AS BEGIN UPDA" +
+                "TE OR INSERT INTO TB_CFOP_SIS (CFOP, DESCRICAO, RESUMO, OBSERVACAO, EST_BX, EST_" +
+                "BX_AMBOS, DEV_RET, TRI_PDV_DT_UPD) VALUES (:pCFOP, :pDESCRICAO, :pRESUMO, :pOBSE" +
+                "RVACAO, :pEST_BX, :pEST_BX_AMBOS, :pDEV_RET, :pTRI_PDV_DT_UPD) MATCHING (CFOP) ;" +
+                " rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc fornecedor get by dt upd\';" +
+                "\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_GETBY_DTUPD (pUlti" +
+                "maSync TIMESTAMP) RETURNS (ID_FORNEC INTEGER, NOME VARCHAR(60), NOME_FANTA VARCH" +
+                "AR(40), CNPJ VARCHAR(18), INSC_ESTAD VARCHAR(16), INSC_MUNIC VARCHAR(16), END_CE" +
+                "P VARCHAR(9), END_TIPO VARCHAR(15), END_LOGRAD VARCHAR(40), END_BAIRRO VARCHAR(3" +
+                "5), END_NUMERO VARCHAR(5), END_COMPLE VARCHAR(15), DDD_COMER CHAR(2), FONE_COMER" +
+                " VARCHAR(13), FONE_0800 VARCHAR(13), DDD_CELUL CHAR(2), FONE_CELUL VARCHAR(13), " +
+                "DDD_FAX CHAR(2), FONE_FAX VARCHAR(13), EMAIL_CONT VARCHAR(50), EMAIL_NFE VARCHAR" +
+                "(50), SITE VARCHAR(50), STATUS VARCHAR(1), DT_PRICOMP DATE, DT_ULTCOMP DATE, ID_" +
+                "CIDADE CHAR(7), LIMITE TYPE OF COLUMN TRI_PDV_OPER.DIN, ID_RAMO SMALLINT, ID_PAI" +
+                "S CHAR(4), OBSERVACAO BLOB SUB_TYPE 1, CONTATO VARCHAR(35), TRI_PDV_DT_UPD TIMES" +
+                "TAMP) AS BEGIN FOR SELECT ID_FORNEC, NOME, NOME_FANTA, CNPJ, INSC_ESTAD, INSC_MU" +
+                "NIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO, END_NUMERO, END_COMPLE, DDD_COME" +
+                "R, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, " +
+                "EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP, ID_CIDADE, LIMITE, ID_RAMO, ID_" +
+                "PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD FROM TB_FORNECEDOR WHERE TRI_PDV_DT_UP" +
+                "D > :pUltimaSync INTO :ID_FORNEC, :NOME, :NOME_FANTA, :CNPJ, :INSC_ESTAD, :INSC_" +
+                "MUNIC, :END_CEP, :END_TIPO, :END_LOGRAD, :END_BAIRRO, :END_NUMERO, :END_COMPLE, " +
+                ":DDD_COMER, :FONE_COMER, :FONE_0800, :DDD_CELUL, :FONE_CELUL, :DDD_FAX, :FONE_FA" +
+                "X, :EMAIL_CONT, :EMAIL_NFE, :SITE, :STATUS, :DT_PRICOMP, :DT_ULTCOMP, :ID_CIDADE" +
+                ", :LIMITE, :ID_RAMO, :ID_PAIS, :OBSERVACAO, :CONTATO, :TRI_PDV_DT_UPD DO BEGIN S" +
+                "USPEND ; END END;\';\r\n\terro = \'sproc fornecedor sync upsert\';\r\n\texecute statement" +
+                " \'CREATE OR ALTER PROCEDURE SP_TRI_FORNEC_UPSERT (pID_FORNEC INTEGER, pNOME VARC" +
+                "HAR(60), pNOME_FANTA VARCHAR(40), pCNPJ VARCHAR(18), pINSC_ESTAD VARCHAR(16), pI" +
+                "NSC_MUNIC VARCHAR(16), pEND_CEP VARCHAR(9), pEND_TIPO VARCHAR(15), pEND_LOGRAD V" +
+                "ARCHAR(40), pEND_BAIRRO VARCHAR(35), pEND_NUMERO VARCHAR(5), pEND_COMPLE VARCHAR" +
+                "(15), pDDD_COMER CHAR(2), pFONE_COMER VARCHAR(13), pFONE_0800 VARCHAR(13), pDDD_" +
+                "CELUL CHAR(2), pFONE_CELUL VARCHAR(13), pDDD_FAX CHAR(2), pFONE_FAX VARCHAR(13)," +
+                " pEMAIL_CONT VARCHAR(50), pEMAIL_NFE VARCHAR(50), pSITE VARCHAR(50), pSTATUS VAR" +
+                "CHAR(1), pDT_PRICOMP DATE, pDT_ULTCOMP DATE, pID_CIDADE CHAR(7), pLIMITE TYPE OF" +
+                " COLUMN TRI_PDV_OPER.DIN, pID_RAMO SMALLINT, pID_PAIS CHAR(4), pOBSERVACAO BLOB " +
+                "SUB_TYPE 1, pCONTATO VARCHAR(35), pTRI_PDV_DT_UPD TIMESTAMP) RETURNS (rRowsAffec" +
+                "ted INTEGER) AS BEGIN UPDATE OR INSERT INTO TB_FORNECEDOR (ID_FORNEC, NOME, NOME" +
+                "_FANTA, CNPJ, INSC_ESTAD, INSC_MUNIC, END_CEP, END_TIPO, END_LOGRAD, END_BAIRRO," +
+                " END_NUMERO, END_COMPLE, DDD_COMER, FONE_COMER, FONE_0800, DDD_CELUL, FONE_CELUL" +
+                ", DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, SITE, STATUS, DT_PRICOMP, DT_ULTCOMP" +
+                ", ID_CIDADE, LIMITE, ID_RAMO, ID_PAIS, OBSERVACAO, CONTATO, TRI_PDV_DT_UPD) VALU" +
+                "ES (:pID_FORNEC, :pNOME, :pNOME_FANTA, :pCNPJ, :pINSC_ESTAD, :pINSC_MUNIC, :pEND" +
+                "_CEP, :pEND_TIPO, :pEND_LOGRAD, :pEND_BAIRRO, :pEND_NUMERO, :pEND_COMPLE, :pDDD_" +
+                "COMER, :pFONE_COMER, :pFONE_0800, :pDDD_CELUL, :pFONE_CELUL, :pDDD_FAX, :pFONE_F" +
+                "AX, :pEMAIL_CONT, :pEMAIL_NFE, :pSITE, :pSTATUS, :pDT_PRICOMP, :pDT_ULTCOMP, :pI" +
+                "D_CIDADE, :pLIMITE, :pID_RAMO, :pID_PAIS, :pOBSERVACAO, :pCONTATO, :pTRI_PDV_DT_" +
+                "UPD) MATCHING (ID_FORNEC); rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc " +
+                "ctarec set inv_referencia filthy rows\';\r\n\texecute statement \'CREATE OR ALTER PRO" +
+                "CEDURE SP_TRI_CTAREC_SET_INVREF_N AS BEGIN UPDATE TB_CONTA_RECEBER a SET a.INV_R" +
+                "EFERENCIA = (\'\'D\'\' || LPAD(CAST(a.ID_CTAREC AS VARCHAR(10)), 5, \'\'0\'\') || LPAD(a" +
+                ".DOCUMENTO, 12, \'\'0\'\')) WHERE a.INV_REFERENCIA IS null ; END;\';\r\n\t\r\n\terro = \'spr" +
+                "oc triusers get by dt upd\';\r\n\texecute statement \'CREATE OR ALTER PROCEDURE SP_TR" +
+                "I_TRIUSERS_GETBY_DTUPD (PULTIMASYNC TIMESTAMP) RETURNS (  ID_USER SMALLINT,  USE" +
+                "RNAME VARCHAR(64),  PASSWORD VARCHAR(32),  GERENCIA VARCHAR(8),  ATIVO VARCHAR(8" +
+                "),  TRI_PDV_DT_UPD TIMESTAMP,  PERMISSOES INTEGER ) AS BEGIN  FOR SELECT  ID_USE" +
+                "R,  USERNAME,  \"PASSWORD\",  GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES FROM " +
+                " TRI_PDV_USERS WHERE  TRI_PDV_DT_UPD > :pUltimaSync INTO  :ID_USER,  :USERNAME, " +
+                " :\"PASSWORD\",  :GERENCIA,  :ATIVO,  :TRI_PDV_DT_UPD,   :PERMISSOES DO BEGIN SUSP" +
+                "END ; END END;\';\r\n\terro = \'sproc triusers sync upsert\';\r\n\texecute statement \'CRE" +
+                "ATE OR ALTER PROCEDURE SP_TRI_TRIUSERS_UPSERT (PID_USER SMALLINT, PUSERNAME VARC" +
+                "HAR(64), PPASSWORD VARCHAR(32), PGERENCIA VARCHAR(8), PATIVO VARCHAR(8), PTRI_PD" +
+                "V_DT_UPD TIMESTAMP, PPERMISSOES INTEGER) RETURNS (  RROWSAFFECTED INTEGER ) AS B" +
+                "EGIN  UPDATE  OR INSERT  INTO  TRI_PDV_USERS (ID_USER,  USERNAME,  \"PASSWORD\",  " +
+                "GERENCIA,  ATIVO,  TRI_PDV_DT_UPD,  PERMISSOES) VALUES (:pID_USER, :pUSERNAME, :" +
+                "pPASSWORD, :pGERENCIA, :pATIVO, :pTRI_PDV_DT_UPD, :pPERMISSOES) MATCHING (ID_USE" +
+                "R) ;  rRowsAffected = ROW_COUNT; END;\';\r\n\t\r\n\terro = \'sproc cliente get by dt upd" +
+                "\';\r\n\texecute STATEMENT \'CREATE OR ALTER PROCEDURE SP_TRI_CLIENTE_GETBY_DTUPD (PU" +
+                "LTIMASYNC TIMESTAMP) RETURNS (ID_CLIENTE TYPE OF COLUMN TB_CLIENTE.ID_CLIENTE, I" +
+                "D_CONVENIO TYPE OF COLUMN TB_CLIENTE.ID_CONVENIO, DT_CADASTRO TYPE OF COLUMN TB_" +
+                "CLIENTE.DT_CADASTRO, NOME TYPE OF COLUMN TB_CLIENTE.NOME, END_CEP TYPE OF COLUMN" +
+                " TB_CLIENTE.END_CEP, END_TIPO TYPE OF COLUMN TB_CLIENTE.END_TIPO, END_NUMERO TYP" +
+                "E OF COLUMN TB_CLIENTE.END_NUMERO, END_LOGRAD TYPE OF COLUMN TB_CLIENTE.END_LOGR" +
+                "AD, END_BAIRRO TYPE OF COLUMN TB_CLIENTE.END_BAIRRO, END_COMPLE TYPE OF COLUMN T" +
+                "B_CLIENTE.END_COMPLE, DT_PRICOMP TYPE OF COLUMN TB_CLIENTE.DT_PRICOMP, DT_ULTCOM" +
+                "P TYPE OF COLUMN TB_CLIENTE.DT_ULTCOMP, CONTATO TYPE OF COLUMN TB_CLIENTE.CONTAT" +
+                "O, STATUS TYPE OF COLUMN TB_CLIENTE.STATUS, LIMITE TYPE OF COLUMN TB_CLIENTE.LIM" +
+                "ITE, DDD_RESID TYPE OF COLUMN TB_CLIENTE.DDD_RESID, FONE_RESID TYPE OF COLUMN TB" +
+                "_CLIENTE.FONE_RESID, DDD_COMER TYPE OF COLUMN TB_CLIENTE.DDD_COMER, FONE_COMER T" +
+                "YPE OF COLUMN TB_CLIENTE.FONE_COMER, DDD_CELUL TYPE OF COLUMN TB_CLIENTE.DDD_CEL" +
+                "UL, FONE_CELUL TYPE OF COLUMN TB_CLIENTE.FONE_CELUL, DDD_FAX TYPE OF COLUMN TB_C" +
+                "LIENTE.DDD_FAX, FONE_FAX TYPE OF COLUMN TB_CLIENTE.FONE_FAX, EMAIL_CONT TYPE OF " +
+                "COLUMN TB_CLIENTE.EMAIL_CONT, EMAIL_NFE TYPE OF COLUMN TB_CLIENTE.EMAIL_NFE, ID_" +
+                "CIDADE TYPE OF COLUMN TB_CLIENTE.ID_CIDADE, ID_TIPO TYPE OF COLUMN TB_CLIENTE.ID" +
+                "_TIPO, ID_FUNCIONARIO TYPE OF COLUMN TB_CLIENTE.ID_FUNCIONARIO, ID_PAIS TYPE OF " +
+                "COLUMN TB_CLIENTE.ID_PAIS, MENSAGEM TYPE OF COLUMN TB_CLIENTE.MENSAGEM, ID_RAMO " +
+                "TYPE OF COLUMN TB_CLIENTE.ID_RAMO, EMAIL_ADIC TYPE OF COLUMN TB_CLIENTE.EMAIL_AD" +
+                "IC, OBSERVACAO TYPE OF COLUMN TB_CLIENTE.OBSERVACAO, DT_MELHOR_VENCTO TYPE OF CO" +
+                "LUMN TB_CLIENTE.DT_MELHOR_VENCTO, TRI_PDV_DT_UPD TYPE OF COLUMN TB_CLIENTE.TRI_P" +
+                "DV_DT_UPD) AS BEGIN FOR SELECT ID_CLIENTE, ID_CONVENIO, DT_CADASTRO, NOME, END_C" +
+                "EP, END_TIPO, END_NUMERO, END_LOGRAD, END_BAIRRO, END_COMPLE, DT_PRICOMP, DT_ULT" +
+                "COMP, CONTATO, STATUS, LIMITE, DDD_RESID, FONE_RESID, DDD_COMER, FONE_COMER, DDD" +
+                "_CELUL, FONE_CELUL, DDD_FAX, FONE_FAX, EMAIL_CONT, EMAIL_NFE, ID_CIDADE, ID_TIPO" +
+                ", ID_FUNCIONARIO, ID_PAIS, MENSAGEM, ID_RAMO, EMAIL_ADIC, OBSERVACAO, DT_MELHOR_" +
+                "VENCTO, TRI_PDV_DT_UPD FROM TB_CLIENTE WHERE TRI_PDV_DT_UPD > :pUltimaSync INTO " +
+                ":ID_CLIENTE, :ID_CONVENIO, :DT_CADASTRO, :NOME, :END_CEP, :END_TIPO, :END_NUMERO" +
+                ", :END_LOGRAD, :END_BAIRRO, :END_COMPLE, :DT_PRICOMP, :DT_ULTCOMP, :CONTATO, :ST" +
+                "ATUS, :LIMITE, :DDD_RESID, :FONE_RESID, :DDD_COMER, :FONE_COMER, :DDD_CELUL, :FO" +
+                "NE_CELUL, :DDD_FAX, :FONE_FAX, :EMAIL_CONT, :EMAIL_NFE, :ID_CIDADE, :ID_TIPO, :I" +
+                "D_FUNCIONARIO, :ID_PAIS, :MENSAGEM, :ID_RAMO, :EMAIL_ADIC, :OBSERVACAO, :DT_MELH" +
+                "OR_VENCTO, :TRI_PDV_DT_UPD DO BEGIN SUSPEND; END END\';\r\n\terro = \'deu certo\';\r\n\t\r" +
+                "\n\tSUSPEND;\r\n\tWHEN ANY DO\r\n\tBEGIN\t\t\r\n\tEND \r\nEND;";
             this._commandCollection[17].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[18] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[18].Connection = this.Connection;
@@ -9605,7 +9778,7 @@ END;";
             this._commandCollection[24].Parameters.Add(param);
             this._commandCollection[25] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[25].Connection = this.Connection;
-            this._commandCollection[25].CommandText = @"SELECT ACFILLDELAY, ACFILLMODE, ACFILLPREFIX, ACREFERENCIA, BALBAUD, BALBITS, BALMODELO, BALPARITY, BALPORTA, BLOQUEIA_NO_LIMITE, CSOSN_CONT, ECF_ATIVA, ECF_PORTA, EXIGE_SANGRIA, ICMS_CONT, ID_MAC, IMPRESSORA_USB, IMPRESSORA_USB_PED, INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, LAYOUT_SAT, MENSAGEM_CORTESIA, MENSAGEM_RODAPE, MODELO_CUPOM, MODELO_SAT, NO_CAIXA, PEDE_CPF, PERGUNTA_WHATS, PERMITE_ESTOQUE_NEGATIVO, PERMITE_FOLGA_SANGRIA, SATLIFESIGNINTERVAL, SATSERVIDOR, SATSERVTIMEOUT, SAT_CODATIV, SAT_USADO, SIGN_AC, SYSCOMISSAO, SYSEMITECOMPROVANTE, SYSPARCELA, SYSPERGUNTAWHATS, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, TRI_PDV_DT_UPD, USATEF, VALOR_DE_FOLGA, VALOR_MAX_CAIXA, VINCULA_MAQ_CTA FROM TRI_PDV_CONFIG WHERE (ID_MAC = @param)";
+            this._commandCollection[25].CommandText = @"SELECT ACFILLDELAY, ACFILLMODE, ACFILLPREFIX, ACREFERENCIA, BALBAUD, BALBITS, BALMODELO, BALPARITY, BALPORTA, BLOQUEIA_NO_LIMITE, COMANDO_GAVETA, CSOSN_CONT, ECF_ATIVA, ECF_PORTA, EXIGE_SANGRIA, ICMS_CONT, ID_MAC, IMPRESSORA_USB, IMPRESSORA_USB_PED, INFORMA_MAQUININHA, INTERROMPE_NAO_ENCONTRADO, LAYOUT_SAT, MENSAGEM_CORTESIA, MENSAGEM_RODAPE, MODELO_CUPOM, MODELO_SAT, NO_CAIXA, PEDE_CPF, PERGUNTA_WHATS, PERMITE_ESTOQUE_NEGATIVO, PERMITE_FOLGA_SANGRIA, PERMITE_NAO_FISCAL, SATLIFESIGNINTERVAL, SATSERVIDOR, SATSERVTIMEOUT, SAT_CODATIV, SAT_USADO, SIGN_AC, SYSCOMISSAO, SYSEMITECOMPROVANTE, SYSPARCELA, SYSPERGUNTAWHATS, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, TRI_PDV_DT_UPD, USATEF, VALOR_DE_FOLGA, VALOR_MAX_CAIXA, VINCULA_MAQ_CTA, COMANDO_GAVETA, PERMITE_NAO_FISCAL FROM TRI_PDV_CONFIG WHERE (ID_MAC = @param)";
             this._commandCollection[25].CommandType = global::System.Data.CommandType.Text;
             param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
             param.ParameterName = "@param";
@@ -9977,6 +10150,19 @@ END;";
             param.IsNullable = true;
             param.SourceColumn = null;
             this._commandCollection[31].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PCOMANDO_GAVETA";
+            param.DbType = global::System.Data.DbType.Int16;
+            param.Size = 2;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[31].Parameters.Add(param);
+            param = new global::FirebirdSql.Data.FirebirdClient.FbParameter();
+            param.ParameterName = "PPERMITE_NAO_FISCAL";
+            param.Size = 1;
+            param.IsNullable = true;
+            param.SourceColumn = null;
+            this._commandCollection[31].Parameters.Add(param);
             this._commandCollection[32] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[32].Connection = this.Connection;
             this._commandCollection[32].CommandText = "\"SP_TRI_CRIATABELAS\"";
@@ -10225,7 +10411,9 @@ END;";
                     short Original_SYSEMITECOMPROVANTE, 
                     string Original_INFORMA_MAQUININHA, 
                     string Original_LAYOUT_SAT, 
-                    string Original_VINCULA_MAQ_CTA) {
+                    string Original_VINCULA_MAQ_CTA, 
+                    short Original_COMANDO_GAVETA, 
+                    string Original_PERMITE_NAO_FISCAL) {
             if ((Original_ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("Original_ID_MAC");
             }
@@ -10438,6 +10626,13 @@ END;";
             else {
                 this.Adapter.DeleteCommand.Parameters[64].Value = ((string)(Original_VINCULA_MAQ_CTA));
             }
+            this.Adapter.DeleteCommand.Parameters[65].Value = ((short)(Original_COMANDO_GAVETA));
+            if ((Original_PERMITE_NAO_FISCAL == null)) {
+                throw new global::System.ArgumentNullException("Original_PERMITE_NAO_FISCAL");
+            }
+            else {
+                this.Adapter.DeleteCommand.Parameters[66].Value = ((string)(Original_PERMITE_NAO_FISCAL));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -10507,7 +10702,9 @@ END;";
                     short SYSEMITECOMPROVANTE, 
                     string INFORMA_MAQUININHA, 
                     string LAYOUT_SAT, 
-                    string VINCULA_MAQ_CTA) {
+                    string VINCULA_MAQ_CTA, 
+                    short COMANDO_GAVETA, 
+                    string PERMITE_NAO_FISCAL) {
             if ((ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("ID_MAC");
             }
@@ -10692,6 +10889,13 @@ END;";
             else {
                 this.Adapter.InsertCommand.Parameters[48].Value = ((string)(VINCULA_MAQ_CTA));
             }
+            this.Adapter.InsertCommand.Parameters[49].Value = ((short)(COMANDO_GAVETA));
+            if ((PERMITE_NAO_FISCAL == null)) {
+                throw new global::System.ArgumentNullException("PERMITE_NAO_FISCAL");
+            }
+            else {
+                this.Adapter.InsertCommand.Parameters[50].Value = ((string)(PERMITE_NAO_FISCAL));
+            }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -10762,6 +10966,8 @@ END;";
                     string INFORMA_MAQUININHA, 
                     string LAYOUT_SAT, 
                     string VINCULA_MAQ_CTA, 
+                    short COMANDO_GAVETA, 
+                    string PERMITE_NAO_FISCAL, 
                     string Original_ID_MAC, 
                     short Original_NO_CAIXA, 
                     string Original_EXIGE_SANGRIA, 
@@ -10809,7 +11015,9 @@ END;";
                     short Original_SYSEMITECOMPROVANTE, 
                     string Original_INFORMA_MAQUININHA, 
                     string Original_LAYOUT_SAT, 
-                    string Original_VINCULA_MAQ_CTA) {
+                    string Original_VINCULA_MAQ_CTA, 
+                    short Original_COMANDO_GAVETA, 
+                    string Original_PERMITE_NAO_FISCAL) {
             if ((ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("ID_MAC");
             }
@@ -10994,217 +11202,231 @@ END;";
             else {
                 this.Adapter.UpdateCommand.Parameters[48].Value = ((string)(VINCULA_MAQ_CTA));
             }
+            this.Adapter.UpdateCommand.Parameters[49].Value = ((short)(COMANDO_GAVETA));
+            if ((PERMITE_NAO_FISCAL == null)) {
+                throw new global::System.ArgumentNullException("PERMITE_NAO_FISCAL");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[50].Value = ((string)(PERMITE_NAO_FISCAL));
+            }
             if ((Original_ID_MAC == null)) {
                 throw new global::System.ArgumentNullException("Original_ID_MAC");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[49].Value = ((string)(Original_ID_MAC));
+                this.Adapter.UpdateCommand.Parameters[51].Value = ((string)(Original_ID_MAC));
             }
-            this.Adapter.UpdateCommand.Parameters[50].Value = ((short)(Original_NO_CAIXA));
+            this.Adapter.UpdateCommand.Parameters[52].Value = ((short)(Original_NO_CAIXA));
             if ((Original_EXIGE_SANGRIA == null)) {
                 throw new global::System.ArgumentNullException("Original_EXIGE_SANGRIA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[51].Value = ((string)(Original_EXIGE_SANGRIA));
+                this.Adapter.UpdateCommand.Parameters[53].Value = ((string)(Original_EXIGE_SANGRIA));
             }
-            this.Adapter.UpdateCommand.Parameters[52].Value = ((double)(Original_VALOR_MAX_CAIXA));
+            this.Adapter.UpdateCommand.Parameters[54].Value = ((double)(Original_VALOR_MAX_CAIXA));
             if ((Original_BLOQUEIA_NO_LIMITE == null)) {
                 throw new global::System.ArgumentNullException("Original_BLOQUEIA_NO_LIMITE");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[53].Value = ((string)(Original_BLOQUEIA_NO_LIMITE));
+                this.Adapter.UpdateCommand.Parameters[55].Value = ((string)(Original_BLOQUEIA_NO_LIMITE));
             }
-            this.Adapter.UpdateCommand.Parameters[54].Value = ((double)(Original_VALOR_DE_FOLGA));
+            this.Adapter.UpdateCommand.Parameters[56].Value = ((double)(Original_VALOR_DE_FOLGA));
             if ((Original_PERMITE_FOLGA_SANGRIA == null)) {
                 throw new global::System.ArgumentNullException("Original_PERMITE_FOLGA_SANGRIA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[55].Value = ((string)(Original_PERMITE_FOLGA_SANGRIA));
+                this.Adapter.UpdateCommand.Parameters[57].Value = ((string)(Original_PERMITE_FOLGA_SANGRIA));
             }
             if ((Original_INTERROMPE_NAO_ENCONTRADO == null)) {
                 throw new global::System.ArgumentNullException("Original_INTERROMPE_NAO_ENCONTRADO");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[56].Value = ((string)(Original_INTERROMPE_NAO_ENCONTRADO));
+                this.Adapter.UpdateCommand.Parameters[58].Value = ((string)(Original_INTERROMPE_NAO_ENCONTRADO));
             }
             if ((Original_MENSAGEM_CORTESIA == null)) {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[58].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[57].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[58].Value = ((string)(Original_MENSAGEM_CORTESIA));
-            }
-            if ((Original_ICMS_CONT.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[60].Value = ((float)(Original_ICMS_CONT.Value));
-            }
-            else {
                 this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[60].Value = global::System.DBNull.Value;
             }
-            if ((Original_CSOSN_CONT.HasValue == true)) {
+            else {
+                this.Adapter.UpdateCommand.Parameters[59].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[60].Value = ((string)(Original_MENSAGEM_CORTESIA));
+            }
+            if ((Original_ICMS_CONT.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[62].Value = ((float)(Original_CSOSN_CONT.Value));
+                this.Adapter.UpdateCommand.Parameters[62].Value = ((float)(Original_ICMS_CONT.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[61].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[62].Value = global::System.DBNull.Value;
             }
-            this.Adapter.UpdateCommand.Parameters[63].Value = ((int)(Original_PEDE_CPF));
-            this.Adapter.UpdateCommand.Parameters[64].Value = ((int)(Original_PERMITE_ESTOQUE_NEGATIVO));
-            this.Adapter.UpdateCommand.Parameters[65].Value = ((short)(Original_MODELO_CUPOM));
+            if ((Original_CSOSN_CONT.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[63].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[64].Value = ((float)(Original_CSOSN_CONT.Value));
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[63].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[64].Value = global::System.DBNull.Value;
+            }
+            this.Adapter.UpdateCommand.Parameters[65].Value = ((int)(Original_PEDE_CPF));
+            this.Adapter.UpdateCommand.Parameters[66].Value = ((int)(Original_PERMITE_ESTOQUE_NEGATIVO));
+            this.Adapter.UpdateCommand.Parameters[67].Value = ((short)(Original_MODELO_CUPOM));
             if ((Original_MENSAGEM_RODAPE == null)) {
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[67].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[66].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[67].Value = ((string)(Original_MENSAGEM_RODAPE));
-            }
-            if ((Original_TRI_PDV_DT_UPD.HasValue == true)) {
-                this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[69].Value = ((System.DateTime)(Original_TRI_PDV_DT_UPD.Value));
-            }
-            else {
                 this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[69].Value = global::System.DBNull.Value;
             }
-            if ((Original_MODELO_SAT.HasValue == true)) {
+            else {
+                this.Adapter.UpdateCommand.Parameters[68].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[69].Value = ((string)(Original_MENSAGEM_RODAPE));
+            }
+            if ((Original_TRI_PDV_DT_UPD.HasValue == true)) {
                 this.Adapter.UpdateCommand.Parameters[70].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[71].Value = ((int)(Original_MODELO_SAT.Value));
+                this.Adapter.UpdateCommand.Parameters[71].Value = ((System.DateTime)(Original_TRI_PDV_DT_UPD.Value));
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[70].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[71].Value = global::System.DBNull.Value;
             }
-            if ((Original_SATSERVIDOR == null)) {
+            if ((Original_MODELO_SAT.HasValue == true)) {
+                this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[73].Value = ((int)(Original_MODELO_SAT.Value));
+            }
+            else {
                 this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[73].Value = global::System.DBNull.Value;
             }
-            else {
-                this.Adapter.UpdateCommand.Parameters[72].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[73].Value = ((string)(Original_SATSERVIDOR));
-            }
-            if ((Original_SAT_CODATIV == null)) {
+            if ((Original_SATSERVIDOR == null)) {
                 this.Adapter.UpdateCommand.Parameters[74].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[75].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[74].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[75].Value = ((string)(Original_SAT_CODATIV));
+                this.Adapter.UpdateCommand.Parameters[75].Value = ((string)(Original_SATSERVIDOR));
             }
-            if ((Original_SAT_USADO == null)) {
+            if ((Original_SAT_CODATIV == null)) {
                 this.Adapter.UpdateCommand.Parameters[76].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[77].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[76].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[77].Value = ((string)(Original_SAT_USADO));
+                this.Adapter.UpdateCommand.Parameters[77].Value = ((string)(Original_SAT_CODATIV));
             }
-            if ((Original_ECF_ATIVA == null)) {
+            if ((Original_SAT_USADO == null)) {
                 this.Adapter.UpdateCommand.Parameters[78].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[79].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[78].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[79].Value = ((string)(Original_ECF_ATIVA));
+                this.Adapter.UpdateCommand.Parameters[79].Value = ((string)(Original_SAT_USADO));
             }
-            if ((Original_ECF_PORTA == null)) {
+            if ((Original_ECF_ATIVA == null)) {
                 this.Adapter.UpdateCommand.Parameters[80].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[81].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[80].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[81].Value = ((string)(Original_ECF_PORTA));
+                this.Adapter.UpdateCommand.Parameters[81].Value = ((string)(Original_ECF_ATIVA));
             }
-            if ((Original_IMPRESSORA_USB == null)) {
+            if ((Original_ECF_PORTA == null)) {
                 this.Adapter.UpdateCommand.Parameters[82].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[83].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[82].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[83].Value = ((string)(Original_IMPRESSORA_USB));
+                this.Adapter.UpdateCommand.Parameters[83].Value = ((string)(Original_ECF_PORTA));
             }
-            if ((Original_IMPRESSORA_USB_PED == null)) {
+            if ((Original_IMPRESSORA_USB == null)) {
                 this.Adapter.UpdateCommand.Parameters[84].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[85].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[84].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[85].Value = ((string)(Original_IMPRESSORA_USB_PED));
+                this.Adapter.UpdateCommand.Parameters[85].Value = ((string)(Original_IMPRESSORA_USB));
             }
-            this.Adapter.UpdateCommand.Parameters[86].Value = ((int)(Original_PERGUNTA_WHATS));
+            if ((Original_IMPRESSORA_USB_PED == null)) {
+                this.Adapter.UpdateCommand.Parameters[86].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[87].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[86].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[87].Value = ((string)(Original_IMPRESSORA_USB_PED));
+            }
+            this.Adapter.UpdateCommand.Parameters[88].Value = ((int)(Original_PERGUNTA_WHATS));
             if ((Original_USATEF == null)) {
                 throw new global::System.ArgumentNullException("Original_USATEF");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[87].Value = ((string)(Original_USATEF));
+                this.Adapter.UpdateCommand.Parameters[89].Value = ((string)(Original_USATEF));
             }
             if ((Original_TEFIP == null)) {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(1));
-                this.Adapter.UpdateCommand.Parameters[89].Value = global::System.DBNull.Value;
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[88].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[89].Value = ((string)(Original_TEFIP));
-            }
-            if ((Original_TEFNUMLOJA == null)) {
                 this.Adapter.UpdateCommand.Parameters[90].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[91].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[90].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[91].Value = ((string)(Original_TEFNUMLOJA));
+                this.Adapter.UpdateCommand.Parameters[91].Value = ((string)(Original_TEFIP));
             }
-            if ((Original_TEFNUMTERMINAL == null)) {
+            if ((Original_TEFNUMLOJA == null)) {
                 this.Adapter.UpdateCommand.Parameters[92].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[93].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[92].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[93].Value = ((string)(Original_TEFNUMTERMINAL));
+                this.Adapter.UpdateCommand.Parameters[93].Value = ((string)(Original_TEFNUMLOJA));
             }
-            if ((Original_TEFPEDECPFPELOPINPAD == null)) {
+            if ((Original_TEFNUMTERMINAL == null)) {
                 this.Adapter.UpdateCommand.Parameters[94].Value = ((object)(1));
                 this.Adapter.UpdateCommand.Parameters[95].Value = global::System.DBNull.Value;
             }
             else {
                 this.Adapter.UpdateCommand.Parameters[94].Value = ((object)(0));
-                this.Adapter.UpdateCommand.Parameters[95].Value = ((string)(Original_TEFPEDECPFPELOPINPAD));
+                this.Adapter.UpdateCommand.Parameters[95].Value = ((string)(Original_TEFNUMTERMINAL));
             }
-            this.Adapter.UpdateCommand.Parameters[96].Value = ((short)(Original_BALPORTA));
-            this.Adapter.UpdateCommand.Parameters[97].Value = ((short)(Original_BALBITS));
-            this.Adapter.UpdateCommand.Parameters[98].Value = ((int)(Original_BALBAUD));
-            this.Adapter.UpdateCommand.Parameters[99].Value = ((short)(Original_BALPARITY));
-            this.Adapter.UpdateCommand.Parameters[100].Value = ((short)(Original_BALMODELO));
-            this.Adapter.UpdateCommand.Parameters[101].Value = ((short)(Original_ACFILLPREFIX));
-            this.Adapter.UpdateCommand.Parameters[102].Value = ((short)(Original_ACFILLMODE));
-            this.Adapter.UpdateCommand.Parameters[103].Value = ((short)(Original_ACREFERENCIA));
-            this.Adapter.UpdateCommand.Parameters[104].Value = ((short)(Original_SYSCOMISSAO));
-            this.Adapter.UpdateCommand.Parameters[105].Value = ((int)(Original_SATSERVTIMEOUT));
-            this.Adapter.UpdateCommand.Parameters[106].Value = ((int)(Original_SATLIFESIGNINTERVAL));
-            this.Adapter.UpdateCommand.Parameters[107].Value = ((int)(Original_ACFILLDELAY));
-            this.Adapter.UpdateCommand.Parameters[108].Value = ((short)(Original_SYSPERGUNTAWHATS));
-            this.Adapter.UpdateCommand.Parameters[109].Value = ((short)(Original_SYSPARCELA));
-            this.Adapter.UpdateCommand.Parameters[110].Value = ((short)(Original_SYSEMITECOMPROVANTE));
+            if ((Original_TEFPEDECPFPELOPINPAD == null)) {
+                this.Adapter.UpdateCommand.Parameters[96].Value = ((object)(1));
+                this.Adapter.UpdateCommand.Parameters[97].Value = global::System.DBNull.Value;
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[96].Value = ((object)(0));
+                this.Adapter.UpdateCommand.Parameters[97].Value = ((string)(Original_TEFPEDECPFPELOPINPAD));
+            }
+            this.Adapter.UpdateCommand.Parameters[98].Value = ((short)(Original_BALPORTA));
+            this.Adapter.UpdateCommand.Parameters[99].Value = ((short)(Original_BALBITS));
+            this.Adapter.UpdateCommand.Parameters[100].Value = ((int)(Original_BALBAUD));
+            this.Adapter.UpdateCommand.Parameters[101].Value = ((short)(Original_BALPARITY));
+            this.Adapter.UpdateCommand.Parameters[102].Value = ((short)(Original_BALMODELO));
+            this.Adapter.UpdateCommand.Parameters[103].Value = ((short)(Original_ACFILLPREFIX));
+            this.Adapter.UpdateCommand.Parameters[104].Value = ((short)(Original_ACFILLMODE));
+            this.Adapter.UpdateCommand.Parameters[105].Value = ((short)(Original_ACREFERENCIA));
+            this.Adapter.UpdateCommand.Parameters[106].Value = ((short)(Original_SYSCOMISSAO));
+            this.Adapter.UpdateCommand.Parameters[107].Value = ((int)(Original_SATSERVTIMEOUT));
+            this.Adapter.UpdateCommand.Parameters[108].Value = ((int)(Original_SATLIFESIGNINTERVAL));
+            this.Adapter.UpdateCommand.Parameters[109].Value = ((int)(Original_ACFILLDELAY));
+            this.Adapter.UpdateCommand.Parameters[110].Value = ((short)(Original_SYSPERGUNTAWHATS));
+            this.Adapter.UpdateCommand.Parameters[111].Value = ((short)(Original_SYSPARCELA));
+            this.Adapter.UpdateCommand.Parameters[112].Value = ((short)(Original_SYSEMITECOMPROVANTE));
             if ((Original_INFORMA_MAQUININHA == null)) {
                 throw new global::System.ArgumentNullException("Original_INFORMA_MAQUININHA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[111].Value = ((string)(Original_INFORMA_MAQUININHA));
+                this.Adapter.UpdateCommand.Parameters[113].Value = ((string)(Original_INFORMA_MAQUININHA));
             }
             if ((Original_LAYOUT_SAT == null)) {
                 throw new global::System.ArgumentNullException("Original_LAYOUT_SAT");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[112].Value = ((string)(Original_LAYOUT_SAT));
+                this.Adapter.UpdateCommand.Parameters[114].Value = ((string)(Original_LAYOUT_SAT));
             }
             if ((Original_VINCULA_MAQ_CTA == null)) {
                 throw new global::System.ArgumentNullException("Original_VINCULA_MAQ_CTA");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[113].Value = ((string)(Original_VINCULA_MAQ_CTA));
+                this.Adapter.UpdateCommand.Parameters[115].Value = ((string)(Original_VINCULA_MAQ_CTA));
+            }
+            this.Adapter.UpdateCommand.Parameters[116].Value = ((short)(Original_COMANDO_GAVETA));
+            if ((Original_PERMITE_NAO_FISCAL == null)) {
+                throw new global::System.ArgumentNullException("Original_PERMITE_NAO_FISCAL");
+            }
+            else {
+                this.Adapter.UpdateCommand.Parameters[117].Value = ((string)(Original_PERMITE_NAO_FISCAL));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -11275,6 +11497,8 @@ END;";
                     string INFORMA_MAQUININHA, 
                     string LAYOUT_SAT, 
                     string VINCULA_MAQ_CTA, 
+                    short COMANDO_GAVETA, 
+                    string PERMITE_NAO_FISCAL, 
                     string Original_ID_MAC, 
                     short Original_NO_CAIXA, 
                     string Original_EXIGE_SANGRIA, 
@@ -11322,8 +11546,10 @@ END;";
                     short Original_SYSEMITECOMPROVANTE, 
                     string Original_INFORMA_MAQUININHA, 
                     string Original_LAYOUT_SAT, 
-                    string Original_VINCULA_MAQ_CTA) {
-            return this.Update(Original_ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA, Original_ID_MAC, Original_NO_CAIXA, Original_EXIGE_SANGRIA, Original_VALOR_MAX_CAIXA, Original_BLOQUEIA_NO_LIMITE, Original_VALOR_DE_FOLGA, Original_PERMITE_FOLGA_SANGRIA, Original_INTERROMPE_NAO_ENCONTRADO, Original_MENSAGEM_CORTESIA, Original_ICMS_CONT, Original_CSOSN_CONT, Original_PEDE_CPF, Original_PERMITE_ESTOQUE_NEGATIVO, Original_MODELO_CUPOM, Original_MENSAGEM_RODAPE, Original_TRI_PDV_DT_UPD, Original_MODELO_SAT, Original_SATSERVIDOR, Original_SAT_CODATIV, Original_SAT_USADO, Original_ECF_ATIVA, Original_ECF_PORTA, Original_IMPRESSORA_USB, Original_IMPRESSORA_USB_PED, Original_PERGUNTA_WHATS, Original_USATEF, Original_TEFIP, Original_TEFNUMLOJA, Original_TEFNUMTERMINAL, Original_TEFPEDECPFPELOPINPAD, Original_BALPORTA, Original_BALBITS, Original_BALBAUD, Original_BALPARITY, Original_BALMODELO, Original_ACFILLPREFIX, Original_ACFILLMODE, Original_ACREFERENCIA, Original_SYSCOMISSAO, Original_SATSERVTIMEOUT, Original_SATLIFESIGNINTERVAL, Original_ACFILLDELAY, Original_SYSPERGUNTAWHATS, Original_SYSPARCELA, Original_SYSEMITECOMPROVANTE, Original_INFORMA_MAQUININHA, Original_LAYOUT_SAT, Original_VINCULA_MAQ_CTA);
+                    string Original_VINCULA_MAQ_CTA, 
+                    short Original_COMANDO_GAVETA, 
+                    string Original_PERMITE_NAO_FISCAL) {
+            return this.Update(Original_ID_MAC, NO_CAIXA, EXIGE_SANGRIA, VALOR_MAX_CAIXA, BLOQUEIA_NO_LIMITE, VALOR_DE_FOLGA, PERMITE_FOLGA_SANGRIA, INTERROMPE_NAO_ENCONTRADO, MENSAGEM_CORTESIA, ICMS_CONT, CSOSN_CONT, PEDE_CPF, PERMITE_ESTOQUE_NEGATIVO, MODELO_CUPOM, MENSAGEM_RODAPE, TRI_PDV_DT_UPD, MODELO_SAT, SATSERVIDOR, SAT_CODATIV, SIGN_AC, SAT_USADO, ECF_ATIVA, ECF_PORTA, IMPRESSORA_USB, IMPRESSORA_USB_PED, PERGUNTA_WHATS, USATEF, TEFIP, TEFNUMLOJA, TEFNUMTERMINAL, TEFPEDECPFPELOPINPAD, BALPORTA, BALBITS, BALBAUD, BALPARITY, BALMODELO, ACFILLPREFIX, ACFILLMODE, ACREFERENCIA, SYSCOMISSAO, SATSERVTIMEOUT, SATLIFESIGNINTERVAL, ACFILLDELAY, SYSPERGUNTAWHATS, SYSPARCELA, SYSEMITECOMPROVANTE, INFORMA_MAQUININHA, LAYOUT_SAT, VINCULA_MAQ_CTA, COMANDO_GAVETA, PERMITE_NAO_FISCAL, Original_ID_MAC, Original_NO_CAIXA, Original_EXIGE_SANGRIA, Original_VALOR_MAX_CAIXA, Original_BLOQUEIA_NO_LIMITE, Original_VALOR_DE_FOLGA, Original_PERMITE_FOLGA_SANGRIA, Original_INTERROMPE_NAO_ENCONTRADO, Original_MENSAGEM_CORTESIA, Original_ICMS_CONT, Original_CSOSN_CONT, Original_PEDE_CPF, Original_PERMITE_ESTOQUE_NEGATIVO, Original_MODELO_CUPOM, Original_MENSAGEM_RODAPE, Original_TRI_PDV_DT_UPD, Original_MODELO_SAT, Original_SATSERVIDOR, Original_SAT_CODATIV, Original_SAT_USADO, Original_ECF_ATIVA, Original_ECF_PORTA, Original_IMPRESSORA_USB, Original_IMPRESSORA_USB_PED, Original_PERGUNTA_WHATS, Original_USATEF, Original_TEFIP, Original_TEFNUMLOJA, Original_TEFNUMTERMINAL, Original_TEFPEDECPFPELOPINPAD, Original_BALPORTA, Original_BALBITS, Original_BALBAUD, Original_BALPARITY, Original_BALMODELO, Original_ACFILLPREFIX, Original_ACFILLMODE, Original_ACREFERENCIA, Original_SYSCOMISSAO, Original_SATSERVTIMEOUT, Original_SATLIFESIGNINTERVAL, Original_ACFILLDELAY, Original_SYSPERGUNTAWHATS, Original_SYSPARCELA, Original_SYSEMITECOMPROVANTE, Original_INFORMA_MAQUININHA, Original_LAYOUT_SAT, Original_VINCULA_MAQ_CTA, Original_COMANDO_GAVETA, Original_PERMITE_NAO_FISCAL);
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -12124,7 +12350,9 @@ END;";
                     global::System.Nullable<short> PSYSEMITECOMPROVANTE, 
                     string PINFORMA_MAQUININHA, 
                     string PLAYOUT_SAT, 
-                    string PVINCULA_MAQ_CTA) {
+                    string PVINCULA_MAQ_CTA, 
+                    global::System.Nullable<short> PCOMANDO_GAVETA, 
+                    string PPERMITE_NAO_FISCAL) {
             global::FirebirdSql.Data.FirebirdClient.FbCommand command = this.CommandCollection[31];
             if ((PID_MAC == null)) {
                 command.Parameters[0].Value = global::System.DBNull.Value;
@@ -12419,6 +12647,18 @@ END;";
             }
             else {
                 command.Parameters[48].Value = ((string)(PVINCULA_MAQ_CTA));
+            }
+            if ((PCOMANDO_GAVETA.HasValue == true)) {
+                command.Parameters[49].Value = ((short)(PCOMANDO_GAVETA.Value));
+            }
+            else {
+                command.Parameters[49].Value = global::System.DBNull.Value;
+            }
+            if ((PPERMITE_NAO_FISCAL == null)) {
+                command.Parameters[50].Value = global::System.DBNull.Value;
+            }
+            else {
+                command.Parameters[50].Value = ((string)(PPERMITE_NAO_FISCAL));
             }
             global::System.Data.ConnectionState previousConnectionState = command.Connection.State;
             if (((command.Connection.State & global::System.Data.ConnectionState.Open) 

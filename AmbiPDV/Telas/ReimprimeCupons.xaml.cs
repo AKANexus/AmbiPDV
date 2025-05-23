@@ -29,6 +29,7 @@ using PDV_WPF.FDBDataSetTableAdapters;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Diagnostics;
 
 namespace PDV_WPF.Telas
 {
@@ -162,7 +163,7 @@ namespace PDV_WPF.Telas
                             dadosDoItem[0].IsCOD_NCMNull() ? "" : dadosDoItem[0].COD_NCM,
                             dadosDoItem[0].IsCFOPNull() ? "5102" : dadosDoItem[0].CFOP,
                             produto.PRC_VENDA,
-                            dadosDoItem[0].IsRSTR_CESTNull() ? "" : dadosDoItem[0].RSTR_CEST,
+                            dadosDoItem[0].IsRSTR_CESTNull() ? "" : dadosDoItem[0].RSTR_CEST,                         
                             0,
                             produto.VLR_DESC,
                             produto.UNI_MEDIDA,

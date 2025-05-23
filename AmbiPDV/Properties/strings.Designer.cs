@@ -277,6 +277,15 @@ namespace PDV_WPF.Properties {
         }
         
         /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Configurações registradas e salvas com sucesso..
+        /// </summary>
+        internal static string CONFIGS_SALVAS {
+            get {
+                return ResourceManager.GetString("CONFIGS_SALVAS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a CPF/CNPJ inválido ou está em branco. Favor verificar..
         /// </summary>
         internal static string CPF_CNPJ_INVALIDO {
@@ -599,6 +608,15 @@ namespace PDV_WPF.Properties {
         internal static string ERRO_AO_OBTER_XML_DE_RETORNO {
             get {
                 return ResourceManager.GetString("ERRO_AO_OBTER_XML_DE_RETORNO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Erro ao gravar configurações no banco de dados..
+        /// </summary>
+        internal static string ERRO_CONFIG {
+            get {
+                return ResourceManager.GetString("ERRO_CONFIG", resourceCulture);
             }
         }
         

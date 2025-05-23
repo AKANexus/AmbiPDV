@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Security.Cryptography;
 using System.Text.RegularExpressions;
+using System.Diagnostics.Eventing.Reader;
 
 //TODO: revisar todas as funções "FillBy...()". O ideal é usar stored procedures. Isso em combinação com
 //      índices no banco de dados, o ganho em desempenho é significativo.
@@ -1706,7 +1707,7 @@ namespace PDV_WPF.Funcoes
                             for (int i = 0; i < pendentesUniMed.Length; i++)
                             {
                                 var unRegUnidade = pendentesUniMed[i]["UN_REG"].Safestring();
-                                var operacao = pendentesUniMed[i]["OPERACAO"].Safestring();                                
+                                var operacao = pendentesUniMed[i]["OPERACAO"].Safestring();
 
                                 // Verificar o que deve ser feito com o registro (insert, update ou delete)
                                 if (operacao.Equals("I") || operacao.Equals("U"))
@@ -1792,7 +1793,7 @@ namespace PDV_WPF.Funcoes
                                                 if (deletesPendentesUniMedida.Length <= 0)
                                                 {
                                                     dtAuxSyncDeletesPendentes.Rows.Add(0, 0, "TB_UNI_MEDIDA", "D", shtNumCaixa, null, unRegUnidade);
-                                                }                                                
+                                                }
 
                                                 break;
                                             }
@@ -1868,7 +1869,7 @@ namespace PDV_WPF.Funcoes
                             for (int i = 0; i < pendentesEstoque.Length; i++)
                             {
                                 var idEstoque = pendentesEstoque[i]["ID_REG"].Safeint();
-                                var operacao = pendentesEstoque[i]["OPERACAO"].Safestring();                                
+                                var operacao = pendentesEstoque[i]["OPERACAO"].Safestring();
 
                                 // Verificar o que deve ser feito com o registro (insert, update ou delete)
                                 if (operacao.Equals("I") || operacao.Equals("U"))
@@ -4143,17 +4144,17 @@ namespace PDV_WPF.Funcoes
                                                     switch (operacao)
                                                     {
                                                         case "I":
-                                                            taAdminsPdv.Insert(ID_ADMINISTRADORA: AdminsServ.ID_ADMINISTRADORA, 
-                                                                               ID_CLIENTE: AdminsServ.IsID_CLIENTENull() ? null : AdminsServ.ID_CLIENTE, 
-                                                                               DESCRICAO: AdminsServ.IsDESCRICAONull() ? null : AdminsServ.DESCRICAO, 
-                                                                               TAXA_CREDITO: AdminsServ.IsTAXA_CREDITONull() ? null : AdminsServ.TAXA_CREDITO, 
+                                                            taAdminsPdv.Insert(ID_ADMINISTRADORA: AdminsServ.ID_ADMINISTRADORA,
+                                                                               ID_CLIENTE: AdminsServ.IsID_CLIENTENull() ? null : AdminsServ.ID_CLIENTE,
+                                                                               DESCRICAO: AdminsServ.IsDESCRICAONull() ? null : AdminsServ.DESCRICAO,
+                                                                               TAXA_CREDITO: AdminsServ.IsTAXA_CREDITONull() ? null : AdminsServ.TAXA_CREDITO,
                                                                                TAXA_DEBITO: AdminsServ.IsTAXA_DEBITONull() ? null : AdminsServ.TAXA_DEBITO);
                                                             break;
                                                         case "U":
-                                                            taAdminsPdv.UpdateQuery(ID_CLIENTE: AdminsServ.IsID_CLIENTENull() ? null : AdminsServ.ID_CLIENTE, 
-                                                                                    DESCRICAO: AdminsServ.IsDESCRICAONull() ? null : AdminsServ.DESCRICAO, 
-                                                                                    TAXA_CREDITO: AdminsServ.IsTAXA_CREDITONull() ? null : AdminsServ.TAXA_CREDITO, 
-                                                                                    TAXA_DEBITO: AdminsServ.IsTAXA_DEBITONull() ? null : AdminsServ.TAXA_DEBITO, 
+                                                            taAdminsPdv.UpdateQuery(ID_CLIENTE: AdminsServ.IsID_CLIENTENull() ? null : AdminsServ.ID_CLIENTE,
+                                                                                    DESCRICAO: AdminsServ.IsDESCRICAONull() ? null : AdminsServ.DESCRICAO,
+                                                                                    TAXA_CREDITO: AdminsServ.IsTAXA_CREDITONull() ? null : AdminsServ.TAXA_CREDITO,
+                                                                                    TAXA_DEBITO: AdminsServ.IsTAXA_DEBITONull() ? null : AdminsServ.TAXA_DEBITO,
                                                                                     ID_ADMINISTRADORA: AdminsServ.ID_ADMINISTRADORA);
                                                             break;
                                                     }
@@ -4771,11 +4772,11 @@ namespace PDV_WPF.Funcoes
                                 }
                                 else
                                 {
-                                    if(tbBancoCtaPendentes.CopyToDataTable().Select("OPERACAO = 'D'").Length > 0)
+                                    if (tbBancoCtaPendentes.CopyToDataTable().Select("OPERACAO = 'D'").Length > 0)
                                     {
                                         if (DeleteCascade(fbConnPdv, nameof(FDBDataSet.TB_BANCO_CTARow.ID_CONTA), tabela, id_sync))
                                             log.Debug("DeleteCascade finalizado com sucesso.");
-                                    }                                    
+                                    }
 
                                     ConfirmarAuxSync(id_sync, tabela, operacao, NO_CAIXA); // Não ligo se não conseguiu apagar o registro
                                                                                            // Vou limpar a auxSync de qualquer forma para não enroscar.
@@ -4790,7 +4791,7 @@ namespace PDV_WPF.Funcoes
                                 case "D":
                                     if (DeleteCascade(fbConnPdv, nameof(FDBDataSet.TB_BANCO_CTARow.ID_CONTA), tabela, id_sync))
                                         log.Debug("DeleteCascade finalizado com sucesso.");
-                                   
+
                                     ConfirmarAuxSync(id_sync, tabela, operacao, NO_CAIXA); // Não ligo se não conseguiu apagar o registro
                                                                                            // Vou limpar a auxSync de qualquer forma para não enroscar;
                                     break;
@@ -4808,7 +4809,73 @@ namespace PDV_WPF.Funcoes
             }
         }
 
-        
+        public void Sync_TB_LOTE(FbConnection fbConnServ, FbConnection fbConnPdv, FDBDataSetOperSeed.TRI_PDV_AUX_SYNCDataTable dtAuxSyncPendentes)
+        {
+            DataRow[] tbLoteCtaPendentes = dtAuxSyncPendentes.Select("TABELA = 'TB_LOTE'");
+            for (int i = 0; i < tbLoteCtaPendentes.Length; i++)
+            {
+                int id_sync = tbLoteCtaPendentes[i]["ID_REG"].Safeint();
+                string operacao = tbLoteCtaPendentes[i]["OPERACAO"].Safestring();
+                string tabela = tbLoteCtaPendentes[i]["TABELA"].Safestring();
+                short numCaixa = tbLoteCtaPendentes[i]["NO_CAIXA"].Safeshort();
+
+                try
+                {
+                    using (var taLotePdv = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter { Connection = fbConnPdv })
+                    {
+                        if (operacao.Equals("U") || operacao.Equals("I"))
+                        {
+                            using (var tblLote = new FDBDataSetVenda.TB_LOTEDataTable())
+                            using (var taLoteServ = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter { Connection = fbConnServ })
+                            {
+                                taLoteServ.FillByIdLote(dataTable: tblLote, ID_LOTE: id_sync);
+                                if (tblLote.Rows.Count > 0)
+                                {
+                                    int registrosAlterados = 0;
+                                    foreach (FDBDataSetVenda.TB_LOTERow lote in tblLote)
+                                    {
+                                        registrosAlterados += taLotePdv.UpdateOrInsert(ID_LOTE: lote.ID_LOTE,
+                                                                                      NUM_LOTE: lote.IsNUM_LOTENull() ? null : lote.NUM_LOTE,
+                                                                                      DT_VALIDAD: lote.IsDT_VALIDADNull() ? null : lote.DT_VALIDAD,
+                                                                                      ID_IDENTIFICADOR: lote.ID_IDENTIFICADOR,
+                                                                                      QTD_ATUAL: lote.QTD_ATUAL,
+                                                                                      DT_FABRICACAO: lote.IsDT_FABRICACAONull() ? null : lote.DT_FABRICACAO,
+                                                                                      QTD_RESERV: lote.IsQTD_RESERVNull() ? null : lote.QTD_RESERV,
+                                                                                      ID_SNGPC_INVENT: lote.IsID_SNGPC_INVENTNull() ? null : lote.ID_SNGPC_INVENT);
+                                    }
+
+                                    if (registrosAlterados != 0)
+                                        ConfirmarAuxSync(id_sync, tabela, operacao, numCaixa);
+                                }
+                                else
+                                    log.Warn(message: $"Registro da TB_LOTE pendente de sincronização não foi encontrado. ID_LOTE: {id_sync} | OPERACAO: {operacao}");
+                            }
+                        }
+                        else
+                        {
+                            switch (operacao)
+                            {
+                                case "D":
+                                    if (DeleteCascade(fbConnPdv, nameof(FDBDataSetVenda.TB_LOTERow.ID_LOTE), tabela, id_sync))
+                                        log.Debug("DeleteCascade finalizado com sucesso.");
+
+                                    ConfirmarAuxSync(id_sync, tabela, operacao, numCaixa); // Não ligo se não conseguiu apagar o registro
+                                                                                           // Vou limpar a auxSync de qualquer forma para não enroscar;
+                                    break;
+                                default:
+                                    throw new NotImplementedException($"Operação recebida na tabela auxiliar de sincronização para {tabela} não foi identificada. Operação: {operacao}");
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    log.Error("Erro ao sincronizar tabela TB_LOTE, erro: " + ex);
+                    throw ex;
+                }
+            }
+        }
+
         /// <summary>
         /// Método usado para deletar registro de uma tabela e todas as suas dependencias. Use com cuidado.
         /// </summary>
@@ -5101,7 +5168,9 @@ namespace PDV_WPF.Funcoes
                                                                                                             configServ.SYSEMITECOMPROVANTE,
                                                                                                             configServ.INFORMA_MAQUININHA,
                                                                                                             configServ.LAYOUT_SAT,
-                                                                                                            configServ.VINCULA_MAQ_CTA);
+                                                                                                            configServ.VINCULA_MAQ_CTA,
+                                                                                                            configServ.COMANDO_GAVETA,
+                                                                                                            configServ.PERMITE_NAO_FISCAL);
 
                                                     // Cadastrou? Tem que falar pro servidor que o registro foi sincronizado.
                                                     if (intRetornoUpsert.Equals(1))
@@ -7246,6 +7315,37 @@ namespace PDV_WPF.Funcoes
                                                         #endregion Atualizar no PDV a quantidade em estoque
 
                                                         #endregion Atualizar a quantidade em estoque (E DATA DA ÚLTIMA VENDA na procedure TAMBÉM, DESDE 2018-08-01)
+
+                                                        #region Registrar lote vendido e atualiza-lo (2025-02-18)
+
+                                                        using (var taNfvLotePdv = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_LOTETableAdapter() { Connection = fbConnPdv, Transaction = fbTransactPdv })
+                                                        {
+                                                            var dtNfvLote = taNfvLotePdv.GetByIdNfvItem(ID_NFVITEM: nfvItem.ID_NFVITEM);
+                                                            if (dtNfvLote.Rows.Count > 0)
+                                                            {
+                                                                using (var taNfvLoteServ = new DataSets.FDBDataSetVendaTableAdapters.TB_NFV_LOTETableAdapter() { Connection = fbConnServ, Transaction = fbTransactServ })
+                                                                using (var taLoteServ = new DataSets.FDBDataSetVendaTableAdapters.TB_LOTETableAdapter() { Connection = fbConnServ, Transaction = fbTransactServ })
+                                                                using (var dtLote = new FDBDataSetVenda.TB_LOTEDataTable())
+                                                                {
+                                                                    foreach (var nfvLotePdv in dtNfvLote)
+                                                                    {
+                                                                        taLoteServ.FillByIdLote(dataTable: dtLote, ID_LOTE: nfvLotePdv.ID_LOTE);
+                                                                        var loteServidor = dtLote[0];
+
+                                                                        taNfvLoteServ.UpdateOrInsert(ID_LOTE: loteServidor.ID_LOTE,
+                                                                            ID_NFVITEM: newIdNfvItem,
+                                                                            DT_BAIXA: nfvLotePdv.DT_BAIXA,
+                                                                            QTIDADE: nfvLotePdv.QTIDADE,
+                                                                            ID_RECEITAFARMA: nfvLotePdv.IsID_RECEITAFARMANull() ? null : nfvLotePdv.ID_RECEITAFARMA);
+
+                                                                        taLoteServ.UpdateQtdAtual(QTD_ATUAL: loteServidor.QTD_ATUAL - nfvLotePdv.QTIDADE,
+                                                                            ID_LOTE: loteServidor.ID_LOTE);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+
+                                                        #endregion Registrar lote vendido e atualiza-lo (2025-02-18)
                                                     }
 
                                                     #endregion Consultar os itens da nfvenda do PDV
@@ -7857,9 +7957,9 @@ namespace PDV_WPF.Funcoes
                                                         catch (Exception ex)
                                                         {
                                                             log.Error($"Erro ao cancelar (excluir) conta a receber no servidor (ID_CTAREC {ctarecServ.ID_CTAREC}).", ex);
-                                                            DeleteCascade(desiredConnection: fbConnServ, 
-                                                                          columnName: nameof(ctarecServ.ID_CTAREC), 
-                                                                          nativeTable: nameof(FDBDataSet.TB_CONTA_RECEBER), 
+                                                            DeleteCascade(desiredConnection: fbConnServ,
+                                                                          columnName: nameof(ctarecServ.ID_CTAREC),
+                                                                          nativeTable: nameof(FDBDataSet.TB_CONTA_RECEBER),
                                                                           idExclusion: ctarecServ.ID_CTAREC);
                                                         }
                                                     }
@@ -9348,6 +9448,16 @@ namespace PDV_WPF.Funcoes
                     {
                         log.Error("Falha ao sincronizar Sync_TB_BANCO_CTA", ex);
                         throw new SynchException("Erro ao sincronizar Sync_TB_BANCO_CTA", ex);
+                    }
+                    try
+                    {
+                        Sync_TB_LOTE(fbConnServ, fbConnPdv, dtAuxSyncPendentes);
+                        log.Debug("Sync_TB_LOTE sincronizados");
+                    }
+                    catch (Exception ex)
+                    {
+                        log.Error("Falha ao sincronizar Sync_TB_LOTE", ex);
+                        throw new SynchException("Erro ao sincronizar Sync_TB_LOTE", ex);
                     }
                     try
                     {

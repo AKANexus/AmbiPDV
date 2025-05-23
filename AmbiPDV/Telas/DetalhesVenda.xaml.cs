@@ -44,7 +44,7 @@ namespace PDV_WPF.Telas
             using (var detalhesPagtosDt = new DataSets.FDBDataSetVenda.DatalhesVendaTableDataTable())
             using (var detalhesPagtosTa = new DataSets.FDBDataSetVendaTableAdapters.DatalhesVendaTableTableAdapter())
             {
-                detalhesPagtosTa.Connection = new FbConnection(MontaStringDeConexao(datasource: "localhost", initialcatalog: localpath));
+                //detalhesPagtosTa.Connection = new FbConnection(MontaStringDeConexao(datasource: "localhost", initialcatalog: localpath));
                 detalhesPagtosTa.FillByIdNfVenda(dataTable: detalhesPagtosDt, ID_NFVENDA: venda.ID_NFVENDA);
 
                 foreach (var pagamento in detalhesPagtosDt)

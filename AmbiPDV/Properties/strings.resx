@@ -566,4 +566,10 @@ Clique em Ok para imprimir.</value>
   <data name="VOCE_ESTA_SENDO_ATENDIDO_POR" xml:space="preserve">
     <value>VOCÊ ESTÁ SENDO ATENDIDO POR: {0}</value>
   </data>
+  <data name="ERRO_CONFIG" xml:space="preserve">
+    <value>Erro ao gravar configurações no banco de dados.</value>
+  </data>
+  <data name="CONFIGS_SALVAS" xml:space="preserve">
+    <value>Configurações registradas e salvas com sucesso.</value>
+  </data>
 </root>

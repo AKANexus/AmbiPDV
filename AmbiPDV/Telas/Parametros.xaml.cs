@@ -1,4 +1,6 @@
-﻿using FirebirdSql.Data.FirebirdClient;
+﻿using CfeComand_0008;
+using FirebirdSql.Data.FirebirdClient;
+using PDV_WPF.Objetos.Enums;
 using PDV_WPF.Properties;
 using PDV_WPF.Telas;
 using System;
@@ -29,7 +31,7 @@ namespace PDV_WPF
         private string _versao;
 
         private enum ModeloImpressora { EPSON }
-        private DebounceDispatcher debounceTimer = new DebounceDispatcher();        
+        private DebounceDispatcher debounceTimer = new DebounceDispatcher();
         #endregion Fields & Properties
 
         #region (De)Constructor
@@ -55,7 +57,9 @@ namespace PDV_WPF
         {
             //if (txb_No_Caixa.Text.Safeint() <= 0)
             //    MessageBox.Show("Preencha o numero do caixa antes.");
-            GravaConfiguracoes();
+            if (!GravaConfiguracoes())
+                return;
+
             (new PCA()).ShowDialog();
         }
 
@@ -88,19 +92,19 @@ namespace PDV_WPF
                 DialogBox.Show("Configurações do sistema", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "O caixa está aberto e/ou em contingência. Não será possível alterar métodos de pagamento agora.");
             }
         }
-        private void AbreGaveta_spooler(object sender, RoutedEventArgs e)
-        {
-            ACFILLDELAY = cbb_ModImpressora.SelectedIndex = -1;
-            cbb_ModImpressora.IsEnabled = false;
-            MessageBox.Show("Não esqueça de habilitar a opção de abertura automatica (OpenCash) nas configurações da impressora.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-        }   
-        private void AbreGaveta_dll(object sender, RoutedEventArgs e)
-        {
-            ACFILLDELAY = cbb_ModImpressora.SelectedIndex = 0;
-            cbb_ModImpressora.IsEnabled = true;
-            MessageBox.Show("Por favor\nSelecione o modelo da impressora em 'Mod Impressora:'\n\nObs:. Não esqueça de desabilitar a opção de abertura automatica (OpenCash) nas configurações da impressora.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
-            cbb_ModImpressora.Focus();
-        }
+        //private void AbreGaveta_spooler(object sender, RoutedEventArgs e)
+        //{
+        //    ACFILLDELAY = cbb_ModImpressora.SelectedIndex = -1;
+        //    cbb_ModImpressora.IsEnabled = false;
+        //    MessageBox.Show("Não esqueça de habilitar a opção de abertura automatica (OpenCash) nas configurações da impressora.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //}   
+        //private void AbreGaveta_dll(object sender, RoutedEventArgs e)
+        //{
+        //    ACFILLDELAY = cbb_ModImpressora.SelectedIndex = 0;
+        //    cbb_ModImpressora.IsEnabled = true;
+        //    MessageBox.Show("Por favor\nSelecione o modelo da impressora em 'Mod Impressora:'\n\nObs:. Não esqueça de desabilitar a opção de abertura automatica (OpenCash) nas configurações da impressora.", "Atenção", MessageBoxButton.OK, MessageBoxImage.Warning);
+        //    cbb_ModImpressora.Focus();
+        //}
         private void chk_Bloqueia_Limite_Checked(object sender, RoutedEventArgs e)
         {
             txb_Valor_Folga.IsEnabled = true;
@@ -150,7 +154,9 @@ namespace PDV_WPF
             {
                 if (VerificaConfigs())
                 {
-                    GravaConfiguracoes();
+                    if (!GravaConfiguracoes())
+                        return;
+
                     DialogResult = true;
                     this.Close();
                 }
@@ -213,8 +219,10 @@ namespace PDV_WPF
                 cbb_PerguntaImpressao.SelectedIndex = SYSEMITECOMPROVANTE;
                 rb_Spooler.IsChecked = ACFILLPREFIX switch { 0 => true, 1 => false, _ => true };
                 rb_Dll.IsChecked = ACFILLPREFIX is 1 ? true : false;
-                if (ACFILLPREFIX is 0) cbb_ModImpressora.IsEnabled = false;
-                if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
+                cbb_ComandAbertura.SelectedIndex = (short)COMANDO_GAVETA;
+                chk_Permite_Nao_Fiscal.IsChecked = PERMITE_NAO_FISCAL;
+                //if (ACFILLPREFIX is 0) cbb_ModImpressora.IsEnabled = false;
+                //if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
                 return;
             }
             else
@@ -243,19 +251,21 @@ namespace PDV_WPF
                 cbb_PerguntaImpressao.SelectedIndex = SYSEMITECOMPROVANTE;
                 rb_Spooler.IsChecked = ACFILLPREFIX switch { 0 => true, 1 => false, _ => true };
                 rb_Dll.IsChecked = ACFILLPREFIX is 1 ? true : false;
-                if (ACFILLPREFIX is 0) cbb_ModImpressora.IsEnabled = false;
-                if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
+                cbb_ComandAbertura.SelectedIndex = 0;
+                chk_Permite_Nao_Fiscal.IsChecked = false;
+                //if (ACFILLPREFIX is 0) cbb_ModImpressora.IsEnabled = false;
+                //if (ACFILLPREFIX is 1) cbb_ModImpressora.SelectedIndex = ACFILLDELAY;
                 return;
             }
         }
 
         private void chk_maq_cta_MouseRight(object sender, MouseButtonEventArgs e)
-        {       
-            if(chk_vincula_maq_cta.IsChecked is bool check && check is true)
+        {
+            if (chk_vincula_maq_cta.IsChecked is bool check && check is true)
             {
                 ParamsAdministradora paramsAdministradora = new ParamsAdministradora();
                 paramsAdministradora.ShowDialog();
-            }               
+            }
         }
 
         #endregion Events
@@ -316,7 +326,7 @@ namespace PDV_WPF
             return true;
         }
 
-        private void GravaConfiguracoes()
+        private bool GravaConfiguracoes()
         {
             EXIGE_SANGRIA = chk_Exige_Sangria.IsChecked ?? false;
             VALOR_MAX_CAIXA = txb_Valor_Max.Value;
@@ -345,11 +355,26 @@ namespace PDV_WPF
             SYSCOMISSAO = cbb_Pede_Vend.SelectedIndex.Safeshort();
             PERGUNTA_WHATS = (PerguntaWhatsEnum)cbb_Pede_WHATS.SelectedIndex;
             ACFILLPREFIX = rb_Spooler.IsChecked is true ? (short)0 : (short)1;
-            if(ACFILLPREFIX is 1) ACFILLDELAY = cbb_ModImpressora.SelectedIndex;
+            COMANDO_GAVETA = (ComandoGaveta)cbb_ComandAbertura.SelectedIndex;
+            PERMITE_NAO_FISCAL = chk_Permite_Nao_Fiscal.IsChecked ?? false;
+            //if(ACFILLPREFIX is 1) ACFILLDELAY = cbb_ModImpressora.SelectedIndex;
 
             CONFIGURADO = true;
 
-            if (!SalvaConfigsNaBase()) MessageBox.Show("Erro ao gravar dados.");
+            if (!SalvaConfigsNaBase())
+            {
+                DialogBox.Show(title: "Error config",
+                               dbbuttons: DialogBoxButtons.Yes,
+                               dbicons: DialogBoxIcons.Error,
+                               showtimestamp: false, linhas: strings.ERRO_CONFIG);
+                return false;
+            }
+
+            DialogBox.Show(title: "Sucesso",
+                           dbbuttons: DialogBoxButtons.Yes,
+                           dbicons: DialogBoxIcons.Info,
+                           showtimestamp: false, linhas: strings.CONFIGS_SALVAS);
+            return true;
         }
         #endregion Methods               
     }

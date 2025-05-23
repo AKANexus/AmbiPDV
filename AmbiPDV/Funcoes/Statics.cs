@@ -741,9 +741,19 @@ namespace PDV_WPF.Funcoes
         public static void AbreGavetaSPOOLER()
         {
             try
-            {                 
-                PrintFunc.RecebePrint(IMPRESSORA_USB.Contains("HS") ? "." : " ", PrintFunc.negrito, PrintFunc.centro, 1);
-                PrintFunc.PrintaSpooler();
+            {
+                switch (COMANDO_GAVETA)
+                {
+                    default:
+                    case ComandoGaveta.Empty:
+                        PrintFunc.RecebePrint(" ", PrintFunc.negrito, PrintFunc.centro, 1);
+                        PrintFunc.PrintaSpooler();
+                        break;
+                    case ComandoGaveta.Caracter:
+                        PrintFunc.RecebePrint(".", PrintFunc.negrito, PrintFunc.centro, 1);
+                        PrintFunc.PrintaSpooler();
+                        break;
+                }                
             }
             catch (Exception ex)
             {

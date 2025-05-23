@@ -267,7 +267,7 @@ namespace PDV_WPF.Telas
                     {
                         e.Handled = true;
                         ProcessarTextoNoACBox();
-                    });                    
+                    });
                 }
                 if (e.Key == Key.PageUp)
                 {
@@ -397,14 +397,14 @@ namespace PDV_WPF.Telas
             if (!turno_aberto) { DialogBox.Show("Desconto", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel aplicar desconto com o caixa fechado, abra um turno e tente novamente."); return; }
             AlternarDescontoNoItem();
             return;
-        }       
+        }
         private void but_F11_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_emTransacao) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em venda!\nFinalize a tente novamente."); return; }
             if (_modo_consulta) { DialogBox.Show("SANGRIA", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar sangria enquanto está em modo consulta!\nVolte ao estado 'CAIXA LIVRE' e tente novamente."); return; }
             AbrirJanelaSangriaSupr();
             return;
-        }     
+        }
         private void but_F12_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (_emTransacao) { DialogBox.Show("FECHAMENTO DE TURNO", DialogBoxButtons.No, DialogBoxIcons.Warn, false, "Não é possivel realizar fechameno de turno estando em venda!\nFinalize e tente novamente."); return; }
@@ -432,7 +432,7 @@ namespace PDV_WPF.Telas
                     break;
             }
             return;
-        }       
+        }
         private void lbl_Logoff_MouseDown(object sender, MouseButtonEventArgs e)
         {
             ReiniciaAplicacao();
@@ -462,7 +462,7 @@ namespace PDV_WPF.Telas
                 richTextBox1.FontSize = 22.6;
             }
 
-            if(File.Exists(@$"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\LogoCliente\logo.png"))
+            if (File.Exists(@$"{Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)}\LogoCliente\logo.png"))
             {
                 BitmapImage logoClient = new BitmapImage();
                 logoClient.BeginInit();
@@ -470,7 +470,7 @@ namespace PDV_WPF.Telas
                 logoClient.CacheOption = BitmapCacheOption.OnLoad;
                 logoClient.EndInit();
                 logoplaceholder.Source = logoClient;
-            }            
+            }
 
             combobox.MinimumPrefixLength = PREFIX_LISTBOX;
             combobox.FilterMode = (AutoCompleteFilterMode)ACFILLMODE;
@@ -490,7 +490,7 @@ namespace PDV_WPF.Telas
         {
             e.Cancel = true;
             Application.Current.Shutdown();
-        }        
+        }
         private void Tef_StatusChanged(object sender, TEFEventArgs e)
         {
             var printTEFAdmin = new ComprovanteSiTEF();
@@ -768,18 +768,7 @@ namespace PDV_WPF.Telas
                 {
                     return;
                 }
-                switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                {
-                    case 0:
-                        AbreGavetaSPOOLER();
-                        break;
-                    case 1:
-                        AbreGavetaDLL();
-                        break;
-                    default:
-                        AbreGavetaSPOOLER();
-                        break;
-                }
+                AbreGavetaSPOOLER();
                 var ss = new SangSupr();
                 ss.ShowDialog();
                 using var OPER_TA = new DataSets.FDBDataSetVendaTableAdapters.TRI_PDV_OPERTableAdapter();
@@ -872,7 +861,7 @@ namespace PDV_WPF.Telas
                     txb_Avisos.Text = "CUPOM ABERTO";
                 }
 
-                lbl_Cortesia.Content = _emTransacao && vendaAtual._listaDets.Count > 0 ? 
+                lbl_Cortesia.Content = _emTransacao && vendaAtual._listaDets.Count > 0 ?
                     vendaAtual._listaDets.Last().prod.xProd : "";
                 txb_Qtde.Foreground = txb_ValorUnit.Foreground = combobox.Foreground = _nightmode ?
                           new SolidColorBrush((Color)ColorConverter.ConvertFromString("#cbcccd")) :
@@ -1363,7 +1352,7 @@ namespace PDV_WPF.Telas
                         FinalizarVendaNovo();
                         return true;
                     }
-                    
+
                     decimal vlrFreteRateioBruto = orcamentoAtual.frete switch
                     {
                         0 => 0,
@@ -1375,7 +1364,7 @@ namespace PDV_WPF.Telas
 
                     if (item.index == (orcamentoAtual.produtos.Count - 1))
                     {
-                        vlrFreteRateioRound = restoFrete > 0 ? 
+                        vlrFreteRateioRound = restoFrete > 0 ?
                             vlrFreteRateioRound - Math.Abs(restoFrete) :
                             vlrFreteRateioRound + Math.Abs(restoFrete);
                     }
@@ -1750,7 +1739,7 @@ namespace PDV_WPF.Telas
         /// <param name="pContingencia">A contingência estava ativada previamente?</param>
         /// <param name="pTipo">Qual tipo de sincronização deverá ser efetuada, caso o sistema esteja voltando de uma contingência.</param>
         private void ChecarPorContingencia(bool pContingencia, int pSegundosTolerancia, EnmTipoSync pTipo = EnmTipoSync.tudo)
-        {            
+        {
             var funcoes = new funcoesClass();
             bool conectividade;
             log.Debug("Checando conexão com o servidor.");
@@ -2212,18 +2201,7 @@ namespace PDV_WPF.Telas
                 {
                     if (IMPRESSORA_USB != "Nenhuma")
                     {
-                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                        {
-                            case 0:
-                                AbreGavetaSPOOLER();
-                                break;
-                            case 1:
-                                AbreGavetaDLL();
-                                break;
-                            default:
-                                AbreGavetaSPOOLER();
-                                break;
-                        }
+                        AbreGavetaSPOOLER();
                     }
                     log.Debug($"Abrindo novo FechamentoCaixa" + udx_pdv_oper.timestamp.ToString());
                     var fc = new FechamentoCaixa(udx_pdv_oper.timestamp);
@@ -2673,7 +2651,7 @@ namespace PDV_WPF.Telas
                                 }
                                 taPedidoServ.ChangeStatusById(ID_STATUS: 9, ID_PEDIDO: orcamentoAtual.no_orcamento); // 9 --> Finalizado.
                             }
-                            break;                       
+                            break;
                         case "AmbiOrcamento":
                             using (var taOrcaServ = new DataSets.FDBDataSetOrcamTableAdapters.TRI_ORCA_ORCAMENTOSTableAdapter())
                             {
@@ -2811,8 +2789,8 @@ namespace PDV_WPF.Telas
                         log.Debug("Fechamento FISCAL");
                         try
                         {
-                            if(FecharCupomFiscalNovo(fechamento) && _usouOrcamento) 
-                                FecharOrcamento();                            
+                            if (FecharCupomFiscalNovo(fechamento) && _usouOrcamento)
+                                FecharOrcamento();
                         }
                         catch (Exception ex)
                         {
@@ -2952,7 +2930,7 @@ namespace PDV_WPF.Telas
         /// </summary>
         /// <param name="pFechamento">Fechamento a ser processado</param>
         private bool ImprimeESalvaCupomNaoFiscal(FechamentoCupom pFechamento)
-        
+
         {
             var _metodos_de_pagamento = new Dictionary<string, string>
                         {
@@ -3089,7 +3067,7 @@ namespace PDV_WPF.Telas
                                    RetornarMensagemErro(ex, false));
                     return false;
                 }
-                
+
                 if (_usouOS) _funcoes.FechaOrdemDeServico(new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }, ordemDeServico.ID_OS);
                 #region IMPRESSÃO DE CUPOM VIRTUAL
 
@@ -3135,7 +3113,7 @@ namespace PDV_WPF.Telas
                     }
                 }
 
-                if (_usouOS) _funcoes.FechaOrdemDeServico(new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }, ordemDeServico.ID_OS);                
+                if (_usouOS) _funcoes.FechaOrdemDeServico(new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }, ordemDeServico.ID_OS);
 
                 try
                 {
@@ -3202,18 +3180,7 @@ namespace PDV_WPF.Telas
                     vendaAtual.imprimeViaCliente = false;
                     if (FORÇA_GAVETA)
                     {
-                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                        {
-                            case 0:
-                                AbreGavetaSPOOLER();
-                                break;
-                            case 1:
-                                AbreGavetaDLL();
-                                break;
-                            default:
-                                AbreGavetaSPOOLER();
-                                break;
-                        }
+                        AbreGavetaSPOOLER();
                     }
                     break;
 
@@ -3965,7 +3932,7 @@ namespace PDV_WPF.Telas
                 _vUnCom = decimal.Parse(item.prod.vUnCom, CultureInfo.InvariantCulture);
                 _vDesc = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vDesc) ? "0" : item.prod.vDesc, CultureInfo.InvariantCulture) + item.descAtacado;
                 _vOutros = decimal.Parse(string.IsNullOrWhiteSpace(item.prod.vOutro) ? "0" : item.prod.vOutro, CultureInfo.InvariantCulture);
-                
+
 
                 if (string.IsNullOrWhiteSpace(item.prod.NCM) || !Funcoes.ConsultarTaxasPorNCM(item.prod.NCM, out decimal taxa_fed, out decimal taxa_est, out decimal taxa_mun))
                 {
@@ -4082,7 +4049,7 @@ namespace PDV_WPF.Telas
                     return false;
                 }
                 if (_usouOS) _funcoes.FechaOrdemDeServico(new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }, ordemDeServico.ID_OS);
-                
+
                 #region IMPRESSÃO DE CUPOM VIRTUAL
 
                 ImprimirCupomVirtual(@"TOTAL:" + ("R$ " + subtotal.ToString("N2")).PadLeft(39, ' ') + @" ");
@@ -4125,7 +4092,7 @@ namespace PDV_WPF.Telas
                         return false;
                     }
                 }
-                if (_usouOS) _funcoes.FechaOrdemDeServico(new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }, ordemDeServico.ID_OS);                
+                if (_usouOS) _funcoes.FechaOrdemDeServico(new FbConnection { ConnectionString = MontaStringDeConexao(SERVERNAME, SERVERCATALOG) }, ordemDeServico.ID_OS);
 
                 #region AmbiMAITRE
 
@@ -4425,18 +4392,7 @@ namespace PDV_WPF.Telas
                     vendaAtual.imprimeViaCliente = false;
                     if (FORÇA_GAVETA)
                     {
-                        switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                        {
-                            case 0:
-                                AbreGavetaSPOOLER();
-                                break;
-                            case 1:
-                                AbreGavetaDLL();
-                                break;
-                            default:
-                                AbreGavetaSPOOLER();
-                                break;
-                        }
+                        AbreGavetaSPOOLER();
                     }
                     break;
                 case DecisaoWhats.ImpressaoNormal:
@@ -4921,10 +4877,10 @@ namespace PDV_WPF.Telas
             infoStr = null;
         }
 
-    /// <summary>
-    /// Limpa o cupom virtual, os campos e retorna a interface ao modo standby.
-    /// </summary>
-    private void LimparTela()
+        /// <summary>
+        /// Limpa o cupom virtual, os campos e retorna a interface ao modo standby.
+        /// </summary>
+        private void LimparTela()
         {
             logoplaceholder.Visibility = Visibility.Visible;
 
@@ -5242,7 +5198,11 @@ namespace PDV_WPF.Telas
                 {
                     if (!pPrePesado)
                     {
+                        combobox.IsEnabled = false;
+                        txb_Qtde.Text = "Pesando...";
                         PegarPesoDaBalanca();
+                        combobox.IsEnabled = true;
+                        combobox.Focus();
                         if (String.IsNullOrWhiteSpace(txb_Qtde.Text))
                         {
                             pQuant = 0;
@@ -5635,11 +5595,30 @@ namespace PDV_WPF.Telas
             using var LOCAL_FB_CONN = new FbConnection { ConnectionString = MontaStringDeConexao("localhost", localpath) };
 
             bool importadoKit = nomeKit is not null ? true : false;
+            string[] identificadoresLote = default;
 
             var dadosDoItem = _funcoes.ObtemDadosDoItem(pCodigoItem, LOCAL_FB_CONN);
             if (dadosDoItem is null)
             {
                 throw new Exception("dadosDoItem era vazio");
+            }
+
+            if (dadosDoItem.BAIXA_LOTE_PDV == "M")
+            {
+                this.IsEnabled = false;
+                PerguntaLote perguntaLote = new(idIdentificador: pCodigoItem, descricaoitem: dadosDoItem.DESCRICAO, quantidadeItem: pQuant);
+                perguntaLote.ShowDialog();
+                if (perguntaLote.DialogResult == false)
+                {
+                    log.Warn(message: $"Item {dadosDoItem.DESCRICAO}|{pCodigoItem} exige identificação do lote porem não foi informado.");
+                    DialogBox.Show(title: "Atenção", DialogBoxButtons.No, DialogBoxIcons.Warn, false, linhas: "O produto passado exige que seja informado o número do lote.");
+                    this.IsEnabled = true;
+                    combobox.Text = string.Empty;
+                    combobox.Focus();
+                    return;
+                }
+                this.IsEnabled = true;
+                identificadoresLote = perguntaLote.IdentificadoresLote;
             }
 
             //using var dadosDoItem = new DataSets.FDBDataSetOperSeed.SP_TRI_OBTEMDADOSDOITEMDataTable();
@@ -5754,7 +5733,10 @@ namespace PDV_WPF.Telas
                                         dadosDoItem.COD_BARRA,
                                         famiglia,
                                         importadoKit,
-                                        dadosDoItem.ID_SCANNTECH);
+                                        dadosDoItem.ID_SCANNTECH,
+                                        controlaLoteVenda: dadosDoItem.CONTROLA_LOTE_VENDA,
+                                        baixaLotePdv: dadosDoItem.BAIXA_LOTE_PDV,
+                                        identificadorLote: identificadoresLote);
                 log.Debug("vendaAtual.RecebeNovoProduto concluído");
                 switch (dadosDoItem.RID_TIPOITEM == "9")
                 {
@@ -6151,7 +6133,7 @@ namespace PDV_WPF.Telas
             }
         #endregion
 
-            getProdNaoPesado:
+        getProdNaoPesado:
 
             if (input == "") { return; }
 
@@ -6218,7 +6200,7 @@ namespace PDV_WPF.Telas
                         log.Debug($"EST_PRODUTO_TA.ConsultaQtde({produtoEncontrado.ID_IDENTIFICADOR}): {qtdeEstoque}");
 
                         decimal qtdeJaPassada = vendaAtual._listaDets.Where(x => x.prod.cProd.Safeint() == produtoEncontrado.ID_IDENTIFICADOR)
-                                                                     .Sum(x => x.prod.qCom.Safedecimal());                        
+                                                                     .Sum(x => x.prod.qCom.Safedecimal());
                         log.Debug($"Quantidade já passada: {qtdeJaPassada}");
 
                         if (qtdeEstoque <= 0 || (qtdeJaPassada + quant) > qtdeEstoque && !_modoDevolucao)
@@ -6575,7 +6557,7 @@ namespace PDV_WPF.Telas
                     (int id, int nf) info = vendaAtual.GravaNaoFiscalBase(0, 99, 0);
 
                     foreach (var item in vendaAtual.RetornaCFe().infCFe.det)
-                    {                        
+                    {
                         Remessa.RecebeProduto(item.prod.cProd, item.prod.xProd, item.prod.uCom, item.prod.qCom.Safedecimal(), item.prod.vUnComOri.Safedecimal());
                     }
                     Remessa.numerodocupom = info.nf;
@@ -6585,7 +6567,7 @@ namespace PDV_WPF.Telas
                 }
             }
             /* ---------------*/
-            else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma")
+            else if (e.Key == Key.F2 && _emTransacao == true && IMPRESSORA_USB != "Nenhuma" && PERMITE_NAO_FISCAL)
             {
                 debounceTimer.Debounce(125, (p) => //DEBOUNCER: gambi pra não deixar o usuário clicar mais de uma vez enquanto não terminar o processamento.
                 {
@@ -6875,18 +6857,7 @@ namespace PDV_WPF.Telas
                     {
                         if (IMPRESSORA_USB != "Nenhuma")
                         {
-                            switch (ACFILLPREFIX) //CONTROLA QUAL FUNÇÃO SERÁ UTILIZADA PARA ABRIR A GAVETA
-                            {
-                                case 0:
-                                    AbreGavetaSPOOLER();
-                                    break;
-                                case 1:
-                                    AbreGavetaDLL();
-                                    break;
-                                default:
-                                    AbreGavetaSPOOLER();
-                                    break;
-                            }
+                            AbreGavetaSPOOLER();
                         }
                         else if (ECF_ATIVA)
                         {
@@ -6909,7 +6880,7 @@ namespace PDV_WPF.Telas
                     combobox.Text = null;
                 }
             }//Minimiza o programa
-            else if(e.Key == Key.N && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)
+            else if (e.Key == Key.N && e.KeyboardDevice.Modifiers == ModifierKeys.Control && !_emTransacao)
             {
                 e.Handled = true;
                 AlternarModoEscuro();

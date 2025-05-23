@@ -7205,7 +7205,7 @@ namespace PDV_ORCAMENTO {
                 this.columnPRCVENDA = new global::System.Data.DataColumn("PRCVENDA", typeof(decimal), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnPRCVENDA);
                 this.columnCODBARRA.MaxLength = 18;
-                this.columnDESCRICAO.MaxLength = 50;
+                this.columnDESCRICAO.MaxLength = 120;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]

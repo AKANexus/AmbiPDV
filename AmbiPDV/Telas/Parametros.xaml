@@ -8,8 +8,8 @@
         xmlns:CurrencyTextBoxControl="clr-namespace:CurrencyTextBoxControl;assembly=CurrencyTextBoxControl"
         x:Class="PDV_WPF.Parametros"
         mc:Ignorable="d"
-        Title="Parametros" Height="725" Width="745" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
-    <StackPanel Width="580" Height="699">
+        Title="Parametros" Height="750" Width="745" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowTemplate}" Closing="Window_Closing" Loaded="Window_Loaded" Foreground="#FF4D4D4D" ShowInTaskbar="True" FontFamily="/AmbiPDV;component/Fonts/#Open Sans" ResizeMode="NoResize" ShowActivated="True" WindowStyle="None" AllowsTransparency="True" Background="{x:Null}">
+    <StackPanel Width="580" Height="725">
         <GroupBox Header="Sangria" Padding="0" Margin="10,10,10,5">
             <StackPanel VerticalAlignment="Top" Margin="5,0" Orientation="Horizontal">
                 <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -82,6 +82,9 @@
                     <CheckBox Content="Interromper ao não encontrar produto" Margin="5" x:Name="chk_Interrompe_Nao_Encontrado"/>
                     <CheckBox Content="Permite venda com estoque negativo" FontFamily="Open Sans" Margin="5" x:Name="chk_Permite_Venda_Negativa" IsThreeState="True" IsChecked="{x:Null}" VerticalAlignment="Center" VerticalContentAlignment="Center"/>
                 </StackPanel>
+                <StackPanel HorizontalAlignment="Center" Margin="0,5">
+                    <CheckBox Content="Permitir venda provisória" x:Name="chk_Permite_Nao_Fiscal"/>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="0,5">
                     <Label Content="Mod. Cupom:" Padding="5, 0" VerticalContentAlignment="Center"/>
                     <ComboBox x:Name="cbb_Mod_CUP" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" FontFamily="Open Sans">
@@ -100,11 +103,12 @@
         </GroupBox>
         <GroupBox Header="Gaveta $" Margin="10,0" Height="61" Visibility="Visible">
             <StackPanel Orientation="Horizontal">
-                <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" Click="AbreGaveta_dll"/>
-                <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" Click="AbreGaveta_spooler"/>
-                <Label Content="Mod impressora:" Margin="30,8,0,5" FontSize="10"/>
-                <ComboBox Name="cbb_ModImpressora" Width="120" DockPanel.Dock="Top" Margin="0,0,0,0" FontSize="15" FontWeight="Bold" VerticalAlignment="Center">
-                    <ComboBoxItem Content="EPSON"/>
+                <RadioButton x:Name="rb_Dll" Content="Abertura via DLL?" Margin="10,12,0,0" IsEnabled="False" IsChecked="False"/>
+                <RadioButton x:Name="rb_Spooler" Content="Abertura via SPOOLER?" Margin="8,12,0,0" IsChecked="True"/>
+                <Label Content="Comando abertura:" Margin="30,8,0,5" FontSize="10"/>
+                <ComboBox Name="cbb_ComandAbertura" Width="120" DockPanel.Dock="Top" Margin="0,0,0,0" FontSize="12" FontWeight="Bold" VerticalAlignment="Center">
+                    <ComboBoxItem Content="Enviar vazio"/>
+                    <ComboBoxItem Content="Enviar caracter"/>
                 </ComboBox>
             </StackPanel>
         </GroupBox>
