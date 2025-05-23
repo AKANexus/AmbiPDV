@@ -1827,11 +1827,11 @@ namespace PDV_WPF
                 {
                     RecebePrint("Cupom: " + numerodocupom, corpo, esquerda, 1);
                     RecebePrint("Venda a prazo no valor: " + valor_prazo.ToString("C2"), negrito, esquerda, 1);
-                    if (!nao_informar_prazo_somado)
+                    if (!nao_informar_prazo_somado && EXIBE_DIVIDAS_CANHOTO)
                         RecebePrint("Total pagamento pendente: " + (valor_pendente_prazo + valor_prazo).ToString("C2"), negrito, esquerda, 1);
                 }
                 RecebePrint("Vencimento desta compra: " + vencimento.ToShortDateString(), titulo, esquerda, 1);
-                if (cFeDeRetorno is not null && !nao_informar_prazo_somado)
+                if (cFeDeRetorno is not null && !nao_informar_prazo_somado && EXIBE_DIVIDAS_CANHOTO)
                     RecebePrint("Total pagamento pendente: " + (valor_pendente_prazo + valor_prazo).ToString("C2"), negrito, esquerda, 2);
                 RecebePrint("  ", titulo, centro, 1);
                 if (cFeDeRetorno is null)

@@ -600,6 +600,7 @@ namespace PDV_WPF.Configuracoes
         public static int PREFIX_LISTBOX { get; set; }
         public static List<InfoAdministradora> PARAMETRO_ADMINISTRADORA { get; set; } = new();
         public static bool EXIBE_SPLASHSCREEN { get; set; }
+        public static bool EXIBE_DIVIDAS_CANHOTO { get; set; }
 
         #endregion Propriedades
 
@@ -974,5 +975,6 @@ namespace PDV_WPF.Configuracoes
         public int SENHA_REIMPRESSAO { get; set; } = 0;
         public int PREFIX_LISTBOX { get; set; } = 3;
         public int EXIBE_SPLASHSCREEN { get; set; } = 0;
+        public int EXIBE_DIVIDAS_CANHOTO { get; set; } = 0;
     }
 }

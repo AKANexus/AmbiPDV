@@ -210,6 +210,11 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            EXIBE_DIVIDAS_CANHOTO = xmlLido.EXIBE_DIVIDAS_CANHOTO switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {
