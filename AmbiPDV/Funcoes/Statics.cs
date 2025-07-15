@@ -215,6 +215,11 @@ namespace PDV_WPF.Funcoes
                 1 => true,
                 _ => false
             };
+            PERMITE_QUANTIDADE = xmlLido.PERMITE_QUANTIDADE switch
+            {
+                1 => true,
+                _ => false
+            };
         }
         public static bool ContemSoNumeros(string texto)
         {
@@ -238,20 +243,20 @@ namespace PDV_WPF.Funcoes
             }
         }
 
-        public static List<string> clientesOC = new List<string>();        
+        public static List<string> clientesOC = new List<string>();
         public static void CarregarClientesOC()
         {
             FbConnection fbConnection = new() { ConnectionString = MontaStringDeConexao("localhost", localpath) };
             using var cLIENTETableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter()
-                { Connection = fbConnection };
+            { Connection = fbConnection };
             using var dt_cli = new DataSets.FDBDataSetOperSeed.TB_CLIENTEDataTable();
             cLIENTETableAdapter.FillOrderByName(dt_cli);
             clientesOC.Clear();
             foreach (DataSets.FDBDataSetOperSeed.TB_CLIENTERow row in dt_cli)
             {
                 if (row.STATUS == "A")
-                clientesOC.Add(row.NOME);
-            }   
+                    clientesOC.Add(row.NOME);
+            }
         }
         public static List<string> administradoraOC = new List<string>();
         public static void CarregaAdministradoras()
@@ -260,7 +265,7 @@ namespace PDV_WPF.Funcoes
             using var aDIMINISTRADORATableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter() { Connection = fbConnection };
             using var dt_admin = new DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable();
             aDIMINISTRADORATableAdapter.FillPegaAdmins(dt_admin);
-            foreach(DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow row in dt_admin)
+            foreach (DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORARow row in dt_admin)
             {
                 administradoraOC.Add(row.DESCRICAO);
             }
@@ -268,32 +273,32 @@ namespace PDV_WPF.Funcoes
         public static string RetornaCPF_CNPJSat(string nomeCli)
         {
             try
-            {               
+            {
                 FbConnection fbConnection = new() { ConnectionString = MontaStringDeConexao("localhost", localpath) };
                 using var cLIENTETableAdapter = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLIENTETableAdapter() { Connection = fbConnection };
                 using var cLIENTETableAdapterCPF = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PFTableAdapter() { Connection = fbConnection };
                 using var cLIENTETableAdapterCNPJ = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CLI_PJTableAdapter() { Connection = fbConnection };
                 using var cnjpcpf_cli = new DataSets.FDBDataSetOperSeed.TB_CLI_PFDataTable();
                 var idObjetc = cLIENTETableAdapter.PegaIDPorCliente(nomeCli);
-                int idInt = Convert.ToInt32(idObjetc);                
+                int idInt = Convert.ToInt32(idObjetc);
                 string CPF = cLIENTETableAdapterCPF.PegaCPFPorID(idInt); string CNPJ = cLIENTETableAdapterCNPJ.PegaCNPJPorID(idInt);
-                if(CPF is not null)
+                if (CPF is not null)
                 {
-                    CPF = CPF.Replace(".", ""); CPF = CPF.Replace("-", "");                    
+                    CPF = CPF.Replace(".", ""); CPF = CPF.Replace("-", "");
                 }
-                if(CNPJ is not null)
+                if (CNPJ is not null)
                 {
                     CNPJ = CNPJ.Replace(".", ""); CNPJ = CNPJ.Replace("/", ""); CNPJ = CNPJ.Replace("-", "");
                 }
-                string retorno = CPF == null ? CNPJ : CPF;     
-                if(retorno is null)
+                string retorno = CPF == null ? CNPJ : CPF;
+                if (retorno is null)
                 {
                     retorno = "";
-                }                
+                }
                 return retorno;
             }
             catch
-            {                                
+            {
                 MessageBox.Show("Não foi possivel capturar o CPF/CNPJ do cliente pelo cadastro, favor digitar manualmente no campo acima!", "Erro", MessageBoxButton.OK, MessageBoxImage.Error);
                 return "";
             }
@@ -551,12 +556,12 @@ namespace PDV_WPF.Funcoes
             if (SERVERNAME.Split('/').Length > 1)
             {
                 string serverName;
-                if (datasource.Split('/').Length > 1) serverName = datasource.Split('/')[0].Trim(); 
+                if (datasource.Split('/').Length > 1) serverName = datasource.Split('/')[0].Trim();
                 else serverName = datasource;
                 string serverPort = SERVERNAME.Split('/')[1].Trim();
                 return $@"initial catalog={initialcatalog};data source={serverName};user id={userid};Password={password};Port={serverPort};encoding={charset};charset={charset}";
             }
-            else return $@"initial catalog={initialcatalog};data source={datasource};user id={userid};Password={password};encoding={charset};charset={charset}";          
+            else return $@"initial catalog={initialcatalog};data source={datasource};user id={userid};Password={password};encoding={charset};charset={charset}";
         }
 
         /// <summary>
@@ -586,27 +591,27 @@ namespace PDV_WPF.Funcoes
         }
 
         public static bool ChecaStatusSATServidor()
-        {            
+        {
             string retorno;
             byte[] bytes = Encoding.UTF8.GetBytes("ChecarStatus");
-            if(!USATEF) ExibirGif.stateGif = false; //Checando somente para não fechar a tela de loading.. enquanto não terminar de processar o TEF.
+            if (!USATEF) ExibirGif.stateGif = false; //Checando somente para não fechar a tela de loading.. enquanto não terminar de processar o TEF.
             decimal attemptSatServidor = 1; StartSearchSatServidor:
             using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter())
             {
                 SAT_ENV_TA.SP_TRI_ENVIA_SAT_SERVIDOR(NO_CAIXA, bytes);
             }
             try
-            {                
+            {
                 var sb = new SATBox("Operação no SAT", $"Aguarde a resposta do SAT. . .                 Tentativa: {attemptSatServidor}");
                 sb.ShowDialog();
                 if (sb.DialogResult is null or false)
                 {
-                    attemptSatServidor++;                    
+                    attemptSatServidor++;
                     using (var SAT_REC_TA = new TRI_PDV_SAT_RECTableAdapter()) { SAT_REC_TA.DeleteAll(); }
                     using (var SAT_ENV_TA = new TRI_PDV_SAT_ENVTableAdapter()) { SAT_ENV_TA.DeleteAll(); }
                     if (attemptSatServidor <= 3) goto StartSearchSatServidor;
                     return false;
-                }               
+                }
                 else { retorno = sb.cod_retorno; }
             }
             catch (Exception ex)
@@ -615,7 +620,7 @@ namespace PDV_WPF.Funcoes
                 DialogBox.Show("ERRO", DialogBoxButtons.No, DialogBoxIcons.Error, false, ex.Message);
                 throw ex;
             }
-            
+
             switch (retorno)
             {
                 case "08000":
@@ -753,12 +758,12 @@ namespace PDV_WPF.Funcoes
                         PrintFunc.RecebePrint(".", PrintFunc.negrito, PrintFunc.centro, 1);
                         PrintFunc.PrintaSpooler();
                         break;
-                }                
+                }
             }
             catch (Exception ex)
             {
                 DialogBox.Show("ABERTURA DE GAVETA", DialogBoxButtons.No, DialogBoxIcons.Error, true, $"Não foi possivel abrir a gaveta pois\n{ex.Message}");
-                logErroAntigo(ex.Message);                
+                logErroAntigo(ex.Message);
             }
         }
 
@@ -784,7 +789,7 @@ namespace PDV_WPF.Funcoes
                 }
             }
         }
-        
+
         public async static Task AbreGavetaDLL()
         {
             try
@@ -804,18 +809,18 @@ namespace PDV_WPF.Funcoes
                                 int abriuGaveta = AcionaGaveta();
                                 int fechouPorta = FechaPorta();
                             }
-                        }                                          
+                        }
                     }
                     catch (Exception)
                     {
                         throw;
-                    }                                              
-                });                
+                    }
+                });
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 logErroAntigo(ex.Message);
-                AbreGavetaSPOOLER();                
+                AbreGavetaSPOOLER();
             }
         }
 
@@ -826,6 +831,6 @@ namespace PDV_WPF.Funcoes
         internal static extern int AcionaGaveta();
 
         [DllImport(@"DLL_PRINTERS\InterfaceEpsonNF.dll", CallingConvention = CallingConvention.StdCall)]
-        internal static extern int FechaPorta();       
+        internal static extern int FechaPorta();
     }
 }

@@ -1002,7 +1002,10 @@ namespace PDV_WPF.Telas
         /// </summary>
         private void AplicarSelecaoDeQuantidade()
         {
-            if (!string.IsNullOrWhiteSpace(combobox.Text) && rgxQtd.IsMatch(combobox.Text) && decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade))
+            if (!string.IsNullOrWhiteSpace(combobox.Text) &&
+                rgxQtd.IsMatch(combobox.Text) &&
+                decimal.TryParse(combobox.Text.TrimEnd('*'), out decimal quantidade) &&
+                PERMITE_QUANTIDADE)
             {
                 txb_Qtde.Text = quantidade.ToString();
                 combobox.Text = "";
@@ -3341,7 +3344,8 @@ namespace PDV_WPF.Telas
         {
             var vendaPrazo = vendaAtual.RetornaCFe().infCFe.pgto;
             OpcoesDeImpressao nova = new OpcoesDeImpressao(vendaPrazo.MP[0].cMP, permiteNenhuma);
-            while (nova.ShowDialog() != true) { };
+            while (nova.ShowDialog() != true) { }
+            ;
             return nova.veredito;
         }
 
@@ -4647,7 +4651,8 @@ namespace PDV_WPF.Telas
                 if (!VerificaDadosDoEmitente())
                 {
                     DialogBox.Show("DADOS DO EMITENTE", DialogBoxButtons.No, DialogBoxIcons.Error, false, "Ocorreu um erro ao obter os dados do emitente.");
-                };
+                }
+                ;
 
             }
             catch (Exception ex)

@@ -165,10 +165,10 @@ namespace PDV_WPF.Configuracoes
 
         public static ComandoGaveta COMANDO_GAVETA { get; set; }
 
-        public static bool PERMITE_NAO_FISCAL 
+        public static bool PERMITE_NAO_FISCAL
         {
-            get => _pERMITE_NAO_FISCAL == "S" ? true : false; 
-            set => _pERMITE_NAO_FISCAL = value ? "S" : "N"; 
+            get => _pERMITE_NAO_FISCAL == "S" ? true : false;
+            set => _pERMITE_NAO_FISCAL = value ? "S" : "N";
         }
 
         public static string LAYOUT_SAT { get; set; } = "000";
@@ -447,7 +447,7 @@ namespace PDV_WPF.Configuracoes
         }
 
         public static bool DETALHADESCONTO { get; set; }
-      
+
 
         public static int COD10PORCENTO;
 
@@ -595,7 +595,7 @@ namespace PDV_WPF.Configuracoes
 
         public static string LOGO { get; set; }
         public static string NOMESOFTWARE { get; set; }
-        public static int FBTIMEOUT { get; set; }
+        public static short FBTIMEOUT { get; set; }
         public static string SERVERNAME { get; set; }
         public static string SERVERCATALOG { get; set; }
         public static string COMANDASCATALOG { get; set; }
@@ -603,16 +603,17 @@ namespace PDV_WPF.Configuracoes
         public static bool FECHAMENTO_EXTENDIDO { get; set; }
         public static bool FORÇA_GAVETA { get; set; }
         public static bool USA_ORÇAMENTO { get; set; }
-        public static int SATTIMEOUT { get; set; }
+        public static short SATTIMEOUT { get; set; }
         public static bool EXIBEFOTO { get; set; }
         public static bool SENHA_PRAZO { get; set; }
         public static bool SENHA_CONSULTA { get; set; }
         public static bool SCANNTECH { get; set; }
         public static bool SENHA_REIMPRESSAO { get; set; }
-        public static int PREFIX_LISTBOX { get; set; }
+        public static short PREFIX_LISTBOX { get; set; }
         public static List<InfoAdministradora> PARAMETRO_ADMINISTRADORA { get; set; } = new();
         public static bool EXIBE_SPLASHSCREEN { get; set; }
         public static bool EXIBE_DIVIDAS_CANHOTO { get; set; }
+        public static bool PERMITE_QUANTIDADE { get; set; }
 
         #endregion Propriedades
 
@@ -688,10 +689,10 @@ namespace PDV_WPF.Configuracoes
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSYSPARCELA", SYSPARCELA);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSATLIFESIGNINTERVAL", SATLIFESIGNINTERVAL);
                 fbCommSalvaConfig.Parameters.AddWithValue("@pSYSEMITECOMPROVANTE", SYSEMITECOMPROVANTE);
-                fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);               
-                fbCommSalvaConfig.Parameters.AddWithValue("@pVINCULA_MAQ_CTA", _vINCULA_MAQ_CTA);               
-                fbCommSalvaConfig.Parameters.AddWithValue("@pCOMANDO_GAVETA", (short)COMANDO_GAVETA);               
-                fbCommSalvaConfig.Parameters.AddWithValue("@pPERMITE_NAO_FISCAL", _pERMITE_NAO_FISCAL);               
+                fbCommSalvaConfig.Parameters.AddWithValue("@pBALPARITY", BALPARITY);
+                fbCommSalvaConfig.Parameters.AddWithValue("@pVINCULA_MAQ_CTA", _vINCULA_MAQ_CTA);
+                fbCommSalvaConfig.Parameters.AddWithValue("@pCOMANDO_GAVETA", (short)COMANDO_GAVETA);
+                fbCommSalvaConfig.Parameters.AddWithValue("@pPERMITE_NAO_FISCAL", _pERMITE_NAO_FISCAL);
 
                 fbCommSalvaConfig.CommandText =
                                         "UPDATE OR INSERT INTO TRI_PDV_CONFIG " +
@@ -879,18 +880,18 @@ namespace PDV_WPF.Configuracoes
                 DESCONTO_MAXIMO = infoDoSetup.DESC_MAX_OP.Safedecimal();
                 _uSARECARGAS = infoDoSetup.USA_RECARGAS;
                 _uSA_COMANDA = infoDoSetup.USA_COMANDA;
-                DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true: false;
+                DETALHADESCONTO = infoDoSetup.DETALHADESCONTO is "1" ? true : false;
                 COMANDO_GAVETA = (ComandoGaveta)registro.COMANDO_GAVETA;
                 _pERMITE_NAO_FISCAL = registro.PERMITE_NAO_FISCAL;
 
                 if (INFORMA_MAQUININHA)
-                {                   
+                {
                     using (var taCartaoAmin = new DataSets.FDBDataSetOperSeedTableAdapters.TB_CARTAO_ADMINISTRADORATableAdapter())
                     using (var tblCartaoAdmin = new DataSets.FDBDataSetOperSeed.TB_CARTAO_ADMINISTRADORADataTable())
                     using (var taParametro = new FDBDataSetTableAdapters.TB_PARAMETROTableAdapter())
                     {
                         taParametro.Connection =
-                            taCartaoAmin.Connection =          
+                            taCartaoAmin.Connection =
                                 contingencia ? LOCAL_FB_CONN : fbConnectionServ;
 
                         taCartaoAmin.Fill(dataTable: tblCartaoAdmin);
@@ -904,14 +905,14 @@ namespace PDV_WPF.Configuracoes
                                                            .Select(selector: x => x.CONTEUDO)
                                                            .FirstOrDefault();
 
-                            if(!cartaoAdmin.IsDESCRICAONull())
+                            if (!cartaoAdmin.IsDESCRICAONull())
                                 PARAMETRO_ADMINISTRADORA.Add(item: new InfoAdministradora
                                 {
                                     IdAdmin = cartaoAdmin.ID_ADMINISTRADORA,
                                     Descricao = cartaoAdmin.DESCRICAO,
                                     IdConta = contaBancaria?.Split('|') is string[] idConta && idConta.Length > 1 ? idConta[0].Safeint() : default,
                                     IdCliente = cartaoAdmin.IsID_CLIENTENull() ? 0 : cartaoAdmin.ID_CLIENTE,
-                                    TaxaCredito = cartaoAdmin.IsTAXA_CREDITONull() ? 0: cartaoAdmin.TAXA_CREDITO,
+                                    TaxaCredito = cartaoAdmin.IsTAXA_CREDITONull() ? 0 : cartaoAdmin.TAXA_CREDITO,
                                     TaxaDebito = cartaoAdmin.IsTAXA_DEBITONull() ? 0 : cartaoAdmin.TAXA_DEBITO,
                                     DiasParaVencimento = contaBancaria?.Split('|') is string[] diasVencimento && diasVencimento.Length > 1 ? diasVencimento[1].Safeint() : default
                                 });
@@ -944,12 +945,28 @@ namespace PDV_WPF.Configuracoes
 
         public void Serializa()
         {
-            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML() { FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT, LOGO = ConfiguracoesPDV.LOGO, NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE,
-                                                                         SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG, SERVERNAME = ConfiguracoesPDV.SERVERNAME, 
-                                                                         AUTORIZADO = ConfiguracoesPDV.PERMITE_CANCELAR_VENDA_EM_CURSO.ToInt(), FECHAMENTO_EXTENDIDO = ConfiguracoesPDV.FECHAMENTO_EXTENDIDO.ToInt(),
-                                                                         FORCA_GAVETA = ConfiguracoesPDV.FORÇA_GAVETA.ToInt(), USAORCAMENTO = ConfiguracoesPDV.USA_ORÇAMENTO.ToInt(), SATTIMEOUT = ConfiguracoesPDV.SATTIMEOUT,
-                                                                         EXIBEFOTO = ConfiguracoesPDV.EXIBEFOTO.ToInt(), SENHA_PRAZO = ConfiguracoesPDV.SENHA_PRAZO.ToInt(), SENHA_CONSULTA = ConfiguracoesPDV.SENHA_CONSULTA.ToInt(),
-                                                                         SCANNTECH = ConfiguracoesPDV.SCANNTECH.ToInt(), SENHA_REIMPRESSAO = ConfiguracoesPDV.SENHA_REIMPRESSAO.ToInt(), PREFIX_LISTBOX = ConfiguracoesPDV.PREFIX_LISTBOX, EXIBE_SPLASHSCREEN = ConfiguracoesPDV.EXIBE_SPLASHSCREEN.ToInt() };
+            CONFIGURACOESXML cONFIGURACOESXML = new CONFIGURACOESXML()
+            {
+                FBTIMEOUT = ConfiguracoesPDV.FBTIMEOUT,
+                LOGO = ConfiguracoesPDV.LOGO,
+                NOMESOFTWARE = ConfiguracoesPDV.NOMESOFTWARE,
+                SERVERCATALOG = ConfiguracoesPDV.SERVERCATALOG,
+                SERVERNAME = ConfiguracoesPDV.SERVERNAME,
+                AUTORIZADO = ConfiguracoesPDV.PERMITE_CANCELAR_VENDA_EM_CURSO.ToShort(),
+                FECHAMENTO_EXTENDIDO = ConfiguracoesPDV.FECHAMENTO_EXTENDIDO.ToShort(),
+                FORCA_GAVETA = ConfiguracoesPDV.FORÇA_GAVETA.ToShort(),
+                USAORCAMENTO = ConfiguracoesPDV.USA_ORÇAMENTO.ToShort(),
+                SATTIMEOUT = ConfiguracoesPDV.SATTIMEOUT,
+                EXIBEFOTO = ConfiguracoesPDV.EXIBEFOTO.ToShort(),
+                SENHA_PRAZO = ConfiguracoesPDV.SENHA_PRAZO.ToShort(),
+                SENHA_CONSULTA = ConfiguracoesPDV.SENHA_CONSULTA.ToShort(),
+                SCANNTECH = ConfiguracoesPDV.SCANNTECH.ToShort(),
+                SENHA_REIMPRESSAO = ConfiguracoesPDV.SENHA_REIMPRESSAO.ToShort(),
+                PREFIX_LISTBOX = ConfiguracoesPDV.PREFIX_LISTBOX,
+                EXIBE_SPLASHSCREEN = ConfiguracoesPDV.EXIBE_SPLASHSCREEN.ToShort(),
+                EXIBE_DIVIDAS_CANHOTO = ConfiguracoesPDV.EXIBE_DIVIDAS_CANHOTO.ToShort(),
+                PERMITE_QUANTIDADE = ConfiguracoesPDV.PERMITE_QUANTIDADE.ToShort()
+            };
 
             var settings = new XmlWriterSettings() { Encoding = new UTF8Encoding(true), OmitXmlDeclaration = true, Indent = true };
             var XMLPendFinal = new StringBuilder();
@@ -975,22 +992,23 @@ namespace PDV_WPF.Configuracoes
     {
         public string LOGO { get; set; }
         public string NOMESOFTWARE { get; set; }
-        public int FBTIMEOUT { get; set; }
+        public short FBTIMEOUT { get; set; }
         public string SERVERNAME { get; set; }
         public string SERVERCATALOG { get; set; }
         public string COMANDASCATALOG { get; set; }
-        public int AUTORIZADO { get; set; }
-        public int FECHAMENTO_EXTENDIDO { get; set; }
-        public int FORCA_GAVETA { get; set; }
-        public int USAORCAMENTO { get; set; }
-        public int SATTIMEOUT { get; set; }
-        public int EXIBEFOTO { get; set; }
-        public int SENHA_PRAZO { get; set; } = 0;
-        public int SENHA_CONSULTA { get; set; } = 0;
-        public int SCANNTECH { get; set; } = 0;
-        public int SENHA_REIMPRESSAO { get; set; } = 0;
-        public int PREFIX_LISTBOX { get; set; } = 3;
-        public int EXIBE_SPLASHSCREEN { get; set; } = 0;
-        public int EXIBE_DIVIDAS_CANHOTO { get; set; } = 0;
+        public short AUTORIZADO { get; set; }
+        public short FECHAMENTO_EXTENDIDO { get; set; }
+        public short FORCA_GAVETA { get; set; }
+        public short USAORCAMENTO { get; set; }
+        public short SATTIMEOUT { get; set; }
+        public short EXIBEFOTO { get; set; }
+        public short SENHA_PRAZO { get; set; } = 0;
+        public short SENHA_CONSULTA { get; set; } = 0;
+        public short SCANNTECH { get; set; } = 0;
+        public short SENHA_REIMPRESSAO { get; set; } = 0;
+        public short PREFIX_LISTBOX { get; set; } = 3;
+        public short EXIBE_SPLASHSCREEN { get; set; } = 0;
+        public short EXIBE_DIVIDAS_CANHOTO { get; set; } = 0;
+        public short PERMITE_QUANTIDADE { get; set; } = 1;
     }
 }
