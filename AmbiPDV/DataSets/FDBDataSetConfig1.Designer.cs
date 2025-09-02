@@ -7035,15 +7035,14 @@ END;";
                 "STINCT FROM new.NUM_LOTE OR old.DT_VALIDAD IS DISTINCT FROM new.DT_VALIDAD OR ol" +
                 "d.ID_IDENTIFICADOR IS DISTINCT FROM new.ID_IDENTIFICADOR OR old.QTD_ATUAL IS DIS" +
                 "TINCT FROM new.QTD_ATUAL OR old.DT_FABRICACAO IS DISTINCT FROM new.DT_FABRICACAO" +
-                " OR old.QTD_RESERV IS DISTINCT FROM new.QTD_RESERV OR old.ID_SNGPC_INVENT IS DIS" +
-                "TINCT FROM new.ID_SNGPC_INVENT) THEN BEGIN FOR SELECT NO_CAIXA FROM TRI_PDV_CONF" +
-                "IG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT COUNT (1) FROM TRI_PD" +
-                "V_AUX_SYNC WHERE ID_REG = old.ID_LOTE AND TABELA = \'\'TB_LOTE\'\' AND (OPERACAO = \'" +
-                "\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) THEN BEGIN INSERT INTO" +
-                " TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, TS_OPER) VALUES(GEN_" +
-                "ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_LOTE, \'\'TB_LOTE\'\', \'\'U\'\', :VNUMCAIXA, CURREN" +
-                "T_TIMESTAMP); END END END END;\';\r\n\r\nerro = \'deu certo\';\r\nSUSPEND;\r\nWHEN ANY DO\r\n" +
-                "BEGIN\r\n\r\nEND\r\nEND;";
+                " OR old.QTD_RESERV IS DISTINCT FROM new.QTD_RESERV) THEN BEGIN FOR SELECT NO_CAI" +
+                "XA FROM TRI_PDV_CONFIG ORDER BY NO_CAIXA INTO :VNUMCAIXA DO BEGIN IF (( SELECT C" +
+                "OUNT (1) FROM TRI_PDV_AUX_SYNC WHERE ID_REG = old.ID_LOTE AND TABELA = \'\'TB_LOTE" +
+                "\'\' AND (OPERACAO = \'\'I\'\' OR OPERACAO = \'\'U\'\') AND NO_CAIXA = :VNUMCAIXA) = 0) TH" +
+                "EN BEGIN INSERT INTO TRI_PDV_AUX_SYNC (SEQ, ID_REG, TABELA, OPERACAO, NO_CAIXA, " +
+                "TS_OPER) VALUES(GEN_ID(GEN_PDV_AUX_SYNC_SEQ, 1), old.ID_LOTE, \'\'TB_LOTE\'\', \'\'U\'\'" +
+                ", :VNUMCAIXA, CURRENT_TIMESTAMP); END END END END;\';\r\n\r\nerro = \'deu certo\';\r\nSUS" +
+                "PEND;\r\nWHEN ANY DO\r\nBEGIN\r\n\r\nEND\r\nEND;";
             this._commandCollection[11].CommandType = global::System.Data.CommandType.Text;
             this._commandCollection[12] = new global::FirebirdSql.Data.FirebirdClient.FbCommand();
             this._commandCollection[12].Connection = this.Connection;
